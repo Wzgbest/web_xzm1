@@ -1,0 +1,587 @@
+[ 2017-01-18T09:26:58+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.041002s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.006000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.1110s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0170s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1'  [ RunTime:0.0010s ]
+
+[ 2017-01-18T09:27:36+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0070s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0030s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1'  [ RunTime:0.0010s ]
+
+[ 2017-01-18T09:27:39+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0050s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1'  [ RunTime:0.0010s ]
+
+[ 2017-01-18T09:27:40+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1'  [ RunTime:0.0010s ]
+
+[ 2017-01-18T09:27:40+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1'  [ RunTime:0.0010s ]
+
+[ 2017-01-18T09:27:40+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003001s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1'  [ RunTime:0.0000s ]
+
+[ 2017-01-18T09:27:40+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.004000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0050s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1'  [ RunTime:0.0010s ]
+
+[ 2017-01-18T09:27:41+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.004000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0080s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1'  [ RunTime:0.0010s ]
+
+[ 2017-01-18T09:27:41+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.005000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.003000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0050s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1'  [ RunTime:0.0000s ]
+
+[ 2017-01-18T09:27:57+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.004000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.003000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005001s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0090s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0040s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1'  [ RunTime:0.0060s ]
+
+[ 2017-01-18T09:28:03+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.005000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.012000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.014000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0080s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0020s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1'  [ RunTime:0.0000s ]
+
+[ 2017-01-18T09:28:34+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.004000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0150s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0020s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1'  [ RunTime:0.0060s ]
+
+[ 2017-01-18T09:29:06+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.005001s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1'  [ RunTime:0.0000s ]
+
+[ 2017-01-18T09:58:57+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/getAllHuanxinUsers
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003001s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004001s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+
+[ 2017-01-18T09:59:10+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/getAllHuanxinUsers
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003001s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+
+[ 2017-01-18T10:00:00+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/getAllHuanxinUsers
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 27 行.
+
+[ 2017-01-18T10:00:36+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/getAllHuanxinUsers
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002001s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+
+[ 2017-01-18T10:08:57+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/addFriend
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+ERR: 参数错误或者未定义:corp_id
+
+[ 2017-01-18T10:09:25+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/addFriend/corp_id/sdzhongxun/owner/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13311112222' LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '3'  [ RunTime:0.0010s ]
+
+[ 2017-01-18T10:11:41+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/addFriend/corp_id/sdzhongxun/owner/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003001s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0050s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13311112222' LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '3'  [ RunTime:0.0010s ]
+
+[ 2017-01-18T10:12:01+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/addFriend/corp_id/sdzhongxun/owner/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0050s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13311112222' LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '3'  [ RunTime:0.0000s ]
+
+[ 2017-01-18T10:35:47+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/getSingleHuanxinUser/user/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.003000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.018001s ]
+INFO: [ app_end ] --END-- [ RunTime:0.020002s ]
+
+[ 2017-01-18T10:35:59+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/getSingleHuanxinUser/user/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.005001s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.004001s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.006001s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.003001s ]
+
+[ 2017-01-18T10:36:12+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/getSingleHuanxinUser/user/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.004000s ]
+
+[ 2017-01-18T10:36:27+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/getSingleHuanxinUser/user/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.014001s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.003000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.006000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.003000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.005000s ]
+
+[ 2017-01-18T10:49:26+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/deleteSingleHuanxinUser/user/zhongxun_xiaoshou_jack
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 41 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.004000s ]
+
+[ 2017-01-18T10:51:05+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/deleteSingleHuanxinUser/user/zhongxun_xiaoshou_jack
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003001s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 41 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.003000s ]
+
+[ 2017-01-18T10:51:29+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/deleteSingleHuanxinUser/user/zhongxun_xiaoshou_jack
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001001s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002001s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004001s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.004000s ]
+
+[ 2017-01-18T11:05:19+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/getMultiUserRegisterResult/username/zhongxun_xiaoshou_jack/password/123456
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002001s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004001s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 273 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.004000s ]
+
+[ 2017-01-18T11:05:41+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/getMultiUserRegisterResult/username/zhongxun_xiaoshou_jack/password/123456
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 273 行.
+
+[ 2017-01-18T11:05:56+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/getMultiUserRegisterResult/username/zhongxun_xiaoshou_jack/password/123456
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.004000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+
+[ 2017-01-18T11:07:25+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/resetPassword/user/zhongxun_xiaoshou_jack/pass/123456/newpass/654321
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002001s ]
+INFO: [ app_end ] --END-- [ RunTime:0.003001s ]
+
+[ 2017-01-18T11:07:36+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/resetPassword/user/zhongxun_xiaoshou_jack/pass/123456/newpass/654321
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.003000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.006000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.003000s ]
+
+[ 2017-01-18T11:07:46+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/resetPassword/user/zhongxun_xiaoshou_jack/pass/654321/newpass/123456
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.004000s ]
+
+[ 2017-01-18T11:09:05+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/resetPassword/user/zhongxun_xiaoshou_jack/pass/654321/newpass/123456
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.003000s ]
+
+[ 2017-01-18T11:09:13+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/resetPassword/user/zhongxun_xiaoshou_jack/pass/654321/newpass/123456
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.004000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.007000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.004000s ]
+
+[ 2017-01-18T11:16:55+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/resetPassword/user/zhongxun_xiaoshou_jack/pass/654321/newpass/123456
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.003000s ]
+
+[ 2017-01-18T11:17:49+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/resetPassword/user/zhongxun_xiaoshou_jack/pass/654321/newpass/123456
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002001s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005001s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.003000s ]
+
+[ 2017-01-18T11:18:10+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/resetPassword/user/zhongxun_xiaoshou_jack/pass/654321/newpass/123456
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.004000s ]
+
+[ 2017-01-18T11:18:42+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/resetPassword/user/zhongxun_xiaoshou_jack/pass/654321/newpass/123456
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.006000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.008000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002001s ]
+INFO: [ app_end ] --END-- [ RunTime:0.003001s ]
+
+[ 2017-01-18T11:21:02+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/resetPassword/user/zhongxun_xiaoshou_jack/pass/654321/newpass/123456
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.004001s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002001s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003001s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.003000s ]
+
+[ 2017-01-18T11:21:30+08:00 ] 192.168.102.78 /index.php/Huanxin/VerifyUser/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000000s ]
+SQL: SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.0496s ]
+SQL: SELECT `corp_name` FROM `guguo_user_corporation` WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0020s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 55 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0100s ]
+SQL: SELECT `password`,`truename`,`userpic` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0010s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.003000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.005000s ]
+
+[ 2017-01-18T11:23:29+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/resetPassword/user/zhongxun_xiaoshou_jack/newpass/123456x
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.004000s ]
+
+[ 2017-01-18T11:23:40+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/resetPassword/user/zhongxun_xiaoshou_jack/newpass/123456x
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002001s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003001s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.003000s ]
+
+[ 2017-01-18T11:23:48+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/resetPassword/user/zhongxun_xiaoshou_jack/newpass/123456
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.003000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.004000s ]
+
+[ 2017-01-18T11:28:03+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/resetPassword/user/zhongxun_xiaoshou_jack/nickname/jacknickname
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.003000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+ERR: 参数错误或者未定义:newpass
+
+[ 2017-01-18T11:28:12+08:00 ] 127.0.0.1 /index.php/Huanxin/HuanxinApi/changeHuanxinNickname/user/zhongxun_xiaoshou_jack/nickname/jacknickname
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003001s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\HuanxinApiController.class.php 第 26 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.003000s ]
+
