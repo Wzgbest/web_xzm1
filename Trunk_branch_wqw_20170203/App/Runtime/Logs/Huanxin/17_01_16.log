@@ -1,0 +1,712 @@
+[ 2017-01-16T08:59:34+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.042002s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.003000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0250s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13311112222' LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '3'  [ RunTime:0.0010s ]
+NOTIC: [8] Undefined variable: friend_name D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\RegisterController.class.php 第 39 行.
+NOTIC: [8] Undefined variable: users D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\RegisterController.class.php 第 40 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\RegisterController.class.php 第 40 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.011001s ]
+INFO: [ app_end ] --END-- [ RunTime:0.013001s ]
+
+[ 2017-01-16T08:59:52+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0050s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13311112222' LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '3'  [ RunTime:0.0000s ]
+
+[ 2017-01-16T09:00:22+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003001s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0050s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13311112222' LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '3'  [ RunTime:0.0010s ]
+
+[ 2017-01-16T09:00:23+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0050s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13311112222' LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '3'  [ RunTime:0.0000s ]
+
+[ 2017-01-16T09:03:12+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003001s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13311112222' LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '3'  [ RunTime:0.0000s ]
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\RegisterController.class.php 第 39 行.
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\RegisterController.class.php 第 39 行.
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\RegisterController.class.php 第 39 行.
+NOTIC: [8] Array to string conversion D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\RegisterController.class.php 第 39 行.
+
+[ 2017-01-16T09:04:08+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.005000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0080s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13311112222' LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '3'  [ RunTime:0.0010s ]
+
+[ 2017-01-16T09:13:13+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0070s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13311112222' LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '3'  [ RunTime:0.0000s ]
+
+[ 2017-01-16T09:13:54+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.004000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0050s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13311112222' LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '3'  [ RunTime:0.0010s ]
+
+[ 2017-01-16T09:18:58+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13311112222' LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '3'  [ RunTime:0.0010s ]
+
+[ 2017-01-16T10:18:28+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13311112222' LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '3'  [ RunTime:0.0000s ]
+
+[ 2017-01-16T11:21:44+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003001s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002001s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004001s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0070s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13311112222' LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '3'  [ RunTime:0.0010s ]
+
+[ 2017-01-16T11:25:23+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004001s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0080s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13311112222' LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '3'  [ RunTime:0.0010s ]
+
+[ 2017-01-16T11:30:13+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13311112222' LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '3'  [ RunTime:0.0010s ]
+
+[ 2017-01-16T11:30:29+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13311112222
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.004000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.006000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13311112222' LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '3'  [ RunTime:0.0000s ]
+
+[ 2017-01-16T11:32:26+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322221111
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322221111' LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '2'  [ RunTime:0.0000s ]
+
+[ 2017-01-16T11:35:35+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322225555
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.002000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.007000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.003000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005001s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0070s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322225555' LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '4'  [ RunTime:0.0010s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.003000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.004000s ]
+
+[ 2017-01-16T11:36:12+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322225555
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.004000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002001s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004001s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322225555' LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '4'  [ RunTime:0.0010s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002001s ]
+INFO: [ app_end ] --END-- [ RunTime:0.004001s ]
+
+[ 2017-01-16T11:37:03+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322225555
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003001s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.004000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.007000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322225555' LIMIT 1   [ RunTime:0.0020s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '4'  [ RunTime:0.0030s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.004000s ]
+
+[ 2017-01-16T11:39:02+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322225555
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0090s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322225555' LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '4'  [ RunTime:0.0010s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.003000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.007000s ]
+
+[ 2017-01-16T11:43:34+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322225555
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.004000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005001s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0110s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322225555' LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '4'  [ RunTime:0.0010s ]
+NOTIC: [2] curl_setopt(): You must pass either an object or an array with the CURLOPT_HTTPHEADER argument D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\RegisterController.class.php 第 223 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.003000s ]
+
+[ 2017-01-16T11:47:03+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322225555
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.005000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0080s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322225555' LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '4'  [ RunTime:0.0010s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.003000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.006000s ]
+
+[ 2017-01-16T12:03:48+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1'  [ RunTime:0.0000s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.003001s ]
+
+[ 2017-01-16T14:20:37+08:00 ] 192.168.102.78 /index.php/Huanxin/VerifyUser/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.017000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.003000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005001s ]
+NOTIC: [8] Undefined index: telephone D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\VerifyUserController.class.php 第 23 行.
+NOTIC: [8] Undefined index: password D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\VerifyUserController.class.php 第 24 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.003000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.004000s ]
+
+[ 2017-01-16T14:20:38+08:00 ] 192.168.102.78 /index.php/Huanxin/VerifyUser/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.005000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+NOTIC: [8] Undefined index: telephone D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\VerifyUserController.class.php 第 23 行.
+NOTIC: [8] Undefined index: password D:\mysvn\xunxiu\trunk_web\App\Huanxin\Controller\VerifyUserController.class.php 第 24 行.
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.004001s ]
+
+[ 2017-01-16T14:22:00+08:00 ] 192.168.102.78 /index.php/Huanxin/VerifyUser/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000000s ]
+SQL: SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.0310s ]
+SQL: SELECT `corp_name` FROM `guguo_user_corporation` WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0010s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 54 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0050s ]
+SQL: SELECT `password`,`truename`,`userpic` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0000s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.003000s ]
+
+[ 2017-01-16T14:24:28+08:00 ] 192.168.102.78 /index.php/Huanxin/VerifyUser/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.010000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.010000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000000s ]
+SQL: SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.0000s ]
+SQL: SELECT `corp_name` FROM `guguo_user_corporation` WHERE `telephone` = '13322226666' LIMIT 1   [ RunTime:0.0000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 54 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0100s ]
+SQL: SELECT `password`,`truename`,`userpic` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322226666' LIMIT 1   [ RunTime:0.0000s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000000s ]
+
+[ 2017-01-16T14:24:59+08:00 ] 192.168.102.78 /index.php/Huanxin/VerifyUser/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+SQL: SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.0050s ]
+SQL: SELECT `corp_name` FROM `guguo_user_corporation` WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0010s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 54 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `password`,`truename`,`userpic` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0010s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.004000s ]
+
+[ 2017-01-16T14:30:24+08:00 ] 192.168.102.78 /index.php/Huanxin/VerifyUser/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.005000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.003000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.008000s ]
+SQL: SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.0070s ]
+SQL: SELECT `corp_name` FROM `guguo_user_corporation` WHERE `telephone` = '13322221111' LIMIT 1   [ RunTime:0.0010s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 54 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0070s ]
+SQL: SELECT `password`,`truename`,`userpic` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322221111' LIMIT 1   [ RunTime:0.0010s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.003000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.005000s ]
+
+[ 2017-01-16T14:33:52+08:00 ] 192.168.102.78 /index.php/Huanxin/VerifyUser/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011000s ]
+SQL: SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.0000s ]
+SQL: SELECT `corp_name` FROM `guguo_user_corporation` WHERE `telephone` = '13322225555' LIMIT 1   [ RunTime:0.0000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 54 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0100s ]
+SQL: SELECT `password`,`truename`,`userpic` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322225555' LIMIT 1   [ RunTime:0.0100s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.003000s ]
+
+[ 2017-01-16T14:35:21+08:00 ] 192.168.102.78 /index.php/Huanxin/VerifyUser/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005000s ]
+SQL: SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.0320s ]
+SQL: SELECT `corp_name` FROM `guguo_user_corporation` WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0010s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 54 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0070s ]
+SQL: SELECT `password`,`truename`,`userpic` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0030s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.006000s ]
+
+[ 2017-01-16T14:36:22+08:00 ] 192.168.102.78 /index.php/Huanxin/VerifyUser/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.006000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.003000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005000s ]
+SQL: SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.0360s ]
+SQL: SELECT `corp_name` FROM `guguo_user_corporation` WHERE `telephone` = '13311112222' LIMIT 1   [ RunTime:0.0020s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 54 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0090s ]
+SQL: SELECT `password`,`truename`,`userpic` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13311112222' LIMIT 1   [ RunTime:0.0010s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.003000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.005000s ]
+
+[ 2017-01-16T14:37:06+08:00 ] 192.168.102.78 /index.php/Huanxin/VerifyUser/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+SQL: SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.0050s ]
+SQL: SELECT `corp_name` FROM `guguo_user_corporation` WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0010s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 54 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `password`,`truename`,`userpic` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0010s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.003001s ]
+
+[ 2017-01-16T14:39:27+08:00 ] 192.168.102.78 /index.php/Huanxin/VerifyUser/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.010000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000000s ]
+SQL: SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.0000s ]
+SQL: SELECT `corp_name` FROM `guguo_user_corporation` WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 54 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0100s ]
+SQL: SELECT `password`,`truename`,`userpic` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0000s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000000s ]
+
+[ 2017-01-16T14:46:49+08:00 ] 192.168.102.78 /index.php/Huanxin/VerifyUser/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001001s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002001s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+SQL: SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.0050s ]
+SQL: SELECT `corp_name` FROM `guguo_user_corporation` WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0010s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 54 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `password`,`truename`,`userpic` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0000s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.004000s ]
+
+[ 2017-01-16T14:47:03+08:00 ] 192.168.102.78 /index.php/Huanxin/VerifyUser/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.003000s ]
+SQL: SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.0050s ]
+SQL: SELECT `corp_name` FROM `guguo_user_corporation` WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 54 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `password`,`truename`,`userpic` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0000s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.003000s ]
+
+[ 2017-01-16T15:06:39+08:00 ] 192.168.102.78 /index.php/Huanxin/VerifyUser/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.003000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005000s ]
+SQL: SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.0050s ]
+SQL: SELECT `corp_name` FROM `guguo_user_corporation` WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 54 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0070s ]
+SQL: SELECT `password`,`truename`,`userpic` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0020s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.002000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.004000s ]
+
+[ 2017-01-16T15:07:15+08:00 ] 192.168.102.78 /index.php/Huanxin/VerifyUser/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.010000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.010000s ]
+SQL: SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.0040s ]
+SQL: SELECT `corp_name` FROM `guguo_user_corporation` WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 54 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `password`,`truename`,`userpic` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0010s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.001000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.003000s ]
+
+[ 2017-01-16T17:04:37+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1' LIMIT 1   [ RunTime:0.0000s ]
+
+[ 2017-01-16T17:05:01+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.003000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.004000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0070s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0000s ]
+ERR: Think\Model:getFields方法不存在！
+
+[ 2017-01-16T17:10:42+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.003000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0070s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1'  [ RunTime:0.0010s ]
+
+[ 2017-01-16T17:10:55+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1'  [ RunTime:0.0010s ]
+
+[ 2017-01-16T17:11:46+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.002000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.005000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0060s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1'  [ RunTime:0.0000s ]
+
+[ 2017-01-16T17:12:01+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.007001s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.004000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.008000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0070s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1'  [ RunTime:0.0010s ]
+
+[ 2017-01-16T17:12:14+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003001s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.003001s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.006001s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0050s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0000s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1'  [ RunTime:0.0010s ]
+
+[ 2017-01-16T17:12:31+08:00 ] 127.0.0.1 /index.php/Huanxin/Register/addFriend/corp_id/sdzhongxun/owner/13322223333
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.005001s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.008000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.010000s ]
+NOTIC: [2048] Declaration of Huanxin\Model\EmployerModel::_initialize() should be compatible with Think\Model::_initialize() D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 10 行.
+NOTIC: [2] Missing argument 1 for Huanxin\Model\EmployerModel::_initialize(), called in D:\mysvn\xunxiu\trunk_web\ThinkPHP\Library\Think\Model.class.php on line 74 and defined D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 13 行.
+NOTIC: [8] Undefined variable: db_table D:\mysvn\xunxiu\trunk_web\App\Huanxin\Model\EmployerModel.class.php 第 14 行.
+SQL: SHOW COLUMNS FROM `guguo_sdzhongxun`.`guguo_employer` [ RunTime:0.0050s ]
+SQL: SELECT `id` FROM guguo_sdzhongxun.guguo_employer WHERE `telephone` = '13322223333' LIMIT 1   [ RunTime:0.0010s ]
+SQL: SELECT `telephone` FROM guguo_sdzhongxun.guguo_employer WHERE `id` <> '1'  [ RunTime:0.0000s ]
+
