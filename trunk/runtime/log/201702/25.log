@@ -1,0 +1,525 @@
+[ 2017-02-25T09:02:44+08:00 ] 192.168.102.67 192.168.102.78 POST /index.php/huanxin/user/getfriendsinfo
+[ log ] 192.168.102.67/index.php/huanxin/user/getfriendsinfo [运行时间：0.369227s][吞吐率：2.71req/s] [内存消耗：3,322.80kb] [文件加载：52]
+[ info ] [ LANG ] /home/joshua/mysvn/webcall/trunk/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'user',
+    2 => 'getfriendsinfo',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => '192.168.102.67',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'connection' => 'keep-alive',
+  'accept' => '*/*',
+  'user-agent' => 'ZhuoWin/1.0 (iPhone; iOS 10.0; Scale/2.00)',
+  'accept-language' => 'zh-Hans-US;q=1, en;q=0.9',
+  'content-length' => '64',
+  'accept-encoding' => 'gzip, deflate',
+)
+[ info ] [ PARAM ] array (
+  'access_token' => '7ff44bf8c61097cdac6d12796be89e35',
+  'userid' => '13322223333',
+)
+[ info ] [ RUN ] app\huanxin\controller\User->getFriendsInfo[ /home/joshua/mysvn/webcall/trunk/app/huanxin/controller/User.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.027773s ] mysql:dbname=guguocrm;host=112.253.21.74;port=3307;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.009040s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.005420s ]
+
+---------------------------------------------------------------
+[ 2017-02-25T09:04:00+08:00 ] 192.168.102.67 192.168.102.78 POST /huanxin/user/getFriendsTelephone
+[ log ] 192.168.102.67/huanxin/user/getFriendsTelephone [运行时间：0.102858s][吞吐率：9.72req/s] [内存消耗：3,308.29kb] [文件加载：51]
+[ info ] [ LANG ] /home/joshua/mysvn/webcall/trunk/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'user',
+    2 => 'getFriendsTelephone',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => '192.168.102.67',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'connection' => 'keep-alive',
+  'accept' => '*/*',
+  'user-agent' => 'ZhuoWin/1.0 (iPhone; iOS 10.0; Scale/2.00)',
+  'accept-language' => 'zh-Hans-US;q=1, en;q=0.9',
+  'content-length' => '64',
+  'accept-encoding' => 'gzip, deflate',
+)
+[ info ] [ PARAM ] array (
+  'access_token' => '7ff44bf8c61097cdac6d12796be89e35',
+  'userid' => '13322223333',
+)
+[ info ] [ RUN ] app\huanxin\controller\User->getFriendsTelephone[ /home/joshua/mysvn/webcall/trunk/app/huanxin/controller/User.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.009600s ] mysql:dbname=guguocrm;host=112.253.21.74;port=3307;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.008951s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.006223s ]
+
+---------------------------------------------------------------
+[ 2017-02-25T09:04:50+08:00 ] 192.168.102.67 192.168.102.78 POST /index.php/huanxin/user/getfriendsinfo
+[ log ] 192.168.102.67/index.php/huanxin/user/getfriendsinfo [运行时间：0.145059s][吞吐率：6.89req/s] [内存消耗：3,322.16kb] [文件加载：52]
+[ info ] [ LANG ] /home/joshua/mysvn/webcall/trunk/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'user',
+    2 => 'getfriendsinfo',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => '192.168.102.67',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'connection' => 'keep-alive',
+  'accept' => '*/*',
+  'user-agent' => 'ZhuoWin/1.0 (iPhone; iOS 8.4.1; Scale/2.00)',
+  'accept-language' => 'zh-Hans;q=1, en;q=0.9, pt-PT;q=0.8',
+  'content-length' => '64',
+  'accept-encoding' => 'gzip, deflate',
+)
+[ info ] [ PARAM ] array (
+  'access_token' => '7f5f28271d0e4197775017de2eb2bb4b',
+  'userid' => '13322226666',
+)
+[ info ] [ RUN ] app\huanxin\controller\User->getFriendsInfo[ /home/joshua/mysvn/webcall/trunk/app/huanxin/controller/User.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.009233s ] mysql:dbname=guguocrm;host=112.253.21.74;port=3307;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.007395s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322226666' LIMIT 1 [ RunTime:0.007487s ]
+
+---------------------------------------------------------------
+[ 2017-02-25T09:05:08+08:00 ] 192.168.102.67 192.168.102.78 POST /index.php/huanxin/login/verifylogin
+[ log ] 192.168.102.67/index.php/huanxin/login/verifylogin [运行时间：0.274433s][吞吐率：3.64req/s] [内存消耗：3,789.22kb] [文件加载：59]
+[ info ] [ LANG ] /home/joshua/mysvn/webcall/trunk/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => '192.168.102.67',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'connection' => 'keep-alive',
+  'accept' => '*/*',
+  'user-agent' => 'ZhuoWin/1.0 (iPhone; iOS 8.4.1; Scale/2.00)',
+  'accept-language' => 'zh-Hans;q=1, en;q=0.9, pt-PT;q=0.8',
+  'content-length' => '39',
+  'accept-encoding' => 'gzip, deflate',
+)
+[ info ] [ PARAM ] array (
+  'password' => '87654321',
+  'telephone' => '13322223333',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ /home/joshua/mysvn/webcall/trunk/app/huanxin/controller/Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.008249s ] mysql:dbname=guguocrm;host=112.253.21.74;port=3307;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.010499s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.012436s ]
+
+---------------------------------------------------------------
+[ 2017-02-25T09:05:09+08:00 ] 192.168.102.67 192.168.102.78 POST /index.php/huanxin/user/getfriendsinfo
+[ log ] 192.168.102.67/index.php/huanxin/user/getfriendsinfo [运行时间：0.125349s][吞吐率：7.98req/s] [内存消耗：3,322.52kb] [文件加载：52]
+[ info ] [ LANG ] /home/joshua/mysvn/webcall/trunk/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'user',
+    2 => 'getfriendsinfo',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => '192.168.102.67',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'connection' => 'keep-alive',
+  'accept' => '*/*',
+  'user-agent' => 'ZhuoWin/1.0 (iPhone; iOS 8.4.1; Scale/2.00)',
+  'accept-language' => 'zh-Hans;q=1, en;q=0.9, pt-PT;q=0.8',
+  'content-length' => '64',
+  'accept-encoding' => 'gzip, deflate',
+)
+[ info ] [ PARAM ] array (
+  'access_token' => 'c2080fd2b49a8aa759eab4bc7d73b948',
+  'userid' => '13322223333',
+)
+[ info ] [ RUN ] app\huanxin\controller\User->getFriendsInfo[ /home/joshua/mysvn/webcall/trunk/app/huanxin/controller/User.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.007597s ] mysql:dbname=guguocrm;host=112.253.21.74;port=3307;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.008746s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.006081s ]
+
+---------------------------------------------------------------
+[ 2017-02-25T09:05:17+08:00 ] 192.168.102.67 192.168.102.78 POST /index.php/huanxin/user/getfriendsinfo
+[ log ] 192.168.102.67/index.php/huanxin/user/getfriendsinfo [运行时间：0.110499s][吞吐率：9.05req/s] [内存消耗：3,322.52kb] [文件加载：52]
+[ info ] [ LANG ] /home/joshua/mysvn/webcall/trunk/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'user',
+    2 => 'getfriendsinfo',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => '192.168.102.67',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'connection' => 'keep-alive',
+  'accept' => '*/*',
+  'user-agent' => 'ZhuoWin/1.0 (iPhone; iOS 8.4.1; Scale/2.00)',
+  'accept-language' => 'zh-Hans;q=1, en;q=0.9, pt-PT;q=0.8',
+  'content-length' => '64',
+  'accept-encoding' => 'gzip, deflate',
+)
+[ info ] [ PARAM ] array (
+  'access_token' => 'c2080fd2b49a8aa759eab4bc7d73b948',
+  'userid' => '13322223333',
+)
+[ info ] [ RUN ] app\huanxin\controller\User->getFriendsInfo[ /home/joshua/mysvn/webcall/trunk/app/huanxin/controller/User.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.007728s ] mysql:dbname=guguocrm;host=112.253.21.74;port=3307;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.006554s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.007676s ]
+
+---------------------------------------------------------------
+[ 2017-02-25T09:05:36+08:00 ] 192.168.102.67 192.168.102.78 POST /index.php/huanxin/login/verifylogin
+[ log ] 192.168.102.67/index.php/huanxin/login/verifylogin [运行时间：0.162954s][吞吐率：6.14req/s] [内存消耗：3,788.51kb] [文件加载：59]
+[ info ] [ LANG ] /home/joshua/mysvn/webcall/trunk/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => '192.168.102.67',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'connection' => 'keep-alive',
+  'accept' => '*/*',
+  'user-agent' => 'ZhuoWin/1.0 (iPhone; iOS 10.0; Scale/2.00)',
+  'accept-language' => 'zh-Hans-US;q=1, en;q=0.9',
+  'content-length' => '39',
+  'accept-encoding' => 'gzip, deflate',
+)
+[ info ] [ PARAM ] array (
+  'password' => '87654321',
+  'telephone' => '13322226666',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ /home/joshua/mysvn/webcall/trunk/app/huanxin/controller/Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.011129s ] mysql:dbname=guguocrm;host=112.253.21.74;port=3307;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.008394s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322226666' LIMIT 1 [ RunTime:0.008379s ]
+
+---------------------------------------------------------------
+[ 2017-02-25T09:05:37+08:00 ] 192.168.102.67 192.168.102.78 POST /index.php/huanxin/user/getfriendsinfo
+[ log ] 192.168.102.67/index.php/huanxin/user/getfriendsinfo [运行时间：0.127587s][吞吐率：7.84req/s] [内存消耗：3,322.75kb] [文件加载：52]
+[ info ] [ LANG ] /home/joshua/mysvn/webcall/trunk/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'user',
+    2 => 'getfriendsinfo',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => '192.168.102.67',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'connection' => 'keep-alive',
+  'accept' => '*/*',
+  'user-agent' => 'ZhuoWin/1.0 (iPhone; iOS 10.0; Scale/2.00)',
+  'accept-language' => 'zh-Hans-US;q=1, en;q=0.9',
+  'content-length' => '64',
+  'accept-encoding' => 'gzip, deflate',
+)
+[ info ] [ PARAM ] array (
+  'access_token' => 'b6241e569c591808aadf7638a02df88c',
+  'userid' => '13322226666',
+)
+[ info ] [ RUN ] app\huanxin\controller\User->getFriendsInfo[ /home/joshua/mysvn/webcall/trunk/app/huanxin/controller/User.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.010047s ] mysql:dbname=guguocrm;host=112.253.21.74;port=3307;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.007616s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322226666' LIMIT 1 [ RunTime:0.009209s ]
+
+---------------------------------------------------------------
+[ 2017-02-25T10:14:02+08:00 ] 192.168.102.67 192.168.102.78 POST /index.php/huanxin/user/getfriendsinfo
+[ log ] 192.168.102.67/index.php/huanxin/user/getfriendsinfo [运行时间：0.110367s][吞吐率：9.06req/s] [内存消耗：3,322.75kb] [文件加载：52]
+[ info ] [ LANG ] /home/joshua/mysvn/webcall/trunk/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'user',
+    2 => 'getfriendsinfo',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => '192.168.102.67',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'connection' => 'keep-alive',
+  'accept' => '*/*',
+  'user-agent' => 'ZhuoWin/1.0 (iPhone; iOS 10.0; Scale/2.00)',
+  'accept-language' => 'zh-Hans-US;q=1, en;q=0.9',
+  'content-length' => '64',
+  'accept-encoding' => 'gzip, deflate',
+)
+[ info ] [ PARAM ] array (
+  'access_token' => 'b6241e569c591808aadf7638a02df88c',
+  'userid' => '13322226666',
+)
+[ info ] [ RUN ] app\huanxin\controller\User->getFriendsInfo[ /home/joshua/mysvn/webcall/trunk/app/huanxin/controller/User.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.010034s ] mysql:dbname=guguocrm;host=112.253.21.74;port=3307;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.006698s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322226666' LIMIT 1 [ RunTime:0.006479s ]
+
+---------------------------------------------------------------
+[ 2017-02-25T10:14:19+08:00 ] 192.168.102.67 192.168.102.78 POST /index.php/huanxin/user/getfriendsinfo
+[ log ] 192.168.102.67/index.php/huanxin/user/getfriendsinfo [运行时间：0.103742s][吞吐率：9.64req/s] [内存消耗：3,322.75kb] [文件加载：52]
+[ info ] [ LANG ] /home/joshua/mysvn/webcall/trunk/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'user',
+    2 => 'getfriendsinfo',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => '192.168.102.67',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'connection' => 'keep-alive',
+  'accept' => '*/*',
+  'user-agent' => 'ZhuoWin/1.0 (iPhone; iOS 10.0; Scale/2.00)',
+  'accept-language' => 'zh-Hans-US;q=1, en;q=0.9',
+  'content-length' => '64',
+  'accept-encoding' => 'gzip, deflate',
+)
+[ info ] [ PARAM ] array (
+  'access_token' => 'b6241e569c591808aadf7638a02df88c',
+  'userid' => '13322226666',
+)
+[ info ] [ RUN ] app\huanxin\controller\User->getFriendsInfo[ /home/joshua/mysvn/webcall/trunk/app/huanxin/controller/User.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.007731s ] mysql:dbname=guguocrm;host=112.253.21.74;port=3307;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.007370s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322226666' LIMIT 1 [ RunTime:0.006017s ]
+
+---------------------------------------------------------------
+[ 2017-02-25T10:17:03+08:00 ] 192.168.102.67 192.168.102.78 POST /index.php/huanxin/user/getfriendsinfo
+[ log ] 192.168.102.67/index.php/huanxin/user/getfriendsinfo [运行时间：0.114286s][吞吐率：8.75req/s] [内存消耗：3,322.75kb] [文件加载：52]
+[ info ] [ LANG ] /home/joshua/mysvn/webcall/trunk/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'user',
+    2 => 'getfriendsinfo',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => '192.168.102.67',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'connection' => 'keep-alive',
+  'accept' => '*/*',
+  'user-agent' => 'ZhuoWin/1.0 (iPhone; iOS 10.0; Scale/2.00)',
+  'accept-language' => 'zh-Hans-US;q=1, en;q=0.9',
+  'content-length' => '64',
+  'accept-encoding' => 'gzip, deflate',
+)
+[ info ] [ PARAM ] array (
+  'access_token' => 'b6241e569c591808aadf7638a02df88c',
+  'userid' => '13322226666',
+)
+[ info ] [ RUN ] app\huanxin\controller\User->getFriendsInfo[ /home/joshua/mysvn/webcall/trunk/app/huanxin/controller/User.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.007964s ] mysql:dbname=guguocrm;host=112.253.21.74;port=3307;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.008111s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322226666' LIMIT 1 [ RunTime:0.004580s ]
+
+---------------------------------------------------------------
+[ 2017-02-25T10:17:53+08:00 ] 192.168.102.67 192.168.102.78 POST /huanxin/user/getFriendsTelephone
+[ log ] 192.168.102.67/huanxin/user/getFriendsTelephone [运行时间：0.345707s][吞吐率：2.89req/s] [内存消耗：3,308.48kb] [文件加载：51]
+[ info ] [ LANG ] /home/joshua/mysvn/webcall/trunk/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'user',
+    2 => 'getFriendsTelephone',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => '192.168.102.67',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'connection' => 'keep-alive',
+  'accept' => '*/*',
+  'user-agent' => 'ZhuoWin/1.0 (iPhone; iOS 8.4.1; Scale/2.00)',
+  'accept-language' => 'zh-Hans;q=1, en;q=0.9, pt-PT;q=0.8',
+  'content-length' => '64',
+  'accept-encoding' => 'gzip, deflate',
+)
+[ info ] [ PARAM ] array (
+  'access_token' => 'c2080fd2b49a8aa759eab4bc7d73b948',
+  'userid' => '13322223333',
+)
+[ info ] [ RUN ] app\huanxin\controller\User->getFriendsTelephone[ /home/joshua/mysvn/webcall/trunk/app/huanxin/controller/User.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.038180s ] mysql:dbname=guguocrm;host=112.253.21.74;port=3307;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.043687s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.040441s ]
+
+---------------------------------------------------------------
+[ 2017-02-25T10:18:03+08:00 ] 192.168.102.67 192.168.102.78 POST /index.php/huanxin/login/verifylogin
+[ log ] 192.168.102.67/index.php/huanxin/login/verifylogin [运行时间：0.186023s][吞吐率：5.38req/s] [内存消耗：3,788.51kb] [文件加载：59]
+[ info ] [ LANG ] /home/joshua/mysvn/webcall/trunk/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => '192.168.102.67',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'connection' => 'keep-alive',
+  'accept' => '*/*',
+  'user-agent' => 'ZhuoWin/1.0 (iPhone; iOS 10.0; Scale/2.00)',
+  'accept-language' => 'zh-Hans-US;q=1, en;q=0.9',
+  'content-length' => '39',
+  'accept-encoding' => 'gzip, deflate',
+)
+[ info ] [ PARAM ] array (
+  'password' => '87654321',
+  'telephone' => '13322226666',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ /home/joshua/mysvn/webcall/trunk/app/huanxin/controller/Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.006247s ] mysql:dbname=guguocrm;host=112.253.21.74;port=3307;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.006753s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322226666' LIMIT 1 [ RunTime:0.005133s ]
+
+---------------------------------------------------------------
+[ 2017-02-25T10:18:04+08:00 ] 192.168.102.67 192.168.102.78 POST /index.php/huanxin/user/getfriendsinfo
+[ log ] 192.168.102.67/index.php/huanxin/user/getfriendsinfo [运行时间：0.449500s][吞吐率：2.22req/s] [内存消耗：3,322.75kb] [文件加载：52]
+[ info ] [ LANG ] /home/joshua/mysvn/webcall/trunk/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'user',
+    2 => 'getfriendsinfo',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => '192.168.102.67',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'connection' => 'keep-alive',
+  'accept' => '*/*',
+  'user-agent' => 'ZhuoWin/1.0 (iPhone; iOS 10.0; Scale/2.00)',
+  'accept-language' => 'zh-Hans-US;q=1, en;q=0.9',
+  'content-length' => '64',
+  'accept-encoding' => 'gzip, deflate',
+)
+[ info ] [ PARAM ] array (
+  'access_token' => '12c997f0b4a56f6486fbd0bdafc82ef0',
+  'userid' => '13322226666',
+)
+[ info ] [ RUN ] app\huanxin\controller\User->getFriendsInfo[ /home/joshua/mysvn/webcall/trunk/app/huanxin/controller/User.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.042036s ] mysql:dbname=guguocrm;host=112.253.21.74;port=3307;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.045747s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322226666' LIMIT 1 [ RunTime:0.053429s ]
+
+---------------------------------------------------------------
+[ 2017-02-25T10:18:07+08:00 ] 192.168.102.67 192.168.102.78 POST /index.php/huanxin/user/getfriendsinfo
+[ log ] 192.168.102.67/index.php/huanxin/user/getfriendsinfo [运行时间：0.406527s][吞吐率：2.46req/s] [内存消耗：3,322.75kb] [文件加载：52]
+[ info ] [ LANG ] /home/joshua/mysvn/webcall/trunk/thinkphp/lang/zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'user',
+    2 => 'getfriendsinfo',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => '192.168.102.67',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'connection' => 'keep-alive',
+  'accept' => '*/*',
+  'user-agent' => 'ZhuoWin/1.0 (iPhone; iOS 10.0; Scale/2.00)',
+  'accept-language' => 'zh-Hans-US;q=1, en;q=0.9',
+  'content-length' => '64',
+  'accept-encoding' => 'gzip, deflate',
+)
+[ info ] [ PARAM ] array (
+  'access_token' => '12c997f0b4a56f6486fbd0bdafc82ef0',
+  'userid' => '13322226666',
+)
+[ info ] [ RUN ] app\huanxin\controller\User->getFriendsInfo[ /home/joshua/mysvn/webcall/trunk/app/huanxin/controller/User.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.036664s ] mysql:dbname=guguocrm;host=112.253.21.74;port=3307;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.042223s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322226666' LIMIT 1 [ RunTime:0.041189s ]
+
+---------------------------------------------------------------
