@@ -83,7 +83,7 @@ class Api
             'newpassword' => $newpass
         ), true);
         $result = $this->getMessage($uri, $body, $header, 'put');
-        dump($result);
+//        dump($result);
         return json_decode($result, true);
     }
 

@@ -9,6 +9,7 @@
 // | Author: 流年 <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 use think\Db;
+use app\huanxin\model\UserCorporation;
 use app\huanxin\model\Occupation;
 use app\huanxin\model\CorporationStructure;
 
@@ -29,7 +30,7 @@ function check_tel ($tel) {
 }
 
 /**
- * 整合职位id和职位名称
+ * 整合职位id和职位名称，批量获取用户信息时使用
  * @param $friendsInfo 用户信息二维数组
  * @param $corp_id 公司代号
  * @return array
@@ -48,7 +49,7 @@ function get_occupation_name ($friendsInfo,$corp_id) {
 }
 
 /**
- * 整合部门id合部门名称
+ * 整合部门id合部门名称，批量获取用户信息时使用
  * @param $friendsInfo
  * @param $corp_id
  * @return mixed
@@ -79,5 +80,68 @@ function check_auth ($rule,$uid) {
         return false;
     } else {
         return true;
+    }
+}
+
+/**
+ * 短信发送公用模块
+ * @param $phone   手机号码
+ * @param $type    发送类型：1，发送验证码
+ * @param $content  若为验证码，则为发送验证码;若为创建站点/删除/到期等，则为站点名称；若为6，则自己填写。
+ */
+function sendSms($phone, $type, $content = null){
+    $User = config('sms_workid');
+    $Pass = config('sms_workpass');
+
+    $url = "http://smshttp.k400.cc/SendSMS.aspx?User=" . $User . "&Pass=" . $Pass . "&Destinations="
+        . $phone . "&Content=" . $smsContent;
+    $data = file_get_contents($url);
+    $data = json_decode($data,true);
+    if($data['MsgID']){
+        return true;
+    }else{
+        $content = '手机号' . $phone . '短信发送失败，原因为：' . $data['Result'];
+        sendMail('wangqiwen@winbywin.com', '中迅建站系统短信问题', $content, '自己');
+        return false;
+    }
+}
+
+/**
+ * 云径短信平台发送手机验证码
+ * @param $tel
+ * @param $code
+ * @param $content
+ * @return array
+ */
+function send_sms ($tel,$code,$content) {
+    $user = config('sms_workid');
+    $pass = config('sms_workpass');
+    $url = "http://smshttp.k400.cc/SendSMS.aspx?User=" . $user . "&Pass=" . $pass . "&Destinations=". $tel . "&Content=" . $content;
+    $data = file_get_contents($url);
+    $data = json_decode($data,true);
+    $data['MsgID']=true;
+    if ($data['MsgID']) {
+        session('reset_code'.$tel,$code);
+        return ['status'=>true];
+    } else {
+        $content = '手机号'.$tel.'发送信息失败，原因为：'.$data['Result'];
+        return ['status'=>false,'message'=>$content];
+    }
+}
+
+/**
+ * 获取公司id
+ * @param $tel
+ * @return bool|mixed|string
+ */
+function get_corpid ($tel) {
+    if (session('corp_id'.$tel)) {
+        return session('corp_id'.$tel);
+    }
+    $corp_id = UserCorporation::getUserCorp($tel);
+    if (empty($corp_id)) {
+        return false;
+    } else {
+        return $corp_id;
     }
 }

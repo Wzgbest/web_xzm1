@@ -25,6 +25,17 @@ class Employer extends Base
         return $this->model->table($this->table)->where('telephone',$telephone)->find();
     }
 
+    /**
+     * 记录用户登陆信息
+     * @param $telephone
+     * @param $data
+     * @return int|string
+     * @throws \think\Exception
+     */
+    public function setEmployerSingleInfo($telephone,$data)
+    {
+        return $this->model->table($this->table)->where('telephone',$telephone)->update($data);
+    }
 
     /**
      * 取出employer表中所有未开通环信的账号
@@ -80,13 +91,26 @@ class Employer extends Base
         return $this->model->table($this->table)->where('telephone','<>', $owner)->column('telephone');
     }
 
+    /**
+     * 获取所有用户列表
+     * @return false|\PDOStatement|string|\think\Collection
+     */
     public function getAllUsers()
     {
         return $this->model->table($this->table)->field('telephone,userpic,truename as nickname,structid')->select();
     }
 
+    /**
+     * 获取所有用户电话
+     * @return array
+     */
     public function getAllTels()
     {
         return $this->model->table($this->table)->column('telephone');
+    }
+
+    public function reSetPass()
+    {
+        return $this->model->table($this->table)->where('telephone',$telephone)->update('password',$password);
     }
 }
