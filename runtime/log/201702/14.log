@@ -1,0 +1,1100 @@
+[ 2017-02-14T10:35:54+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin
+[ log ] webcall.app/huanxin/login/verifylogin [运行时间：0.469027s][吞吐率：2.13req/s] [内存消耗：1,925.62kb] [文件加载：51]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ LOG ] INIT File
+[ error ] [8]未定义数组索引: telephone[D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php:19]
+
+---------------------------------------------------------------
+[ 2017-02-14T10:36:13+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13311112222/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13311112222/password/87654321 [运行时间：0.560632s][吞吐率：1.78req/s] [内存消耗：2,731.41kb] [文件加载：56]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13311112222',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.031002s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.054003s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13311112222' LIMIT 1 [ RunTime:0.001000s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T11:48:23+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13311112222/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13311112222/password/87654321 [运行时间：0.194011s][吞吐率：5.15req/s] [内存消耗：2,662.76kb] [文件加载：56]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13311112222',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002000s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.010000s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13311112222' LIMIT 1 [ RunTime:0.001000s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T11:48:35+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.228212s][吞吐率：4.38req/s] [内存消耗：2,663.23kb] [文件加载：56]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.011000s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.011000s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.001000s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T11:48:56+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.292017s][吞吐率：3.42req/s] [内存消耗：2,665.91kb] [文件加载：56]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002001s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.011000s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.001001s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T11:49:26+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.167609s][吞吐率：5.97req/s] [内存消耗：2,732.00kb] [文件加载：56]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002001s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.010000s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.001000s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T11:49:34+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.242014s][吞吐率：4.13req/s] [内存消耗：2,665.91kb] [文件加载：56]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.011000s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.001000s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T11:49:55+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.250014s][吞吐率：4.00req/s] [内存消耗：2,666.77kb] [文件加载：56]
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.012001s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+
+---------------------------------------------------------------
+[ 2017-02-14T11:50:40+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.195210s][吞吐率：5.12req/s] [内存消耗：2,665.61kb] [文件加载：56]
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.012000s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+
+---------------------------------------------------------------
+[ 2017-02-14T11:51:59+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.188610s][吞吐率：5.30req/s] [内存消耗：2,665.62kb] [文件加载：56]
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002000s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+
+---------------------------------------------------------------
+[ 2017-02-14T11:51:59+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.168010s][吞吐率：5.95req/s] [内存消耗：2,665.62kb] [文件加载：56]
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002000s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+
+---------------------------------------------------------------
+[ 2017-02-14T11:52:08+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.218012s][吞吐率：4.59req/s] [内存消耗：2,666.77kb] [文件加载：56]
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.003000s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+
+---------------------------------------------------------------
+[ 2017-02-14T11:52:52+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.231211s][吞吐率：4.33req/s] [内存消耗：2,654.16kb] [文件加载：56]
+[ info ] [ DB ] INIT mysql
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002001s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+
+---------------------------------------------------------------
+[ 2017-02-14T11:53:17+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.215013s][吞吐率：4.65req/s] [内存消耗：2,653.27kb] [文件加载：56]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.003001s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.013000s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.001000s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T11:54:09+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.198611s][吞吐率：5.03req/s] [内存消耗：2,653.88kb] [文件加载：56]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.012000s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.011000s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.002001s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T11:54:15+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.220012s][吞吐率：4.55req/s] [内存消耗：2,663.28kb] [文件加载：56]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.013001s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.011001s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.001000s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T11:54:40+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.194011s][吞吐率：5.15req/s] [内存消耗：2,667.24kb] [文件加载：56]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002000s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.011001s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.001000s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T11:55:21+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.333019s][吞吐率：3.00req/s] [内存消耗：2,667.24kb] [文件加载：56]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004001s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.016001s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.002000s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T13:46:44+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.245613s][吞吐率：4.07req/s] [内存消耗：2,821.68kb] [文件加载：62]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002000s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.011001s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.001000s ]
+[ error ] [64]Cannot use app\huanxin\Base as Base because the name is already in use[D:\mysvn\webcall\trunk\app\huanxin\model\Occupation.php:8]
+
+---------------------------------------------------------------
+[ 2017-02-14T13:47:53+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.227013s][吞吐率：4.41req/s] [内存消耗：2,677.41kb] [文件加载：57]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002000s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.010000s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.001000s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T13:49:55+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.219612s][吞吐率：4.55req/s] [内存消耗：2,677.88kb] [文件加载：57]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.012001s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.010001s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.001000s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T13:50:01+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.263016s][吞吐率：3.80req/s] [内存消耗：2,749.65kb] [文件加载：59]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002000s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.013000s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.002000s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T13:57:39+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.223013s][吞吐率：4.48req/s] [内存消耗：2,751.73kb] [文件加载：59]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002001s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.011000s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.001000s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T14:58:44+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.236530s][吞吐率：4.23req/s] [内存消耗：2,753.60kb] [文件加载：59]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002500s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.011501s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.001500s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T14:58:51+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.220027s][吞吐率：4.54req/s] [内存消耗：2,664.48kb] [文件加载：56]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001500s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.010002s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.001500s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T14:59:21+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.225028s][吞吐率：4.44req/s] [内存消耗：2,664.48kb] [文件加载：56]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.011002s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.010501s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.001000s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T14:59:22+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.218527s][吞吐率：4.58req/s] [内存消耗：2,664.48kb] [文件加载：56]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.012002s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.010501s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.001000s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T14:59:41+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.285537s][吞吐率：3.50req/s] [内存消耗：2,664.80kb] [文件加载：56]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.026504s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.011502s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.001500s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T15:01:31+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.253032s][吞吐率：3.95req/s] [内存消耗：2,756.41kb] [文件加载：59]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002000s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.010501s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.001000s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T15:05:24+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.238530s][吞吐率：4.19req/s] [内存消耗：2,755.55kb] [文件加载：59]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.013002s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.010501s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.001000s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T15:05:25+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.250032s][吞吐率：4.00req/s] [内存消耗：2,755.55kb] [文件加载：59]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.012001s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.010002s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.001000s ]
+
+---------------------------------------------------------------
+[ 2017-02-14T15:06:36+08:00 ] 127.0.0.1 127.0.0.1 GET /huanxin/login/verifylogin/telephone/13322223333/password/87654321
+[ log ] webcall.app/huanxin/login/verifylogin/telephone/13322223333/password/87654321 [运行时间：0.251032s][吞吐率：3.98req/s] [内存消耗：2,755.55kb] [文件加载：59]
+[ info ] [ LANG ] D:\mysvn\webcall\trunk\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'huanxin',
+    1 => 'login',
+    2 => 'verifylogin',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'host' => 'webcall.app',
+  'connection' => 'keep-alive',
+  'cache-control' => 'max-age=0',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2723.2 Safari/537.36',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'accept-encoding' => 'gzip, deflate, sdch',
+  'accept-language' => 'zh-CN,zh;q=0.8',
+)
+[ info ] [ PARAM ] array (
+  'telephone' => '13322223333',
+  'password' => '87654321',
+)
+[ info ] [ RUN ] app\huanxin\controller\Login->verifyLogin[ D:\mysvn\webcall\trunk\app\huanxin\controller\Login.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.011001s ] mysql:dbname=guguocrm;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `guguo_user_corporation` [ RunTime:0.010501s ]
+[ sql ] [ SQL ] SELECT `corp_name` FROM `guguo_user_corporation` WHERE  `telephone` = '13322223333' LIMIT 1 [ RunTime:0.001000s ]
+
+---------------------------------------------------------------
