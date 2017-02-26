@@ -145,3 +145,40 @@ function get_corpid ($tel) {
         return $corp_id;
     }
 }
+
+/**
+ * 处理app端传来图像文件
+ * @param $data
+ * @return mixed|string
+ */
+function get_app_img ($data) {
+    $img_path = config('upload_image.image_path');
+    $data = base64_decode($data);
+    $res['status'] = false;
+    try{
+        $img_path = $img_path.date('Y-m-d',time());//相对路径
+        $save_path = config('base_path').$img_path;//物理路径
+        if (!is_dir($save_path)) {
+            mkdir($save_path,0644);
+        }
+        $img_path = $img_path.'/'.time().rand(10000,99999).'.tmp';//相对路径文件
+        $save_path = config('base_path').$img_path;//物理路径文件
+        file_put_contents($save_path,$data);
+        $arr=getimagesize($save_path);
+        $img_type = explode(',',config('upload_image.image_ext'));
+        $img_ext = '';
+        foreach ($img_type as $val) {
+            if (false !== strpos($arr['mime'],$val)) {
+                $img_ext = $val;
+                break;
+            }
+        }
+        $img_path = substr($img_path,0,-3).$img_ext;
+        $new_save_path = substr($save_path,0,-3).$img_ext;
+        rename($save_path,$new_save_path);
+        $res = ['imgurl' => $img_path,'status'=>true];
+    } catch(\Exception $e){
+         $res['message'] = '存储头像失败，联系管理员';
+    }
+    return $res;
+}

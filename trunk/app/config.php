@@ -247,4 +247,15 @@ return [
         'prefix'      => 'guguo_',
     ],
     'db_common_prefix'=>'guguo_',//分库前缀
+    //sms短信账号
+    'sms_workid'    => '',
+    'sms_workpass'  => '',
+    //app上传图片设置
+    'upload_image'  =>[
+        'image_path'    => '/static/images/',
+        'image_max_size' => '',
+        'image_ext'    => 'png,jpg,jpeg,gif',
+    ],
+    //网站物理路径
+    'base_path' =>'d:/mysvn/webcall/public',
 ];
