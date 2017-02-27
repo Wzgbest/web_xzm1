@@ -257,5 +257,5 @@ return [
         'image_ext'    => 'png,jpg,jpeg,gif',
     ],
     //网站物理路径
-    'base_path' =>'d:/mysvn/webcall/public',
+    'base_path' =>'/home/joshua/mysvn/webcall/trunk/public',
 ];
