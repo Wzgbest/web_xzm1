@@ -119,7 +119,7 @@ function send_sms ($tel,$code,$content) {
     $url = "http://smshttp.k400.cc/SendSMS.aspx?User=" . $user . "&Pass=" . $pass . "&Destinations=". $tel . "&Content=" . $content;
     $data = file_get_contents($url);
     $data = json_decode($data,true);
-    $data['MsgID']=true;
+    $data['MsgID']=true;//测试开启
     if ($data['MsgID']) {
         session('reset_code'.$tel,$code);
         return ['status'=>true];
@@ -159,7 +159,7 @@ function get_app_img ($data) {
         $img_path = $img_path.date('Y-m-d',time());//相对路径
         $save_path = config('base_path').$img_path;//物理路径
         if (!is_dir($save_path)) {
-            mkdir($save_path,0644);
+            mkdir($save_path,0755);
         }
         $img_path = $img_path.'/'.time().rand(10000,99999).'.tmp';//相对路径文件
         $save_path = config('base_path').$img_path;//物理路径文件

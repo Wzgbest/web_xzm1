@@ -8,6 +8,7 @@ namespace app\huanxin\controller;
 use think\Controller;
 use app\huanxin\model\UserCorporation;
 use app\huanxin\model\Employer;
+use app\huanxin\service\Api;
 
 class User
 {
@@ -62,11 +63,17 @@ class User
     public function getSmsCode()
     {
         $userid = input('param.userid');
+        $info['status'] = false;
         if (!check_tel($userid)) {
             $info['message'] = '手机号码格式不正确';
             return json_encode($info, true);
         }
+        if (!get_corpid($userid)) {
+            $info['message'] = '非系统用户';
+            return json_encode($info,true);
+        }
         $code = rand(100000, 999999);
+        $code = 123456;//测试开启
         $content = '【咕果】感谢您使用本产品，您的手机验证码为' . $code . '请及时填写';
         $res = send_sms($userid, $code, $content);
         if ($res['status'] == false) {
@@ -92,17 +99,30 @@ class User
             $info['message'] = '手机号码格式不正确';
             return json_encode($info, true);
         }
+        $corp_id = get_corpid($userid);
+        if (!$corp_id) {
+            $info['message'] = '非系统用户';
+            return json_encode($info,true);
+        }
         $ini_code = session('reset_code' . $userid);
         if ($ini_code != $code) {
             $info['message'] = '手机验证码不正确';
             return json_encode($info, true);
         }
-        $data['password'] = md5($newpass);
-        $corp_id = get_corpid($userid);
-        $employer = new Employer($corp_id);
-        $res = $employer->setEmployerSingleInfo($userid, $data);
-        $info['status'] = true;
-        $info['message'] = '修改成功，请重新登陆';
+        $apiM = new Api();
+        $reset = $apiM ->resetPassword($userid,$newpass);
+//        $res = action('Api/resetPassword',['user'=>$userid,'newpass'=>$newpass]);
+//        dump($res);exit;
+        if ($reset['action']=='set user password') {
+            $data['password'] = md5($newpass);
+            $corp_id = get_corpid($userid);
+            $employer = new Employer($corp_id);
+            $employer->setEmployerSingleInfo($userid, $data);
+            $info['status'] = true;
+            $info['message'] = '修改成功，请重新登陆';
+        } else {
+            $info['message'] = '修改环信密码失败，联系管理员';
+        }
         return json_encode($info, true);
     }
 
@@ -115,6 +135,7 @@ class User
         $userid = input('param.userid');
         $access_token = input('param.access_token');
         $user_pic = input('param.userpic');
+//        file_put_contents('/tmp/res.png',base64_decode($user_pic));
         $info['status'] = false;
         if ($user_pic == '') {
             $info['message'] = '未设置头像';
