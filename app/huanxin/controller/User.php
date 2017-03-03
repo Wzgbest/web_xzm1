@@ -32,7 +32,7 @@ class User
             return $chk_info;
         }
         $friendsInfo = $this->employM->getAllUsers();
-        $friendsInfo = get_struct_name($friendsInfo, $corp_id);
+        $friendsInfo = get_struct_name($friendsInfo, $chk_info['corp_id']);
         $info['message'] = 'SUCCESS';
         $info['status'] = true;
         $info['friendsInfo'] = $friendsInfo;
@@ -135,7 +135,6 @@ class User
         $userid = input('param.userid');
         $access_token = input('param.access_token');
         $user_pic = input('param.userpic');
-//        file_put_contents('/tmp/res.png',base64_decode($user_pic));
         $info['status'] = false;
         if ($user_pic == '') {
             $info['message'] = '未设置头像';
@@ -184,6 +183,7 @@ class User
         }
         $info['message'] = 'SUCCESS';
         $info['status'] = true;
+        $info['corp_id'] = $corp_id;
         return $info;
     }
 }

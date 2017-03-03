@@ -157,12 +157,12 @@ function get_app_img ($data) {
     $res['status'] = false;
     try{
         $img_path = $img_path.date('Y-m-d',time());//相对路径
-        $save_path = config('base_path').$img_path;//物理路径
+        $save_path = PUBLIC_PATH.$img_path;//物理路径
         if (!is_dir($save_path)) {
             mkdir($save_path,0755);
         }
         $img_path = $img_path.'/'.time().rand(10000,99999).'.tmp';//相对路径文件
-        $save_path = config('base_path').$img_path;//物理路径文件
+        $save_path = PUBLIC_PATH.$img_path;//物理路径文件
         file_put_contents($save_path,$data);
         $arr=getimagesize($save_path);
         $img_type = explode(',',config('upload_image.image_ext'));
