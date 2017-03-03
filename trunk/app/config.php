@@ -256,6 +256,4 @@ return [
         'image_max_size' => '',
         'image_ext'    => 'png,jpg,jpeg,gif',
     ],
-    //网站物理路径
-    'base_path' =>'/home/joshua/mysvn/webcall/trunk/public',
 ];
