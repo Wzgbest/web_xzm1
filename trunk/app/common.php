@@ -12,6 +12,7 @@ use think\Db;
 use app\huanxin\model\UserCorporation;
 use app\huanxin\model\Occupation;
 use app\huanxin\model\CorporationStructure;
+use app\common\model\Umessage;
 
 // 应用公共文件
 
@@ -119,7 +120,7 @@ function send_sms ($tel,$code,$content) {
     $url = "http://smshttp.k400.cc/SendSMS.aspx?User=" . $user . "&Pass=" . $pass . "&Destinations=". $tel . "&Content=" . $content;
     $data = file_get_contents($url);
     $data = json_decode($data,true);
-    $data['MsgID']=true;//测试开启
+    $data['MsgID']=true;//TODO 测试开启
     if ($data['MsgID']) {
         session('reset_code'.$tel,$code);
         return ['status'=>true];
@@ -142,6 +143,7 @@ function get_corpid ($tel) {
     if (empty($corp_id)) {
         return false;
     } else {
+        session('corp_id'.$tel,$corp_id);
         return $corp_id;
     }
 }
@@ -181,4 +183,26 @@ function get_app_img ($data) {
          $res['message'] = '存储头像失败，联系管理员';
     }
     return $res;
+}
+
+/**
+ * 记录操作
+ * @param $userid 联系电话
+ * @param $type　类型
+ * @param $remark　标识
+ * @param string $corp_id　公司代号
+ * @return int|string
+ */
+function write_log ($userid,$type,$remark,$corp_id='') {
+    if (empty($corp_id)) {
+        $corp_id = get_corpid($userid);
+    }
+    $u = new Umessage($corp_id);
+    $data = [
+        'userid'=>$userid,
+        'type' =>$type,
+        'remark'=>$remark,
+        'create_time'=>time()
+    ];
+    return $u->addUmessage($data);
 }
