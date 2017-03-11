@@ -5,7 +5,7 @@
  */
 namespace app\huanxin\model;
 
-use app\huanxin\model\Base;
+use app\common\model\Base;
 
 class Occupation extends Base
 {

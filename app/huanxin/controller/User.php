@@ -73,7 +73,7 @@ class User
             return json_encode($info,true);
         }
         $code = rand(100000, 999999);
-        $code = 123456;//测试开启
+        $code = 123456;//TODO 测试开启
         $content = '【咕果】感谢您使用本产品，您的手机验证码为' . $code . '请及时填写';
         $res = send_sms($userid, $code, $content);
         if ($res['status'] == false) {
@@ -95,6 +95,10 @@ class User
         $newpass = input('param.newpassword');
         $code = input('param.smscode');
         $info['status'] = false;
+        if (!$code) {
+            $info['message'] = '手机验证码不正确';
+            return json_encode($info, true);
+        }
         if (!check_tel($userid)) {
             $info['message'] = '手机号码格式不正确';
             return json_encode($info, true);
@@ -118,8 +122,10 @@ class User
             $corp_id = get_corpid($userid);
             $employer = new Employer($corp_id);
             $employer->setEmployerSingleInfo($userid, $data);
+            write_log($userid,1,'用户修改登录密码',$corp_id);
             $info['status'] = true;
             $info['message'] = '修改成功，请重新登陆';
+            session('reset_code'.$userid, null);
         } else {
             $info['message'] = '修改环信密码失败，联系管理员';
         }
@@ -151,6 +157,81 @@ class User
         $data = ['userpic'=>$img_path['imgurl']];
         $res = $this->employM->setEmployerSingleInfo($userid,$data);
         return json_encode($img_path,true);
+    }
+
+    /**
+     * 创建支付密码
+     * @return array|string
+     */
+    public function createPayPassword()
+    {
+        $userid = input('param.userid');
+        $password = input('param.paypassword');
+        $access_token = input('param.access_token');
+        $chk_info = $this->checkUserAccess($userid, $access_token);
+        if (!$chk_info['status']) {
+            return $chk_info;
+        }
+        $paypass = $this->employM->getEmployer($userid);
+        if (!empty($paypass['pay_password'])) {
+            return json_encode(['status'=>false,'message'=>'支付密码已设置，请勿重复设置'],true);
+        }
+        $info['status'] = false;
+        $r = $this->employM->setEmployerSingleInfo($userid,['pay_password'=>md5($password)]);
+        if ($r >0) {
+            $info['message'] = '支付密码设置成功';
+            $info['status'] = true;
+        } else {
+            $info['message'] = '支付密码设置失败';
+        }
+        return json_encode($info,true);
+    }
+
+    /**
+     * 修改环信app支付密码
+     * @return string
+     */
+    public function resetPayPassword()
+    {
+        $userid = input('param.userid'); dump(write_log('13322221111',1,'reset pay password','sdzhongxun'));exit;
+        $newpass = input('param.newpaypassword');
+        $code = input('param.smscode');
+        $info['status'] = false;
+        if (!$code) {
+            $info['message'] = '手机验证码不正确';
+            return json_encode($info, true);
+        }
+        if (empty($newpass)) {
+            $info['message'] = '支付密码不能为空';
+            return json_encode($info, true);
+        }
+        if (!check_tel($userid)) {
+            $info['message'] = '手机号码格式不正确';
+            return json_encode($info, true);
+        }
+        $corp_id = get_corpid($userid);
+        if (!$corp_id) {
+            $info['message'] = '非系统用户';
+            return json_encode($info,true);
+        }
+        $ini_code = session('reset_code' . $userid);
+        if ($ini_code != $code) {
+            $info['message'] = '手机验证码不正确';
+            return json_encode($info, true);
+        }
+        $data = ['pay_password'=>md5($newpass)];
+        $corp_id = get_corpid($userid);
+        $employer = new Employer($corp_id);
+        $r = $employer->setEmployerSingleInfo($userid,$data);
+        if ($r >= 0) {
+            session('reset_code'.$userid,null);
+            write_log($userid,1,'用户修改支付密码',$corp_id);
+            $info['status'] = true;
+            $info['message'] = '修改支付密码成功';
+        } else {
+            $info['message'] = '修改支付密码失败';
+        }
+        return json_encode($info, true);
     }
 
     /**
