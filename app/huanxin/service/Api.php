@@ -5,8 +5,7 @@
  */
 namespace app\huanxin\service;
 
-use think\Controller;
-use app\huanxin\model\Employer;
+use app\common\model\Employer;
 
 class Api
 {
