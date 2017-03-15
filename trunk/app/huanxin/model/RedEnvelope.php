@@ -15,9 +15,84 @@ class RedEnvelope extends Base
         parent::__construct($corp_id);
     }
 
-    public function createRedId($userid,$num,$total_money)
+    /**
+     * 生成红包
+     * @param $data
+     * @return int|string
+     */
+    public function createRedId($data)
     {
-//        $total_money
-//        $this->model->table($this->table)->
+        return $this->model->table($this->table)->insertAll($data);
+    }
+
+    /**
+     * 验证是否已领取红包
+     * @param $userid 用户id非电话
+     * @param $red_id
+     * @return array|false|\PDOStatement|string|\think\Model
+     */
+    public function checkIfTook($userid,$red_id)
+    {
+        return $this->model->table($this->table)->where('redid',$red_id)->where('took_user',$userid)->find();
+    }
+    /**
+     * 红包取出一个
+     * @param $red_id
+     * @return array|false|\PDOStatement|string|\think\Model
+     */
+    public function getOneRedId($red_id)
+    {
+        return $this->model->table($this->table)->where('redid',$red_id)->where('is_token',0)->find();
+    }
+
+    /**
+     * 被领取的红包状态更改
+     * @param $id 红包表 id
+     * @param $data
+     * @return int|string
+     * @throws \think\Exception
+     */
+    public function setOneRedId($id,$data)
+    {
+        return $this->model->table($this->table)->where('id',$id)->update($data);
+    }
+
+    /**
+     * 取出已被领取的红包
+     * @param $red_id
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public function getFetchedRedList($red_id)
+    {
+        return $this->model->table($this->table)->alias('a')
+            ->join(config('database.prefix').'employer b','a.took_user = b.id')
+            ->field('a.redid,a.money,a.total_money,a.took_time,b.truename as took_user')
+            ->where('a.redid',$red_id)->where('a.is_token',1)->select();
+    }
+
+    /**
+     * 红包数量
+     * @param $red_id
+     * @return int|string
+     */
+    public function getRedCount($red_id)
+    {
+        return $this->model->table($this->table)->where('redid',$red_id)->count('id');
+    }
+
+    /**
+     * 查询所有超时未领取的红包
+     * @param $now
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public function getOverTimeRed($red_id)
+    {
+        return $this->model->table($this->table)->field('id,redid,fromuser,money')->where('redid',$red_id)
+            ->where('is_token',0)->select();
+    }
+
+    public function setOverTimeRed($ids)
+    {
+        return $this->model->table($this->table)->where("id in($ids)")->update(['is_token'=>2]);
     }
 }

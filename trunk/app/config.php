@@ -256,4 +256,8 @@ return [
         'image_max_size' => '',
         'image_ext'    => 'png,jpg,jpeg,gif',
     ],
+    'red_envelope' =>[
+        'max_money_rate' => 1.61,
+        'min_money' => 0.01
+    ],
 ];

@@ -2,10 +2,10 @@
 namespace app\huanxin\controller;
 
 use think\Controller;
-use app\huanxin\model\Employer;
-use app\huanxin\model\UserCorporation;
-use app\huanxin\model\EmployerScore;
-use app\huanxin\model\Occupation;
+use app\common\model\Employer;
+use app\common\model\UserCorporation;
+use app\common\model\EmployerScore;
+use app\common\model\Occupation;
 use think\Request;
 
 class Login extends Controller

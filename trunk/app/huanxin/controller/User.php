@@ -5,9 +5,8 @@
  */
 namespace app\huanxin\controller;
 
-use think\Controller;
-use app\huanxin\model\UserCorporation;
-use app\huanxin\model\Employer;
+use app\common\model\UserCorporation;
+use app\common\model\Employer;
 use app\huanxin\service\Api;
 
 class User
@@ -121,8 +120,9 @@ class User
             $data['password'] = md5($newpass);
             $corp_id = get_corpid($userid);
             $employer = new Employer($corp_id);
+            $r_userid = $employer->getEmployer($userid);
             $employer->setEmployerSingleInfo($userid, $data);
-            write_log($userid,1,'用户修改登录密码',$corp_id);
+            write_log($r_userid['id'],1,'用户修改登录密码',$corp_id);
             $info['status'] = true;
             $info['message'] = '修改成功，请重新登陆';
             session('reset_code'.$userid, null);
@@ -193,7 +193,7 @@ class User
      */
     public function resetPayPassword()
     {
-        $userid = input('param.userid'); dump(write_log('13322221111',1,'reset pay password','sdzhongxun'));exit;
+        $userid = input('param.userid');
         $newpass = input('param.newpaypassword');
         $code = input('param.smscode');
         $info['status'] = false;
@@ -222,10 +222,11 @@ class User
         $data = ['pay_password'=>md5($newpass)];
         $corp_id = get_corpid($userid);
         $employer = new Employer($corp_id);
+        $r_userid = $employer->getEmployer($userid);
         $r = $employer->setEmployerSingleInfo($userid,$data);
         if ($r >= 0) {
             session('reset_code'.$userid,null);
-            write_log($userid,1,'用户修改支付密码',$corp_id);
+            write_log($r_userid['id'],1,'用户修改支付密码',$corp_id);
             $info['status'] = true;
             $info['message'] = '修改支付密码成功';
         } else {
@@ -235,12 +236,48 @@ class User
     }
 
     /**
+     * 用户支付密码验证
+     * @param userid
+     * @param access_token
+     * @param paypassword
+     * @return array|string
+     */
+    public function checkPayPassword()
+    {
+        $userid = input('param.userid');
+        $password = input('param.paypassword');
+        $access_token = input('param.access_token');
+        $chk_info = $this->checkUserAccess($userid, $access_token);
+        if (!$chk_info['status']) {
+            return $chk_info;
+        }
+
+        $info['status'] = false;
+        if (empty($chk_info['userinfo']['pay_password'])) {
+            $info['message'] = '用户支付密码未设置';
+            return json_encode($info,true);
+        }
+        if ($chk_info['userinfo']['pay_password'] !=md5($password)) {
+            $info['message'] = '用户支付密码错误';
+            return json_encode($info,true);
+        }
+        $info['status'] = true;
+        $info['message'] = '验证用户支付密码成功';
+        return json_encode($info,true);
+    }
+
+    public function showLeftMoney()
+    {
+        //TODO
+    }
+
+    /**
      * 验证用户id,token
      * @param $userid
      * @param $access_token
      * @return array
      */
-    protected function checkUserAccess($userid, $access_token)
+    public function checkUserAccess($userid, $access_token)
     {
         $info['status'] = false;
         if (empty($userid) || empty($access_token)) {
@@ -265,6 +302,7 @@ class User
         $info['message'] = 'SUCCESS';
         $info['status'] = true;
         $info['corp_id'] = $corp_id;
+        $info['userinfo'] = $userinfo;
         return $info;
     }
 }

@@ -13,6 +13,7 @@ use app\huanxin\model\UserCorporation;
 use app\huanxin\model\Occupation;
 use app\huanxin\model\CorporationStructure;
 use app\common\model\Umessage;
+use app\common\model\Employer;
 
 // 应用公共文件
 
@@ -90,21 +91,8 @@ function check_auth ($rule,$uid) {
  * @param $type    发送类型：1，发送验证码
  * @param $content  若为验证码，则为发送验证码;若为创建站点/删除/到期等，则为站点名称；若为6，则自己填写。
  */
-function sendSms($phone, $type, $content = null){
-    $User = config('sms_workid');
-    $Pass = config('sms_workpass');
-
-    $url = "http://smshttp.k400.cc/SendSMS.aspx?User=" . $User . "&Pass=" . $Pass . "&Destinations="
-        . $phone . "&Content=" . $smsContent;
-    $data = file_get_contents($url);
-    $data = json_decode($data,true);
-    if($data['MsgID']){
-        return true;
-    }else{
-        $content = '手机号' . $phone . '短信发送失败，原因为：' . $data['Result'];
-        sendMail('wangqiwen@winbywin.com', '中迅建站系统短信问题', $content, '自己');
-        return false;
-    }
+function send_mail ($email, $title, $content='') {
+    // TODO
 }
 
 /**
@@ -126,6 +114,7 @@ function send_sms ($tel,$code,$content) {
         return ['status'=>true];
     } else {
         $content = '手机号'.$tel.'发送信息失败，原因为：'.$data['Result'];
+        send_mail('wangqiwen@winbywin.com', '通信项目短信问题', $content);
         return ['status'=>false,'message'=>$content];
     }
 }
@@ -148,6 +137,20 @@ function get_corpid ($tel) {
     }
 }
 
+/**
+ * 通过手机号获取用户id
+ * @param $tel
+ * @param string $corp_id
+ * @return int
+ */
+function get_userid_from_tel ($tel,$corp_id='') {
+    if (empty($corp_id)) {
+        $corp_id = get_corpid($tel);
+    }
+    $employM = new Employer($corp_id);
+    $users = $employM->getEmployer($tel);
+    return $users['id'];
+}
 /**
  * 处理app端传来图像文件
  * @param $data
@@ -206,3 +209,43 @@ function write_log ($userid,$type,$remark,$corp_id='') {
     ];
     return $u->addUmessage($data);
 }
+
+//function rand_bonus($bonus_total=0, $bonus_count=3, $bonus_type=1){
+//    $bonus_items  = array(); // 将要瓜分的结果
+//    $bonus_balance = $bonus_total; // 每次分完之后的余额
+//    $bonus_avg   = number_format($bonus_total/$bonus_count, 2); // 平均每个红包多少钱
+//    $i       = 0;
+//    while($i<$bonus_count){
+//        if($i<$bonus_count-1){
+//            $rand      = $bonus_type?(rand(1, $bonus_balance*100-1)/100):$bonus_avg; // 根据红包类型计算当前红包的金额
+//            $bonus_items[] = $rand;
+//            $bonus_balance -= $rand;
+//        }else{
+//            $bonus_items[] = $bonus_balance; // 最后一个红包直接承包最后所有的金额，保证发出的总金额正确
+//        }
+//        $i++;
+//    }
+//    return $bonus_items;
+//}
+
+/**
+ * 生成随机红包
+ * @param $total 总金额
+ * @param $num  个数
+ * @param float $min 最小红包金额
+ * @return array
+ */
+function get_red_bonus ($total,$num,$min=0.01) {
+    $arr= array();
+    for ($i=1;$i<$num;$i++) {
+        $safe_total=($total-($num-$i)*$min)/($num-$i);
+        $money=mt_rand($min*100,$safe_total*100)/100;
+        $money=number_format($money, 2, '.', '');
+        $total=$total-$money;
+        $arr[].=$money;
+    }
+    $arr[].=number_format($total, 2, '.', '');
+    shuffle($arr);
+    return $arr;
+}
+
