@@ -9,9 +9,9 @@
 // | Author: 流年 <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 use think\Db;
-use app\huanxin\model\UserCorporation;
-use app\huanxin\model\Occupation;
-use app\huanxin\model\CorporationStructure;
+use app\common\model\UserCorporation;
+use app\common\model\Occupation;
+use app\common\model\CorporationStructure;
 use app\common\model\Umessage;
 use app\common\model\Employer;
 
@@ -86,13 +86,41 @@ function check_auth ($rule,$uid) {
 }
 
 /**
- * 短信发送公用模块
- * @param $phone   手机号码
- * @param $type    发送类型：1，发送验证码
- * @param $content  若为验证码，则为发送验证码;若为创建站点/删除/到期等，则为站点名称；若为6，则自己填写。
+ * 发送邮件
+ * @param $to_user 接收方
+ * @param $title  主题
+ * @param string $content 内容
+ * @param array $attachment['path','name'] 附件['地址','附件名称']
+ * @return bool
+ * @throws Exception
+ * @throws phpmailerException
  */
-function send_mail ($email, $title, $content='') {
-    // TODO
+function send_mail ($to_user, $title, $content='',$attachment=array()) {
+    $mail = new PHPMailer(true);
+    $mail->IsSMTP();                  // send via SMTP
+    $mail->Host = config('system_email.host');   // SMTP servers
+    $mail->SMTPAuth = true;           // turn on SMTP authentication
+    $mail->Username = config('system_email.user');     // SMTP username  注意：普通邮件认证不需要加 @域名
+    $mail->Password = config('system_email.pass'); // SMTP password
+    $mail->From = config('system_email.user');      // 发件人邮箱
+    $mail->FromName =  config('system_email.from_name');  // 发件人称呼
+//    $mail->SMTPSecure = 'ssl';
+//    $mail->Port = 465;
+    $mail->CharSet = "UTF-8";   // 这里指定字符集！
+    $mail->AddAddress($to_user);  // 收件人邮箱和姓名
+    //$mail->WordWrap = 50; // set word wrap 换行字数
+    if (!empty($attachment)) {
+        if (isset($attachment['name'])) {
+            $mail->AddAttachment($attachment['path'], $attachment['name']);
+        } else {
+            $mail->AddAttachment($attachment['path']);
+        }
+    }
+    $mail->IsHTML(true);  // send as HTML
+    $mail->Subject = $title;
+    $mail->Body = $content;
+    $status = $mail->send();
+    return $status;
 }
 
 /**
@@ -190,7 +218,7 @@ function get_app_img ($data) {
 
 /**
  * 记录操作
- * @param $userid 联系电话
+ * @param $userid 用户id非tel
  * @param $type　类型
  * @param $remark　标识
  * @param string $corp_id　公司代号

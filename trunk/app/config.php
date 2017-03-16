@@ -250,14 +250,23 @@ return [
     //sms短信账号
     'sms_workid'    => '',
     'sms_workpass'  => '',
+    //系统邮件配置
+    'system_email'  =>[
+        'user' =>'yingying-help@winbywin.com',
+        'pass' =>'QAZQAZQAZ7.',
+        'host'  =>'smtp.qiye.163.com',
+        'from_name' =>'系统管理员'
+    ],
     //app上传图片设置
     'upload_image'  =>[
         'image_path'    => '/static/images/',
         'image_max_size' => '',
         'image_ext'    => 'png,jpg,jpeg,gif',
     ],
+    //app红包相关
     'red_envelope' =>[
-        'max_money_rate' => 1.61,
-        'min_money' => 0.01
+//        'max_money_rate' => 1.61,//单个红包最高金额相对平均金额
+//        'min_money' => 0.01,
+        'overtime' => 3600*24
     ],
 ];

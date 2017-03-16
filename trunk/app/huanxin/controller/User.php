@@ -8,6 +8,7 @@ namespace app\huanxin\controller;
 use app\common\model\UserCorporation;
 use app\common\model\Employer;
 use app\huanxin\service\Api;
+use app\huanxin\service\OverTimeRedEnvelope;
 
 class User
 {
@@ -266,14 +267,33 @@ class User
         return json_encode($info,true);
     }
 
+    /**
+     * 查询余额
+     * @param userid
+     * @param access_token
+     * @return array|string
+     */
     public function showLeftMoney()
     {
-        //TODO
+        $userid = input('param.userid');
+        $access_token = input('param.access_token');
+        $chk_info = $this->checkUserAccess($userid, $access_token);
+        if (!$chk_info['status']) {
+            return $chk_info;
+        }
+        $redM = new OverTimeRedEnvelope($chk_info['userinfo']['id'],$chk_info['corp_id']);
+        $b = $redM->sendBackOverTimeRed();
+        if (!$b) {
+            return json_encode(['status'=>false,'message'=>'账户余额查询请求失败，联系管理员'],true);
+        }
+        $left_money = $chk_info['userinfo']['left_money'];
+        $left_money = number_format($left_money/100, 2, '.', '');
+        return json_encode(['status'=>true,'message'=>'SUCCESS','left_money'=>$left_money],true);
     }
 
     /**
      * 验证用户id,token
-     * @param $userid
+     * @param $userid 用户tel
      * @param $access_token
      * @return array
      */

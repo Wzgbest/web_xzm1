@@ -119,6 +119,13 @@ class Employer extends Base
         return $this->model->table($this->table)->where('telephone',$telephone)->update('password',$password);
     }
 
+    /**
+     * 按用户id更新数据
+     * @param $id 用户id非tel
+     * @param $data
+     * @return int|string
+     * @throws \think\Exception
+     */
     public function setSingleEmployerInfobyId($id,$data)
     {
         return $this->model->table($this->table)->where('id',$id)->update($data);
