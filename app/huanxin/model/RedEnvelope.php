@@ -81,18 +81,39 @@ class RedEnvelope extends Base
     }
 
     /**
-     * 查询所有超时未领取的红包
-     * @param $now
+     * 按红包redid查询所有超时未领取的红包
+     * @param $red_id
      * @return false|\PDOStatement|string|\think\Collection
      */
-    public function getOverTimeRed($red_id)
+    public function getOverTimeRedIdsFromRedId($red_id)
     {
         return $this->model->table($this->table)->field('id,redid,fromuser,money')->where('redid',$red_id)
             ->where('is_token',0)->select();
     }
 
+    /**
+     * 红包返还
+     * @param $ids 红包id
+     * @return int|string
+     * @throws \think\Exception
+     */
     public function setOverTimeRed($ids)
     {
-        return $this->model->table($this->table)->where("id in($ids)")->update(['is_token'=>2]);
+        $time = time();
+        return $this->model->table($this->table)->where("id in($ids)")->update(['is_token'=>2,'sendback_time'=>$time]);
+    }
+
+    /**
+     * 按用户id查询超时未领取的红包
+     * @param $userid 用户的id非tel
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public function getOverTimeRedIdsFromUserId($userid)
+    {
+        $dep_time = time()-config('red_envelope.overtime');
+        return $this->model->table($this->table)
+            ->where('fromuser',$userid)->where('is_token',0)
+            ->where('create_time','<',$dep_time)
+            ->select();
     }
 }

@@ -6,17 +6,14 @@
 namespace app\huanxin\controller;
 
 use app\huanxin\controller\User;
-//use myvendor\RedBonus;
 use app\huanxin\model\RedEnvelope as RedB;
 use app\common\model\Employer;
-use app\huanxin\job\OverTimeRedEnvelope;
+use app\huanxin\service\OverTimeRedEnvelope;
 
 class RedEnvelope
 {
     public function index()
     {
-        $data=json_encode(['title'=>'job red 1'],true);
-        \think\Queue::push('huanxin/OverTimeRedEnvelope',$data);
     }
 
     /**
@@ -74,10 +71,6 @@ class RedEnvelope
             $info['message'] = '生成红包失败';
         }
         return json_encode($info,true);
-
-//        $right = ($total_money/$num) * config('red_envelope.max_money_rate');
-//        $dto = new RedBonus($total_money,$num,config('red_envelope.min_money'),$right);
-//        $data = $dto->create();
     }
 
     /**
@@ -113,6 +106,12 @@ class RedEnvelope
         $red_data = $redM->getOneRedId($red_id);
         if (empty($red_data)) {
             $info['message'] = '红包已被抢光了';
+            return json_encode($info,true);
+        }
+        if (time()>($red_data['create_time']+config('red_envelope.overtime'))) {
+            $redOver = new OverTimeRedEnvelope($r['userinfo']['id'],$r['corp_id'],$red_data);
+            $b = $redOver->sendBackOverTimeRed();
+            $info['message'] = '红包已经过期';
             return json_encode($info,true);
         }
 
@@ -182,13 +181,4 @@ class RedEnvelope
         ];
         return json_encode($info,true);
     }
-
-    public function overTimeRed($red_id='',$now='')
-    {
-        $red = new OverTimeRedEnvelope();
-        $now = 1489450580;
-        $red_id = '5ad78ce5ec2b1f8f58d8efad3bafb966';
-        $red->overTimeJob('sdzhongxun',$now,$red_id);
-    }
-
 }
