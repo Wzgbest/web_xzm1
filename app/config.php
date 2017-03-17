@@ -269,4 +269,9 @@ return [
 //        'min_money' => 0.01,
         'overtime' => 3600*24
     ],
+    //提现相关
+    'take_cash' =>[
+        'min_money' =>10000,//提现最小金额，单位分
+        'system_alipay_account'    =>'yuran@winbywin.com',//支付宝账号
+    ],
 ];

@@ -286,9 +286,63 @@ class User
         if (!$b) {
             return json_encode(['status'=>false,'message'=>'账户余额查询请求失败，联系管理员'],true);
         }
-        $left_money = $chk_info['userinfo']['left_money'];
+        $res = $this->employM->getEmployer($userid);
+        $left_money = $res['left_money'];
         $left_money = number_format($left_money/100, 2, '.', '');
         return json_encode(['status'=>true,'message'=>'SUCCESS','left_money'=>$left_money],true);
+    }
+
+    public function setAlipayAccount()
+    {
+        //TODO
+    }
+
+    public function depositMoney()
+    {
+        //TODO
+    }
+
+    public function transMoney()
+    {
+        $userid = input('param.userid');
+        $password = input('param.paypassword');
+        $access_token = input('param.access_token');
+        $take_money = input('param.take_money');
+        $info['status'] = false;
+        if (empty($take_money)) {
+            $info['message'] = '提现金额不能为空';
+            return json_encode($info,true);
+        }
+        if (intval($take_money*100) < config('take_cash.min_money')) {
+            $info['message'] = '提现金额过少';
+            return json_encode($info,true);
+        }
+        if (!preg_match('/^[0-9]{1,30}\.[0-9]{1,2}$/',$take_money)) {
+            $info['message'] = '提现金额格式不正确';
+            return json_encode($info,true);
+        }
+        $chk_info = $this->checkUserAccess($userid, $access_token);
+        if (!$chk_info['status']) {
+            return $chk_info;
+        }
+        if (empty($chk_info['alipay_account'])) {
+            $info['message'] = '您的支付宝收款账号未设置';
+            return json_encode($info,true);
+        }
+        if (empty($chk_info['pay_password'])) {
+            $info['message'] = '您的支付密码未设置';
+            return json_encode($info,true);
+        }
+        if (md5($password) != $chk_info['pay_password']) {
+            $info['message'] = '支付密码错误';
+            return json_encode($info,true);
+        }
+        $take_money = intval($take_money*100);
+        if ($chk_info['take_money'] < $take_money) {
+            $info['message'] = '余额不足，无法提现';
+            return json_encode($info,true);
+        }
+
     }
 
     /**
