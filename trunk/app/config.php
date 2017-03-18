@@ -271,7 +271,6 @@ return [
     ],
     //提现相关
     'take_cash' =>[
-        'min_money' =>10000,//提现最小金额，单位分
-        'system_alipay_account'    =>'yuran@winbywin.com',//支付宝账号
+        'min_money' =>100,//提现最小金额，单位分
     ],
 ];

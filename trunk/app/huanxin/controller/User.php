@@ -9,6 +9,8 @@ use app\common\model\UserCorporation;
 use app\common\model\Employer;
 use app\huanxin\service\Api;
 use app\huanxin\service\OverTimeRedEnvelope;
+use app\huanxin\service\TakeCash as TakeCashService;
+use app\huanxin\model\TakeCash as TakeCashModel;
 
 class User
 {
@@ -292,9 +294,36 @@ class User
         return json_encode(['status'=>true,'message'=>'SUCCESS','left_money'=>$left_money],true);
     }
 
+    /**
+     * 设置用户支付宝账号
+     * @param userid
+     * @param access_token
+     * @param alipay_account 支付宝账号，手机号或者邮箱格式
+     * @return array|string
+     */
     public function setAlipayAccount()
     {
-        //TODO
+        $userid = input('param.userid');
+        $access_token = input('param.access_token');
+        $alipay_account = input('param.alipay_account');
+        $info['status'] = false;
+        if (!check_alipay_account($alipay_account)) {
+            $info['message'] = '支付宝账号格式不正确';
+            return json_encode($info,true);
+        }
+        $chk_info = $this->checkUserAccess($userid, $access_token);
+        if (!$chk_info['status']) {
+            return $chk_info;
+        }
+        $data = ['alipay_account'=>$alipay_account];
+        $r = $this->employM->setSingleEmployerInfobyId($chk_info['userinfo']['id'],$data);
+        if ($r >= 0) {
+            $info['status'] = true;
+            $info['message'] = '设置支付宝账号成功';
+        } else {
+            $info['message'] = '设置支付宝账号失败';
+        }
+        return json_encode($info,true);
     }
 
     public function depositMoney()
@@ -302,6 +331,14 @@ class User
         //TODO
     }
 
+    /**
+     * 用户从系统提现到个人支付宝
+     * @param userid 用户tel
+     * @param paypassword 支付密码
+     * @param access_token
+     * @param take_money 单位元，3.33
+     * @return string
+     */
     public function transMoney()
     {
         $userid = input('param.userid');
@@ -325,23 +362,97 @@ class User
         if (!$chk_info['status']) {
             return $chk_info;
         }
-        if (empty($chk_info['alipay_account'])) {
+        if (empty($chk_info['userinfo']['alipay_account'])) {
             $info['message'] = '您的支付宝收款账号未设置';
             return json_encode($info,true);
         }
-        if (empty($chk_info['pay_password'])) {
+        if (empty($chk_info['userinfo']['pay_password'])) {
             $info['message'] = '您的支付密码未设置';
             return json_encode($info,true);
         }
-        if (md5($password) != $chk_info['pay_password']) {
+        if (md5($password) != $chk_info['userinfo']['pay_password']) {
             $info['message'] = '支付密码错误';
             return json_encode($info,true);
         }
-        $take_money = intval($take_money*100);
-        if ($chk_info['take_money'] < $take_money) {
+        $fen_money = intval($take_money*100);
+        if ($chk_info['userinfo']['left_money'] < $fen_money) {
             $info['message'] = '余额不足，无法提现';
             return json_encode($info,true);
         }
+        $order_num = 'guguo_tran_money'.date('YmdHis',time()).time();
+        $handle_cash = new TakeCashService();
+        $trans_data = [
+            'order_num' =>$order_num,
+            'recv_account'=>$chk_info['userinfo']['alipay_account'],
+            'take_money'    =>$take_money,
+            'remark'    =>'用户提现，金额为'.$take_money.'元'
+        ];
+        $res = $handle_cash->handleCash($chk_info['corp_id'],$trans_data);
+        if (!$res['status']) {
+            return json_encode($res,true);
+        }
+
+        //employer表更改
+        $change_data = [
+            'left_money'=>['exp',"left_money - $fen_money"]
+        ];
+        //take_cash表更改
+        $record_data = [
+            'userid'         =>$chk_info['userinfo']['id'],
+            'take_money'     =>$fen_money,
+            'status'          => 1,
+            'alipay_account' =>$chk_info['userinfo']['alipay_account'],
+            'truename'        =>$chk_info['userinfo']['truename'],
+            'took_time'       =>time(),
+            'order_number'    =>$order_num
+        ];
+        $takeCashM = new TakeCashModel($chk_info['corp_id']);
+        $this->employM->link->startTrans();
+        try{
+            $de_money = $this->employM->setSingleEmployerInfobyId($chk_info['userinfo']['id'],$change_data);
+            $take_cash = $takeCashM->addOrderNumber($record_data);
+            $b = write_log($chk_info['userinfo']['id'],4,'用户提现，金额为'.$fen_money.'分',$chk_info['corp_id']);
+        }catch (\Exception $e){
+            $this->employM->link->rollback();
+            send_mail('wangqiwen@winbywin.com','提现问题','向员工转账成功，后台记录更改失败'.json_encode($trans_data)
+            ,true);
+        }
+        if ($de_money > 0 && $take_cash > 0 && $b > 0) {
+            $this->employM->link->commit();
+            $info['status'] = true;
+            $info['message'] = '用户提现成功，请登陆支付宝查看';
+            $info['order_number'] = $order_num;
+        } else {
+            $this->employM->link->rollback();
+            $info['message'] = '用户提现成功，写入后台记录失败，请联系管理员';
+            write_log($chk_info['userinfo']['id'],4,'用户提现，金额为'.$fen_money.'分',$chk_info['corp_id']);
+            send_mail('wangqiwen@winbywin.com','提现问题','向员工转账成功，后台记录更改失败'.json_encode($trans_data)
+                ,true);
+        }
+        return json_encode($info,true);
+    }
+
+    public function transMoneyUserToUser()
+    {
+        $userid = input('param.userid');
+        $access_token = input('param.access_token');
+        $to_user = input('param.touserid');
+        $money = input('param.money');
+        $info['status'] = false;
+
+        if (intval($money*100) < 1 ) {
+            $info['message'] = '转账金额过少';
+            return json_encode($info,true);
+        }
+        if (!preg_match('/^[0-9]{1,30}\.[0-9]{1,2}$/',$money)) {
+            $info['message'] = '转账金额格式不正确';
+            return json_encode($info,true);
+        }
+        $chk_info = $this->checkUserAccess($userid, $access_token);
+        if (!$chk_info['status']) {
+            return $chk_info;
+        }
+
 
     }
 

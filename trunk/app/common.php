@@ -32,6 +32,20 @@ function check_tel ($tel) {
 }
 
 /**
+ * 验证填写支付宝账号格式
+ * @param $alipay
+ * @return bool
+ */
+function check_alipay_account ($alipay) {
+    if (preg_match('/^(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}/',$alipay)) {
+        return true;
+    } elseif (preg_match('/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i',$alipay)) {
+        return true;
+    }
+    return false;
+}
+
+/**
  * 整合职位id和职位名称，批量获取用户信息时使用
  * @param $friendsInfo 用户信息二维数组
  * @param $corp_id 公司代号
