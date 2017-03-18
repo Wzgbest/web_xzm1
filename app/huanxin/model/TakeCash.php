@@ -6,7 +6,6 @@
 namespace app\huanxin\model;
 
 use app\common\model\Base;
-import('');
 
 class TakeCash extends Base
 {
@@ -16,8 +15,14 @@ class TakeCash extends Base
         $this->table = config('database.prefix').'take_cash';
         parent::__construct($corp_id);
     }
-    public function getCash()
+
+    /**
+     * 添加订单信息
+     * @param $data
+     * @return int|string
+     */
+    public function addOrderNumber($data)
     {
-//        $this->model->
+        return $this->model->table($this->table)->insert($data);
     }
 }
