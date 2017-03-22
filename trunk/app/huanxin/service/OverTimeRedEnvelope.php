@@ -63,7 +63,6 @@ class OverTimeRedEnvelope
                 'userid'=> $this->userid,
                 'take_money'=>$money,
                 'status'=>2,
-                'truename'=>$chk_info['userinfo']['truename'],
                 'took_time'=>$time,
                 'remark' => '红包到期返还'
             ];

@@ -286,9 +286,11 @@ class User
         if (!$chk_info['status']) {
             return $chk_info;
         }
-        $redM = new OverTimeRedEnvelope($chk_info['userinfo']['id'],$chk_info['corp_id']);
-        $b = $redM->sendBackOverTimeRed();
-        if (!$b) {
+//        $redM = new OverTimeRedEnvelope($chk_info['userinfo']['id'],$chk_info['corp_id']);
+//        $b = $redM->sendBackOverTimeRed();
+        $params = json_encode(['userid'=>$chk_info['userinfo']['id'],'corp_id'=>$chk_info['corp_id']],true);
+        $b = \think\Hook::listen('check_over_time_red',$params);
+        if (!$b[0]) {
             return json_encode(['status'=>false,'message'=>'账户余额查询请求失败，联系管理员'],true);
         }
         $res = $this->employM->getEmployer($userid);
@@ -406,7 +408,6 @@ class User
             'take_money'     => -$fen_money,
             'status'          => 1,
             'alipay_account' =>$chk_info['userinfo']['alipay_account'],
-            'truename'        =>$chk_info['userinfo']['truename'],
             'took_time'       =>time(),
             'order_number'    =>$order_num,
             'remark'    =>'用户提现，金额为'.$fen_money.'分'
@@ -519,7 +520,6 @@ class User
             'userid'=>$chk_info['userinfo']['id'],
             'take_money'=>-$take_money,
             'status'=>1,
-            'truename'=>$chk_info['userinfo']['truename'],
             'took_time'=>$time,
             'to_userid'=>$to_userinfo['id'],
             'remark' => '从余额转出'
@@ -529,7 +529,6 @@ class User
             'userid'=>$to_userinfo['id'],
             'take_money'=>$take_money,
             'status'=>2,
-            'truename'=>$to_userinfo['truename'],
             'took_time'=>$time,
             'from_userid'=>$chk_info['userinfo']['id'],
             'remark' => '收到转账'
