@@ -97,9 +97,8 @@ class RedEnvelope extends Base
      * @return int|string
      * @throws \think\Exception
      */
-    public function setOverTimeRed($ids)
+    public function setOverTimeRed($ids,$time)
     {
-        $time = time();
         return $this->model->table($this->table)->where("id in($ids)")->update(['is_token'=>2,'sendback_time'=>$time]);
     }
 

@@ -7,7 +7,7 @@ namespace app\common\model;
 
 use think\Db;
 
-class Corporation
+class Corporation extends Db
 {
     /**
      * 根据公司代号查询
@@ -16,13 +16,23 @@ class Corporation
      */
     public static function getCorporation($corp_id)
     {
-        return Db::name('corporation')->where('corp_id',$corp_id)->field('id,corp_id,corp_name')->find();
-//        return $this->field('id,corp_id,corp_name')->where(array('corp_id'=>$corp_id))->find();
-//        return self::where('corp_id',$corp_id)->column('id','corp_id','corp_name');
+        return Db::name('corporation')->where('corp_id',$corp_id)->find();
     }
 
     public static function getAllCorpIds()
     {
         return Db::name('corporation')->field('corp_id')->select();
+    }
+
+    /**
+     * 更新公司表信息
+     * @param $corp_id
+     * @param $data
+     * @return int|string
+     * @throws \think\Exception
+     */
+    public static function setCorporationInfo($corp_id,$data)
+    {
+        return Db::name('corporation')->where('corp_id',$corp_id)->update($data);
     }
 }
