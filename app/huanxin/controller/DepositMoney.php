@@ -108,6 +108,11 @@ class DepositMoney
             $info['message'] = '提交的订单不存在';
             return json_encode($info,true);
         }
+        if ($trade_info['status'] ==1) {
+            $info['message'] = '该订单已在系统中充值，不要重复提交';
+            write_log($r['userinfo']['id'],0,'app充值刷单嫌疑',$r['corp_id']);
+            return json_encode($info,true);
+        }
         $depoM = new DepositMoneyService();
         $res = $depoM->queryTradeNumber($trade_no,$out_trade_no,$money);
         if (!$res['status']) {
@@ -122,7 +127,6 @@ class DepositMoney
             'userid'=>$r['userinfo']['id'],
             'take_money'=> $total_money,
             'status'=>2,
-            'truename'=>$r['userinfo']['truename'],
             'took_time'=>time(),
             'remark' => '用户充值'
         ];

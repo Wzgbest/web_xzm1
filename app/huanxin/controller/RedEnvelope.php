@@ -10,6 +10,7 @@ use app\huanxin\model\RedEnvelope as RedB;
 use app\common\model\Employer;
 use app\huanxin\service\OverTimeRedEnvelope;
 use app\huanxin\model\TakeCash;
+use think\Hook;
 
 class RedEnvelope
 {
@@ -73,7 +74,6 @@ class RedEnvelope
             'userid'=>$r['userinfo']['id'],
             'take_money'=> -$de_money,
             'status'=>1,
-            'truename'=>$r['userinfo']['truename'],
             'took_time'=>$time,
             'remark' => '创建红包'
         ];
@@ -137,8 +137,10 @@ class RedEnvelope
             return json_encode($info,true);
         }
         if (time()>($red_data['create_time']+config('red_envelope.overtime'))) {
-            $redOver = new OverTimeRedEnvelope($r['userinfo']['id'],$r['corp_id'],$red_data);
-            $b = $redOver->sendBackOverTimeRed();
+            $params = json_encode(['userid'=>$r['userinfo']['id'],'corp_id'=>$r['corp_id'],'red_data'=>$red_data],true);
+            Hook::listen('check_over_time_red',$params);
+//            $redOver = new OverTimeRedEnvelope($r['userinfo']['id'],$r['corp_id'],$red_data);
+//            $b = $redOver->sendBackOverTimeRed();
             $info['message'] = '红包已经过期';
             return json_encode($info,true);
         }
@@ -157,7 +159,6 @@ class RedEnvelope
             'userid'=>$r['userinfo']['id'],
             'take_money'=>$red_money,
             'status'=>2,
-            'truename'=>$r['userinfo']['truename'],
             'took_time'=>time(),
             'remark' => '领取红包'
         ];
