@@ -265,8 +265,7 @@ return [
     ],
     //app红包相关
     'red_envelope' =>[
-//        'max_money_rate' => 1.61,//单个红包最高金额相对平均金额
-//        'min_money' => 0.01,
+        //超时时间，单位秒
         'overtime' => 3600*24
     ],
     //提现相关

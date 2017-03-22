@@ -272,7 +272,7 @@ function write_log ($userid,$type,$remark,$corp_id='') {
 
 /**
  * 生成随机红包
- * @param $total 总金额
+ * @param $total 总金额 单位元，3.33
  * @param $num  个数
  * @param float $min 最小红包金额
  * @return array
@@ -281,6 +281,7 @@ function get_red_bonus ($total,$num,$min=0.01) {
     $arr= array();
     for ($i=1;$i<$num;$i++) {
         $safe_total=($total-($num-$i)*$min)/($num-$i);
+        $safe_total = $safe_total<$min ?$min:$safe_total;
         $money=mt_rand($min*100,$safe_total*100)/100;
         $money=number_format($money, 2, '.', '');
         $total=$total-$money;

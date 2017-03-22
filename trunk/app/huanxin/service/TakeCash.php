@@ -7,7 +7,8 @@ namespace app\huanxin\service;
 
 import('myimport.alipaysdk.aop.AopClient',EXTEND_PATH);
 import('myimport.alipaysdk.aop.request.AlipayFundTransToaccountTransferRequest',EXTEND_PATH);
-use app\common\model\CorporationAlipay;
+import('myimport.alipaysdk.aop.AlipayConfig',EXTEND_PATH);
+//use app\common\model\CorporationAlipay;//多公司appid使用，暂废弃
 
 class TakeCash
 {
@@ -18,15 +19,16 @@ class TakeCash
      * @return array
      * @throws \Exception
      */
-    public function handleCash($corp_id,$trans_data)
+    public function handleCash($trans_data)
     {
         $aop = new \AopClient();
-        $alipay_config = new CorporationAlipay();
-        $config = $alipay_config->getAlipaySetting($corp_id);
-        $aop->gatewayUrl = 'https://openapi.alipaydev.com/gateway.do';
-        $aop->appId = $config['alipay_appid'];
-        $aop->alipayrsaPublicKey = $config['alipay_public_key'];
-        $aop->rsaPrivateKey = $config['alipay_private_key'];
+        $alipay_config = new \AlipayConfig();
+        $config = $alipay_config->getAlipaySetting();
+        $aop->gatewayUrl = 'https://openapi.alipaydev.com/gateway.do';//TODO 测试开启
+        $aop->appId = $config['appid'];
+        $aop->alipayrsaPublicKey = $config['public_key'];
+//        $aop->rsaPrivateKey = $config['alipay_private_key'];//用密钥字符串
+        $aop->rsaPrivateKeyFilePath = $config['private_key_path'];
         $aop->signType = 'RSA2';
         unset($config);
 

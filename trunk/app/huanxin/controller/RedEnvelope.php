@@ -9,6 +9,7 @@ use app\huanxin\controller\User;
 use app\huanxin\model\RedEnvelope as RedB;
 use app\common\model\Employer;
 use app\huanxin\service\OverTimeRedEnvelope;
+use app\huanxin\model\TakeCash;
 
 class RedEnvelope
 {
@@ -21,7 +22,7 @@ class RedEnvelope
      * @param \app\huanxin\controller\User $user
      * @param userid
      * @param access_token
-     * @param totalmoney
+     * @param totalmoney 单位元 3.33
      * @param num
      * @return string
      */
@@ -29,9 +30,23 @@ class RedEnvelope
     {
         $userid = input('param.userid');
         $access_token = input('param.access_token');
-        $total_money = intval(input('param.totalmoney'));
+        $total_money = input('param.totalmoney');
         $num = intval(input('param.num'));
 
+        $red_money = intval($total_money*100);
+        $info['status'] = false;
+        if ($red_money < 1 ) {
+            $info['message'] = '创建红包的总金额过少';
+            return json_encode($info,true);
+        }
+        if (!preg_match('/^[0-9]{1,30}\.[0-9]{1,2}$/',$total_money)) {
+            $info['message'] = '红包总金额格式不正确';
+            return json_encode($info,true);
+        }
+        if ($num > $red_money) {
+            $info['message'] = '创建红包的总金额过少';
+            return json_encode($info,true);
+        }
         $r = $user->checkUserAccess($userid,$access_token);
         if (!$r['status']) {
             return json_encode($r,true);
@@ -40,34 +55,47 @@ class RedEnvelope
         $data = get_red_bonus($total_money,$num);
         $red_id = md5(time().rand(1000,9999));
         $indata=[];
+        $time = time();
+        //红包数据
         foreach ($data as $key => $val) {
             $indata[$key]['money'] = $val;
             $indata[$key]['fromuser'] = $r['userinfo']['id'];
             $indata[$key]['redid'] = $red_id;
-            $indata[$key]['create_time'] = time();
+            $indata[$key]['create_time'] = $time;
             $indata[$key]['total_money'] = $total_money;
         }
         $redM = new RedB($r['corp_id']);
-        $employerM = new Employer($r['corp_id']);
+        $cashM = new TakeCash($r['corp_id']);
 
         $de_money = $total_money*100;
+        //take_cash表记录
+        $order_data = [
+            'userid'=>$r['userinfo']['id'],
+            'take_money'=> -$de_money,
+            'status'=>1,
+            'truename'=>$r['userinfo']['truename'],
+            'took_time'=>$time,
+            'remark' => '创建红包'
+        ];
         $info['status'] = false;
         $redM->link->startTrans();
         try{
             $res = $redM->createRedId($indata);
-            $de = $employerM->setEmployerSingleInfo($userid,['left_money'=>['exp',"left_money - $de_money"]]);
+            $de = $user->employM->setEmployerSingleInfo($userid,['left_money'=>['exp',"left_money - $de_money"]]);
+            $cash_rec = $cashM->addOrderNumber($order_data);
         }catch(\Exception $e){
             $redM->link->rollback();
             $info['message'] = '生成红包失败';
         }
-        if ($res >0 && $de >0) {
+        if ($res >0 && $de >0 && $cash_rec > 0) {
             $redM->link->commit();
-            write_log($r['userinfo']['id'],2,'用户创建红包,总金额'.$de_money.'分，共'.$num.'个',$r['corp_id']);
+            write_log($r['userinfo']['id'],2,'用户创建红包成功,总金额'.$de_money.'分，共'.$num.'个',$r['corp_id']);
             $info['status'] = true;
             $info['message'] = '生成红包成功';
             $info['redid'] = $red_id;
         } else {
             $redM->link->rollback();
+            write_log($r['userinfo']['id'],2,'用户创建红包失败,总金额'.$de_money.'分，共'.$num.'个',$r['corp_id']);
             $info['message'] = '生成红包失败';
         }
         return json_encode($info,true);
@@ -116,20 +144,33 @@ class RedEnvelope
         }
 
         $red_money = $red_data['money']*100;
+        //余额增加
         $add = ['left_money'=>['exp',"left_money + $red_money"]];
+        //红包领取状态改变
         $records = [
             'took_time'=>time(),
             'is_token' =>1,
             'took_user' => $r['userinfo']['id']
         ];
+        //take_cash记录
+        $cash_data = [
+            'userid'=>$r['userinfo']['id'],
+            'take_money'=>$red_money,
+            'status'=>2,
+            'truename'=>$r['userinfo']['truename'],
+            'took_time'=>time(),
+            'remark' => '领取红包'
+        ];
+        $cashM = new TakeCash($r['corp_id']);
         $redM->link->startTrans();
         try{
             $res = $redM->setOneRedId($red_data['id'],$records);
             $re = $employerM->setEmployerSingleInfo($userid,$add);
+            $cash_rec = $cashM->addOrderNumber($cash_data);
         }catch(\Exception $e){
             $redM->link->rollback();
         }
-        if ($res > 0 && $re > 0) {
+        if ($res > 0 && $re > 0 && $cash_rec > 0) {
             $redM->link->commit();
             write_log($r['userinfo']['id'],2,'用户领取红包,金额'.$red_money.'分',$r['corp_id']);
             $info['message'] = '恭喜领取成功';
