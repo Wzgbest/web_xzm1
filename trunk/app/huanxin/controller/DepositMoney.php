@@ -5,10 +5,12 @@
  */
 namespace app\huanxin\controller;
 
+use app\common\model\Corporation;
 use app\huanxin\controller\User;
 use app\huanxin\model\TakeCash;
 use app\huanxin\service\DepositMoney as DepositMoneyService;
 use app\huanxin\model\AppAlipayTrade;
+use app\common\model\Employer;
 
 class DepositMoney
 {
@@ -158,9 +160,57 @@ class DepositMoney
         return json_encode($info,true);
     }
 
+    /**
+     * 接收支付宝异步通知
+     * @return string
+     */
     public function getNotifyNotice()
     {
-        //notify_url  http://webcall.app/index.php/huanxin/deposit_money/getNotifyNotice
 //        payment_type=1&subject=C03-3721111-7421110&trade_no=2014112400001000340011111111&buyer_email=sherry.adfa%40aa.com&gmt_create=2014-11-24+00%3A21%3A52&notify_type=trade_status_sync&quantity=1&out_trade_no=1511111180&seller_id=2088001111111152&notify_time=2014-11-24+00%3A22%3A07&body=Amazon&trade_status=TRADE_SUCCESS&is_total_fee_adjust=N&total_fee=173.36&gmt_payment=2014-11-24+00%3A22%3A07&seller_email=payadad%40aadfad.com&price=173.36&buyer_id=20880024011111110&notify_id=bb7620a82f057fadfadfa1d05d05be77fc3w&use_coupon=N&sign_type=RSA&sign=AqDeHSqY%2BwcYy0bTSAaVoyTGTYOOkXm6KEKlJ6LIaefDOdX%2F3adfalkdfjaldkfjaldlGrkVJNqcL5Lf2%2BX2SGH4jPl9E5PbsAgFq0LQGT4kvhTdcOGqaOcjYRt3TScJnoFn%2B3biV3P2%2FiBuRTdVuOgivkkjG%2BNDLKTDAgTxDNM%3D
+        $raw_data=input('param.');
+        $depositM = new DepositMoneyService();
+//        $alipaySevice->writeLog(var_export($_POST,true));
+        $info['status'] = false;
+        $out_trade_no = $raw_data['out_trade_no'];
+        $alipay_info = AppAlipayTrade::getTradeInfo($out_trade_no);
+        $result = $depositM->checkAlipaySign($raw_data,$alipay_info);
+        if (!$result) {
+            return 'fail';
+        } else {
+            $corp_id = Corporation::getCorporation($alipay_info['corp_id']);
+            $employM = new Employer($corp_id);
+            $cashM = new TakeCash($corp_id);
+            $in_money = $alipay_info['money'];
+            $in_data = [
+                'left_money' => ['exp' => "$in_money + left_money"]
+            ];
+            $cash_data = [
+                'userid'=>$alipay_info['userid'],
+                'take_money'=> $in_money,
+                'status'=>2,
+                'took_time'=>time(),
+                'remark' => '用户充值'
+            ];
+            $employM->link->startTrans();
+            Corporation::startTrans();
+            try{
+                $add = $employM->setSingleEmployerInfobyId($alipay_info['userid'],$in_data);
+                $cash_rec = $cashM->addOrderNumber($cash_data);
+            }catch (\Exception $e){
+                $employM->link->rollback();
+                Corporation::rollback();
+                return 'fail';
+            }
+            if ($add > 0 && $cash_rec > 0) {
+                $employM->link->commit();
+                Corporation::commit();
+                write_log($alipay_info['userid'],5,'用户充值成功,总金额'.$in_money.'分',$corp_id);
+                return 'success';
+            } else {
+                $employM->link->rollback();
+                Corporation::rollback();
+                return 'fail';
+            }
+        }
     }
 }
