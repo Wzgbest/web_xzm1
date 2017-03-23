@@ -19,6 +19,16 @@ class Corporation extends Db
         return Db::name('corporation')->where('corp_id',$corp_id)->find();
     }
 
+    /**
+     * 根据id查询
+     * @param $id 公司表id
+     * @return array|false|\PDOStatement|string|\think\Model
+     */
+    public static function getCorpId ($id)
+    {
+        return Db::name('corporation')->where('id',$id)->find();
+    }
+
     public static function getAllCorpIds()
     {
         return Db::name('corporation')->field('corp_id')->select();
