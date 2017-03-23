@@ -13,18 +13,18 @@ return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    //'hostname'        => 'localhost',
+//    'hostname'        => 'localhost',
     'hostname'        => '112.253.21.74',
     // 数据库名
     'database'        => 'guguocrm',
     // 用户名
-    //'username'        => 'root',
+//    'username'        => 'root',
     'username'        => 'zxwz',
     // 密码
-    //'password'        => 'root',
+//    'password'        => 'root',
     'password'        => '123456',
     // 端口
-    //'hostport'        => '',
+//    'hostport'        => '3306',
     'hostport'        => '3307',
     // 连接dsn
     'dsn'             => '',

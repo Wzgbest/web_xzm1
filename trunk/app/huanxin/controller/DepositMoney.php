@@ -157,4 +157,10 @@ class DepositMoney
         }
         return json_encode($info,true);
     }
+
+    public function getNotifyNotice()
+    {
+        //notify_url  http://webcall.app/index.php/huanxin/deposit_money/getNotifyNotice
+//        payment_type=1&subject=C03-3721111-7421110&trade_no=2014112400001000340011111111&buyer_email=sherry.adfa%40aa.com&gmt_create=2014-11-24+00%3A21%3A52&notify_type=trade_status_sync&quantity=1&out_trade_no=1511111180&seller_id=2088001111111152&notify_time=2014-11-24+00%3A22%3A07&body=Amazon&trade_status=TRADE_SUCCESS&is_total_fee_adjust=N&total_fee=173.36&gmt_payment=2014-11-24+00%3A22%3A07&seller_email=payadad%40aadfad.com&price=173.36&buyer_id=20880024011111110&notify_id=bb7620a82f057fadfadfa1d05d05be77fc3w&use_coupon=N&sign_type=RSA&sign=AqDeHSqY%2BwcYy0bTSAaVoyTGTYOOkXm6KEKlJ6LIaefDOdX%2F3adfalkdfjaldkfjaldlGrkVJNqcL5Lf2%2BX2SGH4jPl9E5PbsAgFq0LQGT4kvhTdcOGqaOcjYRt3TScJnoFn%2B3biV3P2%2FiBuRTdVuOgivkkjG%2BNDLKTDAgTxDNM%3D
+    }
 }
