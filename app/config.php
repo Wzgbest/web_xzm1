@@ -246,6 +246,16 @@ return [
         'charset'     => 'utf8',
         'prefix'      => 'guguo_',
     ],
+//    'db_config1'    =>  [
+//        'type'        => 'mysql',
+//        'hostname'    => 'localhost',
+//        'database'    => '',
+//        'username'    => 'root',
+//        'password'    => 'root',
+//        'hostport'    => '3306',
+//        'charset'     => 'utf8',
+//        'prefix'      => 'guguo_',
+//    ],
     'db_common_prefix'=>'guguo_',//分库前缀
     //sms短信账号
     'sms_workid'    => '',

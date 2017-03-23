@@ -15,6 +15,12 @@ class Login extends Controller
         return 'index';
     }
 
+    /**
+     * app端登录
+     * @param telephone
+     * @param password
+     * @return string
+     */
     public function verifyLogin()
     {
         $input = input('param.');

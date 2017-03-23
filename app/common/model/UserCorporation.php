@@ -17,7 +17,5 @@ class UserCorporation
     public static function getUserCorp($tel)
     {
         return Db::name('user_corporation')->where('telephone',$tel)->value('corp_name');
-//        return $this->where(array('telephone'=>$tel))->getField('corp_name');
-//        return self::get(['telephone'=>$tel])->getAttr('corp_name');
     }
 }
