@@ -77,7 +77,6 @@ class RedEnvelope
             'took_time'=>$time,
             'remark' => '创建红包'
         ];
-        $info['status'] = false;
         $redM->link->startTrans();
         try{
             $res = $redM->createRedId($indata);

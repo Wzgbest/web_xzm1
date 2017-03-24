@@ -81,12 +81,13 @@ class Login extends Controller
         $occup = $occuM->getOccupation($user_arr['id']);
         $data =['lastloginip'=>$ip,'lastlogintime'=>time()];
         if ($model->setEmployerSingleInfo($telephone,$data) <= 0) {
-            $reg_reg['message'] = '登陆信息写入失败，联系管理员';
+            $reg_reg['message'] = '登录信息写入失败，联系管理员';
             $reg_reg['errnum'] = 7;
             return json_encode($reg_reg,true);
         }
         $req_reg['message'] = 'SUCCESS';
         $req_reg['status'] = true;
+        $req_reg['errnum'] = 0;
         $req_reg['nickname'] = $user_arr['truename'];
         $req_reg['userpic'] = $user_arr['userpic'];
         $req_reg['userscore'] = $score['score'];

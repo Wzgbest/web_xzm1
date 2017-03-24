@@ -162,27 +162,40 @@ class DepositMoney
 
     /**
      * 接收支付宝异步通知
+     * http://webcall.app/index.php/huanxin/deposit_money/getNotifyNotice?notify_time=2017-03-24 09:40:49&notify_type=trade_status_sync&notify_id=4a91b7a78a503640467525113fb7d8bg8e&app_id=2016080200150817&charset=utf-8&version=1.0&sign_type=RSA2&sign=kPbQIjX+xQc8F0/A6/AocELIjhhZnGbcBN6G4MM/HmfWL4ZiHM6fWl5NQhzXJusaklZ1LFuMo+lHQUELAYeugH8LYFvxnNajOvZhuxNFbN2LhF0l/KL8ANtj8oyPM4NN7Qft2kWJTDJUpQOzCzNnV9hDxh5AaT9FPqRS6ZKxnzM=&trade_no=2016071921001003030200089909&out_trade_no=guguo_app_pay1490085658396691&total_amount=200.00&trade_status=TRADE_SUCCESS&seller_id=2088102169636639
+     * 通知消息中必含
+     *  notify_time=2016-07-19 14:10:49
+        notify_type=trade_status_sync
+        notify_id=4a91b7a78a503640467525113fb7d8bg8e
+        app_id=2016080200150817
+        charset=utf-8
+        version=1.0
+        sign_type=RSA2
+        sign=kPbQIjX+xQc8F0/A6/AocELIjhhZnGbcBN6G4MM/HmfWL4ZiHM6fWl5NQhzXJusaklZ1LFuMo+lHQUELAYeugH8LYFvxnNajOvZhuxNFbN2LhF0l/KL8ANtj8oyPM4NN7Qft2kWJTDJUpQOzCzNnV9hDxh5AaT9FPqRS6ZKxnzM=
+        trade_no=2016071921001003030200089909
+        out_trade_no=0719141034-6418
+        total_amount=2.00
+        trade_status=TRADE_SUCCESS
+        seller_id=2088102169636639
+     *
      * @return string
      */
     public function getNotifyNotice()
     {
-//        payment_type=1&subject=C03-3721111-7421110&trade_no=2014112400001000340011111111&buyer_email=sherry.adfa%40aa.com&gmt_create=2014-11-24+00%3A21%3A52&notify_type=trade_status_sync&quantity=1&out_trade_no=1511111180&seller_id=2088001111111152&notify_time=2014-11-24+00%3A22%3A07&body=Amazon&trade_status=TRADE_SUCCESS&is_total_fee_adjust=N&total_fee=173.36&gmt_payment=2014-11-24+00%3A22%3A07&seller_email=payadad%40aadfad.com&price=173.36&buyer_id=20880024011111110&notify_id=bb7620a82f057fadfadfa1d05d05be77fc3w&use_coupon=N&sign_type=RSA&sign=AqDeHSqY%2BwcYy0bTSAaVoyTGTYOOkXm6KEKlJ6LIaefDOdX%2F3adfalkdfjaldkfjaldlGrkVJNqcL5Lf2%2BX2SGH4jPl9E5PbsAgFq0LQGT4kvhTdcOGqaOcjYRt3TScJnoFn%2B3biV3P2%2FiBuRTdVuOgivkkjG%2BNDLKTDAgTxDNM%3D
         $raw_data=input('param.');
         $depositM = new DepositMoneyService();
-//        $alipaySevice->writeLog(var_export($_POST,true));
-        $info['status'] = false;
         $out_trade_no = $raw_data['out_trade_no'];
         $alipay_info = AppAlipayTrade::getTradeInfo($out_trade_no);
         $result = $depositM->checkAlipaySign($raw_data,$alipay_info);
         if (!$result) {
             return 'fail';
         } else {
-            $corp_id = Corporation::getCorporation($alipay_info['corp_id']);
-            $employM = new Employer($corp_id);
-            $cashM = new TakeCash($corp_id);
+            $corp_id = Corporation::getCorpId($alipay_info['corp_id']);
+            $employM = new Employer($corp_id['corp_id']);
+            $cashM = new TakeCash($corp_id['corp_id']);
             $in_money = $alipay_info['money'];
             $in_data = [
-                'left_money' => ['exp' => "$in_money + left_money"]
+                'left_money' => ['exp', "left_money + $in_money"]
             ];
             $cash_data = [
                 'userid'=>$alipay_info['userid'],
@@ -204,7 +217,7 @@ class DepositMoney
             if ($add > 0 && $cash_rec > 0) {
                 $employM->link->commit();
                 Corporation::commit();
-                write_log($alipay_info['userid'],5,'用户充值成功,总金额'.$in_money.'分',$corp_id);
+                write_log($alipay_info['userid'],5,'用户充值成功,总金额'.$in_money.'分',$corp_id['corp_id']);
                 return 'success';
             } else {
                 $employM->link->rollback();

@@ -18,6 +18,7 @@ use app\common\model\CorporationCash;
 class User
 {
     public $employM;
+    public $errnum;
 
     /**
      * 根据用户id,access_token 获取所有用户列表
@@ -34,7 +35,7 @@ class User
         $access_token = input('param.access_token');
         $chk_info = $this->checkUserAccess($userid, $access_token);
         if (!$chk_info['status']) {
-            return $chk_info;
+            return json_encode($chk_info,true);
         }
         $friendsInfo = $this->employM->getAllUsers();
         $friendsInfo = get_struct_name($friendsInfo, $chk_info['corp_id']);
@@ -54,7 +55,7 @@ class User
         $access_token = input('param.access_token');
         $chk_info = $this->checkUserAccess($userid, $access_token);
         if (!$chk_info['status']) {
-            return $chk_info;
+            return json_encode($chk_info,true);
         }
         $friends_tel = $this->employM->getAllTels();
         $info = ['status' => true, 'message' => 'SUCCESS', 'friendsTel' => $friends_tel];
@@ -71,10 +72,12 @@ class User
         $info['status'] = false;
         if (!check_tel($userid)) {
             $info['message'] = '手机号码格式不正确';
+            $info['errnum'] = 1;
             return json_encode($info, true);
         }
         if (!get_corpid($userid)) {
             $info['message'] = '非系统用户';
+            $info['errnum'] = 2;
             return json_encode($info,true);
         }
         $code = rand(100000, 999999);
@@ -83,6 +86,7 @@ class User
         $res = send_sms($userid, $code, $content);
         if ($res['status'] == false) {
             $info['message'] = $res['message'];
+            $info['errnum'] = 3;
             return json_encode($info, true);
         }
         $info['message'] = '发送成功';
@@ -101,21 +105,25 @@ class User
         $code = input('param.smscode');
         $info['status'] = false;
         if (!$code) {
-            $info['message'] = '手机验证码不正确';
+            $info['message'] = '手机验证码为空';
+            $info['errnum'] = 1;
             return json_encode($info, true);
         }
         if (!check_tel($userid)) {
             $info['message'] = '手机号码格式不正确';
+            $info['errnum'] = 2;
             return json_encode($info, true);
         }
         $corp_id = get_corpid($userid);
         if (!$corp_id) {
             $info['message'] = '非系统用户';
+            $info['errnum'] = 3;
             return json_encode($info,true);
         }
         $ini_code = session('reset_code' . $userid);
         if ($ini_code != $code) {
             $info['message'] = '手机验证码不正确';
+            $info['errnum'] = 4;
             return json_encode($info, true);
         }
         $apiM = new Api();
@@ -131,9 +139,11 @@ class User
             write_log($r_userid['id'],1,'用户修改登录密码',$corp_id);
             $info['status'] = true;
             $info['message'] = '修改成功，请重新登陆';
+            $info['errnum'] = 0;
             session('reset_code'.$userid, null);
         } else {
             $info['message'] = '修改环信密码失败，联系管理员';
+            $info['errnum'] = 5;
         }
         return json_encode($info, true);
     }
@@ -150,15 +160,17 @@ class User
         $info['status'] = false;
         if ($user_pic == '') {
             $info['message'] = '未设置头像';
+            $info['errnum'] = 1;
             return json_encode($info,true);
         }
         $chk_info = $this->checkUserAccess($userid, $access_token);
         if (!$chk_info['status']) {
-            return $chk_info;
+            return json_encode($chk_info,true);
         }
         $img_path = get_app_img($user_pic);
         if (false ==$img_path['status']) {
-            return $img_path;
+            $img_path['errnum'] = 2;
+            return json_encode($img_path,true);
         }
         $data = ['userpic'=>$img_path['imgurl']];
         $res = $this->employM->setEmployerSingleInfo($userid,$data);
@@ -176,7 +188,7 @@ class User
         $access_token = input('param.access_token');
         $chk_info = $this->checkUserAccess($userid, $access_token);
         if (!$chk_info['status']) {
-            return $chk_info;
+            return json_encode($chk_info,true);
         }
         $paypass = $this->employM->getEmployer($userid);
         if (!empty($paypass['pay_password'])) {
@@ -255,7 +267,7 @@ class User
         $access_token = input('param.access_token');
         $chk_info = $this->checkUserAccess($userid, $access_token);
         if (!$chk_info['status']) {
-            return $chk_info;
+            return json_encode($chk_info,true);
         }
 
         $info['status'] = false;
@@ -284,7 +296,7 @@ class User
         $access_token = input('param.access_token');
         $chk_info = $this->checkUserAccess($userid, $access_token);
         if (!$chk_info['status']) {
-            return $chk_info;
+            return json_encode($chk_info,true);
         }
 //        $redM = new OverTimeRedEnvelope($chk_info['userinfo']['id'],$chk_info['corp_id']);
 //        $b = $redM->sendBackOverTimeRed();
@@ -318,7 +330,7 @@ class User
         }
         $chk_info = $this->checkUserAccess($userid, $access_token);
         if (!$chk_info['status']) {
-            return $chk_info;
+            return json_encode($chk_info,true);
         }
         $data = ['alipay_account'=>$alipay_account];
         $r = $this->employM->setSingleEmployerInfobyId($chk_info['userinfo']['id'],$data);
@@ -349,40 +361,48 @@ class User
         $info['status'] = false;
         if (empty($take_money)) {
             $info['message'] = '提现金额不能为空';
+            $info['errnum'] = 1;
             return json_encode($info,true);
         }
         if (intval($take_money*100) < config('take_cash.min_money')) {
             $info['message'] = '提现金额过少';
+            $info['errnum'] = 2;
             return json_encode($info,true);
         }
         if (!preg_match('/^[0-9]{1,30}\.[0-9]{1,2}$/',$take_money)) {
             $info['message'] = '提现金额格式不正确';
+            $info['errnum'] = 3;
             return json_encode($info,true);
         }
         $chk_info = $this->checkUserAccess($userid, $access_token);
         if (!$chk_info['status']) {
-            return $chk_info;
+            return json_encode($chk_info,true);
         }
         if (empty($chk_info['userinfo']['alipay_account'])) {
             $info['message'] = '您的支付宝收款账号未设置';
+            $info['errnum'] = 4;
             return json_encode($info,true);
         }
         if (empty($chk_info['userinfo']['pay_password'])) {
             $info['message'] = '您的支付密码未设置';
+            $info['errnum'] = 5;
             return json_encode($info,true);
         }
         if (md5($password) != $chk_info['userinfo']['pay_password']) {
             $info['message'] = '支付密码错误';
+            $info['errnum'] = 6;
             return json_encode($info,true);
         }
         $fen_money = intval($take_money*100);
         if ($chk_info['userinfo']['left_money'] < $fen_money) {
             $info['message'] = '余额不足，无法提现';
+            $info['errnum'] = 7;
             return json_encode($info,true);
         }
         $corp_left_money = Corporation::getCorporation($chk_info['corp_id']);
         if ($corp_left_money['corp_left_money'] < $fen_money) {
             $info['message'] = '贵公司账户余额不足，无法提现';
+            $info['errnum'] = 8;
             return json_encode($info,true);
         }
         $order_num = 'guguo_tran_money'.date('YmdHis',time()).time();
@@ -442,11 +462,13 @@ class User
             write_log($chk_info['userinfo']['id'],4,'用户提现，金额为'.$fen_money.'分',$chk_info['corp_id']);
             $info['status'] = true;
             $info['message'] = '用户提现成功，请登陆支付宝查看';
+            $info['errnum'] = 0;
             $info['order_number'] = $order_num;
         } else {
             $this->employM->link->rollback();
             Corporation::rollback();
             $info['message'] = '用户提现成功，写入后台记录失败，请联系管理员';
+            $info['errnum'] = 9;
             write_log($chk_info['userinfo']['id'],4,'用户提现，金额为'.$fen_money.'分',$chk_info['corp_id']);
             send_mail('wangqiwen@winbywin.com','提现问题','向员工转账成功，后台记录更改失败'.json_encode($trans_data,true));
         }
@@ -474,35 +496,42 @@ class User
 
         if ($take_money < 1 ) {
             $info['message'] = '转账金额过少';
+            $info['errnum'] = 1;
             return json_encode($info,true);
         }
         if (!preg_match('/^[0-9]{1,30}\.[0-9]{1,2}$/',$money)) {
             $info['message'] = '转账金额格式不正确';
+            $info['errnum'] = 2;
             return json_encode($info,true);
         }
         $chk_info = $this->checkUserAccess($userid, $access_token);
         if (!$chk_info['status']) {
-            return $chk_info;
+            return json_encode($chk_info,true);
         }
         if (!check_tel($to_user)) {
             $info['message'] = '用户名格式不正确';
+            $info['errnum'] = 3;
             return $info;
         }
         $to_userinfo = $this->employM->getEmployer($to_user);
         if (empty($to_userinfo)) {
             $info['message'] = '接收转账的用户不存在';
+            $info['errnum'] = 4;
             return json_encode($info,true);
         }
         if (empty($chk_info['userinfo']['pay_password'])) {
             $info['message'] = '您的支付密码未设置';
+            $info['errnum'] = 5;
             return json_encode($info,true);
         }
         if (md5($pay_pass) != $chk_info['userinfo']['pay_password']) {
             $info['message'] = '支付密码错误';
+            $info['errnum'] = 6;
             return json_encode($info,true);
         }
         if ($chk_info['userinfo']['left_money'] < $take_money) {
             $info['message'] = '账户余额不足，无法转账';
+            $info['errnum'] = 7;
             return json_encode($info,true);
         }
 
@@ -547,11 +576,13 @@ class User
             $this->employM->link->commit();
             write_log($chk_info['userinfo']['id'],3,'用户app转账成功，转至用户id'.$to_userinfo['id'].',转账金额'.$take_money.'分',$chk_info['corp_id']);
             $info['status'] = true;
+            $info['errnum'] = 0;
             $info['message'] = '转账成功';
         } else {
             $this->employM->link->rollback();
             write_log($chk_info['userinfo']['id'],3,'用户app转账失败，转至用户id'.$to_userinfo['id'].',转账金额'.$take_money.'分',$chk_info['corp_id']);
             $info['message'] = '转账失败';
+            $info['errnum'] = 8;
         }
         return json_encode($info,true);
     }
@@ -567,21 +598,25 @@ class User
         $info['status'] = false;
         if (empty($userid) || empty($access_token)) {
             $info['message'] = '用户id为空或token为空';
+            $info['errnum'] = 101;
             return $info;
         }
         if (!check_tel($userid)) {
             $info['message'] = '用户名格式不正确';
+            $info['errnum'] = 102;
             return $info;
         }
         $corp_id = get_corpid($userid);
         if ($corp_id == false) {
             $info['message'] = '用户不存在';
+            $info['errnum'] = 103;
             return $info;
         }
         $this->employM = new Employer($corp_id);
         $userinfo = $this->employM->getEmployer($userid);
         if ($userinfo['system_token'] != $access_token) {
             $info['message'] = 'token不正确，请重新登陆';
+            $info['errnum'] = 104;
             return $info;
         }
         $info['message'] = 'SUCCESS';
