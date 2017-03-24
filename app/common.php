@@ -210,11 +210,7 @@ function get_app_img ($data) {
         }
         $img_path = $img_path.'/'.time().rand(10000,99999).'.tmp';//相对路径文件
         $save_path = PUBLIC_PATH.$img_path;//物理路径文件
-        $b = file_put_contents($save_path,$data);//TODO
-        file_put_contents('/home/joshua/log.txt',$b,FILE_APPEND);
-//        $file = fopen($save_path,'w');
-//        fwrite($file,$data,1024);
-//        fclose($file);
+        file_put_contents($save_path,$data);
         $arr=getimagesize($save_path);
         $img_type = explode(',',config('upload_image.image_ext'));
         $img_ext = '';
@@ -224,7 +220,7 @@ function get_app_img ($data) {
                 break;
             }
         }
-        if ($img_ext = '') {
+        if ($img_ext == '') {
           $res['message'] = '未能识别上传图像格式，联系管理员';
         } else {
             $img_path = substr($img_path,0,-3).$img_ext;
