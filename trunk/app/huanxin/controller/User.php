@@ -150,6 +150,10 @@ class User
 
     /**
      * 修改app头像
+     * @param userid
+     * @param access_token
+     * @param userpic
+     * @param microc  c++客户端传递  1
      * @return array|mixed|string
      */
     public function modifyUserPic()
@@ -157,6 +161,10 @@ class User
         $userid = input('param.userid');
         $access_token = input('param.access_token');
         $user_pic = input('param.userpic');
+        $is_c = input('param.microc');
+        if ($is_c) {
+            $user_pic = str_replace(' ','+',$user_pic);
+        }
         $info['status'] = false;
         if ($user_pic == '') {
             $info['message'] = '未设置头像';
