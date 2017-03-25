@@ -26,4 +26,9 @@ class Index
         \think\Queue::later($delay, $job, $data, $queue = null);
 //        两个方法，前者是立即执行，后者是在$delay秒后执行
     }
+
+    public function workmanSocket()
+    {
+
+    }
 }
