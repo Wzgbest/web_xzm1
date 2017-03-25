@@ -200,15 +200,17 @@ class User
         }
         $paypass = $this->employM->getEmployer($userid);
         if (!empty($paypass['pay_password'])) {
-            return json_encode(['status'=>false,'message'=>'支付密码已设置，请勿重复设置'],true);
+            return json_encode(['status'=>false,'errnum'=>1,'message'=>'支付密码已设置，请勿重复设置'],true);
         }
         $info['status'] = false;
         $r = $this->employM->setEmployerSingleInfo($userid,['pay_password'=>md5($password)]);
         if ($r >0) {
             $info['message'] = '支付密码设置成功';
+            $info['errnum'] = 0;
             $info['status'] = true;
         } else {
             $info['message'] = '支付密码设置失败';
+            $info['errnum'] = 2;
         }
         return json_encode($info,true);
     }
@@ -225,24 +227,29 @@ class User
         $info['status'] = false;
         if (!$code) {
             $info['message'] = '手机验证码不正确';
+            $info['errnum'] = 1;
             return json_encode($info, true);
         }
         if (empty($newpass)) {
             $info['message'] = '支付密码不能为空';
+            $info['errnum'] = 2;
             return json_encode($info, true);
         }
         if (!check_tel($userid)) {
             $info['message'] = '手机号码格式不正确';
+            $info['errnum'] = 3;
             return json_encode($info, true);
         }
         $corp_id = get_corpid($userid);
         if (!$corp_id) {
             $info['message'] = '非系统用户';
+            $info['errnum'] = 4;
             return json_encode($info,true);
         }
         $ini_code = session('reset_code' . $userid);
         if ($ini_code != $code) {
             $info['message'] = '手机验证码不正确';
+            $info['errnum'] = 5;
             return json_encode($info, true);
         }
         $data = ['pay_password'=>md5($newpass)];
@@ -254,9 +261,11 @@ class User
             session('reset_code'.$userid,null);
             write_log($r_userid['id'],1,'用户修改支付密码',$corp_id);
             $info['status'] = true;
+            $info['errnum'] = 0;
             $info['message'] = '修改支付密码成功';
         } else {
             $info['message'] = '修改支付密码失败';
+            $info['errnum'] = 6;
         }
         return json_encode($info, true);
     }
@@ -281,14 +290,17 @@ class User
         $info['status'] = false;
         if (empty($chk_info['userinfo']['pay_password'])) {
             $info['message'] = '用户支付密码未设置';
+            $info['errnum'] = 1;
             return json_encode($info,true);
         }
         if ($chk_info['userinfo']['pay_password'] !=md5($password)) {
             $info['message'] = '用户支付密码错误';
+            $info['errnum'] = 2;
             return json_encode($info,true);
         }
         $info['status'] = true;
         $info['message'] = '验证用户支付密码成功';
+        $info['errnum'] = 0;
         return json_encode($info,true);
     }
 
@@ -311,12 +323,12 @@ class User
         $params = json_encode(['userid'=>$chk_info['userinfo']['id'],'corp_id'=>$chk_info['corp_id']],true);
         $b = \think\Hook::listen('check_over_time_red',$params);
         if (!$b[0]) {
-            return json_encode(['status'=>false,'message'=>'账户余额查询请求失败，联系管理员'],true);
+            return json_encode(['status'=>false,'errnum'=>1,'message'=>'账户余额查询请求失败，联系管理员'],true);
         }
         $res = $this->employM->getEmployer($userid);
         $left_money = $res['left_money'];
         $left_money = number_format($left_money/100, 2, '.', '');
-        return json_encode(['status'=>true,'message'=>'SUCCESS','left_money'=>$left_money],true);
+        return json_encode(['status'=>true,'message'=>'SUCCESS','errnum'=>0,'left_money'=>$left_money],true);
     }
 
     /**
@@ -334,6 +346,7 @@ class User
         $info['status'] = false;
         if (!check_alipay_account($alipay_account)) {
             $info['message'] = '支付宝账号格式不正确';
+            $info['errnum'] = 1;
             return json_encode($info,true);
         }
         $chk_info = $this->checkUserAccess($userid, $access_token);
@@ -345,8 +358,10 @@ class User
         if ($r >= 0) {
             $info['status'] = true;
             $info['message'] = '设置支付宝账号成功';
+            $info['errnum'] = 0;
         } else {
             $info['message'] = '设置支付宝账号失败';
+            $info['errnum'] = 2;
         }
         return json_encode($info,true);
     }

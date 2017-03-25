@@ -38,14 +38,17 @@ class RedEnvelope
         $info['status'] = false;
         if ($red_money < 1 ) {
             $info['message'] = '创建红包的总金额过少';
+            $info['errnum'] = 1;
             return json_encode($info,true);
         }
         if (!preg_match('/^[0-9]{1,30}\.[0-9]{1,2}$/',$total_money)) {
             $info['message'] = '红包总金额格式不正确';
+            $info['errnum'] = 2;
             return json_encode($info,true);
         }
         if ($num > $red_money) {
             $info['message'] = '创建红包的总金额过少';
+            $info['errnum'] = 3;
             return json_encode($info,true);
         }
         $r = $user->checkUserAccess($userid,$access_token);
@@ -91,11 +94,13 @@ class RedEnvelope
             write_log($r['userinfo']['id'],2,'用户创建红包成功,总金额'.$de_money.'分，共'.$num.'个',$r['corp_id']);
             $info['status'] = true;
             $info['message'] = '生成红包成功';
+            $info['errnum'] = 0;
             $info['redid'] = $red_id;
         } else {
             $redM->link->rollback();
             write_log($r['userinfo']['id'],2,'用户创建红包失败,总金额'.$de_money.'分，共'.$num.'个',$r['corp_id']);
             $info['message'] = '生成红包失败';
+            $info['errnum'] = 4;
         }
         return json_encode($info,true);
     }
@@ -119,7 +124,7 @@ class RedEnvelope
             return json_encode($r,true);
         }
         if (!preg_match('/[0-9a-fA-F]{32}/',$red_id)) {
-            return json_encode(['status'=>false,'message'=>'红包id错误'],true);
+            return json_encode(['status'=>false,'errnum'=>1,'message'=>'红包id错误'],true);
         }
 
         $info['status'] =false;
@@ -128,11 +133,13 @@ class RedEnvelope
         $check_if = $redM->checkIfTook($r['userinfo']['id'],$red_id);
         if (!empty($check_if)) {
             $info['message'] = '您已领取红包';
+            $info['errnum'] = 2;
             return json_encode($info,true);
         }
         $red_data = $redM->getOneRedId($red_id);
         if (empty($red_data)) {
             $info['message'] = '红包已被抢光了';
+            $info['errnum'] = 3;
             return json_encode($info,true);
         }
         if (time()>($red_data['create_time']+config('red_envelope.overtime'))) {
@@ -141,6 +148,7 @@ class RedEnvelope
 //            $redOver = new OverTimeRedEnvelope($r['userinfo']['id'],$r['corp_id'],$red_data);
 //            $b = $redOver->sendBackOverTimeRed();
             $info['message'] = '红包已经过期';
+            $info['errnum'] = 4;
             return json_encode($info,true);
         }
 
@@ -175,10 +183,12 @@ class RedEnvelope
             write_log($r['userinfo']['id'],2,'用户领取红包,金额'.$red_money.'分',$r['corp_id']);
             $info['message'] = '恭喜领取成功';
             $info['money'] = $red_data['money'];
+            $info['errnum'] = 0;
             $info['status'] = true;
         } else {
             $redM->link->rollback();
             $info['message'] = '红包已被抢光了';
+            $info['errnum'] = 5;
         }
         return json_encode($info,true);
     }
@@ -204,6 +214,7 @@ class RedEnvelope
         $info['status'] = false;
         if (!preg_match('/[0-9a-fA-F]{32}/',$red_id)) {
             $info['message'] = '红包id错误';
+            $info['errnum'] = 1;
             return json_encode($info,true);
         }
 
@@ -211,12 +222,14 @@ class RedEnvelope
         $red_num_total = $redM->getRedCount($red_id);
         if (empty($red_num_total)) {
             $info['message'] = '红包id错误';
+            $info['errnum'] = 2;
             return json_encode($info,true);
         }
         $red_data = $redM->getFetchedRedList($red_id);
         $info = [
             'status' => true,
             'message' => 'SUCCESS',
+            'errnum' => 0,
             'total_num' =>$red_num_total,
             'red_info' =>$red_data
         ];
