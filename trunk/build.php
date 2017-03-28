@@ -22,11 +22,18 @@ return [
 //        'model'      => [],
 //        'view'       => ['index/index'],
 //    ],
-    'common'     => [
+//    'common'     => [
+//        '__file__'   => ['common.php'],
+//        '__dir__'    => ['behavior', 'controller', 'model', 'view','service'],
+//        'controller' => ['Index'],
+//        'model'      => ['Umessage'],
+//        'view'       => ['index/index'],
+//    ],
+    'workerman'     => [
         '__file__'   => ['common.php'],
-        '__dir__'    => ['behavior', 'controller', 'model', 'view','service'],
+        '__dir__'    => ['controller', 'model', 'view','service'],
         'controller' => ['Index'],
-        'model'      => ['Umessage'],
+        'model'      => [],
         'view'       => ['index/index'],
     ],
     // 其他更多的模块定义
