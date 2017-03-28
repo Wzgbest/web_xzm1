@@ -230,6 +230,7 @@ class RedEnvelope
             'status' => true,
             'message' => 'SUCCESS',
             'errnum' => 0,
+            'left_num'=>$red_num_total - count($red_data),
             'total_num' =>$red_num_total,
             'red_info' =>$red_data
         ];

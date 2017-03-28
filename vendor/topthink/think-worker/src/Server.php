@@ -24,6 +24,7 @@ abstract class Server
     protected $host      = '0.0.0.0';
     protected $port      = '2346';
     protected $processes = 4;
+    protected $name;
 
     /**
      * 架构函数
@@ -35,6 +36,7 @@ abstract class Server
         $this->worker = new Worker($this->socket ?: $this->protocol . '://' . $this->host . ':' . $this->port);
         // 设置进程数
         $this->worker->count = $this->processes;
+        $this->worker->name = $this->name;
         // 初始化
         $this->init();
 
