@@ -37,27 +37,53 @@
 </script>
 <script>
 //    html5 websocket implement
-    ws = new WebSocket("ws://webcall.app:8001");
+    var ws;
+//    处理消息
+    function handleMessage (mes) {
+        if (mes != undefined) {
+            mes = JSON.parse(mes);
+            if (typeof(mes) == 'string') {
+                mes = JSON.parse(mes);
+            }
+            console.log(mes);
+            if (mes.status != undefined) {
+                if (mes.status ==1) {
+                    console.log('calling...');
+                } else if (mes.status == 2) {
+                    console.log('hang off...');
+                }
+            }
+        }
+    }
+//    获取连接
+    function getWs () {
+        var socket = new WebSocket("ws://webcall.app:8001");
+        return socket;
+    }
+   ws = getWs();
 
+//    ws = new WebSocket("ws://webcall.app:8001");
+//    接收消息
     ws.onmessage = function(e){
+        console.log('reveive rawdata from server');
 //        var data = eval("("+e.data+")");
-        var data = JSON.parse(e.data);
-        var type = data.type || '';
-        console.log(e.data);
+//        console.log(e.data);
+        handleMessage(e.data);
     };
+//    服务端关闭
     ws.onclose = function (e) {
         console.log('connect closed');
     };
+//    连接建立
     ws.onopen = function (e) {
         console.log('connect established');
-    }
-    setTimeout(function () {
-        ws.send('{"user":"phper","pass":123456}');
-    },1000);
-//    var interval = window.setInterval(function () {
-//        var time = new Date();
-//        ws.send('{"user":"phper","pass":123456+'+time+'}');
-//    },2000)
+        ws.send('{"user":"phper","pass":123456,"status":1}');
+    };
+
+    var interval = window.setInterval(function () {
+        var time = new Date();
+        ws.send('{"user":"phper","pass":"123456'+time+'"}');
+    },2000);
 </script>
 </body>
 </html>
