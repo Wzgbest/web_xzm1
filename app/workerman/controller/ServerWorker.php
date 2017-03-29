@@ -10,8 +10,8 @@ use Workerman\Worker;
 
 class ServerWorker extends Server
 {
-    protected $socket = 'websocket://webcall.app:8001';
-//    protected $socket = 'http://webcall.app:8001';
+//    protected $socket = 'websocket://webcall.app:8001';
+    protected $socket = 'tcp://0.0.0.0:8001';
     protected $processes =2;
     protected $name = 'workman_';
 
@@ -42,7 +42,7 @@ class ServerWorker extends Server
         $data = [
             'user'=>'you are invited',
             'time'=>date('Y-m-d H:i:s',time()),
-            'process_id'=>$connection->id,
+            'process_id'=>$connection->id
         ];
         $connection->send(json_encode($data));
     }
@@ -55,6 +55,11 @@ class ServerWorker extends Server
     public function onMessage($connection,$data)
     {
         $connection->send(json_encode($data));
+    }
+
+    public function onError($connection,$data)
+    {
+        echo 'error occurred';
     }
 
     public function onClose($connection,$data)
