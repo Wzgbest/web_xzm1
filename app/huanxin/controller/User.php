@@ -318,8 +318,7 @@ class User
         if (!$chk_info['status']) {
             return json_encode($chk_info,true);
         }
-//        $redM = new OverTimeRedEnvelope($chk_info['userinfo']['id'],$chk_info['corp_id']);
-//        $b = $redM->sendBackOverTimeRed();
+
         $params = json_encode(['userid'=>$chk_info['userinfo']['id'],'corp_id'=>$chk_info['corp_id']],true);
         $b = \think\Hook::listen('check_over_time_red',$params);
         if (!$b[0]) {

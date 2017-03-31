@@ -2,18 +2,21 @@
 /**
  * Created by messhair
  * Date: 17-3-27
+ * 提供系统客户端链接
  */
 namespace app\workerman\controller;
 
 use think\worker\Server;
 use Workerman\Worker;
+use app\workerman\controller\HandleMessage;
 
 class ServerWorker extends Server
 {
-//    protected $socket = 'websocket://webcall.app:8001';
-    protected $socket = 'tcp://0.0.0.0:8001';
+    protected $socket = 'websocket://webcall.app:8001';
+//    protected $socket = 'tcp://0.0.0.0:8001';
     protected $processes =2;
-    protected $name = 'workman_';
+    protected $name = 'workman_server';
+    protected $handle;
 
     public function __construct()
     {
@@ -21,6 +24,7 @@ class ServerWorker extends Server
         Worker::$pidFile = RUNTIME_PATH.'temp/workman.pid';
 //        Worker::$stdoutFile = RUNTIME_PATH.'temp/workmandump';
         Worker::$logFile = RUNTIME_PATH.'temp/workman.log';
+        $this->handle = new HandleMessage();
         parent::__construct();
     }
     /**
@@ -54,7 +58,8 @@ class ServerWorker extends Server
      */
     public function onMessage($connection,$data)
     {
-        $connection->send(json_encode($data));
+        $res = $this->handle->recordCall($data);
+        $connection->send(json_encode($res));
     }
 
     public function onError($connection,$data)

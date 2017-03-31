@@ -23,6 +23,7 @@ class RedEnvelope
      * @param \app\huanxin\controller\User $user
      * @param userid
      * @param access_token
+     * @param redtype  1运气红包 2普通红包
      * @param totalmoney 单位元 3.33
      * @param num
      * @return string
@@ -32,10 +33,16 @@ class RedEnvelope
         $userid = input('param.userid');
         $access_token = input('param.access_token');
         $total_money = input('param.totalmoney');
+        $redtype = input('param.redtype');
         $num = intval(input('param.num'));
 
         $red_money = intval($total_money*100);
         $info['status'] = false;
+        if (($redtype != 1) && ($redtype !=2)  ) {
+            $info['message'] = '红包类型有误';
+            $info['errnum'] = 5;
+            return json_encode($info,true);
+        }
         if ($red_money < 1 ) {
             $info['message'] = '创建红包的总金额过少';
             $info['errnum'] = 1;
@@ -56,7 +63,7 @@ class RedEnvelope
             return json_encode($r,true);
         }
 
-        $data = get_red_bonus($total_money,$num);
+        $data = get_red_bonus($total_money,$num,$redtype);
         $red_id = md5(time().rand(1000,9999));
         $indata=[];
         $time = time();
