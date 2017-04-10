@@ -26,6 +26,15 @@ class RedEnvelope extends Base
     }
 
     /**
+     * 根据红包red_id获取所有信息
+     * @param $red_id
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public function getRedInfoByRedId($red_id)
+    {
+        return $this->model->table($this->table)->where('redid',$red_id)->where('is_token','<>',2)->select();
+    }
+    /**
      * 验证是否已领取红包
      * @param $userid 用户id非电话
      * @param $red_id
