@@ -9,7 +9,6 @@ use app\common\model\UserCorporation;
 use app\common\model\Employer;
 use app\huanxin\model\TakeCash;
 use app\huanxin\service\Api;
-use app\huanxin\service\OverTimeRedEnvelope;
 use app\huanxin\service\TakeCash as TakeCashService;
 use app\huanxin\model\TakeCash as TakeCashModel;
 use app\common\model\Corporation;
