@@ -9,7 +9,6 @@
 // | Author: 流年 <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 use app\common\model\UserCorporation;
-use app\common\model\Occupation;
 use app\common\model\CorporationStructure;
 use app\common\model\Umessage;
 use app\common\model\Employer;
@@ -40,24 +39,6 @@ function check_alipay_account ($alipay) {
     return false;
 }
 
-/**
- * 整合职位id和职位名称，批量获取用户信息时使用
- * @param $friendsInfo 用户信息二维数组
- * @param $corp_id 公司代号
- * @return array
- */
-function get_occupation_name ($friendsInfo,$corp_id) {
-    $occuM = new Occupation($corp_id);
-    $occus = $occuM->getAllOccupations();
-    foreach ($occus as $key => $val) {
-        foreach ($friendsInfo as $k => $v) {
-            if ($v['occupation'] == $val['id']) {
-                $friendsInfo[$k]['occupation'] =$val['occu_name'];
-            }
-        }
-    }
-    return $friendsInfo;
-}
 
 /**
  * 整合部门id合部门名称，批量获取用户信息时使用

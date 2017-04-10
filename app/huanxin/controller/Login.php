@@ -6,6 +6,7 @@ use app\common\model\Employer;
 use app\common\model\UserCorporation;
 use app\common\model\EmployerScore;
 use app\common\model\Occupation;
+use app\common\model\RoleEmployer;
 use think\Request;
 
 class Login extends Controller
@@ -24,7 +25,6 @@ class Login extends Controller
     public function verifyLogin()
     {
         $input = input('param.');
-//        file_put_contents('d:/hu.txt',json_encode($input,true),FILE_APPEND);
         $telephone = trim($input['telephone']);
         $password = trim($input['password']);
         $ip = $this->request->ip();
@@ -77,8 +77,8 @@ class Login extends Controller
         //积分占比
         $per=$scoreM->getScoreListPer($score['score']);
         //公司职位
-        $occuM = new Occupation($corp_id);
-        $occup = $occuM->getOccupation($user_arr['id']);
+        $roleM = new RoleEmployer($corp_id);
+        $rolep = $roleM->getRolebyEmployerId($user_arr['id']);
         $data =['lastloginip'=>$ip,'lastlogintime'=>time()];
         if ($model->setEmployerSingleInfo($telephone,$data) <= 0) {
             $reg_reg['message'] = '登录信息写入失败，联系管理员';
@@ -92,7 +92,7 @@ class Login extends Controller
         $req_reg['userpic'] = $user_arr['userpic'];
         $req_reg['userscore'] = $score['score'];
         $req_reg['title'] = $score['title'];
-        $req_reg['occupation'] = $occup['occu_name'];
+        $req_reg['occupation'] = $rolep['role_name'];
         $req_reg['percentage'] = $per;
         return json_encode($req_reg, true);
     }
