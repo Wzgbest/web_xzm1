@@ -32,7 +32,11 @@ class RedEnvelope extends Base
      */
     public function getRedInfoByRedId($red_id)
     {
-        return $this->model->table($this->table)->where('redid',$red_id)->where('is_token','<>',2)->select();
+        return $this->model->table($this->table)
+            ->field('id,fromuser,money,took_time,is_token,create_time,took_user,total_money,took_telephone')
+            ->where('redid',$red_id)
+            ->where('is_token','<>',2)
+            ->select();
     }
     /**
      * 验证是否已领取红包

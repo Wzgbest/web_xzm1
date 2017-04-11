@@ -85,7 +85,7 @@ class Login extends Controller
             $reg_reg['errnum'] = 7;
             return json_encode($reg_reg,true);
         }
-        cache('employer_info'.$telephone,null);
+//        cache('employer_info'.$telephone,null);
         $req_reg['message'] = 'SUCCESS';
         $req_reg['status'] = true;
         $req_reg['errnum'] = 0;

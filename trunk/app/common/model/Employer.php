@@ -22,7 +22,8 @@ class Employer extends Base
      */
     public function getEmployer($telephone)
     {
-        return $this->model->table($this->table)->where('telephone',$telephone)->cache('employer_info'.$telephone)->find();
+//        return $this->model->table($this->table)->where('telephone',$telephone)->cache('employer_info'.$telephone)->find();
+        return $this->model->table($this->table)->where('telephone',$telephone)->find();
     }
 
     /**
