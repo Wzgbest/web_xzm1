@@ -2,6 +2,7 @@
 namespace app\index\controller;
 
 use think\Db;
+use app\huanxin\service\Api;
 
 class Index
 {
@@ -24,7 +25,7 @@ class Index
         foreach ($list as $k=>$v) {
             $urls[] = 'http://192.168.0.110/huanxin/red_envelope/fetchRedEnvelope/userid/'.$v['telephone'].'/access_token/'.$v['system_token'].'/redid/'.$red_id;
         }
-        dump($urls);
+        dump($urls);exit;
         $res = rolling_curl($urls,0);
         dump($res);
     }
