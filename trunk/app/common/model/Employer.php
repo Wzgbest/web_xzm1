@@ -65,7 +65,7 @@ class Employer extends Base
      */
     public function getFriendsList($owner)
     {
-        $owner_id = $this->model->table($this->table)->where('telephone','<>', $owner)->field('telephone,userpic,truename as nickname,occupation,structid')->select();
+        $owner_id = $this->model->table($this->table)->where('telephone','<>', $owner)->field('telephone,userpic,truename as nickname,rule,structid')->select();
         return $owner_id;
     }
 

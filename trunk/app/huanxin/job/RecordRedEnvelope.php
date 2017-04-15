@@ -16,7 +16,6 @@ class RecordRedEnvelope
 {
     public function fire(Job $job,$data)
     {
-//        file_put_contents('d:/my.txt',$data);
         $data = json_decode($data,true);
         $corp_id = $data['r']['corp_id'];
         $red_data = $data['red_data'];
@@ -34,7 +33,7 @@ class RecordRedEnvelope
         }catch(\Exception $e){
             $redM->link->rollback();
         }
-        file_put_contents('d:/my.txt',json_encode($red_data,true).'--'.$data['r']['userinfo']['id'].'--'.$res.'--'.$re.'--'.$cash_rec."\r\n",FILE_APPEND);
+        file_put_contents('e:/desktop/my.txt',json_encode($red_data,true).'--'.$data['r']['userinfo']['id'].'--'.$res.'--'.$re.'--'.$cash_rec."\r\n",FILE_APPEND);
         if ($res > 0 && $re > 0 && $cash_rec > 0) {
             $redM->link->commit();
             write_log($data['r']['userinfo']['id'],2,'用户领取红包成功,金额'.$red_data['money'].'分',$corp_id);

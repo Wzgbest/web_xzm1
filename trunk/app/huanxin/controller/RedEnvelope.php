@@ -143,7 +143,6 @@ class RedEnvelope
         $redM = new RedB($r['corp_id']);
 
         //红包全部
-//        cache('red_info_all'.$red_id,null);//TODO 测试开启
         $red_arr = cache('red_info_all'.$red_id);
         if (empty($red_arr)) {
             $red_arr = $redM->getRedInfoByRedId($red_id);
@@ -156,7 +155,7 @@ class RedEnvelope
                 cache('red_info_all'.$red_id,$red_arr);
             }
         }
-//dump($red_arr);exit;
+
         $already_arr=[];
         // 已领取红包，验证，统计
         foreach ($red_arr as $key => $val) {
@@ -225,10 +224,10 @@ class RedEnvelope
 //        \think\Queue::push('huanxin/RecordRedEnvelope',$queue_data);// TODO 测试关闭
 //        php think queue:listen 模式下数据正常，缓存异常
 //        php think queue:work --daemon 模式下缓存正常，数据异常
-        \think\Queue::later(5,'huanxin/RecordRedEnvelope',$queue_data);// TODO 测试关闭
+        \think\Queue::later(3,'huanxin/RecordRedEnvelope',$queue_data);// TODO 测试关闭
         //更新缓存
 //        cache('red_info_all'.$red_id,$red_arr);
-        file_put_contents('d:/red.txt',json_encode($red_arr,true)."\r\n",FILE_APPEND);
+        file_put_contents('e:/desktop/red.txt',json_encode($red_arr,true)."\r\n",FILE_APPEND);
         $info['message'] = '恭喜领取成功';
         $info['money'] = $red_data['money'];
         $info['errnum'] = 0;
