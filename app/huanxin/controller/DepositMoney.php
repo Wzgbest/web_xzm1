@@ -165,7 +165,7 @@ class DepositMoney
         } else {
             $cashM->link->rollback();
             write_log($r['userinfo']['id'],5,'用户充值成功,兑换系统货币失败，总金额'.$total_money.'分',$r['corp_id']);
-            send_mail('wangqiwen@winbywin.com','充值问题','支付宝充值成功，兑换货币失败'.json_encode($cash_data,true));
+            send_mail(config('system_email.user'),config('system_email.pass'),'wangqiwen@winbywin.com','充值问题',config('system_email.from_name'),'支付宝充值成功，兑换货币失败'.json_encode($cash_data,true));
             $info['message'] = '兑换系统货币失败，联系管理员';
             $info['errnum'] = 7;
         }
