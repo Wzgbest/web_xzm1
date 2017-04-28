@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: 流年 <liu21st@gmail.com>
 // +----------------------------------------------------------------------
+use think\Db;
 use app\common\model\UserCorporation;
 use app\common\model\CorporationStructure;
 use app\common\model\Umessage;
@@ -78,23 +79,26 @@ function check_auth ($rule,$uid) {
 
 /**
  * 发送邮件
- * @param $to_user 接收方
+ * @param $sender 发件人邮箱
+ * @param $pass 发件人邮箱密码
+ * @param $to_user 接收人邮箱
  * @param $title  主题
+ * @param $sender_nick 发件人昵称
  * @param string $content 内容
  * @param array $attachment['path','name'] 附件['地址','附件名称']
  * @return bool
  * @throws Exception
  * @throws phpmailerException
  */
-function send_mail ($to_user, $title, $content='',$attachment=array()) {
+function send_mail ($sender,$pass,$to_user, $title, $sender_nick='',$content='',$attachment=array()) {
     $mail = new PHPMailer(true);
     $mail->IsSMTP();                  // send via SMTP
-    $mail->Host = config('system_email.host');   // SMTP servers
+    $mail->Host = get_mail_smtp($sender);   // SMTP servers
     $mail->SMTPAuth = true;           // turn on SMTP authentication
-    $mail->Username = config('system_email.user');     // SMTP username  注意：普通邮件认证不需要加 @域名
-    $mail->Password = config('system_email.pass'); // SMTP password
-    $mail->From = config('system_email.user');      // 发件人邮箱
-    $mail->FromName =  config('system_email.from_name');  // 发件人称呼
+    $mail->Username = $sender;     // SMTP username  注意：普通邮件认证不需要加 @域名
+    $mail->Password = $pass; // SMTP password
+    $mail->From = $sender;      // 发件人邮箱
+    $mail->FromName =  $sender_nick;  // 发件人称呼
 //    $mail->SMTPSecure = 'ssl';
 //    $mail->Port = 465;
     $mail->CharSet = "UTF-8";   // 这里指定字符集！
@@ -133,7 +137,7 @@ function send_sms ($tel,$code,$content) {
         return ['status'=>true];
     } else {
         $content = '手机号'.$tel.'发送信息失败，原因为：'.$data['Result'];
-        send_mail('wangqiwen@winbywin.com', '通信项目短信问题', $content);
+        send_mail(config('system_email.user'),config('system_email.pass'),'wangqiwen@winbywin.com', '通信项目短信问题',config('system_email.from_name'), $content);
         return ['status'=>false,'message'=>$content];
     }
 }
@@ -264,6 +268,77 @@ function get_red_bonus ($total,$num,$redtype,$min=0.01) {
     return $arr;
 }
 
+/**
+ * 获取邮箱smtp服务器地址
+ * @param $email 邮件地址
+ * @param $email_arr 邮箱smtp数组
+ * @return bool
+ */
+function get_mail_smtp ($email,$email_arr=null) {
+    if (false ===filter_var($email, FILTER_VALIDATE_EMAIL)) return false;
+    if (empty($email_arr)) {
+        $email_arr = cache('email_smtp');
+        if (empty($email_arr)) {
+            $email_arr=Db::name('email_smtp')->select();
+            cache('email_smtp',$email_arr);
+        }
+    }
+    $host = explode('@',$email)[1];
+    if(!empty($host)){
+        $result=[];
+        exec('nslookup -type=MX '.escapeshellcmd($host), $result);
+        $mx = $result[4];
+        foreach ($email_arr as $key => $val ) {
+            if (strpos($mx,$val['email_preg'])!==false) {
+                $smtp = $val['smtp_server'];
+                break;
+            }
+        }
+        return isset($smtp)?$smtp:false;
+    }
+    return false;
+}
+
+/**
+ * 对邮箱密码进行加密
+ * @param $input 原密码
+ * @return string
+ */
+function encrypt_email_pass ($input) {
+    $key = md5_file('/project/online_update.tar');//TODO 修改为实际
+    $input = str_replace("\n", "", $input);
+    $input = str_replace("\t", "", $input);
+    $input = str_replace("\r", "", $input);
+    $key = substr(md5($key), 0, 24);
+    $td = mcrypt_module_open('tripledes', '', 'ecb', '');
+    $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
+    mcrypt_generic_init($td, $key, $iv);
+    $encrypted_data = mcrypt_generic($td, $input);
+    mcrypt_generic_deinit($td);
+    mcrypt_module_close($td);
+    return trim(chop(base64_encode($encrypted_data)));
+}
+
+/**
+ * 对邮箱密码进行解密
+ * @param $input 密文
+ * @return string
+ */
+function decrypt_email_pass ($input) {
+    $key = md5_file('/project/online_update.tar');//TODO 修改为实际
+    $input = str_replace("\n", "", $input);
+    $input = str_replace("\t", "", $input);
+    $input = str_replace("\r", "", $input);
+    $input = trim(chop(base64_decode($input)));
+    $td = mcrypt_module_open('tripledes', '', 'ecb', '');
+    $key = substr(md5($key), 0, 24);
+    $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
+    mcrypt_generic_init($td, $key, $iv);
+    $decrypted_data = mdecrypt_generic($td, $input);
+    mcrypt_generic_deinit($td);
+    mcrypt_module_close($td);
+    return trim(chop($decrypted_data));
+}
 /**
  * curl并发测试
  * @param $urls
