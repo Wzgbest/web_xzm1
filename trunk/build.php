@@ -46,7 +46,7 @@ return [
     'systemsetting'     => [
         '__file__'   => ['common.php'],
         '__dir__'    => ['controller', 'model', 'view','service'],
-        'controller' => ['Index','Corporation','Department','Role','Employer','BusinessFlow','Contract','Bill'],
+        'controller' => ['Index','Corporation','Department','Role','Employer','BusinessFlow','Contract','Bill','Customer'],
         'model'      => [],
         'view'       => ['index/index'],
     ],
