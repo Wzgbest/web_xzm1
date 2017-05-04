@@ -64,6 +64,7 @@ class CheckOverTimeRedEnvelope
             }
             if ($change_took_state > 0 && $send_back_money >0 && $cash_rec > 0) {
                 $redM->link->commit();
+                cache('red_info_all'.$par['red_data']['redid'],null);
                 write_log($arr['fromuser'],2,'收到返还的超时红包，id为'.$arr['ids'].'返还金额'.$money.'分',$corp_id);
                 return true;
             } else {

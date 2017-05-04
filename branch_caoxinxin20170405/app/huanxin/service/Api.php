@@ -36,8 +36,8 @@ class Api
 
     /**
      * 修改环信用户昵称
-     * @param $user (telephone)
-     * @param $nickname
+     * @param $user telephone
+     * @param $nickname 真实姓名
      * @return array   [
      * "uuid" : "06538d5a-dd2b-11e6-bb3e-697fe945caa3",
      * "type" : "user",
@@ -62,8 +62,8 @@ class Api
 
     /**
      *重置环信用户密码
-     * @param $user (telephone)
-     * @param $newpass
+     * @param $user telephone
+     * @param $newpass 新密码
      * @return array [
      * "action" : "set user password",
      * "timestamp" : 1484709660468,
@@ -81,13 +81,12 @@ class Api
             'newpassword' => $newpass
         ), true);
         $result = $this->getMessage($uri, $body, $header, 'put');
-//        dump($result);
         return json_decode($result, true);
     }
 
     /**
      * 删除单个环信用户
-     * @param $user
+     * @param $user telephone
      * @return array
      *      'action' => string 'delete' (length=6)
      * 'application' => string '4d52b5f0-cbc9-11e6-8686-83b111512799' (length=36)
@@ -116,12 +115,16 @@ class Api
         );
         $result = $this->getMessage($this->user_uri . '/' . $user, '', $header, 'delete');
         $result = json_decode($result, true);
-        dump($result);
         return $result;
     }
 
     /**
-     *  "action" : "post",
+     * 由【后台单个注册】的用户，添加环信好友
+     * @param $owner string|array 用户tel或含tel的数组
+     * @param $corp_id (公司代码)
+     * @return array['message'=>'','status'=>true/false]
+     *
+     * "action" : "post",
      * "application" : "4d52b5f0-cbc9-11e6-8686-83b111512799",
      * "path" : "/users/1959796a-da28-11e6-af03-bbe385141aa9/contacts",
      * "uri" : "https://a1.easemob.com/1107161108178376/zhuowin/users/1959796a-da28-11e6-af03-bbe385141aa9/contacts",
@@ -137,35 +140,41 @@ class Api
      * "timestamp":1406086326974,"duration":242,
      * "organization":"1107161108178376",
      * "applicationName":"zhuowin"
-     * 由【后台单个注册】的用户，添加环信好友
-     * @param $owner (telephone),$corp_id(公司代码)
-     * @return array['message'=>'','status'=>true/false]
      */
     public function addFriend($corp_id, $owner)
     {
         //获取后台所有$owner未添加为环信好友的用户(先注册的用户)
         $employer = new Employer($corp_id);
-        $friend_list = $employer->getFriendsList($owner);
         $add_user_uri = array();
-        foreach ($friend_list as $k => $v) {
-            $add_user_uri[] .= $this->user_uri . '/' . $owner . '/contacts/users/' . $v['telephone'];
+        if (is_array($owner)) {
+            foreach ($owner as $k => $v) {
+                $friend_list_p = $employer->getFriendsList($v['telephone']);
+                foreach ($friend_list_p as $kk=>$vv) {
+                    $add_user_uri[] .= $this->user_uri . '/' . $v['telephone'] . '/contacts/users/' . $vv['telephone'];
+                }
+            }
+        }else{
+            $friend_list = $employer->getFriendsList($owner);
+            foreach ($friend_list as $k => $v) {
+                $add_user_uri[] .= $this->user_uri . '/' . $owner . '/contacts/users/' . $v['telephone'];
+            }
         }
         /**
          * $add_user_uri=array(4) {
-        [0] => string(92) "https://a1.easemob.com/1107161108178376/zhuowin/users/13311112222/contacts/users/13322223333"
-        [1] => string(92) "https://a1.easemob.com/1107161108178376/zhuowin/users/13311112222/contacts/users/13322221111"
-        [2] => string(92) "https://a1.easemob.com/1107161108178376/zhuowin/users/13311112222/contacts/users/13322225555"
-        [3] => string(92) "https://a1.easemob.com/1107161108178376/zhuowin/users/13311112222/contacts/users/13322226666"
-        }
+                [0] => string(92) "https://a1.easemob.com/1107161108178376/zhuowin/users/13311112222/contacts/users/13322223333"
+                [1] => string(92) "https://a1.easemob.com/1107161108178376/zhuowin/users/13311112222/contacts/users/13322221111"
+                [2] => string(92) "https://a1.easemob.com/1107161108178376/zhuowin/users/13311112222/contacts/users/13322225555"
+                [3] => string(92) "https://a1.easemob.com/1107161108178376/zhuowin/users/13311112222/contacts/users/13322226666"
+            }
          */
         //依次把后台的其他用户添加为好友
         $error = array();
         foreach ($add_user_uri as $url) {
             $add_user = $this->getMessage($url, '', $this->header, 'post');
-            if ($add_user['error']) {
+            if (isset($add_user['error'])) {
                 $error[] .= $add_user;
             }
-//            sleep(1);
+            usleep(100000);
         }
         if (empty($error)) {
             $info['message'] = '添加好友成功';
@@ -173,17 +182,14 @@ class Api
         } else {
             $info['message'] = '添加好友失败或部分失败';
             $info['status'] = false;
+            $info['error'] = $error;
         }
-        //$this->ajaxReturn($info);
-        //echo json_encode($info);
         return $info;
-//        dump($error);
-        dump($add_user);
     }
 
     /**
      * 获取环信单用户
-     * @param $user (telephone)
+     * @param $user telephone
      * @return array =>
      * 'uuid' => string '1959796a-da28-11e6-af03-bbe385141aa9' (length=36)
      * 'type' => string 'user' (length=4)
@@ -239,18 +245,19 @@ class Api
     /**
      * 在环信中批量注册employer表中账号
      * @param $corp_id 公司代号
-     * @param $users [['username'=>'13311112222','password'=>'123456'],['username'=>'13333335555','password'=>'123456']]
+     * @param $users [
+     * ['username'=>'13311112222','password'=>'123456','nickname'=>'张三'],
+     * ['username'=>'13333335555','password'=>'123456','nickname'=>'李四']
+     * ]
      * @return array ['message'=>'','status'=>true/false]
      */
     public function regMultiUser($corp_id, $users)
     {
-//        $corp_id=session('corp_id');
-        $corp_id = 'sdzhongxun';
         //注册环信
         $users = json_encode($users, true);
         $user_reg = $this->getMessage($this->user_uri, $users, $this->header, 'post');
         $user_info = json_decode($user_reg, true);
-        if ($user_info['error']) {
+        if (isset($user_info['error'])) {
             $info['message'] = $this->getError($user_info['error']);
         } else {
             $user_arr = $user_info['entities'];//所有注册成功的用户
@@ -263,7 +270,6 @@ class Api
                     }
                 }
             }
-//            dump($user_up);
             $b = $employer->saveIm($user_up);
             if ($b >0) {
                 $info['status'] = true;
@@ -274,64 +280,6 @@ class Api
             }
         }
         return $info;
-//        dump($info);
-    }
-
-    /**
-     * 环信注册多用户方法
-     * array (size=9)
-     * 'action' => string 'post' (length=4)
-     * 'application' => string '4d52b5f0-cbc9-11e6-8686-83b111512799' (length=36)
-     * 'path' => string '/users' (length=6)
-     * 'uri' => string 'https://a1.easemob.com/1107161108178376/zhuowin/users' (length=53)
-     * 'entities' =>
-     * array (size=3)
-     * 0 =>
-     * array (size=7)
-     * 'uuid' => string '19561e0a-da28-11e6-9bd5-9da815ee1170' (length=36)
-     * 'type' => string 'user' (length=4)
-     * 'created' => float 1484377644000
-     * 'modified' => float 1484377644000
-     * 'username' => string '13322223333' (length=11)
-     * 'activated' => boolean true
-     * 'nickname' => string '杰克' (length=6)
-     * 1 =>
-     * array (size=7)
-     * 'uuid' => string '1957f2ca-da28-11e6-a912-19f83a3cbac2' (length=36)
-     * 'type' => string 'user' (length=4)
-     * 'created' => float 1484377644012
-     * 'modified' => float 1484377644012
-     * 'username' => string '13322221111' (length=11)
-     * 'activated' => boolean true
-     * 'nickname' => string '亚当' (length=6)
-     * 2 =>
-     * array (size=7)
-     * 'uuid' => string '1959796a-da28-11e6-af03-bbe385141aa9' (length=36)
-     * 'type' => string 'user' (length=4)
-     * 'created' => float 1484377644022
-     * 'modified' => float 1484377644022
-     * 'username' => string '13311112222' (length=11)
-     * 'activated' => boolean true
-     * 'nickname' => string '朱利安' (length=9)
-     * 'timestamp' => float 1484377644000
-     * 'duration' => int 64
-     * 'organization' => string '1107161108178376' (length=16)
-     * 'applicationName' => string 'zhuowin' (length=7)
-     * @param $access_token
-     * @param $users
-     * @return mixed
-     */
-    public function getMultiUserRegisterResult($username, $password)
-    {
-        $users = json_encode(array('username' => $username, 'password' => $password));
-        $this->header = array(
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $this->access_token['access_token'],
-        );
-        $reg_res = $this->getMessage($this->user_uri, $users, $this->header, 'post');
-        dump($reg_res);
-        exit;
-        return $reg_res;
     }
 
     /**

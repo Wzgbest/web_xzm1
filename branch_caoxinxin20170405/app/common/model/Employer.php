@@ -22,6 +22,7 @@ class Employer extends Base
      */
     public function getEmployer($telephone)
     {
+//        return $this->model->table($this->table)->where('telephone',$telephone)->cache('employer_info'.$telephone)->find();
         return $this->model->table($this->table)->where('telephone',$telephone)->find();
     }
 
@@ -64,7 +65,7 @@ class Employer extends Base
      */
     public function getFriendsList($owner)
     {
-        $owner_id = $this->model->table($this->table)->where('telephone','<>', $owner)->field('telephone,userpic,truename as nickname,occupation,structid')->select();
+        $owner_id = $this->model->table($this->table)->where('telephone','<>', $owner)->field('telephone,userpic,truename as nickname,rule,structid')->select();
         return $owner_id;
     }
 

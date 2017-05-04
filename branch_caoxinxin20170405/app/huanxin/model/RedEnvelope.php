@@ -26,6 +26,19 @@ class RedEnvelope extends Base
     }
 
     /**
+     * 根据红包red_id获取所有信息
+     * @param $red_id
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public function getRedInfoByRedId($red_id)
+    {
+        return $this->model->table($this->table)
+            ->field('id,fromuser,money,took_time,is_token,create_time,took_user,total_money,took_telephone')
+            ->where('redid',$red_id)
+            ->where('is_token','<>',2)
+            ->select();
+    }
+    /**
      * 验证是否已领取红包
      * @param $userid 用户id非电话
      * @param $red_id
@@ -66,7 +79,7 @@ class RedEnvelope extends Base
     {
         return $this->model->table($this->table)->alias('a')
             ->join(config('database.prefix').'employer b','a.took_user = b.id')
-            ->field('a.redid,a.money,a.total_money,a.took_time,b.truename as took_user')
+            ->field('a.redid,a.money,a.total_money,a.took_time,b.telephone,b.truename as took_user')
             ->where('a.redid',$red_id)->where('a.is_token',1)->select();
     }
 

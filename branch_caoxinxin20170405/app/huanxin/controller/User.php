@@ -9,7 +9,6 @@ use app\common\model\UserCorporation;
 use app\common\model\Employer;
 use app\huanxin\model\TakeCash;
 use app\huanxin\service\Api;
-use app\huanxin\service\OverTimeRedEnvelope;
 use app\huanxin\service\TakeCash as TakeCashService;
 use app\huanxin\model\TakeCash as TakeCashModel;
 use app\common\model\Corporation;
@@ -492,7 +491,7 @@ class User
             $info['message'] = '用户提现成功，写入后台记录失败，请联系管理员';
             $info['errnum'] = 9;
             write_log($chk_info['userinfo']['id'],4,'用户提现，金额为'.$fen_money.'分',$chk_info['corp_id']);
-            send_mail('wangqiwen@winbywin.com','提现问题','向员工转账成功，后台记录更改失败'.json_encode($trans_data,true));
+            send_mail(config('system_email.user'),config('system_email.pass'),'wangqiwen@winbywin.com','提现问题',config('system_email.from_name'),'向员工转账成功，后台记录更改失败'.json_encode($trans_data,true));
         }
         return json_encode($info,true);
     }
