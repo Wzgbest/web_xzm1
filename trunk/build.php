@@ -71,10 +71,10 @@ return [
         'model'      => [],
         'view'       => ['index/index'],
     ],
-    'EmployerGrowth'     => [
+    'employergrowth'     => [
         '__file__'   => ['common.php'],
         '__dir__'    => ['controller', 'model', 'view','service'],
-        'controller' => ['Index','','Bill'],
+        'controller' => ['Index','Bill'],
         'model'      => [],
         'view'       => ['index/index'],
     ],
