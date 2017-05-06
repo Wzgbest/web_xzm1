@@ -28,7 +28,7 @@ class Employer extends Base
 
     /**
      * 记录用户登陆信息
-     * @param $telephone
+     * @param $telephone 电话号码
      * @param $data
      * @return int|string
      * @throws \think\Exception
@@ -60,7 +60,7 @@ class Employer extends Base
 
     /**
      * 取出所有可以添加环信好友账号信息，即非本人的其他人信息
-     * @param $owner
+     * @param $owner 电话号码
      * @return array
      */
     public function getFriendsList($owner)
@@ -71,7 +71,7 @@ class Employer extends Base
 
     /**
      * 登陆成功，创建用户system_token,并返回给app
-     * @param $telephone
+     * @param $telephone 电话号码
      * @return array
      * @throws \think\Exception
      */
@@ -84,7 +84,7 @@ class Employer extends Base
 
     /**
      * 通过手机号查询所有其他手机号
-     * @param $telephone
+     * @param $telephone 电话号码
      * @return array
      */
     public function getFriendsTel($telephone)
@@ -112,6 +112,8 @@ class Employer extends Base
 
     /**
      * 修改用户密码
+     * @param $telephone 电话号码
+     * @param $password 密码md5加密后
      * @return int|string
      * @throws \think\Exception
      */
