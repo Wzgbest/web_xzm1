@@ -23,7 +23,11 @@ class Employer extends Base
     public function getEmployer($telephone)
     {
 //        return $this->model->table($this->table)->where('telephone',$telephone)->cache('employer_info'.$telephone)->find();
-        return $this->model->table($this->table)->where('telephone',$telephone)->find();
+//        return $this->model->table($this->table)->where('telephone',$telephone)->find();
+        return $this->model->table($this->table)->alias('a')
+            ->join(config('database.prefix').'role_employer b','a.id = b.user_id')
+            ->field('a.*,b.role_id')
+            ->where('a.telephone',$telephone)->find();
     }
 
     /**
