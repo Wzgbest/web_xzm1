@@ -79,6 +79,11 @@ class Login extends Controller
         //公司职位
         $roleM = new RoleEmployer($corp_id);
         $rolep = $roleM->getRolebyEmployerId($user_arr['id']);
+        $role_arr=[];
+        foreach ($rolep as $val) {
+            $role_arr[] .= $val['role_name'];
+        }
+        $role_str = implode(',',$role_arr);
         $data =['lastloginip'=>$ip,'lastlogintime'=>time()];
         if ($model->setEmployerSingleInfo($telephone,$data) <= 0) {
             $reg_reg['message'] = '登录信息写入失败，联系管理员';
@@ -93,7 +98,7 @@ class Login extends Controller
         $req_reg['userpic'] = $user_arr['userpic'];
         $req_reg['userscore'] = $score['score'];
         $req_reg['title'] = $score['title'];
-        $req_reg['occupation'] = $rolep['role_name'];
+        $req_reg['occupation'] = $role_str;
         $req_reg['percentage'] = $per;
         return json_encode($req_reg, true);
     }
