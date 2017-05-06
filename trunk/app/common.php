@@ -143,20 +143,19 @@ function send_sms ($tel,$code,$content) {
 }
 
 /**
- * 获取公司id
+ * 获取公司id代号
  * @param $tel
  * @return bool|mixed|string
  */
-function get_corpid ($tel) {
-    if (session('corp_id'.$tel)) {
-        return session('corp_id'.$tel);
-    }
-    $corp_id = UserCorporation::getUserCorp($tel);
-    if (empty($corp_id)) {
+function get_corpid () {
+    $userinfo = session('userinfo');
+    if (empty($userinfo)) {
         return false;
+    }
+    if (!empty($userinfo['corp_id'])) {
+        return $userinfo['corp_id'];
     } else {
-        session('corp_id'.$tel,$corp_id);
-        return $corp_id;
+        return false;
     }
 }
 
