@@ -8,8 +8,8 @@
 // +----------------------------------------------------------------------
 // | Author: 流年 <liu21st@gmail.com>
 // +----------------------------------------------------------------------
+use think\Db;
 use app\common\model\UserCorporation;
-use app\common\model\Occupation;
 use app\common\model\CorporationStructure;
 use app\common\model\Umessage;
 use app\common\model\Employer;
@@ -40,24 +40,6 @@ function check_alipay_account ($alipay) {
     return false;
 }
 
-/**
- * 整合职位id和职位名称，批量获取用户信息时使用
- * @param $friendsInfo 用户信息二维数组
- * @param $corp_id 公司代号
- * @return array
- */
-function get_occupation_name ($friendsInfo,$corp_id) {
-    $occuM = new Occupation($corp_id);
-    $occus = $occuM->getAllOccupations();
-    foreach ($occus as $key => $val) {
-        foreach ($friendsInfo as $k => $v) {
-            if ($v['occupation'] == $val['id']) {
-                $friendsInfo[$k]['occupation'] =$val['occu_name'];
-            }
-        }
-    }
-    return $friendsInfo;
-}
 
 /**
  * 整合部门id合部门名称，批量获取用户信息时使用
@@ -97,23 +79,26 @@ function check_auth ($rule,$uid) {
 
 /**
  * 发送邮件
- * @param $to_user 接收方
+ * @param $sender 发件人邮箱
+ * @param $pass 发件人邮箱密码
+ * @param $to_user 接收人邮箱
  * @param $title  主题
+ * @param $sender_nick 发件人昵称
  * @param string $content 内容
  * @param array $attachment['path','name'] 附件['地址','附件名称']
  * @return bool
  * @throws Exception
  * @throws phpmailerException
  */
-function send_mail ($to_user, $title, $content='',$attachment=array()) {
+function send_mail ($sender,$pass,$to_user, $title, $sender_nick='',$content='',$attachment=array()) {
     $mail = new PHPMailer(true);
     $mail->IsSMTP();                  // send via SMTP
-    $mail->Host = config('system_email.host');   // SMTP servers
+    $mail->Host = get_mail_smtp($sender);   // SMTP servers
     $mail->SMTPAuth = true;           // turn on SMTP authentication
-    $mail->Username = config('system_email.user');     // SMTP username  注意：普通邮件认证不需要加 @域名
-    $mail->Password = config('system_email.pass'); // SMTP password
-    $mail->From = config('system_email.user');      // 发件人邮箱
-    $mail->FromName =  config('system_email.from_name');  // 发件人称呼
+    $mail->Username = $sender;     // SMTP username  注意：普通邮件认证不需要加 @域名
+    $mail->Password = $pass; // SMTP password
+    $mail->From = $sender;      // 发件人邮箱
+    $mail->FromName =  $sender_nick;  // 发件人称呼
 //    $mail->SMTPSecure = 'ssl';
 //    $mail->Port = 465;
     $mail->CharSet = "UTF-8";   // 这里指定字符集！
@@ -152,7 +137,7 @@ function send_sms ($tel,$code,$content) {
         return ['status'=>true];
     } else {
         $content = '手机号'.$tel.'发送信息失败，原因为：'.$data['Result'];
-        send_mail('wangqiwen@winbywin.com', '通信项目短信问题', $content);
+        send_mail(config('system_email.user'),config('system_email.pass'),'wangqiwen@winbywin.com', '通信项目短信问题',config('system_email.from_name'), $content);
         return ['status'=>false,'message'=>$content];
     }
 }
@@ -283,3 +268,121 @@ function get_red_bonus ($total,$num,$redtype,$min=0.01) {
     return $arr;
 }
 
+/**
+ * 获取邮箱smtp服务器地址
+ * @param $email 邮件地址
+ * @param $email_arr 邮箱smtp数组
+ * @return bool
+ */
+function get_mail_smtp ($email,$email_arr=null) {
+    if (false ===filter_var($email, FILTER_VALIDATE_EMAIL)) return false;
+    if (empty($email_arr)) {
+        $email_arr = cache('email_smtp');
+        if (empty($email_arr)) {
+            $email_arr=Db::name('email_smtp')->select();
+            cache('email_smtp',$email_arr);
+        }
+    }
+    $host = explode('@',$email)[1];
+    if(!empty($host)){
+        $result=[];
+        exec('nslookup -type=MX '.escapeshellcmd($host), $result);
+        $mx = $result[4];
+        foreach ($email_arr as $key => $val ) {
+            if (strpos($mx,$val['email_preg'])!==false) {
+                $smtp = $val['smtp_server'];
+                break;
+            }
+        }
+        return isset($smtp)?$smtp:false;
+    }
+    return false;
+}
+
+/**
+ * 对邮箱密码进行加密
+ * @param $input 原密码
+ * @return string
+ */
+function encrypt_email_pass ($input) {
+    $key = md5_file('/project/online_update.tar');//TODO 修改为实际
+    $input = str_replace("\n", "", $input);
+    $input = str_replace("\t", "", $input);
+    $input = str_replace("\r", "", $input);
+    $key = substr(md5($key), 0, 24);
+    $td = mcrypt_module_open('tripledes', '', 'ecb', '');
+    $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
+    mcrypt_generic_init($td, $key, $iv);
+    $encrypted_data = mcrypt_generic($td, $input);
+    mcrypt_generic_deinit($td);
+    mcrypt_module_close($td);
+    return trim(chop(base64_encode($encrypted_data)));
+}
+
+/**
+ * 对邮箱密码进行解密
+ * @param $input 密文
+ * @return string
+ */
+function decrypt_email_pass ($input) {
+    $key = md5_file('/project/online_update.tar');//TODO 修改为实际
+    $input = str_replace("\n", "", $input);
+    $input = str_replace("\t", "", $input);
+    $input = str_replace("\r", "", $input);
+    $input = trim(chop(base64_decode($input)));
+    $td = mcrypt_module_open('tripledes', '', 'ecb', '');
+    $key = substr(md5($key), 0, 24);
+    $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
+    mcrypt_generic_init($td, $key, $iv);
+    $decrypted_data = mdecrypt_generic($td, $input);
+    mcrypt_generic_deinit($td);
+    mcrypt_module_close($td);
+    return trim(chop($decrypted_data));
+}
+/**
+ * curl并发测试
+ * @param $urls
+ * @param $delay
+ * @return array
+ */
+function rolling_curl($urls, $delay) {
+    $queue = curl_multi_init();
+    $map = array();
+    foreach ($urls as $url) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_NOSIGNAL, true);
+        curl_multi_add_handle($queue, $ch);
+        $map[(string) $ch] = $url;
+    }
+
+    $responses = array();
+    do {
+        while (($code = curl_multi_exec($queue, $active)) == CURLM_CALL_MULTI_PERFORM) ;
+        if ($code != CURLM_OK) { break; }
+        while ($done = curl_multi_info_read($queue)) {
+            /**
+             * $done
+             * array (size=3)
+                    'msg' => int 1
+                    'result' => int 0
+                    'handle' => resource(47, curl)
+             */
+            $info = curl_getinfo($done['handle']);
+            $error = curl_error($done['handle']);
+//            dump(curl_multi_getcontent($done['handle']), $delay);exit;
+            $results[] = curl_multi_getcontent($done['handle']);
+            $responses[$map[(string) $done['handle']]] = compact('info', 'error', 'results');
+            curl_multi_remove_handle($queue, $done['handle']);
+            curl_close($done['handle']);
+        }
+        if ($active > 0) {
+            curl_multi_select($queue, 0.5);
+        }
+    } while ($active);
+    curl_multi_close($queue);
+    return $responses;
+}

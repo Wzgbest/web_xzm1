@@ -185,7 +185,8 @@ return [
 
     'cache'                  => [
         // 驱动方式
-        'type'   => 'File',
+//        'type'   => 'File',
+        'type'   => 'Redis',
         // 缓存保存目录
         'path'   => CACHE_PATH,
         // 缓存前缀
@@ -236,26 +237,26 @@ return [
         'var_page'  => 'page',
         'list_rows' => 15,
     ],
-    'db_config1'    =>  [
-        'type'        => 'mysql',
-        'hostname'    => '112.253.21.74',
-        'database'    => '',
-        'username'    => 'zxwz',
-        'password'    => '123456',
-        'hostport'    => '3307',
-        'charset'     => 'utf8',
-        'prefix'      => 'guguo_',
-    ],
 //    'db_config1'    =>  [
 //        'type'        => 'mysql',
-//        'hostname'    => 'localhost',
+//        'hostname'    => '112.253.21.74',
 //        'database'    => '',
-//        'username'    => 'root',
-//        'password'    => 'root',
-//        'hostport'    => '3306',
+//        'username'    => 'zxwz',
+//        'password'    => '123456',
+//        'hostport'    => '3307',
 //        'charset'     => 'utf8',
 //        'prefix'      => 'guguo_',
 //    ],
+    'db_config1'    =>  [
+        'type'        => 'mysql',
+        'hostname'    => 'localhost',
+        'database'    => '',
+        'username'    => 'root',
+        'password'    => 'root',
+        'hostport'    => '3306',
+        'charset'     => 'utf8',
+        'prefix'      => 'guguo_',
+    ],
     'db_common_prefix'=>'guguo_',//分库前缀
     //sms短信账号
     'sms_workid'    => '',

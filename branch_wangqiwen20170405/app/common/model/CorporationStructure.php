@@ -23,4 +23,14 @@ class CorporationStructure extends Base
     {
         return $this->model->table($this->table)->select();
     }
+
+    public function addStructure($data)
+    {
+        return $this->model->table($this->table)->insert($data);
+    }
+
+    public function setStructure($id,$data)
+    {
+        return $this->model->table($this->table)->where('id',$id)->update($data);
+    }
 }

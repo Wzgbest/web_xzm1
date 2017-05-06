@@ -29,12 +29,53 @@ return [
 //        'model'      => ['Umessage'],
 //        'view'       => ['index/index'],
 //    ],
-    'workerman'     => [
+//    'workerman'     => [
+//        '__file__'   => ['common.php'],
+//        '__dir__'    => ['controller', 'model', 'view','service'],
+//        'controller' => ['Index'],
+//        'model'      => [],
+//        'view'       => ['index/index'],
+//    ],
+    'crm'     => [
         '__file__'   => ['common.php'],
-        '__dir__'    => ['controller', 'model', 'view','service'],
-        'controller' => ['Index'],
+        '__dir__'    => ['controller', 'model', 'view','service','logic'],
+        'controller' => ['Index','Customer','SearchCustomer','SaleChance','Mailer','ContractApply','BillApply','RingUp'],
         'model'      => [],
         'view'       => ['index/index'],
     ],
-    // 其他更多的模块定义
+    'systemsetting'     => [
+        '__file__'   => ['common.php'],
+        '__dir__'    => ['controller', 'model', 'view','service'],
+        'controller' => ['Index','Corporation','Department','Role','Employer','BusinessFlow','Contract','Bill','Customer'],
+        'model'      => [],
+        'view'       => ['index/index'],
+    ],
+    'verification'     => [
+        '__file__'   => ['common.php'],
+        '__dir__'    => ['controller', 'model', 'view','service'],
+        'controller' => ['Index','Contract','Bill'],
+        'model'      => [],
+        'view'       => ['index/index'],
+    ],
+    'phonebox'     => [
+        '__file__'   => ['common.php'],
+        '__dir__'    => ['controller', 'model', 'view','service'],
+        'controller' => ['Index','UploadFile','PositiveRequest','ConnectKeep'],
+        'model'      => [],
+        'view'       => ['index/index'],
+    ],
+    'knowledgebase'     => [
+        '__file__'   => ['common.php'],
+        '__dir__'    => ['controller', 'model', 'view','service'],
+        'controller' => ['Index','TalkingMethod','CorporationShare','CloudFile','LiveShow'],
+        'model'      => [],
+        'view'       => ['index/index'],
+    ],
+    'employergrowth'     => [
+        '__file__'   => ['common.php'],
+        '__dir__'    => ['controller', 'model', 'view','service'],
+        'controller' => ['Index','Bill'],
+        'model'      => [],
+        'view'       => ['index/index'],
+    ],
 ];
