@@ -24,7 +24,7 @@ class Corporation extends Initialize
         }
         $input = input('param.');
 
-        if (empty($input['corp_name']) ||empty($input['corp_tel'])) {
+        if (empty($input['corp_name']) ||empty($input['corp_tel']) || empty($input['corp_field'])) {
             $info['message'] = '缺少必填信息';
             return $info;
         }
@@ -50,6 +50,10 @@ class Corporation extends Initialize
         return $info;
     }
 
+    /**
+     * 修改公司百度地图坐标
+     * @return mixed
+     */
     public function baiduLbs()
     {
         $input = input('param.');

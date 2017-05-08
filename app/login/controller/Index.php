@@ -40,7 +40,7 @@ class Index extends Controller
             return $req_reg;
         }
         $model = new Employer($corp_id);
-        $user_arr = $model->getEmployer($telephone);
+        $user_arr = $model->getEmployerByTel($telephone);
         if (empty($user_arr)) {
             $req_reg['message'] = '用户不存在或用户未划分公司归属';
             $req_reg['errnum'] = 3;
@@ -72,7 +72,7 @@ class Index extends Controller
             'truename'=>$user_arr['truename'],
             'role'=>$user_arr['role_id'],
         ];
-        session('userinfo'.$telephone,$userinfo);
+        session('userinfo',$userinfo);
         $this->redirect('index/Index/index');
     }
 }

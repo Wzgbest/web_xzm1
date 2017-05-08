@@ -14,7 +14,7 @@ class Role extends Base
      */
     public function __construct($corp_id)
     {
-        $this->table=config('database.prefix').'role_employer';
+        $this->table=config('database.prefix').'role';
         parent::__construct($corp_id);
     }
 
@@ -25,6 +25,11 @@ class Role extends Base
     public function getAllRole()
     {
         return $this->model->table($this->table)->field('id,role_name')->select();
+    }
+
+    public function getRoleName($role_id)
+    {
+        return $this->model->table($this->table)->where('id',$role_id)->value('role_name');
     }
 
     public function addRole($data)

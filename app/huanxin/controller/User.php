@@ -634,7 +634,7 @@ class User
             return $info;
         }
         $this->employM = new Employer($corp_id);
-        $userinfo = $this->employM->getEmployer($userid);
+        $userinfo = $this->employM->getEmployerByTel($userid);
         if ($userinfo['system_token'] != $access_token) {
             $info['message'] = 'token不正确，请重新登陆';
             $info['errnum'] = 104;

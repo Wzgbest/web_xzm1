@@ -170,7 +170,7 @@ function get_userid_from_tel ($tel,$corp_id='') {
         $corp_id = get_corpid($tel);
     }
     $employM = new Employer($corp_id);
-    $users = $employM->getEmployer($tel);
+    $users = $employM->getEmployerByTel($tel);
     return $users['id'];
 }
 /**
