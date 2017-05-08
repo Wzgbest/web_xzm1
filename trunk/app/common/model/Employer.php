@@ -20,14 +20,19 @@ class Employer extends Base
      * @param $telephone
      * @return array
      */
-    public function getEmployer($telephone)
+    public function getEmployerByTel($telephone)
     {
 //        return $this->model->table($this->table)->where('telephone',$telephone)->cache('employer_info'.$telephone)->find();
-//        return $this->model->table($this->table)->where('telephone',$telephone)->find();
+        return $this->model->table($this->table)->where('telephone',$telephone)->find();
+    }
+
+    public function getEmployerByUserid($userid)
+    {
         return $this->model->table($this->table)->alias('a')
-            ->join(config('database.prefix').'role_employer b','a.id = b.user_id')
-            ->field('a.*,b.role_id')
-            ->where('a.telephone',$telephone)->find();
+            ->join(config('database.prefix').'role b','a.role = b.id','left')
+            ->join(config('database.prefix').'corporation_structure d','a.structid = d.id')
+            ->field('a.*,b.role_name,d.struct_name')
+            ->where('a.id',$userid)->find();
     }
 
     /**
@@ -136,5 +141,43 @@ class Employer extends Base
     public function setSingleEmployerInfobyId($id,$data)
     {
         return $this->model->table($this->table)->where('id',$id)->update($data);
+    }
+
+    public function setSingleEmployerInfobyIds($user_ids,$data)
+    {
+        return $this->model->table($this->table)->where('id','in',$user_ids)->update($data);
+    }
+
+    /**
+     * 根据部门id查询该部门所有员工
+     * @param $structd_id 部门id
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public function getEmployerByStructId($struct_id,$page_first=0,$rows=null)
+    {
+        if (is_null($rows)) {
+            return $this->model->table($this->table)->alias('a')
+                ->join(config('database.prefix').'role b','a.role = b.id','left')
+                ->field('a.id as user_id,a.truename,a.worknum,a.telephone,a.email,a.is_leader,a.role,b.role_name')
+                ->where('a.structid',$struct_id)->select();
+        } else {
+            return $this->model->table($this->table)->alias('a')
+                ->join(config('database.prefix').'role b','a.role = b.id','left')
+                ->field('a.id as user_id,a.truename,a.worknum,a.telephone,a.email,a.is_leader,a.role,b.role_name')
+                ->where('a.structid',$struct_id)->limit($page_first,$rows)->select();
+        }
+    }
+
+    /**
+     * 根据部门id查询该部门所有员工数量
+     * @param $struct_id 部门id
+     * @return int|string
+     */
+    public function countEmployerByStructId($struct_id)
+    {
+        return $this->model->table($this->table)->alias('a')
+            ->join(config('database.prefix').'role c','a.role = b.id','left')
+            ->field('a.id as user_id,a.truename,a.worknum,a.telephone,a.email,a.is_leader,a.role,b.role_name')
+            ->where('a.structid',$struct_id)->count('a.id');
     }
 }
