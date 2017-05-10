@@ -28,17 +28,24 @@ class Employer extends Initialize
      * @param int $page_rows 行数
      * @return array
      */
-    public function showEmployerList($page_now_num = 0, $page_rows = 10,$where = null)
+    public function showEmployerList($page_now_num = 0, $page_rows = 10,$map = null)
     {
         $corp_id = get_corpid();
+        $input = input('param.');
         $employerM = new EmployerModel($corp_id);
-        $map = [
-            'struct_id' =>$where['struct_id'],
-            'role' => $where['role'],
-            'on_duty' =>$where['on_duty'],
-        ];
-        $res = $employerM->getPageEmployerList($page_now_num,null,$map);dump($res);exit;
+        $map = [];
+        if (isset($input['struct_id'])) {
+            $map['struct_id'] = $input['struct_id'];
+        }
+        if (isset($input['role'])) {
+            $map['role'] = $input['role'];
+        }
+        if (isset($input['on_duty'])) {
+            $map['on_duty'] = $input['on_duty'];
+        }
+        $res = $employerM->getPageEmployerList($page_now_num,$page_rows,$map);
         $count = $employerM->countPageEmployerList($map);
+        $count = empty($count)? 0:$count[0]['num'];
         return [
             'data'=>$res,
             'page_now_num'=>$page_now_num,

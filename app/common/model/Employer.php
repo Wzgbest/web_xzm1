@@ -9,10 +9,12 @@ use app\common\model\Base;
 
 class Employer extends Base
 {
+    protected $dbprefix;
     public function __construct($corp_id)
     {
-        $this->table=config('database.prefix').'employer';
+        $this->table = config('database.prefix').'employer';
         parent::__construct($corp_id);
+        $this->dbprefix = config('database.prefix');
     }
 
     /**
@@ -25,7 +27,7 @@ class Employer extends Base
 //        return $this->model->table($this->table)->where('telephone',$telephone)->cache('employer_info'.$telephone)->find();
 //        return $this->model->table($this->table)->where('telephone',$telephone)->find();
         return $this->model->table($this->table)->alias('a')
-            ->join(config('database.prefix').'role b','a.role = b.id','left')
+            ->join($this->dbprefix.'role b','a.role = b.id','left')
             ->field('a.*,b.role_name')
             ->where('a.telephone',$telephone)->find();
     }
@@ -38,8 +40,8 @@ class Employer extends Base
     public function getEmployerByUserid($userid)
     {
         return $this->model->table($this->table)->alias('a')
-            ->join(config('database.prefix').'role b','a.role = b.id','left')
-            ->join(config('database.prefix').'corporation_structure d','a.structid = d.id')
+            ->join($this->dbprefix.'role b','a.role = b.id','left')
+            ->join($this->dbprefix.'corporation_structure d','a.structid = d.id')
             ->field('a.*,b.role_name,d.struct_name')
             ->where('a.id',$userid)->find();
     }
@@ -117,9 +119,9 @@ class Employer extends Base
     public function getAllUsers()
     {
         return $this->model->table($this->table)->alias('a')
-            ->join(config('database.prefix').'role b','a.role = b.id')
-            ->join(config('database.prefix').'structure_employer c','a.id = c.user_id')
-            ->join(config('database.prefix').'structure d','c.struct_id = d.id')
+            ->join($this->dbprefix.'role b','a.role = b.id')
+            ->join($this->dbprefix.'structure_employer c','a.id = c.user_id')
+            ->join($this->dbprefix.'structure d','c.struct_id = d.id')
             ->field('a.telephone,a.userpic,a.truename as nickname,b.role_name as occupation,d.struct_name as structid')
             ->select();
     }
@@ -168,16 +170,16 @@ class Employer extends Base
     {
         if (is_null($rows)) {
             return $this->model->table($this->table)->alias('a')
-                ->join(config('database.prefix').'role b','a.role = b.id')
-                ->join(config('database.prefix').'structure_employer c','a.id = c.user_id')
-                ->join(config('database.prefix').'structure d','c.struct_id = d.id')
+                ->join($this->dbprefix.'role b','a.role = b.id')
+                ->join($this->dbprefix.'structure_employer c','a.id = c.user_id')
+                ->join($this->dbprefix.'structure d','c.struct_id = d.id')
                 ->field('a.id as user_id,a.truename,a.worknum,a.telephone,a.email,a.is_leader,a.role,b.role_name,c.struct_id,d.struct_name')
                 ->where('c.struct_id',$struct_id)->select();
         } else {
             return $this->model->table($this->table)->alias('a')
-                ->join(config('database.prefix').'role b','a.role = b.id')
-                ->join(config('database.prefix').'structure_employer c','a.id = c.user_id')
-                ->join(config('database.prefix').'structure d','c.struct_id = d.id')
+                ->join($this->dbprefix.'role b','a.role = b.id')
+                ->join($this->dbprefix.'structure_employer c','a.id = c.user_id')
+                ->join($this->dbprefix.'structure d','c.struct_id = d.id')
                 ->field('a.id as user_id,a.truename,a.worknum,a.telephone,a.email,a.is_leader,a.role,b.role_name,c.struct_id,d.struct_name')
                 ->where('c.struct_id',$struct_id)->limit($page_first,$rows)->select();
         }
@@ -191,9 +193,9 @@ class Employer extends Base
     public function countEmployerByStructId($struct_id)
     {
         return $this->model->table($this->table)->alias('a')
-            ->join(config('database.prefix').'role b','a.role = b.id')
-            ->join(config('database.prefix').'structure_employer c','a.id = c.user_id')
-            ->join(config('database.prefix').'structure d','c.struct_id = d.id')
+            ->join($this->dbprefix.'role b','a.role = b.id')
+            ->join($this->dbprefix.'structure_employer c','a.id = c.user_id')
+            ->join($this->dbprefix.'structure d','c.struct_id = d.id')
             ->field('a.id as user_id,a.truename,a.worknum,a.telephone,a.email,a.is_leader,a.role,b.role_name,c.struct_id,d.struct_name')
             ->where('c.struct_id',$struct_id)->count('a.id');
     }
@@ -202,69 +204,78 @@ class Employer extends Base
      * 获取所有员工列表
      * @param int $page_now_num 当前页
      * @param null $rows 行数
+     * @param null $where 查询条件
      * @return false|\PDOStatement|string|\think\Collection
      */
     public function getPageEmployerList($page_now_num = 0,$rows = null,$where = null)
     {
-        if (is_null($rows)) {
-//            return $this->model->table($this->table)->alias('a')
-//                ->join(config('database.prefix').'role b','a.role = b.id','left')
-//                ->join(config('database.prefix').'structure_employer c','a.id = c.user_id')
-//                ->join(config('database.prefix').'structure d','c.struct_id = d.id')
-//                ->field('a.id,a.truename,a.role,a.telephone,a.is_leader,a.on_duty,a.worknum,a.email,a.qqnum,b.role_name,c.struct_id,d.struct_name')
-//                ->group('a.id')
-//                ->buildSql();
-//                ->select();
-            if ($where) {
-                $map = 'where';
-                if (isset($where['struct_id'])) {
-                    $map .= ' c.struct_id ='.$where['struct_id'];
-                    if (isset($where['role'])) {
-                        $map .= ' and a.role ='.$where['role'];
-                        if (isset($where['on_duty'])) {
-                            $map = ' and a.on_duty='.$where['on_duty'];
-                        }
+        if ($where) {
+            $map = 'where ';
+            if (isset($where['struct_id'])) {
+                $map .= 'c.struct_id ='.$where['struct_id'].' ';
+                if (isset($where['role'])) {
+                    $map .= 'and a.role ='.$where['role'].' ';
+                    if (isset($where['on_duty'])) {
+                        $map .= 'and a.on_duty='.$where['on_duty'].' ';
                     }
-                } else{
-                    if (isset($where['role'])) {
-                        $map .= ' a.role ='.$where['role'];
-                        if (isset($where['on_duty'])) {
-                            $map = ' and a.on_duty='.$where['on_duty'];
-                        }
-                    } else {
-                        if (isset($where['on_duty'])) {
-                            $map = ' a.on_duty='.$where['on_duty'];
-                        }
+                }
+            } else {
+                if (isset($where['role'])) {
+                    $map .= ' a.role ='.$where['role'].' ';
+                    if (isset($where['on_duty'])) {
+                        $map .= ' and a.on_duty='.$where['on_duty'].' ';
+                    }
+                } else {
+                    if (isset($where['on_duty'])) {
+                        $map .= ' a.on_duty='.$where['on_duty'].' ';
                     }
                 }
             }
-            dump($map);exit;
-            $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`on_duty`,
-            `a`.`worknum`,`a`.`email`,`a`.`qqnum`,`b`.`role_name`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name`
-            FROM `guguo_employer` `a` LEFT JOIN `guguo_role` `b` ON `a`.`role`=`b`.`id`
-            INNER JOIN `guguo_structure_employer` `c` ON `a`.`id`=`c`.`user_id`
-            INNER JOIN `guguo_structure` `d` ON `c`.`struct_id`=`d`.`id`
-            GROUP BY `a`.`id` '.$map;
-            dump($sql);
+        } else {
+            $map = '';
+        }
+        if (is_null($rows)) {
+            $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`on_duty`,`a`.`worknum`,`a`.`email`,`a`.`qqnum`,`b`.`role_name`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employer` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employer` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.'GROUP BY `a`.`id`;';
             return $this->model->table($this->table)->query($sql);
         } else {
-//            return $this->model->table($this->table)->alias('a')
-//                ->join(config('database.prefix').'role b','a.role = b.id','left')
-//                ->join(config('database.prefix').'structure_employer c','a.id = c.user_id')
-//                ->join(config('database.prefix').'structure d','c.struct_id = d.id')
-//                ->field('a.id,a.truename,a.role,a.telephone,a.is_leader,a.on_duty,a.worknum,a.email,a.qqnum,b.role_name,c.struct_id,d.struct_name')
-//                ->limit($page_now_num,$rows)
-//                ->select();
-            return $this->model->table($this->table)->query("SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`on_duty`,`a`.`worknum`,`a`.`email`,`a`.`qqnum`,`b`.`role_name`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `guguo_employer` `a` LEFT JOIN `guguo_role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `guguo_structure_employer` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `guguo_structure` `d` ON `c`.`struct_id`=`d`.`id` GROUP BY `a`.`id` limit $page_now_num,$rows;");
+            $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`on_duty`,`a`.`worknum`,`a`.`email`,`a`.`qqnum`,`b`.`role_name`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employer` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employer` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.'GROUP BY `a`.`id` limit '.$page_now_num.','.$rows.';';
+            return $this->model->table($this->table)->query($sql);
         }
     }
 
     /**
      * 所有员工总数
-     * @return int|string
+     * @param null $where 查询条件
+     * @return mixed
      */
-    public function countPageEmployerList()
+    public function countPageEmployerList($where = null)
     {
-        return $this->model->table($this->table)->count('id');
+        if ($where) {
+            $map = 'where ';
+            if (isset($where['struct_id'])) {
+                $map .= 'c.struct_id ='.$where['struct_id'].' ';
+                if (isset($where['role'])) {
+                    $map .= 'and a.role ='.$where['role'].' ';
+                    if (isset($where['on_duty'])) {
+                        $map .= 'and a.on_duty='.$where['on_duty'].' ';
+                    }
+                }
+            } else {
+                if (isset($where['role'])) {
+                    $map .= ' a.role ='.$where['role'].' ';
+                    if (isset($where['on_duty'])) {
+                        $map .= ' and a.on_duty='.$where['on_duty'].' ';
+                    }
+                } else {
+                    if (isset($where['on_duty'])) {
+                        $map .= ' a.on_duty='.$where['on_duty'].' ';
+                    }
+                }
+            }
+        } else {
+            $map = '';
+        }
+        $sql = 'SELECT count(distinct `a`.`id`) as num FROM `'.$this->dbprefix.'employer` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employer` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.';';
+        return $this->model->table($this->table)->query($sql);
     }
 }
