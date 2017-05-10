@@ -2,6 +2,7 @@
 /**
  * Created by messhair
  * Date: 17-2-17
+ * 该类暂时不用（废弃）
  */
 namespace app\common\model;
 
@@ -62,8 +63,8 @@ class CorporationStructure extends Base
      * @return int
      * @throws \think\Exception
      */
-    public function deleteStructure($id)
+    public function deleteStructure($ids)
     {
-        return $this->model->table($this->table)->where('id',$id)->delete();
+        return $this->model->table($this->table)->where('id','in',$ids)->delete();
     }
 }

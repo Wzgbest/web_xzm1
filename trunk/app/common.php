@@ -13,6 +13,7 @@ use app\common\model\UserCorporation;
 use app\common\model\CorporationStructure;
 use app\common\model\Umessage;
 use app\common\model\Employer;
+use app\common\model\Structure as StructureModel;
 
 // 应用公共文件
 
@@ -40,25 +41,6 @@ function check_alipay_account ($alipay) {
     return false;
 }
 
-
-/**
- * 整合部门id合部门名称，批量获取用户信息时使用
- * @param $friendsInfo
- * @param $corp_id
- * @return mixed
- */
-function get_struct_name ($friendsInfo,$corp_id) {
-    $structM = new CorporationStructure($corp_id);
-    $structs = $structM->getAllStructure();
-    foreach ($structs as $key => $val) {
-        foreach ($friendsInfo as $k => $v) {
-            if ($v['structid'] == $val['id']) {
-                $friendsInfo[$k]['structid'] =$val['struct_name'];
-            }
-        }
-    }
-    return $friendsInfo;
-}
 
 /**
  * 权限验证
@@ -337,6 +319,26 @@ function decrypt_email_pass ($input) {
     mcrypt_generic_deinit($td);
     mcrypt_module_close($td);
     return trim(chop($decrypted_data));
+}
+
+/**
+ * 依次列出部门下所有部门id
+ * @param $arr 存放所有部门信息
+ * @param $id 初始部门id
+ * @param array $new_arr
+ * @return array
+ */
+function deep_get_ids ($arr,$id,$new_arr=[]) {
+    foreach ($arr as $key => $val) {
+        if ($val['struct_pid'] ==$id) {
+            $new_arr[] .= $val['id'];
+            unset($arr[$key]);
+            $new_arr = deep_get_ids($arr,$val['id'],$new_arr);
+        } else {
+            continue;
+        }
+    }
+    return $new_arr;
 }
 /**
  * curl并发测试

@@ -7,15 +7,16 @@ namespace app\systemsetting\controller;
 
 use app\common\controller\Initialize;
 use app\systemsetting\controller\Employer;
-use app\common\model\CorporationStructure;
 use app\common\model\Employer as EmployerModel;
+use app\common\model\Structure as StructureModel;
+use app\common\model\StructureEmployer as StructureEmployerModel;
 
 class Structure extends Initialize
 {
     public function index()
     {
         $corp_id = get_corpid();
-        $struM = new CorporationStructure($corp_id);
+        $struM = new StructureModel($corp_id);
         $structs = $struM->getAllStructure();
         $tree = new \myvendor\Tree($structs,['id','struct_pid']);
         $res = $tree->leaf(0);
@@ -51,12 +52,40 @@ class Structure extends Initialize
     }
 
     /**
+     * 部门重命名
+     * @param $struct_id 部门id
+     * @param $new_name 新名称
+     * @return array
+     */
+    public function renameStructure($struct_id,$new_name)
+    {
+        $corp_id = get_corpid();
+        $struM = new StructureModel($corp_id);
+        $data = [
+            'struct_name'=>$new_name,
+        ];
+        $b = $struM->setStructure($struct_id,$data);
+        if ($b>=0) {
+            $info = [
+                'status'=>true,
+                'message'=>'更改部门名称成功',
+            ];
+        } else {
+            $info = [
+                'status' => false,
+                'message'=> '更改部门名称失败',
+            ];
+        }
+        return $info;
+    }
+
+    /**
      * 切换员工所在部门
      * @param $user_id 员工id
      * @param $to_group 目标部门id
      * @return array
      */
-    public function changeEmployerStructure($user_id,$to_group)
+    public function changeEmployerStructure($user_id,$group,$to_group)
     {
         $corp_id = get_corpid();
 
@@ -65,11 +94,11 @@ class Structure extends Initialize
         if (empty($st_res)) {
             return ['status'=>false,'message'=>'选择的部门不存在'];
         }
-        $employerM = new EmployerModel($corp_id);
+        $employerM = new StructureEmployerModel($corp_id);
         $data = [
-            'structid' => $to_group,
+            'struct_id' => $to_group,
         ];
-        $res = $employerM->setSingleEmployerInfobyId($user_id,$data);
+        $res = $employerM->setStructureEmployerById($user_id,$group,$data);
         if ($res >0) {
             $info=[
                 'status' =>true,
@@ -94,35 +123,37 @@ class Structure extends Initialize
     {
         $corp_id = get_corpid();
 
-        $struM = new CorporationStructure($corp_id);
+        $struM = new StructureModel($corp_id);
         $st_res = $struM->getStructureInfo($struct_id);
         if (empty($st_res)) {
             return ['status'=>false,'message'=>'选择的部门不存在'];
         }
 
-        $st_res2 = $struM->getStructureInfo();
+        $st_res_all = $struM->getAllStructure();
+        $ids = deep_get_ids($st_res_all,$struct_id);
+        $ids = implode(',',$ids);
 
-        $employerM = new EmployerModel($corp_id);
-        $users = $employerM->getEmployerByStructId($struct_id);
+        $employerM = new StructureEmployerModel($corp_id);
+        $users = $employerM->getEmployerByStructIds($ids);
         if ($trans == 1) {
-            //转移到默认组
+            //转移员工到默认组
             if (empty($users)) {
                 $employerM->link->startTrans();
                 $b = 1;
             } else {
                 $user_ids = [];
                 foreach ($users as $val) {
-                    $user_ids[] .= $val['user_id'];
+                    $user_ids[] .= $val['id'];
                 }
                 $user_ids = implode(',',$user_ids);
                 $data = [
-                    'structid' => -1,
+                    'struct_id' => -1,
                 ];
                 $employerM->link->startTrans();
-                $b = $employerM->setSingleEmployerInfobyIds($user_ids,$data);
+                $b = $employerM->setStructureEmployerbyIds($user_ids,$data);
             }
 
-            $d = $struM->deleteStructure($struct_id);
+            $d = $struM->deleteStructure($ids);
             if ($b>0 && $d>0) {
                 $employerM->link->commit();
                 $info = [
@@ -144,17 +175,17 @@ class Structure extends Initialize
             } else {
                 $user_ids = [];
                 foreach ($users as $val) {
-                    $user_ids[] .= $val['user_id'];
+                    $user_ids[] .= $val['id'];
                 }
                 $user_ids = implode(',',$user_ids);
                 $data = [
-                    'structid' => -1,
+                    'struct_id' => -1,
                 ];
                 $employerM->link->startTrans();
-                $b = $employerM->setSingleEmployerInfobyIds($user_ids,$data);
+                $b = $employerM->setStructureEmployerbyIds($user_ids,$data);
             }
 
-            $d = $struM->deleteStructure($struct_id);
+            $d = $struM->deleteStructure($ids);
             if ($b>0 && $d>0) {
                 $employerM->link->commit();
                 $info = [
