@@ -36,8 +36,10 @@ class User
         if (!$chk_info['status']) {
             return json_encode($chk_info,true);
         }
+        /**
+         * TODO  更改此处查询部门
+         */
         $friendsInfo = $this->employM->getAllUsers();
-        $friendsInfo = get_struct_name($friendsInfo, $chk_info['corp_id']);
         $info['message'] = 'SUCCESS';
         $info['status'] = true;
         $info['friendsInfo'] = $friendsInfo;

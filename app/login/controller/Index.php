@@ -70,7 +70,7 @@ class Index extends Controller
             'wiredphone'=>$user_arr['wired_phone'],
             'partphone'=>$user_arr['part_phone'],
             'truename'=>$user_arr['truename'],
-            'role'=>$user_arr['role_id'],
+            'role'=>$user_arr['role_name'],
         ];
         session('userinfo',$userinfo);
         $this->redirect('index/Index/index');
