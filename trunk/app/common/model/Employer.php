@@ -46,6 +46,16 @@ class Employer extends Base
             ->where('a.id',$userid)->find();
     }
 
+    public function addSingleEmployer($data)
+    {
+        return $this->model->table($this->table)->insert($data);
+    }
+
+    public function addMutipleEmployers()
+    {
+        return $this->model->table($this->table)->insertAll($data);
+    }
+
     /**
      * 记录用户登陆信息
      * @param $telephone 电话号码

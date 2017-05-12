@@ -51,4 +51,14 @@ class StructureEmployer extends Base
     {
         return $this->model->table($this->table)->where('user_id','in',$user_ids)->update($data);
     }
+
+    /**
+     * 增加部门员工
+     * @param $data
+     * @return int|string
+     */
+    public function addStructureEmployer($data)
+    {
+        return $this->model->table($this->table)->insert($data);
+    }
 }
