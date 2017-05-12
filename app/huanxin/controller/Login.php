@@ -45,6 +45,7 @@ class Login extends Controller
             $req_reg['errnum'] = 3;
             return json_encode($req_reg, true);
         }
+        //验证用户信息
         $model = new Employer($corp_id);
         $user_arr = $model->getEmployerByTel($telephone);
         if (empty($user_arr)) {
@@ -76,16 +77,21 @@ class Login extends Controller
         $score=$scoreM->getEmployerScore($user_arr['id']);
         //积分占比
         $per=$scoreM->getScoreListPer($score['score']);
-        //公司职位
-        $roleM = new Role($corp_id);
-        $rolep = $roleM->getRoleName($user_arr['id']);
 
+        //获取用户在公司职位
+        $roleM = new Role($corp_id);
+        $rolep = $roleM->getRoleName($user_arr['role']);
+
+        //更新登录信息
         $data =['lastloginip'=>$ip,'lastlogintime'=>time()];
         if ($model->setEmployerSingleInfo($telephone,$data) <= 0) {
             $reg_reg['message'] = '登录信息写入失败，联系管理员';
             $reg_reg['errnum'] = 7;
             return json_encode($reg_reg,true);
         }
+
+        //所有员工信息
+        $data_all = $model->getAllUsers();
 //        cache('employer_info'.$telephone,null);
         $req_reg['message'] = 'SUCCESS';
         $req_reg['status'] = true;
@@ -96,6 +102,7 @@ class Login extends Controller
         $req_reg['title'] = $score['title'];
         $req_reg['occupation'] = $rolep;
         $req_reg['percentage'] = $per;
+        $req_reg['totaluser'] = $data_all;
         return json_encode($req_reg, true);
     }
 }

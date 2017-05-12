@@ -27,16 +27,33 @@ class Role extends Base
         return $this->model->table($this->table)->field('id,role_name')->select();
     }
 
+    /**
+     * 根据角色id查询
+     * @param $role_id 角色id
+     * @return mixed
+     */
     public function getRoleName($role_id)
     {
         return $this->model->table($this->table)->where('id',$role_id)->value('role_name');
     }
 
+    /**
+     * 添加角色
+     * @param $data
+     * @return int|string
+     */
     public function addRole($data)
     {
         return $this->model->table($this->table)->insert($data);
     }
 
+    /**
+     * 更新角色
+     * @param $id 角色id
+     * @param $data
+     * @return int|string
+     * @throws \think\Exception
+     */
     public function setRole($id,$data)
     {
         return $this->model->table($this->table)->where('id',$id)->update($data);

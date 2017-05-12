@@ -26,6 +26,16 @@ class StructureEmployer extends Base
     }
 
     /**
+     * 根据员工id获取部门ids
+     * @param $user_id 员工id
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public function getStructIdsByEmployer($user_id)
+    {
+        return $this->model->table($this->table)->where('user_id',$user_id)->field('struct_id')->select();
+    }
+
+    /**
      * 更改单个员工的部门
      * @param $user_id 员工id
      * @param $struct_id 部门id
@@ -60,5 +70,23 @@ class StructureEmployer extends Base
     public function addStructureEmployer($data)
     {
         return $this->model->table($this->table)->insert($data);
+    }
+
+    /**
+     * 批量增加部门员工
+     * @param $data
+     * @return int|string
+     */
+    public function addMultipleStructureEmployer($data)
+    {
+        return $this->model->table($this->table)->insertAll($data);
+    }
+
+    public function deleteMultipleStructureEmployer($user_id,$data)
+    {
+        $ids = implode(',',$data);
+        return $this->model->table($this->table)
+            ->where('user_id',$user_id)
+            ->where('struct_id','in', $ids)->delete();
     }
 }
