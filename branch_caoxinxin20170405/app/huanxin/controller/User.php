@@ -36,8 +36,10 @@ class User
         if (!$chk_info['status']) {
             return json_encode($chk_info,true);
         }
+        /**
+         * TODO  更改此处查询部门
+         */
         $friendsInfo = $this->employM->getAllUsers();
-        $friendsInfo = get_struct_name($friendsInfo, $chk_info['corp_id']);
         $info['message'] = 'SUCCESS';
         $info['status'] = true;
         $info['friendsInfo'] = $friendsInfo;
@@ -634,7 +636,7 @@ class User
             return $info;
         }
         $this->employM = new Employer($corp_id);
-        $userinfo = $this->employM->getEmployer($userid);
+        $userinfo = $this->employM->getEmployerByTel($userid);
         if ($userinfo['system_token'] != $access_token) {
             $info['message'] = 'token不正确，请重新登陆';
             $info['errnum'] = 104;
