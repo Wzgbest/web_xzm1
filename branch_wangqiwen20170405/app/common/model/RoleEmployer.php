@@ -2,6 +2,8 @@
 /**
  * Created by messhair
  * Date: 17-4-7
+ *
+ * 该类暂时不用（废弃）
  */
 namespace app\common\model;
 
