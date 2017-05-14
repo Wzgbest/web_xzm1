@@ -39,9 +39,10 @@ class Employer extends Base
      */
     public function getEmployerByUserid($userid)
     {
-        $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`on_duty`,`a`.`worknum`,`a`.`email`,`a`.`qqnum`,`b`.`role_name`,GROUP_CONCAT(`d`.`id`) as `struct_id`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employer` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employer` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` WHERE `a`.`id`='.$userid.';';
-        $res = $this->model->table($this->table)->query($sql);
-        return $res[0];
+        return $this->model->table($this->table)->alias('a')
+            ->join($this->dbprefix.'role b','a.role = b.id','left')
+            ->field('a.*,b.role_name')
+            ->where('a.id',$userid)->find();
     }
 
     /**
