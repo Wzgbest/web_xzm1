@@ -82,11 +82,32 @@ class StructureEmployer extends Base
         return $this->model->table($this->table)->insertAll($data);
     }
 
+    /**
+     * 删除员工的部门信息
+     * @param $user_id 员工id
+     * @param $data
+     * @return int
+     * @throws \think\Exception
+     */
     public function deleteMultipleStructureEmployer($user_id,$data)
     {
         $ids = implode(',',$data);
         return $this->model->table($this->table)
             ->where('user_id',$user_id)
             ->where('struct_id','in', $ids)->delete();
+    }
+
+    /**
+     * 查询员工部门信息
+     * @param $user_id
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public function getEmployerStructure($user_id)
+    {
+        return $this->model->table($this->table)->alias('a')
+            ->join(config('database.prefix').'structure b','a.struct_id = b.id')
+            ->field('a.struct_id,b.struct_name')
+            ->where('a.user_id',$user_id)
+            ->select();
     }
 }

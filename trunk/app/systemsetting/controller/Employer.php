@@ -147,13 +147,23 @@ class Employer extends Initialize
             }
         }
     }
+
+    /**
+     * 编辑员工信息
+     * @param Request $request
+     * @param $user_id
+     * @return array|false|\PDOStatement|string|\think\Model
+     */
     public function editEmployer(Request $request, $user_id)
     {
         if ($request->isGet()) {
             $corp_id = get_corpid();
             $employerM = new EmployerModel($corp_id);
-            $res = $employerM->getEmployerByUserid($user_id);dump($res);exit;
-            return $res;
+            $structM = new StructureEmployer($corp_id);
+            $employer_info = $employerM->getEmployerByUserid($user_id);
+            $struct_info = $structM->getEmployerStructure($user_id);
+            $employer_info['struct_info'] = $struct_info;
+            return $employer_info;
         } elseif ($request->isPost()) {
             $input = $request->param();
             $result = $this->validate($input,'Employer');
@@ -249,4 +259,16 @@ class Employer extends Initialize
             }
         }
     }
+
+    public function deletesingleEmployer($user_id)
+    {
+        $corp_id = get_corpid();
+        $employerM = new EmployerModel($corp_id);
+        $data = ['status' =>0];
+        $user_id = $employerM->setSingleEmployerInfobyId($user_id,$data);
+
+    }
+
+    public function deleteMultipleEmployer($user_ids)
+    {}
 }
