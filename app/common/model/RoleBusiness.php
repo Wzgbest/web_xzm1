@@ -9,7 +9,7 @@ use app\common\model\Base;
 
 class RoleBusiness extends Base
 {
-    public function __construct($corp_id)
+    public function __construct($corp_id=null)
     {
         $this->table=config('database.prefix').'role_business';
         parent::__construct($corp_id);

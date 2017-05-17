@@ -19,8 +19,7 @@ class Employer extends Initialize
      */
     public function showSingleEmployerInfo($user_id)
     {
-        $corp_id = get_corpid();
-        $employerM = new EmployerModel($corp_id);
+        $employerM = new EmployerModel($this->corp_id);
         $info = $employerM->getEmployerByUserid($user_id);
         return $info;
     }
@@ -36,9 +35,8 @@ class Employer extends Initialize
      */
     public function showEmployerList($page_now_num = 0, $page_rows = 10,$map = null)
     {
-        $corp_id = get_corpid();
         $input = input('param.');
-        $employerM = new EmployerModel($corp_id);
+        $employerM = new EmployerModel($this->corp_id);
         $map = [];
         if (isset($input['struct_id'])) {
             $map['struct_id'] = $input['struct_id'];
@@ -88,9 +86,8 @@ class Employer extends Initialize
             }
             $struct_ids = $input['struct_id'];
             unset($input['struct_id']);
-            $corp_id = get_corpid();
-            $employerM = new EmployerModel($corp_id);
-            $struct_empM = new StructureEmployer($corp_id);
+            $employerM = new EmployerModel($this->corp_id);
+            $struct_empM = new StructureEmployer($this->corp_id);
             $huanxin = new HuanxinApi();
             $info['status'] = false;
             $employerM->link->startTrans();
@@ -157,9 +154,8 @@ class Employer extends Initialize
     public function editEmployer(Request $request, $user_id)
     {
         if ($request->isGet()) {
-            $corp_id = get_corpid();
-            $employerM = new EmployerModel($corp_id);
-            $structM = new StructureEmployer($corp_id);
+            $employerM = new EmployerModel($this->corp_id);
+            $structM = new StructureEmployer($this->corp_id);
             $employer_info = $employerM->getEmployerByUserid($user_id);
             $struct_info = $structM->getEmployerStructure($user_id);
             $employer_info['struct_info'] = $struct_info;
@@ -185,9 +181,8 @@ class Employer extends Initialize
             $user_id = $input['user_id'];
             unset($input['struct_id']);
             unset($input['user_id']);
-            $corp_id = get_corpid();
-            $employerM = new EmployerModel($corp_id);
-            $struct_empM = new StructureEmployer($corp_id);
+            $employerM = new EmployerModel($this->corp_id);
+            $struct_empM = new StructureEmployer($this->corp_id);
             $huanxin = new HuanxinApi();
             $info['status'] = false;
             //取出旧设置的部门ids
@@ -260,13 +255,39 @@ class Employer extends Initialize
         }
     }
 
+    /**
+     * 删除单个员工
+     * @param $user_id
+     * @return array
+     */
     public function deletesingleEmployer($user_id)
     {
-        $corp_id = get_corpid();
-        $employerM = new EmployerModel($corp_id);
-        $data = ['status' =>0];
-        $user_id = $employerM->setSingleEmployerInfobyId($user_id,$data);
+        $employerM = new EmployerModel($this->corp_id);
 
+        //更改状态
+        $data = ['on_duty' =>-1];//TODO 测试开启
+//        $b = $employerM->setSingleEmployerInfobyId($user_id,$data);
+        $b =1;
+        $info['status'] = false;
+        if ($b>0) {
+            //转移客户
+            $params = json_encode(['userid'=>$user_id,'corp_id'=>$this->corp_id],true);
+            $d = \think\Hook::listen('check_customer_transmit',$params);
+            if ($d[0]['status']) {
+                return [
+                    'status'=>true,
+                    'message' =>'删除员工成功，转移客户成功',
+                ];
+            } else {
+                $info['message'] ='删除员工成功，转移客户失败';
+                return $info;
+            }
+        } else {
+            return [
+                'status'=>false,
+                'message' =>'删除员工失败'
+            ];
+        }
     }
 
     public function deleteMultipleEmployer($user_ids)
