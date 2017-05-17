@@ -1,0 +1,117 @@
+<!--
+	作者：猛男史八六
+	时间：2017-05-11
+	描述：我的客户首页
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>我的客户</title>
+		<link rel="stylesheet" href="../../../css/reset.css" />
+		<link rel="stylesheet" href="css/index.css"/>
+		<link rel="stylesheet" href="../../../css/font-awesome.min.css" />
+		
+	</head>
+	<body>
+		<header>
+			<ul class="firNav">
+				<li id="myAllClients" class="current"><div>我的所有客户（<span>160</span>）</div></li>
+				<li id="awaitComClients"><div>待沟通客户（<span>160</span>）</div></li>
+				<li id="notFllowClients"><div>未跟进客户（<span>160</span>）</div></li>
+				<li id="followClients"><div>正常跟进客户（<span>160</span>）</div></li>
+				<li id="stagnantClients"><div>停滞客户（<span>160</span>）</div></li>
+				<li id="undeterminedClients"><div>待定客户（<span>160</span>）</div></li>
+				<li id="noIntentionClients"><div>无意向客户（<span>160</span>）</div></li>
+				<li id="overClients"><div>已成单客户（<span>160</span>）</div></li>
+				<li id="uselessClients"><div>无效客户（<span>160</span>）</div></li>
+			</ul>
+		</header>
+		<ul class="secNav">
+			<li class="active">新建客户</li>
+			<li class="active">导入客户</li>
+			<li class="active">录入记录</li>
+			<li class="vertical"></li>
+			<li>导出</li>
+			<li>群发短信</li>
+			<li>批量释放</li>
+			<div class="clearfix"></div>
+		</ul>
+		<section class="filterNav">
+			<select class="getWay">
+				<option>获取途径</option>
+			</select>
+			<select class="cilentLevel">
+				<option>客户级别</option>
+			</select>
+			<select class="bussOpp">
+				<option>商机</option>
+			</select>
+			<select class="comState">
+				<option>沟通状态</option>
+			</select>
+			<input type="text" placeholder="输入客户名称"/>
+			<input type="text" placeholder="输入联系人名称"/>
+			<button class="search">查询</button>
+		</section>
+		<section class="table-box">
+			<div class="table">
+				<ul class="tab-title">
+					<li class="tab-1-ver"><input type="checkbox"/></li>
+					<li class="tab-2-ver">客户名称<i class="fa fa-caret-down"></i></li>
+					<li class="tab-3-ver">获取途径</li>
+					<li class="tab-4-ver">客户级别<i class="fa fa-unsorted"></i></li>
+					<li class="tab-5-ver">沟通状态<i class="fa fa-unsorted"></i></li>
+					<li class="tab-6-ver">商机</li>
+					<li class="tab-7-ver">预计成单金额<i class="fa fa-unsorted"></i></li>
+					<li class="tab-8-ver">成单金额</li>
+					<li class="tab-9-ver">联系人<i class="fa fa-unsorted"></i></li>
+					<li class="tab-10-ver">联系方式</li>
+					<li class="tab-11-ver">上次跟进时间<i class="fa fa-unsorted"></i></li>
+					<li class="tab-12-ver">剩余保有时间<i class="fa fa-unsorted"></i></li>
+					<li class="tab-13-ver">预计合同到期时间<i class="fa fa-unsorted"></i></li>
+					<li class="tab-14-ver">提醒时间<i class="fa fa-unsorted"></i></li>
+					<li class="tab-15-ver">所在列</li>
+					<li class="tab-16-ver">操作</li>
+					<div class="clearfix"></div>
+				</ul>
+				<ul class="tab-list">
+					<li class="tab-1-ver"><input type="checkbox"/></li>
+					<li class="tab-2-ver">山东中讯网络传媒有限公司</li>
+					<li class="tab-3-ver">自建</li>
+					<li class="tab-4-ver">A</li>
+					<li class="tab-5-ver">拜访客户</li>
+					<li class="tab-6-ver">百度大搜/网站建设</li>
+					<li class="tab-7-ver">5000.00元</li>
+					<li class="tab-8-ver"></li>
+					<li class="tab-9-ver">李经理</li>
+					<li class="tab-10-ver">18222287632<i class="fa fa-phone"></i></li>
+					<li class="tab-11-ver">2017/01/22</li>
+					<li class="tab-12-ver">1天23:59</li>
+					<li class="tab-13-ver">1天23:59</li>
+					<li class="tab-14-ver">1天23:59</li>
+					<li class="tab-15-ver">待沟通客户</li>
+					<li class="tab-16-ver"><span>详情</span><span>编辑</span><span>释放</span></li>
+					<div class="clearfix"></div>
+				</ul>
+			</div>
+		</section>
+		<div class="control-row">
+			<span>显示行数</span>
+			<select>
+				<option>5</option>
+				<option>10</option>
+				<option>20</option>
+			</select>
+			<span>1-10条/</span>
+			<span>共50条</span>
+			<button>上一页</button>
+			<button>下一页</button>
+			<span>前往</span>
+			<input type="text" />
+			<span>页</span>
+		</div>
+		<script src="../../../js/jquery.min.js"></script>
+		<script src="js/index.js"></script>
+	</body>
+</html>

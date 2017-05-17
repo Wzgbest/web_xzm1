@@ -1,0 +1,80 @@
+.p_banner{width:100%;height:678px;display:block;background: url(../img/pbanner.jpg)/*tpa=http://xinshijibancai.com/Public/Home/pc/Css/img/pbanner.jpg*/;position: relative;}
+.bline{word-wrap:break-word;padding:0px;border-bottom:1px solid #ffbf7c;height:9px;display:block;}
+.bline:hover{width:1000px;}
+.bt2{text-transform:uppercase;font-size:40px;color:#318c42;font-family:Qingke;text-align: center;position: relative;z-index: 99999;}
+.bt1{position: relative;margin-top: -100px;z-index: 99999;text-align: center;font-size: 44px;font-family:Qingke;color: #8bb74f;}
+
+/*简介*/
+.con{line-height:30px;font-size:14px;background: #f9f9f9;padding: 35px;border-radius: 10px;position: relative;z-index: 9999;}
+.about .fl{width:324px;}
+.about .fr{width:716px;padding:20px 30px;background:rgb(236,236,236);height: 376px}
+.about .aby{position:relative;width:210px;margin-bottom:20px;}
+.about .aby span strong{font-size:27px;color:rgb(67,67,67);}
+.about .aby p{text-transform:uppercase;font-size:24px;color:rgb(175,177,178);font-family:Times New Roman;height:20px;line-height:20px;overflow:hidden;}
+.about .aby i{width:51px;height:51px;background:url(../img/jian_hvl9.png)/*tpa=http://xinshijibancai.com/Public/Home/pc/Css/img/jian_hvl9.png*/ no-repeat;display:block;position:absolute;right:-51px;top:3px;}
+.network{background:rgb(236,236,236);padding: 30px; }
+
+/*新闻*/
+.news .nbt{text-align: center;}
+.news .nbt li{display:inline-block;height:40px;line-height:40px;width:16%;background: #232323;transform: skew(-20deg);}
+.news .nbt li a{display:block;padding:0 30px;font-size:16px;text-align:center;color: #fff;}
+.news .nbt li a div{transform: skew(20deg);}
+.news .nbt li a:hover{background:#318c42;color:#fff;}
+.news .nbt li.hover a{background:#318c42;color:#fff;}
+.news .list{margin-top:30px;}
+.news .list li{margin-bottom:22px;border-bottom:1px dashed #e2e2e2;}
+.news .list li a{padding-left:20px;margin-left:3px;background:url(../img/23.png)/*tpa=http://xinshijibancai.com/Public/Home/pc/Css/img/23.png*/ no-repeat left center;transition: all 0.3s;font-size: 16px;}
+.news .list li a:hover{padding-left:35px;color:#318c42;transition: all 0.3s;}
+.news .list li span{color:#929292;font-size:12px;}
+
+/*新闻内页*/
+.news h2{font-size:24px;color:#333;font-weight:bold;margin-top:30px;text-align:center;font-family: Qingke;}
+.news .info{font-size:12px;color:#5A5A5A;text-align:center;padding: 10px 0 15px;}
+.news .local{padding:5px 0;line-height:1.7em;color:#868686;background-color:#F5F5F5;border:#E5E5E5 1px solid;margin-bottom:15px;text-indent:24px;font-size: 12px;}
+.zl_tit1{border-top:1px dashed #cdcdcd;}
+.zl_tit{background:url(dh3.png)/*tpa=http://xinshijibancai.com/Public/Home/pc/Css/img/dh3.png*/ no-repeat;height:70px;line-height:50px;width:696px;margin:0 auto;font-size:26px;color:#318c42;font-weight:bold;text-align:center;}
+.use{overflow:hidden;width:1140px;text-align:center;position:relative;margin:0 auto;height:230px;}
+.use .h1{padding:90px 0 0 0;display:block;width:30px;height:50px;}
+.use ul{display:block;float:left;overflow:hidden;margin:0px auto;}
+.use ul li{display:inline;float:left;margin:19px 7px 0 9px;width:252px;}
+.use ul li img{border:1px solid #dfdfdf;width:250px;height:180px;}
+.use ul li a{position:relative;display:block;width:250px;height:182px;}
+.use ul li a span{display:none;width:230px;text-align:center;position:absolute;left:0px;top:0px;height:130px;background:url(imgbg1.png)/*tpa=http://xinshijibancai.com/Public/Home/pc/Css/img/imgbg1.png*/ repeat;display:none;padding:50px 10px 0 10px;}
+.use ul li a:hover span{display:block;color:#fff;}
+.use ul li a span h3{font-size:24px;}
+.use li a span p{font-size:12px;color:#fff;margin:50px;text-transform:uppercase;color:#318c42}
+.gduo{ height:30px; line-height:30px; overflow:hidden; margin:20px 0px; padding:5px 10px 0 10px;color: #666;border-top: 1px dashed #ddd;}
+.gduo span{ float:right;  overflow:hidden; height:30px; display:block;color: #666;}
+.gduo a{ color: #666;}
+.gduo a:hover{ color: #e10808;}
+.local a:hover{color: #ce0000}
+
+/*产品*/
+.products {width: 1200px;position: relative;z-index: 9999;}
+.products .hd{width:1200px;margin:0 auto;}
+.products .hd ul{text-align:center;}
+.products .hd ul li{display:inline-block;margin-right:10px;margin-bottom:10px;}
+.products .hd ul li a{height:28px;display:block;line-height:28px;color:#666;font-size:14px;border:1px solid #e2e2e2;width:155px;background: url(../img/nav_hover2.png)/*tpa=http://xinshijibancai.com/Public/Home/pc/Css/img/nav_hover2.png*/ no-repeat 185px 10px;transition:all .2s ease;}
+.products .hd ul li a:hover{background:#f20202 url(../img/nav_hover2.png)/*tpa=http://xinshijibancai.com/Public/Home/pc/Css/img/nav_hover2.png*/ no-repeat 135px 10px;color:#fff;border:1px solid #f20202;padding-right: 10px;width:145px;}
+.products .hd ul li.hover a{background:#f20202 url(../img/nav_hover2.png)/*tpa=http://xinshijibancai.com/Public/Home/pc/Css/img/nav_hover2.png*/ no-repeat 135px 10px;color:#fff;border:1px solid #f20202;padding-right: 10px;width:145px;}
+
+.products .list{margin-top: 30px;}
+.products .list li{float: left;margin:0  45px 45px 0;}
+.products .list li a{display: block;padding: 10px;overflow: hidden;-webkit-transition: all 0.3s ease-out;-moz-transition: all 0.3s ease-out;background: #fff;}
+.products .list li a img{-webkit-transition: all 0.3s ease-out;-moz-transition: all 0.3s ease-out;}
+.products .list li a:hover{-webkit-box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);-webkit-transition: all 0.3s ease-out;-moz-transition: all 0.3s ease-out;}
+.products .list li a:hover img{    -webkit-transition: all 0.3s ease-out;-moz-transition: all 0.3s ease-out;transform: scale(1.03,1.03);}   
+.products .list li span{display: block;text-align: center;font-size: 16px;font-weight: bold;position: relative;margin-top: 10px;}
+
+
+/*分页*/
+.pagination{font-size:0px;margin-right:-5px;padding-top:15px;text-align:center;width:100%;}
+.pagination ul li{float:left;}
+.pagination a{font-size:14px;color:#aaa;display:inline-block;_display:inline;padding:0 13px;margin:0 5px;line-height:35px;background:#fff;border-radius:4px;}
+.pagination span{font-size:14px;color:#bbb;display:inline-block;_display:inline;padding:0 13px;margin:0 5px;line-height:35px;background:#fff;border-radius:4px;}
+.pagination span.current{background:#6cb92c;color:#fff;}
+.pagination a.prev,.pagination a.next{padding:0 15px;}
+.pagination a:hover,.pagination a.cur,.pagination a.active,.pagination li.active a,.pagination li.active a:hover{background:#6cb92c;color:#fff;}
+
+.nobg{background: none;}

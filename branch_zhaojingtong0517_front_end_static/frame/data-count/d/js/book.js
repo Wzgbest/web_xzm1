@@ -1,0 +1,37 @@
+$(function(){
+	BookpageAjax(1);
+	/*留言提交*/
+	$(".form_book").validator({
+		stopOnError:true,
+		theme:'yellow_top',
+		ignore:':hidden',
+		valid:function(form){
+			$.fn.tips({type:'loading',content:'数据提交中'});
+			$.ajax({
+				url:"/bookadd",
+				type:"post",
+				data:$(form).serialize(),
+				dataType:"json",
+				success:function(data){
+					if(data.status){
+						{$.fn.tips({type:"ok",content:data.info});}
+						$(".form_book")[0].reset();
+						setTimeout(function(){BookpageAjax(1);},1500)
+					}else{
+						{$.fn.tips({type:"warn",content:data.info});}
+					}
+				}
+			});
+		}
+	});
+});
+/*留言ajax分页*/
+function BookpageAjax(pageid){
+	$.ajax({
+		url:"bookpage.html"/*tpa=http://www.zhenaijiaoyujituan.com/bookpage.html*/,
+		data:"pageCount="+pageCount+"&pageNum="+pageid,
+		success:function(data){
+			$("#book_list").html(data);
+		}
+	});
+}
