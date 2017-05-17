@@ -39,14 +39,14 @@ class Login extends Controller
             $req_reg['errnum'] = 2;
             return json_encode($req_reg,true);
         }
-        $corp_id = UserCorporation::getUserCorp($telephone);
+        $corp_id = get_corpid($telephone);
         if (empty($corp_id)) {
             $req_reg['message'] = '用户不存在或用户未划分公司归属';
             $req_reg['errnum'] = 3;
             return json_encode($req_reg, true);
         }
         //验证用户信息
-        $model = new Employer($corp_id);
+        $model = new Employer();
         $user_arr = $model->getEmployerByTel($telephone);
         if (empty($user_arr)) {
             $req_reg['message'] = '用户不存在或用户未划分公司归属';
@@ -73,13 +73,13 @@ class Login extends Controller
             return json_encode($req_reg, true);
         }
         //获取用户积分
-        $scoreM = new EmployerScore($corp_id);
+        $scoreM = new EmployerScore();
         $score=$scoreM->getEmployerScore($user_arr['id']);
         //积分占比
         $per=$scoreM->getScoreListPer($score['score']);
 
         //获取用户在公司职位
-        $roleM = new Role($corp_id);
+        $roleM = new Role();
         $rolep = $roleM->getRoleName($user_arr['role']);
 
         //更新登录信息

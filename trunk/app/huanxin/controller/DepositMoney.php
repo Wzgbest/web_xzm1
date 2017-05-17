@@ -133,7 +133,7 @@ class DepositMoney
 
         //兑换货币
         $left_money = $total_money + $r['userinfo']['left_money'];
-        $cashM = new TakeCash($r['corp_id']);
+        $cashM = new TakeCash();
         //take_cash记录
         $cash_data = [
             'userid'=>$r['userinfo']['id'],
@@ -203,8 +203,8 @@ class DepositMoney
             return 'fail';
         } else {
             $corp_id = Corporation::getCorpId($alipay_info['corp_id']);
-            $employM = new Employer($corp_id['corp_id']);
-            $cashM = new TakeCash($corp_id['corp_id']);
+            $employM = new Employer();
+            $cashM = new TakeCash();
             $in_money = $alipay_info['money'];
             $in_data = [
                 'left_money' => ['exp', "left_money + $in_money"]

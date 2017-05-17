@@ -237,26 +237,27 @@ return [
         'var_page'  => 'page',
         'list_rows' => 15,
     ],
-//    'db_config1'    =>  [
-//        'type'        => 'mysql',
-//        'hostname'    => '112.253.21.74',
-//        'database'    => '',
-//        'username'    => 'zxwz',
-//        'password'    => '123456',
-//        'hostport'    => '3307',
-//        'charset'     => 'utf8',
-//        'prefix'      => 'guguo_',
-//    ],
     'db_config1'    =>  [
         'type'        => 'mysql',
-        'hostname'    => 'localhost',
+        'hostname'    => '112.253.21.74',
         'database'    => '',
-        'username'    => 'root',
-        'password'    => 'root',
-        'hostport'    => '3306',
+        'username'    => 'zxwz',
+        'password'    => '123456',
+        'hostport'    => '3307',
         'charset'     => 'utf8',
         'prefix'      => 'guguo_',
     ],
+//    'db_config1'    =>  [
+//        'type'        => 'mysql',
+//        // 'hostname'    => 'localhost',
+//        'hostname'    => '192.168.33.1',
+//        'database'    => '',
+//        'username'    => 'root',
+//        'password'    => 'root',
+//        'hostport'    => '3306',
+//        'charset'     => 'utf8',
+//        'prefix'      => 'guguo_',
+//    ],
     'db_common_prefix'=>'guguo_',//分库前缀
     //sms短信账号
     'sms_workid'    => '',
@@ -265,7 +266,6 @@ return [
     'system_email'  =>[
         'user' =>'yingying-help@winbywin.com',
         'pass' =>'QAZQAZQAZ7.',
-        'host'  =>'smtp.qiye.163.com',
         'from_name' =>'系统管理员'
     ],
     //app上传图片设置

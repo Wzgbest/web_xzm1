@@ -80,8 +80,8 @@ class RedEnvelope
             $indata[$key]['create_time'] = $time;
             $indata[$key]['total_money'] = $total_money;
         }
-        $redM = new RedB($r['corp_id']);
-        $cashM = new TakeCash($r['corp_id']);
+        $redM = new RedB();
+        $cashM = new TakeCash();
 
         $de_money = $total_money*100;
         //take_cash表记录
@@ -140,7 +140,7 @@ class RedEnvelope
         }
 
         $info['status'] =true;
-        $redM = new RedB($r['corp_id']);
+        $redM = new RedB();
 
         //红包全部
         $red_arr = cache('red_info_all'.$red_id);
@@ -260,7 +260,7 @@ class RedEnvelope
             return json_encode($info,true);
         }
 
-        $redM = new RedB($r['corp_id']);
+        $redM = new RedB();
         $red_num_total = $redM->getRedCount($red_id);
         if (empty($red_num_total)) {
             $info['message'] = '红包id错误';

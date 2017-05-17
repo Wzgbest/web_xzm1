@@ -5,7 +5,7 @@ use app\common\model\Base;
 
 class Umessage extends Base
 {
-    public function __construct($corp_id)
+    public function __construct($corp_id=null)
     {
         $this->table=config('database.prefix').'umessage';
         parent::__construct($corp_id);

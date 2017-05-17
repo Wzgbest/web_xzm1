@@ -10,7 +10,7 @@ use app\common\model\Base;
 class Employer extends Base
 {
     protected $dbprefix;
-    public function __construct($corp_id)
+    public function __construct($corp_id=null)
     {
         $this->table = config('database.prefix').'employer';
         parent::__construct($corp_id);
