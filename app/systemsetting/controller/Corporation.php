@@ -9,6 +9,7 @@ class Corporation extends Initialize
 {
     public function index()
     {
+        return view();
     }
 
     /**
@@ -20,7 +21,8 @@ class Corporation extends Initialize
         if ($request->isGet()) {
             $corpM = new CorporationModel();
             $data = $corpM->getCorporation($this->corp_id);
-            return $data;
+            $this->assign('data',$data);
+            return view();
         } elseif ($request->isPost()) {
             $info['status'] = false;
             if (empty($this->corp_id)) {
