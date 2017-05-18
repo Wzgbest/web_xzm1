@@ -15,6 +15,7 @@ use app\common\model\Umessage;
 use app\common\model\Employer;
 use app\common\model\Structure as StructureModel;
 use app\crm\model\CustomerTrace;
+use app\common\model\File as FileModel;
 
 // 应用公共文件
 
@@ -437,4 +438,198 @@ function rolling_curl($urls, $delay) {
     } while ($active);
     curl_multi_close($queue);
     return $responses;
+}
+
+/**
+ * 友好的输出值的代码
+ *@param  mixed $val 要输出代码的值名称
+ *@param string $valName 名称标记
+ *@param boolean $exit 是否退出程序
+ *@param boolean $hr 是否显示分割线
+ *
+ * */
+function var_exp($val,$valName='',$exit=false,$hr=true){
+    $str = '';
+    if($hr){
+        $str .= "\r\n<hr/>\r\n";
+    }
+    if(!empty($valName)){
+        $str .= $valName.':';
+    }
+    $str .= var_export($val, true);
+    if($exit == 'return'){
+        return $str;
+    }else{
+        echo $str;
+        if($exit!=false){
+            exit;
+        }
+    }
+}
+
+function importFormExcel($attach_id, $column, $dateColumn = array()) {
+    $attach_id = intval ( $attach_id );
+    $res = array (
+        'status' => 0,
+        'data' => ''
+    );
+    if (empty ( $attach_id ) || ! is_numeric ( $attach_id )) {
+        $res ['data'] = '上传文件ID无效！';
+        return $res;
+    }
+    $fileModel = new FileModel(get_corpid());
+    $file_info = $fileModel->get(1,0,['id'=>$attach_id]);
+    $file = $file_info['res'][0];
+    $filename = $file ['savepath'] . DS . $file ['savename'];
+    //var_exp($filename,'$filename');
+    if (! file_exists ( $filename )) {
+        $res ['data'] = '上传的文件读取失败';
+        return $res;
+    }
+    $extend = $file['ext'];
+    if (! ($extend == 'xls' || $extend == 'xlsx' || $extend == 'csv')) {
+        $res ['data'] = '文件格式不对，请上传xls,xlsx格式的文件';
+        return $res;
+    }
+
+    vendor ( 'PHPExcel' );
+    vendor ( 'PHPExcel.PHPExcel_IOFactory' );
+    vendor ( 'PHPExcel.Reader.Excel5' );
+
+    switch (strtolower ( $extend )) {
+        case 'csv' :
+            $format = 'CSV';
+            $objReader = \PHPExcel_IOFactory::createReader ( $format )->setDelimiter ( ',' )->setInputEncoding ( 'GBK' )->setEnclosure ( '"' )->setLineEnding ( "\r\n" )->setSheetIndex ( 0 );
+            break;
+        case 'xls' :
+            $format = 'Excel5';
+            $objReader = \PHPExcel_IOFactory::createReader ( $format );
+            break;
+        default :
+            $format = 'excel2007';
+            $objReader = \PHPExcel_IOFactory::createReader ( $format );
+    }
+
+    $objPHPExcel = $objReader->load ( $filename );
+    $objPHPExcel->setActiveSheetIndex ( 0 );
+    $sheet = $objPHPExcel->getSheet ( 0 );
+    $highestRow = $sheet->getHighestRow (); // 取得总行数
+    for($j = 2; $j <= $highestRow; $j ++) {
+        $addData = array ();
+        foreach ( $column as $k => $v ) {
+            if ($dateColumn) {
+                foreach ( $dateColumn as $d ) {
+                    if ($k == $d) {
+                        $addData [$v] = gmdate ( "Y-m-d H:i:s", PHPExcel_Shared_Date::ExcelToPHP ( $objPHPExcel->getActiveSheet ()->getCell ( "$k$j" )->getValue () ) );
+                    } else {
+                        $addData [$v] = trim ( ( string ) $objPHPExcel->getActiveSheet ()->getCell ( $k . $j )->getValue () );
+                    }
+                }
+            } else {
+                $addData [$v] = trim ( ( string ) $objPHPExcel->getActiveSheet ()->getCell ( $k . $j )->getValue () );
+            }
+        }
+
+        $isempty = true;
+        foreach ( $column as $v ) {
+            $isempty && $isempty = empty ( $addData [$v] );
+        }
+
+        if (! $isempty)
+            $result [$j] = $addData;
+    }
+    $res ['status'] = 1;
+    $res ['data'] = $result;
+    return $res;
+}
+
+
+function outExcel($data, $filename = '', $sheet = false) {
+    vendor ( 'PHPExcel' );
+    // Create new PHPExcel object
+    $objPHPExcel = new PHPExcel();
+    // Set document properties
+    $objPHPExcel->getProperties()->setCreator("Maarten Balliauw")
+        ->setLastModifiedBy("Maarten Balliauw")
+        ->setTitle("Office 2007 XLSX Test Document")
+        ->setSubject("Office 2007 XLSX Test Document")
+        ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
+        ->setKeywords("office 2007 openxml php")
+        ->setCategory("Test result file");
+    $filename = empty ( $filename ) ? date ( 'YmdHis' ) : $filename ;
+    // Redirect output to a client’s web browser (Excel5)
+    header('Content-Type: application/vnd.ms-excel');
+    header('Content-Disposition: attachment;filename='.$filename.'.xls');
+    header('Cache-Control: max-age=0');
+    // If you're serving to IE 9, then the following may be needed
+    header('Cache-Control: max-age=1');
+
+    // If you're serving to IE over SSL, then the following may be needed
+    header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+    header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+    header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+    header ('Pragma: public'); // HTTP/1.0
+    $Line = array(
+        'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AW','AX','AY','AZ'
+    );
+    if(!$sheet){
+        foreach ( $data as $k=>$v ) {
+            $u=$k+1;
+            $s = count($v);
+            for($i=0;$i<$s;$i++){
+                $n = $Line[$i].$u;
+                $va = array_values($v);
+                $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue($n,$va[$i]);
+            }
+        }
+
+        /*// Miscellaneous glyphs, UTF-8
+        $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue('A4', 'Miscellaneous glyphs')
+                    ->setCellValue('A5', 'éàèùâêîôûëïüÿäöüç');
+        */
+        // Rename worksheet
+        $objPHPExcel->getActiveSheet()->setTitle('Simple');
+        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $objPHPExcel->setActiveSheetIndex(0);
+    }else {
+        $f=0;
+        foreach ( $data as $t=>$u )
+        {
+            foreach ( $u as $k=>$v )
+            {
+                $u=$k+1;
+                $s = count($v);
+                for($i=0;$i<$s;$i++){
+                    $n = $Line[$i].$u;
+                    $va = array_values($v);
+                    $objPHPExcel->setActiveSheetIndex($f)
+                        ->setCellValue($n,$va[$i]);
+                    if($data[$t][$k][1]!=$data[$t][$k-1][1]&&$k!=0){
+                        $objPHPExcel->getActiveSheet()->getStyle($n)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
+                        $objPHPExcel->getActiveSheet()->getStyle($n)->getFill()->getStartColor()->setARGB('FFFF00');
+                    }
+                }
+            }
+
+
+            /*// Miscellaneous glyphs, UTF-8
+            $objPHPExcel->setActiveSheetIndex(0)
+                        ->setCellValue('A4', 'Miscellaneous glyphs')
+                        ->setCellValue('A5', 'éàèùâêîôûëïüÿäöüç');
+            */
+            // Rename worksheet
+            $objPHPExcel->createSheet();$objPHPExcel->getSheet($f)->setTitle($t);
+            // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+            $objPHPExcel->setActiveSheetIndex($f);
+            $f++;
+        }
+        $f=0;
+    }
+    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+    $objWriter->save('php://output');
+    unset ( $sheet );
+    unset ( $dataArr );
+    exit;
 }
