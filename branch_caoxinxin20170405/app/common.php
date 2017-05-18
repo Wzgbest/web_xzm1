@@ -543,8 +543,36 @@ function importFormExcel($attach_id, $column, $dateColumn = array()) {
     return $res;
 }
 
-
 function outExcel($data, $filename = '', $sheet = false) {
+    saveExcelToPath($data, $sheet,null,$filename);
+    unset ( $sheet );
+    unset ( $dataArr );
+    exit;
+}
+
+function saveExcel($data, $sheet = false) {
+    $path = ROOT_PATH . 'public' . DS . 'download' . DS . date('Ymd');
+    $mkdir_flg = true;
+    if(!is_dir($path) && function_exists('mkdirs')){
+        $mkdir_flg = mkdirs($path);
+    }
+    if(!$mkdir_flg){
+        return false;
+    }
+    $savename = md5(microtime(true)).'.xlsx';
+    saveExcelToPath($data, $sheet,$savename,$path);
+    unset ( $sheet );
+    unset ( $dataArr );
+    return $path . DS . $savename;
+}
+
+function saveExcelToPath($data, $sheet = false,$filename=null,$path=null) {
+    $filename = empty ( $filename ) ? date ( 'YmdHis' ) : $filename ;
+    if(!$path){
+        $path = 'php://output';
+    }else{
+        $path .= DS . $filename;
+    }
     vendor ( 'PHPExcel' );
     // Create new PHPExcel object
     $objPHPExcel = new PHPExcel();
@@ -556,19 +584,20 @@ function outExcel($data, $filename = '', $sheet = false) {
         ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
         ->setKeywords("office 2007 openxml php")
         ->setCategory("Test result file");
-    $filename = empty ( $filename ) ? date ( 'YmdHis' ) : $filename ;
-    // Redirect output to a client’s web browser (Excel5)
-    header('Content-Type: application/vnd.ms-excel');
-    header('Content-Disposition: attachment;filename='.$filename.'.xls');
-    header('Cache-Control: max-age=0');
-    // If you're serving to IE 9, then the following may be needed
-    header('Cache-Control: max-age=1');
+    if(!$path){
+        // Redirect output to a client’s web browser (Excel5)
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename='.$filename.'.xls');
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
 
-    // If you're serving to IE over SSL, then the following may be needed
-    header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-    header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
-    header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
-    header ('Pragma: public'); // HTTP/1.0
+        // If you're serving to IE over SSL, then the following may be needed
+        header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+        header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header ('Pragma: public'); // HTTP/1.0
+    }
     $Line = array(
         'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AW','AX','AY','AZ'
     );
@@ -628,8 +657,5 @@ function outExcel($data, $filename = '', $sheet = false) {
         $f=0;
     }
     $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-    $objWriter->save('php://output');
-    unset ( $sheet );
-    unset ( $dataArr );
-    exit;
+    $objWriter->save($path);
 }
