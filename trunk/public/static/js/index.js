@@ -72,8 +72,20 @@ $("aside dl dd").click(function(){
 		$("#subtitle").append(tv);
 		//frame
 		$("iframe").addClass("hid");
-		var fr = "<iframe src='"+$(this).attr("_src")+"' id='"+f+"' class='once'></iframe>";
-		$("#frames").append(fr);
+		//var fr = "<div src='"+$(this).attr("_src")+"' id='"+f+"' class='once'></div>";
+		//$("#frames").append(fr);
+		var url = $(this).attr('_src');
+		$.ajax({
+			url:url,
+			type:'get',
+			data:{},
+			async:false,
+			success:function (data) {
+                var html = '<div id="'+f+'" class="once"></div>';
+				$('#frames').append(html);
+                $('#frames #'+f).html(data);
+			}
+		});
 		$("iframe").width(window.innerWidth-220);
 		//子标题栏长度增加
 		subResize();
