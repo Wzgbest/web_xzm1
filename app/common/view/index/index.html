@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     {block name="title"}<title>销掌门</title>{/block}
+    <!--公共顶部资源-->
     {include file="common@common/headersource"}
+    <!--分页面顶部资源-->
+    {block name="cus-header-res"}{/block}
 </head>
 <body>
+<!--左侧区域-->
 {include file="common@common/side"}
+<!--顶部右侧区域-->
 {include file="common@common/header"}
-
+<!--右侧区域-->
 {block name="rightchange"}
 <section id="subt">
     <div id="subtitle">
@@ -18,11 +23,15 @@
     </div>
 </section>
 <div id="frames">
-    <iframe src="frame/data-count/a/a.html" id="indexfr" class="once"></iframe>
+    <div src="frame/data-count/a/a.html" id="indexfr" class="once"></div>
 </div>
 {/block}
 
+<!--分页面底部信息-->
 {include file="common@common/footer"}
+<!--分页面底部资源-->
+{block name="cus-footer-res"}{/block}
+<!--公共底部资源-->
 {include file="common@common/footersource"}
 </body>
 </html>
