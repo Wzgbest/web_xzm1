@@ -12,7 +12,7 @@ class EmployerScore extends Base
     /**
      * @param $corp_id  公司名代号，非id
      */
-    public function __construct($corp_id)
+    public function __construct($corp_id=null)
     {
         $this->table=config('database.prefix').'employer_score';
         parent::__construct($corp_id);

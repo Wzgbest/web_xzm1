@@ -9,7 +9,7 @@ use app\common\model\Base;
 
 class RedEnvelope extends Base
 {
-    public function __construct($corp_id)
+    public function __construct($corp_id =null)
     {
         $this->table = config('database.prefix').'red_envelope';
         parent::__construct($corp_id);
