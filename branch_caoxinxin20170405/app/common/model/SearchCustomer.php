@@ -9,7 +9,7 @@ use app\common\model\Base;
 
 class SearchCustomer extends Base
 {
-    public function __construct($corp_id){
+    public function __construct($corp_id =null){
         $this->table=config('database.prefix').'customer_search';
         parent::__construct($corp_id);
     }

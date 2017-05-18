@@ -14,6 +14,7 @@ use app\common\model\CorporationStructure;
 use app\common\model\Umessage;
 use app\common\model\Employer;
 use app\common\model\Structure as StructureModel;
+use app\crm\model\CustomerTrace;
 
 // 应用公共文件
 
@@ -129,7 +130,7 @@ function send_sms ($tel,$code,$content) {
  * @param $tel
  * @return bool|mixed|string
  */
-function get_corpid () {
+function get_corpid ($tel = null) {
     $userinfo = session('userinfo');
     if (empty($userinfo)) {
         return false;
@@ -137,6 +138,11 @@ function get_corpid () {
     if (!empty($userinfo['corp_id'])) {
         return $userinfo['corp_id'];
     } else {
+        if (!is_null($tel)) {
+            $corp_id = UserCorporation::getUserCorp($tel);
+            session('userinfo',['corp_id'=>$corp_id]);
+            return $corp_id;
+        }
         return false;
     }
 }
@@ -218,6 +224,51 @@ function write_log ($userid,$type,$remark,$corp_id='') {
     return $u->addUmessage($data);
 }
 
+/**
+ * 修改客户信息
+ * @param $userid 操作人id
+ * @param $customerid 客户id
+ * @param $remark 备注
+ * @param null $saleid 销售机会id
+ * @return array
+ */
+function write_customer_log ($userid,$customerid,$remark,$saleid=null) {
+    if (is_array($customerid)) {
+        $data = [];
+        foreach ($customerid as $k=>$v) {
+            $data[] .= [
+                'customer_id' =>$v,
+                'operator_id' => $userid,
+                'create_time'  => time(),
+                'sale_id' => $saleid,
+                'remark' => $remark
+            ];
+        }
+        $cus_traceM = new CustomerTrace();
+        $res =$cus_traceM->addMultipleCustomerMessage($data);
+    } else {
+        $data = [
+            'customer_id' =>$customerid,
+            'operator_id' => $userid,
+            'create_time'  => time(),
+            'sale_id' => $saleid,
+            'remark' => $remark
+        ];
+        $cus_traceM = new CustomerTrace();
+        $res = $cus_traceM->addSingleCustomerMessage($data);
+    }
+    if ($res > 0) {
+        return [
+            'status'=>true,
+            'message'=>'记录客户信息成功'
+        ];
+    } else {
+        return [
+            'status'=>false,
+            'message'=>'记录客户信息失败'
+        ];
+    }
+}
 
 /**
  * 生成随机红包

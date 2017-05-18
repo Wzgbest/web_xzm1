@@ -10,7 +10,7 @@ class SearchCustomer extends Controller
     public function __construct(){
         parent::__construct();
         $corp_id = "sdzhongxun";//TODO
-        $this->_searchCustomerModel = new SearchCustomerModel($corp_id);
+        $this->_searchCustomerModel = new SearchCustomerModel();
     }
     public function index(){
         $num = 10;

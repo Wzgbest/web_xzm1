@@ -10,7 +10,7 @@ use app\common\model\Base;
 class Employer extends Base
 {
     protected $dbprefix;
-    public function __construct($corp_id)
+    public function __construct($corp_id=null)
     {
         $this->table = config('database.prefix').'employer';
         parent::__construct($corp_id);
@@ -41,17 +41,26 @@ class Employer extends Base
     {
         return $this->model->table($this->table)->alias('a')
             ->join($this->dbprefix.'role b','a.role = b.id','left')
-            ->join($this->dbprefix.'corporation_structure d','a.structid = d.id')
-            ->field('a.*,b.role_name,d.struct_name')
+            ->field('a.*,b.role_name')
             ->where('a.id',$userid)->find();
     }
 
+    /**
+     * 添加单用户
+     * @param $data
+     * @return int|string
+     */
     public function addSingleEmployer($data)
     {
-        return $this->model->table($this->table)->insert($data);
+        return $this->model->table($this->table)->insertGetId($data);
     }
 
-    public function addMutipleEmployers()
+    /**
+     * 添加多用户
+     * @param array $data
+     * @return int|string
+     */
+    public function addMutipleEmployers($data)
     {
         return $this->model->table($this->table)->insertAll($data);
     }
@@ -95,7 +104,7 @@ class Employer extends Base
      */
     public function getFriendsList($owner)
     {
-        $owner_id = $this->model->table($this->table)->where('telephone','<>', $owner)->field('telephone,userpic,truename as nickname,rule,structid')->select();
+        $owner_id = $this->model->table($this->table)->where('telephone','<>', $owner)->field('telephone,userpic,truename as nickname,rule')->select();
         return $owner_id;
     }
 

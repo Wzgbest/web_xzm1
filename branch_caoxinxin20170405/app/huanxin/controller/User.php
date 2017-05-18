@@ -134,7 +134,7 @@ class User
         if ($reset['action']=='set user password') {
             $data['password'] = md5($newpass);
             $corp_id = get_corpid($userid);
-            $employer = new Employer($corp_id);
+            $employer = new Employer();
             $r_userid = $employer->getEmployer($userid);
             $employer->setEmployerSingleInfo($userid, $data);
             write_log($r_userid['id'],1,'用户修改登录密码',$corp_id);
@@ -255,7 +255,7 @@ class User
         }
         $data = ['pay_password'=>md5($newpass)];
         $corp_id = get_corpid($userid);
-        $employer = new Employer($corp_id);
+        $employer = new Employer();
         $r_userid = $employer->getEmployer($userid);
         $r = $employer->setEmployerSingleInfo($userid,$data);
         if ($r >= 0) {
@@ -466,7 +466,7 @@ class User
             'remark' =>'员工提现',
             'to_userid' =>$chk_info['userinfo']['id']
         ];
-        $takeCashM = new TakeCashModel($chk_info['corp_id']);
+        $takeCashM = new TakeCashModel();
         $corp_cashM = new CorporationCash();
         $this->employM->link->startTrans();
         Corporation::startTrans();
@@ -585,7 +585,7 @@ class User
             'from_userid'=>$chk_info['userinfo']['id'],
             'remark' => '收到转账'
         ];
-        $cashM = new TakeCash($chk_info['corp_id']);
+        $cashM = new TakeCash();
         $this->employM->link->startTrans();
         try{
             $de = $this->employM->setEmployerSingleInfo($userid,$de_data);
@@ -635,7 +635,7 @@ class User
             $info['errnum'] = 103;
             return $info;
         }
-        $this->employM = new Employer($corp_id);
+        $this->employM = new Employer();
         $userinfo = $this->employM->getEmployerByTel($userid);
         if ($userinfo['system_token'] != $access_token) {
             $info['message'] = 'token不正确，请重新登陆';

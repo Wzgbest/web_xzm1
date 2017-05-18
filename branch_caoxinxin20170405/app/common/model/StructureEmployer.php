@@ -9,7 +9,7 @@ use app\common\model\Base;
 
 class StructureEmployer extends Base
 {
-    public function __construct($corp_id)
+    public function __construct($corp_id=null)
     {
         $this->table = config('database.prefix').'structure_employer';
         parent::__construct($corp_id);
@@ -23,6 +23,16 @@ class StructureEmployer extends Base
     public function getEmployerByStructIds($struct_ids)
     {
         return $this->model->table($this->table)->where('struct_id','in',$struct_ids)->field('user_id')->select();
+    }
+
+    /**
+     * 根据员工id获取部门ids
+     * @param $user_id 员工id
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public function getStructIdsByEmployer($user_id)
+    {
+        return $this->model->table($this->table)->where('user_id',$user_id)->field('struct_id')->select();
     }
 
     /**
@@ -60,5 +70,44 @@ class StructureEmployer extends Base
     public function addStructureEmployer($data)
     {
         return $this->model->table($this->table)->insert($data);
+    }
+
+    /**
+     * 批量增加部门员工
+     * @param $data
+     * @return int|string
+     */
+    public function addMultipleStructureEmployer($data)
+    {
+        return $this->model->table($this->table)->insertAll($data);
+    }
+
+    /**
+     * 删除员工的部门信息
+     * @param $user_id 员工id
+     * @param $data
+     * @return int
+     * @throws \think\Exception
+     */
+    public function deleteMultipleStructureEmployer($user_id,$data)
+    {
+        $ids = implode(',',$data);
+        return $this->model->table($this->table)
+            ->where('user_id',$user_id)
+            ->where('struct_id','in', $ids)->delete();
+    }
+
+    /**
+     * 查询员工部门信息
+     * @param $user_id
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public function getEmployerStructure($user_id)
+    {
+        return $this->model->table($this->table)->alias('a')
+            ->join(config('database.prefix').'structure b','a.struct_id = b.id')
+            ->field('a.struct_id,b.struct_name')
+            ->where('a.user_id',$user_id)
+            ->select();
     }
 }

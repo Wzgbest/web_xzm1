@@ -15,8 +15,7 @@ class Structure extends Initialize
 {
     public function index()
     {
-        $corp_id = get_corpid();
-        $struM = new StructureModel($corp_id);
+        $struM = new StructureModel();
         $structs = $struM->getAllStructure();
         $tree = new \myvendor\Tree($structs,['id','struct_pid']);
         $res = $tree->leaf(0);
@@ -31,8 +30,7 @@ class Structure extends Initialize
      */
     public function showPointedDepartment($struct_id,$page_now_num=0,$page_row=10)
     {
-        $corp_id = get_corpid();
-        $employerM = new EmployerModel($corp_id);
+        $employerM = new EmployerModel();
         $total_num = $employerM->countEmployerByStructId($struct_id);
         $data = $employerM->getEmployerByStructId($struct_id,$page_now_num,$page_row);
         $res = ['data'=>$data,'page'=>['page_now_num'=>$page_now_num,'page_row'=>$page_row,'total_num'=>$total_num]];
@@ -59,8 +57,7 @@ class Structure extends Initialize
      */
     public function renameStructure($struct_id,$new_name)
     {
-        $corp_id = get_corpid();
-        $struM = new StructureModel($corp_id);
+        $struM = new StructureModel();
         $data = [
             'struct_name'=>$new_name,
         ];
@@ -87,14 +84,12 @@ class Structure extends Initialize
      */
     public function changeEmployerStructure($user_id,$group,$to_group)
     {
-        $corp_id = get_corpid();
-
-        $struM = new CorporationStructure($corp_id);
+        $struM = new CorporationStructure();
         $st_res = $struM->getStructureInfo($to_group);
         if (empty($st_res)) {
             return ['status'=>false,'message'=>'选择的部门不存在'];
         }
-        $employerM = new StructureEmployerModel($corp_id);
+        $employerM = new StructureEmployerModel();
         $data = [
             'struct_id' => $to_group,
         ];
@@ -121,9 +116,7 @@ class Structure extends Initialize
      */
     public function deleteStructure($struct_id,$trans)
     {
-        $corp_id = get_corpid();
-
-        $struM = new StructureModel($corp_id);
+        $struM = new StructureModel();
         $st_res = $struM->getStructureInfo($struct_id);
         if (empty($st_res)) {
             return ['status'=>false,'message'=>'选择的部门不存在'];
@@ -133,7 +126,7 @@ class Structure extends Initialize
         $ids = deep_get_ids($st_res_all,$struct_id);
         $ids = implode(',',$ids);
 
-        $employerM = new StructureEmployerModel($corp_id);
+        $employerM = new StructureEmployerModel();
         $users = $employerM->getEmployerByStructIds($ids);
         if ($trans == 1) {
             //转移员工到默认组
