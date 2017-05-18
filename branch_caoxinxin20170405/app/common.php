@@ -467,6 +467,19 @@ function var_exp($val,$valName='',$exit=false,$hr=true){
     }
 }
 
+// 创建多级目录
+function mkdirs($dir) {
+    if (! is_dir ( $dir )) {
+        if (! mkdirs ( dirname ( $dir ) )) {
+            return false;
+        }
+        if (! mkdir ( $dir, 0777 )) {
+            return false;
+        }
+    }
+    return true;
+}
+
 function importFormExcel($attach_id, $column, $dateColumn = array()) {
     $attach_id = intval ( $attach_id );
     $res = array (
@@ -551,7 +564,7 @@ function outExcel($data, $filename = '', $sheet = false) {
 }
 
 function saveExcel($data, $sheet = false) {
-    $path = ROOT_PATH . 'public' . DS . 'download' . DS . date('Ymd');
+    $path = dirname($_SERVER['SCRIPT_FILENAME']) . DS . 'download' . DS . date('Ymd');
     $mkdir_flg = true;
     if(!is_dir($path) && function_exists('mkdirs')){
         $mkdir_flg = mkdirs($path);
@@ -560,10 +573,11 @@ function saveExcel($data, $sheet = false) {
         return false;
     }
     $savename = md5(microtime(true)).'.xlsx';
+    $relative_path = dirname($_SERVER['SCRIPT_NAME']).'/download/' . date('Ymd') . '/' . $savename;
     saveExcelToPath($data, $sheet,$savename,$path);
     unset ( $sheet );
     unset ( $dataArr );
-    return $path . DS . $savename;
+    return $relative_path;
 }
 
 function saveExcelToPath($data, $sheet = false,$filename=null,$path=null) {
