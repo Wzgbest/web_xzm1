@@ -9,12 +9,44 @@ use app\common\model\Base;
 
 class Customer extends Base
 {
-    public function __construct($corp_id)
+    protected $dbprefix;
+    public function __construct()
     {
-        $this->table = config('database.prefix').'customer';
-        parent::__construct($corp_id);
+        $this->dbprefix = config('database.prefix');
+        $this->table = $this->dbprefix.'customer';
+        parent::__construct();
     }
 
+    /**
+     * 根据员工id查询客户信息
+     * @param $user_id
+     * @return array|false|\PDOStatement|string|\think\Model
+     */
+    public function getCustomerByUserId($user_id)
+    {
+        return $this->model->table($this->table)->where('handle_man',$user_id)->field('id')->find();
+    }
+
+    /**
+     * 根据员工ids获取客户信息
+     * @param $ids
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public function getCustomersByUserIds($ids)
+    {
+        return $this->model->table($this->table)->alias('a')
+            ->join($this->dbprefix.'employer b','a.handle_man = b.id')
+            ->field('b.id as userid,b.truename,a.id as customer_id')
+            ->where('handle_man','in',$ids)
+            ->select();
+    }
+
+    /**
+     * 获取所有客户信息
+     * @param $userid 员工id
+     * @param $scale 客户类型，1 我的客户 2 公海池 3我的客户 4待处理
+     * @return false|\PDOStatement|string|\think\Collection
+     */
     public function getAllCustomers($userid,$scale)
     {
         return $this->model->table($this->table)
@@ -24,11 +56,23 @@ class Customer extends Base
             ->select();
     }
 
+    /**
+     * 添加单个客户信息
+     * @param $data
+     * @return int|string
+     */
     public function addCustomer($data)
     {
         return $this->model->table($this->table)->insert($data);
     }
 
+    /**
+     * 根据客户id修改客户信息
+     * @param $customer_id
+     * @param $data
+     * @return int|string
+     * @throws \think\Exception
+     */
     public function setCustomer($customer_id,$data)
     {
         return $this->model->table($this->table)->where('id',$customer_id)->update($data);

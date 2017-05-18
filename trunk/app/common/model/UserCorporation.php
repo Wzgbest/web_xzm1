@@ -7,7 +7,7 @@ namespace app\common\model;
 
 use think\Db;
 
-class UserCorporation
+class UserCorporation extends Db
 {
     /**
      * 根据电话查询公司名
@@ -17,5 +17,16 @@ class UserCorporation
     public static function getUserCorp($tel)
     {
         return Db::name('user_corporation')->where('telephone',$tel)->value('corp_name');
+    }
+
+    /**
+     * 删除多条员工--公司对照信息
+     * @param $tels 员工电话
+     * @return int
+     * @throws \think\Exception
+     */
+    public static function deleteUserCorp($tels)
+    {
+        return Db::name('user_corporation')->where('telephone','in',$tels)->delete();
     }
 }
