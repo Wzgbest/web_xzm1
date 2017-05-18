@@ -6,8 +6,9 @@
 namespace app\common\model;
 
 use think\Db;
+use think\Db\Query;
 
-class Base
+class Base extends Query
 {
     protected $model;
     public $link;
@@ -20,8 +21,11 @@ class Base
         } else {
             $this->corp_id = $corp_id;
         }
-        config('db_config1.database',config('db_common_prefix').$this->corp_id);
-        $this->model = Db::connect('db_config1');
+        $db = config('db_common_prefix').$this->corp_id;dump($db);
+        config('db_config1.database',$db);
+//        exit;
+//        config('db_config1.database',config('db_common_prefix').$this->corp_id);
+        $this->model = Query::connect(config('db_config1'));
         $this->link =$this->model->getConnection();
     }
 }

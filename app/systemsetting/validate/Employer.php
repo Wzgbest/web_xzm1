@@ -12,7 +12,7 @@ class Employer extends Validate
     protected $rule = [
         'truename' => ['require','regex'=>'/^[\x0391-\xFFE5]+$/'],
         'nickname' => ['regex'=>'/^[\x0391-\xFFE5]+$/'],
-        'telephone' => ['require','regex'=>'/^(13[0-9]|15[012356789]|18[0236789]|14[5789])[0-9]{8}$/'],
+        'telephone' => ['require','unique:employer','regex'=>'/^(13[0-9]|15[012356789]|18[0236789]|14[5789])[0-9]{8}$/'],
         'wired_phone' => ['regex'=>'/^(?:(?:0\d{2,3}[- ]?[1-9]\d{6,7})|(?:[48]00[- ]?[1-9]\d{6}))$/'],
         'part_phone' => ['regex'=>'/^[0-9]{3,6}$/'],
         'email' => ['regex'=>'/^[\w\+-]+(\.[\w\+-]+)*@[a-z\d-]+(\.[a-z\d-]+)*\.([a-z]{2,4})$/'],

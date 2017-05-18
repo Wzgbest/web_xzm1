@@ -212,7 +212,7 @@ function get_app_img ($data) {
  */
 function write_log ($userid,$type,$remark,$corp_id='') {
     if (empty($corp_id)) {
-        $corp_id = get_corpid($userid);
+        $corp_id = get_corpid();
     }
     $u = new Umessage($corp_id);
     $data = [
