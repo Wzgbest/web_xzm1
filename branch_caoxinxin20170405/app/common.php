@@ -442,11 +442,11 @@ function rolling_curl($urls, $delay) {
 
 /**
  * 友好的输出值的代码
- *@param  mixed $val 要输出代码的值名称
- *@param string $valName 名称标记
- *@param boolean $exit 是否退出程序
- *@param boolean $hr 是否显示分割线
- *
+ * @param $val mixed 要输出代码的值名称
+ * @param $valName string 名称标记
+ * @param $exit boolean 是否退出程序
+ * @param $hr boolean 是否显示分割线
+ * @return string 返回字符串内容或直接退出
  * */
 function var_exp($val,$valName='',$exit=false,$hr=true){
     $str = '';
@@ -467,19 +467,30 @@ function var_exp($val,$valName='',$exit=false,$hr=true){
     }
 }
 
-// 创建多级目录
+/**
+ * 创建多级目录
+ * @param $dir string 要创建的路径,可多级
+ * @return boolean
+ */
 function mkdirs($dir) {
-    if (! is_dir ( $dir )) {
-        if (! mkdirs ( dirname ( $dir ) )) {
+    if(!is_dir($dir)) {
+        if (!mkdirs(dirname($dir))){
             return false;
         }
-        if (! mkdir ( $dir, 0777 )) {
+        if(!mkdir($dir,0777)){
             return false;
         }
     }
     return true;
 }
 
+/**
+ * 读取上传的Excel文件
+ * @param $attach_id integer 要文件id
+ * @param $column array 列名
+ * @param $dateColumn array 日期列
+ * @return array 内容数组
+ */
 function importFormExcel($attach_id, $column, $dateColumn = array()) {
     $attach_id = intval ( $attach_id );
     $res = array (
@@ -556,6 +567,13 @@ function importFormExcel($attach_id, $column, $dateColumn = array()) {
     return $res;
 }
 
+/**
+ * 输出Excel文件
+ * @param $data array 内容数组
+ * @param $filename string 文件名
+ * @param $sheet boolean 是否是多个sheet
+ * @return null 会直接exit(),不会返回
+ */
 function outExcel($data, $filename = '', $sheet = false) {
     saveExcelToPath($data, $sheet,null,$filename);
     unset ( $sheet );
@@ -563,6 +581,12 @@ function outExcel($data, $filename = '', $sheet = false) {
     exit;
 }
 
+/**
+ * 输出Excel文件
+ * @param $data array 内容数组
+ * @param $sheet boolean 是否是多个sheet
+ * @return string|boolean 成功返回文件路径字符串,失败返回false
+ */
 function saveExcel($data, $sheet = false) {
     $path = dirname($_SERVER['SCRIPT_FILENAME']) . DS . 'download' . DS . date('Ymd');
     $mkdir_flg = true;
@@ -580,6 +604,14 @@ function saveExcel($data, $sheet = false) {
     return $relative_path;
 }
 
+
+/**
+ * 输出Excel文件
+ * @param $data array 内容数组
+ * @param $sheet boolean 是否是多个sheet
+ * @param $filename string 文件名
+ * @param $path string 文件路径,null时直接输出
+ */
 function saveExcelToPath($data, $sheet = false,$filename=null,$path=null) {
     $filename = empty ( $filename ) ? date ( 'YmdHis' ) : $filename ;
     if(!$path){

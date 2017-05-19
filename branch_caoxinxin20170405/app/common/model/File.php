@@ -1,4 +1,11 @@
 <?php
+// +----------------------------------------------------------------------
+// | 中迅传媒 [ 纯粹、极致到零 ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2017 http://www.baidusd.com All rights reserved.
+// +----------------------------------------------------------------------
+// | Author: blu10ph <blu10ph@gmail.com> <http://www.blu10ph.cn>
+// +----------------------------------------------------------------------
 namespace app\common\model;
 
 use app\common\model\Base;
@@ -11,7 +18,7 @@ class File extends Base{
 
     /**
      * 上传文件
-     * @return int|string
+     * @return array 文件信息数组
      */
     public function upload(){
         $files = request()->file('files');
@@ -30,10 +37,11 @@ class File extends Base{
             $path = ROOT_PATH . 'public' . DS . 'uploads';
             $info = $file->move($path);
             //var_exp($info,'$info');
+            $savename = $info->getSaveName();
             $original_info = $info->getInfo();
             $value['name'] = $original_info['name'];
-            $value['savename'] = $info->getSaveName();
-            $value['savepath'] = $path;
+            $value['savename'] = basename($savename);
+            $value['savepath'] = $path.DS.dirname($savename);
             $value['ext'] = pathinfo($value['name'], PATHINFO_EXTENSION);
             $value['mime'] = $info->getMime();
             $value['size'] = $info->getSize();
@@ -65,6 +73,11 @@ class File extends Base{
             return false;
         }
     }
+    /**
+     * 获取文件
+     * @param $file Object File类对象
+     * @return string md5字符串
+     */
     protected function getHash($file){
         $hash_md5 = $file->hash('md5');
         return $hash_md5;
