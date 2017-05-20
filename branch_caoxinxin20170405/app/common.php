@@ -656,7 +656,7 @@ function importFormExcel($attach_id, $column, $dateColumn = array()) {
  * @return null 会直接exit(),不会返回
  */
 function outExcel($data, $filename = '', $sheet = false) {
-    saveExcelToPath($data, $sheet,null,$filename);
+    saveExcelToPath($data, $sheet, $filename);
     unset ( $sheet );
     unset ( $dataArr );
     exit;

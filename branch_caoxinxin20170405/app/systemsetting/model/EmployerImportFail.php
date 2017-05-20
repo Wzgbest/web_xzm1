@@ -21,6 +21,18 @@ class EmployerImportFail extends Base{
     }
 
     /**
+     * 按批次查询导入失败的员工信息
+     * @param $batch 批次
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public function getEmployerBybatch($batch)
+    {
+        return $this->model->table($this->table)
+            ->where('batch',$batch)
+            ->select();
+    }
+
+    /**
      * 添加导入失败的记录
      * @param $data
      * @return int|string

@@ -423,7 +423,7 @@ class Employer extends Initialize
             $employer['telephone'] = $item['telephone'];
             $employer['username'] = $item['telephone'];
             $employer['truename'] = $item['username'];
-            //$employer['struct_id'] = 0;
+            $employer['struct_id'] = 0;
             $is_leader = (trim($item['is_leader'])=="是")?1:0;
             $employer['is_leader'] = $is_leader;
             $employer['worknum'] = $item['worknum'];
@@ -443,6 +443,7 @@ class Employer extends Initialize
                 $fail_array[] = $item;
                 continue;
             }
+            unset($employer['struct_id']);
             $huanxin_array[] = ['username'=>$item['telephone'],'password'=>'123456','nickname'=>$item['username']];
             $success_array[] = $employer;
         }
@@ -464,7 +465,7 @@ class Employer extends Initialize
             $huanxin = new HuanxinApi();
             $huanxin_json = json_encode($huanxin_array);
             //$reg_info = $huanxin->regMultiUser($this->corp_id,$huanxin_json);
-            $reg_info['status']=1;
+            $reg_info['status']=1;//TODO 测试 先关了
             if(!$reg_info['status']){
                 //Db::rollback();
                 $employerImport->link->rollback();
@@ -503,7 +504,30 @@ class Employer extends Initialize
 
         //返回信息
         $result['status'] = 1;
-        $result['info'] = '成功导入'.$success_num.'条，失败'.$fail_num.'条!';
+        $result['info'] = '成功导入'.$success_num.'条,失败'.$fail_num.'条!';
         return json_encode($result);
+    }
+
+    public function exportFailEmployer(){
+        $result =  ['status'=>0 ,'info'=>"导出失败！"];
+        $record_id = input("record_id",0,"int");
+        $employerImport = new EmployerImport($this->corp_id);
+        $record = $employerImport->getImportEmployerRecord($record_id);
+        if(!$record){
+            $result['info'] = '未找到导入记录!';
+            return json_encode($result);
+        }
+        if($record['import_result']==2){
+            $result['info'] = '该批次导入全部成功,无法导出!';
+            return json_encode($result);
+        }
+        $batch = $record['batch'];
+        $employerImportFail = new EmployerImportFail($this->corp_id);
+        $importFailEmployers = $employerImportFail->getEmployerBybatch($batch);
+        if(!$importFailEmployers){
+            $result['info'] = '未找到导入失败的员工!';
+            return json_encode($result);
+        }
+        outExcel($importFailEmployers,'import-Fail-Employers-'.$batch.'-'.time().'.xlsx');
     }
 }

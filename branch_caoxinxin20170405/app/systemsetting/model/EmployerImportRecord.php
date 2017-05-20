@@ -21,6 +21,17 @@ class EmployerImportRecord extends Base{
     }
 
     /**
+     * 获取上传记录
+     * @param $id 记录id
+     * @return int|string
+     * @throws \think\Exception
+     */
+    public function getImportEmployerRecord($id)
+    {
+        return $this->model->table($this->table)->where('id',$id)->find();
+    }
+
+    /**
      * 获取一条新的空白记录(获取batch)
      * @param $data
      * @return int|string
