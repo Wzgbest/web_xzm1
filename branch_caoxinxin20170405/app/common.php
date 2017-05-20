@@ -485,25 +485,36 @@ function mkdirs($dir) {
 }
 
 /**
- * 读取上传的Excel文件
+ * 读取上传的Excel文件的表头
  * @param $attach_id integer 要文件id
- * @param $column array 列名
- * @param $dateColumn array 日期列
+ * @param $column_num int 列最大数量
  * @return array 内容数组
  */
-function importFormExcel($attach_id, $column, $dateColumn = array()) {
+function getHeadFormExcel($attach_id, $column_num=0) {
     $attach_id = intval ( $attach_id );
+    $Line = array(
+        'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AW','AX','AY','AZ'
+    );
+    $column_num = intval ( $column_num );
     $res = array (
         'status' => 0,
         'data' => ''
     );
+    if($column_num>count($Line)){
+        $res ['data'] = '列数超出处理范围！';
+        return $res;
+    }
     if (empty ( $attach_id ) || ! is_numeric ( $attach_id )) {
         $res ['data'] = '上传文件ID无效！';
         return $res;
     }
     $fileModel = new FileModel(get_corpid());
-    $file_info = $fileModel->get(1,0,['id'=>$attach_id]);
-    $file = $file_info['res'][0];
+    $file = $fileModel->get(1,0,['id'=>$attach_id]);
+    //var_exp($file,'$file');
+    if(!$file){
+        $res ['data'] = '读取文件记录失败！';
+        return $res;
+    }
     $filename = $file ['savepath'] . DS . $file ['savename'];
     //var_exp($filename,'$filename');
     if (! file_exists ( $filename )) {
@@ -530,7 +541,77 @@ function importFormExcel($attach_id, $column, $dateColumn = array()) {
             $objReader = \PHPExcel_IOFactory::createReader ( $format );
             break;
         default :
-            $format = 'excel2007';
+            $format = 'Excel2007';
+            $objReader = \PHPExcel_IOFactory::createReader ( $format );
+    }
+
+    $objPHPExcel = $objReader->load ( $filename );
+    $objPHPExcel->setActiveSheetIndex ( 0 );
+    $sheet = $objPHPExcel->getSheet ( 0 );
+    $allColumn = $sheet->getHighestColumn (); // 取得总列数
+    $column_num = $column_num?:PHPExcel_Cell::columnIndexFromString($allColumn);
+    $column_num = ($column_num>count($Line))?count($Line):$column_num;
+    $j = 1;
+    $result = array ();
+    for ( $k=0;$k<$column_num;$k++ ) {
+        $result [$k] = trim ( ( string ) $objPHPExcel->getActiveSheet ()->getCell ( $Line[$k] . $j )->getValue () );
+    }
+    $res ['status'] = 1;
+    $res ['data'] = $result;
+    return $res;
+}
+
+/**
+ * 读取上传的Excel文件
+ * @param $attach_id integer 要文件id
+ * @param $column array 列名
+ * @param $dateColumn array 日期列
+ * @return array 内容数组
+ */
+function importFormExcel($attach_id, $column, $dateColumn = array()) {
+    $attach_id = intval ( $attach_id );
+    $res = array (
+        'status' => 0,
+        'data' => ''
+    );
+    if (empty ( $attach_id ) || ! is_numeric ( $attach_id )) {
+        $res ['data'] = '上传文件ID无效！';
+        return $res;
+    }
+    $fileModel = new FileModel(get_corpid());
+    $file = $fileModel->get(1,0,['id'=>$attach_id]);
+    //var_exp($file,'$file');
+    if(!$file){
+        $res ['data'] = '读取文件记录失败！';
+        return $res;
+    }
+    $filename = $file ['savepath'] . DS . $file ['savename'];
+    //var_exp($filename,'$filename');
+    if (! file_exists ( $filename )) {
+        $res ['data'] = '上传的文件读取失败';
+        return $res;
+    }
+    $extend = $file['ext'];
+    if (! ($extend == 'xls' || $extend == 'xlsx' || $extend == 'csv')) {
+        $res ['data'] = '文件格式不对，请上传xls,xlsx格式的文件';
+        return $res;
+    }
+
+    vendor ( 'PHPExcel' );
+    vendor ( 'PHPExcel.PHPExcel_IOFactory' );
+    vendor ( 'PHPExcel.Reader.Excel5' );
+
+    switch (strtolower ( $extend )) {
+        case 'csv' :
+            $format = 'CSV';
+            $objReader = \PHPExcel_IOFactory::createReader ( $format )->setDelimiter ( ',' )->setInputEncoding ( 'GBK' )->setEnclosure ( '"' )->setLineEnding ( "\r\n" )->setSheetIndex ( 0 );
+            break;
+        case 'xls' :
+            $format = 'Excel5';
+            $objReader = \PHPExcel_IOFactory::createReader ( $format );
+            break;
+        default :
+            $format = 'Excel2007';
             $objReader = \PHPExcel_IOFactory::createReader ( $format );
     }
 

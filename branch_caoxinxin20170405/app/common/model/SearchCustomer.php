@@ -84,7 +84,7 @@ class SearchCustomer extends Base
         if(empty($customer_name)||empty($phone)){
             return ['res'=>0 ,'error'=>"1" ,'msg'=>"缺少客户名称或电话！"];
         }
-        $b = $this->model->table($this->table)->insert($customer);
+        $b = $this->model->table($this->table)->insertGetId($customer);
         return ['res'=>$b ,'error'=>"0"];
     }
 

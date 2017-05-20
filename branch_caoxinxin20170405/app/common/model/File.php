@@ -61,7 +61,7 @@ class File extends Base{
                 $add_flg = $this
                     ->model
                     ->table($this->table)
-                    ->insert($value);
+                    ->insertGetId($value);
                 if($add_flg){
                     $value['id'] = $add_flg;
                 }
@@ -104,6 +104,12 @@ class File extends Base{
             ->order($order)
             ->limit($offset,$num)
             ->select();
-        return ['res'=>$searchCustomerList ,'error'=>"0"];
+        if(!$searchCustomerList){
+            return false;
+        }
+        if($num==1&&$page==0){
+            $searchCustomerList = $searchCustomerList[0];
+        }
+        return $searchCustomerList;
     }
 }

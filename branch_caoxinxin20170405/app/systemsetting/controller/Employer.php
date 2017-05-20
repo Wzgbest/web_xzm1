@@ -11,6 +11,9 @@ use app\common\model\Employer as EmployerModel;
 use app\huanxin\service\Api as HuanxinApi;
 use app\common\model\StructureEmployer;
 use think\Request;
+use app\systemsetting\model\EmployerImportRecord as EmployerImport;
+use app\systemsetting\model\EmployerImportFail;
+use think\Db;
 use app\crm\model\Customer as CustomerModel;
 use app\common\model\EmployerDelete;
 use app\common\model\UserCorporation;
@@ -358,6 +361,156 @@ class Employer extends Initialize
     }
 
     public function importEmployer(){
+        $result =  ['status'=>0 ,'info'=>"导入失败！"];
         $file_id = input("file_id",0,"int");
+        $column = array (
+            'A' => 'username',
+            'B' => 'telephone',
+            'C' => 'wired_phone',
+            'D' => 'part_phone',
+            'E' => 'sex',
+            'F' => 'worknum',
+            'G' => 'is_leader',
+            'H' => 'role',
+            'I' => 'qqnum',
+            'J' => 'wechat',
+        );
+        $column_res = getHeadFormExcel($file_id);
+        if ($column_res ['status'] == 0) {
+            $this->error ( $column_res ['data'] );
+        }
+        $column_default = [
+            0 => '员工姓名',
+            1 => '手机号',
+            2 => '座机',
+            3 => '分机',
+            4 => '性别',
+            5 => '工号',
+            6 => '是领导',
+            7 => '角色',
+            8 => 'QQ号',
+            9 => '微信号',];
+        $length=count($column_default);
+        for($i=0;$i<$length;$i++){
+            if($column_res['data'][$i]!=$column_default[$i]){
+                $result['info'] = 'Excel文件表头读取失败,请勿更改模板列!';
+                return json_encode($result);
+            }
+        }
+        $res = importFormExcel($file_id,$column);
+        //var_exp($res['data'],'$res[\'data\']');
+        if ($res ['status'] == 0) {
+            $result['info'] = 'Excel文件读取失败!';
+            return json_encode($result);
+        }
+
+        //获取批次
+        $employerImport = new EmployerImport($this->corp_id);
+        $record = $employerImport->getNewImportEmployerRecord(session('userinfo.id'));
+        if(!$record){
+            $result['info'] = '添加导入记录失败!';
+            return json_encode($result);
+        }
+        //var_exp($record,'$record',1);
+        $batch = $record['batch'];
+
+        //校验数据
+        $huanxin_array = [];
+        $success_array = [];
+        $fail_array = [];
+        foreach ($res ['data'] as $item) {
+            $item['role'] = trim($item['role'])?1:0;//TODO change to role value
+            $employer['corpid'] = $this->corp_id;
+            $employer['telephone'] = $item['telephone'];
+            $employer['username'] = $item['telephone'];
+            $employer['truename'] = $item['username'];
+            //$employer['struct_id'] = 0;
+            $is_leader = (trim($item['is_leader'])=="是")?1:0;
+            $employer['is_leader'] = $is_leader;
+            $employer['worknum'] = $item['worknum'];
+            $employer['role'] = $item['role'];
+            $sex = trim($item['sex']);
+            $gender = ($sex=="男")?1:(($sex=="女")?0:2);
+            $employer['gender'] = $gender;
+            $employer['qqnum'] = $item['qqnum'];
+            $employer['wechat'] = $item['wechat'];
+            $employer['wired_phone'] = $item['wired_phone'];
+            $employer['part_phone'] = $item['part_phone'];
+            $result = $this->validate($employer,'Employer');
+            //验证字段
+            if(true !== $result){
+                $item['batch'] = $batch;
+                $item['remark'] = $result;
+                $fail_array[] = $item;
+                continue;
+            }
+            $huanxin_array[] = ['username'=>$item['telephone'],'password'=>'123456','nickname'=>$item['username']];
+            $success_array[] = $employer;
+        }
+        //var_exp($success_array,'$success_array');
+        //var_exp($fail_array,'$fail_array',1);
+        $success_num = count($success_array);
+        $fail_num = count($fail_array);
+
+        //写入校验后的数据
+        if($success_num>0){
+            //Db::startTrans();
+            $employerImport->link->startTrans();
+            $employerM = new EmployerModel($this->corp_id);
+            $add_flg = $employerM->addMutipleEmployers($success_array);
+            if(!$add_flg){
+                //Db::rollback();
+                $employerImport->link->rollback();
+                $result['status'] = 0;
+                $result['info'] = '导入帐号时发生错误!';
+                return json_encode($result);
+            }
+            $huanxin = new HuanxinApi();
+            $huanxin_json = json_encode($huanxin_array);
+            //$reg_info = $huanxin->regMultiUser($this->corp_id,$huanxin_json);
+            $reg_info['status']=1;
+            if(!$reg_info['status']){
+                //Db::rollback();
+                $employerImport->link->rollback();
+                $result['status'] = 0;
+                $result['info'] = '注册环信时发生错误!';
+                return json_encode($result);
+            }
+            //Db::commit();
+            $employerImport->link->commit();
+        }
+
+        //判断执行情况,写入失败记录
+        if($fail_num == 0){
+            $data['import_result'] = 2;
+        }else{
+            $employerImportFail = new EmployerImportFail($this->corp_id);
+            $fail_save_flg = $employerImportFail->addMutipleImportEmployerFail($fail_array);
+            if(!$fail_save_flg){
+                $result['status'] = 0;
+                $result['info'] = '写入导入失败记录时发生错误!';
+                return json_encode($result);
+            }
+            if($success_num == 0){
+                $data['import_result'] = 0;
+            }else{
+                $data['import_result'] = 1;
+            }
+        }
+
+        //更新记录数
+        $data['success_num'] = $success_num;
+        $data['fail_num'] = $fail_num;
+        $save_flg = $employerImport->setImportEmployerRecord($record['id'],$record);
+        if(!$save_flg){
+            $result['status'] = 0;
+            $result['info'] = '写入导入记录失败!';
+            return json_encode($result);
+        }
+
+        //返回信息
+        $result['status'] = 1;
+        $result['info'] = '成功导入'.$success_num.'条，失败'.$fail_num.'条!';
+        return json_encode($result);
     }
 }

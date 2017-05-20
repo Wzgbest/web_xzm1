@@ -21,7 +21,7 @@ class Employer extends Validate
         'worknum' => ['require','regex'=>'/^[0-9a-zA-Z]{1,10}$/'],
         'role' => 'require|number',
         'qqnum' => ['regex' =>'/^[0-9]{5,10}$/'],
-        'wechat' => ['regex' =>'/^[0-9a-zA-Z]{32}$/'],
+        'wechat' => ['regex' =>'/^[0-9a-zA-Z]{6,32}$/'],
         'gender' =>'require|number',
         'user_id' => 'number',
     ];
