@@ -1,4 +1,8 @@
 <?php
+/**
+ * Created by: messhair
+ * Date: 2017/5/9
+ */
 namespace app\systemsetting\controller;
 
 use app\common\controller\Initialize;
@@ -69,8 +73,6 @@ class Employer extends Initialize
      */
     public function addEmployer(Request $request)
     {
-        $input = $request->param();
-        $result = $this->validate($input,'Employer');dump($result);exit;
         if ($request->isGet()) {
             return view();
         } elseif ($request->isPost()) {
