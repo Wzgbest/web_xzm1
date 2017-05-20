@@ -21,7 +21,7 @@ class Base
             $this->corp_id = $corp_id;
         }
         config('db_config1.database',config('db_common_prefix').$this->corp_id);
-        $this->model = Db::connect('db_config1');
+        $this->model = Db::connect(config('db_config1'));
         $this->link =$this->model->getConnection();
     }
 }

@@ -46,6 +46,18 @@ class Employer extends Base
     }
 
     /**
+     * 按员工ids查询员工信息
+     * @param $user_ids
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public function getEmployerByUserids($user_ids)
+    {
+        return $this->model->table($this->table)
+            ->where('id','in',$user_ids)
+            ->select();
+    }
+
+    /**
      * 添加单用户
      * @param $data
      * @return int|string
@@ -176,6 +188,29 @@ class Employer extends Base
     public function setSingleEmployerInfobyId($id,$data)
     {
         return $this->model->table($this->table)->where('id',$id)->update($data);
+    }
+
+    /**
+     * 更新多个员工信息
+     * @param $ids
+     * @param $data
+     * @return int|string
+     * @throws \think\Exception
+     */
+    public function setMultipleEmployerInfoByIds($ids,$data)
+    {
+        return $this->model->table($this->table)->where('id','in',$ids)->update($data);
+    }
+
+    /**
+     * 删除多个员工
+     * @param $ids
+     * @return int
+     * @throws \think\Exception
+     */
+    public function deleteMultipleEmployer($ids)
+    {
+        return $this->model->table($this->table)->where('id','in',$ids)->delete();
     }
 
     /**

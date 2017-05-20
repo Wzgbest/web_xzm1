@@ -1,4 +1,8 @@
 <?php
+/**
+ * Created by: messhair
+ * Date: 2017/5/9
+ */
 namespace app\common\model;
 
 use app\common\model\Base;

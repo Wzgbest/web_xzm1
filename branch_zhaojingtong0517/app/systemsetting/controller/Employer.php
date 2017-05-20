@@ -1,11 +1,19 @@
 <?php
+/**
+ * Created by: messhair
+ * Date: 2017/5/9
+ */
 namespace app\systemsetting\controller;
 
 use app\common\controller\Initialize;
+use app\common\model\Corporation;
 use app\common\model\Employer as EmployerModel;
 use app\huanxin\service\Api as HuanxinApi;
 use app\common\model\StructureEmployer;
 use think\Request;
+use app\crm\model\Customer as CustomerModel;
+use app\common\model\EmployerDelete;
+use app\common\model\UserCorporation;
 
 class Employer extends Initialize
 {
@@ -132,7 +140,6 @@ class Employer extends Initialize
             }
             if ($id > 0 && $f >0 && $d['status'] && $im > 0) {
                 $employerM->link->commit();
-//            $employerM->link->rollback();dump('here');
                 return [
                     'status' => true,
                     'message' => '新增员工成功，添加环信好友成功',
@@ -236,13 +243,11 @@ class Employer extends Initialize
                     }
                     $del_res = 1;
                 }
-//            dump($em_res);dump($res);dump($del_res);
             }catch (\Exception $e){
                 $employerM->link->rollback();
             }
             if ($em_res >= 0 && $res>0 && $del_res>0) {
                 $employerM->link->commit();
-//                $employerM->link->rollback();dump('here');
                 return [
                     'status' => true,
                     'message' => '修改员工信息成功',
@@ -256,40 +261,103 @@ class Employer extends Initialize
     }
 
     /**
-     * 删除单个员工
-     * @param $user_id
+     * 删除单个员工、多个员工
+     * @param $user_ids 用户ids，逗号分隔
      * @return array
      */
-    public function deletesingleEmployer($user_id)
+    public function deleteMultipleEmployer($user_ids)
     {
-        $employerM = new EmployerModel($this->corp_id);
-
-        //更改状态
-        $data = ['on_duty' =>-1];//TODO 测试开启
-//        $b = $employerM->setSingleEmployerInfobyId($user_id,$data);
-        $b =1;
-        $info['status'] = false;
-        if ($b>0) {
-            //转移客户
-            $params = json_encode(['userid'=>$user_id,'corp_id'=>$this->corp_id],true);
-            $d = \think\Hook::listen('check_customer_transmit',$params);
-            if ($d[0]['status']) {
-                return [
-                    'status'=>true,
-                    'message' =>'删除员工成功，转移客户成功',
-                ];
-            } else {
-                $info['message'] ='删除员工成功，转移客户失败';
-                return $info;
+        $customerM = new CustomerModel();
+//        检测有无保护客户
+        $res = $customerM->getCustomersByUserIds($user_ids); $res =null;
+        if (!empty($res)) {
+            $arr=[];
+            foreach ($res as $k=>$v) {
+                array_push($arr,$v['truename']);
             }
-        } else {
+            $arr = array_unique($arr);
+            if (count($arr) < 4) {
+                $str = implode(',',$arr);
+            } else {
+                $str = $arr[0].','.$arr[1].','.$arr[2];
+            }
             return [
                 'status'=>false,
-                'message' =>'删除员工失败'
+                'message'=>$str.'等用户有未释放的客户，删除失败',
             ];
+        } else {
+//        查询员工状态是否为离职
+            $employerM = new EmployerModel();
+            $dat = $employerM->getEmployerByUserids($user_ids);
+            if (!empty($dat)) {
+                $arr=[];
+                $users=[];
+                $tel_arr=[];
+                $names = [];
+                foreach ($dat as $k=>$v) {
+                    if ($v['status'] ==1) {
+                        array_push($arr,$v['truename']);
+                    }
+                    unset($v['status']);
+                    unset($v['on_duty']);
+                    array_push($users,$v);
+                    array_push($tel_arr,$v['telephone']);
+                    array_push($names,$v['truename']);
+                }
+                if (!empty($arr)) {
+                    $str = count($arr) < 4 ? implode(',',$arr) : $arr[0].','.$arr[1].','.$arr[2];
+                    return [
+                        'status'=>false,
+                        'message'=>$str.'等员工未改为离职状态，无法删除'
+                    ];
+                }
+                $tel_arr = implode(',',$tel_arr);
+                $names = implode(',',$names);
+                $emp_delM = new EmployerDelete();
+                $stru_empM = new StructureEmployer();
+                $emp_delM->link->startTrans();
+                Corporation::startTrans();
+                try{
+//                删除员工
+                    $b = $employerM->deleteMultipleEmployer($user_ids);
+//                转移到employer_delete表
+                    $d =$emp_delM->addMultipleBackupInfo($users);
+//                    删除用户公司对照表信息
+                    $f = UserCorporation::deleteUserCorp($tel_arr);
+//                    删除部门员工表信息
+                    $g = $stru_empM->deleteMultipleStructureEmployer($user_ids);
+                }catch(\Exception $e){
+                    $emp_delM->link->rollback();
+                    UserCorporation::rollback();
+                }
+                if ($b > 0 && $d > 0 && $f > 0 && $g > 0) {
+//                    $emp_delM->link->commit();
+//                    UserCorporation::commit();
+                    $emp_delM->link->rollback();
+                    UserCorporation::rollback();
+//                    write_log(session('userinfo')['userid'],6,'删除员工'.$names.'成功',$this->corp_id);
+                    return [
+                        'status'=>true,
+                        'message'=>'删除员工成功',
+                    ];
+                } else {
+                    $emp_delM->link->rollback();
+                    UserCorporation::rollback();
+                    return [
+                        'status'=>false,
+                        'message' =>'删除员工失败',
+                    ];
+                }
+            } else {
+                return [
+                    'status'=>false,
+                    'message'=>'员工不存在'
+                ];
+            }
         }
     }
 
-    public function deleteMultipleEmployer($user_ids)
-    {}
+    public function importEmployer(){
+        $file_id = input("file_id",0,"int");
+    }
 }
