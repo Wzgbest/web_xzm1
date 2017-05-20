@@ -292,4 +292,8 @@ class Employer extends Initialize
 
     public function deleteMultipleEmployer($user_ids)
     {}
+
+    public function importEmployer(){
+        $file_id = input("file_id",0,"int");
+    }
 }

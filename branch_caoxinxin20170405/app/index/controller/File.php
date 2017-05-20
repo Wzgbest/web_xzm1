@@ -8,21 +8,26 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
-use think\Controller;
+use app\common\controller\Initialize;
 use app\common\model\File as FileModel;
 
-class File extends Controller{
+class File extends Initialize{
     protected $_fileModel = null;
     public function __construct(){
         parent::__construct();
-        //session('userinfo.corp_id','sdzhongxun');
         $corp_id = get_corpid();
         $this->_fileModel = new FileModel($corp_id);
     }
 
     public function upload(){
         $result  = ['status' => 1, 'info' => '上传成功!'];
-        $infos = $this->_fileModel->upload();
+        $type = input("type");
+        if(!$type){
+            $result['status'] = 0;
+            $result['info'] = '上传失败,参数有误!';
+            return json_encode($result);
+        }
+        $infos = $this->_fileModel->upload($type);
         if($infos){
             /* Excel读取和保存演示
             var_exp($infos,'$infos');

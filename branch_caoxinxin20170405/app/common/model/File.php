@@ -12,7 +12,7 @@ use app\common\model\Base;
 
 class File extends Base{
     public function __construct($corp_id){
-        $this->table=config('database.prefix').'file';
+        $this->table=config('database.prefix').'import_file';
         parent::__construct($corp_id);
     }
 
@@ -20,7 +20,7 @@ class File extends Base{
      * 上传文件
      * @return array 文件信息数组
      */
-    public function upload(){
+    public function upload($type){
         $files = request()->file('files');
         if(!$files){
             return false;
@@ -39,6 +39,7 @@ class File extends Base{
             //var_exp($info,'$info');
             $savename = $info->getSaveName();
             $original_info = $info->getInfo();
+            $value['type'] = $type;
             $value['name'] = $original_info['name'];
             $value['savename'] = basename($savename);
             $value['savepath'] = $path.DS.dirname($savename);

@@ -8,15 +8,13 @@
 // +----------------------------------------------------------------------
 namespace app\crm\controller;
 
-use think\Controller;
+use app\common\controller\Initialize;
 use app\common\model\SearchCustomer as SearchCustomerModel;
 
-class SearchCustomer extends Controller{
+class SearchCustomer extends Initialize{
     protected $_searchCustomerModel = null;
     public function __construct(){
         parent::__construct();
-        //session('userinfo.id',1);
-        //session('userinfo.corp_id','sdzhongxun');
         $corp_id = get_corpid();
         $this->_searchCustomerModel = new SearchCustomerModel();
     }
@@ -84,7 +82,7 @@ class SearchCustomer extends Controller{
     }
 
     public function update(){
-        $id = input("id");
+        $id = input("id",0,"int");
         if(!$id){
             return ['res'=>0 ,'error'=>"1" ,'msg'=>"参数错误！"];
         }
