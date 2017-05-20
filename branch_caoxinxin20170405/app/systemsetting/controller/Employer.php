@@ -419,7 +419,6 @@ class Employer extends Initialize
         $success_array = [];
         $fail_array = [];
         foreach ($res ['data'] as $item) {
-            $item['role'] = trim($item['role'])?1:0;//TODO change to role value
             $employer['corpid'] = $this->corp_id;
             $employer['telephone'] = $item['telephone'];
             $employer['username'] = $item['telephone'];
@@ -436,19 +435,17 @@ class Employer extends Initialize
             $employer['wechat'] = $item['wechat'];
             $employer['wired_phone'] = $item['wired_phone'];
             $employer['part_phone'] = $item['part_phone'];
-            $result = $this->validate($employer,'Employer');
+            $validate_result = $this->validate($employer,'Employer');
             //验证字段
-            if(true !== $result){
+            if(true !== $validate_result){
                 $item['batch'] = $batch;
-                $item['remark'] = $result;
+                $item['remark'] = $validate_result;
                 $fail_array[] = $item;
                 continue;
             }
             $huanxin_array[] = ['username'=>$item['telephone'],'password'=>'123456','nickname'=>$item['username']];
             $success_array[] = $employer;
         }
-        //var_exp($success_array,'$success_array');
-        //var_exp($fail_array,'$fail_array',1);
         $success_num = count($success_array);
         $fail_num = count($fail_array);
 
@@ -461,7 +458,6 @@ class Employer extends Initialize
             if(!$add_flg){
                 //Db::rollback();
                 $employerImport->link->rollback();
-                $result['status'] = 0;
                 $result['info'] = '导入帐号时发生错误!';
                 return json_encode($result);
             }
@@ -472,7 +468,6 @@ class Employer extends Initialize
             if(!$reg_info['status']){
                 //Db::rollback();
                 $employerImport->link->rollback();
-                $result['status'] = 0;
                 $result['info'] = '注册环信时发生错误!';
                 return json_encode($result);
             }
@@ -487,7 +482,6 @@ class Employer extends Initialize
             $employerImportFail = new EmployerImportFail($this->corp_id);
             $fail_save_flg = $employerImportFail->addMutipleImportEmployerFail($fail_array);
             if(!$fail_save_flg){
-                $result['status'] = 0;
                 $result['info'] = '写入导入失败记录时发生错误!';
                 return json_encode($result);
             }
@@ -501,9 +495,8 @@ class Employer extends Initialize
         //更新记录数
         $data['success_num'] = $success_num;
         $data['fail_num'] = $fail_num;
-        $save_flg = $employerImport->setImportEmployerRecord($record['id'],$record);
+        $save_flg = $employerImport->setImportEmployerRecord($record['id'],$data);
         if(!$save_flg){
-            $result['status'] = 0;
             $result['info'] = '写入导入记录失败!';
             return json_encode($result);
         }
