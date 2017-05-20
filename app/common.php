@@ -15,6 +15,7 @@ use app\common\model\Umessage;
 use app\common\model\Employer;
 use app\common\model\Structure as StructureModel;
 use app\crm\model\CustomerTrace;
+use app\common\model\File as FileModel;
 
 // 应用公共文件
 
@@ -23,7 +24,6 @@ use app\crm\model\CustomerTrace;
  * 验证用户名格式
  * @param $tel
  * @return int
- * created by messhair
  */
 function check_tel ($tel) {
     return preg_match('/^(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}/',$tel);
@@ -33,7 +33,6 @@ function check_tel ($tel) {
  * 验证填写支付宝账号格式
  * @param $alipay
  * @return bool
- * created by messhair
  */
 function check_alipay_account ($alipay) {
     if (preg_match('/^(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}/',$alipay)) {
@@ -50,7 +49,6 @@ function check_alipay_account ($alipay) {
  * @param $rule 权限名称 string
  * @param $uid 用户id
  * @return bool
- * created by messhair
  */
 function check_auth ($rule,$uid) {
     $corp_id = session('corp_id');
@@ -75,7 +73,6 @@ function check_auth ($rule,$uid) {
  * @return bool
  * @throws Exception
  * @throws phpmailerException
- * created by messhair
  */
 function send_mail ($sender,$pass,$to_user, $title, $sender_nick='',$content='',$attachment=array()) {
     $mail = new PHPMailer(true);
@@ -111,7 +108,6 @@ function send_mail ($sender,$pass,$to_user, $title, $sender_nick='',$content='',
  * @param $code
  * @param $content
  * @return array
- * created by messhair
  */
 function send_sms ($tel,$code,$content) {
     $user = config('sms_workid');
@@ -134,7 +130,6 @@ function send_sms ($tel,$code,$content) {
  * 获取公司id代号
  * @param $tel
  * @return bool|mixed|string
- * created by messhair
  */
 function get_corpid ($tel = null) {
     $userinfo = session('userinfo');
@@ -158,7 +153,6 @@ function get_corpid ($tel = null) {
  * @param $tel
  * @param string $corp_id
  * @return int
- * created by messhair
  */
 function get_userid_from_tel ($tel,$corp_id='') {
     if (empty($corp_id)) {
@@ -172,7 +166,6 @@ function get_userid_from_tel ($tel,$corp_id='') {
  * 处理app端传来图像文件
  * @param $data
  * @return mixed|string
- * created by messhair
  */
 function get_app_img ($data) {
     $img_path = config('upload_image.image_path');
@@ -217,11 +210,10 @@ function get_app_img ($data) {
  * @param $remark　标识
  * @param string $corp_id　公司代号
  * @return int|string
- * created by messhair
  */
 function write_log ($userid,$type,$remark,$corp_id='') {
     if (empty($corp_id)) {
-        $corp_id = get_corpid();
+        $corp_id = get_corpid($userid);
     }
     $u = new Umessage($corp_id);
     $data = [
@@ -240,7 +232,6 @@ function write_log ($userid,$type,$remark,$corp_id='') {
  * @param $remark 备注
  * @param null $saleid 销售机会id
  * @return array
- * created by messhair
  */
 function write_customer_log ($userid,$customerid,$remark,$saleid=null) {
     if (is_array($customerid)) {
@@ -287,7 +278,6 @@ function write_customer_log ($userid,$customerid,$remark,$saleid=null) {
  * @param $redtype 红包类型 1运气红包  2普通红包
  * @param float $min 最小红包金额
  * @return array
- * created by messhair
  */
 function get_red_bonus ($total,$num,$redtype,$min=0.01) {
     $arr= array();
@@ -316,7 +306,6 @@ function get_red_bonus ($total,$num,$redtype,$min=0.01) {
  * @param $email 邮件地址
  * @param $email_arr 邮箱smtp数组
  * @return bool
- * created by messhair
  */
 function get_mail_smtp ($email,$email_arr=null) {
     if (false ===filter_var($email, FILTER_VALIDATE_EMAIL)) return false;
@@ -347,7 +336,6 @@ function get_mail_smtp ($email,$email_arr=null) {
  * 对邮箱密码进行加密
  * @param $input 原密码
  * @return string
- * created by messhair
  */
 function encrypt_email_pass ($input) {
     $key = md5_file('/project/online_update.tar');//TODO 修改为实际
@@ -368,7 +356,6 @@ function encrypt_email_pass ($input) {
  * 对邮箱密码进行解密
  * @param $input 密文
  * @return string
- * created by messhair
  */
 function decrypt_email_pass ($input) {
     $key = md5_file('/project/online_update.tar');//TODO 修改为实际
@@ -392,7 +379,6 @@ function decrypt_email_pass ($input) {
  * @param $id 初始部门id
  * @param array $new_arr
  * @return array
- * created by messhair
  */
 function deep_get_ids ($arr,$id,$new_arr=[]) {
     foreach ($arr as $key => $val) {
@@ -406,13 +392,11 @@ function deep_get_ids ($arr,$id,$new_arr=[]) {
     }
     return $new_arr;
 }
-
 /**
  * curl并发测试
  * @param $urls
  * @param $delay
  * @return array
- * created by messhair
  */
 function rolling_curl($urls, $delay) {
     $queue = curl_multi_init();
@@ -454,4 +438,270 @@ function rolling_curl($urls, $delay) {
     } while ($active);
     curl_multi_close($queue);
     return $responses;
+}
+
+/**
+ * 友好的输出值的代码
+ * @param $val mixed 要输出代码的值名称
+ * @param $valName string 名称标记
+ * @param $exit boolean 是否退出程序
+ * @param $hr boolean 是否显示分割线
+ * @return string 返回字符串内容或直接退出
+ * */
+function var_exp($val,$valName='',$exit=false,$hr=true){
+    $str = '';
+    if($hr){
+        $str .= "\r\n<hr/>\r\n";
+    }
+    if(!empty($valName)){
+        $str .= $valName.':';
+    }
+    $str .= var_export($val, true);
+    if($exit == 'return'){
+        return $str;
+    }else{
+        echo $str;
+        if($exit!=false){
+            exit;
+        }
+    }
+}
+
+/**
+ * 创建多级目录
+ * @param $dir string 要创建的路径,可多级
+ * @return boolean
+ */
+function mkdirs($dir) {
+    if(!is_dir($dir)) {
+        if (!mkdirs(dirname($dir))){
+            return false;
+        }
+        if(!mkdir($dir,0777)){
+            return false;
+        }
+    }
+    return true;
+}
+
+/**
+ * 读取上传的Excel文件
+ * @param $attach_id integer 要文件id
+ * @param $column array 列名
+ * @param $dateColumn array 日期列
+ * @return array 内容数组
+ */
+function importFormExcel($attach_id, $column, $dateColumn = array()) {
+    $attach_id = intval ( $attach_id );
+    $res = array (
+        'status' => 0,
+        'data' => ''
+    );
+    if (empty ( $attach_id ) || ! is_numeric ( $attach_id )) {
+        $res ['data'] = '上传文件ID无效！';
+        return $res;
+    }
+    $fileModel = new FileModel(get_corpid());
+    $file_info = $fileModel->get(1,0,['id'=>$attach_id]);
+    $file = $file_info['res'][0];
+    $filename = $file ['savepath'] . DS . $file ['savename'];
+    //var_exp($filename,'$filename');
+    if (! file_exists ( $filename )) {
+        $res ['data'] = '上传的文件读取失败';
+        return $res;
+    }
+    $extend = $file['ext'];
+    if (! ($extend == 'xls' || $extend == 'xlsx' || $extend == 'csv')) {
+        $res ['data'] = '文件格式不对，请上传xls,xlsx格式的文件';
+        return $res;
+    }
+
+    vendor ( 'PHPExcel' );
+    vendor ( 'PHPExcel.PHPExcel_IOFactory' );
+    vendor ( 'PHPExcel.Reader.Excel5' );
+
+    switch (strtolower ( $extend )) {
+        case 'csv' :
+            $format = 'CSV';
+            $objReader = \PHPExcel_IOFactory::createReader ( $format )->setDelimiter ( ',' )->setInputEncoding ( 'GBK' )->setEnclosure ( '"' )->setLineEnding ( "\r\n" )->setSheetIndex ( 0 );
+            break;
+        case 'xls' :
+            $format = 'Excel5';
+            $objReader = \PHPExcel_IOFactory::createReader ( $format );
+            break;
+        default :
+            $format = 'excel2007';
+            $objReader = \PHPExcel_IOFactory::createReader ( $format );
+    }
+
+    $objPHPExcel = $objReader->load ( $filename );
+    $objPHPExcel->setActiveSheetIndex ( 0 );
+    $sheet = $objPHPExcel->getSheet ( 0 );
+    $highestRow = $sheet->getHighestRow (); // 取得总行数
+    for($j = 2; $j <= $highestRow; $j ++) {
+        $addData = array ();
+        foreach ( $column as $k => $v ) {
+            if ($dateColumn) {
+                foreach ( $dateColumn as $d ) {
+                    if ($k == $d) {
+                        $addData [$v] = gmdate ( "Y-m-d H:i:s", PHPExcel_Shared_Date::ExcelToPHP ( $objPHPExcel->getActiveSheet ()->getCell ( "$k$j" )->getValue () ) );
+                    } else {
+                        $addData [$v] = trim ( ( string ) $objPHPExcel->getActiveSheet ()->getCell ( $k . $j )->getValue () );
+                    }
+                }
+            } else {
+                $addData [$v] = trim ( ( string ) $objPHPExcel->getActiveSheet ()->getCell ( $k . $j )->getValue () );
+            }
+        }
+
+        $isempty = true;
+        foreach ( $column as $v ) {
+            $isempty && $isempty = empty ( $addData [$v] );
+        }
+
+        if (! $isempty)
+            $result [$j] = $addData;
+    }
+    $res ['status'] = 1;
+    $res ['data'] = $result;
+    return $res;
+}
+
+/**
+ * 输出Excel文件
+ * @param $data array 内容数组
+ * @param $filename string 文件名
+ * @param $sheet boolean 是否是多个sheet
+ * @return null 会直接exit(),不会返回
+ */
+function outExcel($data, $filename = '', $sheet = false) {
+    saveExcelToPath($data, $sheet,null,$filename);
+    unset ( $sheet );
+    unset ( $dataArr );
+    exit;
+}
+
+/**
+ * 输出Excel文件
+ * @param $data array 内容数组
+ * @param $sheet boolean 是否是多个sheet
+ * @return string|boolean 成功返回文件路径字符串,失败返回false
+ */
+function saveExcel($data, $sheet = false) {
+    $path = dirname($_SERVER['SCRIPT_FILENAME']) . DS . 'download' . DS . date('Ymd');
+    $mkdir_flg = true;
+    if(!is_dir($path) && function_exists('mkdirs')){
+        $mkdir_flg = mkdirs($path);
+    }
+    if(!$mkdir_flg){
+        return false;
+    }
+    $savename = md5(microtime(true)).'.xlsx';
+    $relative_path = dirname($_SERVER['SCRIPT_NAME']).'/download/' . date('Ymd') . '/' . $savename;
+    saveExcelToPath($data, $sheet,$savename,$path);
+    unset ( $sheet );
+    unset ( $dataArr );
+    return $relative_path;
+}
+
+
+/**
+ * 输出Excel文件
+ * @param $data array 内容数组
+ * @param $sheet boolean 是否是多个sheet
+ * @param $filename string 文件名
+ * @param $path string 文件路径,null时直接输出
+ */
+function saveExcelToPath($data, $sheet = false,$filename=null,$path=null) {
+    $filename = empty ( $filename ) ? date ( 'YmdHis' ) : $filename ;
+    if(!$path){
+        $path = 'php://output';
+    }else{
+        $path .= DS . $filename;
+    }
+    vendor ( 'PHPExcel' );
+    // Create new PHPExcel object
+    $objPHPExcel = new PHPExcel();
+    // Set document properties
+    $objPHPExcel->getProperties()->setCreator("Maarten Balliauw")
+        ->setLastModifiedBy("Maarten Balliauw")
+        ->setTitle("Office 2007 XLSX Test Document")
+        ->setSubject("Office 2007 XLSX Test Document")
+        ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
+        ->setKeywords("office 2007 openxml php")
+        ->setCategory("Test result file");
+    if(!$path){
+        // Redirect output to a client’s web browser (Excel5)
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename='.$filename.'.xls');
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
+
+        // If you're serving to IE over SSL, then the following may be needed
+        header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+        header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header ('Pragma: public'); // HTTP/1.0
+    }
+    $Line = array(
+        'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AW','AX','AY','AZ'
+    );
+    if(!$sheet){
+        foreach ( $data as $k=>$v ) {
+            $u=$k+1;
+            $s = count($v);
+            for($i=0;$i<$s;$i++){
+                $n = $Line[$i].$u;
+                $va = array_values($v);
+                $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue($n,$va[$i]);
+            }
+        }
+
+        /*// Miscellaneous glyphs, UTF-8
+        $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue('A4', 'Miscellaneous glyphs')
+                    ->setCellValue('A5', 'éàèùâêîôûëïüÿäöüç');
+        */
+        // Rename worksheet
+        $objPHPExcel->getActiveSheet()->setTitle('Simple');
+        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $objPHPExcel->setActiveSheetIndex(0);
+    }else {
+        $f=0;
+        foreach ( $data as $t=>$u )
+        {
+            foreach ( $u as $k=>$v )
+            {
+                $u=$k+1;
+                $s = count($v);
+                for($i=0;$i<$s;$i++){
+                    $n = $Line[$i].$u;
+                    $va = array_values($v);
+                    $objPHPExcel->setActiveSheetIndex($f)
+                        ->setCellValue($n,$va[$i]);
+                    if($data[$t][$k][1]!=$data[$t][$k-1][1]&&$k!=0){
+                        $objPHPExcel->getActiveSheet()->getStyle($n)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
+                        $objPHPExcel->getActiveSheet()->getStyle($n)->getFill()->getStartColor()->setARGB('FFFF00');
+                    }
+                }
+            }
+
+
+            /*// Miscellaneous glyphs, UTF-8
+            $objPHPExcel->setActiveSheetIndex(0)
+                        ->setCellValue('A4', 'Miscellaneous glyphs')
+                        ->setCellValue('A5', 'éàèùâêîôûëïüÿäöüç');
+            */
+            // Rename worksheet
+            $objPHPExcel->createSheet();$objPHPExcel->getSheet($f)->setTitle($t);
+            // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+            $objPHPExcel->setActiveSheetIndex($f);
+            $f++;
+        }
+        $f=0;
+    }
+    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+    $objWriter->save($path);
 }

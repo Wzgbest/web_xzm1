@@ -356,4 +356,8 @@ class Employer extends Initialize
             }
         }
     }
+
+    public function importEmployer(){
+        $file_id = input("file_id",0,"int");
+    }
 }
