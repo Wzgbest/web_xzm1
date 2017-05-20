@@ -1,23 +1,35 @@
 <?php
+// +----------------------------------------------------------------------
+// | 中迅传媒 [ 纯粹、极致到零 ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2017 http://www.baidusd.com All rights reserved.
+// +----------------------------------------------------------------------
+// | Author: blu10ph <blu10ph@gmail.com> <http://www.blu10ph.cn>
+// +----------------------------------------------------------------------
 namespace app\crm\controller;
 
-use think\Controller;
+use app\common\controller\Initialize;
 use app\common\model\SearchCustomer as SearchCustomerModel;
 
-class SearchCustomer extends Controller
-{
+class SearchCustomer extends Initialize{
     protected $_searchCustomerModel = null;
     public function __construct(){
         parent::__construct();
-        $corp_id = "sdzhongxun";//TODO
+        $corp_id = get_corpid();
         $this->_searchCustomerModel = new SearchCustomerModel();
     }
+
     public function index(){
+        $uri = "crm/search_customer/index";
+        return $this->fetch('index',["uri"=>$uri]);
+    }
+
+    public function table(){
         $num = 10;
         $p = input("p");
         $map["status"] = 1;
         $result = $this->_searchCustomerModel->getSearchCustomer($num,$p,$map);
-        return $result;
+        return json_encode($result);
     }
 
     public function get(){
@@ -29,7 +41,7 @@ class SearchCustomer extends Controller
         $map["status"] = 1;
         $result = $this->_searchCustomerModel->getSearchCustomer(1,0,$map,"");
         $result["res"] = $result["res"][0];
-        return $result;
+        return json_encode($result);
     }
 
     public function repeat(){
@@ -38,11 +50,11 @@ class SearchCustomer extends Controller
             return ['res'=>0 ,'error'=>"1" ,'msg'=>"参数错误！"];
         }
         $result = $this->_searchCustomerModel->findRepeat($id);
-        return $result;
+        return json_encode($result);
     }
 
     public function add(){
-        $uid = 0;//TODO
+        $uid = session('userinfo.id');
         $customer['search_from'] = input('search_from');
 
         $customer['customer_name'] = input('customer_name');
@@ -66,15 +78,15 @@ class SearchCustomer extends Controller
         $customer['status'] = 1;
 
         $result = $this->_searchCustomerModel->createSearchCustomer($customer);
-        return $result;
+        return json_encode($result);
     }
 
     public function update(){
-        $id = input("id");
+        $id = input("id",0,"int");
         if(!$id){
             return ['res'=>0 ,'error'=>"1" ,'msg'=>"参数错误！"];
         }
-        $uid = 0;//TODO
+        $uid = session('userinfo.id');
         $customer['customer_name'] = input('customer_name');
         $customer['phone'] = input('phone');
 
@@ -95,7 +107,7 @@ class SearchCustomer extends Controller
         $map["create_user"] = $uid;
         $map["status"] = 1;
         $result = $this->_searchCustomerModel->updateSearchCustomer($customer,$map);
-        return $result;
+        return json_encode($result);
     }
 
     public function del(){
@@ -104,11 +116,11 @@ class SearchCustomer extends Controller
             return ['res'=>0 ,'error'=>"1" ,'msg'=>"参数错误！"];
         }
         $ids_arr = explode(",",$ids);
-        $uid = 0;//TODO
+        $uid = session('userinfo.id');
         $map["id"] = array("in",$ids_arr);
         $map["create_user"] = $uid;
         $map["status"] = 1;
         $result = $this->_searchCustomerModel->delSearchCustomer($map);
-        return $result;
+        return json_encode($result);
     }
 }
