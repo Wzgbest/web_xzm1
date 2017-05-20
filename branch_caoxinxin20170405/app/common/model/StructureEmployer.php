@@ -89,12 +89,16 @@ class StructureEmployer extends Base
      * @return int
      * @throws \think\Exception
      */
-    public function deleteMultipleStructureEmployer($user_id,$data)
+    public function deleteMultipleStructureEmployer($user_id,$data=null)
     {
-        $ids = implode(',',$data);
-        return $this->model->table($this->table)
-            ->where('user_id',$user_id)
-            ->where('struct_id','in', $ids)->delete();
+        if (is_null($data)) {
+            return $this->model->table($this->table)->where('user_id','in',$user_id)->delete();
+        } else {
+            $ids = implode(',',$data);
+            return $this->model->table($this->table)
+                ->where('user_id',$user_id)
+                ->where('struct_id','in', $ids)->delete();
+        }
     }
 
     /**

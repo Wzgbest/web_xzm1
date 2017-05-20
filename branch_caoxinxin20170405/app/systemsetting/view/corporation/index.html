@@ -1,8 +1,8 @@
 {extend name="common@index/index"}
-{block name="title"}
-<title>销掌门分页</title>
+{block name="title"}<title>销掌门分页</title>{/block}
+{block name="cus-header-res"}
+    <link rel="stylesheet" href="/systemsetting/css/index.css" />
 {/block}
-
 {block name="rightchange"}
 <section id="subt">
     <div id="subtitle">
@@ -12,6 +12,7 @@
     </div>
 </section>
 <div id="frames">
-    <iframe src="frame/data-count/a/a.html" id="indexfr" class="once"></iframe>
+    <div id="indexfr" class="once"></div>
 </div>
 {/block}
+{block name="cus-footer-res"}{/block}
