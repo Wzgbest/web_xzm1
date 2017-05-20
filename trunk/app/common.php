@@ -23,6 +23,7 @@ use app\crm\model\CustomerTrace;
  * 验证用户名格式
  * @param $tel
  * @return int
+ * created by messhair
  */
 function check_tel ($tel) {
     return preg_match('/^(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}/',$tel);
@@ -32,6 +33,7 @@ function check_tel ($tel) {
  * 验证填写支付宝账号格式
  * @param $alipay
  * @return bool
+ * created by messhair
  */
 function check_alipay_account ($alipay) {
     if (preg_match('/^(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}/',$alipay)) {
@@ -48,6 +50,7 @@ function check_alipay_account ($alipay) {
  * @param $rule 权限名称 string
  * @param $uid 用户id
  * @return bool
+ * created by messhair
  */
 function check_auth ($rule,$uid) {
     $corp_id = session('corp_id');
@@ -72,6 +75,7 @@ function check_auth ($rule,$uid) {
  * @return bool
  * @throws Exception
  * @throws phpmailerException
+ * created by messhair
  */
 function send_mail ($sender,$pass,$to_user, $title, $sender_nick='',$content='',$attachment=array()) {
     $mail = new PHPMailer(true);
@@ -107,6 +111,7 @@ function send_mail ($sender,$pass,$to_user, $title, $sender_nick='',$content='',
  * @param $code
  * @param $content
  * @return array
+ * created by messhair
  */
 function send_sms ($tel,$code,$content) {
     $user = config('sms_workid');
@@ -129,6 +134,7 @@ function send_sms ($tel,$code,$content) {
  * 获取公司id代号
  * @param $tel
  * @return bool|mixed|string
+ * created by messhair
  */
 function get_corpid ($tel = null) {
     $userinfo = session('userinfo');
@@ -152,6 +158,7 @@ function get_corpid ($tel = null) {
  * @param $tel
  * @param string $corp_id
  * @return int
+ * created by messhair
  */
 function get_userid_from_tel ($tel,$corp_id='') {
     if (empty($corp_id)) {
@@ -165,6 +172,7 @@ function get_userid_from_tel ($tel,$corp_id='') {
  * 处理app端传来图像文件
  * @param $data
  * @return mixed|string
+ * created by messhair
  */
 function get_app_img ($data) {
     $img_path = config('upload_image.image_path');
@@ -209,6 +217,7 @@ function get_app_img ($data) {
  * @param $remark　标识
  * @param string $corp_id　公司代号
  * @return int|string
+ * created by messhair
  */
 function write_log ($userid,$type,$remark,$corp_id='') {
     if (empty($corp_id)) {
@@ -231,6 +240,7 @@ function write_log ($userid,$type,$remark,$corp_id='') {
  * @param $remark 备注
  * @param null $saleid 销售机会id
  * @return array
+ * created by messhair
  */
 function write_customer_log ($userid,$customerid,$remark,$saleid=null) {
     if (is_array($customerid)) {
@@ -277,6 +287,7 @@ function write_customer_log ($userid,$customerid,$remark,$saleid=null) {
  * @param $redtype 红包类型 1运气红包  2普通红包
  * @param float $min 最小红包金额
  * @return array
+ * created by messhair
  */
 function get_red_bonus ($total,$num,$redtype,$min=0.01) {
     $arr= array();
@@ -305,6 +316,7 @@ function get_red_bonus ($total,$num,$redtype,$min=0.01) {
  * @param $email 邮件地址
  * @param $email_arr 邮箱smtp数组
  * @return bool
+ * created by messhair
  */
 function get_mail_smtp ($email,$email_arr=null) {
     if (false ===filter_var($email, FILTER_VALIDATE_EMAIL)) return false;
@@ -335,6 +347,7 @@ function get_mail_smtp ($email,$email_arr=null) {
  * 对邮箱密码进行加密
  * @param $input 原密码
  * @return string
+ * created by messhair
  */
 function encrypt_email_pass ($input) {
     $key = md5_file('/project/online_update.tar');//TODO 修改为实际
@@ -355,6 +368,7 @@ function encrypt_email_pass ($input) {
  * 对邮箱密码进行解密
  * @param $input 密文
  * @return string
+ * created by messhair
  */
 function decrypt_email_pass ($input) {
     $key = md5_file('/project/online_update.tar');//TODO 修改为实际
@@ -378,6 +392,7 @@ function decrypt_email_pass ($input) {
  * @param $id 初始部门id
  * @param array $new_arr
  * @return array
+ * created by messhair
  */
 function deep_get_ids ($arr,$id,$new_arr=[]) {
     foreach ($arr as $key => $val) {
@@ -391,11 +406,13 @@ function deep_get_ids ($arr,$id,$new_arr=[]) {
     }
     return $new_arr;
 }
+
 /**
  * curl并发测试
  * @param $urls
  * @param $delay
  * @return array
+ * created by messhair
  */
 function rolling_curl($urls, $delay) {
     $queue = curl_multi_init();
