@@ -418,6 +418,7 @@ class Employer extends Initialize
         $huanxin_array = [];
         $success_array = [];
         $fail_array = [];
+        $user_corporation = [];
         foreach ($res ['data'] as $item) {
             $employer['corpid'] = $this->corp_id;
             $employer['telephone'] = $item['telephone'];
@@ -444,6 +445,7 @@ class Employer extends Initialize
                 continue;
             }
             unset($employer['struct_id']);
+            $user_corporation[] = ["corp_name"=>$this->corp_id,"telephone"=>$item['telephone']];
             $huanxin_array[] = ['username'=>$item['telephone'],'password'=>'123456','nickname'=>$item['username']];
             $success_array[] = $employer;
         }
@@ -460,6 +462,14 @@ class Employer extends Initialize
                 //Db::rollback();
                 $employerImport->link->rollback();
                 $result['info'] = '导入帐号时发生错误!';
+                return json_encode($result);
+            }
+            $userCorpM = new UserCorporation($this->corp_id);
+            $user_corp_add_flg = $userCorpM->addMutiple($success_array);//TODO 添加方法
+            if(!$user_corp_add_flg){
+                //Db::rollback();
+                $employerImport->link->rollback();
+                $result['info'] = '导入员工帐号时发生错误!';
                 return json_encode($result);
             }
             $huanxin = new HuanxinApi();
@@ -528,6 +538,24 @@ class Employer extends Initialize
             $result['info'] = '未找到导入失败的员工!';
             return json_encode($result);
         }
-        outExcel($importFailEmployers,'import-Fail-Employers-'.$batch.'-'.time().'.xlsx');
+        $excel_data = [[
+            "导入批次",
+            "员工姓名",
+            "手机号",
+            "座机",
+            "分机",
+            "性别",
+            "工号",
+            "是领导",
+            "角色",
+            "QQ号",
+            "微信号",
+            "备注"
+        ]];
+        foreach ($importFailEmployers as $importFailEmployer){
+            unset($importFailEmployer['id']);
+            $excel_data[] = $importFailEmployer;
+        }
+        outExcel($excel_data,'import-Fail-Employers-'.$batch.'-'.time().'.xlsx');
     }
 }

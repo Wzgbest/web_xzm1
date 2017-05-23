@@ -695,11 +695,6 @@ function saveExcel($data, $sheet = false) {
  */
 function saveExcelToPath($data, $sheet = false,$filename=null,$path=null) {
     $filename = empty ( $filename ) ? date ( 'YmdHis' ) : $filename ;
-    if(!$path){
-        $path = 'php://output';
-    }else{
-        $path .= DS . $filename;
-    }
     vendor ( 'PHPExcel' );
     // Create new PHPExcel object
     $objPHPExcel = new PHPExcel();
@@ -724,6 +719,11 @@ function saveExcelToPath($data, $sheet = false,$filename=null,$path=null) {
         header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
         header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
         header ('Pragma: public'); // HTTP/1.0
+    }
+    if(!$path){
+        $path = 'php://output';
+    }else{
+        $path .= DS . $filename;
     }
     $Line = array(
         'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AW','AX','AY','AZ'
