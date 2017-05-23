@@ -29,4 +29,14 @@ class UserCorporation extends Db
     {
         return Db::name('user_corporation')->where('telephone','in',$tels)->delete();
     }
+    
+    /**
+     * 添加多用户
+     * @param array $data
+     * @return int|string
+     */
+    public function addMutipleUserCorp($data)
+    {
+        return Db::name('user_corporation')->insertAll($data);
+    }
 }

@@ -18,10 +18,8 @@ use app\crm\model\Customer as CustomerModel;
 use app\common\model\EmployerDelete;
 use app\common\model\UserCorporation;
 
-class Employer extends Initialize
-{
-    public function index()
-    {}
+class Employer extends Initialize{
+    public function index(){}
 
     /**
      * 查看员工详情
@@ -415,76 +413,75 @@ class Employer extends Initialize
         $batch = $record['batch'];
 
         //校验数据
-        $huanxin_array = [];
-        $success_array = [];
+        $success_num = 0;
         $fail_array = [];
-        $user_corporation = [];
+        $employerImport->link->startTrans();
+        Corporation::startTrans();
         foreach ($res ['data'] as $item) {
-            $employer['corpid'] = $this->corp_id;
-            $employer['telephone'] = $item['telephone'];
-            $employer['username'] = $item['telephone'];
-            $employer['truename'] = $item['username'];
-            $employer['struct_id'] = 0;
-            $is_leader = (trim($item['is_leader'])=="是")?1:0;
-            $employer['is_leader'] = $is_leader;
-            $employer['worknum'] = $item['worknum'];
-            $employer['role'] = $item['role'];
-            $sex = trim($item['sex']);
-            $gender = ($sex=="男")?1:(($sex=="女")?0:2);
-            $employer['gender'] = $gender;
-            $employer['qqnum'] = $item['qqnum'];
-            $employer['wechat'] = $item['wechat'];
-            $employer['wired_phone'] = $item['wired_phone'];
-            $employer['part_phone'] = $item['part_phone'];
-            $validate_result = $this->validate($employer,'Employer');
-            //验证字段
-            if(true !== $validate_result){
+            try {
+                $employer['corpid'] = $this->corp_id;
+                $employer['telephone'] = $item['telephone'];
+                $employer['username'] = $item['telephone'];
+                $employer['truename'] = $item['username'];
+                $employer['struct_id'] = 0;
+                $is_leader = (trim($item['is_leader']) == "是") ? 1 : 0;
+                $employer['is_leader'] = $is_leader;
+                $employer['worknum'] = $item['worknum'];
+                $employer['role'] = $item['role'];
+                $sex = trim($item['sex']);
+                $gender = ($sex == "男") ? 1 : (($sex == "女") ? 0 : 2);
+                $employer['gender'] = $gender;
+                $employer['qqnum'] = $item['qqnum'];
+                $employer['wechat'] = $item['wechat'];
+                $employer['wired_phone'] = $item['wired_phone'];
+                $employer['part_phone'] = $item['part_phone'];
+                $validate_result = $this->validate($employer, 'Employer');
+                //验证字段
+                if (true !== $validate_result) {
+                    exception($validate_result);
+                }
+                unset($employer['struct_id']);
+                $employerImport->link->startTrans();
+                Corporation::startTrans();
+
+                $employerM = new EmployerModel($this->corp_id);
+                $add_flg = $employerM->addSingleEmployer($employer);
+                //var_exp($add_flg, '$add_flg');
+                if (!$add_flg) {
+                    exception('导入员工帐号时发生错误!');
+                }
+                $user_corporation = ["corp_name" => $this->corp_id, "telephone" => $item['telephone']];
+                $userCorpM = new UserCorporation($this->corp_id);
+                $user_corp_add_flg = $userCorpM->addMutipleUserCorp([$user_corporation]);
+                //var_exp($user_corp_add_flg, '$user_corp_add_flg');
+                if (!$user_corp_add_flg) {
+                    exception('导入帐号时发生错误!');
+                }
+                //$huanxin_array = ['username'=>$item['telephone'],'password'=>'123456','nickname'=>$item['username']];
+                //$huanxin_json = json_encode($huanxin_array);
+                $huanxin = new HuanxinApi();
+                //$reg_info = $huanxin->addFriend($item['telephone']);
+                $reg_info['status'] = 1;//TODO 测试 先关了
+                if (!$reg_info['status']) {
+                    exception('注册环信时发生错误!');
+                }
+            }catch(\Exception $e){
+                $employerImport->link->rollback();
+                UserCorporation::rollback();
                 $item['batch'] = $batch;
-                $item['remark'] = $validate_result;
+                $item['remark'] = $e->getMessage();
                 $fail_array[] = $item;
                 continue;
             }
-            unset($employer['struct_id']);
-            $user_corporation[] = ["corp_name"=>$this->corp_id,"telephone"=>$item['telephone']];
-            $huanxin_array[] = ['username'=>$item['telephone'],'password'=>'123456','nickname'=>$item['username']];
-            $success_array[] = $employer;
-        }
-        $success_num = count($success_array);
-        $fail_num = count($fail_array);
-
-        //写入校验后的数据
-        if($success_num>0){
-            //Db::startTrans();
-            $employerImport->link->startTrans();
-            $employerM = new EmployerModel($this->corp_id);
-            $add_flg = $employerM->addMutipleEmployers($success_array);
-            if(!$add_flg){
-                //Db::rollback();
-                $employerImport->link->rollback();
-                $result['info'] = '导入帐号时发生错误!';
-                return json_encode($result);
-            }
-            $userCorpM = new UserCorporation($this->corp_id);
-            $user_corp_add_flg = $userCorpM->addMutiple($success_array);//TODO 添加方法
-            if(!$user_corp_add_flg){
-                //Db::rollback();
-                $employerImport->link->rollback();
-                $result['info'] = '导入员工帐号时发生错误!';
-                return json_encode($result);
-            }
-            $huanxin = new HuanxinApi();
-            $huanxin_json = json_encode($huanxin_array);
-            //$reg_info = $huanxin->regMultiUser($this->corp_id,$huanxin_json);
-            $reg_info['status']=1;//TODO 测试 先关了
-            if(!$reg_info['status']){
-                //Db::rollback();
-                $employerImport->link->rollback();
-                $result['info'] = '注册环信时发生错误!';
-                return json_encode($result);
-            }
-            //Db::commit();
             $employerImport->link->commit();
+            UserCorporation::commit();
+            $success_num++;
+            //var_exp($success_num, '$success_num');
         }
+        $employerImport->link->commit();
+        UserCorporation::commit();
+        $fail_num = count($fail_array);
+        //var_exp($fail_num,'$fail_num');
 
         //判断执行情况,写入失败记录
         if($fail_num == 0){
@@ -506,6 +503,8 @@ class Employer extends Initialize
         //更新记录数
         $data['success_num'] = $success_num;
         $data['fail_num'] = $fail_num;
+        //var_exp($record,'$record');
+        //var_exp($data,'$data');
         $save_flg = $employerImport->setImportEmployerRecord($record['id'],$data);
         if(!$save_flg){
             $result['info'] = '写入导入记录失败!';

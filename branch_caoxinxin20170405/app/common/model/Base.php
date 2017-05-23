@@ -12,6 +12,7 @@ class Base
     protected $model;
     public $link;
     protected $corp_id;
+    public $table;
 
     public function __construct($corp_id = null)
     {
