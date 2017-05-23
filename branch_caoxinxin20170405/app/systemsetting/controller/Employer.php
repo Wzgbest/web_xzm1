@@ -538,18 +538,18 @@ class Employer extends Initialize{
             return json_encode($result);
         }
         $excel_data = [[
-            "导入批次",
-            "员工姓名",
-            "手机号",
-            "座机",
-            "分机",
-            "性别",
-            "工号",
-            "是领导",
-            "角色",
-            "QQ号",
-            "微信号",
-            "备注"
+            0 => "导入批次",
+            1 => "员工姓名",
+            2 => "手机号",
+            3 => "座机",
+            4 => "分机",
+            5 => "性别",
+            6 => "工号",
+            7 => "是领导",
+            8 => "角色",
+            9 => "QQ号",
+            10 => "微信号",
+            11 => "备注"
         ]];
         foreach ($importFailEmployers as $importFailEmployer){
             unset($importFailEmployer['id']);

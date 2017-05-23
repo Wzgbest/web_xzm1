@@ -89,7 +89,7 @@ class Customer extends Initialize{
                     exception($validate_result);
                 }
                 $customerContactM = new CustomerContactModel($this->corp_id);
-                $user_corp_add_flg = $customerContactM->addCustomerContact($customerContact);//TODO 添加方法
+                $user_corp_add_flg = $customerContactM->addCustomerContact($customerContact);
                 if(!$user_corp_add_flg){
                     exception('添加客户联系方式失败!');
                 }
@@ -158,18 +158,14 @@ class Customer extends Initialize{
             return json_encode($result);
         }
         $excel_data = [[
-            "导入批次",
-            "员工姓名",
-            "手机号",
-            "座机",
-            "分机",
-            "性别",
-            "工号",
-            "是领导",
-            "角色",
-            "QQ号",
-            "微信号",
-            "备注"
+            0 => "导入批次",
+            1 => '公司名称',
+            2 => '电话号码',
+            3 => '地址',
+            4 => '定位',
+            5 => '行业',
+            6 => '官网',
+            7 => "备注"
         ]];
         foreach ($importFailCustomers as $importFailCustomer){
             unset($importFailCustomer['id']);
