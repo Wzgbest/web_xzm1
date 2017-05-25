@@ -63,7 +63,7 @@ class Customer extends Base
      */
     public function addCustomer($data)
     {
-        return $this->model->table($this->table)->insert($data);
+        return $this->model->table($this->table)->insertGetId($data);
     }
 
     /**

@@ -29,26 +29,6 @@ class File extends Initialize{
         }
         $infos = $this->_fileModel->upload($type);
         if($infos){
-            /* Excel读取和保存演示
-            var_exp($infos,'$infos');
-            $column = array (
-                'A' => 'kf_nick',
-                'B' => 'kf_wx',
-                'C' => 'kf_account',
-                'D' => 'uid',
-                'E' => 'no',
-                'F' => 'password',
-            );
-            foreach ($infos as $info){
-                $res = importFormExcel($info['id'],$column);
-                var_exp($res['data'],'$res[\'data\']');
-                //outExcel($res['data'],$info['name']);
-                $save_flg = saveExcel($res['data']);
-                $file_mark = "<a href='$save_flg' target='_blank'>$save_flg</a>";
-                echo $file_mark;
-                var_exp($save_flg,'$save_flg',1);
-            }
-            */
             $result['data'] = $infos;
         } else {
             $result['status'] = 0;

@@ -19,4 +19,9 @@ class CustomerContact extends Base
     {
         return $this->model->table($this->table)->insert($data);
     }
+
+    public function addCustomerContact($data)
+    {
+        return $this->model->table($this->table)->insertGetId($data);
+    }
 }
