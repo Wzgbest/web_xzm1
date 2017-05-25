@@ -30,6 +30,7 @@ class ServerWorker extends Server
     /**
      * find the processid
      * @param $connection
+     * created by messhair
      */
     public function onWorkerStart($connection)
     {
@@ -40,6 +41,7 @@ class ServerWorker extends Server
     /**
      * establish connection
      * @param $connection
+     * created by messhair
      */
     public function onConnect($connection)
     {
@@ -55,6 +57,7 @@ class ServerWorker extends Server
      * receive message and response
      * @param $connection    the connection obj
      * @param $data    the message from client
+     * created by messhair
      */
     public function onMessage($connection,$data)
     {

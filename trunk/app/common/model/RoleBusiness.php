@@ -19,6 +19,7 @@ class RoleBusiness extends Base
      * 根据业务id查找对应的所有角色
      * @param $business_id 业务id
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getRoleByBusiness($business_id)
     {
@@ -33,6 +34,7 @@ class RoleBusiness extends Base
      * 根据角色id查找对应的所有业务
      * @param $role_id 角色id
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getBusinessByRole($role_id)
     {

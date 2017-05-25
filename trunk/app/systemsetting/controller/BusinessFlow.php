@@ -8,6 +8,6 @@ class BusinessFlow extends Initialize
 {
     public function index()
     {
-        $business_flow = new BusinessFlow();
+        $business_flow = new Business();
     }
 }

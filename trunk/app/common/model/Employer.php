@@ -21,6 +21,7 @@ class Employer extends Base
      * 根据用户名查询个人账号信息，带角色名
      * @param $telephone
      * @return array
+     * created by messhair
      */
     public function getEmployerByTel($telephone)
     {
@@ -36,6 +37,7 @@ class Employer extends Base
      * 按用户id查询 带角色名，部门名
      * @param $userid 用户id
      * @return array|false|\PDOStatement|string|\think\Model
+     * created by messhair
      */
     public function getEmployerByUserid($userid)
     {
@@ -49,6 +51,7 @@ class Employer extends Base
      * 按员工ids查询员工信息
      * @param $user_ids
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getEmployerByUserids($user_ids)
     {
@@ -58,9 +61,48 @@ class Employer extends Base
     }
 
     /**
+     * 查询非当前角色
+     * @param $role_id
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
+     */
+    public function getEmployerByNotRole($role_id, $struct_id, $user_tel_email)
+    {
+        $map = '';
+        if (!empty($struct_id)) {
+            if (!empty($user_tel_email)) {
+                if (preg_match('/^(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}/',$user_tel_email)) {
+                    $map .= 'WHERE `a`.`role`='.$role_id.' AND `d`.`id`='.$struct_id.' AND `a`.`telephone`='.$user_tel_email;
+                } elseif (preg_match('/^[\w\+-]+(\.[\w\+-]+)*@[a-z\d-]+(\.[a-z\d-]+)*\.([a-z]{2,4})$/',$user_tel_email)) {
+                    $map .= 'WHERE `a`.`role`='.$role_id.' AND `d`.`id`='.$struct_id.' AND `a`.`email`='.$user_tel_email;
+                } else {
+                    $map .= 'WHERE `a`.`role`='.$role_id.' AND `d`.`id`='.$struct_id.' AND `a`.`truename`="'.$user_tel_email.'"';
+                }
+            } else {
+                $map .= 'WHERE `a`.`role`='.$role_id.' AND `d`.`id`='.$struct_id;
+            }
+        } else {
+            if (!empty($user_tel_email)) {
+                if (preg_match('/^(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}/',$user_tel_email)) {
+                    $map .= 'WHERE `a`.`role`='.$role_id.' AND `d`.`id`='.$struct_id.' AND `a`.`telephone`='.$user_tel_email;
+                } elseif (preg_match('/^[\w\+-]+(\.[\w\+-]+)*@[a-z\d-]+(\.[a-z\d-]+)*\.([a-z]{2,4})$/',$user_tel_email)) {
+                    $map .= 'WHERE `a`.`role`='.$role_id.' AND `d`.`id`='.$struct_id.' AND `a`.`email`='.$user_tel_email;
+                } else {
+                    $map .= 'WHERE `a`.`role`='.$role_id.' AND `d`.`id`='.$struct_id.' AND `a`.`truename`="'.$user_tel_email.'"';
+                }
+            } else {
+                $map .= 'WHERE `a`.`role`='.$role_id;
+            }
+        }
+        $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`worknum`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employer` `a` INNER JOIN `'.$this->dbprefix.'structure_employer` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.' GROUP BY `a`.`id` order by `a`.`worknum`;';
+        return $this->model->table($this->table)->query($sql);
+    }
+
+    /**
      * 添加单用户
      * @param $data
      * @return int|string
+     * created by messhair
      */
     public function addSingleEmployer($data)
     {
@@ -71,6 +113,7 @@ class Employer extends Base
      * 添加多用户
      * @param array $data
      * @return int|string
+     * created by messhair
      */
     public function addMutipleEmployers($data)
     {
@@ -83,6 +126,7 @@ class Employer extends Base
      * @param $data
      * @return int|string
      * @throws \think\Exception
+     * created by messhair
      */
     public function setEmployerSingleInfo($telephone,$data)
     {
@@ -92,6 +136,7 @@ class Employer extends Base
     /**
      * 取出employer表中所有未开通环信的账号
      * @return array
+     * created by messhair
      */
     public function getAllEmployers()
     {
@@ -102,6 +147,7 @@ class Employer extends Base
      * 更新表中haveim为1
      * @param $save_up
      * @return int
+     * created by messhair
      */
     public function saveIm($save_up)
     {
@@ -113,6 +159,7 @@ class Employer extends Base
      * 取出所有可以添加环信好友账号信息，即非本人的其他人信息
      * @param $owner 电话号码
      * @return array
+     * created by messhair
      */
     public function getFriendsList($owner)
     {
@@ -125,6 +172,7 @@ class Employer extends Base
      * @param $telephone 电话号码
      * @return array
      * @throws \think\Exception
+     * created by messhair
      */
     public function createSystemToken($telephone)
     {
@@ -137,6 +185,7 @@ class Employer extends Base
      * 通过手机号查询所有其他手机号
      * @param $telephone 电话号码
      * @return array
+     * created by messhair
      */
     public function getFriendsTel($telephone)
     {
@@ -146,6 +195,7 @@ class Employer extends Base
     /**
      * 获取所有用户列表供app端使用
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getAllUsers()
     {
@@ -160,6 +210,7 @@ class Employer extends Base
     /**
      * 获取所有用户电话
      * @return array
+     * created by messhair
      */
     public function getAllTels()
     {
@@ -172,6 +223,7 @@ class Employer extends Base
      * @param $password 密码md5加密后
      * @return int|string
      * @throws \think\Exception
+     * created by messhair
      */
     public function reSetPass($telephone,$password)
     {
@@ -184,6 +236,7 @@ class Employer extends Base
      * @param $data
      * @return int|string
      * @throws \think\Exception
+     * created by messhair
      */
     public function setSingleEmployerInfobyId($id,$data)
     {
@@ -196,6 +249,7 @@ class Employer extends Base
      * @param $data
      * @return int|string
      * @throws \think\Exception
+     * created by messhair
      */
     public function setMultipleEmployerInfoByIds($ids,$data)
     {
@@ -207,10 +261,23 @@ class Employer extends Base
      * @param $ids
      * @return int
      * @throws \think\Exception
+     * created by messhair
      */
     public function deleteMultipleEmployer($ids)
     {
         return $this->model->table($this->table)->where('id','in',$ids)->delete();
+    }
+
+    /**
+     * 根据角色id查询员工信息
+     * @param $role_id 员工id
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
+     */
+    public function getEmployerByRole($role_id, $page_first=0, $page_rows = 10)
+    {
+        $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`worknum`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employer` `a` INNER JOIN `'.$this->dbprefix.'structure_employer` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` WHERE `a`.`role`='.$role_id.' GROUP BY `a`.`id` order by `a`.`worknum` LIMIT '.$page_first.','.$page_rows.';';
+        return $this->model->table($this->table)->query($sql);
     }
 
     /**
@@ -219,6 +286,7 @@ class Employer extends Base
      * @param int $page_first 当前页
      * @param null $rows 查找的行数
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getEmployerByStructId($struct_id,$page_first=0,$rows=null)
     {
@@ -243,6 +311,7 @@ class Employer extends Base
      * 根据部门id查询该部门所有员工数量
      * @param $struct_id 部门id
      * @return int|string
+     * created by messhair
      */
     public function countEmployerByStructId($struct_id)
     {
@@ -258,30 +327,53 @@ class Employer extends Base
      * 获取所有员工列表
      * @param int $page_now_num 当前页
      * @param null $rows 行数
-     * @param null $where 查询条件
+     * @param null|array $where[
+     *      'struct_id'=>,
+     *      'role'=>,
+     *      'on_duty'=>,
+     * ] 查询条件
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getPageEmployerList($page_now_num = 0,$rows = null,$where = null)
     {
         if ($where) {
             $map = 'where ';
-            if (isset($where['struct_id'])) {
+            if ($where['struct_id']) {
                 $map .= 'c.struct_id ='.$where['struct_id'].' ';
-                if (isset($where['role'])) {
+                if ($where['role']) {
                     $map .= 'and a.role ='.$where['role'].' ';
-                    if (isset($where['on_duty'])) {
-                        $map .= 'and a.on_duty='.$where['on_duty'].' ';
+                    if ($where['on_duty']) {
+                        if ($where['on_duty']==-1) {
+                            $map .= 'and a.status=-1 ';
+                        } else {
+                            $map .= 'and a.on_duty='.$where['on_duty'].' ';
+                        }
+                    } else {
+                        $map .= 'and a.status = 1 ';
                     }
                 }
             } else {
-                if (isset($where['role'])) {
+                if ($where['role']) {
                     $map .= ' a.role ='.$where['role'].' ';
-                    if (isset($where['on_duty'])) {
-                        $map .= ' and a.on_duty='.$where['on_duty'].' ';
+                    if ($where['on_duty']) {
+                        if ($where['on_duty']==-1) {
+                            $map .= 'and a.status=-1 ';
+                        } else {
+                            $map .= 'and a.on_duty='.$where['on_duty'].' ';
+                        }
+                    } else {
+                        $map .= 'and a.status = 1';
                     }
                 } else {
-                    if (isset($where['on_duty'])) {
-                        $map .= ' a.on_duty='.$where['on_duty'].' ';
+                    if ($where['on_duty']) {
+                        if ($where['on_duty']==-1) {
+                            $map .= 'a.status=-1 ';
+                        } else {
+                            $map .= 'a.on_duty='.$where['on_duty'].' ';
+                        }
+                    } else {
+                        $map .= 'and a.status = 1 ';
                     }
                 }
             }
@@ -289,40 +381,63 @@ class Employer extends Base
             $map = '';
         }
         if (is_null($rows)) {
-            $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`on_duty`,`a`.`worknum`,`a`.`email`,`a`.`qqnum`,`b`.`role_name`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employer` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employer` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.'GROUP BY `a`.`id`;';
+            $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`on_duty`,`a`.`worknum`,`a`.`email`,`a`.`qqnum`,`b`.`role_name`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employer` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employer` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.'GROUP BY `a`.`id` order by `a`.`worknum`;';
             return $this->model->table($this->table)->query($sql);
         } else {
-            $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`on_duty`,`a`.`worknum`,`a`.`email`,`a`.`qqnum`,`b`.`role_name`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employer` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employer` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.'GROUP BY `a`.`id` limit '.$page_now_num.','.$rows.';';
+            $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`on_duty`,`a`.`worknum`,`a`.`email`,`a`.`qqnum`,`b`.`role_name`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employer` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employer` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.'GROUP BY `a`.`id` order by `a`.`worknum` limit '.$page_now_num.','.$rows.';';
             return $this->model->table($this->table)->query($sql);
         }
     }
 
     /**
      * 所有员工总数
-     * @param null $where 查询条件
+     * @param null|array $where[
+     *      'struct_id'=>,
+     *      'role'=>,
+     *      'on_duty'=>,
+     * ] 查询条件
      * @return mixed
+     * created by messhair
      */
     public function countPageEmployerList($where = null)
     {
         if ($where) {
             $map = 'where ';
-            if (isset($where['struct_id'])) {
+            if ($where['struct_id']) {
                 $map .= 'c.struct_id ='.$where['struct_id'].' ';
-                if (isset($where['role'])) {
+                if ($where['role']) {
                     $map .= 'and a.role ='.$where['role'].' ';
-                    if (isset($where['on_duty'])) {
-                        $map .= 'and a.on_duty='.$where['on_duty'].' ';
+                    if ($where['on_duty']) {
+                        if ($where['on_duty']==-1) {
+                            $map .= 'and a.status=-1 ';
+                        } else {
+                            $map .= 'and a.on_duty='.$where['on_duty'].' ';
+                        }
+                    } else {
+                        $map .= 'and a.status = 1 ';
                     }
                 }
             } else {
-                if (isset($where['role'])) {
+                if ($where['role']) {
                     $map .= ' a.role ='.$where['role'].' ';
-                    if (isset($where['on_duty'])) {
-                        $map .= ' and a.on_duty='.$where['on_duty'].' ';
+                    if ($where['on_duty']) {
+                        if ($where['on_duty']==-1) {
+                            $map .= 'and a.status=-1 ';
+                        } else {
+                            $map .= 'and a.on_duty='.$where['on_duty'].' ';
+                        }
+                    } else {
+                        $map .= 'and a.status = 1';
                     }
                 } else {
-                    if (isset($where['on_duty'])) {
-                        $map .= ' a.on_duty='.$where['on_duty'].' ';
+                    if ($where['on_duty']) {
+                        if ($where['on_duty']==-1) {
+                            $map .= 'a.status=-1 ';
+                        } else {
+                            $map .= 'a.on_duty='.$where['on_duty'].' ';
+                        }
+                    } else {
+                        $map .= 'and a.status = 1 ';
                     }
                 }
             }

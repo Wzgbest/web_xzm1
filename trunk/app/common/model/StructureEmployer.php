@@ -19,6 +19,7 @@ class StructureEmployer extends Base
      * 根据部门struct_ids获取所有员工id
      * @param $struct_ids 存放部门信息的ids
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getEmployerByStructIds($struct_ids)
     {
@@ -29,6 +30,7 @@ class StructureEmployer extends Base
      * 根据员工id获取部门ids
      * @param $user_id 员工id
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getStructIdsByEmployer($user_id)
     {
@@ -42,6 +44,7 @@ class StructureEmployer extends Base
      * @param $data  数据
      * @return int|string
      * @throws \think\Exception
+     * created by messhair
      */
     public function setStructureEmployerById($user_id,$struct_id,$data)
     {
@@ -56,6 +59,7 @@ class StructureEmployer extends Base
      * @param $data
      * @return int|string
      * @throws \think\Exception
+     * created by messhair
      */
     public function setStructureEmployerbyIds($user_ids,$data)
     {
@@ -66,6 +70,7 @@ class StructureEmployer extends Base
      * 增加部门员工
      * @param $data
      * @return int|string
+     * created by messhair
      */
     public function addStructureEmployer($data)
     {
@@ -76,6 +81,7 @@ class StructureEmployer extends Base
      * 批量增加部门员工
      * @param $data
      * @return int|string
+     * created by messhair
      */
     public function addMultipleStructureEmployer($data)
     {
@@ -88,6 +94,7 @@ class StructureEmployer extends Base
      * @param $data
      * @return int
      * @throws \think\Exception
+     * created by messhair
      */
     public function deleteMultipleStructureEmployer($user_id,$data=null)
     {
@@ -105,6 +112,7 @@ class StructureEmployer extends Base
      * 查询员工部门信息
      * @param $user_id
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getEmployerStructure($user_id)
     {

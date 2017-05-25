@@ -18,6 +18,7 @@ class Rule extends Base
     /**
      * 获取所有权限列表
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getAllRules()
     {

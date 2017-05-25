@@ -19,6 +19,7 @@ class EmployerDelete extends Base
      * 添加单挑删除员工信息
      * @param $data
      * @return int|string
+     * created by messhair
      */
     public function addSingleBackupInfo($data)
     {
@@ -29,6 +30,7 @@ class EmployerDelete extends Base
      * 添加多条删除员工信息
      * @param $data
      * @return int|string
+     * created by messhair
      */
     public function addMultipleBackupInfo($data)
     {
