@@ -12,6 +12,7 @@ class Base
     protected $model;
     public $link;
     protected $corp_id;
+    public $table;
 
     /**
      * 数据库分库访问基类
