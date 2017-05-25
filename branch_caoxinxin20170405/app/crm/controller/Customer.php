@@ -13,6 +13,20 @@ class Customer extends Initialize{
     public function importCustomer(){
         $result =  ['status'=>0 ,'info'=>"导入失败！"];
         $file_id = input("file_id",0,"int");
+        $import_to = input("import_to",0,"int");//导入到1客户管理，2公海池
+
+        //客户信息默认参数
+        $customer_default = [];
+        if($import_to==1){
+            $customer_default['belongs_to'] = 1;
+        }elseif($import_to==2){
+            $customer_default['belongs_to'] = 2;
+        }else{
+            $result['info'] = '参数错误!';
+            return json($result);
+        }
+        $customer_default['handle_man'] = 0;
+
         $column = array (
             'A' => 'customer_name',
             'B' => 'telephone',
@@ -23,7 +37,8 @@ class Customer extends Initialize{
         );
         $column_res = getHeadFormExcel($file_id);
         if ($column_res ['status'] == 0) {
-            $this->error ( $column_res ['data'] );
+            $result['info'] = $column_res ['data'];
+            return json($result);
         }
         $column_default = [
             0 => '公司名称',
@@ -36,14 +51,14 @@ class Customer extends Initialize{
         for($i=0;$i<$length;$i++){
             if($column_res['data'][$i]!=$column_default[$i]){
                 $result['info'] = 'Excel文件表头读取失败,请勿更改模板列!';
-                return json_encode($result);
+                return json($result);
             }
         }
         $res = importFormExcel($file_id,$column);
         //var_exp($res['data'],'$res[\'data\']');
         if ($res ['status'] == 0) {
             $result['info'] = 'Excel文件读取失败!';
-            return json_encode($result);
+            return json($result);
         }
 
         //获取批次
@@ -51,7 +66,7 @@ class Customer extends Initialize{
         $record = $customerImport->getNewImportCustomerRecord(session('userinfo.id'));
         if(!$record){
             $result['info'] = '添加导入记录失败!';
-            return json_encode($result);
+            return json($result);
         }
         //var_exp($record,'$record',1);
         $batch = $record['batch'];
@@ -64,6 +79,7 @@ class Customer extends Initialize{
         foreach ($res ['data'] as $item) {
             $item['batch'] = $batch;
             try {
+                $customer = $customer_default;
                 $customer['customer_name'] = $item['customer_name'];
                 $customer['resource_from'] = 1;
                 $customer['telephone'] = $item['telephone'];
@@ -113,7 +129,7 @@ class Customer extends Initialize{
             $fail_save_flg = $customerImportFail->addMutipleImportCustomerFail($fail_array);
             if(!$fail_save_flg){
                 $result['info'] = '写入导入失败记录时发生错误!';
-                return json_encode($result);
+                return json($result);
             }
             if($success_num == 0){
                 $data['import_result'] = 0;
@@ -128,13 +144,13 @@ class Customer extends Initialize{
         $save_flg = $customerImport->setImportCustomerRecord($record['id'],$data);
         if(!$save_flg){
             $result['info'] = '写入导入记录失败!';
-            return json_encode($result);
+            return json($result);
         }
 
         //返回信息
         $result['status'] = 1;
         $result['info'] = '成功导入'.$success_num.'条,失败'.$fail_num.'条!';
-        return json_encode($result);
+        return json($result);
     }
 
     public function exportFailCustomer(){
@@ -144,18 +160,18 @@ class Customer extends Initialize{
         $record = $customerImport->getImportCustomerRecord($record_id);
         if(!$record){
             $result['info'] = '未找到导入记录!';
-            return json_encode($result);
+            return json($result);
         }
         if($record['import_result']==2){
             $result['info'] = '该批次导入全部成功,无法导出!';
-            return json_encode($result);
+            return json($result);
         }
         $batch = $record['batch'];
         $customerImportFail = new CustomerImportFail($this->corp_id);
-        $importFailCustomers = $customerImportFail->getCustomerBybatch($batch);
+        $importFailCustomers = $customerImportFail->getCustomerByBatch($batch);
         if(!$importFailCustomers){
             $result['info'] = '未找到导入失败的员工!';
-            return json_encode($result);
+            return json($result);
         }
         $excel_data = [[
             0 => "导入批次",

@@ -13,8 +13,7 @@ use app\common\model\Base;
 
 class CustomerImportFail extends Base{
     protected $dbprefix;
-    public function __construct($corp_id=null)
-    {
+    public function __construct($corp_id=null){
         $this->table = config('database.prefix').'customer_import_fail';
         parent::__construct($corp_id);
         $this->dbprefix = config('database.prefix');
@@ -25,7 +24,7 @@ class CustomerImportFail extends Base{
      * @param $batch 批次
      * @return false|\PDOStatement|string|\think\Collection
      */
-    public function getCustomerBybatch($batch)
+    public function getCustomerByBatch($batch)
     {
         return $this->model->table($this->table)
             ->where('batch',$batch)

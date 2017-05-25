@@ -13,8 +13,7 @@ use app\common\model\Base;
 
 class CustomerImportRecord extends Base{
     protected $dbprefix;
-    public function __construct($corp_id=null)
-    {
+    public function __construct($corp_id=null){
         $this->table = config('database.prefix').'customer_import_record';
         parent::__construct($corp_id);
         $this->dbprefix = config('database.prefix');
@@ -33,7 +32,7 @@ class CustomerImportRecord extends Base{
 
     /**
      * 获取一条新的空白记录(获取batch)
-     * @param $data
+     * @param $uid
      * @return int|string
      */
     public function getNewImportCustomerRecord($uid){

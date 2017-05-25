@@ -29,7 +29,7 @@ class SearchCustomer extends Base
     public function getSearchCustomer($num=10,$page=0,$map=null,$order="id desc"){
         $offset = 0;
         if($page){
-            $offset = $page*$num;
+            $offset = ($page-1)*$num;
         }
         $map["status"]=1;
         $searchCustomerList = $this->model
@@ -89,7 +89,7 @@ class SearchCustomer extends Base
     }
 
     /**
-     * 创建搜索的客户,并返回结果
+     * 更新搜索的客户,并返回结果
      * @param $customer array 客户信息
      * @param $map array 客户筛选条件
      * @return array
@@ -104,7 +104,7 @@ class SearchCustomer extends Base
     }
 
     /**
-     * 创建搜索的客户,并返回结果
+     * 删除搜索的客户,并返回结果
      * @param $map array 客户筛选条件
      * @return array
      * @throws \think\Exception

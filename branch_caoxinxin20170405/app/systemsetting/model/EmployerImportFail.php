@@ -25,7 +25,7 @@ class EmployerImportFail extends Base{
      * @param $batch 批次
      * @return false|\PDOStatement|string|\think\Collection
      */
-    public function getEmployerBybatch($batch)
+    public function getEmployerByBatch($batch)
     {
         return $this->model->table($this->table)
             ->where('batch',$batch)

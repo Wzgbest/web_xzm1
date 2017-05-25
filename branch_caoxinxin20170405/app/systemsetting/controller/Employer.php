@@ -375,7 +375,8 @@ class Employer extends Initialize{
         );
         $column_res = getHeadFormExcel($file_id);
         if ($column_res ['status'] == 0) {
-            $this->error ( $column_res ['data'] );
+            $result['info'] = $column_res ['data'];
+            return json($result);
         }
         $column_default = [
             0 => '员工姓名',
@@ -392,14 +393,14 @@ class Employer extends Initialize{
         for($i=0;$i<$length;$i++){
             if($column_res['data'][$i]!=$column_default[$i]){
                 $result['info'] = 'Excel文件表头读取失败,请勿更改模板列!';
-                return json_encode($result);
+                return json($result);
             }
         }
         $res = importFormExcel($file_id,$column);
         //var_exp($res['data'],'$res[\'data\']');
         if ($res ['status'] == 0) {
             $result['info'] = 'Excel文件读取失败!';
-            return json_encode($result);
+            return json($result);
         }
 
         //获取批次
@@ -407,7 +408,7 @@ class Employer extends Initialize{
         $record = $employerImport->getNewImportEmployerRecord(session('userinfo.id'));
         if(!$record){
             $result['info'] = '添加导入记录失败!';
-            return json_encode($result);
+            return json($result);
         }
         //var_exp($record,'$record',1);
         $batch = $record['batch'];
@@ -491,7 +492,7 @@ class Employer extends Initialize{
             $fail_save_flg = $employerImportFail->addMutipleImportEmployerFail($fail_array);
             if(!$fail_save_flg){
                 $result['info'] = '写入导入失败记录时发生错误!';
-                return json_encode($result);
+                return json($result);
             }
             if($success_num == 0){
                 $data['import_result'] = 0;
@@ -508,13 +509,13 @@ class Employer extends Initialize{
         $save_flg = $employerImport->setImportEmployerRecord($record['id'],$data);
         if(!$save_flg){
             $result['info'] = '写入导入记录失败!';
-            return json_encode($result);
+            return json($result);
         }
 
         //返回信息
         $result['status'] = 1;
         $result['info'] = '成功导入'.$success_num.'条,失败'.$fail_num.'条!';
-        return json_encode($result);
+        return json($result);
     }
 
     public function exportFailEmployer(){
@@ -524,18 +525,18 @@ class Employer extends Initialize{
         $record = $employerImport->getImportEmployerRecord($record_id);
         if(!$record){
             $result['info'] = '未找到导入记录!';
-            return json_encode($result);
+            return json($result);
         }
         if($record['import_result']==2){
             $result['info'] = '该批次导入全部成功,无法导出!';
-            return json_encode($result);
+            return json($result);
         }
         $batch = $record['batch'];
         $employerImportFail = new EmployerImportFail($this->corp_id);
-        $importFailEmployers = $employerImportFail->getEmployerBybatch($batch);
+        $importFailEmployers = $employerImportFail->getEmployerByBatch($batch);
         if(!$importFailEmployers){
             $result['info'] = '未找到导入失败的员工!';
-            return json_encode($result);
+            return json($result);
         }
         $excel_data = [[
             0 => "导入批次",
