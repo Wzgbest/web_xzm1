@@ -13,6 +13,11 @@ use app\common\model\StructureEmployer as StructureEmployerModel;
 
 class Structure extends Initialize
 {
+    /**
+     * 首页显示
+     * @return \think\response\View
+     * created by messhair
+     */
     public function index()
     {
         $struM = new StructureModel();
@@ -27,6 +32,7 @@ class Structure extends Initialize
      * 显示指定部门的员工
      * @param $struct_id 部门id
      * @return \think\response\View
+     * created by messhair
      */
     public function showPointedDepartment($struct_id,$page_now_num=0,$page_row=10)
     {
@@ -42,6 +48,7 @@ class Structure extends Initialize
      * @param \app\systemsetting\controller\Employer $employer
      * @param $user_id 员工id
      * @return array|false|\PDOStatement|string|\think\Model
+     * created by messhair
      */
     public function showEmployerInfo(Employer $employer, $user_id)
     {
@@ -54,6 +61,7 @@ class Structure extends Initialize
      * @param $struct_id 部门id
      * @param $new_name 新名称
      * @return array
+     * created by messhair
      */
     public function renameStructure($struct_id,$new_name)
     {
@@ -81,6 +89,7 @@ class Structure extends Initialize
      * @param $user_id 员工id
      * @param $to_group 目标部门id
      * @return array
+     * created by messhair
      */
     public function changeEmployerStructure($user_id,$group,$to_group)
     {
@@ -113,6 +122,7 @@ class Structure extends Initialize
      * @param $struct_id 部门id
      * @param $trans 是否转移员工到默认部门 1是，0否
      * @return array
+     * created by messhair
      */
     public function deleteStructure($struct_id,$trans)
     {
