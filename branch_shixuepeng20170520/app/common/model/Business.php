@@ -18,6 +18,7 @@ class Business extends Base
     /**
      * 获取所有业务
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getAllBusiness()
     {

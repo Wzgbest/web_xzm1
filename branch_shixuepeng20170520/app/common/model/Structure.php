@@ -18,6 +18,7 @@ class Structure extends Base
     /**
      * 获取所有部门
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getAllStructure()
     {
@@ -28,6 +29,7 @@ class Structure extends Base
      * 获取单个部门信息
      * @param $struct_id 部门id
      * @return array|false|\PDOStatement|string|\think\Model
+     * created by messhair
      */
     public function getStructureInfo($struct_id)
     {
@@ -38,6 +40,7 @@ class Structure extends Base
      * 添加部门信息
      * @param $data
      * @return int|string
+     * created by messhair
      */
     public function addStructure($data)
     {
@@ -50,6 +53,7 @@ class Structure extends Base
      * @param $data 数据信息
      * @return int|string
      * @throws \think\Exception
+     * created by messhair
      */
     public function setStructure($id,$data)
     {
@@ -61,6 +65,7 @@ class Structure extends Base
      * @param $id 部门id
      * @return int
      * @throws \think\Exception
+     * created by messhair
      */
     public function deleteStructure($ids)
     {
