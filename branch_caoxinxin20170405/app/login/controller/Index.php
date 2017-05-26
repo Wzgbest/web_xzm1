@@ -78,6 +78,6 @@ class Index extends Controller
             'role'=>$user_arr['role_name'],
         ];
         session('userinfo',$userinfo);
-        $this->redirect('index/Index/index');
+        $this->redirect('systemsetting/corporation/index');
     }
 }
