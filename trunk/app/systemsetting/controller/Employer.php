@@ -358,6 +358,10 @@ class Employer extends Initialize{
         }
     }
 
+    /**
+     * @return \think\response\Json
+     * created by blu10ph
+     */
     public function importEmployer(){
         $result =  ['status'=>0 ,'info'=>"导入失败！"];
         $file_id = input("file_id",0,"int");
@@ -518,6 +522,10 @@ class Employer extends Initialize{
         return json($result);
     }
 
+    /**
+     * @return \think\response\Json
+     * created by blu10ph
+     */
     public function exportFailEmployer(){
         $result =  ['status'=>0 ,'info'=>"导出失败！"];
         $record_id = input("record_id",0,"int");
