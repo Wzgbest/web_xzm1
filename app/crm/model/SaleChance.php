@@ -15,6 +15,10 @@ class SaleChance extends Base
         parent::__construct($corp_id);
     }
 
+    /**
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
+     */
     public function getAllSaleChances()
     {
         return $this->model->table($this->table)->select();
