@@ -20,6 +20,7 @@ class EmailRecord extends Base
      * @param $userid 员工id
      * @param $type 邮件类型 0草稿箱，1发件箱，-1回收站，-2彻底删除
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getAllEmailRecordsByUserid($userid,$type)
     {
@@ -29,6 +30,11 @@ class EmailRecord extends Base
             ->select();
     }
 
+    /**
+     * @param $data
+     * @return int|string
+     * created by messhair
+     */
     public function addEmail($data)
     {
         return $this->model->table($this->table)->insert($data);

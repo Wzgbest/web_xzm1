@@ -25,6 +25,7 @@ class Employer extends Initialize{
      * 查看员工详情
      * @param $user_id 员工id
      * @return array|false|\PDOStatement|string|\think\Model
+     * created by messhair
      */
     public function showSingleEmployerInfo($user_id)
     {
@@ -39,25 +40,16 @@ class Employer extends Initialize{
      * @param int $page_rows 行数
      * @param int $struct_id 部门id
      * @param int $role 角色id
-     * @param int $on_duty 状态
+     * @param int $on_duty 状态 1在职 2休假 -1离职 0默认
      * @return array
+     * created by messhair
      */
-    public function showEmployerList($page_now_num = 0, $page_rows = 10,$map = null)
+    public function showEmployerList(Request $request,$page_now_num = 0, $page_rows = 10)
     {
-        $input = input('param.');
+        $input = $request->param();
         $employerM = new EmployerModel($this->corp_id);
-        $map = [];
-        if (isset($input['struct_id'])) {
-            $map['struct_id'] = $input['struct_id'];
-        }
-        if (isset($input['role'])) {
-            $map['role'] = $input['role'];
-        }
-        if (isset($input['on_duty'])) {
-            $map['on_duty'] = $input['on_duty'];
-        }
-        $res = $employerM->getPageEmployerList($page_now_num,$page_rows,$map);
-        $count = $employerM->countPageEmployerList($map);
+        $res = $employerM->getPageEmployerList($page_now_num,$page_rows,$input);
+        $count = $employerM->countPageEmployerList($input);
         $count = empty($count)? 0:$count[0]['num'];
         return [
             'data'=>$res,
@@ -71,6 +63,7 @@ class Employer extends Initialize{
      * 添加员工
      * @param $input 增加员工页面提交信息
      * @return array
+     * created by messhair
      */
     public function addEmployer(Request $request)
     {
@@ -99,11 +92,14 @@ class Employer extends Initialize{
             $struct_empM = new StructureEmployer($this->corp_id);
             $huanxin = new HuanxinApi();
             $info['status'] = false;
+
+            UserCorporation::startTrans();
             $employerM->link->startTrans();
             try{
                 //员工表增加信息
                 $id = $employerM->addSingleEmployer($input);
-
+                $user_tel = ['telephone'=>$input['telephone'],'corp_name'=>$this->corp_id];
+                $b = UserCorporation::addSingleUserTel($user_tel);
                 //部门表增加信息
                 if ($input['is_leader'] == 1) {
                     foreach ($struct_ids as $k=>$v) {
@@ -116,7 +112,7 @@ class Employer extends Initialize{
                     $struct_data['struct_id'] = $struct_ids;
                     $f = $struct_empM->addStructureEmployer($struct_data);
                 }
-                if ($id > 0 && $f > 0) {
+                if ($id > 0 && $f > 0 && $b > 0) {
                     //环信增加好友
                     $d = $huanxin->addFriend($input['telephone']);//TODO 测试注释掉
 //                $d['status'] = true;//TODO 测试开启
@@ -126,27 +122,31 @@ class Employer extends Initialize{
                         $im = $employerM->saveIm($tel);
                     } else {
                         $employerM->link->rollback();
+                        UserCorporation::rollback();
                         $info['message'] = '添加环信好友有失败，联系管理员';
                         $info['error'] = $d['error'];
                         return $info;
                     }
                 } else {
                     $employerM->link->rollback();
+                    UserCorporation::rollback();
                     $info['message'] = '添加员工失败，联系管理员';
                     return $info;
                 }
             }catch (\Exception $e){
                 $employerM->link->rollback();
-
+                UserCorporation::rollback();
             }
-            if ($id > 0 && $f >0 && $d['status'] && $im > 0) {
+            if ($id > 0 && $f >0 && $d['status'] && $b > 0 && $im > 0) {
                 $employerM->link->commit();
+                UserCorporation::commit();
                 return [
                     'status' => true,
                     'message' => '新增员工成功，添加环信好友成功',
                 ];
             } else {
                 $employerM->link->rollback();
+                UserCorporation::rollback();
                 $info['message'] = '新增员工失败，或添加环信好友失败';
                 return $info;
             }
@@ -158,6 +158,7 @@ class Employer extends Initialize{
      * @param Request $request
      * @param $user_id
      * @return array|false|\PDOStatement|string|\think\Model
+     * created by messhair
      */
     public function editEmployer(Request $request, $user_id)
     {
@@ -265,6 +266,7 @@ class Employer extends Initialize{
      * 删除单个员工、多个员工
      * @param $user_ids 用户ids，逗号分隔
      * @return array
+     * created by messhair
      */
     public function deleteMultipleEmployer($user_ids)
     {
@@ -332,11 +334,9 @@ class Employer extends Initialize{
                     UserCorporation::rollback();
                 }
                 if ($b > 0 && $d > 0 && $f > 0 && $g > 0) {
-//                    $emp_delM->link->commit();
-//                    UserCorporation::commit();
-                    $emp_delM->link->rollback();
-                    UserCorporation::rollback();
-//                    write_log(session('userinfo')['userid'],6,'删除员工'.$names.'成功',$this->corp_id);
+                    $emp_delM->link->commit();
+                    UserCorporation::commit();
+                    write_log(session('userinfo')['userid'],6,'删除员工'.$names.'成功',$this->corp_id);
                     return [
                         'status'=>true,
                         'message'=>'删除员工成功',
@@ -358,6 +358,10 @@ class Employer extends Initialize{
         }
     }
 
+    /**
+     * @return \think\response\Json
+     * created by blu10ph
+     */
     public function importEmployer(){
         $result =  ['status'=>0 ,'info'=>"导入失败！"];
         $file_id = input("file_id",0,"int");
@@ -518,6 +522,10 @@ class Employer extends Initialize{
         return json($result);
     }
 
+    /**
+     * @return \think\response\Json
+     * created by blu10ph
+     */
     public function exportFailEmployer(){
         $result =  ['status'=>0 ,'info'=>"导出失败！"];
         $record_id = input("record_id",0,"int");

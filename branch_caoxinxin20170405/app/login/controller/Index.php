@@ -16,6 +16,11 @@ class Index extends Controller
         return view();
     }
 
+    /**
+     * web端登录验证
+     * @return mixed
+     * created by messhair
+     */
     public function verifyLogin()
     {
         $input = input('param.');

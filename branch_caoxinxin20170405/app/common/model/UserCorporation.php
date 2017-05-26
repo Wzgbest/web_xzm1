@@ -13,6 +13,7 @@ class UserCorporation extends Db
      * 根据电话查询公司名
      * @param $tel
      * @return string
+     * created by messhair
      */
     public static function getUserCorp($tel)
     {
@@ -24,18 +25,31 @@ class UserCorporation extends Db
      * @param $tels 员工电话
      * @return int
      * @throws \think\Exception
+     * created by messhair
      */
     public static function deleteUserCorp($tels)
     {
         return Db::name('user_corporation')->where('telephone','in',$tels)->delete();
     }
-    
+
     /**
-     * 添加多用户
-     * @param array $data
+     * 添加单条记录
+     * @param $data
      * @return int|string
+     * created by messhair
      */
-    public function addMutipleUserCorp($data)
+    public static function addSingleUserTel($data)
+    {
+        return Db::name('user_corporation')->insert($data);
+    }
+
+    /**
+     * 添加多条记录
+     * @param $data
+     * @return int|string
+     * created by messhair
+     */
+    public static function addMutipleUserTel($data)
     {
         return Db::name('user_corporation')->insertAll($data);
     }

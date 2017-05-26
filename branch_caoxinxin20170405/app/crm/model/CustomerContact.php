@@ -1,8 +1,11 @@
 <?php
-/**
- * Created by: messhair
- * Date: 2017/5/6
- */
+// +----------------------------------------------------------------------
+// | 中迅传媒 [ 纯粹、极致到零 ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2017 http://www.baidusd.com All rights reserved.
+// +----------------------------------------------------------------------
+// | Author: blu10ph <blu10ph@gmail.com> <http://www.blu10ph.cn>
+// +----------------------------------------------------------------------
 namespace app\crm\model;
 
 use app\common\model\Base;
@@ -13,11 +16,6 @@ class CustomerContact extends Base
     {
         $this->table = config('database.prefix').'customer_contact';
         parent::__construct($corp_id);
-    }
-
-    public function getAllCustomerContacts($data)
-    {
-        return $this->model->table($this->table)->insert($data);
     }
 
     public function addCustomerContact($data)

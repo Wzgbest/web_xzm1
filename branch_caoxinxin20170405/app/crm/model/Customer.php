@@ -21,6 +21,7 @@ class Customer extends Base
      * 根据员工id查询客户信息
      * @param $user_id
      * @return array|false|\PDOStatement|string|\think\Model
+     * created by messhair
      */
     public function getCustomerByUserId($user_id)
     {
@@ -31,6 +32,7 @@ class Customer extends Base
      * 根据员工ids获取客户信息
      * @param $ids
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getCustomersByUserIds($ids)
     {
@@ -46,6 +48,7 @@ class Customer extends Base
      * @param $userid 员工id
      * @param $scale 客户类型，1 我的客户 2 公海池 3我的客户 4待处理
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getAllCustomers($userid,$scale)
     {
@@ -60,6 +63,7 @@ class Customer extends Base
      * 添加单个客户信息
      * @param $data
      * @return int|string
+     * created by messhair
      */
     public function addCustomer($data)
     {
@@ -72,6 +76,7 @@ class Customer extends Base
      * @param $data
      * @return int|string
      * @throws \think\Exception
+     * created by messhair
      */
     public function setCustomer($customer_id,$data)
     {

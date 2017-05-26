@@ -11,6 +11,7 @@ class Occupation extends Base
 {
     /**
      * @param $corp_id 公司名代号，非id
+     * created by messhair
      */
     public function __construct($corp_id=null)
     {
@@ -22,6 +23,7 @@ class Occupation extends Base
      * 根据用户id字段查询职位
      * @param $userid
      * @return array|false|\PDOStatement|string|\think\Model
+     * created by messhair
      */
     public function getOccupation($userid)
     {
@@ -31,6 +33,7 @@ class Occupation extends Base
     /**
      * 返回公司所有职位
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getAllOccupations()
     {

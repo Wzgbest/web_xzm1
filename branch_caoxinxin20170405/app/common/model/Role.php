@@ -11,6 +11,7 @@ class Role extends Base
 {
     /**
      * @param $corp_id 公司名代号，非id
+     * created by messhair
      */
     public function __construct($corp_id=null)
     {
@@ -21,26 +22,29 @@ class Role extends Base
     /**
      * 获取所有角色名称
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getAllRole()
     {
-        return $this->model->table($this->table)->field('id,role_name')->select();
+        return $this->model->table($this->table)->field('id,role_name,rules')->select();
     }
 
     /**
      * 根据角色id查询
      * @param $role_id 角色id
      * @return mixed
+     * created by messhair
      */
-    public function getRoleName($role_id)
+    public function getRoleInfo($role_id)
     {
-        return $this->model->table($this->table)->where('id',$role_id)->value('role_name');
+        return $this->model->table($this->table)->where('id',$role_id)->field('id,role_name,rules')->find();
     }
 
     /**
      * 添加角色
      * @param $data
      * @return int|string
+     * created by messhair
      */
     public function addRole($data)
     {
@@ -53,9 +57,22 @@ class Role extends Base
      * @param $data
      * @return int|string
      * @throws \think\Exception
+     * created by messhair
      */
     public function setRole($id,$data)
     {
         return $this->model->table($this->table)->where('id',$id)->update($data);
+    }
+
+    /**
+     * 删除角色
+     * @param $role_id
+     * @return int
+     * @throws \think\Exception
+     * created by messhair
+     */
+    public function deleteRole($role_id)
+    {
+        return $this->model->table($this->table)->where('id',$role_id)->delete();
     }
 }
