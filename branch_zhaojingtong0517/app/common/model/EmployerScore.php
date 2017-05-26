@@ -22,6 +22,7 @@ class EmployerScore extends Base
      * 获取用户积分信息
      * @param $userid
      * @return array|false|\PDOStatement|string|\think\Model
+     * created by messhair
      */
     public function getEmployerScore($userid)
     {
@@ -36,6 +37,7 @@ class EmployerScore extends Base
      * 获取积分低于$score的占比
      * @param $score
      * @return float
+     * created by messhair
      */
     public function getScoreListPer($score)
     {

@@ -16,6 +16,11 @@ class Index extends Controller
         return view();
     }
 
+    /**
+     * web端登录验证
+     * @return mixed
+     * created by messhair
+     */
     public function verifyLogin()
     {
         $input = input('param.');
@@ -73,6 +78,6 @@ class Index extends Controller
             'role'=>$user_arr['role_name'],
         ];
         session('userinfo',$userinfo);
-        $this->redirect('index/Index/index');
+        $this->redirect('systemsetting/corporation/index');
     }
 }

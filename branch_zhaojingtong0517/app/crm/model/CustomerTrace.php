@@ -19,6 +19,7 @@ class CustomerTrace extends Base
      * 添加单个客户更改信息
      * @param $data
      * @return int|string
+     * created by messhair
      */
     public function addSingleCustomerMessage($data)
     {
@@ -29,6 +30,7 @@ class CustomerTrace extends Base
      * 添加多个客户信息
      * @param $data
      * @return int|string
+     * created by messhair
      */
     public function addMultipleCustomerMessage($data)
     {

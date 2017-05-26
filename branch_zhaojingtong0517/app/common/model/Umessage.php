@@ -19,6 +19,7 @@ class Umessage extends Base
      * 记录操作
      * @param $data
      * @return int|string
+     * created by messhair
      */
     public function addUmessage($data)
     {

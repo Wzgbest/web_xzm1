@@ -24,6 +24,7 @@ class RoleEmployer extends Base
      * 根据用户id字段查询角色
      * @param $userid
      * @return array|false|\PDOStatement|string|\think\Model
+     * created by messhair
      */
     public function getRolebyEmployerId($userid)
     {
@@ -38,6 +39,7 @@ class RoleEmployer extends Base
      * 根据角色id查找员工列表
      * @param $role_id　角色id
      * @return array ['user_id'=>(int)3]
+     * created by messhair
      */
     public function getEmployerListbyRole($role_id)
     {
@@ -48,6 +50,7 @@ class RoleEmployer extends Base
      * 根据角色id查询所有角色成员
      * @param $role_id 角色id
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getEmployersByRole($role_id)
     {
@@ -61,6 +64,7 @@ class RoleEmployer extends Base
      * 根据员工id查询所有角色
      * @param $userid 员工id
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getRolesByEmployer($userid)
     {

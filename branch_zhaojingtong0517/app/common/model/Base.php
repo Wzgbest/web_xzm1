@@ -12,7 +12,13 @@ class Base
     protected $model;
     public $link;
     protected $corp_id;
+    public $table;
 
+    /**
+     * 数据库分库访问基类
+     * @param null $corp_id
+     * created by messhair
+     */
     public function __construct($corp_id = null)
     {
         if (is_null($corp_id)) {

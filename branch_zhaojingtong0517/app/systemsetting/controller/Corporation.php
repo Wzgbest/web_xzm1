@@ -19,6 +19,7 @@ class Corporation extends Initialize
     /**
      * 修改公司信息
      * @return mixed
+     * created by messhair
      */
     public function editCorpInfo(Request $request)
     {
@@ -65,6 +66,7 @@ class Corporation extends Initialize
     /**
      * 修改公司百度地图坐标
      * @return mixed
+     * created by messhair
      */
     public function baiduLbs()
     {

@@ -19,6 +19,7 @@ class RuleEmployer extends Base
      * 根据员工id查询其权限
      * @param $userid 员工id
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getRulesByEmployer($userid)
     {
@@ -33,6 +34,7 @@ class RuleEmployer extends Base
      * 根据权限id查询员工列表
      * @param $rule_id 权限id
      * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
      */
     public function getEmployersByRule($rule_id)
     {
