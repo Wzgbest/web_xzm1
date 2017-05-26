@@ -21,7 +21,7 @@ class SearchCustomer extends Initialize{
 
     public function index(){
         $uri = "crm/search_customer/index";
-        return $this->fetch('index',["uri"=>$uri]);
+        return view('index',["uri"=>$uri]);
     }
 
     public function table(){
