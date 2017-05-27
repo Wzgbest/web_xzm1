@@ -26,6 +26,14 @@ class Corporation extends Initialize
         if ($request->isGet()) {
             $corpM = new CorporationModel();
             $data = $corpM->getCorporation($this->corp_id);
+            $location = explode(",",$data['corp_location']);
+            $data['lat'] = $location[0];
+            $data['lng'] = $location[1];
+            $field_list = [];//TODO 获取行业列表
+            $field_list[] = ["id"=>1,"title"=>"IT行业"];
+            $field_list[] = ["id"=>3,"title"=>"金融行业"];
+            $field_list[] = ["id"=>2,"title"=>"制造行业"];
+            $this->assign('field_list',$field_list);
             $this->assign('data',$data);
             return view();
         } elseif ($request->isPost()) {
