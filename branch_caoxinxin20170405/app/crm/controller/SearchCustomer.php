@@ -27,7 +27,7 @@ class SearchCustomer extends Initialize{
     public function table(){
         $result = ['status'=>0 ,'info'=>"查询搜索客户时发生错误！"];
         $num = 10;
-        $p = input("p");
+        $p = input("p",0,"int");
         $p = $p?:1;
         $map["status"] = 1;
         try{
