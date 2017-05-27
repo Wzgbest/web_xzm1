@@ -21,7 +21,7 @@ class Customer extends Initialize{
     }
     public function index(){
         $uri = "systemsetting/Customer/index";
-        return $this->fetch('index',["uri"=>$uri]);
+        return view('index',["uri"=>$uri]);
     }
 
     public function table(){
