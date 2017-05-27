@@ -15,7 +15,7 @@ use app\common\model\Umessage;
 use app\common\model\Employer;
 use app\common\model\Structure as StructureModel;
 use app\crm\model\CustomerTrace;
-use app\common\model\File as FileModel;
+use app\common\model\ImportFile as FileModel;
 
 // 应用公共文件
 
