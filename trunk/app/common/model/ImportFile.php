@@ -10,7 +10,7 @@ namespace app\common\model;
 
 use app\common\model\Base;
 
-class File extends Base{
+class ImportFile extends Base{
     public function __construct($corp_id){
         $this->table=config('database.prefix').'import_file';
         parent::__construct($corp_id);

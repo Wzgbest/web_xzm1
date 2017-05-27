@@ -9,9 +9,9 @@
 namespace app\index\controller;
 
 use app\common\controller\Initialize;
-use app\common\model\File as FileModel;
+use app\common\model\ImportFile as FileModel;
 
-class File extends Initialize{
+class ImportFile extends Initialize{
     protected $_fileModel = null;
     public function __construct(){
         parent::__construct();
