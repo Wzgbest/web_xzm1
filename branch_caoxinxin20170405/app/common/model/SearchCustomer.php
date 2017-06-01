@@ -19,6 +19,26 @@ class SearchCustomer extends Base
 
     /**
      * 获取搜索的客户
+     * @param $uid int 用户id
+     * @param $map array 客户筛选条件
+     * @param $order string 排序
+     * @return array
+     * @throws \think\Exception
+     */
+    public function getAllSearchCustomer($uid,$map=null,$order="id desc"){
+        $map["create_user"] = $uid;
+        $map["status"]=1;
+        $searchCustomerList = $this->model
+            ->table($this->table)
+            ->where($map)
+            ->order($order)
+            ->field(array("id","customer_name","phone","contact_name","industry","com_adds","website"))
+            ->select();
+        return ['res'=>$searchCustomerList ,'error'=>"0"];
+    }
+
+    /**
+     * 获取搜索的客户
      * @param $num int 数量
      * @param $page int 页
      * @param $map array 客户筛选条件
@@ -31,12 +51,12 @@ class SearchCustomer extends Base
         if($page){
             $offset = ($page-1)*$num;
         }
-        $map["status"]=1;
         $searchCustomerList = $this->model
             ->table($this->table)
             ->where($map)
             ->order($order)
             ->limit($offset,$num)
+            ->field("*")//TODO
             ->select();
         return ['res'=>$searchCustomerList ,'error'=>"0"];
     }
@@ -44,16 +64,19 @@ class SearchCustomer extends Base
     /**
      * 查找搜索的客户是否有重复,并返回结果
      * @param $id int 客户id
+     * @param $uid int 用户id
      * @param $order string 排序规则
      * @return array
      * @throws \think\Exception
      */
-    public function findRepeat($id,$order="id desc"){
+    public function findRepeat($id,$uid,$order="id desc"){
         $map["id"]=$id;
+        $map["create_user"] = $uid;
         $map["status"]=1;
         $searchCustomer = $this->model
             ->table($this->table)
             ->where($map)
+            ->field("*")//TODO
             ->find();
 
         $find_map = " id<>:id and status = 1 and ( customer_name = :customer_name or phone = :phone ) ";
@@ -68,6 +91,7 @@ class SearchCustomer extends Base
             ->where($find_map)
             ->bind($bind)
             ->order($order)
+            ->field("*")//TODO
             ->find();
         return ['res'=>$repeatList ,'error'=>"0"];
     }

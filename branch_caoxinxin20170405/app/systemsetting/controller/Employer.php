@@ -408,14 +408,21 @@ class Employer extends Initialize{
         }
 
         //获取批次
+        $uid = session('userinfo.userid');
         $employerImport = new EmployerImport($this->corp_id);
-        $record = $employerImport->getNewImportEmployerRecord(session('userinfo.id'));
+        $record = $employerImport->getNewImportEmployerRecord($uid);
         if(!$record){
             $result['info'] = '添加导入记录失败!';
             return json($result);
         }
         //var_exp($record,'$record',1);
         $batch = $record['batch'];
+
+        //获取已存在员工电话
+        $employerM = new EmployerModel($this->corp_id);
+        $telephones = $employerM->getAllTels();
+        $telephones = array_filter($telephones);
+        $telephones = array_unique($telephones);
 
         //校验数据
         $success_num = 0;
@@ -424,6 +431,9 @@ class Employer extends Initialize{
         Corporation::startTrans();
         foreach ($res ['data'] as $item) {
             try {
+                if(in_array($item["telephone"], $telephones)){
+                    exception("手机号已存在!");
+                }
                 $employer['corpid'] = $this->corp_id;
                 $employer['telephone'] = $item['telephone'];
                 $employer['username'] = $item['telephone'];
@@ -448,8 +458,6 @@ class Employer extends Initialize{
                 unset($employer['struct_id']);
                 $employerImport->link->startTrans();
                 Corporation::startTrans();
-
-                $employerM = new EmployerModel($this->corp_id);
                 $add_flg = $employerM->addSingleEmployer($employer);
                 //var_exp($add_flg, '$add_flg');
                 if (!$add_flg) {
@@ -470,11 +478,11 @@ class Employer extends Initialize{
                 if (!$reg_info['status']) {
                     exception('注册环信时发生错误!');
                 }
-            }catch(\Exception $e){
+            }catch(\Exception $ex){
                 $employerImport->link->rollback();
                 UserCorporation::rollback();
                 $item['batch'] = $batch;
-                $item['remark'] = $e->getMessage();
+                $item['remark'] = $ex->getMessage();
                 $fail_array[] = $item;
                 continue;
             }
@@ -520,6 +528,39 @@ class Employer extends Initialize{
         $result['status'] = 1;
         $result['info'] = '成功导入'.$success_num.'条,失败'.$fail_num.'条!';
         return json($result);
+    }
+
+    /**导出员工
+     * @return \think\response\Json
+     * created by blu10ph
+     */
+    public function exportEmployer(){
+        $where = null;
+        $employerM = new EmployerModel($this->corp_id);
+        $employers_data = $employerM->exportAllEmployers($where);
+        if(!$employers_data){
+            $this->error("导出员工失败!");
+        }
+        $excel_data = [[
+            0 => "员工姓名",
+            1 => "手机号",
+            2 => "座机",
+            3 => "分机",
+            4 => "性别",
+            5 => "工号",
+            6 => "是领导",
+            7 => "角色",
+            8 => "QQ号",
+            9 => "微信号",
+            10 => "备注"
+        ]];
+        foreach ($employers_data as $employer){
+            unset($employer['id']);
+            $employer['gender'] = $employer['gender']==1?"男":"女";
+            $employer['is_leader'] = $employer['is_leader']==1?"是":"否";
+            $excel_data[] = $employer;
+        }
+        outExcel($excel_data,'employers-'.time().'.xlsx');
     }
 
     /**

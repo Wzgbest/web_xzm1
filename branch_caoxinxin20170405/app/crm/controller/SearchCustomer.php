@@ -26,9 +26,12 @@ class SearchCustomer extends Initialize{
 
     public function table(){
         $result = ['status'=>0 ,'info'=>"查询搜索客户时发生错误！"];
-        $num = 10;
+        $num = input('num',0,'int');
+        $num = $num?:20;
         $p = input("p",0,"int");
         $p = $p?:1;
+        $uid = session('userinfo.userid');
+        $map["create_user"] = $uid;
         $map["status"] = 1;
         try{
             $searchCustomers = $this->_searchCustomerModel->getSearchCustomer($num,$p,$map);
@@ -48,7 +51,9 @@ class SearchCustomer extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $uid = session('userinfo.userid');
         $map["id"] = $id;
+        $map["create_user"] = $uid;
         $map["status"] = 1;
         try{
             $searchCustomers = $this->_searchCustomerModel->getSearchCustomer(1,0,$map,"");
@@ -70,8 +75,9 @@ class SearchCustomer extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $uid = session('userinfo.userid');
         try{
-            $repeat = $this->_searchCustomerModel->findRepeat($id);
+            $repeat = $this->_searchCustomerModel->findRepeat($id,$uid);
             $result['data'] = $repeat['res'];
         }catch (\Exception $ex){
             return json($result);
@@ -102,7 +108,7 @@ class SearchCustomer extends Initialize{
 
     public function add(){
         $result = ['status'=>0 ,'info'=>"添加搜索客户时发生错误！"];
-        $uid = session('userinfo.id');
+        $uid = session('userinfo.userid');
         $customer = $this->_getSearchCustomerForInput();
         $customer['search_from'] = input('search_from');
 
@@ -134,7 +140,7 @@ class SearchCustomer extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
-        $uid = session('userinfo.id');
+        $uid = session('userinfo.userid');
         $customer = $this->_getSearchCustomerForInput();
 
         $map["id"] = $id;
@@ -164,7 +170,7 @@ class SearchCustomer extends Initialize{
             return json($result);
         }
         $ids_arr = explode(",",$ids);
-        $uid = session('userinfo.id');
+        $uid = session('userinfo.userid');
         $map["id"] = array("in",$ids_arr);
         $map["create_user"] = $uid;
         $map["status"] = 1;
@@ -179,5 +185,26 @@ class SearchCustomer extends Initialize{
         $result['status'] = 1;
         $result['info'] = "删除成功！";
         return json($result);
+    }
+
+    public function exportSearchCustomer(){
+        $uid = session('userinfo.userid');
+        $search_customers_data = $this->_searchCustomerModel->getAllSearchCustomer($uid);
+        if(!$search_customers_data){
+            $this->error("导出员工失败!");
+        }
+        $excel_data = [[
+            0 => "客户名称",
+            1 => "联系方式",
+            2 => "联系人",
+            3 => "行业",
+            4 => "公司地址",
+            5 => "公司官网",
+        ]];
+        foreach ($search_customers_data['res'] as $search_customer){
+            unset($search_customer['id']);
+            $excel_data[] = $search_customer;
+        }
+        outExcel($excel_data,'search_employers-'.time().'.xlsx');
     }
 }
