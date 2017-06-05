@@ -39,7 +39,7 @@ class CustomerSetting extends Base
             ->limit($offset,$num)
             ->field('*')//TODO field list
             ->select();
-        if($page==0&&$num==1&&$searchCustomerList){
+        if($num==1&&$page==0&&$searchCustomerList){
             $searchCustomerList = $searchCustomerList[0];
         }
         return $searchCustomerList;
@@ -68,7 +68,7 @@ class CustomerSetting extends Base
     }
 
     /**
-     * 删除搜索的客户,并返回结果
+     * 删除客户设置,并返回结果
      * @param $map array 客户筛选条件
      * @return array
      * @throws \think\Exception

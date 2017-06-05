@@ -139,15 +139,12 @@ function send_sms ($tel,$code,$content) {
  */
 function get_corpid ($tel = null) {
     $userinfo = session('userinfo');
-    if (empty($userinfo)) {
-        return false;
-    }
     if (!empty($userinfo['corp_id'])) {
         return $userinfo['corp_id'];
     } else {
         if (!is_null($tel)) {
             $corp_id = UserCorporation::getUserCorp($tel);
-            session('userinfo',['corp_id'=>$corp_id]);
+            //session('userinfo',['corp_id'=>$corp_id]);
             return $corp_id;
         }
         return false;

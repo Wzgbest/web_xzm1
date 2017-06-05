@@ -6,6 +6,8 @@
 namespace app\crm\model;
 
 use app\common\model\Base;
+use app\systemsetting\model\CustomerSetting;
+use phpDocumentor\Reflection\Types\This;
 
 class Customer extends Base
 {
@@ -15,6 +17,241 @@ class Customer extends Base
         $this->dbprefix = config('database.prefix');
         $this->table = $this->dbprefix.'customer';
         parent::__construct();
+    }
+
+    /**
+     * 获取管理的客户
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $filter array 客户筛选条件
+     * @param $order string 排序
+     * @return array
+     * @throws \think\Exception
+     * created by blu10ph
+     */
+    public function getManagerCustomer($num=10,$page=0,$filter=null,$order="id desc"){
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+        $map['belongs_to'] = 1;
+        //TODO $filter
+        $customerList = $this->model
+            ->table($this->table)
+            ->where($map)
+            ->order($order)
+            ->limit($offset,$num)
+            ->field("*")//TODO
+            ->select();
+        return $customerList;
+    }
+
+    /**
+     * 获取公海池中的客户
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $filter array 客户筛选条件
+     * @param $order string 排序
+     * @return array
+     * @throws \think\Exception
+     * created by blu10ph
+     */
+    public function getPoolCustomer($num=10,$page=0,$filter=null,$order="id desc"){
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+        $map['belongs_to'] = 2;
+        //TODO $filter
+        $customerList = $this->model
+            ->table($this->table)
+            ->where($map)
+            ->order($order)
+            ->limit($offset,$num)
+            ->field("*")//TODO
+            ->select();
+        return $customerList;
+    }
+
+    /**
+     * 获取我的客户
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $uid int 员工id
+     * @param $filter array 客户筛选条件
+     * @param $order string 排序
+     * @param $direction string 排序方向
+     * @return array
+     * @throws \think\Exception
+     * created by blu10ph
+     */
+    public function getSelfCustomer($num=10,$page=0,$uid,$filter=null,$order="id",$direction="desc"){
+        //获取客户配置
+//        $structure = intval(getStructureId($uid));//TODO 获取用户部门ID公共方法
+//        $setting_map = "find_in_set('$structure', set_to_structure)";
+//        $customerSettingModel = new CustomerSetting();
+//        $customerSetting = $customerSettingModel->getCustomerSetting(1,0,$setting_map);
+//        if(!$customerSetting){
+//            $customerSetting["protect_customer_day"] = 0;
+//        }
+//        $protect_customer_day = $customerSetting["protect_customer_day"];
+
+        //分页
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+
+        //筛选
+        $map['c.belongs_to'] = 3;
+        $map['c.handle_man'] = $uid;
+        //TODO $filter 中的筛选条件 获取途径	客户级别	商机	沟通状态	客户名称	联系人名称
+
+        //排序
+        if($direction!="desc" && $direction!="asc"){
+            $direction = "desc";
+        }
+        //TODO 沟通状态	预计成单金额	上次跟进时间	剩余保有时间	提醒时间
+        $orderPrefix = "";
+        switch ($order){
+            case "id":
+            case "customer_name":
+            case "grade":
+                $orderPrefix = "c.";
+                break;
+            case "contact_name":
+                $orderPrefix = "cc.";
+                break;
+        }
+        $idsOrder = [$orderPrefix.$order=>$direction];//列表排序
+        $subOrder = "sc.id desc,ct.id desc";//沟通状态等字段最新的条目在聚合之前排前面 //TODO 沟通状态等排序
+        $listOrder = [$order=>$direction];//列表排序
+
+        //显示字段
+        //TODO 获取途径	沟通状态	上次跟进时间	剩余保有时间	预计合同到期时间	提醒时间	所在列
+        $subField = [
+            "c.id",
+            "c.customer_name",
+            "'获取途径' as resource_take",
+            "c.grade",
+            "'沟通状态' as comm_status",//TODO 沟通状态后期计算,这里获取计算相关数据
+            "sc.sale_name",
+            "sc.guess_money",
+            "sc.final_money",
+            "cc.contact_name",
+            "cc.phone_first",
+            "'上次跟进时间' as last_trace_time",//TODO 上次跟进定义
+            "c.take_time",//领取时间
+            "'合同到期时间' as contract_due_time",
+            "'提醒时间' as remind_time",
+            //"'所在列' as in_column"//TODO 所在列后期计算
+        ];
+        $listField = [
+            "id",
+            "customer_name",
+            "resource_take",
+            "grade",
+            "comm_status",
+            "group_concat(sale_name) as sale_names",
+            "guess_money",
+            "final_money",
+            "contact_name",
+            "phone_first",
+            "last_trace_time",
+            "take_time",
+            "contract_due_time",
+            "remind_time",
+            //"in_column"
+        ];
+
+        //构建查询当前页cid的sql语句,构建查询cid范围内数据并排序的sql语句,最后合并当前数据
+        $idsQuery = $this->model
+            ->table($this->table)->alias('c')
+            ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")
+            ->where($map)
+            ->order($idsOrder)
+            ->limit($offset,$num)
+            ->group("c.id")
+            ->field("c.id")
+            ->buildSql();
+        $subQuery = $this->model
+            ->table($this->table)->alias('c')
+            ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")
+            ->where("c.id in ( select t.id from ".$idsQuery." t ) ")
+            ->order($subOrder)
+            ->field($subField)
+            ->buildSql();
+        $customerList = $this->model
+            ->table($subQuery." c")
+            ->group("id")
+            ->order($listOrder)
+            ->field($listField)
+            ->select(false);
+
+        //具体的值处理
+        //TODO 计算沟通状态,剩余保有时间和所在列
+        return $customerList;
+    }
+
+    /**
+     * 获取我的下属的客户
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $uid int 员工id
+     * @param $filter array 客户筛选条件
+     * @param $order string 排序
+     * @return array
+     * @throws \think\Exception
+     * created by blu10ph
+     */
+    public function getSubordinateCustomer($num=10,$page=0,$uid,$filter=null,$order="id desc"){
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+        $uids = [$uid];//TODO 获取下属uid
+        $map['belongs_to'] = 3;
+        $map['handle_man'] = ["in",$uids];
+        //TODO $filter
+        $customerList = $this->model
+            ->table($this->table)
+            ->where($map)
+            ->order($order)
+            ->limit($offset,$num)
+            ->field("*")//TODO
+            ->select();
+        return $customerList;
+    }
+
+    /**
+     * 获取待处理的客户
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $filter array 客户筛选条件
+     * @param $order string 排序
+     * @return array
+     * @throws \think\Exception
+     * created by blu10ph
+     */
+    public function getPendingCustomer($num=10,$page=0,$filter=null,$order="id desc"){
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+        $map['belongs_to'] = 4;
+        //TODO $filter
+        $customerList = $this->model
+            ->table($this->table)
+            ->where($map)
+            ->order($order)
+            ->limit($offset,$num)
+            ->field("*")//TODO
+            ->select();
+        return $customerList;
     }
 
     /**
@@ -57,6 +294,39 @@ class Customer extends Base
             ->where('belongs_to',$scale)
             ->where('handle_man',$userid)
             ->select();
+   }
+
+    /**
+     * 获取所有客户信息
+     * @param $uid int|array 员工id
+     * @param $scale int|array 客户类型
+     * @param $self int 是否只查询自己的客户
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by blu10ph
+     */
+    public function getExportCustomers($uid,$scale,$self){
+        if($self){
+            $map['c.handle_man'] = $uid;
+        }else{
+            $map['c.handle_man'] = ["in",[0,$uid]];
+        }
+        $map['c.belongs_to'] = $scale;
+        return $this->model->table($this->table)->alias('c')
+            //->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id')
+            ->where($map)
+            ->field('c.customer_name,c.telephone,c.address,c.location,c.field,c.website')
+            ->select();
+    }
+
+    /**
+     * 查询单个客户信息
+     * @param $cid int 客户id
+     * @return int|string
+     * created by blu10ph
+     */
+    public function getCustomer($cid)
+    {
+        return $this->model->table($this->table)->where('id',$cid)->find();
     }
 
     /**
@@ -81,5 +351,17 @@ class Customer extends Base
     public function setCustomer($customer_id,$data)
     {
         return $this->model->table($this->table)->where('id',$customer_id)->update($data);
+    }
+
+    /**
+     * 删除客户
+     * @param $cids 客户id数组
+     * @return int
+     * @throws \think\Exception
+     * created by blu10ph
+     */
+    public function delCustomer($cids)
+    {
+        return $this->model->table($this->table)->where('id','in',$cids)->delete();
     }
 }
