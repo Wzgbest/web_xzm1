@@ -365,6 +365,10 @@ class Employer extends Initialize{
     public function importEmployer(){
         $result =  ['status'=>0 ,'info'=>"导入失败！"];
         $file_id = input("file_id",0,"int");
+        if(!$file_id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
         $column = array (
             'A' => 'username',
             'B' => 'telephone',

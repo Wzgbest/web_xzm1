@@ -84,7 +84,7 @@ class Login extends Controller
 
         //获取用户在公司职位
         $roleM = new Role();
-        $rolep = $roleM->getRoleName($user_arr['role']);
+        $rolep = $roleM->getRoleInfo($user_arr['role']);
 
         //更新登录信息
         $data =['lastloginip'=>$ip,'lastlogintime'=>time()];
