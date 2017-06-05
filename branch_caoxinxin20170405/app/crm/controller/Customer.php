@@ -15,12 +15,214 @@ use app\crm\model\CustomerImportRecord as CustomerImport;
 use app\crm\model\CustomerImportFail;
 
 class Customer extends Initialize{
+    public function index(){
+        echo "crm/customer/index";
+    }
+    public function manager(){
+        $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
+        $scale = input('scale',0,'int');
+        if(!$scale || $scale>4){
+            $result['info'] = '参数错误!';
+            return json($result);
+        }
+        $num = input('num',0,'int');
+        $num = $num?:20;
+        $p = input("p",0,"int");
+        $p = $p?:1;
+        $filter = [];//TODO 客户状态 	客户来源 resource_from	 沟通结果 tend_to 获取途径 跟踪人 维护人 添加人
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_data = $customerM->getManagerCustomer($num,$p,$filter);
+            $result['data'] = $customers_data;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "查询成功！";
+        return json($result);
+    }
+    public function pool(){
+        $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
+        $scale = input('scale',0,'int');
+        if(!$scale || $scale>4){
+            $result['info'] = '参数错误!';
+            return json($result);
+        }
+        $num = input('num',0,'int');
+        $num = $num?:20;
+        $p = input("p",0,"int");
+        $p = $p?:1;
+        $filter = [];//TODO
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_data = $customerM->getPoolCustomer($num,$p,$filter);
+            $result['data'] = $customers_data;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "查询成功！";
+        return json($result);
+    }
+    public function self(){
+        $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
+        $num = input('num',0,'int');
+        $num = $num?:20;
+        $p = input("p",0,"int");
+        $p = $p?:1;
+        $order = input("order","","string");
+        $direction = input("direction","","string");
+        $uid = session('userinfo.userid');
+        $filter = [];//TODO 获取途径 	客户级别 grade	商机 sale_chance表	沟通状态 检查negotiate、setting、sale_chance和sale_chance_visit表	客户名称	联系人名称
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_data = $customerM->getSelfCustomer($num,$p,$uid,$filter,$order,$direction);
+            $result['data'] = $customers_data;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "查询成功！";
+        return json($result);
+    }
+    public function subordinate(){
+        $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
+        $num = input('num',0,'int');
+        $num = $num?:20;
+        $p = input("p",0,"int");
+        $p = $p?:1;
+        $uid = session('userinfo.userid');
+        $filter = [];//TODO
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_data = $customerM->getSubordinateCustomer($num,$p,$uid,$filter);
+            $result['data'] = $customers_data;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "查询成功！";
+        return json($result);
+    }
+    public function pending(){
+        $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
+        $num = input('num',0,'int');
+        $num = $num?:20;
+        $p = input("p",0,"int");
+        $p = $p?:1;
+        $filter = [];//TODO
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_data = $customerM->getPendingCustomer($num,$p,$filter);
+            $result['data'] = $customers_data;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "查询成功！";
+        return json($result);
+    }
+    public function get(){
+        $result = ['status'=>0 ,'info'=>"获取客户信息时发生错误！"];
+        $id = input('id',0,'int');
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_data = $customerM->getCustomer($id);
+            //TODO 获取其他表内容
+            $result['data'] = $customers_data;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "获取客户信息成功！";
+        return json($result);
+    }
 
+    protected function _getCustomerForInput(){
+        $customer['customer_name'] = input('customer_name');
+        $customer['telephone'] = input('telephone');
+
+        //TODO 其他客户资料
+
+        return $customer;
+    }
+    public function add(){
+        $result = ['status'=>0 ,'info'=>"新建客户时发生错误！"];
+        $customer = $this->_getCustomerForInput();
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_data = $customerM->addCustomer($customer);
+            //TODO 添加其他表内容,需开启事务
+            $result['data'] = $customers_data;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "新建客户信息成功！";
+        return json($result);
+    }
+    public function update(){
+        $result = ['status'=>0 ,'info'=>"保存客户时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $customer = $this->_getCustomerForInput();
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_data = $customerM->setCustomer($id,$customer);
+            //TODO 保存其他表内容,需开启事务
+            $result['data'] = $customers_data;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "保存客户信息成功！";
+        return json($result);
+    }
+    public function del(){
+        $result = ['status'=>0 ,'info'=>"删除客户信息时发生错误！"];
+        $ids = input('ids/a');
+        var_exp($ids,'$ids',1);
+        if(!$ids){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_data = $customerM->delCustomer($ids);
+            //TODO 删除其他表内容,需开启事务
+            $result['data'] = $customers_data;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "删除客户信息成功！";
+        return json($result);
+    }
 
     public function importCustomer(){
         $result =  ['status'=>0 ,'info'=>"导入失败！"];
         $file_id = input("file_id",0,"int");
         $import_to = input("import_to",0,"int");//导入到1客户管理，2公海池
+        if(!$file_id || !$import_to){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
 
         //客户信息默认参数
         $customer_default = [];
@@ -69,15 +271,15 @@ class Customer extends Initialize{
         }
 
         //获取批次
+        $uid = session('userinfo.userid');
         $customerImport = new CustomerImport($this->corp_id);
-        $record = $customerImport->getNewImportCustomerRecord(session('userinfo.id'));
+        $record = $customerImport->getNewImportCustomerRecord($uid);
         if(!$record){
             $result['info'] = '添加导入记录失败!';
             return json($result);
         }
         //var_exp($record,'$record',1);
         $batch = $record['batch'];
-        $uid = session('userinfo.id');
 
         //校验数据
         $success_num = 0;
@@ -92,6 +294,9 @@ class Customer extends Initialize{
                 $customer['telephone'] = $item['telephone'];
                 $customer['add_man'] = $uid;
                 $customer['add_batch'] = $item['batch'];
+                $customer['field'] = $item['field'];
+                $customer['address'] = $item['address'];
+                $customer['website'] = $item['website'];
                 $validate_result = $this->validate($customer,'Customer');
                 //验证字段
                 if(true !== $validate_result){
@@ -103,22 +308,22 @@ class Customer extends Initialize{
                 if(!$add_flg){
                     exception('添加客户失败!');
                 }
-                $customerContact['customer_id'] = $add_flg;
-                $customerContact['contact_name'] = $item['customer_name'];
-                $customerContact['phone_first'] = $item['telephone'];
-                $validate_result = $this->validate($customerContact,'CustomerContact');
-                //验证字段
-                if(true !== $validate_result){
-                    exception($validate_result);
-                }
-                $customerContactM = new CustomerContactModel($this->corp_id);
-                $user_corp_add_flg = $customerContactM->addCustomerContact($customerContact);
-                if(!$user_corp_add_flg){
-                    exception('添加客户联系方式失败!');
-                }
-            }catch(\Exception $e){
+//                $customerContact['customer_id'] = $add_flg;
+//                $customerContact['contact_name'] = $item['customer_name'];
+//                $customerContact['phone_first'] = $item['telephone'];
+//                $validate_result = $this->validate($customerContact,'CustomerContact');
+//                //验证字段
+//                if(true !== $validate_result){
+//                    exception($validate_result);
+//                }
+//                $customerContactM = new CustomerContactModel($this->corp_id);
+//                $user_corp_add_flg = $customerContactM->addCustomerContact($customerContact);
+//                if(!$user_corp_add_flg){
+//                    exception('添加客户联系方式失败!');
+//                }
+            }catch(\Exception $ex){
                 $customerImport->link->rollback();
-                $item['remark'] = $e->getMessage();
+                $item['remark'] = $ex->getMessage();
                 $fail_array[] = $item;
                 continue;
             }
@@ -158,6 +363,34 @@ class Customer extends Initialize{
         $result['status'] = 1;
         $result['info'] = '成功导入'.$success_num.'条,失败'.$fail_num.'条!';
         return json($result);
+    }
+
+    public function exportCustomer(){
+        $scale = input('scale',0,'int');
+        if(!$scale){
+            $this->error("参数错误!");
+        }
+        $self = input('self',0,'int');
+        $uid = session('userinfo.userid');
+        $customerM = new CustomerModel($this->corp_id);
+        $customers_data = $customerM->getExportCustomers($uid,$scale,$self);
+        //var_exp($customers_data,'$customers_data',1);
+        if(!$customers_data){
+            $this->error("导出员工失败!");
+        }
+        $excel_data = [[
+            0 => '公司名称',
+            1 => '电话号码',
+            2 => '地址',
+            3 => '定位',
+            4 => '行业',
+            5 => '官网',
+        ]];
+        foreach ($customers_data as $customer){
+            unset($customer['id']);
+            $excel_data[] = $customer;
+        }
+        outExcel($excel_data,'customers-'.time().'.xlsx');
     }
 
     public function exportFailCustomer(){
