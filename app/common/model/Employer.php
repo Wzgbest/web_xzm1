@@ -447,4 +447,22 @@ class Employer extends Base
         $sql = 'SELECT count(distinct `a`.`id`) as num FROM `'.$this->dbprefix.'employer` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employer` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.';';
         return $this->model->table($this->table)->query($sql);
     }
+
+    /**
+     * 导出所有员工
+     * @param null|array $where[
+     *      'struct_id'=>,
+     *      'role'=>,
+     *      'on_duty'=>,
+     * ] 查询条件
+     * @return mixed
+     * created by blu10ph
+     */
+    public function exportAllEmployers($where = null){
+        return $this->model
+            ->table($this->table)
+            ->where($where)
+            ->field('id,truename,telephone,wired_phone,part_phone,gender,worknum,is_leader,role,qqnum,wechat')
+            ->select();
+    }
 }
