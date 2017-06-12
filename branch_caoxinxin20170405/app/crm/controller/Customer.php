@@ -72,13 +72,15 @@ class Customer extends Initialize{
         $num = $num?:20;
         $p = input("p",0,"int");
         $p = $p?:1;
-        $order = input("order","","string");
-        $direction = input("direction","","string");
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
         $uid = session('userinfo.userid');
-        $filter = [];//TODO 获取途径 	客户级别 grade	商机 sale_chance表	沟通状态 检查negotiate、setting、sale_chance和sale_chance_visit表	客户名称	联系人名称
+        //TODO	商机 sale_chance表	沟通状态 检查negotiate、setting、sale_chance和sale_chance_visit表
+        $filter = $this->_getCustomerFilter(["take_type","grade","customer_name","contact_name"]);
+        $field = $this->_getCustomerField(["take_type","grade"]);
         try{
             $customerM = new CustomerModel($this->corp_id);
-            $customers_data = $customerM->getSelfCustomer($num,$p,$uid,$filter,$order,$direction);
+            $customers_data = $customerM->getSelfCustomer($num,$p,$uid,$filter,$field,$order,$direction);
             $result['data'] = $customers_data;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
@@ -126,6 +128,48 @@ class Customer extends Initialize{
         $result['status'] = 1;
         $result['info'] = "查询成功！";
         return json($result);
+    }
+    protected function _getCustomerFilter($filter_column){
+        $filter = [];
+        if(in_array("take_type", $filter_column)){//获取途径
+            $take_type = input("take_type",0,"int");
+            if($take_type){
+                $filter["take_type"] = $take_type;
+            }
+        }
+        if(in_array("grade", $filter_column)){//客户级别
+            $grade = input("grade","","string");
+            if($grade){
+                $filter["grade"] = $grade;
+            }
+        }
+        if(in_array("customer_name", $filter_column)){//客户名称
+            $customer_name = input("customer_name","","string");
+            if($customer_name){
+                $filter["customer_name"] = $customer_name;
+            }
+        }
+        if(in_array("contact_name", $filter_column)){//联系人名称
+            $contact_name = input("contact_name","","string");
+            if($contact_name){
+                $filter["contact_name"] = $contact_name;
+            }
+        }
+        return $filter;
+    }
+    protected function _getCustomerField($field_column){
+        $field = [];
+        $fields = input('field',"",'string');
+        $fields_arr = explode(',',$fields);
+        $fields_arr = array_filter($fields_arr);
+        $fields_arr = array_unique($fields_arr);
+        if(in_array("take_type", $field_column) && in_array("take_type", $fields_arr)){//获取途径
+            $field[] = "take_type";
+        }
+        if(in_array("grade", $field_column) && in_array("grade", $fields_arr)){//客户级别
+            $field[] = "grade";
+        }
+        return $field;
     }
     public function get(){
         $result = ['status'=>0 ,'info'=>"获取客户信息时发生错误！"];

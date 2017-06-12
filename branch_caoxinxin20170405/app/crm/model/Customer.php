@@ -85,16 +85,20 @@ class Customer extends Base
      * @throws \think\Exception
      * created by blu10ph
      */
-    public function getSelfCustomer($num=10,$page=0,$uid,$filter=null,$order="id",$direction="desc"){
+    public function getSelfCustomer($num=10,$page=0,$uid,$filter=null,$field=null,$order="id",$direction="desc"){
         //获取客户配置
-//        $structure = intval(getStructureId($uid));//TODO 获取用户部门ID公共方法
-//        $setting_map = "find_in_set('$structure', set_to_structure)";
-//        $customerSettingModel = new CustomerSetting();
-//        $customerSetting = $customerSettingModel->getCustomerSetting(1,0,$setting_map);
-//        if(!$customerSetting){
-//            $customerSetting["protect_customer_day"] = 0;
-//        }
-//        $protect_customer_day = $customerSetting["protect_customer_day"];
+        $struct_ids = getStructureIds($uid);
+        $protect_customer_days = [];
+        foreach ($struct_ids as $struct_id){
+            $structure = intval($struct_id);
+            $setting_map = "find_in_set('$structure', set_to_structure)";
+            $customerSettingModel = new CustomerSetting();
+            $customerSetting = $customerSettingModel->getCustomerSetting(1,0,$setting_map);
+            if(!$customerSetting){
+                $customerSetting["protect_customer_day"] = 0;
+            }
+            $protect_customer_days[$structure] = $customerSetting["protect_customer_day"];
+        }
 
         //分页
         $offset = 0;
@@ -105,7 +109,23 @@ class Customer extends Base
         //筛选
         $map['c.belongs_to'] = 3;
         $map['c.handle_man'] = $uid;
-        //TODO $filter 中的筛选条件 获取途径	客户级别	商机	沟通状态	客户名称	联系人名称
+        //TODO $filter 中的筛选条件	商机	沟通状态
+        //获取途径
+        if(array_key_exists("take_type", $filter)){
+            $map["c.take_type"] = $filter["take_type"];
+        }
+        //客户级别
+        if(array_key_exists("grade", $filter)){
+            $map["c.grade"] = $filter["grade"];
+        }
+        //客户名称
+        if(array_key_exists("customer_name", $filter)){
+            $map["c.customer_name"] = $filter["customer_name"];
+        }
+        //联系人名称
+        if(array_key_exists("contact_name", $filter)){
+            $map["cc.contact_name"] = $filter["contact_name"];
+        }
 
         //排序
         if($direction!="desc" && $direction!="asc"){
@@ -128,13 +148,18 @@ class Customer extends Base
         $listOrder = [$order=>$direction];//列表排序
 
         //显示字段
-        //TODO 获取途径	沟通状态	上次跟进时间	剩余保有时间	预计合同到期时间	提醒时间	所在列
+        //TODO $field处理 沟通状态	上次跟进时间	剩余保有时间	预计合同到期时间	提醒时间	所在列
         $subField = [
             "c.id",
             "c.customer_name",
-            "'获取途径' as resource_take",
-            "c.grade",
-            "'沟通状态' as comm_status",//TODO 沟通状态后期计算,这里获取计算相关数据
+            //"c.take_type",
+            //"c.grade",
+            "cn.tend_to",
+            "cn.phone_correct",
+            "cn.profile_correct",
+            "cn.call_through",
+            "cn.is_wait",
+            "'沟通状态' as comm_status",//TODO 沟通状态 comm_status 后期计算,这里获取计算相关数据
             "sc.sale_name",
             "sc.guess_money",
             "sc.final_money",
@@ -149,8 +174,13 @@ class Customer extends Base
         $listField = [
             "id",
             "customer_name",
-            "resource_take",
-            "grade",
+            //"take_type",
+            //"grade",
+            "tend_to",
+            "phone_correct",
+            "profile_correct",
+            "call_through",
+            "is_wait",
             "comm_status",
             "group_concat(sale_name) as sale_names",
             "guess_money",
@@ -163,11 +193,22 @@ class Customer extends Base
             "remind_time",
             //"in_column"
         ];
+        //获取途径
+        if(in_array("take_type", $field)){
+            $subField[] = "c.take_type";
+            $listField[] = "take_type";
+        }
+        //客户级别
+        if(in_array("grade", $field)){
+            $subField[] = "c.grade";
+            $listField[] = "grade";
+        }
 
         //构建查询当前页cid的sql语句,构建查询cid范围内数据并排序的sql语句,最后合并当前数据
         $idsQuery = $this->model
             ->table($this->table)->alias('c')
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")
             ->where($map)
@@ -179,6 +220,7 @@ class Customer extends Base
         $subQuery = $this->model
             ->table($this->table)->alias('c')
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")
             ->where("c.id in ( select t.id from ".$idsQuery." t ) ")
@@ -190,7 +232,7 @@ class Customer extends Base
             ->group("id")
             ->order($listOrder)
             ->field($listField)
-            ->select(false);
+            ->select();
 
         //具体的值处理
         //TODO 计算沟通状态,剩余保有时间和所在列

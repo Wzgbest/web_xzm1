@@ -14,6 +14,7 @@ use app\common\model\CorporationStructure;
 use app\common\model\Umessage;
 use app\common\model\Employer;
 use app\common\model\Structure as StructureModel;
+use app\common\model\StructureEmployer;
 use app\crm\model\CustomerTrace;
 use app\common\model\ImportFile as FileModel;
 
@@ -141,14 +142,45 @@ function get_corpid ($tel = null) {
     $userinfo = session('userinfo');
     if (!empty($userinfo['corp_id'])) {
         return $userinfo['corp_id'];
-    } else {
-        if (!is_null($tel)) {
-            $corp_id = UserCorporation::getUserCorp($tel);
-            //session('userinfo',['corp_id'=>$corp_id]);
-            return $corp_id;
-        }
-        return false;
     }
+    if (!is_null($tel)) {
+        $corp_id = UserCorporation::getUserCorp($tel);
+        //session('userinfo',['corp_id'=>$corp_id]);
+        return $corp_id;
+    }
+    return false;
+}
+
+function getStructureIds($user_id = null){
+    $userinfo = session('userinfo');
+    if (!empty($userinfo['structure_ids'])) {
+        return $userinfo['structure_ids'];
+    }
+    if (!is_null($user_id)) {
+        $structureEmployer = new StructureEmployer();
+        $struct_ids = $structureEmployer->getStructIdsByEmployer($user_id);
+        //session('userinfo',['corp_id'=>$corp_id]);
+        return $struct_ids;
+    }
+    return false;
+}
+
+function getCommStatusArr($comm_status){
+    $comm_status_arr = [];
+    switch ($comm_status){
+        case 1:
+            $comm_status_arr=[
+                "tend_to"=>1,
+                "phone_correct"=>1,
+                "profile_correct"=>1,
+                "call_through"=>1,
+                "is_wait"=>1,
+            ];
+            break;
+        case 2:
+            break;
+    }
+    return $comm_status_arr;
 }
 
 /**
@@ -170,7 +202,7 @@ function get_userid_from_tel ($tel,$corp_id='') {
  * 处理app端传来图像文件
  * @param $data
  * @return mixed|string
- * created by messhair
+ * created by messhaira
  */
 function get_app_img ($data) {
     $img_path = config('upload_image.image_path');
