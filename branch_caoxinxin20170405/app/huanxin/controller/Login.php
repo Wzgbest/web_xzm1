@@ -36,18 +36,18 @@ class Login extends Controller
         if ($telephone == '' || $password == '') {
             $req_reg['message'] = '缺少必填信息';
             $req_reg['errnum'] = 1;
-            return json_encode($req_reg, true);
+            return json($req_reg, true);
         }
         if (!check_tel($telephone)) {
             $req_reg['message'] = '手机号码格式不正确';
             $req_reg['errnum'] = 2;
-            return json_encode($req_reg,true);
+            return json($req_reg,true);
         }
         $corp_id = get_corpid($telephone);
         if (empty($corp_id)) {
             $req_reg['message'] = '用户不存在或用户未划分公司归属';
             $req_reg['errnum'] = 3;
-            return json_encode($req_reg, true);
+            return json($req_reg, true);
         }
         //验证用户信息
         $model = new Employer();
@@ -55,17 +55,17 @@ class Login extends Controller
         if (empty($user_arr)) {
             $req_reg['message'] = '用户不存在或用户未划分公司归属';
             $req_reg['errnum'] = 3;
-            return json_encode($req_reg, true);
+            return json($req_reg, true);
         }
         if ($user_arr['password'] != md5($password)) {
             $req_reg['message'] = '密码错误';
             $req_reg['errnum'] = 4;
-            return json_encode($req_reg, true);
+            return json($req_reg, true);
         }
         if (empty($user_arr['lastlogintime'])) {
             $req_reg['message'] = '用户首次登陆，请修改密码';
             $req_reg['errnum'] = 5;
-            return json_encode($req_reg,true);
+            return json($req_reg,true);
         }
         //创建用户token，返回给app客户端
         $save_res=$model->createSystemToken($telephone);
@@ -74,7 +74,7 @@ class Login extends Controller
         }else{
             $req_reg['message'] = '获取token信息失败，联系网站后台管理员';
             $req_reg['errnum'] = 6;
-            return json_encode($req_reg, true);
+            return json($req_reg, true);
         }
         //获取用户积分
         $scoreM = new EmployerScore();
@@ -91,7 +91,7 @@ class Login extends Controller
         if ($model->setEmployerSingleInfo($telephone,$data) <= 0) {
             $reg_reg['message'] = '登录信息写入失败，联系管理员';
             $reg_reg['errnum'] = 7;
-            return json_encode($reg_reg,true);
+            return json($reg_reg,true);
         }
 
         //所有员工信息
@@ -107,6 +107,6 @@ class Login extends Controller
         $req_reg['occupation'] = $rolep;
         $req_reg['percentage'] = $per;
         $req_reg['totaluser'] = $data_all;
-        return json_encode($req_reg, true);
+        return json($req_reg, true);
     }
 }
