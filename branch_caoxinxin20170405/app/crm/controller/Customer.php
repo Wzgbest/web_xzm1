@@ -10,7 +10,7 @@ namespace app\crm\controller;
 
 use app\common\controller\Initialize;
 use app\crm\model\Customer as CustomerModel;
-use app\crm\model\CustomerContact as CustomerContactModel;
+//use app\crm\model\CustomerContact as CustomerContactModel;
 use app\crm\model\CustomerImportRecord as CustomerImport;
 use app\crm\model\CustomerImportFail;
 
@@ -42,7 +42,7 @@ class Customer extends Initialize{
         $result['info'] = "查询成功！";
         return json($result);
     }
-    public function pool(){
+    public function pool(){//TODO
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
         $scale = input('scale',0,'int');
         if(!$scale || $scale>4){
@@ -53,7 +53,7 @@ class Customer extends Initialize{
         $num = $num?:20;
         $p = input("p",0,"int");
         $p = $p?:1;
-        $filter = [];//TODO
+        $filter = [];
         try{
             $customerM = new CustomerModel($this->corp_id);
             $customers_data = $customerM->getPoolCustomer($num,$p,$filter);
@@ -75,8 +75,8 @@ class Customer extends Initialize{
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
         $uid = session('userinfo.userid');
-        //TODO	商机 sale_chance表 检查negotiate、setting、sale_chance和sale_chance_visit表
-        $filter = $this->_getCustomerFilter(["take_type","grade","customer_name","contact_name","comm_status"]);
+        //TODO	商机 sale_chance表
+        $filter = $this->_getCustomerFilter(["take_type","grade","customer_name","contact_name","comm_status","sale_chance"]);
         $field = $this->_getCustomerField(["take_type","grade"]);
         try{
             $customerM = new CustomerModel($this->corp_id);
@@ -90,14 +90,14 @@ class Customer extends Initialize{
         $result['info'] = "查询成功！";
         return json($result);
     }
-    public function subordinate(){
+    public function subordinate(){//TODO
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
         $num = input('num',0,'int');
         $num = $num?:20;
         $p = input("p",0,"int");
         $p = $p?:1;
         $uid = session('userinfo.userid');
-        $filter = [];//TODO
+        $filter = [];
         try{
             $customerM = new CustomerModel($this->corp_id);
             $customers_data = $customerM->getSubordinateCustomer($num,$p,$uid,$filter);
@@ -110,13 +110,13 @@ class Customer extends Initialize{
         $result['info'] = "查询成功！";
         return json($result);
     }
-    public function pending(){
+    public function pending(){//TODO
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
         $num = input('num',0,'int');
         $num = $num?:20;
         $p = input("p",0,"int");
         $p = $p?:1;
-        $filter = [];//TODO
+        $filter = [];
         try{
             $customerM = new CustomerModel($this->corp_id);
             $customers_data = $customerM->getPendingCustomer($num,$p,$filter);
@@ -155,10 +155,16 @@ class Customer extends Initialize{
                 $filter["contact_name"] = $contact_name;
             }
         }
-        if(in_array("comm_status", $filter_column)){//联系人名称
+        if(in_array("comm_status", $filter_column)){//沟通状态
             $comm_status = input("comm_status",0,"int");
             if($comm_status){
                 $filter["comm_status"] = $comm_status;
+            }
+        }
+        if(in_array("sale_chance", $filter_column)){//商机业务
+            $comm_status = input("sale_chance",0,"int");
+            if($comm_status){
+                $filter["sale_chance"] = $comm_status;
             }
         }
         return $filter;

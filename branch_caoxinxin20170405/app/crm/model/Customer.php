@@ -7,7 +7,7 @@ namespace app\crm\model;
 
 use app\common\model\Base;
 use app\systemsetting\model\CustomerSetting;
-use phpDocumentor\Reflection\Types\This;
+//use phpDocumentor\Reflection\Types\This;
 
 class Customer extends Base
 {
@@ -29,19 +29,21 @@ class Customer extends Base
      * @throws \think\Exception
      * created by blu10ph
      */
-    public function getManagerCustomer($num=10,$page=0,$filter=null,$order="id desc"){
+    public function getManagerCustomer($num=10,$page=0,$filter=null,$order="id desc"){//TODO
         $offset = 0;
         if($page){
             $offset = ($page-1)*$num;
         }
+        $map = $this->_getMapByFilter($filter,[]);
         $map['belongs_to'] = 1;
-        //TODO $filter
+
+
         $customerList = $this->model
             ->table($this->table)
             ->where($map)
             ->order($order)
             ->limit($offset,$num)
-            ->field("*")//TODO
+            ->field("*")
             ->select();
         return $customerList;
     }
@@ -56,19 +58,20 @@ class Customer extends Base
      * @throws \think\Exception
      * created by blu10ph
      */
-    public function getPoolCustomer($num=10,$page=0,$filter=null,$order="id desc"){
+    public function getPoolCustomer($num=10,$page=0,$filter=null,$order="id desc"){//TODO
         $offset = 0;
         if($page){
             $offset = ($page-1)*$num;
         }
+        $map = $this->_getMapByFilter($filter,[]);
         $map['belongs_to'] = 2;
-        //TODO $filter
+
         $customerList = $this->model
             ->table($this->table)
             ->where($map)
             ->order($order)
             ->limit($offset,$num)
-            ->field("*")//TODO
+            ->field("*")
             ->select();
         return $customerList;
     }
@@ -112,8 +115,7 @@ class Customer extends Base
         }
 
         //筛选
-        //TODO $filter 中的筛选条件	商机
-        $map = $this->_getMapByFilter($filter,["take_type","grade","customer_name","contact_name","comm_status"]);
+        $map = $this->_getMapByFilter($filter,["take_type","grade","customer_name","contact_name","comm_status","sale_chance"]);
         $map['c.belongs_to'] = 3;
         $map['c.handle_man'] = $uid;
 
@@ -121,10 +123,10 @@ class Customer extends Base
         if($direction!="desc" && $direction!="asc"){
             $direction = "desc";
         }
-        //TODO 上次跟进时间	提醒时间
+        //TODO 提醒时间
         $orderPrefix = "";
         $idsOrder = [$orderPrefix.$order=>$direction];//列表排序
-        $subOrder = "sc.id desc,ct.id desc";//沟通状态、销售机会和用户追踪等字段,最新的条目需在聚合之前排序
+        $subOrder = "sc.id desc,ct.id desc";//沟通状态、销售机会和用户追踪等字段,最新的条目需在聚合之前排序 TODO 沟通状态
         $listOrder = [$order=>$direction];//列表排序
         switch ($order){
             case "id":
@@ -162,10 +164,16 @@ class Customer extends Base
                 $idsOrder = [$orderPrefix.$order=>$direction];//列表排序
                 $listOrder = [$order=>$direction];//列表排序
                 break;
+            case "last_trace_time":
+                $orderPrefix = "sc.";
+                $order = "create_time";
+                $idsOrder = [$orderPrefix.$order=>$direction];//列表排序
+                $listOrder = [$order=>$direction];//列表排序
+                break;
         }
 
         //显示字段
-        //TODO $field处理 上次跟进时间	预计合同到期时间	提醒时间	所在列
+        //TODO $field处理 预计合同到期时间	提醒时间	所在列
         $subField = [
             "c.id",
             "c.customer_name",
@@ -177,16 +185,17 @@ class Customer extends Base
             "cn.call_through",
             "cn.is_wait",
             //"'沟通状态' as comm_status",
-            "sc.sale_name",
+            //"sc.sale_name",
+            "scb.business_name as sale_biz_name",
             "sc.guess_money",
             "sc.final_money",
             "cc.contact_name",
             "cc.phone_first",
-            "ct.create_time as last_trace_time",//TODO 上次跟进定义
+            "ct.create_time as last_trace_time",
             "c.take_time",//领取时间
             "'合同到期时间' as contract_due_time",
             "'提醒时间' as remind_time",
-            //"'所在列' as in_column"//TODO 所在列后期计算
+            //"'所在列' as in_column"//TODO 所在列后期计算所需字段
         ];
         $listField = [
             "id",
@@ -199,7 +208,8 @@ class Customer extends Base
             "call_through",
             "is_wait",
             //"comm_status",
-            "group_concat(sale_name) as sale_names",
+            //"group_concat(sale_name) as sale_names",
+            "group_concat(sale_biz_name) as sale_biz_names",
             "guess_money",
             "final_money",
             "contact_name",
@@ -239,6 +249,7 @@ class Customer extends Base
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'business scb','scb.id = sc.bussiness_id',"LEFT")
             ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")
             ->where("c.id in ( select t.id from ".$idsQuery." t ) ")
             ->order($subOrder)
@@ -252,7 +263,6 @@ class Customer extends Base
             ->select();
 
         //具体的值处理
-        //TODO 所在列
         foreach ($customerList as &$customer){
             $customer['comm_status'] = getCommStatusByArr([
                 "tend_to"=>$customer['tend_to'],
@@ -266,6 +276,8 @@ class Customer extends Base
             }else{
                 $customer['save_time'] = "无";
             }
+            //TODO 所在列
+            $customer['in_column'] = "0";
         }
         return $customerList;
     }
@@ -281,21 +293,22 @@ class Customer extends Base
      * @throws \think\Exception
      * created by blu10ph
      */
-    public function getSubordinateCustomer($num=10,$page=0,$uid,$filter=null,$order="id desc"){
+    public function getSubordinateCustomer($num=10,$page=0,$uid,$filter=null,$order="id desc"){//TODO
         $offset = 0;
         if($page){
             $offset = ($page-1)*$num;
         }
+        $map = $this->_getMapByFilter($filter,[]);
         $uids = [$uid];//TODO 获取下属uid
         $map['belongs_to'] = 3;
         $map['handle_man'] = ["in",$uids];
-        //TODO $filter
+
         $customerList = $this->model
             ->table($this->table)
             ->where($map)
             ->order($order)
             ->limit($offset,$num)
-            ->field("*")//TODO
+            ->field("*")
             ->select();
         return $customerList;
     }
@@ -310,19 +323,20 @@ class Customer extends Base
      * @throws \think\Exception
      * created by blu10ph
      */
-    public function getPendingCustomer($num=10,$page=0,$filter=null,$order="id desc"){
+    public function getPendingCustomer($num=10,$page=0,$filter=null,$order="id desc"){//TODO
         $offset = 0;
         if($page){
             $offset = ($page-1)*$num;
         }
+        $map = $this->_getMapByFilter($filter,[]);
         $map['belongs_to'] = 4;
-        //TODO $filter
+
         $customerList = $this->model
             ->table($this->table)
             ->where($map)
             ->order($order)
             ->limit($offset,$num)
-            ->field("*")//TODO
+            ->field("*")
             ->select();
         return $customerList;
     }
@@ -351,6 +365,10 @@ class Customer extends Base
             foreach ($comm_status_arr as $k=>$comm_status_item){
                 $map["cn.".$k] = $comm_status_item;
             }
+        }
+        //商机业务
+        if(in_array("sale_chance",$filter_column) && array_key_exists("sale_chance", $filter)){
+            $map["sc.bussiness_id"] = $filter["sale_chance"];
         }
         return $map;
     }
@@ -383,8 +401,8 @@ class Customer extends Base
 
     /**
      * 获取所有客户信息
-     * @param $userid 员工id
-     * @param $scale 客户类型，1 我的客户 2 公海池 3我的客户 4待处理
+     * @param $userid int 员工id
+     * @param $scale int 客户类型，1 我的客户 2 公海池 3我的客户 4待处理
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
@@ -456,7 +474,7 @@ class Customer extends Base
 
     /**
      * 删除客户
-     * @param $cids 客户id数组
+     * @param $cids array 客户id数组
      * @return int
      * @throws \think\Exception
      * created by blu10ph
