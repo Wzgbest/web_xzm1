@@ -87,8 +87,10 @@ class Customer extends Base
      */
     public function getSelfCustomer($num=10,$page=0,$uid,$filter=null,$field=null,$order="id",$direction="desc"){
         //获取客户配置
+        $now_time = time();
         $struct_ids = getStructureIds($uid);
-        $protect_customer_days = [];
+        //$protect_customer_days = [];
+        $protect_customer_day_max = 0;//暂定员工属于两个部门且有客户,保有时间按长的来
         foreach ($struct_ids as $struct_id){
             $structure = intval($struct_id);
             $setting_map = "find_in_set('$structure', set_to_structure)";
@@ -97,7 +99,10 @@ class Customer extends Base
             if(!$customerSetting){
                 $customerSetting["protect_customer_day"] = 0;
             }
-            $protect_customer_days[$structure] = $customerSetting["protect_customer_day"];
+            //$protect_customer_days[$structure] = $customerSetting["protect_customer_day"];
+            if($customerSetting["protect_customer_day"]>$protect_customer_day_max){//暂定员工属于两个部门且有客户,保有时间按长的来
+                $protect_customer_day_max = $customerSetting["protect_customer_day"];
+            }
         }
 
         //分页
@@ -107,48 +112,60 @@ class Customer extends Base
         }
 
         //筛选
+        //TODO $filter 中的筛选条件	商机
+        $map = $this->_getMapByFilter($filter,["take_type","grade","customer_name","contact_name","comm_status"]);
         $map['c.belongs_to'] = 3;
         $map['c.handle_man'] = $uid;
-        //TODO $filter 中的筛选条件	商机	沟通状态
-        //获取途径
-        if(array_key_exists("take_type", $filter)){
-            $map["c.take_type"] = $filter["take_type"];
-        }
-        //客户级别
-        if(array_key_exists("grade", $filter)){
-            $map["c.grade"] = $filter["grade"];
-        }
-        //客户名称
-        if(array_key_exists("customer_name", $filter)){
-            $map["c.customer_name"] = $filter["customer_name"];
-        }
-        //联系人名称
-        if(array_key_exists("contact_name", $filter)){
-            $map["cc.contact_name"] = $filter["contact_name"];
-        }
 
         //排序
         if($direction!="desc" && $direction!="asc"){
             $direction = "desc";
         }
-        //TODO 沟通状态	预计成单金额	上次跟进时间	剩余保有时间	提醒时间
+        //TODO 上次跟进时间	提醒时间
         $orderPrefix = "";
+        $idsOrder = [$orderPrefix.$order=>$direction];//列表排序
+        $subOrder = "sc.id desc,ct.id desc";//沟通状态、销售机会和用户追踪等字段,最新的条目需在聚合之前排序
+        $listOrder = [$order=>$direction];//列表排序
         switch ($order){
             case "id":
             case "customer_name":
             case "grade":
+            case "take_time":
                 $orderPrefix = "c.";
+                $idsOrder = [$orderPrefix.$order=>$direction];//列表排序
+                $listOrder = [$order=>$direction];//列表排序
                 break;
             case "contact_name":
                 $orderPrefix = "cc.";
+                $idsOrder = [$orderPrefix.$order=>$direction];//列表排序
+                $listOrder = [$order=>$direction];//列表排序
+                break;
+            case "comm_status":
+                $orderPrefix = "cn.";
+                $idsOrder = [
+                    $orderPrefix."tend_to"=>$direction,
+                    $orderPrefix."phone_correct"=>$direction,
+                    $orderPrefix."profile_correct"=>$direction,
+                    $orderPrefix."call_through"=>$direction,
+                    $orderPrefix."is_wait"=>$direction,
+                ];//列表排序
+                $listOrder = [
+                    "tend_to"=>$direction,
+                    "phone_correct"=>$direction,
+                    "profile_correct"=>$direction,
+                    "call_through"=>$direction,
+                    "is_wait"=>$direction,
+                ];//列表排序
+                break;
+            case "guess_money":
+                $orderPrefix = "sc.";
+                $idsOrder = [$orderPrefix.$order=>$direction];//列表排序
+                $listOrder = [$order=>$direction];//列表排序
                 break;
         }
-        $idsOrder = [$orderPrefix.$order=>$direction];//列表排序
-        $subOrder = "sc.id desc,ct.id desc";//沟通状态等字段最新的条目在聚合之前排前面 //TODO 沟通状态等排序
-        $listOrder = [$order=>$direction];//列表排序
 
         //显示字段
-        //TODO $field处理 沟通状态	上次跟进时间	剩余保有时间	预计合同到期时间	提醒时间	所在列
+        //TODO $field处理 上次跟进时间	预计合同到期时间	提醒时间	所在列
         $subField = [
             "c.id",
             "c.customer_name",
@@ -159,13 +176,13 @@ class Customer extends Base
             "cn.profile_correct",
             "cn.call_through",
             "cn.is_wait",
-            "'沟通状态' as comm_status",//TODO 沟通状态 comm_status 后期计算,这里获取计算相关数据
+            //"'沟通状态' as comm_status",
             "sc.sale_name",
             "sc.guess_money",
             "sc.final_money",
             "cc.contact_name",
             "cc.phone_first",
-            "'上次跟进时间' as last_trace_time",//TODO 上次跟进定义
+            "ct.create_time as last_trace_time",//TODO 上次跟进定义
             "c.take_time",//领取时间
             "'合同到期时间' as contract_due_time",
             "'提醒时间' as remind_time",
@@ -181,7 +198,7 @@ class Customer extends Base
             "profile_correct",
             "call_through",
             "is_wait",
-            "comm_status",
+            //"comm_status",
             "group_concat(sale_name) as sale_names",
             "guess_money",
             "final_money",
@@ -235,7 +252,21 @@ class Customer extends Base
             ->select();
 
         //具体的值处理
-        //TODO 计算沟通状态,剩余保有时间和所在列
+        //TODO 所在列
+        foreach ($customerList as &$customer){
+            $customer['comm_status'] = getCommStatusByArr([
+                "tend_to"=>$customer['tend_to'],
+                "phone_correct"=>$customer['phone_correct'],
+                "profile_correct"=>$customer['profile_correct'],
+                "call_through"=>$customer['call_through'],
+                "is_wait"=> $customer['is_wait'],
+            ]);
+            if($protect_customer_day_max){//$protect_customer_day_max;//
+                $customer['save_time'] = intval($protect_customer_day_max-($now_time-$customer['take_time'])/60/60/24);
+            }else{
+                $customer['save_time'] = "无";
+            }
+        }
         return $customerList;
     }
 
@@ -294,6 +325,34 @@ class Customer extends Base
             ->field("*")//TODO
             ->select();
         return $customerList;
+    }
+
+    protected function _getMapByFilter($filter,$filter_column){
+        $map = [];
+        //获取途径
+        if(in_array("take_type",$filter_column) && array_key_exists("take_type", $filter)){
+            $map["c.take_type"] = $filter["take_type"];
+        }
+        //客户级别
+        if(in_array("grade",$filter_column) && array_key_exists("grade", $filter)){
+            $map["c.grade"] = $filter["grade"];
+        }
+        //客户名称
+        if(in_array("customer_name",$filter_column) && array_key_exists("customer_name", $filter)){
+            $map["c.customer_name"] = $filter["customer_name"];
+        }
+        //联系人名称
+        if(in_array("contact_name",$filter_column) && array_key_exists("contact_name", $filter)){
+            $map["cc.contact_name"] = $filter["contact_name"];
+        }
+        //沟通状态
+        if(in_array("comm_status",$filter_column) && array_key_exists("comm_status", $filter)){
+            $comm_status_arr = getCommStatusArr($filter["comm_status"]);
+            foreach ($comm_status_arr as $k=>$comm_status_item){
+                $map["cn.".$k] = $comm_status_item;
+            }
+        }
+        return $map;
     }
 
     /**

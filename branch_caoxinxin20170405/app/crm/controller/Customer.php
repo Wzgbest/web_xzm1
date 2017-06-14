@@ -75,8 +75,8 @@ class Customer extends Initialize{
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
         $uid = session('userinfo.userid');
-        //TODO	商机 sale_chance表	沟通状态 检查negotiate、setting、sale_chance和sale_chance_visit表
-        $filter = $this->_getCustomerFilter(["take_type","grade","customer_name","contact_name"]);
+        //TODO	商机 sale_chance表 检查negotiate、setting、sale_chance和sale_chance_visit表
+        $filter = $this->_getCustomerFilter(["take_type","grade","customer_name","contact_name","comm_status"]);
         $field = $this->_getCustomerField(["take_type","grade"]);
         try{
             $customerM = new CustomerModel($this->corp_id);
@@ -153,6 +153,12 @@ class Customer extends Initialize{
             $contact_name = input("contact_name","","string");
             if($contact_name){
                 $filter["contact_name"] = $contact_name;
+            }
+        }
+        if(in_array("comm_status", $filter_column)){//联系人名称
+            $comm_status = input("comm_status",0,"int");
+            if($comm_status){
+                $filter["comm_status"] = $comm_status;
             }
         }
         return $filter;

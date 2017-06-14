@@ -170,17 +170,90 @@ function getCommStatusArr($comm_status){
     switch ($comm_status){
         case 1:
             $comm_status_arr=[
-                "tend_to"=>1,
+                "tend_to"=>0,
+                "phone_correct"=>1,
+                "profile_correct"=>1,
+                "call_through"=>1,
+                "is_wait"=>0,
+            ];
+            break;
+        case 2:
+            $comm_status_arr=[
+                "tend_to"=>0,
+                "phone_correct"=>0,
+                "profile_correct"=>0,
+                "call_through"=>0,
+                "is_wait"=>0,
+            ];
+            break;
+        case 3:
+            $comm_status_arr=[
+                "tend_to"=>0,
+                "phone_correct"=>1,
+                "profile_correct"=>0,
+                "call_through"=>1,
+                "is_wait"=>0,
+            ];
+            break;
+        case 4:
+            $comm_status_arr=[
+                "tend_to"=>0,
+                "phone_correct"=>1,
+                "profile_correct"=>0,
+                "call_through"=>0,
+                "is_wait"=>0,
+            ];
+            break;
+        case 5:
+            $comm_status_arr=[
+                "tend_to"=>0,
                 "phone_correct"=>1,
                 "profile_correct"=>1,
                 "call_through"=>1,
                 "is_wait"=>1,
             ];
             break;
-        case 2:
+        case 6:
+            $comm_status_arr=[
+                "tend_to"=>1,
+                "phone_correct"=>1,
+                "profile_correct"=>1,
+                "call_through"=>1,
+                "is_wait"=>0,
+            ];
             break;
     }
     return $comm_status_arr;
+}
+
+function getCommStatusByArr($comm_status_arr){
+    $comm_status = 0;
+    $comm_status_str = $comm_status_arr['tend_to'].
+        $comm_status_arr['phone_correct'].
+        $comm_status_arr['profile_correct'].
+        $comm_status_arr['call_through'].
+        $comm_status_arr['is_wait'];
+    switch ($comm_status_str){
+        case "01110":
+            $comm_status = 1;
+            break;
+        case "00000":
+            $comm_status = 2;
+            break;
+        case "01010":
+            $comm_status = 3;
+            break;
+        case "01000":
+            $comm_status = 4;
+            break;
+        case "01111":
+            $comm_status = 5;
+            break;
+        case "11110":
+            $comm_status = 6;
+            break;
+    }
+    return $comm_status;
 }
 
 /**
