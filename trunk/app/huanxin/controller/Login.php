@@ -36,36 +36,36 @@ class Login extends Controller
         if ($telephone == '' || $password == '') {
             $req_reg['message'] = '缺少必填信息';
             $req_reg['errnum'] = 1;
-            return json_encode($req_reg, true);
+            return json($req_reg);
         }
         if (!check_tel($telephone)) {
             $req_reg['message'] = '手机号码格式不正确';
             $req_reg['errnum'] = 2;
-            return json_encode($req_reg,true);
+            return json($req_reg);
         }
         $corp_id = get_corpid($telephone);
         if (empty($corp_id)) {
             $req_reg['message'] = '用户不存在或用户未划分公司归属';
             $req_reg['errnum'] = 3;
-            return json_encode($req_reg, true);
+            return json($req_reg);
         }
         //验证用户信息
-        $model = new Employer();
+        $model = new Employer($corp_id);
         $user_arr = $model->getEmployerByTel($telephone);
         if (empty($user_arr)) {
             $req_reg['message'] = '用户不存在或用户未划分公司归属';
             $req_reg['errnum'] = 3;
-            return json_encode($req_reg, true);
+            return json($req_reg);
         }
         if ($user_arr['password'] != md5($password)) {
             $req_reg['message'] = '密码错误';
             $req_reg['errnum'] = 4;
-            return json_encode($req_reg, true);
+            return json($req_reg);
         }
         if (empty($user_arr['lastlogintime'])) {
             $req_reg['message'] = '用户首次登陆，请修改密码';
             $req_reg['errnum'] = 5;
-            return json_encode($req_reg,true);
+            return json($req_reg);
         }
         //创建用户token，返回给app客户端
         $save_res=$model->createSystemToken($telephone);
@@ -74,16 +74,16 @@ class Login extends Controller
         }else{
             $req_reg['message'] = '获取token信息失败，联系网站后台管理员';
             $req_reg['errnum'] = 6;
-            return json_encode($req_reg, true);
+            return json($req_reg);
         }
         //获取用户积分
-        $scoreM = new EmployerScore();
+        $scoreM = new EmployerScore($corp_id);
         $score=$scoreM->getEmployerScore($user_arr['id']);
         //积分占比
         $per=$scoreM->getScoreListPer($score['score']);
 
         //获取用户在公司职位
-        $roleM = new Role();
+        $roleM = new Role($corp_id);
         $rolep = $roleM->getRoleInfo($user_arr['role']);
 
         //更新登录信息
@@ -91,7 +91,7 @@ class Login extends Controller
         if ($model->setEmployerSingleInfo($telephone,$data) <= 0) {
             $reg_reg['message'] = '登录信息写入失败，联系管理员';
             $reg_reg['errnum'] = 7;
-            return json_encode($reg_reg,true);
+            return json($reg_reg);
         }
 
         //所有员工信息
@@ -107,6 +107,6 @@ class Login extends Controller
         $req_reg['occupation'] = $rolep;
         $req_reg['percentage'] = $per;
         $req_reg['totaluser'] = $data_all;
-        return json_encode($req_reg, true);
+        return json($req_reg);
     }
 }
