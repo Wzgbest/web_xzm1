@@ -36,17 +36,17 @@ class DepositMoney
         if (!preg_match('/^[0-9]{1,30}\.[0-9]{1,2}$/',$money)) {
             $info['message'] = '用户充值金额格式不正确';
             $info['errnum'] = 1;
-            return json_encode($info,true);
+            return json($info);
         }
         $total_money = intval($money*100);
         if ($total_money < 1) {
             $info['message'] = '用户充值金额过少';
             $info['errnum'] = 2;
-            return json_encode($info,true);
+            return json($info);
         }
         $r = $user->checkUserAccess($userid,$access_token);
         if (!$r['status']) {
-            return json_encode($r,true);
+            return json($r);
         }
 
         $out_trade_no = 'guguo_app_pay'.date('YmdHis',time()).time().rand(1000,9999);
@@ -70,7 +70,7 @@ class DepositMoney
             $info['message'] = '生成订单失败';
             $info['errnum'] = 3;
         }
-        return json_encode($info,true);
+        return json($info);
     }
 
     /**
@@ -95,40 +95,40 @@ class DepositMoney
         if (!preg_match('/^[0-9]{1,30}\.[0-9]{1,2}$/',$money)) {
             $info['message'] = '用户充值金额格式不正确';
             $info['errnum'] = 1;
-            return json_encode($info,true);
+            return json($info);
         }
         $total_money = intval($money*100);
         if ($total_money < 1) {
             $info['message'] = '用户充值金额过少';
             $info['errnum'] = 2;
-            return json_encode($info,true);
+            return json($info);
         }
         if (!preg_match('/^guguo_app_pay[0-9]{28}/',$out_trade_no)) {
             $info['message'] = '订单格式不正确';
             $info['errnum'] = 3;
-            return json_encode($info,true);
+            return json($info);
         }
         $r = $user->checkUserAccess($userid,$access_token);
         if (!$r['status']) {
-            return json_encode($r,true);
+            return json($r);
         }
         $trade_info = AppAlipayTrade::getTradeInfo($out_trade_no);
         if (empty($trade_info)) {
             $info['message'] = '提交的订单不存在';
             $info['errnum'] = 4;
-            return json_encode($info,true);
+            return json($info);
         }
         if ($trade_info['status'] ==1) {
             $info['message'] = '该订单已在系统中充值，不要重复提交';
             $info['errnum'] = 5;
             write_log($r['userinfo']['id'],0,'app充值刷单嫌疑',$r['corp_id']);
-            return json_encode($info,true);
+            return json($info);
         }
         $depoM = new DepositMoneyService();
         $res = $depoM->queryTradeNumber($trade_no,$out_trade_no,$money);
         if (!$res['status']) {
             $res['errnum'] = 6;
-            return json_encode($res,true);
+            return json($res);
         }
 
         //兑换货币
@@ -169,7 +169,7 @@ class DepositMoney
             $info['message'] = '兑换系统货币失败，联系管理员';
             $info['errnum'] = 7;
         }
-        return json_encode($info,true);
+        return json($info);
     }
 
     /**

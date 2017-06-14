@@ -25,7 +25,7 @@ class ImportFile extends Initialize{
         if(!$type){
             $result['status'] = 0;
             $result['info'] = '上传失败,参数有误!';
-            return json_encode($result);
+            return json($result);
         }
         $infos = $this->_fileModel->upload($type);
         if($infos){
@@ -34,6 +34,6 @@ class ImportFile extends Initialize{
             $result['status'] = 0;
             $result['info'] = '上传失败!';
         }
-        return json_encode($result);
+        return json($result);
     }
 }
