@@ -38,9 +38,9 @@
                 <select name="corp_field">
                     {volist name="field_list" id="vo"}
                     {eq name="vo.id" value="$data.corp_field"}
-                    <option value="{$vo.id}" selected="selected">{$vo.title}</option>
+                    <option value="{$vo.id}" selected="selected">{$vo.business_name}</option>
                     {else/}
-                    <option value="{$vo.id}">{$vo.title}</option>
+                    <option value="{$vo.id}">{$vo.business_name}</option>
                     {/eq}
                     {/volist}
                 </select>
