@@ -285,6 +285,7 @@ abstract class Connection
                     $startTime = microtime(true);
                 }
                 $this->links[$linkNum] = new PDO($config['dsn'], $config['username'], $config['password'], $params);
+                $this->links[$linkNum]->exec("set names ".$config['charset'].";");
                 if ($config['debug']) {
                     // 记录数据库连接信息
                     Log::record('[ DB ] CONNECT:[ UseTime:' . number_format(microtime(true) - $startTime, 6) . 's ] ' . $config['dsn'], 'sql');
