@@ -78,10 +78,13 @@ class Customer extends Initialize{
         $set_to_structure_arr = array_map("intval",$set_to_structure_arr);
         $set_to_structure_arr = array_filter($set_to_structure_arr);
         $set_to_structure_arr = array_unique($set_to_structure_arr);
-        $zero_flg = array_search(0,$set_to_structure_arr);
-        if($zero_flg){
-            unset($set_to_structure_arr[$zero_flg]);
-        }
+        $zero_flg = true;
+        do{
+            $zero_flg = array_search(0,$set_to_structure_arr);
+            if($zero_flg){
+                unset($set_to_structure_arr[$zero_flg]);
+            }
+        }while($zero_flg);
         $customerSetting['set_to_structure'] = implode(",",$set_to_structure_arr);
         return $customerSetting;
     }
