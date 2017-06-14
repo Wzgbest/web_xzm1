@@ -7,6 +7,7 @@ namespace app\systemsetting\controller;
 
 use app\common\controller\Initialize;
 use app\common\model\Corporation as CorporationModel;
+use app\common\model\Business;
 use think\Request;
 
 class Corporation extends Initialize
@@ -30,10 +31,8 @@ class Corporation extends Initialize
             $location = explode(",",$data['corp_location']);
             $data['lat'] = $location[0];
             $data['lng'] = $location[1];
-            $field_list = [];//TODO 获取行业列表
-            $field_list[] = ["id"=>1,"title"=>"IT行业"];
-            $field_list[] = ["id"=>3,"title"=>"金融行业"];
-            $field_list[] = ["id"=>2,"title"=>"制造行业"];
+            $business = new Business($this->corp_id);
+            $field_list = $business->getAllBusiness();
             $this->assign('field_list',$field_list);
             $this->assign('data',$data);
             return view();
