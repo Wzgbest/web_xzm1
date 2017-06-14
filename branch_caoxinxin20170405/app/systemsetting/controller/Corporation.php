@@ -24,8 +24,9 @@ class Corporation extends Initialize
     public function editCorpInfo(Request $request)
     {
         if ($request->isGet()) {
-            $corpM = new CorporationModel();
-            $data = $corpM->getCorporation($this->corp_id);
+            //$corpM = new CorporationModel();
+            //$data = $corpM->getCorporation($this->corp_id);
+            $data = CorporationModel::getCorporation($this->corp_id);
             $location = explode(",",$data['corp_location']);
             $data['lat'] = $location[0];
             $data['lng'] = $location[1];
