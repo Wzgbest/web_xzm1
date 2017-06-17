@@ -123,10 +123,9 @@ class Customer extends Base
         if($direction!="desc" && $direction!="asc"){
             $direction = "desc";
         }
-        //TODO 提醒时间
         $orderPrefix = "";
         $idsOrder = [$orderPrefix.$order=>$direction];//列表排序
-        $subOrder = "sc.id desc,ct.id desc";//沟通状态、销售机会和用户追踪等字段,最新的条目需在聚合之前排序 TODO 沟通状态
+        $subOrder = "sc.id desc,ct.id desc";//沟通状态、销售机会和用户追踪等字段,最新的条目需在聚合之前排序 TODO 沟通状态优先顺序
         $listOrder = [$order=>$direction];//列表排序
         switch ($order){
             case "id":
@@ -159,21 +158,28 @@ class Customer extends Base
                     "is_wait"=>$direction,
                 ];//列表排序
                 break;
-            case "guess_money":
-                $orderPrefix = "sc.";
-                $idsOrder = [$orderPrefix.$order=>$direction];//列表排序
-                $listOrder = [$order=>$direction];//列表排序
+            case "remind_time":
+                $orderPrefix = "cn.";
+                $order = "wait_alarm_time";
+                $idsOrder = [
+                    $orderPrefix."is_wait"=>"desc",
+                    $orderPrefix.$order=>$direction,
+                ];//列表排序
+                $listOrder = [
+                    "is_wait"=>"desc",
+                    $order=>$direction,
+                ];//列表排序
                 break;
             case "last_trace_time":
-                $orderPrefix = "sc.";
                 $order = "create_time";
+            case "guess_money":
+                $orderPrefix = "sc.";
                 $idsOrder = [$orderPrefix.$order=>$direction];//列表排序
                 $listOrder = [$order=>$direction];//列表排序
                 break;
         }
 
         //显示字段
-        //TODO $field处理 预计合同到期时间	提醒时间	所在列
         $subField = [
             "c.id",
             "c.customer_name",
@@ -187,15 +193,15 @@ class Customer extends Base
             //"'沟通状态' as comm_status",
             //"sc.sale_name",
             "scb.business_name as sale_biz_name",
-            "sc.guess_money",
-            "sc.final_money",
+            //"sc.guess_money",//all_guess_money
+            //"sc.final_money",//all_final_money
             "cc.contact_name",
             "cc.phone_first",
             "ct.create_time as last_trace_time",
             "c.take_time",//领取时间
-            "'合同到期时间' as contract_due_time",
-            "'提醒时间' as remind_time",
-            //"'所在列' as in_column"//TODO 所在列后期计算所需字段
+            "ca.due_time as contract_due_time",
+            "cn.wait_alarm_time as remind_time",
+            //"'所在列' as in_column"
         ];
         $listField = [
             "id",
@@ -210,8 +216,8 @@ class Customer extends Base
             //"comm_status",
             //"group_concat(sale_name) as sale_names",
             "group_concat(sale_biz_name) as sale_biz_names",
-            "guess_money",
-            "final_money",
+            //"guess_money",
+            //"final_money",
             "contact_name",
             "phone_first",
             "last_trace_time",
@@ -237,6 +243,7 @@ class Customer extends Base
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")
             ->where($map)
             ->order($idsOrder)
@@ -250,6 +257,7 @@ class Customer extends Base
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'business scb','scb.id = sc.bussiness_id',"LEFT")
+            ->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")
             ->where("c.id in ( select t.id from ".$idsQuery." t ) ")
             ->order($subOrder)
@@ -276,8 +284,6 @@ class Customer extends Base
             }else{
                 $customer['save_time'] = "无";
             }
-            //TODO 所在列
-            $customer['in_column'] = "0";
         }
         return $customerList;
     }

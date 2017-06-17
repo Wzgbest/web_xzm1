@@ -13,6 +13,7 @@ use app\crm\model\Customer as CustomerModel;
 //use app\crm\model\CustomerContact as CustomerContactModel;
 use app\crm\model\CustomerImportRecord as CustomerImport;
 use app\crm\model\CustomerImportFail;
+use app\crm\model\SaleChance as SaleChanceModel;
 
 class Customer extends Initialize{
     public function index(){
@@ -75,12 +76,28 @@ class Customer extends Initialize{
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
         $uid = session('userinfo.userid');
-        //TODO	商机 sale_chance表
         $filter = $this->_getCustomerFilter(["take_type","grade","customer_name","contact_name","comm_status","sale_chance"]);
         $field = $this->_getCustomerField(["take_type","grade"]);
         try{
             $customerM = new CustomerModel($this->corp_id);
             $customers_data = $customerM->getSelfCustomer($num,$p,$uid,$filter,$field,$order,$direction);
+
+            $customer_ids = array_column($customers_data, 'id');
+            $saleChanceModel = new SaleChanceModel($this->corp_id);
+            $allGuessMoneyList = $saleChanceModel->getAllGuessMoneyByCustomerIds($customer_ids);
+            $allFinalMoneyList = $saleChanceModel->getAllFinalMoneyByCustomerIds($customer_ids);
+
+            foreach ($customers_data as &$customer){
+                if(isset($allGuessMoneyList[$customer["id"]])){
+                    $customer['all_guess_money'] = $allGuessMoneyList[$customer["id"]];
+                }
+                if(isset($allFinalMoneyList[$customer["id"]])){
+                    $customer['all_final_money'] = $allFinalMoneyList[$customer["id"]];
+                }
+                //$map['sc.sale_status'] = ["in",[]];
+                //TODO 计算所在列
+                $customer['in_column'] = "0";
+            }
             $result['data'] = $customers_data;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
