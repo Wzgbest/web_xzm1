@@ -44,11 +44,11 @@ class SaleChance extends Base
      * created by blu10ph
      */
     public function getAllFinalMoneyByCustomerIds($customer_ids){
-        $map["sale_status"] = ["in",[1,2,3,4]];
+        $map["sale_status"] = 5;
         $map["customer_id"] = ["in",$customer_ids];
         return $this->model->table($this->table)
             ->where($map)
             ->group("customer_id")
-            ->column("SUM(payed_money)","customer_id");
+            ->column("SUM(final_money)","customer_id");
     }
 }

@@ -94,6 +94,7 @@ class Customer extends Base
         $struct_ids = getStructureIds($uid);
         //$protect_customer_days = [];
         $protect_customer_day_max = 0;//暂定员工属于两个部门且有客户,保有时间按长的来
+        $to_halt_day_max = 0;//暂定员工属于两个部门且有客户,划归停滞客户的天数按长的来
         foreach ($struct_ids as $struct_id){
             $structure = intval($struct_id);
             $setting_map = "find_in_set('$structure', set_to_structure)";
@@ -101,10 +102,14 @@ class Customer extends Base
             $customerSetting = $customerSettingModel->getCustomerSetting(1,0,$setting_map);
             if(!$customerSetting){
                 $customerSetting["protect_customer_day"] = 0;
+                $customerSetting["to_halt_day"] = 0;
             }
             //$protect_customer_days[$structure] = $customerSetting["protect_customer_day"];
             if($customerSetting["protect_customer_day"]>$protect_customer_day_max){//暂定员工属于两个部门且有客户,保有时间按长的来
                 $protect_customer_day_max = $customerSetting["protect_customer_day"];
+            }
+            if($customerSetting["to_halt_day"]>$to_halt_day_max){//暂定员工属于两个部门且有客户,划归停滞客户的天数按长的来
+                $to_halt_day_max = $customerSetting["to_halt_day"];
             }
         }
 
@@ -124,22 +129,21 @@ class Customer extends Base
             $direction = "desc";
         }
         $orderPrefix = "";
-        $idsOrder = [$orderPrefix.$order=>$direction];//列表排序
-        $subOrder = "sc.id desc,ct.id desc";//沟通状态、销售机会和用户追踪等字段,最新的条目需在聚合之前排序 TODO 沟通状态优先顺序
-        $listOrder = [$order=>$direction];//列表排序
+        $idsOrder = [$orderPrefix.$order=>$direction];//聚合前排序
+        $listOrder = [$order=>$direction];//聚合后排序
         switch ($order){
             case "id":
             case "customer_name":
             case "grade":
             case "take_time":
                 $orderPrefix = "c.";
-                $idsOrder = [$orderPrefix.$order=>$direction];//列表排序
-                $listOrder = [$order=>$direction];//列表排序
+                $idsOrder = [$orderPrefix.$order=>$direction];
+                $listOrder = [$order=>$direction];
                 break;
             case "contact_name":
                 $orderPrefix = "cc.";
-                $idsOrder = [$orderPrefix.$order=>$direction];//列表排序
-                $listOrder = [$order=>$direction];//列表排序
+                $idsOrder = [$orderPrefix."id"=>"desc"];
+                $listOrder = [$order=>$direction];
                 break;
             case "comm_status":
                 $orderPrefix = "cn.";
@@ -149,14 +153,14 @@ class Customer extends Base
                     $orderPrefix."profile_correct"=>$direction,
                     $orderPrefix."call_through"=>$direction,
                     $orderPrefix."is_wait"=>$direction,
-                ];//列表排序
+                ];
                 $listOrder = [
                     "tend_to"=>$direction,
                     "phone_correct"=>$direction,
                     "profile_correct"=>$direction,
                     "call_through"=>$direction,
                     "is_wait"=>$direction,
-                ];//列表排序
+                ];
                 break;
             case "remind_time":
                 $orderPrefix = "cn.";
@@ -164,22 +168,29 @@ class Customer extends Base
                 $idsOrder = [
                     $orderPrefix."is_wait"=>"desc",
                     $orderPrefix.$order=>$direction,
-                ];//列表排序
+                ];
                 $listOrder = [
                     "is_wait"=>"desc",
                     $order=>$direction,
-                ];//列表排序
+                ];
                 break;
             case "last_trace_time":
+                $orderPrefix = "ct.";
                 $order = "create_time";
+                $idsOrder = [$orderPrefix.$order=>"desc"];
+                $listOrder = [$order=>$direction];
+                break;
             case "guess_money":
-                $orderPrefix = "sc.";
-                $idsOrder = [$orderPrefix.$order=>$direction];//列表排序
-                $listOrder = [$order=>$direction];//列表排序
+                //$orderPrefix = "sc.";
+                //$idsOrder = [$orderPrefix.$order=>$direction];
+                $listOrder = [$order=>"all_guess_money"];
                 break;
         }
+        $idsOrder["sc.id"] = "desc";//商机
+        $idsOrder["cn.id"] = "desc";//沟通状态
+        $idsOrder["ct.id"] = "desc";//客户跟踪
 
-        //显示字段
+        //固定显示字段
         $subField = [
             "c.id",
             "c.customer_name",
@@ -193,15 +204,17 @@ class Customer extends Base
             //"'沟通状态' as comm_status",
             //"sc.sale_name",
             "scb.business_name as sale_biz_name",
-            //"sc.guess_money",//all_guess_money
-            //"sc.final_money",//all_final_money
+            "(case when sc.sale_status<1 then 0 when sc.sale_status<4 then 0 else sc.guess_money end) as in_progress_guess_money",//all_guess_money
+            "(case when sc.sale_status=5 then sc.final_money else 0 end) as win_final_money",//all_final_money
             "cc.contact_name",
             "cc.phone_first",
             "ct.create_time as last_trace_time",
             "c.take_time",//领取时间
             "ca.due_time as contract_due_time",
             "cn.wait_alarm_time as remind_time",
-            //"'所在列' as in_column"
+            //"'所在列' as in_column",
+            "sc.sale_status",
+            "ct.id ct_id",
         ];
         $listField = [
             "id",
@@ -216,7 +229,7 @@ class Customer extends Base
             //"comm_status",
             //"group_concat(sale_name) as sale_names",
             "group_concat(sale_biz_name) as sale_biz_names",
-            //"guess_money",
+            "SUM(in_progress_guess_money) as all_guess_money",
             //"final_money",
             "contact_name",
             "phone_first",
@@ -224,33 +237,21 @@ class Customer extends Base
             "take_time",
             "contract_due_time",
             "remind_time",
-            //"in_column"
+            //"in_column",
+            "sale_status",
+            "ct_id",
         ];
-        //获取途径
+        //动态显示字段:获取途径
         if(in_array("take_type", $field)){
             $subField[] = "c.take_type";
             $listField[] = "take_type";
         }
-        //客户级别
+        //动态显示字段:客户级别
         if(in_array("grade", $field)){
             $subField[] = "c.grade";
             $listField[] = "grade";
         }
 
-        //构建查询当前页cid的sql语句,构建查询cid范围内数据并排序的sql语句,最后合并当前数据
-        $idsQuery = $this->model
-            ->table($this->table)->alias('c')
-            ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
-            ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
-            ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")
-            ->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
-            ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")
-            ->where($map)
-            ->order($idsOrder)
-            ->limit($offset,$num)
-            ->group("c.id")
-            ->field("c.id")
-            ->buildSql();
         $subQuery = $this->model
             ->table($this->table)->alias('c')
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
@@ -259,17 +260,17 @@ class Customer extends Base
             ->join($this->dbprefix.'business scb','scb.id = sc.bussiness_id',"LEFT")
             ->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")
-            ->where("c.id in ( select t.id from ".$idsQuery." t ) ")
-            ->order($subOrder)
+            ->where($map)
+            ->order($idsOrder)
             ->field($subField)
             ->buildSql();
         $customerList = $this->model
             ->table($subQuery." c")
             ->group("id")
             ->order($listOrder)
+            ->limit($offset,$num)
             ->field($listField)
             ->select();
-
         //具体的值处理
         foreach ($customerList as &$customer){
             $customer['comm_status'] = getCommStatusByArr([
@@ -283,6 +284,24 @@ class Customer extends Base
                 $customer['save_time'] = intval($protect_customer_day_max-($now_time-$customer['take_time'])/60/60/24);
             }else{
                 $customer['save_time'] = "无";
+            }
+            $customer["last_trace_day"] = intval(($now_time-$customer["last_trace_time"])/60/60/24);
+            if($customer["phone_correct"]==0 && $customer["profile_correct"]==0){//号码无效或资料有误
+                $customer['in_column'] = 8;//无效客户
+            }elseif($customer["tend_to"]==0){//无意向
+                $customer['in_column'] = 6;//无意向
+            }elseif($customer["is_wait"]==0){//待沟通
+                $customer['in_column'] = 5;//待定
+            }elseif($customer["sale_status"]==5){//待沟通
+                $customer['in_column'] = 7;//待定
+            }elseif(!$customer["ct_id"]){//没有跟踪记录
+                $customer['in_column'] = 2;//未跟进
+            }elseif($customer["last_trace_day"]>$to_halt_day_max){//最新跟进时间,超过客户设置中的时间
+                $customer['in_column'] = 4;//停滞
+            }elseif($customer["last_trace_day"]>3){//最新跟进时间,超过三天
+                $customer['in_column'] = 1;//停滞
+            }else{//不在以上状态
+                $customer['in_column'] = 3;//正常跟进
             }
         }
         return $customerList;
