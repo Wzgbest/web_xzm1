@@ -90,7 +90,7 @@ class Corporation extends Initialize
         ];
 
         $corpM = new CorporationModel();
-        $res = $corpM->setCorporationInfo($corp_id,$data);
+        $res = $corpM->setCorporationInfo($this->corp_id,$data);
         if ($res >= 0) {
             $info['message'] = '修改定位信息成功';
             $info['status'] = true;
