@@ -134,7 +134,7 @@ class User
         if ($reset['action']=='set user password') {
             $data['password'] = md5($newpass);
             $corp_id = get_corpid($userid);
-            $employer = new Employer();
+            $employer = new Employer($corp_id);
             $r_userid = $employer->getEmployer($userid);
             $employer->setEmployerSingleInfo($userid, $data);
             write_log($r_userid['id'],1,'用户修改登录密码',$corp_id);
@@ -255,7 +255,7 @@ class User
         }
         $data = ['pay_password'=>md5($newpass)];
         $corp_id = get_corpid($userid);
-        $employer = new Employer();
+        $employer = new Employer($corp_id);
         $r_userid = $employer->getEmployer($userid);
         $r = $employer->setEmployerSingleInfo($userid,$data);
         if ($r >= 0) {
@@ -635,7 +635,7 @@ class User
             $info['errnum'] = 103;
             return $info;
         }
-        $this->employM = new Employer();
+        $this->employM = new Employer($corp_id);
         $userinfo = $this->employM->getEmployerByTel($userid);
         if ($userinfo['system_token'] != $access_token) {
             $info['message'] = 'token不正确，请重新登陆';

@@ -203,7 +203,7 @@ class DepositMoney
             return 'fail';
         } else {
             $corp_id = Corporation::getCorpId($alipay_info['corp_id']);
-            $employM = new Employer();
+            $employM = new Employer($corp_id);
             $cashM = new TakeCash();
             $in_money = $alipay_info['money'];
             $in_data = [
