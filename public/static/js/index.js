@@ -5,7 +5,7 @@ $("#side").height(window.innerHeight);
 $("header").width(window.innerWidth-220);
 $("section#subt").width(window.innerWidth-220);
 $("#subtitle").width(window.innerWidth-220);
-$("iframe").width(window.innerWidth-220);
+$("#frames .once").width(window.innerWidth-220);
 //根据屏幕尺寸，设置侧边栏的可用高度
 window.onresize=function(){
 	changeH();
@@ -28,7 +28,7 @@ function changeH(){
 	$("header").width(window.innerWidth-220);
 	$("section#subt").width(window.innerWidth-220);
 	$("#subtitle").width(window.innerWidth-220);
-	$("iframe").width(window.innerWidth-220);
+	$("#frames .once").width(window.innerWidth-220);
 	subResize();
 };
 
@@ -71,7 +71,7 @@ $("aside dl dd").click(function(){
 		var tv = "<div id='"+v+"'class='active' ><span>"+t+"</span><i class='fa fa-close'></i></div>";
 		$("#subtitle").append(tv);
 		//frame
-		$("iframe").addClass("hid");
+		$("#frames .once").addClass("hid");
 		//var fr = "<div src='"+$(this).attr("_src")+"' id='"+f+"' class='once'></div>";
 		//$("#frames").append(fr);
 		var url = $(this).attr('_src');
@@ -86,19 +86,19 @@ $("aside dl dd").click(function(){
                 $('#frames #'+f).html(data);
 			}
 		});
-		$("iframe").width(window.innerWidth-220);
+		$("#frames .once").width(window.innerWidth-220);
 		//子标题栏长度增加
 		subResize();
 	}else{
 		//非当前点击
-		/*$("iframe").addClass("hid");
+		/*$("#frames .once").addClass("hid");
 		document.getElementById(f).classList.remove("hid");*/
 		$("#subtitle>div").removeClass("active");
 		//document.getElementById(v).setAttribute("class","active");
 		document.getElementById(v).classList.add("active");
-		frameShow();	
+		frameShow();
 	}
-	
+
 });
 
 //副标题栏的点击事件
@@ -106,7 +106,7 @@ $("aside dl dd").click(function(){
 $(document).on('click','#subtitle>div',function(){
 	$(this).addClass("active").siblings().removeClass("active");
 	//console.log($(this).attr("id"));
-//	$("iframe").addClass("hid");
+//	$("#frames .once").addClass("hid");
 //	document.getElementById($(this).attr("id")+"fr").classList.remove("hid");
 	frameShow();
 	asideChange();
@@ -143,7 +143,7 @@ $(document).on('click','#subtitle>div i.fa-close',function(){
 //iframe的展示
 function frameShow(){
 	//隐藏所有
-	$("iframe").addClass("hid");
+	$("#frames .once").addClass("hid");
 	//判断当前项是谁显示
 	document.getElementById($("#subtitle>div.active").attr("id")+"fr").classList.remove("hid");
 }
