@@ -123,13 +123,15 @@ class Customer extends Base
         $map = $this->_getMapByFilter($filter,["take_type","grade","customer_name","contact_name","comm_status","sale_chance"]);
         $map['c.belongs_to'] = 3;
         $map['c.handle_man'] = $uid;
+        $map['ct.operator_id'] = $uid;
+        //$map['sc.employer_id'] = $uid;
 
         //排序
         if($direction!="desc" && $direction!="asc"){
             $direction = "desc";
         }
         $orderPrefix = "";
-        $idsOrder = [$orderPrefix.$order=>$direction];//聚合前排序
+        $subOrder = [$orderPrefix.$order=>$direction];//聚合前排序
         $listOrder = [$order=>$direction];//聚合后排序
         switch ($order){
             case "id":
@@ -137,17 +139,17 @@ class Customer extends Base
             case "grade":
             case "take_time":
                 $orderPrefix = "c.";
-                $idsOrder = [$orderPrefix.$order=>$direction];
+                $subOrder = [$orderPrefix.$order=>$direction];
                 $listOrder = [$order=>$direction];
                 break;
             case "contact_name":
                 $orderPrefix = "cc.";
-                $idsOrder = [$orderPrefix."id"=>"desc"];
+                $subOrder = [$orderPrefix."id"=>"desc"];
                 $listOrder = [$order=>$direction];
                 break;
             case "comm_status":
                 $orderPrefix = "cn.";
-                $idsOrder = [
+                $subOrder = [
                     $orderPrefix."tend_to"=>$direction,
                     $orderPrefix."phone_correct"=>$direction,
                     $orderPrefix."profile_correct"=>$direction,
@@ -165,7 +167,7 @@ class Customer extends Base
             case "remind_time":
                 $orderPrefix = "cn.";
                 $order = "wait_alarm_time";
-                $idsOrder = [
+                $subOrder = [
                     $orderPrefix."is_wait"=>"desc",
                     $orderPrefix.$order=>$direction,
                 ];
@@ -177,7 +179,7 @@ class Customer extends Base
             case "last_trace_time":
                 $orderPrefix = "ct.";
                 $order = "create_time";
-                $idsOrder = [$orderPrefix.$order=>"desc"];
+                $subOrder = [$orderPrefix.$order=>"desc"];
                 $listOrder = [$order=>$direction];
                 break;
             case "guess_money":
@@ -186,9 +188,9 @@ class Customer extends Base
                 $listOrder = [$order=>"all_guess_money"];
                 break;
         }
-        $idsOrder["sc.id"] = "desc";//商机
-        $idsOrder["cn.id"] = "desc";//沟通状态
-        $idsOrder["ct.id"] = "desc";//客户跟踪
+        $subOrder["sc.id"] = "desc";//商机
+        $subOrder["cn.id"] = "desc";//沟通状态
+        $subOrder["ct.id"] = "desc";//客户跟踪
 
         //固定显示字段
         $subField = [
@@ -261,9 +263,10 @@ class Customer extends Base
             ->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")
             ->where($map)
-            ->order($idsOrder)
+            ->order($subOrder)
             ->field($subField)
             ->buildSql();
+        //var_exp($subQuery,'$subQuery',1);
         $customerList = $this->model
             ->table($subQuery." c")
             ->group("id")
