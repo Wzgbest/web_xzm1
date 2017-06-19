@@ -1,6 +1,7 @@
 body{
 	overflow: hidden;
 	position: relative;
+	background-color: #ecf0f5;
 }
 /*侧边栏*/
 #side{
@@ -198,7 +199,8 @@ section#subt{
 /*iframe*/
 #frames{
 	width: 100%;
-	height: 100%;
+	/*height: 100%;*/
+	margin-left: 4px;
 	position: fixed;
 	left: 220px;
 	top: 80px;
@@ -210,7 +212,8 @@ section#subt{
 	left: 0;
 	top: 0;
 	border: none;
+	background-color: #FFFFFF;
 }
-#frame .hid{
+#frames .hid{
 	display: none;
 }
