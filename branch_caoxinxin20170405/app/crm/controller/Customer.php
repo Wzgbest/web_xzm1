@@ -209,9 +209,9 @@ class Customer extends Initialize{
         }
         try{
             $customerM = new CustomerModel($this->corp_id);
-            $customers_data = $customerM->getCustomer($id);
+            $customerData = $customerM->getCustomer($id);
             //TODO 获取其他表内容
-            $result['data'] = $customers_data;
+            $result['data'] = $customerData;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
             return json($result);
@@ -229,9 +229,8 @@ class Customer extends Initialize{
         }
         try{
             $customerM = new CustomerModel($this->corp_id);
-            $customers_data = $customerM->getCustomer($id);
-            //TODO 获取其他表内容
-            $result['data'] = $customers_data;
+            $customerData = $customerM->getCustomer($id);
+            $result['data'] = $customerData;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
             return json($result);
@@ -245,6 +244,7 @@ class Customer extends Initialize{
         // add customer page
         $customer['customer_name'] = input('customer_name');
         $customer['telephone'] = input('telephone');
+        $customer['comm_status'] = input('comm_status',0,'int');
 
         $customer['take_type'] = input('take_type',0,'int');
         $customer['grade'] = input('grade');
@@ -263,12 +263,6 @@ class Customer extends Initialize{
 
         return $customer;
     }
-
-    protected function _getCustomerNegotiateForInput(){
-        $comm_status = input('comm_status',0,'int');
-        $customerNegotiate = getCommStatusArr($comm_status);
-        return $customerNegotiate;
-    }
     public function add(){
         $result = ['status'=>0 ,'info'=>"新建客户时发生错误！"];
         $customer = $this->_getCustomerForInput();
@@ -277,17 +271,12 @@ class Customer extends Initialize{
             return json($result);
         }
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
-        $customerM = new CustomerModel($this->corp_id);
         try{
-            $customerM->link->startTrans();
+            $customerM = new CustomerModel($this->corp_id);
             $customerId = $customerM->addCustomer($customer);
             $customerNegotiate["customer_id"] = $customerId;
-            $customerNegotiateM = new CustomerNegotiate($this->corp_id);
-            $customersNegotiateId = $customerNegotiateM->addCustomerNegotiate($customerNegotiate);
             $result['data'] = $customerId;
-            $customerM->link->commit();
         }catch (\Exception $ex){
-            $customerM->link->rollback();
             $result['info'] = $ex->getMessage();
             return json($result);
         }
@@ -306,7 +295,6 @@ class Customer extends Initialize{
         try{
             $customerM = new CustomerModel($this->corp_id);
             $customers_data = $customerM->setCustomer($id,$customer);
-            //TODO 保存其他表内容,需开启事务
             $result['data'] = $customers_data;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();

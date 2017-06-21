@@ -529,28 +529,18 @@ class Customer extends Base
      */
     public function getCustomersByUserIds($ids)
     {
-        return $this->model->table($this->table)->alias('a')
-            ->join($this->dbprefix.'employer b','a.handle_man = b.id')
-            ->field('b.id as userid,b.truename,a.id as customer_id')
+        $field = [
+            "e.id as userid",
+            "e.truename",
+            "c.id as customer_id",
+        ];
+        $customers = $this->model->table($this->table)->alias('c')
+            ->join($this->dbprefix.'employer e','c.handle_man = e.id')
+            ->field($field)
             ->where('handle_man','in',$ids)
             ->select();
+        return $customers;
     }
-
-    /**
-     * 获取所有客户信息
-     * @param $userid int 员工id
-     * @param $scale int 客户类型，1 我的客户 2 公海池 3我的客户 4待处理
-     * @return false|\PDOStatement|string|\think\Collection
-     * created by messhair
-     */
-    public function getAllCustomers($userid,$scale)
-    {
-        return $this->model->table($this->table)
-            ->field('customer_name,resource_from,telephone,add_man,add_batch,handle_man,take_time,field,grade,address,lat,lng,website,remark,belongs_to,is_public,public_to_employer,public_to_department,is_partner')
-            ->where('belongs_to',$scale)
-            ->where('handle_man',$userid)
-            ->select();
-   }
 
     /**
      * 获取所有客户信息
@@ -582,18 +572,49 @@ class Customer extends Base
      */
     public function getCustomer($cid)
     {
-        return $this->model->table($this->table)->where('id',$cid)->find();
+        $field = [
+            "c.*",
+            "cn.tend_to",
+            "cn.phone_correct",
+            "cn.profile_correct",
+            "cn.call_through",
+            "cn.is_wait"
+        ];
+        $customer = $this->model->table($this->table)->alias('c')
+            ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
+            ->where('id',$cid)
+            ->field($field)
+            ->find();
+        $customer['comm_status'] = getCommStatusByArr([
+            "tend_to"=>$customer['tend_to'],
+            "phone_correct"=>$customer['phone_correct'],
+            "profile_correct"=>$customer['profile_correct'],
+            "call_through"=>$customer['call_through'],
+            "is_wait"=> $customer['is_wait'],
+        ]);
+        return $customer;
     }
 
     /**
      * 添加单个客户信息
      * @param $data
-     * @return int|string
+     * @return boolean|int|string
      * created by messhair
      */
     public function addCustomer($data)
     {
-        return $this->model->table($this->table)->insertGetId($data);
+        $customer_id = 0;
+        $this->link->startTrans();
+        try{
+            $customer_id = $this->model->table($this->table)->insertGetId($data);
+            $customerNegotiate = getCommStatusArr($data["comm_status"]);
+            $customerNegotiate["customer_id"] = $customer_id;
+            $this->model->table($this->dbprefix.'negotiate')->insert($customerNegotiate);
+            $this->link->commit();
+        }catch (\Exception $ex) {
+            return false;
+        }
+        return $customer_id;
     }
 
     /**
@@ -606,6 +627,8 @@ class Customer extends Base
      */
     public function setCustomer($customer_id,$data)
     {
+        $customerNegotiate = getCommStatusArr($data["comm_status"]);
+        $this->model->table($this->dbprefix.'negotiate')->where('customer_id',$customer_id)->update($customerNegotiate);
         return $this->model->table($this->table)->where('id',$customer_id)->update($data);
     }
 
