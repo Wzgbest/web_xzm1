@@ -140,6 +140,10 @@ function send_sms ($tel,$code,$content) {
  */
 function get_corpid ($tel = null) {
     $userinfo = session('userinfo');
+//    if(!$userinfo){
+//        $userinfo = [];//TODO根据token获取登录后的session
+//        session('userinfo',$userinfo);
+//    }
     if (!empty($userinfo['corp_id'])) {
         return $userinfo['corp_id'];
     }
