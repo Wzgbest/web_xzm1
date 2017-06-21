@@ -10,10 +10,8 @@ namespace app\crm\controller;
 
 use app\common\controller\Initialize;
 use app\crm\model\Customer as CustomerModel;
-//use app\crm\model\CustomerContact as CustomerContactModel;
 use app\crm\model\CustomerImportRecord as CustomerImport;
 use app\crm\model\CustomerImportFail;
-//use app\crm\model\SaleChance as SaleChanceModel;
 
 class Customer extends Initialize{
     public function index(){
@@ -183,6 +181,45 @@ class Customer extends Initialize{
         }
         return $field;
     }
+    public function get_column_num(){
+        $result = ['status'=>0 ,'info'=>"查询客户列信息时发生错误！"];
+        $uid = input('uid',0,'int');
+        if(!$uid){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }$filter = $this->_getCustomerFilter(["take_type","grade","customer_name","contact_name","comm_status","sale_chance"]);
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $listCount = $customerM->getColumnNum($uid,$filter);
+            $result['data'] = $listCount;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "查询客户列信息成功！";
+        return json($result);
+    }
+    public function get_customer_general(){
+        $result = ['status'=>0 ,'info'=>"获取客户信息时发生错误！"];
+        $id = input('id',0,'int');
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_data = $customerM->getCustomer($id);
+            //TODO 获取其他表内容
+            $result['data'] = $customers_data;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "获取客户信息成功！";
+        return json($result);
+    }
     public function get(){
         $result = ['status'=>0 ,'info'=>"获取客户信息时发生错误！"];
         $id = input('id',0,'int');
@@ -205,22 +242,52 @@ class Customer extends Initialize{
     }
 
     protected function _getCustomerForInput(){
+        // add customer page
         $customer['customer_name'] = input('customer_name');
         $customer['telephone'] = input('telephone');
 
-        //TODO 其他客户资料
+        $customer['take_type'] = input('take_type',0,'int');
+        $customer['grade'] = input('grade');
+
+        $customer['field'] = input('field',0,'int');
+        $customer['prov'] = input('prov');
+        $customer['city'] = input('city');
+        $customer['dist'] = input('dist');
+        $customer['address'] = input('address');
+        $customer['location'] = input('location');
+        $customer['lat'] = input('lat',0,'double');
+        $customer['lng'] = input('lng',0,'double');
+        $customer['website'] = input('website');
+        $customer['remark'] = input('remark');
+        $customer['belongs_to'] = input('belongs_to',0,'int');
 
         return $customer;
+    }
+
+    protected function _getCustomerNegotiateForInput(){
+        $comm_status = input('comm_status',0,'int');
+        $customerNegotiate = getCommStatusArr($comm_status);
+        return $customerNegotiate;
     }
     public function add(){
         $result = ['status'=>0 ,'info'=>"新建客户时发生错误！"];
         $customer = $this->_getCustomerForInput();
+        if(!in_array($customer['belongs_to'],[3,4])){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $customerNegotiate = $this->_getCustomerNegotiateForInput();
+        $customerM = new CustomerModel($this->corp_id);
         try{
-            $customerM = new CustomerModel($this->corp_id);
-            $customers_data = $customerM->addCustomer($customer);
-            //TODO 添加其他表内容,需开启事务
-            $result['data'] = $customers_data;
+            $customerM->link->startTrans();
+            $customerId = $customerM->addCustomer($customer);
+            $customerNegotiate["customer_id"] = $customerId;
+            $customerNegotiateM = new CustomerNegotiate($this->corp_id);
+            $customersNegotiateId = $customerNegotiateM->addCustomerNegotiate($customerNegotiate);
+            $result['data'] = $customerId;
+            $customerM->link->commit();
         }catch (\Exception $ex){
+            $customerM->link->rollback();
             $result['info'] = $ex->getMessage();
             return json($result);
         }
@@ -345,12 +412,15 @@ class Customer extends Initialize{
             $item['batch'] = $batch;
             try {
                 $customer = $customer_default;
+                $location = explode(",",$item['location']);
                 $customer['customer_name'] = $item['customer_name'];
                 $customer['resource_from'] = 1;
                 $customer['telephone'] = $item['telephone'];
                 $customer['add_man'] = $uid;
                 $customer['add_batch'] = $item['batch'];
                 $customer['field'] = $item['field'];
+                $customer['lat'] = isset($location[0])?:0;
+                $customer['lng'] = isset($location[1])?:0;
                 $customer['address'] = $item['address'];
                 $customer['website'] = $item['website'];
                 $validate_result = $this->validate($customer,'Customer');
