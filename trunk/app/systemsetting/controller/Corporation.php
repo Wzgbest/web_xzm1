@@ -28,9 +28,6 @@ class Corporation extends Initialize
             //$corpM = new CorporationModel();
             //$data = $corpM->getCorporation($this->corp_id);
             $data = CorporationModel::getCorporation($this->corp_id);
-            $location = explode(",",$data['corp_location']);
-            $data['lat'] = $location[0];
-            $data['lng'] = $location[1];
             $business = new Business($this->corp_id);
             $field_list = $business->getAllBusiness();
             $this->assign('field_list',$field_list);
@@ -80,13 +77,14 @@ class Corporation extends Initialize
     {
         $input = input('param.');
         $info['status'] = false;
-        if (empty($input['corp_location'])) {
+        if (empty($input['lat']) || empty($input['lng'])) {
             $info['message'] = '定位信息不能为空';
             return $info;
         }
 
         $data = [
-            'corp_location' => $input['corp_location'],
+            'corp_lat' => $input['lat'],
+            'corp_lng' => $input['lng'],
         ];
 
         $corpM = new CorporationModel();
