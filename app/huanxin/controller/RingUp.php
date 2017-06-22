@@ -6,24 +6,31 @@
 // +----------------------------------------------------------------------
 // | Author: blu10ph <blu10ph@gmail.com> <http://www.blu10ph.cn>
 // +----------------------------------------------------------------------
-namespace app\crm\controller;
+namespace app\huanxin\controller;
 
-use app\common\controller\Initialize;
 use app\crm\model\CallRecord;
 
-class RingUp extends Initialize{
-    public function index(){
-        echo "crm/ring_up/index";
-    }
+class RingUp{
 
-    public function call_record(){
+    /**
+     * 查询通话记录
+     * @param \app\huanxin\controller\User $user
+     * @return string
+     */
+    public function call_record(User $user){
+        $userid = input('param.userid');
+        $access_token = input('param.access_token');
+        $chk_info = $user->checkUserAccess($userid,$access_token);
+        if (!$chk_info['status']) {
+            return json($chk_info);
+        }
         $result = ['status'=>0 ,'info'=>"查询客户列信息时发生错误！"];
         $customer_id = input('customer_id',0,'int');
         $num = 10;
         $p = input("p");
         $p = $p?:1;
         try{
-            $CallRecordModel = new CallRecord($this->corp_id);
+            $CallRecordModel = new CallRecord($chk_info['corp_id']);
             $map = [];
             if($customer_id){
                 $map['customer_id'] = $customer_id;
@@ -37,6 +44,5 @@ class RingUp extends Initialize{
         $result['status'] = 1;
         $result['info'] = "查询客户列信息成功！";
         return json($result);
-
     }
 }
