@@ -19,8 +19,9 @@ class Customer extends Initialize{
         $corp_id = get_corpid();
         $this->_customerSettingModel = new CustomerSetting($corp_id);
     }
+    
     public function index(){
-        $uri = "systemsetting/Customer/index";
+        $uri = "systemsetting/customer/index";
         return view('index',["uri"=>$uri]);
     }
 

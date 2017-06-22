@@ -22,4 +22,14 @@ class CustomerContact extends Base
     {
         return $this->model->table($this->table)->insertGetId($data);
     }
+
+    public function getCustomerContact($id)
+    {
+        return $this->model->table($this->table)->where('id',$id)->find();
+    }
+
+    public function setCustomerContact($id,$data)
+    {
+        return $this->model->table($this->table)->where('id',$id)->update($data);
+    }
 }

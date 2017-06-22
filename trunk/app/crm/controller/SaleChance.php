@@ -80,7 +80,6 @@ class SaleChance extends Initialize{
         try{
             $saleChanceM = new SaleChanceModel($this->corp_id);
             $saleChanceflg = $saleChanceM->setSaleChance($id,$saleChance);
-            //TODO 保存其他表内容,需开启事务
             $result['data'] = $saleChanceflg;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
