@@ -187,7 +187,8 @@ class Customer extends Initialize{
         if(!$uid){
             $result['info'] = "参数错误！";
             return json($result);
-        }$filter = $this->_getCustomerFilter(["take_type","grade","customer_name","contact_name","comm_status","sale_chance"]);
+        }
+        $filter = $this->_getCustomerFilter(["take_type","grade","customer_name","contact_name","comm_status","sale_chance"]);
         try{
             $customerM = new CustomerModel($this->corp_id);
             $listCount = $customerM->getColumnNum($uid,$filter);
@@ -198,6 +199,28 @@ class Customer extends Initialize{
         }
         $result['status'] = 1;
         $result['info'] = "查询客户列信息成功！";
+        return json($result);
+    }
+    public function release_customer(){
+        $result = ['status'=>0 ,'info'=>"批量释放客户时发生错误！"];
+        $ids = input('ids/a');
+        //var_exp($ids,'$ids',1);
+        if(!$ids){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $result['info'] = "批量释放客户功能开发中！";
+        return json($result);
+    }
+    public function send_customer_group_message(){
+        $result = ['status'=>0 ,'info'=>"群发短信时发生错误！"];
+        $ids = input('ids/a');
+        //var_exp($ids,'$ids',1);
+        if(!$ids){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $result['info'] = "群发短信功能开发中！";
         return json($result);
     }
     public function get_customer_general(){

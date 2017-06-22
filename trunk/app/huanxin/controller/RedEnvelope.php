@@ -293,4 +293,37 @@ class RedEnvelope
 
         return json($info);
     }
+    /**
+     * 红包领取情况
+     * @param userid
+     * @param access_token
+     * @param redid 红包标识
+     * @param \app\huanxin\controller\User $user
+     * @return string
+     */
+    public function getMyRedEnvelopeList(User $user){
+        $userid = input('param.userid');
+        $access_token = input('param.access_token');
+        $chk_info = $user->checkUserAccess($userid,$access_token);
+        if (!$chk_info['status']) {
+            return json($chk_info);
+        }
+
+        $result = ['status'=>0 ,'info'=>"查询红包收支明细时发生错误！"];
+        $num = 10;
+        $p = input("p");
+        $p = $p?:1;
+
+        try{
+            $redM = new RedB();
+            $myRedEnvelopeList = $redM->getMyRedEnvelope($num,$p,$chk_info["userinfo"]["id"]);
+            $result['data'] = $myRedEnvelopeList;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "查询红包收支明细成功！";
+        return json($result);
+    }
 }
