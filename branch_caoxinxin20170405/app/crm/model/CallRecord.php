@@ -32,16 +32,18 @@ class CallRecord extends Base{
         if($page){
             $offset = ($page-1)*$num;
         }
-        $searchCustomerList = $this->model
-            ->table($this->table)
+        $callRecordList = $this->model->table($this->table)->alias('cr')
+            ->join($this->dbprefix.'customer c','cr.customer_id = c.id',"left")
+            ->join($this->dbprefix.'customer_contact cc','cr.contactor_id = cc.id',"left")
             ->where($map)
             ->order($order)
             ->limit($offset,$num)
-            ->field('*')//TODO field list
+            ->field("cr.*,c.customer_name,cc.contact_name,'' as head_img_url")//TODO field list
             ->select();
-        if($num==1&&$page==0&&$searchCustomerList){
-            $searchCustomerList = $searchCustomerList[0];
+        //var_exp($callRecordList,'$callRecordList',1);
+        if($num==1&&$page==0&&$callRecordList){
+            $callRecordList = $callRecordList[0];
         }
-        return $searchCustomerList;
+        return $callRecordList;
     }
 }
