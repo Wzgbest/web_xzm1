@@ -21,19 +21,35 @@ class EmployerImportRecord extends Base{
     }
 
     /**
-     * 获取上传记录
-     * @param $id 记录id
+     * 获取上传记录列表
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $map array 筛选条件
+     * @param $order string 排序
      * @return int|string
      * @throws \think\Exception
      */
-    public function getImportEmployerRecord($id)
-    {
-        return $this->model->table($this->table)->where('id',$id)->find();
+    public function getImportEmployerRecord($num=10,$page=0,$map=null,$order="id desc"){
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+        $importEmployerRecordList = $this->model
+            ->table($this->table)
+            ->where($map)
+            ->order($order)
+            ->limit($offset,$num)
+            ->field('*')//TODO field list
+            ->select();
+        if($num==1&&$page==0&&$importEmployerRecordList){
+            $importEmployerRecordList = $importEmployerRecordList[0];
+        }
+        return $importEmployerRecordList;
     }
 
     /**
      * 获取一条新的空白记录(获取batch)
-     * @param $data
+     * @param $uid int 操作者用户id
      * @return int|string
      */
     public function getNewImportEmployerRecord($uid){
@@ -66,8 +82,8 @@ class EmployerImportRecord extends Base{
 
     /**
      * 更新上传记录
-     * @param $id 记录id
-     * @param $data
+     * @param $id int 记录id
+     * @param $data array 数据
      * @return int|string
      * @throws \think\Exception
      */

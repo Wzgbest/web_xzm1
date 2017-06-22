@@ -631,16 +631,4 @@ class Customer extends Base
         $this->model->table($this->dbprefix.'negotiate')->where('customer_id',$customer_id)->update($customerNegotiate);
         return $this->model->table($this->table)->where('id',$customer_id)->update($data);
     }
-
-    /**
-     * 删除客户
-     * @param $cids array 客户id数组
-     * @return int
-     * @throws \think\Exception
-     * created by blu10ph
-     */
-    public function delCustomer($cids)
-    {
-        return $this->model->table($this->table)->where('id','in',$cids)->delete();
-    }
 }
