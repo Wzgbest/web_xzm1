@@ -95,8 +95,8 @@ class Login extends Controller
         }
 
         //所有员工信息
-        $data_all = $model->getAllUsers();
-//        cache('employer_info'.$telephone,null);
+        //$data_all = $model->getAllUsers();
+        //cache('employer_info'.$telephone,null);
         $req_reg['message'] = 'SUCCESS';
         $req_reg['status'] = true;
         $req_reg['errnum'] = 0;
@@ -106,7 +106,7 @@ class Login extends Controller
         $req_reg['title'] = $score['title'];
         $req_reg['occupation'] = $rolep;
         $req_reg['percentage'] = $per;
-        $req_reg['totaluser'] = $data_all;
+        //$req_reg['totaluser'] = $data_all;
         return json($req_reg);
     }
 }

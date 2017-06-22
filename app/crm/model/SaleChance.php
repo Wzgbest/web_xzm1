@@ -34,6 +34,27 @@ class SaleChance extends Base
         return $this->model->table($this->table)->insertGetId($data);
     }
 
+    /**获取
+     * @param $id int 客户商机id
+     * @return false|\PDOStatement|int|\think\Collection
+     * created by blu10ph
+     */
+    public function getSaleChance($id)
+    {
+        return $this->model->table($this->table)->where('id',$id)->find();
+    }
+
+    /**更新
+     * @param $id int 客户商机id
+     * @param $data array 客户商机数据
+     * @return false|\PDOStatement|int|\think\Collection
+     * created by blu10ph
+     */
+    public function setSaleChance($id,$data)
+    {
+        return $this->model->table($this->table)->where('id',$id)->update($data);
+    }
+
     /**获取对应客户的正在进行的商机预计成单金额总额
      * @param $customer_ids array 客户ID列表
      * @return false|\PDOStatement|string|\think\Collection

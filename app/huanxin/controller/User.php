@@ -5,7 +5,6 @@
  */
 namespace app\huanxin\controller;
 
-use app\common\model\UserCorporation;
 use app\common\model\Employer;
 use app\huanxin\model\TakeCash;
 use app\huanxin\service\Api;
@@ -13,12 +12,52 @@ use app\huanxin\service\TakeCash as TakeCashService;
 use app\huanxin\model\TakeCash as TakeCashModel;
 use app\common\model\Corporation;
 use app\common\model\CorporationCash;
+use app\common\model\Structure;
+use think\Controller;
 
-class User
-{
+class User extends Controller{
     public $employM;
     public $errnum;
 
+    /**
+     * 验证用户id,token
+     * @param $userid int 用户tel
+     * @param $access_token string
+     * @return array
+     */
+    public function checkUserAccess($userid=null, $access_token=null){
+        $userid = $userid?:input('param.userid');
+        $access_token = $access_token?:input('param.access_token');
+        $info['status'] = false;
+        if (empty($userid) || empty($access_token)) {
+            $info['message'] = '用户id为空或token为空';
+            $info['errnum'] = 101;
+            return $info;
+        }
+        if (!check_tel($userid)) {
+            $info['message'] = '用户名格式不正确';
+            $info['errnum'] = 102;
+            return $info;
+        }
+        $corp_id = get_corpid($userid);
+        if ($corp_id == false) {
+            $info['message'] = '用户不存在';
+            $info['errnum'] = 103;
+            return $info;
+        }
+        $this->employM = new Employer($corp_id);
+        $userinfo = $this->employM->getEmployerByTel($userid);
+        if ($userinfo['system_token'] != $access_token) {
+            $info['message'] = 'token不正确，请重新登陆';
+            $info['errnum'] = 104;
+            return $info;
+        }
+        $info['message'] = 'SUCCESS';
+        $info['status'] = true;
+        $info['corp_id'] = $corp_id;
+        $info['userinfo'] = $userinfo;
+        return $info;
+    }
     /**
      * 根据用户id,access_token 获取所有用户列表
      * @return string {"status":true/false,"message":"","friendsInfo":[]}
@@ -28,21 +67,20 @@ class User
      * ["occupation"] => string(1) "6"
      * ["structid"] => string(12) "销售一部"
      */
-    public function getFriendsInfo()
-    {
+    public function getFriendsInfo(){
         $userid = input('param.userid');
         $access_token = input('param.access_token');
         $chk_info = $this->checkUserAccess($userid, $access_token);
         if (!$chk_info['status']) {
             return json($chk_info);
         }
-        /**
-         * TODO  更改此处查询部门
-         */
+        $structureModel = new Structure($chk_info['corp_id']);
+        $structure = $structureModel->getAllStructure();
         $friendsInfo = $this->employM->getAllUsers();
         $info['message'] = 'SUCCESS';
         $info['status'] = true;
         $info['friendsInfo'] = $friendsInfo;
+        $info['structure'] = $structure;
         return json($info);
     }
 
@@ -92,7 +130,9 @@ class User
         }
         $info['message'] = '发送成功';
         $info['status'] = true;
-        return json($info);
+        if (!$info['status']) {
+            return json($info);
+        }
     }
 
     /**
@@ -608,44 +648,5 @@ class User
             $info['errnum'] = 8;
         }
         return json($info);
-    }
-
-    /**
-     * 验证用户id,token
-     * @param $userid 用户tel
-     * @param $access_token
-     * @return array
-     */
-    public function checkUserAccess($userid, $access_token)
-    {
-        $info['status'] = false;
-        if (empty($userid) || empty($access_token)) {
-            $info['message'] = '用户id为空或token为空';
-            $info['errnum'] = 101;
-            return $info;
-        }
-        if (!check_tel($userid)) {
-            $info['message'] = '用户名格式不正确';
-            $info['errnum'] = 102;
-            return $info;
-        }
-        $corp_id = get_corpid($userid);
-        if ($corp_id == false) {
-            $info['message'] = '用户不存在';
-            $info['errnum'] = 103;
-            return $info;
-        }
-        $this->employM = new Employer($corp_id);
-        $userinfo = $this->employM->getEmployerByTel($userid);
-        if ($userinfo['system_token'] != $access_token) {
-            $info['message'] = 'token不正确，请重新登陆';
-            $info['errnum'] = 104;
-            return $info;
-        }
-        $info['message'] = 'SUCCESS';
-        $info['status'] = true;
-        $info['corp_id'] = $corp_id;
-        $info['userinfo'] = $userinfo;
-        return $info;
     }
 }

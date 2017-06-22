@@ -25,7 +25,6 @@ class CustomerContact extends Initialize{
         try{
             $customerContactM = new CustomerContactModel($this->corp_id);
             $customerContactData = $customerContactM->getCustomerContact($id);
-            //TODO 获取其他表内容
             $result['data'] = $customerContactData;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
@@ -86,7 +85,6 @@ class CustomerContact extends Initialize{
         try{
             $customerContactM = new CustomerContactModel($this->corp_id);
             $customerContactFlg = $customerContactM->setCustomerContact($id,$customerContact);
-            //TODO 保存其他表内容,需开启事务
             $result['data'] = $customerContactFlg;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();

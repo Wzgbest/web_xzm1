@@ -16,7 +16,7 @@ class EmployerDelete extends Base
     }
 
     /**
-     * 添加单挑删除员工信息
+     * 添加单条删除员工信息
      * @param $data
      * @return int|string
      * created by messhair
