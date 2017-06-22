@@ -203,7 +203,7 @@ class Employer extends Base
             ->join($this->dbprefix.'role b','a.role = b.id')
             ->join($this->dbprefix.'structure_employer c','a.id = c.user_id')
             ->join($this->dbprefix.'structure d','c.struct_id = d.id')
-            ->field('a.telephone,a.userpic,a.truename as nickname,b.role_name as occupation,d.struct_name as structid')
+            ->field('a.telephone,a.userpic,a.truename as nickname,b.role_name as occupation,c.struct_id,d.struct_name as struct_name')
             ->select();
     }
 
