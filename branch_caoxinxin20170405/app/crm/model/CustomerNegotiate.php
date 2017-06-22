@@ -10,16 +10,17 @@ namespace app\crm\model;
 
 use app\common\model\Base;
 
-class CustomerNegotiate extends Base
-{
-    public function __construct($corp_id)
-    {
+class CustomerNegotiate extends Base{
+    public function __construct($corp_id){
         $this->table = config('database.prefix').'customer_contact';
         parent::__construct($corp_id);
     }
 
-    public function addCustomerNegotiate($data)
-    {
+    public function addCustomerNegotiate($data){
         return $this->model->table($this->table)->insertGetId($data);
+    }
+
+    public function updateCustomerNegotiate($customer_id,$data){
+        return $this->model->table($this->table)->where("customer_id",$customer_id)->update($data);
     }
 }

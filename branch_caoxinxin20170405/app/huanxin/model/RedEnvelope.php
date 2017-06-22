@@ -128,4 +128,28 @@ class RedEnvelope extends Base
             ->where('create_time','<',$dep_time)
             ->select();
     }
+
+    /**
+     * 根据红包red_id获取所有信息
+     * @param $num int 每页数量
+     * @param $page int 页码
+     * @param $uid int 员工id
+     * @param $map array 筛选条件
+     * @param $order string 排序方式
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public function getMyRedEnvelope($num=10,$page=0,$uid,$map=null,$order="id desc"){
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+        return $this->model->table($this->table)
+            ->field('id,fromuser,money,took_time,is_token,create_time,took_user,total_money,took_telephone')
+            ->where($map)
+            ->where('fromuser|took_user',$uid)
+            //->whereOr('is_token','<>',2)
+            ->order($order)
+            ->limit($offset,$num)
+            ->select();
+    }
 }
