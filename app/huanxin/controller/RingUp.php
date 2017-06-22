@@ -31,7 +31,7 @@ class RingUp{
         $p = $p?:1;
         try{
             $CallRecordModel = new CallRecord($chk_info['corp_id']);
-            $map = [];
+            $map["userid"] = $chk_info["userinfo"]["id"];
             if($customer_id){
                 $map['customer_id'] = $customer_id;
             }
