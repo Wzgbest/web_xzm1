@@ -25,26 +25,105 @@ class Customer extends Base
      * @param $page int 页
      * @param $filter array 客户筛选条件
      * @param $order string 排序
+     * @param $direction string 排序方向
      * @return array
      * @throws \think\Exception
      * created by blu10ph
      */
-    public function getManagerCustomer($num=10,$page=0,$filter=null,$order="id desc"){//TODO
+    public function getManageCustomer($num=10,$page=0,$filter=null,$field=null,$order="id",$direction="desc"){
+        //分页
         $offset = 0;
         if($page){
             $offset = ($page-1)*$num;
         }
-        $map = $this->_getMapByFilter($filter,[]);
-        $map['belongs_to'] = 1;
 
+        //筛选
+        $map = $this->_getMapByFilter($filter,["belongs_to","resource_from","comm_status","take_type","tracer","guardian","add_man"]);
+        //$map['belongs_to'] = 1;
 
-        $customerList = $this->model
-            ->table($this->table)
+        //排序
+        if($direction!="desc" && $direction!="asc"){
+            $direction = "desc";
+        }
+        $orderPrefix = "";
+        $subOrder = [$orderPrefix.$order=>$direction];//聚合前排序
+        $listOrder = [$order=>$direction];//聚合后排序
+        switch ($order){
+            case "id":
+            case "customer_name":
+            case "grade":
+            case "is_public":
+            case "add_time":
+                $orderPrefix = "c.";
+                $subOrder = [$orderPrefix.$order=>$direction];
+                $listOrder = [$order=>$direction];
+                break;
+        }
+        $subOrder["cn.id"] = "desc";//沟通状态
+
+        //固定显示字段
+        $subField = [
+            "c.id",
+            "c.customer_name",
+            "c.grade",
+            "c.belongs_to",
+            "c.resource_from",
+            "c.is_public",
+            "'' as tracer",
+            "'' as guardian",
+            "c.add_man",
+            "c.add_time",
+            "c.take_type",
+            "cn.tend_to",
+            "cn.phone_correct",
+            "cn.profile_correct",
+            "cn.call_through",
+            "cn.is_wait",
+        ];
+        $listField = [
+            "id",
+            "customer_name",
+            "grade",
+            "belongs_to",
+            "resource_from",
+            "is_public",
+            "'' as tracer",
+            "'' as guardian",
+            "add_man",
+            "add_time",
+            "take_type",
+            "tend_to",
+            "phone_correct",
+            "profile_correct",
+            "call_through",
+            "is_wait",
+        ];
+
+        $subQuery = $this->model
+            ->table($this->table)->alias('c')
+            ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
             ->where($map)
-            ->order($order)
+            ->order($subOrder)
+            ->field($subField)
+            ->buildSql();
+        //var_exp($subQuery,'$subQuery',1);
+        $customerList = $this->model
+            ->table($subQuery." l")
+            ->group("id")
+            ->order($listOrder)
             ->limit($offset,$num)
-            ->field("*")
+            ->field($listField)
             ->select();
+        //var_exp($customerList,'$customerList',1);
+        foreach ($customerList as &$customer) {
+            $customer['comm_status'] = getCommStatusByArr([
+                "tend_to" => $customer['tend_to'],
+                "phone_correct" => $customer['phone_correct'],
+                "profile_correct" => $customer['profile_correct'],
+                "call_through" => $customer['call_through'],
+                "is_wait" => $customer['is_wait'],
+            ]);
+        }
         return $customerList;
     }
 
@@ -123,6 +202,16 @@ class Customer extends Base
         $map = $this->_getMapByFilter($filter,["take_type","grade","customer_name","contact_name","comm_status","sale_chance"]);
         $map['c.belongs_to'] = 3;
         $map['c.handle_man'] = $uid;
+        $having = "";
+        //列筛选
+        if(array_key_exists("in_column", $filter)){
+            $in_column = $filter["in_column"];
+            if($in_column>0&&$in_column<9){
+                $having = " in_column = $in_column ";
+            }else{
+                $having = null;
+            }
+        }
 
         //排序
         if($direction!="desc" && $direction!="asc"){
@@ -237,7 +326,7 @@ class Customer extends Base
             "take_time",
             "contract_due_time",
             "remind_time",
-            "(case when phone_correct = 0 and profile_correct = 0 then 8 when tend_to = 0 then 6 when is_wait = 0 then 5 when sale_status = 0 then 7 when ct_id = '' or ct_id is null then 2 when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >".$to_halt_day_max." then 4 when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >3 then 4 else 3 end ) as in_column",
+            "(case when phone_correct = 0 and profile_correct = 0 then 8 when tend_to = 0 then 6 when is_wait = 0 then 5 when sale_status = 0 then 7 when ct_id = '' or ct_id is null then 2 when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >".$to_halt_day_max." then 4 when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >3 then 1 else 3 end ) as in_column",
             "sale_status",
             "ct_id",
         ];
@@ -269,6 +358,7 @@ class Customer extends Base
             ->table($subQuery." l")
             ->group("id")
             ->order($listOrder)
+            ->having($having)
             ->limit($offset,$num)
             ->field($listField)
             ->select();
@@ -287,26 +377,6 @@ class Customer extends Base
             }else{
                 $customer['save_time'] = "无";
             }
-            /*使用sql语句计算
-            $customer["last_trace_day"] = intval(($now_time-$customer["last_trace_time"])/60/60/24);
-            if($customer["phone_correct"]==0 && $customer["profile_correct"]==0){//号码无效或资料有误
-                $customer['in_column'] = 8;//无效客户
-            }elseif($customer["tend_to"]==0){//无意向
-                $customer['in_column'] = 6;//无意向
-            }elseif($customer["is_wait"]==0){//待沟通
-                $customer['in_column'] = 5;//待定
-            }elseif($customer["sale_status"]==5){//待沟通
-                $customer['in_column'] = 7;//待定
-            }elseif(!$customer["ct_id"]){//没有跟踪记录
-                $customer['in_column'] = 2;//未跟进
-            }elseif($customer["last_trace_day"]>$to_halt_day_max){//最新跟进时间,超过客户设置中的时间
-                $customer['in_column'] = 4;//停滞
-            }elseif($customer["last_trace_day"]>3){//最新跟进时间,超过三天
-                $customer['in_column'] = 1;//停滞
-            }else{//不在以上状态
-                $customer['in_column'] = 3;//正常跟进
-            }
-            */
         }
         return $customerList;
     }
@@ -372,6 +442,26 @@ class Customer extends Base
 
     protected function _getMapByFilter($filter,$filter_column){
         $map = [];
+        //客户状态
+        if(in_array("belongs_to",$filter_column) && array_key_exists("belongs_to", $filter)){
+            $map["c.belongs_to"] = $filter["belongs_to"];
+        }
+        //跟踪人
+        if(in_array("tracer",$filter_column) && array_key_exists("tracer", $filter)){
+            $map["c.tracer"] = $filter["tracer"];
+        }
+        //维护人
+        if(in_array("guardian",$filter_column) && array_key_exists("guardian", $filter)){
+            $map["c.guardian"] = $filter["guardian"];
+        }
+        //添加人
+        if(in_array("add_man",$filter_column) && array_key_exists("add_man", $filter)){
+            $map["c.add_man"] = $filter["add_man"];
+        }
+        //客户来源
+        if(in_array("resource_from",$filter_column) && array_key_exists("resource_from", $filter)){
+            $map["c.resource_from"] = $filter["resource_from"];
+        }
         //获取途径
         if(in_array("take_type",$filter_column) && array_key_exists("take_type", $filter)){
             $map["c.take_type"] = $filter["take_type"];

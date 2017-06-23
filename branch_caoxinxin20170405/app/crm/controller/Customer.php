@@ -18,21 +18,20 @@ class Customer extends Initialize{
         echo "crm/customer/index";
     }
     
-    public function manager(){
+    public function manage(){
+        //TODO 管理员权限验证?
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
-        $scale = input('scale',0,'int');
-        if(!$scale || $scale>4){
-            $result['info'] = '参数错误!';
-            return json($result);
-        }
         $num = input('num',0,'int');
         $num = $num?:20;
         $p = input("p",0,"int");
         $p = $p?:1;
-        $filter = [];//TODO 客户状态 	客户来源 resource_from	 沟通结果 tend_to 获取途径 跟踪人 维护人 添加人
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
+        $filter = $this->_getCustomerFilter(["belongs_to","resource_from","comm_status","take_type","tracer","guardian","add_man"]);
+        $field = $this->_getCustomerField([]);
         try{
             $customerM = new CustomerModel($this->corp_id);
-            $customers_data = $customerM->getManagerCustomer($num,$p,$filter);
+            $customers_data = $customerM->getManageCustomer($num,$p,$filter,$field,$order,$direction);
             $result['data'] = $customers_data;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
@@ -75,7 +74,7 @@ class Customer extends Initialize{
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
         $uid = session('userinfo.userid');
-        $filter = $this->_getCustomerFilter(["take_type","grade","customer_name","contact_name","comm_status","sale_chance"]);
+        $filter = $this->_getCustomerFilter(["take_type","grade","customer_name","contact_name","comm_status","sale_chance","in_column"]);
         $field = $this->_getCustomerField(["take_type","grade"]);
         try{
             $customerM = new CustomerModel($this->corp_id);
@@ -130,6 +129,36 @@ class Customer extends Initialize{
     }
     protected function _getCustomerFilter($filter_column){
         $filter = [];
+        if(in_array("belongs_to", $filter_column)){//客户状态
+            $belongs_to = input("belongs_to",0,"int");
+            if($belongs_to && in_array($belongs_to,[2,3])){//TODO 维护状态??
+                $filter["belongs_to"] = $belongs_to;
+            }
+        }
+        if(in_array("tracer", $filter_column)){//TODO 跟踪人??
+            $tracer = input("tracer");
+            if($tracer){
+                $filter["tracer"] = $tracer;
+            }
+        }
+        if(in_array("guardian", $filter_column)){//TODO 维护人??
+            $guardian = input("guardian");
+            if($guardian){
+                $filter["guardian"] = $guardian;
+            }
+        }
+        if(in_array("add_man", $filter_column)){//添加人
+            $add_man = input("add_man");
+            if($add_man){
+                $filter["add_man"] = $add_man;
+            }
+        }
+        if(in_array("resource_from", $filter_column)){//客户来源
+            $resource_from = input("resource_from",0,"int");
+            if($resource_from && in_array($resource_from,[1,2,3])){
+                $filter["resource_from"] = $resource_from;
+            }
+        }
         if(in_array("take_type", $filter_column)){//获取途径
             $take_type = input("take_type",0,"int");
             if($take_type){
@@ -164,6 +193,12 @@ class Customer extends Initialize{
             $comm_status = input("sale_chance",0,"int");
             if($comm_status){
                 $filter["sale_chance"] = $comm_status;
+            }
+        }
+        if(in_array("in_column", $filter_column)){//所在列
+            $in_column = input("in_column",0,"int");
+            if($in_column){
+                $filter["in_column"] = $in_column;
             }
         }
         return $filter;
