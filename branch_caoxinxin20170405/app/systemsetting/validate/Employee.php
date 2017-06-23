@@ -7,7 +7,7 @@ namespace app\systemsetting\validate;
 
 use think\Validate;
 
-class Employer extends Validate
+class Employee extends Validate
 {
     protected $rule = [
         'truename' => ['require','regex'=>'/^[\x0391-\xFFE5]+$/'],

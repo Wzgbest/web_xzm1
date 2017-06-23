@@ -256,8 +256,8 @@ class Customer extends Base
             ->table($this->table)->alias('c')
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
-            ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")//sc.employer_id = c.handle_man
-            ->join($this->dbprefix.'business scb','scb.id = sc.bussiness_id',"LEFT")
+            ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")//sc.employee_id = c.handle_man
+            ->join($this->dbprefix.'business scb','scb.id = sc.business_id',"LEFT")
             ->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")//ct.operator_id = c.handle_man
             ->where($map)
@@ -397,7 +397,7 @@ class Customer extends Base
         }
         //商机业务
         if(in_array("sale_chance",$filter_column) && array_key_exists("sale_chance", $filter)){
-            $map["sc.bussiness_id"] = $filter["sale_chance"];
+            $map["sc.business_id"] = $filter["sale_chance"];
         }
         return $map;
     }
@@ -485,11 +485,10 @@ class Customer extends Base
             "(case when in_column = 7 then 1 else 0 end) as column_7",
             "(case when in_column = 8 then 1 else 0 end) as column_8",
         ];
-        $subQuery = $this->model
-            ->table($this->table)->alias('c')
+        $subQuery = $this->model->table($this->table)->alias('c')
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
-            ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")//sc.employer_id = c.handle_man
+            ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")//sc.employee_id = c.handle_man
             ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")//ct.operator_id = c.handle_man
             ->where($map)
             ->order($subOrder)
@@ -516,8 +515,7 @@ class Customer extends Base
      * @return array|false|\PDOStatement|string|\think\Model
      * created by messhair
      */
-    public function getCustomerByUserId($user_id)
-    {
+    public function getCustomerByUserId($user_id){
         return $this->model->table($this->table)->where('handle_man',$user_id)->field('id')->find();
     }
 
@@ -527,15 +525,14 @@ class Customer extends Base
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getCustomersByUserIds($ids)
-    {
+    public function getCustomersByUserIds($ids){
         $field = [
             "e.id as userid",
             "e.truename",
             "c.id as customer_id",
         ];
         $customers = $this->model->table($this->table)->alias('c')
-            ->join($this->dbprefix.'employer e','c.handle_man = e.id')
+            ->join($this->dbprefix.'employee e','c.handle_man = e.id')
             ->field($field)
             ->where('handle_man','in',$ids)
             ->select();
@@ -565,13 +562,31 @@ class Customer extends Base
     }
 
     /**
+     * 获取所有客户信息
+     * @param $uid int|array 员工id
+     * @param $customer_ids array 客户类型
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by blu10ph
+     */
+    public function releaseCustomers($uid,$customer_ids){
+        $map['handle_man'] = $uid;
+        $map['belongs_to'] = 3;
+        $map['id'] = ["in",$customer_ids];
+        $data['belongs_to'] = 1;
+        $data['handle_man'] = 0;
+        return $this->model
+            ->table($this->table)
+            ->where($map)
+            ->update($data);
+    }
+
+    /**
      * 查询单个客户信息
      * @param $cid int 客户id
      * @return int|string
      * created by blu10ph
      */
-    public function getCustomer($cid)
-    {
+    public function getCustomer($cid){
         $field = [
             "c.*",
             "cn.tend_to",
@@ -601,20 +616,8 @@ class Customer extends Base
      * @return boolean|int|string
      * created by messhair
      */
-    public function addCustomer($data)
-    {
-        $customer_id = 0;
-        $this->link->startTrans();
-        try{
-            $customer_id = $this->model->table($this->table)->insertGetId($data);
-            $customerNegotiate = getCommStatusArr($data["comm_status"]);
-            $customerNegotiate["customer_id"] = $customer_id;
-            $this->model->table($this->dbprefix.'negotiate')->insert($customerNegotiate);
-            $this->link->commit();
-        }catch (\Exception $ex) {
-            return false;
-        }
-        return $customer_id;
+    public function addCustomer($data){
+        return $customer_id = $this->model->table($this->table)->insertGetId($data);
     }
 
     /**
@@ -625,10 +628,7 @@ class Customer extends Base
      * @throws \think\Exception
      * created by messhair
      */
-    public function setCustomer($customer_id,$data)
-    {
-        $customerNegotiate = getCommStatusArr($data["comm_status"]);
-        $this->model->table($this->dbprefix.'negotiate')->where('customer_id',$customer_id)->update($customerNegotiate);
+    public function setCustomer($customer_id,$data){
         return $this->model->table($this->table)->where('id',$customer_id)->update($data);
     }
 }

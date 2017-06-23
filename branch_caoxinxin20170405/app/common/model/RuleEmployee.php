@@ -7,11 +7,11 @@ namespace app\common\model;
 
 use app\common\model\Base;
 
-class RuleEmployer extends Base
+class RuleEmployee extends Base
 {
     public function __construct($corp_id=null)
     {
-        $this->table=config('database.prefix').'rule_employer';
+        $this->table=config('database.prefix').'rule_employee';
         parent::__construct($corp_id);
     }
 
@@ -21,7 +21,7 @@ class RuleEmployer extends Base
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getRulesByEmployer($userid)
+    public function getRulesByEmployee($userid)
     {
         return $this->model->table($this->table)->alias('a')
             ->join(config('database.prefix').'rule b','a.rule_id = b.id')
@@ -36,10 +36,10 @@ class RuleEmployer extends Base
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getEmployersByRule($rule_id)
+    public function getEmployeesByRule($rule_id)
     {
         return $this->model->table($this->table)->alias('a')
-            ->join(config('database.prefix').'employer b','a.user_id = b.id')
+            ->join(config('database.prefix').'employee b','a.user_id = b.id')
             ->field('a.rule_id,a.user_id,b.truename,b.structid,b.telephone,b.gender,b.age,b.email,b.qqnum,b.wechat,b.worknum,b.is_leader,b.on_duty')
             ->where('a.rule_id',$rule_id)->select();
     }

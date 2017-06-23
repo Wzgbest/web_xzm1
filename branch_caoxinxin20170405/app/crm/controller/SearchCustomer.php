@@ -205,6 +205,6 @@ class SearchCustomer extends Initialize{
             unset($search_customer['id']);
             $excel_data[] = $search_customer;
         }
-        outExcel($excel_data,'search_employers-'.time().'.xlsx');
+        outExcel($excel_data,'search_employees-'.time().'.xlsx');
     }
 }

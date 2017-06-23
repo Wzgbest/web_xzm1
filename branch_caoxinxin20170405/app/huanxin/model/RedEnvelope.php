@@ -78,7 +78,7 @@ class RedEnvelope extends Base
     public function getFetchedRedList($red_id)
     {
         return $this->model->table($this->table)->alias('a')
-            ->join(config('database.prefix').'employer b','a.took_user = b.id')
+            ->join(config('database.prefix').'employee b','a.took_user = b.id')
             ->field('a.redid,a.money,a.total_money,a.took_time,b.telephone,b.truename as took_user')
             ->where('a.redid',$red_id)->where('a.is_token',1)->select();
     }

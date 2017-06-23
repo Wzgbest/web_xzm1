@@ -9,14 +9,14 @@ namespace app\common\model;
 
 use app\common\model\Base;
 
-class RoleEmployer extends Base
+class RoleEmployee extends Base
 {
     /**
      * @param $corp_id 公司名代号，非id
      */
     public function __construct($corp_id=null)
     {
-        $this->table=config('database.prefix').'role_employer';
+        $this->table=config('database.prefix').'role_employee';
         parent::__construct($corp_id);
     }
 
@@ -26,7 +26,7 @@ class RoleEmployer extends Base
      * @return array|false|\PDOStatement|string|\think\Model
      * created by messhair
      */
-    public function getRolebyEmployerId($userid)
+    public function getRolebyEmployeeId($userid)
     {
         return $this->model->table($this->table)->alias('a')
             ->join(config('database.prefix').'role b','a.role_id = b.id')
@@ -41,7 +41,7 @@ class RoleEmployer extends Base
      * @return array ['user_id'=>(int)3]
      * created by messhair
      */
-    public function getEmployerListbyRole($role_id)
+    public function getEmployeeListbyRole($role_id)
     {
         return $this->model->table($this->table)->field('user_id')->where('role_id',$role_id)->select();
     }
@@ -52,10 +52,10 @@ class RoleEmployer extends Base
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getEmployersByRole($role_id)
+    public function getEmployeesByRole($role_id)
     {
         return $this->model->table($this->table)->alias('a')
-            ->join(config('database.prefix').'employer b','a.user_id = b.id')
+            ->join(config('database.prefix').'employee b','a.user_id = b.id')
             ->field('a.role_id,a.user_id,b.truename,b.structid,b.telephone,b.gender,b.age,b.email,b.qqnum,b.wechat,b.worknum,b.is_leader,b.on_duty')
             ->where('a.role_id',$role_id)->select();
     }
@@ -66,7 +66,7 @@ class RoleEmployer extends Base
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getRolesByEmployer($userid)
+    public function getRolesByEmployee($userid)
     {
         return $this->model->table($this->table)->alias('a')
             ->join(config('database.prefix').'role b','a.role_id = b.id')

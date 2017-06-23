@@ -7,16 +7,16 @@ namespace app\systemsetting\controller;
 
 use app\common\controller\Initialize;
 use app\common\model\Corporation;
-use app\common\model\Employer as EmployerModel;
+use app\common\model\Employee as EmployeeModel;
 use app\huanxin\service\Api as HuanxinApi;
-use app\common\model\StructureEmployer;
+use app\common\model\StructureEmployee;
 use think\Request;
 use think\Db;
 use app\crm\model\Customer as CustomerModel;
-use app\common\model\EmployerDelete;
+use app\common\model\EmployeeDelete;
 use app\common\model\UserCorporation;
 
-class Employer extends Initialize{
+class Employee extends Initialize{
     public function index(){}
 
     /**
@@ -25,10 +25,10 @@ class Employer extends Initialize{
      * @return array|false|\PDOStatement|string|\think\Model
      * created by messhair
      */
-    public function showSingleEmployerInfo($user_id)
+    public function showSingleEmployeeInfo($user_id)
     {
-        $employerM = new EmployerModel($this->corp_id);
-        $info = $employerM->getEmployerByUserid($user_id);
+        $employeeM = new EmployeeModel($this->corp_id);
+        $info = $employeeM->getEmployeeByUserid($user_id);
         return $info;
     }
 
@@ -40,12 +40,12 @@ class Employer extends Initialize{
      * @return array
      * created by messhair
      */
-    public function showEmployerList(Request $request,$page_now_num = 0, $page_rows = 10)
+    public function showEmployeeList(Request $request,$page_now_num = 0, $page_rows = 10)
     {
         $input = $request->param();
-        $employerM = new EmployerModel($this->corp_id);
-        $res = $employerM->getPageEmployerList($page_now_num,$page_rows,$input);
-        $count = $employerM->countPageEmployerList($input);
+        $employeeM = new EmployeeModel($this->corp_id);
+        $res = $employeeM->getPageEmployeeList($page_now_num,$page_rows,$input);
+        $count = $employeeM->countPageEmployeeList($input);
         $count = empty($count)? 0:$count[0]['num'];
         return [
             'data'=>$res,
@@ -61,13 +61,13 @@ class Employer extends Initialize{
      * @return array
      * created by messhair
      */
-    public function addEmployer(Request $request)
+    public function addEmployee(Request $request)
     {
         if ($request->isGet()) {
             return view();
         } elseif ($request->isPost()) {
             $input = $request->param();
-            $result = $this->validate($input,'Employer');
+            $result = $this->validate($input,'Employee');
             $info['status'] = false;
             //验证字段
             if(true !== $result){
@@ -84,16 +84,16 @@ class Employer extends Initialize{
             }
             $struct_ids = $input['struct_id'];
             unset($input['struct_id']);
-            $employerM = new EmployerModel($this->corp_id);
-            $struct_empM = new StructureEmployer($this->corp_id);
+            $employeeM = new EmployeeModel($this->corp_id);
+            $struct_empM = new StructureEmployee($this->corp_id);
             $huanxin = new HuanxinApi();
             $info['status'] = false;
 
             UserCorporation::startTrans();
-            $employerM->link->startTrans();
+            $employeeM->link->startTrans();
             try{
                 //员工表增加信息
-                $id = $employerM->addSingleEmployer($input);
+                $id = $employeeM->addSingleEmployee($input);
                 $user_tel = ['telephone'=>$input['telephone'],'corp_name'=>$this->corp_id];
                 $b = UserCorporation::addSingleUserTel($user_tel);
                 //部门表增加信息
@@ -102,11 +102,11 @@ class Employer extends Initialize{
                         $struct_data[$k]['user_id'] =$id;
                         $struct_data[$k]['struct_id'] = $v;
                     }
-                    $f = $struct_empM->addMultipleStructureEmployer($struct_data);
+                    $f = $struct_empM->addMultipleStructureEmployee($struct_data);
                 } else {
                     $struct_data['user_id'] = $id;
                     $struct_data['struct_id'] = $struct_ids;
-                    $f = $struct_empM->addStructureEmployer($struct_data);
+                    $f = $struct_empM->addStructureEmployee($struct_data);
                 }
                 if ($id > 0 && $f > 0 && $b > 0) {
                     //环信增加好友
@@ -115,33 +115,33 @@ class Employer extends Initialize{
                     if ($d['status']) {
                         $tel = [];
                         array_push($tel,$input['telephone']);
-                        $im = $employerM->saveIm($tel);
+                        $im = $employeeM->saveIm($tel);
                     } else {
-                        $employerM->link->rollback();
+                        $employeeM->link->rollback();
                         UserCorporation::rollback();
                         $info['message'] = '添加环信好友有失败，联系管理员';
                         $info['error'] = $d['error'];
                         return $info;
                     }
                 } else {
-                    $employerM->link->rollback();
+                    $employeeM->link->rollback();
                     UserCorporation::rollback();
                     $info['message'] = '添加员工失败，联系管理员';
                     return $info;
                 }
             }catch (\Exception $e){
-                $employerM->link->rollback();
+                $employeeM->link->rollback();
                 UserCorporation::rollback();
             }
             if ($id > 0 && $f >0 && $d['status'] && $b > 0 && $im > 0) {
-                $employerM->link->commit();
+                $employeeM->link->commit();
                 UserCorporation::commit();
                 return [
                     'status' => true,
                     'message' => '新增员工成功，添加环信好友成功',
                 ];
             } else {
-                $employerM->link->rollback();
+                $employeeM->link->rollback();
                 UserCorporation::rollback();
                 $info['message'] = '新增员工失败，或添加环信好友失败';
                 return $info;
@@ -156,18 +156,18 @@ class Employer extends Initialize{
      * @return array|false|\PDOStatement|string|\think\Model
      * created by messhair
      */
-    public function editEmployer(Request $request, $user_id)
+    public function editEmployee(Request $request, $user_id)
     {
         if ($request->isGet()) {
-            $employerM = new EmployerModel($this->corp_id);
-            $structM = new StructureEmployer($this->corp_id);
-            $employer_info = $employerM->getEmployerByUserid($user_id);
-            $struct_info = $structM->getEmployerStructure($user_id);
-            $employer_info['struct_info'] = $struct_info;
-            return $employer_info;
+            $employeeM = new EmployeeModel($this->corp_id);
+            $structM = new StructureEmployee($this->corp_id);
+            $employee_info = $employeeM->getEmployeeByUserid($user_id);
+            $struct_info = $structM->getEmployeeStructure($user_id);
+            $employee_info['struct_info'] = $struct_info;
+            return $employee_info;
         } elseif ($request->isPost()) {
             $input = $request->param();
-            $result = $this->validate($input,'Employer');
+            $result = $this->validate($input,'Employee');
             $info['status'] = false;
             //验证字段
             if(true !== $result){
@@ -186,21 +186,21 @@ class Employer extends Initialize{
             $user_id = $input['user_id'];
             unset($input['struct_id']);
             unset($input['user_id']);
-            $employerM = new EmployerModel($this->corp_id);
-            $struct_empM = new StructureEmployer($this->corp_id);
+            $employeeM = new EmployeeModel($this->corp_id);
+            $struct_empM = new StructureEmployee($this->corp_id);
             $huanxin = new HuanxinApi();
             $info['status'] = false;
             //取出旧设置的部门ids
-            $struct_old = $struct_empM->getStructIdsByEmployer($user_id);
+            $struct_old = $struct_empM->getStructIdsByEmployee($user_id);
             $struct_ = [];
             foreach ($struct_old as $val) {
                 $struct_[] .=$val['struct_id'];
             }
 
-            $employerM->link->startTrans();
+            $employeeM->link->startTrans();
             try{
                 //员工表修改信息
-                $em_res = $employerM->setSingleEmployerInfobyId($user_id,$input);
+                $em_res = $employeeM->setSingleEmployeeInfobyId($user_id,$input);
 
                 //部门表修改信息，1,2,3 --->  1,2,3,4,5   1,2,3,4,5--->1,2,3
                 if ($input['is_leader'] == 1) {
@@ -213,9 +213,9 @@ class Employer extends Initialize{
                             array_push($insert_data,['user_id'=>$user_id,'struct_id'=>$v]);
                         }
                         if (count($insert_data) >1) {
-                            $res = $struct_empM->addMultipleStructureEmployer($insert_data);
+                            $res = $struct_empM->addMultipleStructureEmployee($insert_data);
                         } else {
-                            $res = $struct_empM->addStructureEmployer($insert_data);
+                            $res = $struct_empM->addStructureEmployee($insert_data);
                         }
                     } else {
                         $res = 1;
@@ -227,7 +227,7 @@ class Employer extends Initialize{
                         foreach ($delete as $k=>$v) {
                             array_push($delete_data,$v);
                         }
-                        $del_res = $struct_empM->deleteMultipleStructureEmployer($user_id,$delete_data);
+                        $del_res = $struct_empM->deleteMultipleStructureEmployee($user_id,$delete_data);
                     } else {
                         $del_res = 1;
                     }
@@ -235,23 +235,23 @@ class Employer extends Initialize{
                     //非领导
                     $struct_data['user_id'] = $user_id;
                     $struct_data['struct_id'] = $struct_ids[0];
-                    $res = $struct_empM->setStructureEmployerById($user_id,$struct_old[0]['struct_id'],$struct_data);
+                    $res = $struct_empM->setStructureEmployeeById($user_id,$struct_old[0]['struct_id'],$struct_data);
                     if ($res ===0) {
                         $res =1;
                     }
                     $del_res = 1;
                 }
             }catch (\Exception $e){
-                $employerM->link->rollback();
+                $employeeM->link->rollback();
             }
             if ($em_res >= 0 && $res>0 && $del_res>0) {
-                $employerM->link->commit();
+                $employeeM->link->commit();
                 return [
                     'status' => true,
                     'message' => '修改员工信息成功',
                 ];
             } else {
-                $employerM->link->rollback();
+                $employeeM->link->rollback();
                 $info['message'] = '修改员工信息失败';
                 return $info;
             }
@@ -264,7 +264,7 @@ class Employer extends Initialize{
      * @return array
      * created by messhair
      */
-    public function deleteMultipleEmployer($user_ids)
+    public function deleteMultipleEmployee($user_ids)
     {
         $customerM = new CustomerModel();
 //        检测有无保护客户
@@ -286,8 +286,8 @@ class Employer extends Initialize{
             ];
         } else {
 //        查询员工状态是否为离职
-            $employerM = new EmployerModel();
-            $dat = $employerM->getEmployerByUserids($user_ids);
+            $employeeM = new EmployeeModel();
+            $dat = $employeeM->getEmployeeByUserids($user_ids);
             if (!empty($dat)) {
                 $arr=[];
                 $users=[];
@@ -312,19 +312,19 @@ class Employer extends Initialize{
                 }
                 $tel_arr = implode(',',$tel_arr);
                 $names = implode(',',$names);
-                $emp_delM = new EmployerDelete();
-                $stru_empM = new StructureEmployer();
+                $emp_delM = new EmployeeDelete();
+                $stru_empM = new StructureEmployee();
                 $emp_delM->link->startTrans();
                 Corporation::startTrans();
                 try{
 //                删除员工
-                    $b = $employerM->deleteMultipleEmployer($user_ids);
-//                转移到employer_delete表
+                    $b = $employeeM->deleteMultipleEmployee($user_ids);
+//                转移到employee_delete表
                     $d =$emp_delM->addMultipleBackupInfo($users);
 //                    删除用户公司对照表信息
                     $f = UserCorporation::deleteUserCorp($tel_arr);
 //                    删除部门员工表信息
-                    $g = $stru_empM->deleteMultipleStructureEmployer($user_ids);
+                    $g = $stru_empM->deleteMultipleStructureEmployee($user_ids);
                 }catch(\Exception $e){
                     $emp_delM->link->rollback();
                     UserCorporation::rollback();

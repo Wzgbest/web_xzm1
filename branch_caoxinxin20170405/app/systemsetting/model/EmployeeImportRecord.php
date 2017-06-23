@@ -11,11 +11,11 @@ namespace app\systemsetting\model;
 
 use app\common\model\Base;
 
-class EmployerImportRecord extends Base{
+class EmployeeImportRecord extends Base{
     protected $dbprefix;
     public function __construct($corp_id=null)
     {
-        $this->table = config('database.prefix').'employer_import_record';
+        $this->table = config('database.prefix').'employee_import_record';
         parent::__construct($corp_id);
         $this->dbprefix = config('database.prefix');
     }
@@ -29,22 +29,22 @@ class EmployerImportRecord extends Base{
      * @return int|string
      * @throws \think\Exception
      */
-    public function getImportEmployerRecord($num=10,$page=0,$map=null,$order="id desc"){
+    public function getImportEmployeeRecord($num=10,$page=0,$map=null,$order="id desc"){
         $offset = 0;
         if($page){
             $offset = ($page-1)*$num;
         }
-        $importEmployerRecordList = $this->model
+        $importEmployeeRecordList = $this->model
             ->table($this->table)
             ->where($map)
             ->order($order)
             ->limit($offset,$num)
             ->field('*')//TODO field list
             ->select();
-        if($num==1&&$page==0&&$importEmployerRecordList){
-            $importEmployerRecordList = $importEmployerRecordList[0];
+        if($num==1&&$page==0&&$importEmployeeRecordList){
+            $importEmployeeRecordList = $importEmployeeRecordList[0];
         }
-        return $importEmployerRecordList;
+        return $importEmployeeRecordList;
     }
 
     /**
@@ -52,7 +52,7 @@ class EmployerImportRecord extends Base{
      * @param $uid int 操作者用户id
      * @return int|string
      */
-    public function getNewImportEmployerRecord($uid){
+    public function getNewImportEmployeeRecord($uid){
         $data['create_time'] = time();
         $data['operator'] = $uid;
         $data['import_result'] = 0;
@@ -87,7 +87,7 @@ class EmployerImportRecord extends Base{
      * @return int|string
      * @throws \think\Exception
      */
-    public function setImportEmployerRecord($id,$data)
+    public function setImportEmployeeRecord($id,$data)
     {
         return $this->model->table($this->table)->where('id',$id)->update($data);
     }
