@@ -7,12 +7,12 @@ namespace app\common\model;
 
 use app\common\model\Base;
 
-class Employer extends Base
+class Employee extends Base
 {
     protected $dbprefix;
     public function __construct($corp_id=null)
     {
-        $this->table = config('database.prefix').'employer';
+        $this->table = config('database.prefix').'employee';
         parent::__construct($corp_id);
         $this->dbprefix = config('database.prefix');
     }
@@ -23,9 +23,9 @@ class Employer extends Base
      * @return array
      * created by messhair
      */
-    public function getEmployerByTel($telephone)
+    public function getEmployeeByTel($telephone)
     {
-//        return $this->model->table($this->table)->where('telephone',$telephone)->cache('employer_info'.$telephone)->find();
+//        return $this->model->table($this->table)->where('telephone',$telephone)->cache('employee_info'.$telephone)->find();
 //        return $this->model->table($this->table)->where('telephone',$telephone)->find();
         return $this->model->table($this->table)->alias('a')
             ->join($this->dbprefix.'role b','a.role = b.id','left')
@@ -39,7 +39,7 @@ class Employer extends Base
      * @return array|false|\PDOStatement|string|\think\Model
      * created by messhair
      */
-    public function getEmployerByUserid($userid)
+    public function getEmployeeByUserid($userid)
     {
         return $this->model->table($this->table)->alias('a')
             ->join($this->dbprefix.'role b','a.role = b.id','left')
@@ -53,7 +53,7 @@ class Employer extends Base
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getEmployerByUserids($user_ids)
+    public function getEmployeeByUserids($user_ids)
     {
         return $this->model->table($this->table)
             ->where('id','in',$user_ids)
@@ -66,7 +66,7 @@ class Employer extends Base
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getEmployerByNotRole($role_id, $struct_id, $user_tel_email)
+    public function getEmployeeByNotRole($role_id, $struct_id, $user_tel_email)
     {
         $map = '';
         if (!empty($struct_id)) {
@@ -94,7 +94,7 @@ class Employer extends Base
                 $map .= 'WHERE `a`.`role`='.$role_id;
             }
         }
-        $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`worknum`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employer` `a` INNER JOIN `'.$this->dbprefix.'structure_employer` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.' GROUP BY `a`.`id` order by `a`.`worknum`;';
+        $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`worknum`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employee` `a` INNER JOIN `'.$this->dbprefix.'structure_employee` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.' GROUP BY `a`.`id` order by `a`.`worknum`;';
         return $this->model->table($this->table)->query($sql);
     }
 
@@ -104,7 +104,7 @@ class Employer extends Base
      * @return int|string
      * created by messhair
      */
-    public function addSingleEmployer($data)
+    public function addSingleEmployee($data)
     {
         return $this->model->table($this->table)->insertGetId($data);
     }
@@ -115,7 +115,7 @@ class Employer extends Base
      * @return int|string
      * created by messhair
      */
-    public function addMutipleEmployers($data)
+    public function addMutipleEmployees($data)
     {
         return $this->model->table($this->table)->insertAll($data);
     }
@@ -128,17 +128,17 @@ class Employer extends Base
      * @throws \think\Exception
      * created by messhair
      */
-    public function setEmployerSingleInfo($telephone,$data)
+    public function setEmployeeSingleInfo($telephone,$data)
     {
         return $this->model->table($this->table)->where('telephone',$telephone)->update($data);
     }
 
     /**
-     * 取出employer表中所有未开通环信的账号
+     * 取出employee表中所有未开通环信的账号
      * @return array
      * created by messhair
      */
-    public function getAllEmployers()
+    public function getAllEmployees()
     {
         return $this->model->table($this->table)->where('haveim',0)->field('telephone as username,password,truename as nickname')->select();
     }
@@ -201,7 +201,7 @@ class Employer extends Base
     {
         return $this->model->table($this->table)->alias('a')
             ->join($this->dbprefix.'role b','a.role = b.id')
-            ->join($this->dbprefix.'structure_employer c','a.id = c.user_id')
+            ->join($this->dbprefix.'structure_employee c','a.id = c.user_id')
             ->join($this->dbprefix.'structure d','c.struct_id = d.id')
             ->field('a.telephone,a.userpic,a.truename as nickname,b.role_name as occupation,c.struct_id,d.struct_name as struct_name')
             ->select();
@@ -238,7 +238,7 @@ class Employer extends Base
      * @throws \think\Exception
      * created by messhair
      */
-    public function setSingleEmployerInfobyId($id,$data)
+    public function setSingleEmployeeInfobyId($id,$data)
     {
         return $this->model->table($this->table)->where('id',$id)->update($data);
     }
@@ -251,7 +251,7 @@ class Employer extends Base
      * @throws \think\Exception
      * created by messhair
      */
-    public function setMultipleEmployerInfoByIds($ids,$data)
+    public function setMultipleEmployeeInfoByIds($ids,$data)
     {
         return $this->model->table($this->table)->where('id','in',$ids)->update($data);
     }
@@ -263,7 +263,7 @@ class Employer extends Base
      * @throws \think\Exception
      * created by messhair
      */
-    public function deleteMultipleEmployer($ids)
+    public function deleteMultipleEmployee($ids)
     {
         return $this->model->table($this->table)->where('id','in',$ids)->delete();
     }
@@ -274,9 +274,9 @@ class Employer extends Base
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getEmployerByRole($role_id, $page_first=0, $page_rows = 10)
+    public function getEmployeeByRole($role_id, $page_first=0, $page_rows = 10)
     {
-        $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`worknum`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employer` `a` INNER JOIN `'.$this->dbprefix.'structure_employer` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` WHERE `a`.`role`='.$role_id.' GROUP BY `a`.`id` order by `a`.`worknum` LIMIT '.$page_first.','.$page_rows.';';
+        $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`worknum`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employee` `a` INNER JOIN `'.$this->dbprefix.'structure_employee` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` WHERE `a`.`role`='.$role_id.' GROUP BY `a`.`id` order by `a`.`worknum` LIMIT '.$page_first.','.$page_rows.';';
         return $this->model->table($this->table)->query($sql);
     }
 
@@ -288,19 +288,19 @@ class Employer extends Base
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getEmployerByStructId($struct_id,$page_first=0,$rows=null)
+    public function getEmployeeByStructId($struct_id,$page_first=0,$rows=null)
     {
         if (is_null($rows)) {
             return $this->model->table($this->table)->alias('a')
                 ->join($this->dbprefix.'role b','a.role = b.id')
-                ->join($this->dbprefix.'structure_employer c','a.id = c.user_id')
+                ->join($this->dbprefix.'structure_employee c','a.id = c.user_id')
                 ->join($this->dbprefix.'structure d','c.struct_id = d.id')
                 ->field('a.id as user_id,a.truename,a.worknum,a.telephone,a.email,a.is_leader,a.role,b.role_name,c.struct_id,d.struct_name')
                 ->where('c.struct_id',$struct_id)->select();
         } else {
             return $this->model->table($this->table)->alias('a')
                 ->join($this->dbprefix.'role b','a.role = b.id')
-                ->join($this->dbprefix.'structure_employer c','a.id = c.user_id')
+                ->join($this->dbprefix.'structure_employee c','a.id = c.user_id')
                 ->join($this->dbprefix.'structure d','c.struct_id = d.id')
                 ->field('a.id as user_id,a.truename,a.worknum,a.telephone,a.email,a.is_leader,a.role,b.role_name,c.struct_id,d.struct_name')
                 ->where('c.struct_id',$struct_id)->limit($page_first,$rows)->select();
@@ -313,11 +313,11 @@ class Employer extends Base
      * @return int|string
      * created by messhair
      */
-    public function countEmployerByStructId($struct_id)
+    public function countEmployeeByStructId($struct_id)
     {
         return $this->model->table($this->table)->alias('a')
             ->join($this->dbprefix.'role b','a.role = b.id')
-            ->join($this->dbprefix.'structure_employer c','a.id = c.user_id')
+            ->join($this->dbprefix.'structure_employee c','a.id = c.user_id')
             ->join($this->dbprefix.'structure d','c.struct_id = d.id')
             ->field('a.id as user_id,a.truename,a.worknum,a.telephone,a.email,a.is_leader,a.role,b.role_name,c.struct_id,d.struct_name')
             ->where('c.struct_id',$struct_id)->count('a.id');
@@ -335,7 +335,7 @@ class Employer extends Base
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getPageEmployerList($page_now_num = 0,$rows = null,$where = null)
+    public function getPageEmployeeList($page_now_num = 0,$rows = null,$where = null)
     {
         if ($where) {
             $map = 'where ';
@@ -381,10 +381,10 @@ class Employer extends Base
             $map = '';
         }
         if (is_null($rows)) {
-            $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`on_duty`,`a`.`worknum`,`a`.`email`,`a`.`qqnum`,`b`.`role_name`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employer` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employer` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.'GROUP BY `a`.`id` order by `a`.`worknum`;';
+            $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`on_duty`,`a`.`worknum`,`a`.`email`,`a`.`qqnum`,`b`.`role_name`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employee` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employee` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.'GROUP BY `a`.`id` order by `a`.`worknum`;';
             return $this->model->table($this->table)->query($sql);
         } else {
-            $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`on_duty`,`a`.`worknum`,`a`.`email`,`a`.`qqnum`,`b`.`role_name`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employer` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employer` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.'GROUP BY `a`.`id` order by `a`.`worknum` limit '.$page_now_num.','.$rows.';';
+            $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`on_duty`,`a`.`worknum`,`a`.`email`,`a`.`qqnum`,`b`.`role_name`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employee` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employee` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.'GROUP BY `a`.`id` order by `a`.`worknum` limit '.$page_now_num.','.$rows.';';
             return $this->model->table($this->table)->query($sql);
         }
     }
@@ -399,7 +399,7 @@ class Employer extends Base
      * @return mixed
      * created by messhair
      */
-    public function countPageEmployerList($where = null)
+    public function countPageEmployeeList($where = null)
     {
         if ($where) {
             $map = 'where ';
@@ -444,7 +444,7 @@ class Employer extends Base
         } else {
             $map = '';
         }
-        $sql = 'SELECT count(distinct `a`.`id`) as num FROM `'.$this->dbprefix.'employer` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employer` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.';';
+        $sql = 'SELECT count(distinct `a`.`id`) as num FROM `'.$this->dbprefix.'employee` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employee` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.';';
         return $this->model->table($this->table)->query($sql);
     }
 
@@ -458,7 +458,7 @@ class Employer extends Base
      * @return mixed
      * created by blu10ph
      */
-    public function exportAllEmployers($where = null){
+    public function exportAllEmployees($where = null){
         return $this->model
             ->table($this->table)
             ->where($where)

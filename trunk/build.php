@@ -46,7 +46,7 @@ return [
     'systemsetting'     => [
         '__file__'   => ['common.php'],
         '__dir__'    => ['controller', 'model', 'view','service'],
-        'controller' => ['Index','Corporation','Department','Role','Employer','BusinessFlow','Contract','Bill','Customer'],
+        'controller' => ['Index','Corporation','Department','Role','Employee','BusinessFlow','Contract','Bill','Customer'],
         'model'      => [],
         'view'       => ['index/index'],
     ],
@@ -71,7 +71,7 @@ return [
         'model'      => [],
         'view'       => ['index/index'],
     ],
-    'employergrowth'     => [
+    'employeegrowth'     => [
         '__file__'   => ['common.php'],
         '__dir__'    => ['controller', 'model', 'view','service'],
         'controller' => ['Index','Bill'],

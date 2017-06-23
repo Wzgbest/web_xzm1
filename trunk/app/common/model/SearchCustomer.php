@@ -9,10 +9,13 @@
 namespace app\common\model;
 
 use app\common\model\Base;
+use think\Db;
 
 class SearchCustomer extends Base
 {
+    protected $dbprefix;
     public function __construct($corp_id =null){
+        $this->dbprefix = config('database.prefix');
         $this->table=config('database.prefix').'customer_search';
         parent::__construct($corp_id);
     }
@@ -65,34 +68,75 @@ class SearchCustomer extends Base
      * 查找搜索的客户是否有重复,并返回结果
      * @param $id int 客户id
      * @param $uid int 用户id
-     * @param $order string 排序规则
      * @return array
      * @throws \think\Exception
      */
-    public function findRepeat($id,$uid,$order="id desc"){
-        $map["id"]=$id;
-        $map["create_user"] = $uid;
-        $map["status"]=1;
+    public function findRepeat($id,$uid){
+        $find_map["id"]=$id;
+        $find_map["create_user"] = $uid;
+        $find_map["status"]=1;
         $searchCustomer = $this->model
             ->table($this->table)
-            ->where($map)
+            ->where($find_map)
             ->field("*")//TODO
             ->find();
 
-        $find_map = " id<>:id and status = 1 and ( customer_name = :customer_name or phone = :phone ) ";
-        $bind = [
+        $searchSubMap = " id<>:id and status = 1 and ( customer_name = :customer_name or phone = :phone ) ";
+        $searchSubBind = [
             "id"=>$id,
             "status"=>1,
             "customer_name"=>$searchCustomer["customer_name"],
             "phone"=>$searchCustomer["phone"],
         ];
-        $repeatList[] = $this->model
+        $searchSubOrder="id desc";
+        $searchSubSql = $this->model
             ->table($this->table)
-            ->where($find_map)
-            ->bind($bind)
-            ->order($order)
-            ->field("*")//TODO
-            ->find();
+            ->where($searchSubMap)
+            ->bind($searchSubBind)
+            ->order($searchSubOrder)
+            ->limit(1)
+            ->field("'sc' as tn,id,0 as s_id")
+            ->buildSql();
+        $customerSubMap = " customer_name = :customer_name or telephone = :phone ";
+        $customerSubBind = [
+            "customer_name"=>$searchCustomer["customer_name"],
+            "phone"=>$searchCustomer["phone"],
+        ];
+        $customerSubOrder="id desc";
+        $customerSubSql = $this->model
+            ->table($this->dbprefix.'customer')
+            ->where($customerSubMap)
+            ->bind($customerSubBind)
+            ->order($customerSubOrder)
+            ->limit(1)
+            ->field("'c' as tn,id,0 as s_id")
+            ->buildSql();
+        $customerContactSubMap = " contact_name = :customer_name and ( phone_first = :phone or phone_second = :phone or phone_third = :phone ) ";
+        $customerContactSubBind = [
+            "customer_name"=>$searchCustomer["customer_name"],
+            "phone"=>$searchCustomer["phone"],
+        ];
+        $customerContactSubOrder="id desc";
+        $customerContactSubSql = $this->model
+            ->table($this->dbprefix.'customer_contact')
+            ->where($customerContactSubMap)
+            ->bind($customerContactSubBind)
+            ->order($customerContactSubOrder)
+            ->limit(1)
+            ->field("'cc' as tn,customer_id as id,id as s_id")
+            ->buildSql();
+        $querySql = $searchSubSql." UNION ".$customerSubSql." UNION ".$customerContactSubSql;
+        //var_exp($querySql,'$querySql',1);
+        $queryList = $this->link->query($querySql);
+        //var_exp($repeatList,'$repeatList',1);
+        $repeatList = [];
+        if($queryList){
+            $first = $queryList[0];
+            $table = $first["tn"];
+            $tableArr = ["sc"=>"search_customer","c"=>"customer","cc"=>"customer_contact",];
+            $tableName = $tableArr[$table];
+            //TODO 获取详细信息
+        }
         return ['res'=>$repeatList ,'error'=>"0"];
     }
 

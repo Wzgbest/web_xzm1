@@ -7,7 +7,7 @@ namespace app\systemsetting\validate;
 
 use think\Validate;
 
-class StructureEmployer extends Validate
+class StructureEmployee extends Validate
 {
 //    protected $rule = [
 //        'user_id' =>'require|number',

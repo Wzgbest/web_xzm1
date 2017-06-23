@@ -5,7 +5,7 @@
  */
 namespace app\huanxin\service;
 
-use app\common\model\Employer;
+use app\common\model\Employee;
 
 class Api
 {
@@ -144,17 +144,17 @@ class Api
     public function addFriend($corp_id, $owner)
     {
         //获取后台所有$owner未添加为环信好友的用户(先注册的用户)
-        $employer = new Employer($corp_id);
+        $employee = new Employee($corp_id);
         $add_user_uri = array();
         if (is_array($owner)) {
             foreach ($owner as $k => $v) {
-                $friend_list_p = $employer->getFriendsList($v['telephone']);
+                $friend_list_p = $employee->getFriendsList($v['telephone']);
                 foreach ($friend_list_p as $kk=>$vv) {
                     $add_user_uri[] .= $this->user_uri . '/' . $v['telephone'] . '/contacts/users/' . $vv['telephone'];
                 }
             }
         }else{
-            $friend_list = $employer->getFriendsList($owner);
+            $friend_list = $employee->getFriendsList($owner);
             foreach ($friend_list as $k => $v) {
                 $add_user_uri[] .= $this->user_uri . '/' . $owner . '/contacts/users/' . $v['telephone'];
             }
@@ -243,7 +243,7 @@ class Api
     }
 
     /**
-     * 在环信中批量注册employer表中账号
+     * 在环信中批量注册employee表中账号
      * @param $corp_id 公司代号
      * @param $users [
      * ['username'=>'13311112222','password'=>'123456','nickname'=>'张三'],
@@ -261,7 +261,7 @@ class Api
             $info['message'] = $this->getError($user_info['error']);
         } else {
             $user_arr = $user_info['entities'];//所有注册成功的用户
-//            更改employer表注册成功
+//            更改employee表注册成功
             $user_up = array();
             foreach ($user_arr as $key => $val) {
                 foreach ($val as $k => $v) {
@@ -270,7 +270,7 @@ class Api
                     }
                 }
             }
-            $b = $employer->saveIm($user_up);
+            $b = $employee->saveIm($user_up);
             if ($b >0) {
                 $info['status'] = true;
                 $info['message'] = '批量注册环信用户成功';

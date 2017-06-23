@@ -11,11 +11,11 @@ namespace app\systemsetting\model;
 
 use app\common\model\Base;
 
-class EmployerImportFail extends Base{
+class EmployeeImportFail extends Base{
     protected $dbprefix;
     public function __construct($corp_id=null)
     {
-        $this->table = config('database.prefix').'employer_import_fail';
+        $this->table = config('database.prefix').'employee_import_fail';
         parent::__construct($corp_id);
         $this->dbprefix = config('database.prefix');
     }
@@ -25,7 +25,7 @@ class EmployerImportFail extends Base{
      * @param $batch 批次
      * @return false|\PDOStatement|string|\think\Collection
      */
-    public function getEmployerByBatch($batch)
+    public function getEmployeeByBatch($batch)
     {
         return $this->model->table($this->table)
             ->where('batch',$batch)
@@ -37,7 +37,7 @@ class EmployerImportFail extends Base{
      * @param $data
      * @return int|string
      */
-    public function addImportEmployerFail($data){
+    public function addImportEmployeeFail($data){
         return $this->model->table($this->table)->insertGetId($data);
     }
 
@@ -46,7 +46,7 @@ class EmployerImportFail extends Base{
      * @param array $data
      * @return int|string
      */
-    public function addMutipleImportEmployerFail($data){
+    public function addMutipleImportEmployeeFail($data){
         return $this->model->table($this->table)->insertAll($data);
     }
 }

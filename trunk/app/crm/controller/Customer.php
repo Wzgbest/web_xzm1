@@ -11,6 +11,7 @@ namespace app\crm\controller;
 use app\common\controller\Initialize;
 use app\crm\model\Customer as CustomerModel;
 use app\crm\model\CustomerDelete as CustomerDelete;
+use app\crm\model\CustomerNegotiate;
 
 class Customer extends Initialize{
     public function index(){
@@ -204,12 +205,21 @@ class Customer extends Initialize{
     public function release_customer(){
         $result = ['status'=>0 ,'info'=>"批量释放客户时发生错误！"];
         $ids = input('ids/a');
-        //var_exp($ids,'$ids',1);
         if(!$ids){
             $result['info'] = "参数错误！";
             return json($result);
         }
-        $result['info'] = "批量释放客户功能开发中！";
+        $uid = session('userinfo.userid');
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $releaseFlg = $customerM->releaseCustomers($uid,$ids);
+            if($releaseFlg){
+                $result['info'] = "批量释放客户成功！";
+            }
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
         return json($result);
     }
     public function send_customer_group_message(){
@@ -286,6 +296,11 @@ class Customer extends Initialize{
 
         return $customer;
     }
+    protected function _getCustomerNegotiateForInput(){
+        $comm_status = input('comm_status',0,'int');
+        $customerNegotiate = getCommStatusArr($comm_status);
+        return $customerNegotiate;
+    }
     public function add(){
         $result = ['status'=>0 ,'info'=>"新建客户时发生错误！"];
         $customer = $this->_getCustomerForInput();
@@ -293,11 +308,24 @@ class Customer extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $customerNegotiate = $this->_getCustomerNegotiateForInput();
+        $customerM = new CustomerModel($this->corp_id);
         try{
-            $customerM = new CustomerModel($this->corp_id);
+            $customerM->link->startTrans();
             $customerId = $customerM->addCustomer($customer);
+            if(!$customerId){
+                exception('添加客户失败!');
+            }
+            $customerNegotiate["customer_id"] = $customerId;
+            $customerNegotiateM = new CustomerNegotiate($this->corp_id);
+            $customersNegotiateId = $customerNegotiateM->addCustomerNegotiate($customerNegotiate);
+            if(!$customersNegotiateId){
+                exception('添加客户沟通状态失败!');
+            }
             $result['data'] = $customerId;
+            $customerM->link->commit();
         }catch (\Exception $ex){
+            $customerM->link->rollback();
             $result['info'] = $ex->getMessage();
             return json($result);
         }
@@ -313,11 +341,22 @@ class Customer extends Initialize{
             return json($result);
         }
         $customer = $this->_getCustomerForInput();
+        $customerNegotiate = $this->_getCustomerNegotiateForInput();
+        $customerM = new CustomerModel($this->corp_id);
         try{
-            $customerM = new CustomerModel($this->corp_id);
-            $customers_data = $customerM->setCustomer($id,$customer);
-            $result['data'] = $customers_data;
+            //$customerM->link->startTrans();
+            $customersFlg = $customerM->setCustomer($id,$customer);
+            /*if(!$customersFlg){
+                exception('添加客户失败!');
+            }*/
+            $customerNegotiateM = new CustomerNegotiate($this->corp_id);
+            $customersNegotiateFlg = $customerNegotiateM->updateCustomerNegotiate($id,$customerNegotiate);
+            /*if(!$customersNegotiateFlg){
+                exception('更新客户沟通状态失败!');
+            }*/
+            //$customerM->link->commit();
         }catch (\Exception $ex){
+            //$customerM->link->rollback();
             $result['info'] = $ex->getMessage();
             return json($result);
         }
@@ -335,8 +374,10 @@ class Customer extends Initialize{
         }
         try{
             $customerDeleteM = new CustomerDelete($this->corp_id);
-            $customers_data = $customerDeleteM->moveInDelMultipleCustomer($ids);
-            $result['data'] = $customers_data;
+            $customersDeleteFlg = $customerDeleteM->moveInDelMultipleCustomer($ids);
+            if(!$customersDeleteFlg){
+                exception('删除客户失败!');
+            }
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
             return json($result);

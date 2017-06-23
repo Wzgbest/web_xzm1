@@ -8,7 +8,7 @@
 namespace app\huanxin\job;
 
 use think\queue\Job;
-use app\common\model\Employer;
+use app\common\model\Employee;
 use app\huanxin\model\RedEnvelope;
 use app\huanxin\model\TakeCash;
 
@@ -23,12 +23,12 @@ class RecordRedEnvelope
         $add = $data['add'];
         $cash_data = $data['cash_data'];
         $redM = new RedEnvelope($corp_id);
-        $employerM = new Employer($corp_id);
+        $employeeM = new Employee($corp_id);
         $cashM = new TakeCash($corp_id);
         $redM->link->startTrans();
         try{
             $res = $redM->setOneRedId($red_data['id'],$records);
-            $re = $employerM->setSingleEmployerInfobyId($data['r']['userinfo']['id'],$add);
+            $re = $employeeM->setSingleEmployeeInfobyId($data['r']['userinfo']['id'],$add);
             $cash_rec = $cashM->addOrderNumber($cash_data);
         }catch(\Exception $e){
             $redM->link->rollback();

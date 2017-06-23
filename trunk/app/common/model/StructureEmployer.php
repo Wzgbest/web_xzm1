@@ -7,11 +7,11 @@ namespace app\common\model;
 
 use app\common\model\Base;
 
-class StructureEmployer extends Base
+class StructureEmployee extends Base
 {
     public function __construct($corp_id=null)
     {
-        $this->table = config('database.prefix').'structure_employer';
+        $this->table = config('database.prefix').'structure_employee';
         parent::__construct($corp_id);
     }
 
@@ -21,7 +21,7 @@ class StructureEmployer extends Base
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getEmployerByStructIds($struct_ids)
+    public function getEmployeeByStructIds($struct_ids)
     {
         return $this->model->table($this->table)->where('struct_id','in',$struct_ids)->field('user_id')->select();
     }
@@ -32,7 +32,7 @@ class StructureEmployer extends Base
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getStructIdsByEmployer($user_id)
+    public function getStructIdsByEmployee($user_id)
     {
         return $this->model->table($this->table)->where('user_id',$user_id)->field('struct_id')->select();
     }
@@ -46,7 +46,7 @@ class StructureEmployer extends Base
      * @throws \think\Exception
      * created by messhair
      */
-    public function setStructureEmployerById($user_id,$struct_id,$data)
+    public function setStructureEmployeeById($user_id,$struct_id,$data)
     {
         return $this->model->table($this->table)
             ->where('user_id',$user_id)
@@ -61,7 +61,7 @@ class StructureEmployer extends Base
      * @throws \think\Exception
      * created by messhair
      */
-    public function setStructureEmployerbyIds($user_ids,$data)
+    public function setStructureEmployeebyIds($user_ids,$data)
     {
         return $this->model->table($this->table)->where('user_id','in',$user_ids)->update($data);
     }
@@ -72,7 +72,7 @@ class StructureEmployer extends Base
      * @return int|string
      * created by messhair
      */
-    public function addStructureEmployer($data)
+    public function addStructureEmployee($data)
     {
         return $this->model->table($this->table)->insert($data);
     }
@@ -83,7 +83,7 @@ class StructureEmployer extends Base
      * @return int|string
      * created by messhair
      */
-    public function addMultipleStructureEmployer($data)
+    public function addMultipleStructureEmployee($data)
     {
         return $this->model->table($this->table)->insertAll($data);
     }
@@ -96,7 +96,7 @@ class StructureEmployer extends Base
      * @throws \think\Exception
      * created by messhair
      */
-    public function deleteMultipleStructureEmployer($user_id,$data=null)
+    public function deleteMultipleStructureEmployee($user_id,$data=null)
     {
         if (is_null($data)) {
             return $this->model->table($this->table)->where('user_id','in',$user_id)->delete();
@@ -114,7 +114,7 @@ class StructureEmployer extends Base
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getEmployerStructure($user_id)
+    public function getEmployeeStructure($user_id)
     {
         return $this->model->table($this->table)->alias('a')
             ->join(config('database.prefix').'structure b','a.struct_id = b.id')
@@ -129,7 +129,7 @@ class StructureEmployer extends Base
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function findEmployerStructure($user_id)
+    public function findEmployeeStructure($user_id)
     {
         return $this->model->table($this->table)->alias('a')
             ->join(config('database.prefix').'structure b','a.struct_id = b.id')

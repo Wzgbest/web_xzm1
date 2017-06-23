@@ -5,7 +5,7 @@
  */
 namespace app\huanxin\controller;
 
-use app\common\model\Employer;
+use app\common\model\Employee;
 use app\huanxin\model\TakeCash;
 use app\huanxin\service\Api;
 use app\huanxin\service\TakeCash as TakeCashService;
@@ -45,8 +45,8 @@ class User extends Controller{
             $info['errnum'] = 103;
             return $info;
         }
-        $this->employM = new Employer($corp_id);
-        $userinfo = $this->employM->getEmployerByTel($userid);
+        $this->employM = new Employee($corp_id);
+        $userinfo = $this->employM->getEmployeeByTel($userid);
         if ($userinfo['system_token'] != $access_token) {
             $info['message'] = 'token不正确，请重新登陆';
             $info['errnum'] = 104;
@@ -174,9 +174,9 @@ class User extends Controller{
         if ($reset['action']=='set user password') {
             $data['password'] = md5($newpass);
             $corp_id = get_corpid($userid);
-            $employer = new Employer($corp_id);
-            $r_userid = $employer->getEmployer($userid);
-            $employer->setEmployerSingleInfo($userid, $data);
+            $employee = new Employee($corp_id);
+            $r_userid = $employee->getEmployee($userid);
+            $employee->setEmployeeSingleInfo($userid, $data);
             write_log($r_userid['id'],1,'用户修改登录密码',$corp_id);
             $info['status'] = true;
             $info['message'] = '修改成功，请重新登陆';
@@ -222,7 +222,7 @@ class User extends Controller{
             return json($img_path);
         }
         $data = ['userpic'=>$img_path['imgurl']];
-        $res = $this->employM->setEmployerSingleInfo($userid,$data);
+        $res = $this->employM->setEmployeeSingleInfo($userid,$data);
         return json($img_path);
     }
 
@@ -239,12 +239,12 @@ class User extends Controller{
         if (!$chk_info['status']) {
             return json($chk_info);
         }
-        $paypass = $this->employM->getEmployer($userid);
+        $paypass = $this->employM->getEmployee($userid);
         if (!empty($paypass['pay_password'])) {
             return json(['status'=>false,'errnum'=>1,'message'=>'支付密码已设置，请勿重复设置']);
         }
         $info['status'] = false;
-        $r = $this->employM->setEmployerSingleInfo($userid,['pay_password'=>md5($password)]);
+        $r = $this->employM->setEmployeeSingleInfo($userid,['pay_password'=>md5($password)]);
         if ($r >0) {
             $info['message'] = '支付密码设置成功';
             $info['errnum'] = 0;
@@ -295,9 +295,9 @@ class User extends Controller{
         }
         $data = ['pay_password'=>md5($newpass)];
         $corp_id = get_corpid($userid);
-        $employer = new Employer($corp_id);
-        $r_userid = $employer->getEmployer($userid);
-        $r = $employer->setEmployerSingleInfo($userid,$data);
+        $employee = new Employee($corp_id);
+        $r_userid = $employee->getEmployee($userid);
+        $r = $employee->setEmployeeSingleInfo($userid,$data);
         if ($r >= 0) {
             session('reset_code'.$userid,null);
             write_log($r_userid['id'],1,'用户修改支付密码',$corp_id);
@@ -365,7 +365,7 @@ class User extends Controller{
         if (!$b[0]) {
             return json(['status'=>false,'errnum'=>1,'message'=>'账户余额查询请求失败，联系管理员']);
         }
-        $res = $this->employM->getEmployer($userid);
+        $res = $this->employM->getEmployee($userid);
         $left_money = $res['left_money'];
         $left_money = number_format($left_money/100, 2, '.', '');
         return json(['status'=>true,'message'=>'SUCCESS','errnum'=>0,'left_money'=>$left_money]);
@@ -394,7 +394,7 @@ class User extends Controller{
             return json($chk_info);
         }
         $data = ['alipay_account'=>$alipay_account];
-        $r = $this->employM->setSingleEmployerInfobyId($chk_info['userinfo']['id'],$data);
+        $r = $this->employM->setSingleEmployeeInfobyId($chk_info['userinfo']['id'],$data);
         if ($r >= 0) {
             $info['status'] = true;
             $info['message'] = '设置支付宝账号成功';
@@ -481,7 +481,7 @@ class User extends Controller{
             return json($res);
         }
 
-        //employer表更改
+        //employee表更改
         $change_data = [
             'left_money'=>['exp',"left_money - $fen_money"]
         ];
@@ -511,7 +511,7 @@ class User extends Controller{
         $this->employM->link->startTrans();
         Corporation::startTrans();
         try{
-            $de_money = $this->employM->setSingleEmployerInfobyId($chk_info['userinfo']['id'],$change_data);
+            $de_money = $this->employM->setSingleEmployeeInfobyId($chk_info['userinfo']['id'],$change_data);
             $take_cash = $takeCashM->addOrderNumber($record_data);
             $de_corp_money = Corporation::setCorporationInfo($chk_info['corp_id'],$de_corp_money);
             $corp_cash_rec = $corp_cashM->addCorporationCashInfo($corp_cash_data);
@@ -576,7 +576,7 @@ class User extends Controller{
             $info['errnum'] = 3;
             return $info;
         }
-        $to_userinfo = $this->employM->getEmployer($to_user);
+        $to_userinfo = $this->employM->getEmployee($to_user);
         if (empty($to_userinfo)) {
             $info['message'] = '接收转账的用户不存在';
             $info['errnum'] = 4;
@@ -628,8 +628,8 @@ class User extends Controller{
         $cashM = new TakeCash();
         $this->employM->link->startTrans();
         try{
-            $de = $this->employM->setEmployerSingleInfo($userid,$de_data);
-            $in = $this->employM->setEmployerSingleInfo($to_user,$in_data);
+            $de = $this->employM->setEmployeeSingleInfo($userid,$de_data);
+            $in = $this->employM->setEmployeeSingleInfo($to_user,$in_data);
             $from_r = $cashM->addOrderNumber($cash_from_data);
             $to_r = $cashM->addOrderNumber($cash_to_data);
         }catch (\Exception $e) {

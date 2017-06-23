@@ -7,11 +7,11 @@ namespace app\common\model;
 
 use app\common\model\Base;
 
-class EmployerDelete extends Base
+class EmployeeDelete extends Base
 {
     public function __construct()
     {
-        $this->table = config('database.prefix').'employer_delete';
+        $this->table = config('database.prefix').'employee_delete';
         parent::__construct();
     }
 

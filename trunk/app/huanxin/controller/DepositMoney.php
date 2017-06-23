@@ -10,7 +10,7 @@ use app\huanxin\controller\User;
 use app\huanxin\model\TakeCash;
 use app\huanxin\service\DepositMoney as DepositMoneyService;
 use app\huanxin\model\AppAlipayTrade;
-use app\common\model\Employer;
+use app\common\model\Employee;
 
 class DepositMoney
 {
@@ -150,7 +150,7 @@ class DepositMoney
         ];
         $cashM->link->startTrans();
         try {
-            $add = $user->employM->setEmployerSingleInfo($userid,['left_money' => $left_money]);
+            $add = $user->employM->setEmployeeSingleInfo($userid,['left_money' => $left_money]);
             $cash_rec = $cashM->addOrderNumber($cash_data);
             $app_r = AppAlipayTrade::setTradeStatus($out_trade_no,$app_data);
         } catch (\Exception $e){
@@ -203,7 +203,7 @@ class DepositMoney
             return 'fail';
         } else {
             $corp_id = Corporation::getCorpId($alipay_info['corp_id']);
-            $employM = new Employer($corp_id);
+            $employM = new Employee($corp_id);
             $cashM = new TakeCash();
             $in_money = $alipay_info['money'];
             $in_data = [
@@ -219,7 +219,7 @@ class DepositMoney
             $employM->link->startTrans();
             Corporation::startTrans();
             try{
-                $add = $employM->setSingleEmployerInfobyId($alipay_info['userid'],$in_data);
+                $add = $employM->setSingleEmployeeInfobyId($alipay_info['userid'],$in_data);
                 $cash_rec = $cashM->addOrderNumber($cash_data);
             }catch (\Exception $e){
                 $employM->link->rollback();

@@ -37,9 +37,9 @@ class SaleChance extends Initialize{
     protected function _getSaleChanceForInput(){
         // add ale chance page
         $saleChance['customer_id'] = input('customer_id',0,'int');
-        $saleChance['employer_id'] = session('userinfo.userid');
+        $saleChance['employee_id'] = session('userinfo.userid');
         $saleChance['associator_id'] = input('associator_id',0,'int');
-        $saleChance['bussiness_id'] = input('bussiness_id',0,'int');
+        $saleChance['business_id'] = input('business_id',0,'int');
 
         $saleChance['sale_name'] = input('sale_name');
         $saleChance['sale_status'] = input('sale_status',0,'int');;

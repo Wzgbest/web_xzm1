@@ -7,7 +7,7 @@ namespace app\huanxin\controller;
 
 use app\huanxin\controller\User;
 use app\huanxin\model\RedEnvelope as RedB;
-use app\common\model\Employer;
+use app\common\model\Employee;
 use app\huanxin\model\TakeCash;
 use think\Hook;
 
@@ -95,7 +95,7 @@ class RedEnvelope
         $redM->link->startTrans();
         try{
             $res = $redM->createRedId($indata);
-            $de = $user->employM->setEmployerSingleInfo($userid,['left_money'=>['exp',"left_money - $de_money"]]);
+            $de = $user->employM->setEmployeeSingleInfo($userid,['left_money'=>['exp',"left_money - $de_money"]]);
             $cash_rec = $cashM->addOrderNumber($order_data);
         }catch(\Exception $e){
             $redM->link->rollback();
