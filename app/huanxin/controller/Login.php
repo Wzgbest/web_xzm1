@@ -7,11 +7,9 @@ namespace app\huanxin\controller;
 
 use think\Controller;
 use app\common\model\Employer;
-use app\common\model\UserCorporation;
 use app\common\model\EmployerScore;
-use app\common\model\Occupation;
 use app\common\model\Role;
-use think\Request;
+use app\common\model\StructureEmployer;
 
 class Login extends Controller
 {
@@ -86,6 +84,10 @@ class Login extends Controller
         $roleM = new Role($corp_id);
         $rolep = $roleM->getRoleInfo($user_arr['role']);
 
+
+        $structureEmployerModel = new StructureEmployer($corp_id);
+        $structure = $structureEmployerModel->findEmployerStructure($user_arr['id']);
+
         //更新登录信息
         $data =['lastloginip'=>$ip,'lastlogintime'=>time()];
         if ($model->setEmployerSingleInfo($telephone,$data) <= 0) {
@@ -107,6 +109,7 @@ class Login extends Controller
         $req_reg['occupation'] = $rolep;
         $req_reg['percentage'] = $per;
         //$req_reg['totaluser'] = $data_all;
+        $req_reg['structure'] = $structure;
         return json($req_reg);
     }
 }
