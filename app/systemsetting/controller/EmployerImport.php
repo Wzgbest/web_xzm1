@@ -10,14 +10,14 @@ namespace app\systemsetting\controller;
 
 use app\common\controller\Initialize;
 use app\common\model\Corporation;
-use app\common\model\Employer as EmployerModel;
+use app\common\model\Employee as EmployeeModel;
 use app\huanxin\service\Api as HuanxinApi;
-use app\systemsetting\model\EmployerImportRecord;
-use app\systemsetting\model\EmployerImportFail;
+use app\systemsetting\model\EmployeeImportRecord;
+use app\systemsetting\model\EmployeeImportFail;
 use think\Db;
 use app\common\model\UserCorporation;
 
-class EmployerImport extends Initialize{
+class EmployeeImport extends Initialize{
     public function index(){}
     
     public function table(){
@@ -26,9 +26,9 @@ class EmployerImport extends Initialize{
         $p = input("p");
         $p = $p?:1;
         try{
-            $employerImport = new EmployerImportRecord($this->corp_id);
-            $employerImportRecord = $employerImport->getImportEmployerRecord($num,$p);
-            $result['data'] = $employerImportRecord;
+            $employeeImport = new EmployeeImportRecord($this->corp_id);
+            $employeeImportRecord = $employeeImport->getImportEmployeeRecord($num,$p);
+            $result['data'] = $employeeImportRecord;
         }catch (\Exception $ex){
             return json($result);
         }
@@ -45,8 +45,8 @@ class EmployerImport extends Initialize{
         }
         $map["id"] = $id;
         try{
-            $employerImport = new EmployerImportRecord($this->corp_id);
-            $record = $employerImport->getImportEmployerRecord(1,0,["id"=>$id]);
+            $employeeImport = new EmployeeImportRecord($this->corp_id);
+            $record = $employeeImport->getImportEmployeeRecord(1,0,["id"=>$id]);
             $result['data'] = $record;
         }catch (\Exception $ex){
             return json($result);
@@ -59,7 +59,7 @@ class EmployerImport extends Initialize{
      * @return \think\response\Json
      * created by blu10ph
      */
-    public function importEmployer(){
+    public function importEmployee(){
         $result =  ['status'=>0 ,'info'=>"导入失败！"];
         $file_id = input("file_id",0,"int");
         if(!$file_id){
@@ -110,8 +110,8 @@ class EmployerImport extends Initialize{
 
         //获取批次
         $uid = session('userinfo.userid');
-        $employerImport = new EmployerImportRecord($this->corp_id);
-        $record = $employerImport->getNewImportEmployerRecord($uid);
+        $employeeImport = new EmployeeImportRecord($this->corp_id);
+        $record = $employeeImport->getNewImportEmployeeRecord($uid);
         if(!$record){
             $result['info'] = '添加导入记录失败!';
             return json($result);
@@ -120,46 +120,46 @@ class EmployerImport extends Initialize{
         $batch = $record['batch'];
 
         //获取已存在员工电话
-        $employerM = new EmployerModel($this->corp_id);
-        $telephones = $employerM->getAllTels();
+        $employeeM = new EmployeeModel($this->corp_id);
+        $telephones = $employeeM->getAllTels();
         $telephones = array_filter($telephones);
         $telephones = array_unique($telephones);
 
         //校验数据
         $success_num = 0;
         $fail_array = [];
-        $employerImport->link->startTrans();
+        $employeeImport->link->startTrans();
         Corporation::startTrans();
         foreach ($res ['data'] as $item) {
             try {
                 if(in_array($item["telephone"], $telephones)){
                     exception("手机号已存在!");
                 }
-                $employer['corpid'] = $this->corp_id;
-                $employer['telephone'] = $item['telephone'];
-                $employer['username'] = $item['telephone'];
-                $employer['truename'] = $item['username'];
-                $employer['struct_id'] = 0;
+                $employee['corpid'] = $this->corp_id;
+                $employee['telephone'] = $item['telephone'];
+                $employee['username'] = $item['telephone'];
+                $employee['truename'] = $item['username'];
+                $employee['struct_id'] = 0;
                 $is_leader = (trim($item['is_leader']) == "是") ? 1 : 0;
-                $employer['is_leader'] = $is_leader;
-                $employer['worknum'] = $item['worknum'];
-                $employer['role'] = $item['role'];
+                $employee['is_leader'] = $is_leader;
+                $employee['worknum'] = $item['worknum'];
+                $employee['role'] = $item['role'];
                 $sex = trim($item['sex']);
                 $gender = ($sex == "男") ? 1 : (($sex == "女") ? 0 : 2);
-                $employer['gender'] = $gender;
-                $employer['qqnum'] = $item['qqnum'];
-                $employer['wechat'] = $item['wechat'];
-                $employer['wired_phone'] = $item['wired_phone'];
-                $employer['part_phone'] = $item['part_phone'];
-                $validate_result = $this->validate($employer, 'Employer');
+                $employee['gender'] = $gender;
+                $employee['qqnum'] = $item['qqnum'];
+                $employee['wechat'] = $item['wechat'];
+                $employee['wired_phone'] = $item['wired_phone'];
+                $employee['part_phone'] = $item['part_phone'];
+                $validate_result = $this->validate($employee, 'Employee');
                 //验证字段
                 if (true !== $validate_result) {
                     exception($validate_result);
                 }
-                unset($employer['struct_id']);
-                $employerImport->link->startTrans();
+                unset($employee['struct_id']);
+                $employeeImport->link->startTrans();
                 Corporation::startTrans();
-                $add_flg = $employerM->addSingleEmployer($employer);
+                $add_flg = $employeeM->addSingleEmployee($employee);
                 //var_exp($add_flg, '$add_flg');
                 if (!$add_flg) {
                     exception('导入员工帐号时发生错误!');
@@ -180,19 +180,19 @@ class EmployerImport extends Initialize{
                     exception('注册环信时发生错误!');
                 }
             }catch(\Exception $ex){
-                $employerImport->link->rollback();
+                $employeeImport->link->rollback();
                 UserCorporation::rollback();
                 $item['batch'] = $batch;
                 $item['remark'] = $ex->getMessage();
                 $fail_array[] = $item;
                 continue;
             }
-            $employerImport->link->commit();
+            $employeeImport->link->commit();
             UserCorporation::commit();
             $success_num++;
             //var_exp($success_num, '$success_num');
         }
-        $employerImport->link->commit();
+        $employeeImport->link->commit();
         UserCorporation::commit();
         $fail_num = count($fail_array);
         //var_exp($fail_num,'$fail_num');
@@ -201,8 +201,8 @@ class EmployerImport extends Initialize{
         if($fail_num == 0){
             $data['import_result'] = 2;
         }else{
-            $employerImportFail = new EmployerImportFail($this->corp_id);
-            $fail_save_flg = $employerImportFail->addMutipleImportEmployerFail($fail_array);
+            $employeeImportFail = new EmployeeImportFail($this->corp_id);
+            $fail_save_flg = $employeeImportFail->addMutipleImportEmployeeFail($fail_array);
             if(!$fail_save_flg){
                 $result['info'] = '写入导入失败记录时发生错误!';
                 return json($result);
@@ -219,7 +219,7 @@ class EmployerImport extends Initialize{
         $data['fail_num'] = $fail_num;
         //var_exp($record,'$record');
         //var_exp($data,'$data');
-        $save_flg = $employerImport->setImportEmployerRecord($record['id'],$data);
+        $save_flg = $employeeImport->setImportEmployeeRecord($record['id'],$data);
         if(!$save_flg){
             $result['info'] = '写入导入记录失败!';
             return json($result);
@@ -235,11 +235,11 @@ class EmployerImport extends Initialize{
      * @return \think\response\Json
      * created by blu10ph
      */
-    public function exportEmployer(){
+    public function exportEmployee(){
         $where = null;
-        $employerM = new EmployerModel($this->corp_id);
-        $employers_data = $employerM->exportAllEmployers($where);
-        if(!$employers_data){
+        $employeeM = new EmployeeModel($this->corp_id);
+        $employees_data = $employeeM->exportAllEmployees($where);
+        if(!$employees_data){
             $this->error("导出员工失败!");
         }
         $excel_data = [[
@@ -255,24 +255,24 @@ class EmployerImport extends Initialize{
             9 => "微信号",
             10 => "备注"
         ]];
-        foreach ($employers_data as $employer){
-            unset($employer['id']);
-            $employer['gender'] = $employer['gender']==1?"男":"女";
-            $employer['is_leader'] = $employer['is_leader']==1?"是":"否";
-            $excel_data[] = $employer;
+        foreach ($employees_data as $employee){
+            unset($employee['id']);
+            $employee['gender'] = $employee['gender']==1?"男":"女";
+            $employee['is_leader'] = $employee['is_leader']==1?"是":"否";
+            $excel_data[] = $employee;
         }
-        outExcel($excel_data,'employers-'.time().'.xlsx');
+        outExcel($excel_data,'employees-'.time().'.xlsx');
     }
 
     /**
      * @return \think\response\Json
      * created by blu10ph
      */
-    public function exportFailEmployer(){
+    public function exportFailEmployee(){
         $result =  ['status'=>0 ,'info'=>"导出失败！"];
         $record_id = input("record_id",0,"int");
-        $employerImport = new EmployerImportRecord($this->corp_id);
-        $record = $employerImport->getImportEmployerRecord(1,0,["id"=>$record_id]);
+        $employeeImport = new EmployeeImportRecord($this->corp_id);
+        $record = $employeeImport->getImportEmployeeRecord(1,0,["id"=>$record_id]);
         if(!$record){
             $result['info'] = '未找到导入记录!';
             return json($result);
@@ -282,9 +282,9 @@ class EmployerImport extends Initialize{
             return json($result);
         }
         $batch = $record['batch'];
-        $employerImportFail = new EmployerImportFail($this->corp_id);
-        $importFailEmployers = $employerImportFail->getEmployerByBatch($batch);
-        if(!$importFailEmployers){
+        $employeeImportFail = new EmployeeImportFail($this->corp_id);
+        $importFailEmployees = $employeeImportFail->getEmployeeByBatch($batch);
+        if(!$importFailEmployees){
             $result['info'] = '未找到导入失败的员工!';
             return json($result);
         }
@@ -302,10 +302,10 @@ class EmployerImport extends Initialize{
             10 => "微信号",
             11 => "备注"
         ]];
-        foreach ($importFailEmployers as $importFailEmployer){
-            unset($importFailEmployer['id']);
-            $excel_data[] = $importFailEmployer;
+        foreach ($importFailEmployees as $importFailEmployee){
+            unset($importFailEmployee['id']);
+            $excel_data[] = $importFailEmployee;
         }
-        outExcel($excel_data,'import-Fail-Employers-'.$batch.'-'.time().'.xlsx');
+        outExcel($excel_data,'import-Fail-Employees-'.$batch.'-'.time().'.xlsx');
     }
 }

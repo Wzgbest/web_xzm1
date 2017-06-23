@@ -1,5 +1,5 @@
 <?php
-namespace app\employergrowth\controller;
+namespace app\employeegrowth\controller;
 
 class Index
 {

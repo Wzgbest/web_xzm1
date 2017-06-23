@@ -6,10 +6,10 @@
 namespace app\huanxin\controller;
 
 use think\Controller;
-use app\common\model\Employer;
-use app\common\model\EmployerScore;
+use app\common\model\Employee;
+use app\common\model\EmployeeScore;
 use app\common\model\Role;
-use app\common\model\StructureEmployer;
+use app\common\model\StructureEmployee;
 
 class Login extends Controller
 {
@@ -48,8 +48,8 @@ class Login extends Controller
             return json($req_reg);
         }
         //验证用户信息
-        $model = new Employer($corp_id);
-        $user_arr = $model->getEmployerByTel($telephone);
+        $model = new Employee($corp_id);
+        $user_arr = $model->getEmployeeByTel($telephone);
         if (empty($user_arr)) {
             $req_reg['message'] = '用户不存在或用户未划分公司归属';
             $req_reg['errnum'] = 3;
@@ -75,8 +75,8 @@ class Login extends Controller
             return json($req_reg);
         }
         //获取用户积分
-        $scoreM = new EmployerScore($corp_id);
-        $score=$scoreM->getEmployerScore($user_arr['id']);
+        $scoreM = new EmployeeScore($corp_id);
+        $score=$scoreM->getEmployeeScore($user_arr['id']);
         //积分占比
         $per=$scoreM->getScoreListPer($score['score']);
 
@@ -85,12 +85,12 @@ class Login extends Controller
         $rolep = $roleM->getRoleInfo($user_arr['role']);
 
 
-        $structureEmployerModel = new StructureEmployer($corp_id);
-        $structure = $structureEmployerModel->findEmployerStructure($user_arr['id']);
+        $structureEmployeeModel = new StructureEmployee($corp_id);
+        $structure = $structureEmployeeModel->findEmployeeStructure($user_arr['id']);
 
         //更新登录信息
         $data =['lastloginip'=>$ip,'lastlogintime'=>time()];
-        if ($model->setEmployerSingleInfo($telephone,$data) <= 0) {
+        if ($model->setEmployeeSingleInfo($telephone,$data) <= 0) {
             $reg_reg['message'] = '登录信息写入失败，联系管理员';
             $reg_reg['errnum'] = 7;
             return json($reg_reg);
@@ -98,7 +98,7 @@ class Login extends Controller
 
         //所有员工信息
         //$data_all = $model->getAllUsers();
-        //cache('employer_info'.$telephone,null);
+        //cache('employee_info'.$telephone,null);
         $req_reg['message'] = 'SUCCESS';
         $req_reg['status'] = true;
         $req_reg['errnum'] = 0;

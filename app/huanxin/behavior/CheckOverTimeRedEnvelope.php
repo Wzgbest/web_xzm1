@@ -6,7 +6,7 @@
 namespace app\huanxin\behavior;
 
 use app\huanxin\model\RedEnvelope;
-use app\common\model\Employer;
+use app\common\model\Employee;
 use app\huanxin\model\TakeCash;
 
 class CheckOverTimeRedEnvelope
@@ -43,7 +43,7 @@ class CheckOverTimeRedEnvelope
 
             $money = intval($arr['money']* 100);//单位，分
             //用户余额增加
-            $employer_data = ['left_money'=>['exp', "left_money + $money"]];
+            $employee_data = ['left_money'=>['exp', "left_money + $money"]];
             $time = time();
             $cash_data = [
                 'userid'=> $userid,
@@ -53,11 +53,11 @@ class CheckOverTimeRedEnvelope
                 'remark' => '红包到期返还'
             ];
             $cashM = new TakeCash($corp_id);
-            $employM = new Employer($corp_id);
+            $employM = new Employee($corp_id);
             $redM->link->startTrans();
             try{
                 $change_took_state = $redM->setOverTimeRed($arr['ids'],$time);
-                $send_back_money = $employM->setSingleEmployerInfobyId($arr['fromuser'],$employer_data);
+                $send_back_money = $employM->setSingleEmployeeInfobyId($arr['fromuser'],$employee_data);
                 $cash_rec = $cashM->addOrderNumber($cash_data);
             }catch(\Exception $e){
                 $redM->link->rollback();

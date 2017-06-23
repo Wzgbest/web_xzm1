@@ -6,10 +6,10 @@
 namespace app\systemsetting\controller;
 
 use app\common\controller\Initialize;
-use app\common\model\Employer;
+use app\common\model\Employee;
 use app\common\model\Role as RoleModel;
 use think\Request;
-use app\systemsetting\controller\Employer as EmployerController;
+use app\systemsetting\controller\Employee as EmployeeController;
 
 class Role extends Initialize
 {
@@ -134,8 +134,8 @@ class Role extends Initialize
     public function showRoleMember(Request $request)
     {
         $input = $request->param();
-        $employerM = new Employer();
-        $res = $employerM->getEmployerByRole($input['role_id']);
+        $employeeM = new Employee();
+        $res = $employeeM->getEmployeeByRole($input['role_id']);
         return $res;
     }
 
@@ -148,14 +148,14 @@ class Role extends Initialize
     public function addRoleMember(Request $request)
     {
         $input = $request->param();
-        $employerM = new Employer();
+        $employeeM = new Employee();
         if ($request->isGet()) {
-            $data = $employerM->getEmployerByNotRole($input['role_id'],$input['struct_id'],$input['user_tel_email']);
+            $data = $employeeM->getEmployeeByNotRole($input['role_id'],$input['struct_id'],$input['user_tel_email']);
             $this->assign('data',$data);
             return view();
         } elseif ($request->isPost()) {
             $data = ['role'=>$input['role_id']];
-            $b = $employerM->setMultipleEmployerInfoByIds($input['user_ids'],$data);
+            $b = $employeeM->setMultipleEmployeeInfoByIds($input['user_ids'],$data);
             if ($b > 0) {
                 return [
                     'status'=>true,
@@ -179,8 +179,8 @@ class Role extends Initialize
     public function deleteRole(Request $request)
     {
         $input = $request->param();
-        $employerM = new Employer();
-        $res = $employerM->getEmployerByRole($input['role_id']);
+        $employeeM = new Employee();
+        $res = $employeeM->getEmployeeByRole($input['role_id']);
         if (!empty($res)) {
             return [
                 'status'=>false,
@@ -211,9 +211,9 @@ class Role extends Initialize
     public function deleteRoleMember(Request $request)
     {
         $input = $request->param();
-        $employerM = new Employer();
+        $employeeM = new Employee();
         $data = ['role'=>''];
-        $b = $employerM->setSingleEmployerInfobyId($input['user_id'], $data);
+        $b = $employeeM->setSingleEmployeeInfobyId($input['user_id'], $data);
         if ($b > 0) {
             return [
                 'status'=>true,
@@ -229,14 +229,14 @@ class Role extends Initialize
 
     /**
      * 查看员工详情
-     * @param \app\systemsetting\controller\Employer $employer
+     * @param \app\systemsetting\controller\Employee $employee
      * @return array|false|\PDOStatement|string|\think\Model
      * created by messhair
      */
-    public function showEmployerInfo(EmployerController $employer)
+    public function showEmployeeInfo(EmployeeController $employee)
     {
         $input = input('param.');
-        $res = $employer->showSingleEmployerInfo($input['user_id']);
+        $res = $employee->showSingleEmployeeInfo($input['user_id']);
         return $res;
     }
 }

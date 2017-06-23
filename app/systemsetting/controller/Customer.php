@@ -68,7 +68,7 @@ class Customer extends Initialize{
 
     protected function _getCustomerSettingForInput(){
         $customerSetting['protect_customer_day'] = input('protect_customer_day',0,'int');
-        $customerSetting['take_times_employer'] = input('take_times_employer',0,'int');
+        $customerSetting['take_times_employee'] = input('take_times_employee',0,'int');
         $customerSetting['take_times_structure'] = input('take_times_structure',0,'int');
         $customerSetting['to_halt_day'] = input('to_halt_day',0,'int');
         $customerSetting['effective_call'] = input('effective_call',0,'int');

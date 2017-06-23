@@ -10,11 +10,9 @@
 // +----------------------------------------------------------------------
 use think\Db;
 use app\common\model\UserCorporation;
-use app\common\model\CorporationStructure;
 use app\common\model\Umessage;
-use app\common\model\Employer;
-use app\common\model\Structure as StructureModel;
-use app\common\model\StructureEmployer;
+use app\common\model\Employee;
+use app\common\model\StructureEmployee;
 use app\crm\model\CustomerTrace;
 use app\common\model\ImportFile as FileModel;
 
@@ -161,8 +159,8 @@ function getStructureIds($user_id = null){
         return $userinfo['structure_ids'];
     }
     if (!is_null($user_id)) {
-        $structureEmployer = new StructureEmployer();
-        $struct_ids = $structureEmployer->getStructIdsByEmployer($user_id);
+        $structureEmployee = new StructureEmployee();
+        $struct_ids = $structureEmployee->getStructIdsByEmployee($user_id);
         //session('userinfo',['corp_id'=>$corp_id]);
         return $struct_ids;
     }
@@ -271,8 +269,8 @@ function get_userid_from_tel ($tel,$corp_id='') {
     if (empty($corp_id)) {
         $corp_id = get_corpid($tel);
     }
-    $employM = new Employer($corp_id);
-    $users = $employM->getEmployerByTel($tel);
+    $employM = new Employee($corp_id);
+    $users = $employM->getEmployeeByTel($tel);
     return $users['id'];
 }
 /**
