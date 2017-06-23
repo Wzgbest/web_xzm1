@@ -41,7 +41,8 @@ class Customer extends Initialize{
         $result['info'] = "查询成功！";
         return json($result);
     }
-    public function pool(){//TODO
+    public function public_pool(){
+        //TODO 权限验证?
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
         $scale = input('scale',0,'int');
         if(!$scale || $scale>4){
@@ -52,10 +53,40 @@ class Customer extends Initialize{
         $num = $num?:20;
         $p = input("p",0,"int");
         $p = $p?:1;
-        $filter = [];
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
+        $filter = $this->_getCustomerFilter(["resource_from","grade","customer_name"]);
+        $field = $this->_getCustomerField([]);
         try{
             $customerM = new CustomerModel($this->corp_id);
-            $customers_data = $customerM->getPoolCustomer($num,$p,$filter);
+            $customers_data = $customerM->getPublicPoolCustomer($num,$p,$filter,$field,$order,$direction);
+            $result['data'] = $customers_data;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "查询成功！";
+        return json($result);
+    }
+    public function pool(){
+        $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
+        $scale = input('scale',0,'int');
+        if(!$scale || $scale>4){
+            $result['info'] = '参数错误!';
+            return json($result);
+        }
+        $num = input('num',0,'int');
+        $num = $num?:20;
+        $p = input("p",0,"int");
+        $p = $p?:1;
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
+        $filter = $this->_getCustomerFilter(["resource_from","is_public","customer_name"]);
+        $field = $this->_getCustomerField([]);
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_data = $customerM->getPoolCustomer($num,$p,$filter,$field,$order,$direction);
             $result['data'] = $customers_data;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
@@ -74,7 +105,7 @@ class Customer extends Initialize{
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
         $uid = session('userinfo.userid');
-        $filter = $this->_getCustomerFilter(["take_type","grade","customer_name","contact_name","comm_status","sale_chance","in_column"]);
+        $filter = $this->_getCustomerFilter(["take_type","grade","sale_chance","comm_status","customer_name","tracer","contact_name","in_column"]);
         $field = $this->_getCustomerField(["take_type","grade"]);
         try{
             $customerM = new CustomerModel($this->corp_id);
@@ -88,17 +119,20 @@ class Customer extends Initialize{
         $result['info'] = "查询成功！";
         return json($result);
     }
-    public function subordinate(){//TODO
+    public function subordinate(){
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
         $num = input('num',0,'int');
         $num = $num?:20;
         $p = input("p",0,"int");
         $p = $p?:1;
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
         $uid = session('userinfo.userid');
-        $filter = [];
+        $filter = $this->_getCustomerFilter(["take_type","grade","sale_chance","belongs_to","comm_status","customer_name","tracer","contact_name","in_column"]);
+        $field = $this->_getCustomerField([]);
         try{
             $customerM = new CustomerModel($this->corp_id);
-            $customers_data = $customerM->getSubordinateCustomer($num,$p,$uid,$filter);
+            $customers_data = $customerM->getSubordinateCustomer($num,$p,$uid,$filter,$field,$order,$direction);
             $result['data'] = $customers_data;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
@@ -114,10 +148,13 @@ class Customer extends Initialize{
         $num = $num?:20;
         $p = input("p",0,"int");
         $p = $p?:1;
-        $filter = [];
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
+        $filter = $this->_getCustomerFilter([]);
+        $field = $this->_getCustomerField([]);
         try{
             $customerM = new CustomerModel($this->corp_id);
-            $customers_data = $customerM->getPendingCustomer($num,$p,$filter);
+            $customers_data = $customerM->getPendingCustomer($num,$p,$filter,$field,$order,$direction);
             $result['data'] = $customers_data;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
@@ -195,7 +232,15 @@ class Customer extends Initialize{
                 $filter["sale_chance"] = $comm_status;
             }
         }
-        if(in_array("in_column", $filter_column)){//所在列
+        if(in_array("is_public", $filter_column)){//可见范围
+            $is_public = input("is_public",0,"int");
+            if($is_public){
+                $filter["is_public"] = $is_public;
+            }
+        }
+
+        //所在列
+        if(in_array("in_column", $filter_column)){
             $in_column = input("in_column",0,"int");
             if($in_column){
                 $filter["in_column"] = $in_column;
