@@ -456,21 +456,27 @@ class Customer extends Initialize{
         //TODO 权限验证?
         $result = ['status'=>0 ,'info'=>"更改客户可见范围失败！"];
         $ids = input('ids/a');
-        $is_public = input('is_public/b');
+        $is_public = input('is_public');
         $employees = input('employees/a');
         $departments = input('departments/a');
         if(!$ids || !$is_public || !$employees || !$departments){
             $result['info'] = "参数错误！";
             return json($result);
         }
+        if($is_public && ($employees || $departments)){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $is_public = $is_public?1:0;
+        $employees_str = implode(",",$employees);
+        $departments_str = implode(",",$departments);
         try{
-            //TODO 修改可见范围
-            //$customerM = new CustomerModel($this->corp_id);
-            //$releaseFlg = $customerM->updateCustomers_visible_range($ids);
+            $customerM = new CustomerModel($this->corp_id);
+            $releaseFlg = $customerM->changeCustomersVisibleRange($ids,$is_public,$employees_str,$departments_str);
             //TODO add trace
-            //if(!$releaseFlg){
-            //    exception('更改客户可见范围时发生错误!');
-            //}
+            if(!$releaseFlg){
+                exception('更改客户可见范围时发生错误!');
+            }
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
             return json($result);

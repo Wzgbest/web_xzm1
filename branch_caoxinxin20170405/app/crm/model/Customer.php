@@ -1023,6 +1023,26 @@ class Customer extends Base
     }
 
     /**
+     * 更改客户可见范围
+     * @param $customer_ids array 客户类型
+     * @param $is_public int 是否公开
+     * @param $employees string 可见的员工id
+     * @param $departments string 可见的部门id
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by blu10ph
+     */
+    public function changeCustomersVisibleRange($customer_ids,$is_public,$employees,$departments){
+        $map['id'] = ["in",$customer_ids];
+        $data['is_public'] = $is_public;
+        $data['public_to_employee'] = $employees;
+        $data['public_to_department'] = $departments;
+        return $this->model
+            ->table($this->table)
+            ->where($map)
+            ->update($data);
+    }
+
+    /**
      * 查询单个客户信息
      * @param $cid int 客户id
      * @return int|string
