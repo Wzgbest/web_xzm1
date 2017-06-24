@@ -9,7 +9,7 @@
 namespace app\crm\controller;
 
 use app\common\controller\Initialize;
-use app\common\model\SearchCustomer as SearchCustomerModel;
+use app\crm\model\SearchCustomer as SearchCustomerModel;
 
 class SearchCustomer extends Initialize{
     protected $_searchCustomerModel = null;

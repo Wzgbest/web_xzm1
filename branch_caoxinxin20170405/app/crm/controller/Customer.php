@@ -611,6 +611,28 @@ class Customer extends Initialize{
         $result['info'] = "保存客户信息成功！";
         return json($result);
     }
+    public function update_comm_status(){
+        $result = ['status'=>0 ,'info'=>"保存客户沟通结果时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $customerNegotiate = $this->_getCustomerNegotiateForInput();
+        try{
+            $customerNegotiateM = new CustomerNegotiate($this->corp_id);
+            $customersNegotiateFlg = $customerNegotiateM->updateCustomerNegotiate($id,$customerNegotiate);
+            if(!$customersNegotiateFlg){
+                exception('更新客户沟通状态失败!');
+            }
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "保存客户沟通结果成功！";
+        return json($result);
+    }
     public function del(){
         $result = ['status'=>0 ,'info'=>"删除客户信息时发生错误！"];
         $ids = input('ids/a');

@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------
 // | Author: blu10ph <blu10ph@gmail.com> <http://www.blu10ph.cn>
 // +----------------------------------------------------------------------
-namespace app\common\model;
+namespace app\crm\model;
 
 use app\common\model\Base;
 use think\Db;
