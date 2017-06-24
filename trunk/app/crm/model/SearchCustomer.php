@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------
 // | Author: blu10ph <blu10ph@gmail.com> <http://www.blu10ph.cn>
 // +----------------------------------------------------------------------
-namespace app\common\model;
+namespace app\crm\model;
 
 use app\common\model\Base;
 use think\Db;
@@ -71,14 +71,14 @@ class SearchCustomer extends Base
      * @return array
      * @throws \think\Exception
      */
-    public function findRepeat($id,$uid){
+    public function findRepeat($id,$uid){//TODO 目前只实现一个id的检索,待实现多个id检索重复
         $find_map["id"]=$id;
         $find_map["create_user"] = $uid;
         $find_map["status"]=1;
         $searchCustomer = $this->model
             ->table($this->table)
             ->where($find_map)
-            ->field("*")//TODO
+            ->field("id,customer_name,phone")
             ->find();
 
         $searchSubMap = " id<>:id and status = 1 and ( customer_name = :customer_name or phone = :phone ) ";
