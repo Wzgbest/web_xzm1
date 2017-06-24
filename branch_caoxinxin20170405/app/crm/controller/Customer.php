@@ -44,11 +44,6 @@ class Customer extends Initialize{
     public function public_pool(){
         //TODO 权限验证?
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
-        $scale = input('scale',0,'int');
-        if(!$scale || $scale>4){
-            $result['info'] = '参数错误!';
-            return json($result);
-        }
         $num = input('num',0,'int');
         $num = $num?:20;
         $p = input("p",0,"int");
@@ -71,22 +66,18 @@ class Customer extends Initialize{
     }
     public function pool(){
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
-        $scale = input('scale',0,'int');
-        if(!$scale || $scale>4){
-            $result['info'] = '参数错误!';
-            return json($result);
-        }
         $num = input('num',0,'int');
         $num = $num?:20;
         $p = input("p",0,"int");
         $p = $p?:1;
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
+        $uid = session('userinfo.userid');
         $filter = $this->_getCustomerFilter(["resource_from","is_public","customer_name"]);
         $field = $this->_getCustomerField([]);
         try{
             $customerM = new CustomerModel($this->corp_id);
-            $customers_data = $customerM->getPoolCustomer($num,$p,$filter,$field,$order,$direction);
+            $customers_data = $customerM->getPoolCustomer($num,$p,$uid,$filter,$field,$order,$direction);
             $result['data'] = $customers_data;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
@@ -283,8 +274,9 @@ class Customer extends Initialize{
         $result['info'] = "查询客户列信息成功！";
         return json($result);
     }
-    public function release_customer(){
-        $result = ['status'=>0 ,'info'=>"批量释放客户时发生错误！"];
+    public function take_public_customers_to_self(){
+        //TODO 权限验证?
+        $result = ['status'=>0 ,'info'=>"变更客户时发生错误！"];
         $ids = input('ids/a');
         if(!$ids){
             $result['info'] = "参数错误！";
@@ -293,14 +285,159 @@ class Customer extends Initialize{
         $uid = session('userinfo.userid');
         try{
             $customerM = new CustomerModel($this->corp_id);
-            $releaseFlg = $customerM->releaseCustomers($uid,$ids);
-            if($releaseFlg){
-                $result['info'] = "批量释放客户成功！";
+            $releaseFlg = $customerM->takeCustomers($ids,$uid);
+            //TODO add trace
+            if(!$releaseFlg){
+                exception('变更客户失败!');
             }
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
             return json($result);
         }
+        $result['info'] = "功能开发中！";
+        return json($result);
+    }
+    public function take_customers_apply(){
+        //TODO 权限验证?
+        $result = ['status'=>0 ,'info'=>"申领客户时发生错误！"];
+        $ids = input('ids/a');
+        if(!$ids){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $uid = session('userinfo.userid');
+        //TODO 添加申请
+        $result['info'] = "功能开发中！";
+        return json($result);
+    }
+    public function take_customers_apply_list(){
+        //TODO 权限验证?
+        $result = ['status'=>0 ,'info'=>"查询申领客户时发生错误！"];
+        $map = [];
+        $uid = input('uid');
+        if($uid){
+            $map["uid"] = $uid;
+        }
+        $customer_id = input('customer_id');
+        if($customer_id){
+            $map["customer_id"] = $customer_id;
+        }
+        $num = input('num',0,'int');
+        $num = $num?:20;
+        $p = input("p",0,"int");
+        $p = $p?:1;
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
+        //TODO 查询申请
+        $result['info'] = "功能开发中！";
+        return json($result);
+    }
+    public function take_customers_rejected(){
+        //TODO 权限验证?
+        $result = ['status'=>0 ,'info'=>"驳回申领客户时发生错误！"];
+        $id = input('id');
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $uid = session('userinfo.userid');
+        //TODO 驳回申请
+        $result['info'] = "功能开发中！";
+        return json($result);
+    }
+    public function take_customers_approval(){
+        //TODO 权限验证?
+        $result = ['status'=>0 ,'info'=>"核准申领客户时发生错误！"];
+        $id = input('id');
+        $uid = input('uid',0,"int");
+        if(!$id || !$uid){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        try{
+            //TODO 核准申请
+            $ids = [];
+            $customerM = new CustomerModel($this->corp_id);
+            $releaseFlg = $customerM->takeCustomers($ids,$uid);
+            //TODO add trace
+            if(!$releaseFlg){
+                exception('变更客户时发生错误!');
+            }
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['info'] = "功能开发中！";
+        return json($result);
+    }
+    public function release_customers(){
+        $result = ['status'=>0 ,'info'=>"释放客户时发生错误！"];
+        $ids = input('ids/a');
+        if(!$ids){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $uid = session('userinfo.userid');
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $releaseFlg = $customerM->releaseCustomers($ids,$uid);
+            //TODO add trace
+            if(!$releaseFlg){
+                exception('释放客户失败!');
+            }
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "释放客户成功！";
+        return json($result);
+    }
+    public function change_customers_to_employee(){
+        //TODO 权限验证?
+        $result = ['status'=>0 ,'info'=>"重分客户时发生错误！"];
+        $ids = input('ids/a');
+        $uid = input('uid',0,"int");
+        if(!$ids || !$uid){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $releaseFlg = $customerM->releaseCustomers($ids,$uid);
+            //TODO add trace
+            if(!$releaseFlg){
+                exception('重分客户时发生错误!');
+            }
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "重分客户成功！";
+        return json($result);
+    }
+    public function imposed_release_customers(){
+        //TODO 权限验证?
+        $result = ['status'=>0 ,'info'=>"释放客户时发生错误！"];
+        $ids = input('ids/a');
+        if(!$ids){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $releaseFlg = $customerM->releaseCustomers($ids);
+            //TODO add trace
+            if(!$releaseFlg){
+                exception('释放客户失败!');
+            }
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "释放客户成功！";
         return json($result);
     }
     public function send_customer_group_message(){
@@ -311,7 +448,35 @@ class Customer extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        //TODO 获取手机号, send_sms ($tel,$code,$content);
         $result['info'] = "群发短信功能开发中！";
+        return json($result);
+    }
+    public function change_customers_visible_range(){
+        //TODO 权限验证?
+        $result = ['status'=>0 ,'info'=>"更改客户可见范围失败！"];
+        $ids = input('ids/a');
+        $is_public = input('is_public/b');
+        $employees = input('employees/a');
+        $departments = input('departments/a');
+        if(!$ids || !$is_public || !$employees || !$departments){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        try{
+            //TODO 修改可见范围
+            //$customerM = new CustomerModel($this->corp_id);
+            //$releaseFlg = $customerM->updateCustomers_visible_range($ids);
+            //TODO add trace
+            //if(!$releaseFlg){
+            //    exception('更改客户可见范围时发生错误!');
+            //}
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "更改客户可见范围成功！";
         return json($result);
     }
     public function get_customer_general(){
@@ -435,6 +600,7 @@ class Customer extends Initialize{
             /*if(!$customersNegotiateFlg){
                 exception('更新客户沟通状态失败!');
             }*/
+            //TODO add trace
             //$customerM->link->commit();
         }catch (\Exception $ex){
             //$customerM->link->rollback();
@@ -459,6 +625,7 @@ class Customer extends Initialize{
             if(!$customersDeleteFlg){
                 exception('删除客户失败!');
             }
+            //TODO add trace
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
             return json($result);

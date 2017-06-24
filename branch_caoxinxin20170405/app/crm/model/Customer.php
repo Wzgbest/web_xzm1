@@ -147,6 +147,7 @@ class Customer extends Base
         //筛选
         $map = $this->_getMapByFilter($filter,["resource_from","grade","customer_name"]);
         $map['belongs_to'] = 2;
+        //$map_str = " is_public = 1 ";//TODO 可见范围?
 
         //排序
         if($direction!="desc" && $direction!="asc"){
@@ -191,6 +192,7 @@ class Customer extends Base
             ->table($this->table)->alias('c')
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
             ->where($map)
+            //->where($map_str)
             ->order($subOrder)
             ->field($subField)
             ->buildSql();
@@ -216,7 +218,11 @@ class Customer extends Base
      * @throws \think\Exception
      * created by blu10ph
      */
-    public function getPoolCustomer($num=10,$page=0,$filter=null,$field=null,$order="id",$direction="desc"){
+    public function getPoolCustomer($num=10,$page=0,$uid,$filter=null,$field=null,$order="id",$direction="desc"){
+        //部门
+        $struct_ids = getStructureIds($uid);
+        //$struct_ids_str = array_column($struct_ids, 'struct_id');
+
         //分页
         $offset = 0;
         if($page){
@@ -226,20 +232,22 @@ class Customer extends Base
         //筛选
         $map = $this->_getMapByFilter($filter,["resource_from","is_public","customer_name"]);
         $map['belongs_to'] = 2;
+        $map_str = " is_public = 1 or find_in_set($uid,public_to_employee) ";
+        foreach ($struct_ids as $struct_id){
+            $map_str .=" or find_in_set(".$struct_id["struct_id"].",public_to_department) ";
+        }
 
         //排序
         if($direction!="desc" && $direction!="asc"){
             $direction = "desc";
         }
-        $orderPrefix = "";
-        $Order = [$orderPrefix.$order=>$direction];
+        $Order = [$order=>$direction];
         switch ($order){
             case "id":
             case "customer_name":
             case "resource_from":
             case "add_batch":
-                $orderPrefix = "c.";
-                $Order = [$orderPrefix.$order=>$direction];
+                $Order = [$order=>$direction];
                 break;
         }
 
@@ -256,6 +264,7 @@ class Customer extends Base
         $customerList = $this->model
             ->table($this->table)
             ->where($map)
+            ->where($map_str)
             ->order($Order)
             ->field($Field)
             ->limit($offset,$num)
@@ -710,8 +719,8 @@ class Customer extends Base
             ->having($having)
             ->limit($offset,$num)
             ->field($listField)
-            ->select(false);
-        var_exp($customerList,'$customerList',1);
+            ->select();
+        //var_exp($customerList,'$customerList',1);
         //具体的值处理
         foreach ($customerList as &$customer){
             $customer['comm_status'] = getCommStatusByArr([
@@ -974,14 +983,35 @@ class Customer extends Base
     }
 
     /**
-     * 获取所有客户信息
-     * @param $uid int|array 员工id
+     * 变更为某员工的客户
      * @param $customer_ids array 客户类型
+     * @param $uid int|array 员工id
      * @return false|\PDOStatement|string|\think\Collection
      * created by blu10ph
      */
-    public function releaseCustomers($uid,$customer_ids){
-        $map['handle_man'] = $uid;
+    public function takeCustomers($customer_ids,$uid){
+        $map['handle_man'] = 0;
+        $map['belongs_to'] = 1;
+        $map['id'] = ["in",$customer_ids];
+        $data['belongs_to'] = 3;
+        $data['handle_man'] = $uid;
+        return $this->model
+            ->table($this->table)
+            ->where($map)
+            ->update($data);
+    }
+
+    /**
+     * 释放客户
+     * @param $customer_ids array 客户类型
+     * @param $uid int|array 员工id
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by blu10ph
+     */
+    public function releaseCustomers($customer_ids,$uid=null){
+        if($uid){
+            $map['handle_man'] = $uid;
+        }
         $map['belongs_to'] = 3;
         $map['id'] = ["in",$customer_ids];
         $data['belongs_to'] = 1;
