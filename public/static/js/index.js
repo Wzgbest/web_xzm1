@@ -63,7 +63,7 @@ $("aside dl dd").click(function(){
 	var v = $(this).data().subid;
 	var f = v+"fr";
 	var x= subtitleGroup.indexOf(v);
-	console.log(t,v,x,f,subtitleGroup);
+	//console.log(t,v,x,f,subtitleGroup);
 	//当前点击
 	if(x==-1){
 		subtitleGroup.push(v);
@@ -116,14 +116,14 @@ $(document).on('click','#subtitle>div i.fa-close',function(){
 	//当前删除和非当前删除
 	//是否是当前项
 	var cla = $(this).parent().attr("class");
-	console.log(cla);
+	//console.log(cla);
 	//获取位置
 	var id = $(this).parent().attr("id");
 	var t = subtitleGroup.indexOf(id);
 	//判断位置,添加删除后的active项
 	//如果是当前删除，需要判断删除后显示那一个页面
 	if(cla=="active"){
-		console.log(22222);
+		//console.log(22222);
 		var len = subtitleGroup.length;
 		//如果是最后一个位置
 		if(t==len-1){
@@ -134,8 +134,10 @@ $(document).on('click','#subtitle>div i.fa-close',function(){
 	}
 	//删除选中项！
 	subtitleGroup.splice(t,1);
-	console.log(subtitleGroup);
+	//console.log(subtitleGroup);
 	$(this).parent().remove();
+	//console.log($(this).parent().attr("id"));
+	$("#"+$(this).parent().attr("id")+"fr").remove();
 	subResize();
 	frameShow();
 	asideChange();
@@ -154,17 +156,17 @@ function asideChange(){
 	$("aside dl dd").removeClass("ddcurrent");
 	//判断当前显示
 	var a = getElementByAttr('dd','data-subid',$("#subtitle>div.active").attr("id"))[0];
-	console.log(a);
+	//console.log(a);
 /*	a.addClass("ddcurrent");
 	a.sibling("dt").addClass("dtcurrent");*/
 	a.classList.add("ddcurrent");
 	var ap = a.parentNode;
-	console.log(ap.getElementsByTagName("dt")[0]);
+	//console.log(ap.getElementsByTagName("dt")[0]);
 	ap.getElementsByTagName("dt")[0].classList.add("dtcurrent");
 	
 	/*var apc = ap.firstChild;
-	console.log(a);
-	console.log(ap);*/
+	//console.log(a);
+	//console.log(ap);*/
 	//console.log(apc);
 	//a.parentNode().firstChild().classList.add("dtcurrent");
 	
