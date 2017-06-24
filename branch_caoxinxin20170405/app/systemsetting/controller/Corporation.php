@@ -18,6 +18,30 @@ class Corporation extends Initialize
     }
 
     /**
+     * 获取公司信息并绑定到模板
+     * @return array
+     * created by blu10ph
+     */
+    protected function _showCorpInfo(){
+        $data = CorporationModel::getCorporation($this->corp_id);
+        $business = new Business($this->corp_id);
+        $business_list = $business->getAllBusiness();
+        $corpInfo = ['business_list'=>$business_list,'data'=>$data];
+        $this->assign($corpInfo);
+        return $corpInfo;
+    }
+
+    /**
+     * 显示公司信息
+     * @return mixed
+     * created by blu10ph
+     */
+    public function showCorpInfo(){
+        $this->_showCorpInfo();
+        return view();
+    }
+
+    /**
      * 修改公司信息
      * @return mixed
      * created by messhair
@@ -25,24 +49,14 @@ class Corporation extends Initialize
     public function editCorpInfo(Request $request)
     {
         if ($request->isGet()) {
-            //$corpM = new CorporationModel();
-            //$data = $corpM->getCorporation($this->corp_id);
-            $data = CorporationModel::getCorporation($this->corp_id);
-            $business = new Business($this->corp_id);
-            $field_list = $business->getAllBusiness();
-            $this->assign('field_list',$field_list);
-            $this->assign('data',$data);
+            $this->_showCorpInfo();
             return view();
         } elseif ($request->isPost()) {
-            $info['status'] = false;
-            if (empty($this->corp_id)) {
-                $info['message'] = '访问有误';
-                return $info;
-            }
+            $info = ['status'=>0,"message"=>"修改公司信息时发生错误!"];
             $input = $request->param();
 
-            if (empty($input['corp_name']) ||empty($input['corp_tel']) || empty($input['corp_field'])) {
-                $info['message'] = '缺少必填信息';
+            if (empty($this->corp_id) || empty($input['corp_name']) ||empty($input['corp_tel']) || empty($input['corp_field'])) {
+                $info['message'] = '参数错误!';
                 return $info;
             }
 
@@ -59,7 +73,7 @@ class Corporation extends Initialize
             $corpM = new CorporationModel();
             $res = $corpM->setCorporationInfo($this->corp_id,$data);
             if ($res >= 0) {
-                $info['status'] = true;
+                $info['status'] = 1;
                 $info['message'] = '修改公司信息成功';
             } else {
                 $info['message'] = '修改公司信息失败';
