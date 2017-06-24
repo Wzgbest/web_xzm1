@@ -536,7 +536,19 @@ class Customer extends Base
         //筛选
         $map = $this->_getMapByFilter($filter,["take_type","grade","sale_chance","belongs_to","comm_status","customer_name","tracer","contact_name"]);
         $map['c.belongs_to'] = 3;
-        $map['c.handle_man'] = $uid;
+        $subordinateIdSubMap["e.id"] = $uid;
+        $subordinateIdSubMap["e.is_leader"] = 1;
+        $subordinateIdSubMap["ses.user_id"] = ["neq",$uid];
+        $subordinateIdSubQuery = $this->model
+            ->table($this->dbprefix.'employee')->alias('e')
+            ->join($this->dbprefix.'structure_employee se','se.user_id = e.id',"LEFT")
+            ->join($this->dbprefix.'structure_employee ses','ses.struct_id = se.struct_id',"LEFT")
+            ->where($subordinateIdSubMap)
+            ->group("ses.user_id")
+            ->field("ses.user_id")
+            ->buildSql();
+        //var_exp($subordinateIdSubQuery,'$subordinateIdSubQuery',1);
+        $map_str = " c.handle_man in $subordinateIdSubQuery ";
         $having = "";
         //列筛选
         if(array_key_exists("in_column", $filter)){
@@ -686,6 +698,7 @@ class Customer extends Base
             ->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")//ct.operator_id = c.handle_man
             ->where($map)
+            ->where($map_str)
             ->order($subOrder)
             ->field($subField)
             ->buildSql();
@@ -697,8 +710,8 @@ class Customer extends Base
             ->having($having)
             ->limit($offset,$num)
             ->field($listField)
-            ->select();
-        //var_exp($customerList,'$customerList',1);
+            ->select(false);
+        var_exp($customerList,'$customerList',1);
         //具体的值处理
         foreach ($customerList as &$customer){
             $customer['comm_status'] = getCommStatusByArr([

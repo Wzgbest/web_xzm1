@@ -120,6 +120,7 @@ class Customer extends Initialize{
         return json($result);
     }
     public function subordinate(){
+        //TODO 权限验证?
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
         $num = input('num',0,'int');
         $num = $num?:20;
