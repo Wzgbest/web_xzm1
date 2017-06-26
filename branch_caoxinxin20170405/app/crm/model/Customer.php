@@ -270,6 +270,9 @@ class Customer extends Base
             ->limit($offset,$num)
             ->select();
         //var_exp($customerList,'$customerList',1);
+        foreach ($customerList as &$customer){
+            $customer["customer_name"] = mb_substr($customer["customer_name"],0,3)."XXXXXXXX";
+        }
         return $customerList;
     }
 

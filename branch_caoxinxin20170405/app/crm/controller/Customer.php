@@ -41,7 +41,7 @@ class Customer extends Initialize{
         $result['info'] = "查询成功！";
         return json($result);
     }
-    public function public_pool(){
+        public function public_pool(){
         //TODO 权限验证?
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
         $num = input('num',0,'int');
