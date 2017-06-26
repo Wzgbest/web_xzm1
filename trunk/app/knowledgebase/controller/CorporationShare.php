@@ -21,12 +21,26 @@ class CorporationShare{
 
         $result = ['status'=>0 ,'info'=>"发布动态时发生错误！"];
         $msg = input('param.msg');
-        $img = request()->file('img');
-        $img_info = $img->move(ROOT_PATH . 'public' . DS . 'webroot' . DS . $chk_info['corp_id']);
-        $time = input('param.time');
+        $imgs = input('param.img/a');
+        if(!$msg || !$imgs){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $time = time();//input('param.time');
+        $img_info_arr = [];
+        foreach ($imgs as $img ){
+            $img_info = get_app_img($img);
+            if(!$img_info["status"]){
+                $result['info'] = $img_info["message"];
+                return json($result);
+            }
+            $img_info_arr[] = $img_info;
+        }
         var_exp($msg,'$msg');
-        var_exp($img_info,'$img_info');
-        var_exp($time,'$time',1);
+        var_exp($imgs,'$imgs');
+        var_exp($img_info_arr,'$img_info_arr',1);
+
+        $result['info'] = "发布动态功能开发中！";
         return json($result);
     }
     public function shareList(){}

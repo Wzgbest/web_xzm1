@@ -15,6 +15,7 @@ use app\common\model\Employee;
 use app\common\model\StructureEmployee;
 use app\crm\model\CustomerTrace;
 use app\common\model\ImportFile as FileModel;
+use app\common\model\Picture as PictureModel;
 
 // 应用公共文件
 
@@ -274,6 +275,35 @@ function get_userid_from_tel ($tel,$corp_id='') {
     return $users['id'];
 }
 /**
+ * 根据图片ID获取图像文件路径
+ * @param $id int 图片ID
+ * @return mixed|string
+ * created by blu10ph
+ */
+function get_img_path_by_id($id,$corp_id='') {
+    $img_path = "";
+    if (empty($id)) {
+        return $img_path;
+    }
+    if (empty($corp_id)) {
+        $corp_id = get_corpid();
+    }
+    $pictureInfo = cache($corp_id."_img.".$id);
+    if(!$pictureInfo){
+        $pictureModel = new PictureModel($corp_id);
+        $pictureInfo = $pictureModel->get(1,0,["id"=>$id,"status"=>1]);
+        cache($corp_id."_img_".$id,$pictureInfo);
+    }
+    if(!$pictureInfo){
+        return $img_path;
+    }
+    if($pictureInfo["block"]){
+        $img_path = config('image_block');
+        return $img_path;
+    }
+    return $img_path;
+}
+/**
  * 处理app端传来图像文件
  * @param $data
  * @return mixed|string
@@ -284,12 +314,13 @@ function get_app_img ($data) {
     $data = base64_decode($data);
     $res['status'] = false;
     try{
-        $img_path = $img_path.date('Y-m-d',time());//相对路径
-        $save_path = PUBLIC_PATH.$img_path;//物理路径
+        $img_path = $img_path.DS.date('Y-m-d',time());//相对路径
+        $corp_id = get_corpid();
+        $save_path = PUBLIC_PATH.DS."webroot".DS.$corp_id.DS.$img_path;//物理路径
         if (!is_dir($save_path)) {
-            mkdir($save_path,0755);
+            mkdirs($save_path);
         }
-        $img_path = $img_path.'/'.time().rand(10000,99999).'.tmp';//相对路径文件
+        $img_path = $img_path.DS.time().rand(10000,99999).'.tmp';//相对路径文件
         $save_path = PUBLIC_PATH.$img_path;//物理路径文件
         file_put_contents($save_path,$data);
         $arr=getimagesize($save_path);
@@ -594,12 +625,12 @@ function var_exp($val,$valName='',$exit=false,$hr=true){
  * @return boolean
  * created by blu10ph
  */
-function mkdirs($dir) {
+function mkdirs($dir,$mode=0755) {
     if(!is_dir($dir)) {
         if (!mkdirs(dirname($dir))){
             return false;
         }
-        if(!mkdir($dir,0777)){
+        if(!mkdir($dir,$mode)){
             return false;
         }
     }
