@@ -826,7 +826,8 @@ function outExcel($data, $filename = '', $sheet = false) {
  * created by blu10ph
  */
 function saveExcel($data, $sheet = false) {
-    $path = dirname($_SERVER['SCRIPT_FILENAME']) . DS . 'download' . DS . date('Ymd');
+    $corp_id = get_corpid();
+    $path = PUBLIC_PATH.DS."webroot".DS.$corp_id . DS . 'download' . DS . date('Ymd');
     $mkdir_flg = true;
     if(!is_dir($path) && function_exists('mkdirs')){
         $mkdir_flg = mkdirs($path);
@@ -835,7 +836,7 @@ function saveExcel($data, $sheet = false) {
         return false;
     }
     $savename = md5(microtime(true)).'.xlsx';
-    $relative_path = dirname($_SERVER['SCRIPT_NAME']).'/download/' . date('Ymd') . '/' . $savename;
+    $relative_path = $path . DS . $savename;
     saveExcelToPath($data, $sheet,$savename,$path);
     unset ( $sheet );
     unset ( $dataArr );
