@@ -41,8 +41,18 @@ class Customer extends Initialize{
         $result['info'] = "查询成功！";
         return json($result);
     }
-        public function public_pool(){
-        //TODO 权限验证?
+    public function pool(){
+        $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
+        //TODO 检查公海池是否公开
+        $public_flg = false;
+        if($public_flg){
+            $result = $this->public_pool();
+        }else{
+            $result = $this->anonymous_pool();
+        }
+        return json($result);
+    }
+    protected function public_pool(){
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
         $num = input('num',0,'int');
         $num = $num?:20;
@@ -62,9 +72,9 @@ class Customer extends Initialize{
         }
         $result['status'] = 1;
         $result['info'] = "查询成功！";
-        return json($result);
+        return $result;
     }
-    public function pool(){
+    protected function anonymous_pool(){
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
         $num = input('num',0,'int');
         $num = $num?:20;
@@ -85,7 +95,7 @@ class Customer extends Initialize{
         }
         $result['status'] = 1;
         $result['info'] = "查询成功！";
-        return json($result);
+        return $result;
     }
     public function self(){
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
@@ -274,31 +284,7 @@ class Customer extends Initialize{
         $result['info'] = "查询客户列信息成功！";
         return json($result);
     }
-    public function take_public_customers_to_self(){
-        //TODO 权限验证?
-        $result = ['status'=>0 ,'info'=>"变更客户时发生错误！"];
-        $ids = input('ids/a');
-        if(!$ids){
-            $result['info'] = "参数错误！";
-            return json($result);
-        }
-        $uid = session('userinfo.userid');
-        try{
-            $customerM = new CustomerModel($this->corp_id);
-            $releaseFlg = $customerM->takeCustomers($ids,$uid);
-            //TODO add trace
-            if(!$releaseFlg){
-                exception('变更客户失败!');
-            }
-        }catch (\Exception $ex){
-            $result['info'] = $ex->getMessage();
-            return json($result);
-        }
-        $result['info'] = "功能开发中！";
-        return json($result);
-    }
-    public function take_customers_apply(){
-        //TODO 权限验证?
+    public function take_customers_to_self(){
         $result = ['status'=>0 ,'info'=>"申领客户时发生错误！"];
         $ids = input('ids/a');
         if(!$ids){
@@ -306,56 +292,8 @@ class Customer extends Initialize{
             return json($result);
         }
         $uid = session('userinfo.userid');
-        //TODO 添加申请
-        $result['info'] = "功能开发中！";
-        return json($result);
-    }
-    public function take_customers_apply_list(){
-        //TODO 权限验证?
-        $result = ['status'=>0 ,'info'=>"查询申领客户时发生错误！"];
-        $map = [];
-        $uid = input('uid');
-        if($uid){
-            $map["uid"] = $uid;
-        }
-        $customer_id = input('customer_id');
-        if($customer_id){
-            $map["customer_id"] = $customer_id;
-        }
-        $num = input('num',0,'int');
-        $num = $num?:20;
-        $p = input("p",0,"int");
-        $p = $p?:1;
-        $order = input("order","id","string");
-        $direction = input("direction","desc","string");
-        //TODO 查询申请
-        $result['info'] = "功能开发中！";
-        return json($result);
-    }
-    public function take_customers_rejected(){
-        //TODO 权限验证?
-        $result = ['status'=>0 ,'info'=>"驳回申领客户时发生错误！"];
-        $id = input('id');
-        if(!$id){
-            $result['info'] = "参数错误！";
-            return json($result);
-        }
-        $uid = session('userinfo.userid');
-        //TODO 驳回申请
-        $result['info'] = "功能开发中！";
-        return json($result);
-    }
-    public function take_customers_approval(){
-        //TODO 权限验证?
-        $result = ['status'=>0 ,'info'=>"核准申领客户时发生错误！"];
-        $id = input('id');
-        $uid = input('uid',0,"int");
-        if(!$id || !$uid){
-            $result['info'] = "参数错误！";
-            return json($result);
-        }
         try{
-            //TODO 核准申请
+            //TODO 检查申领次数
             $ids = [];
             $customerM = new CustomerModel($this->corp_id);
             $releaseFlg = $customerM->takeCustomers($ids,$uid);
@@ -393,6 +331,29 @@ class Customer extends Initialize{
         $result['info'] = "释放客户成功！";
         return json($result);
     }
+    public function imposed_release_customers(){
+        //TODO 权限验证?
+        $result = ['status'=>0 ,'info'=>"释放客户时发生错误！"];
+        $ids = input('ids/a');
+        if(!$ids){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $releaseFlg = $customerM->releaseCustomers($ids);
+            //TODO add trace
+            if(!$releaseFlg){
+                exception('释放客户失败!');
+            }
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "释放客户成功！";
+        return json($result);
+    }
     public function change_customers_to_employee(){
         //TODO 权限验证?
         $result = ['status'=>0 ,'info'=>"重分客户时发生错误！"];
@@ -415,29 +376,6 @@ class Customer extends Initialize{
         }
         $result['status'] = 1;
         $result['info'] = "重分客户成功！";
-        return json($result);
-    }
-    public function imposed_release_customers(){
-        //TODO 权限验证?
-        $result = ['status'=>0 ,'info'=>"释放客户时发生错误！"];
-        $ids = input('ids/a');
-        if(!$ids){
-            $result['info'] = "参数错误！";
-            return json($result);
-        }
-        try{
-            $customerM = new CustomerModel($this->corp_id);
-            $releaseFlg = $customerM->releaseCustomers($ids);
-            //TODO add trace
-            if(!$releaseFlg){
-                exception('释放客户失败!');
-            }
-        }catch (\Exception $ex){
-            $result['info'] = $ex->getMessage();
-            return json($result);
-        }
-        $result['status'] = 1;
-        $result['info'] = "释放客户成功！";
         return json($result);
     }
     public function send_customer_group_message(){
