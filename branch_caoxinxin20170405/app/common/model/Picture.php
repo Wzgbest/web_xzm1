@@ -10,9 +10,9 @@ namespace app\common\model;
 
 use app\common\model\Base;
 
-class ImportFile extends Base{
+class Picture extends Base{
     public function __construct($corp_id){
-        $this->table=config('database.prefix').'import_file';
+        $this->table=config('database.prefix').'picture';
         parent::__construct($corp_id);
     }
 
@@ -35,24 +35,17 @@ class ImportFile extends Base{
         foreach($files as $key=>$file){
             $value = [];
             $path = ROOT_PATH . 'public' . DS . 'webroot' . DS . $this->corp_id . DS . 'import_file';
-            $checkFlg = $file->check(config('upload_import_file'));
+            $checkFlg = $file->check(["ext"=>config('upload_image.image_ext')]);
             if(!$checkFlg){
                 return false;
             }
             $info = $file->move($path);
             //var_exp($info,'$info');
             $savename = $info->getSaveName();
-            $original_info = $info->getInfo();
-            $value['type'] = $type;
-            $value['name'] = $original_info['name'];
-            $value['savename'] = basename($savename);
-            $value['savepath'] = $path.DS.dirname($savename);
-            $value['ext'] = pathinfo($value['name'], PATHINFO_EXTENSION);
-            $value['mime'] = $info->getMime();
-            $value['size'] = $info->getSize();
+            $value['path'] = $savename;
+            $value['category_id'] = $type;
             $value['md5'] = $info->hash("md5");
             $value['sha1'] = $info->hash("sha1");
-            $value['location'] = 0;
             $value['create_time'] = time();
             if(isset($fileData[$value['md5']]) && is_numeric($fileData[$value['md5']])){
                 $save_flg = $this
@@ -61,6 +54,7 @@ class ImportFile extends Base{
                     ->where(array('id'=>$fileData[$value['md5']]))
                     ->update($value);
                 $value['id'] = $fileData[$value['md5']];
+                cache($this->corp_id."_img.".$value['id'],null);
             }else{
                 $add_flg = $this
                     ->model
@@ -81,8 +75,8 @@ class ImportFile extends Base{
     /**
      * 获取文件
      * @param $file Object File类对象
-     * @param $type string hash类型
      * @return string md5字符串
+     * @param $type string hash类型
      */
     protected function getHash($file,$type='md5'){
         $hash_md5 = $file->hash($type);
