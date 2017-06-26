@@ -129,6 +129,7 @@ class Customer extends Base
 
     /**
      * 获取公开公海池中的客户
+     * @param $uid int 员工id
      * @param $num int 数量
      * @param $page int 页
      * @param $filter array 客户筛选条件
@@ -137,7 +138,10 @@ class Customer extends Base
      * @throws \think\Exception
      * created by blu10ph
      */
-    public function getPublicPoolCustomer($num=10,$page=0,$filter=null,$field=null,$order="id",$direction="desc"){
+    public function getPublicPoolCustomer($uid,$num=10,$page=0,$filter=null,$field=null,$order="id",$direction="desc"){
+        //部门
+        $struct_ids = getStructureIds($uid);
+        //$struct_ids_str = array_column($struct_ids, 'struct_id');
         //分页
         $offset = 0;
         if($page){
@@ -147,7 +151,10 @@ class Customer extends Base
         //筛选
         $map = $this->_getMapByFilter($filter,["resource_from","grade","customer_name"]);
         $map['belongs_to'] = 2;
-        //$map_str = " is_public = 1 ";//TODO 可见范围?
+        $map_str = " is_public = 1 or find_in_set($uid,public_to_employee) ";
+        foreach ($struct_ids as $struct_id){
+            $map_str .=" or find_in_set(".$struct_id["struct_id"].",public_to_department) ";
+        }
 
         //排序
         if($direction!="desc" && $direction!="asc"){
@@ -210,6 +217,7 @@ class Customer extends Base
 
     /**
      * 获取公海池中的客户
+     * @param $uid int 员工id
      * @param $num int 数量
      * @param $page int 页
      * @param $filter array 客户筛选条件
@@ -218,7 +226,7 @@ class Customer extends Base
      * @throws \think\Exception
      * created by blu10ph
      */
-    public function getPoolCustomer($num=10,$page=0,$uid,$filter=null,$field=null,$order="id",$direction="desc"){
+    public function getPoolCustomer($uid,$num=10,$page=0,$filter=null,$field=null,$order="id",$direction="desc"){
         //部门
         $struct_ids = getStructureIds($uid);
         //$struct_ids_str = array_column($struct_ids, 'struct_id');
@@ -278,9 +286,9 @@ class Customer extends Base
 
     /**
      * 获取我的客户
+     * @param $uid int 员工id
      * @param $num int 数量
      * @param $page int 页
-     * @param $uid int 员工id
      * @param $filter array 客户筛选条件
      * @param $order string 排序
      * @param $direction string 排序方向
@@ -288,18 +296,16 @@ class Customer extends Base
      * @throws \think\Exception
      * created by blu10ph
      */
-    public function getSelfCustomer($num=10,$page=0,$uid,$filter=null,$field=null,$order="id",$direction="desc"){
+    public function getSelfCustomer($uid,$num=10,$page=0,$filter=null,$field=null,$order="id",$direction="desc"){
         $now_time = time();
         //获取客户配置
         $struct_ids = getStructureIds($uid);
+        $customerSettingModel = new CustomerSetting();
+        $searchCustomerList = $customerSettingModel->getCustomerSettingByStructIds($struct_ids);
         //$protect_customer_days = [];
         $protect_customer_day_max = 0;//暂定员工属于两个部门且有客户,保有时间按长的来
         $to_halt_day_max = 0;//暂定员工属于两个部门且有客户,划归停滞客户的天数按长的来
-        foreach ($struct_ids as $struct_id){
-            $structure = intval($struct_id);
-            $setting_map = "find_in_set('$structure', set_to_structure)";
-            $customerSettingModel = new CustomerSetting();
-            $customerSetting = $customerSettingModel->getCustomerSetting(1,0,$setting_map);
+        foreach ($searchCustomerList as $customerSetting){
             if(!$customerSetting){
                 $customerSetting["protect_customer_day"] = 0;
                 $customerSetting["to_halt_day"] = 0;
@@ -505,16 +511,16 @@ class Customer extends Base
 
     /**
      * 获取我的下属的客户
+     * @param $uid int 员工id
      * @param $num int 数量
      * @param $page int 页
-     * @param $uid int 员工id
      * @param $filter array 客户筛选条件
      * @param $order string 排序
      * @return array
      * @throws \think\Exception
      * created by blu10ph
      */
-    public function getSubordinateCustomer($num=10,$page=0,$uid,$filter=null,$field=null,$order="id",$direction="desc"){
+    public function getSubordinateCustomer($uid,$num=10,$page=0,$filter=null,$field=null,$order="id",$direction="desc"){
         $now_time = time();
         //获取客户配置
         $struct_ids = getStructureIds($uid);

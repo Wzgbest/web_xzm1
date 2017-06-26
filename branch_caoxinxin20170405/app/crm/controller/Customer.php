@@ -12,6 +12,7 @@ use app\common\controller\Initialize;
 use app\crm\model\Customer as CustomerModel;
 use app\crm\model\CustomerDelete as CustomerDelete;
 use app\crm\model\CustomerNegotiate;
+use app\systemsetting\model\CustomerSetting;
 
 class Customer extends Initialize{
     public function index(){
@@ -43,8 +44,18 @@ class Customer extends Initialize{
     }
     public function pool(){
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
-        //TODO 检查公海池是否公开
+        $uid = session('userinfo.userid');
+        //获取客户配置
+        $struct_ids = getStructureIds($uid);
+        $customerSettingModel = new CustomerSetting();
+        $searchCustomerList = $customerSettingModel->getCustomerSettingByStructIds($struct_ids);
         $public_flg = false;
+        foreach ($searchCustomerList as $customerSetting){
+            if(!$customerSetting["public_sea_seen"]==1){
+                $public_flg = true;
+                break;
+            }
+        }
         if($public_flg){
             $result = $this->public_pool();
         }else{
@@ -60,11 +71,12 @@ class Customer extends Initialize{
         $p = $p?:1;
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
+        $uid = session('userinfo.userid');
         $filter = $this->_getCustomerFilter(["resource_from","grade","customer_name"]);
         $field = $this->_getCustomerField([]);
         try{
             $customerM = new CustomerModel($this->corp_id);
-            $customers_data = $customerM->getPublicPoolCustomer($num,$p,$filter,$field,$order,$direction);
+            $customers_data = $customerM->getPublicPoolCustomer($uid,$num,$p,$filter,$field,$order,$direction);
             $result['data'] = $customers_data;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
@@ -87,7 +99,7 @@ class Customer extends Initialize{
         $field = $this->_getCustomerField([]);
         try{
             $customerM = new CustomerModel($this->corp_id);
-            $customers_data = $customerM->getPoolCustomer($num,$p,$uid,$filter,$field,$order,$direction);
+            $customers_data = $customerM->getPoolCustomer($uid,$num,$p,$filter,$field,$order,$direction);
             $result['data'] = $customers_data;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
@@ -110,7 +122,7 @@ class Customer extends Initialize{
         $field = $this->_getCustomerField(["take_type","grade"]);
         try{
             $customerM = new CustomerModel($this->corp_id);
-            $customers_data = $customerM->getSelfCustomer($num,$p,$uid,$filter,$field,$order,$direction);
+            $customers_data = $customerM->getSelfCustomer($uid,$num,$p,$filter,$field,$order,$direction);
             $result['data'] = $customers_data;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
@@ -134,7 +146,7 @@ class Customer extends Initialize{
         $field = $this->_getCustomerField([]);
         try{
             $customerM = new CustomerModel($this->corp_id);
-            $customers_data = $customerM->getSubordinateCustomer($num,$p,$uid,$filter,$field,$order,$direction);
+            $customers_data = $customerM->getSubordinateCustomer($uid,$num,$p,$filter,$field,$order,$direction);
             $result['data'] = $customers_data;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
@@ -266,11 +278,7 @@ class Customer extends Initialize{
     }
     public function get_column_num(){
         $result = ['status'=>0 ,'info'=>"查询客户列信息时发生错误！"];
-        $uid = input('uid',0,'int');
-        if(!$uid){
-            $result['info'] = "参数错误！";
-            return json($result);
-        }
+        $uid = session('userinfo.userid');
         $filter = $this->_getCustomerFilter(["take_type","grade","customer_name","contact_name","comm_status","sale_chance"]);
         try{
             $customerM = new CustomerModel($this->corp_id);
@@ -333,7 +341,7 @@ class Customer extends Initialize{
     }
     public function imposed_release_customers(){
         //TODO 权限验证?
-        $result = ['status'=>0 ,'info'=>"释放客户时发生错误！"];
+        $result = ['status'=>0 ,'info'=>"强制释放客户时发生错误！"];
         $ids = input('ids/a');
         if(!$ids){
             $result['info'] = "参数错误！";
@@ -344,14 +352,14 @@ class Customer extends Initialize{
             $releaseFlg = $customerM->releaseCustomers($ids);
             //TODO add trace
             if(!$releaseFlg){
-                exception('释放客户失败!');
+                exception('强制释放客户失败!');
             }
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
             return json($result);
         }
         $result['status'] = 1;
-        $result['info'] = "释放客户成功！";
+        $result['info'] = "强制释放客户成功！";
         return json($result);
     }
     public function change_customers_to_employee(){

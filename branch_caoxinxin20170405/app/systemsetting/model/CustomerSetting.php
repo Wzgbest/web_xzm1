@@ -44,6 +44,27 @@ class CustomerSetting extends Base
         }
         return $searchCustomerList;
     }
+    /**
+     * 查询客户设置
+     * @param $struct_ids array 部门列表
+     * @param $order string 排序
+     * @return array|false
+     * @throws \think\Exception
+     */
+    public function getCustomerSettingByStructIds($struct_ids,$order="id desc"){
+        $setting_map = "";
+        foreach ($struct_ids as $struct_id){
+            $structure = intval($struct_id);
+            $setting_map = ($setting_map==""?"":" or ")." find_in_set('$structure', set_to_structure) ";
+        }
+        $searchCustomerList = $this->model
+            ->table($this->table)
+            ->where($setting_map)
+            ->order($order)
+            ->field('*')//TODO field list
+            ->select();
+        return $searchCustomerList;
+    }
 
     /**
      * 添加单个客户设置
