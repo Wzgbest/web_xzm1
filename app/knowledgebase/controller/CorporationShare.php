@@ -32,9 +32,9 @@ class CorporationShare{
             return json($result);
         }
         $img_info = get_app_img($img);
-        if(!$img_info["status"]){
-            exception($img_info["message"]);
-        }
+        //if(!$img_info["status"]){
+        //    exception($img_info["message"]);
+        //}
         $share["userid"] = $chk_info['userinfo']['id'];
         $share["content"] = $msg;
         $share["create_time"] = time();
