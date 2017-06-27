@@ -9,10 +9,10 @@ use app\common\model\Base;
 
 class CustomerTrace extends Base
 {
-    public function __construct()
+    public function __construct($corp_id = null)
     {
         $this->table = config('database.prefix').'customer_trace';
-        parent::__construct();
+        parent::__construct($corp_id);
     }
 
     /**
