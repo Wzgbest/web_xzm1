@@ -15,7 +15,7 @@ class CorporationSharePicture extends Base{
     protected $dbprefix;
     public function __construct($corp_id =null){
         $this->dbprefix = config('database.prefix');
-        $this->table=config('database.prefix').'corporation_share';
+        $this->table=config('database.prefix').'corporation_share_picture';
         parent::__construct($corp_id);
     }
 
