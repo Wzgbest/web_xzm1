@@ -24,7 +24,7 @@ class RingUp{
         if (!$chk_info['status']) {
             return json($chk_info);
         }
-        $result = ['status'=>0 ,'info'=>"查询客户列信息时发生错误！"];
+        $result = ['status'=>0 ,'info'=>"查询通话记录时发生错误！"];
         $customer_id = input('customer_id',0,'int');
         $num = 10;
         $p = input("p");
@@ -42,7 +42,7 @@ class RingUp{
             return json($result);
         }
         $result['status'] = 1;
-        $result['info'] = "查询客户列信息成功！";
+        $result['info'] = "查询通话记录成功！";
         return json($result);
     }
 }
