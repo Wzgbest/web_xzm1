@@ -36,10 +36,9 @@ class CorporationShare{
             }
             $img_info_arr[] = $img_info;
         }
-        var_exp($msg,'$msg');
-        var_exp($imgs,'$imgs');
-        var_exp($img_info_arr,'$img_info_arr',1);
-
+        $result['msg'] = $msg;
+        $result['imgs'] = $imgs;
+        $result['img_info_arr'] = $img_info_arr;
         $result['info'] = "发布动态功能开发中！";
         return json($result);
     }
