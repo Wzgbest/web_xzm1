@@ -411,8 +411,9 @@ class Customer extends Base
         $subField = [
             "c.id",
             "c.customer_name",
+            "c.resource_from",
             //"c.take_type",
-            //"c.grade",
+            "c.grade",
             "cn.tend_to",
             "cn.phone_correct",
             "cn.profile_correct",
@@ -436,8 +437,9 @@ class Customer extends Base
         $listField = [
             "id",
             "customer_name",
+            "resource_from",
             //"take_type",
-            //"grade",
+            "grade",
             "tend_to",
             "phone_correct",
             "profile_correct",
@@ -500,10 +502,20 @@ class Customer extends Base
                 "call_through"=>$customer['call_through'],
                 "is_wait"=> $customer['is_wait'],
             ]);
-            if($protect_customer_day_max){//$protect_customer_day_max;//
-                $customer['save_time'] = intval($protect_customer_day_max-($now_time-$customer['take_time'])/60/60/24);
+            if($protect_customer_day_max){
+                $customer['save_time_str'] = time_diff_day_time($protect_customer_day_max*24*60*60-$customer['take_time'],$now_time);
             }else{
-                $customer['save_time'] = "无";
+                $customer['save_time_str'] = "无";
+            }
+            if($customer['remind_time']){
+                $customer['remind_time_str'] = time_diff_day_time($customer['remind_time'],$now_time);
+            }else{
+                $customer['remind_time_str'] = "无";
+            }
+            if($customer['contract_due_time']){
+                $customer['contract_due_time_str'] = time_diff_day_time($customer['contract_due_time'],$now_time);
+            }else{
+                $customer['contract_due_time_str'] = "无";
             }
         }
         return $customerList;
@@ -906,6 +918,7 @@ class Customer extends Base
             "(case when phone_correct = 0 and profile_correct = 0 then 8 when tend_to = 0 then 6 when is_wait = 0 then 5 when sale_status = 0 then 7 when ct_id = '' or ct_id is null then 2 when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >".$to_halt_day_max." then 4 when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >3 then 4 else 3 end ) as in_column",
         ];
         $countField = [
+            "count(*) as column_all",
             "(case when in_column = 1 then 1 else 0 end) as column_1",
             "(case when in_column = 2 then 1 else 0 end) as column_2",
             "(case when in_column = 3 then 1 else 0 end) as column_3",
@@ -934,7 +947,7 @@ class Customer extends Base
         $listCount = $this->model
             ->table($customerQuery." lc")
             ->field($countField)
-            ->select();
+            ->find();
         //var_exp($listCount,'$listCount',1);
         return $listCount;
     }
