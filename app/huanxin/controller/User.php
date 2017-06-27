@@ -244,6 +244,8 @@ class User extends Controller{
             return json(['status'=>false,'errnum'=>1,'message'=>'支付密码已设置，请勿重复设置']);
         }
         $info['status'] = false;
+        var_exp(['pay_password'=>md5($password)],'[\'pay_password\'=>md5($password)]');
+        var_exp($password,'$password',1);
         $r = $this->employM->setEmployeeSingleInfo($userid,['pay_password'=>md5($password)]);
         if ($r >0) {
             $info['message'] = '支付密码设置成功';
@@ -587,6 +589,9 @@ class User extends Controller{
             $info['errnum'] = 5;
             return json($info);
         }
+        var_exp($chk_info['userinfo']['pay_password'],'$chk_info[\'userinfo\'][\'pay_password\']');
+        var_exp(md5($pay_pass),'md5($pay_pass)');
+        var_exp($pay_pass,'$pay_pass');
         if (md5($pay_pass) != $chk_info['userinfo']['pay_password']) {
             $info['message'] = '支付密码错误';
             $info['errnum'] = 6;
