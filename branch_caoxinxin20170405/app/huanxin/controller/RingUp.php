@@ -25,7 +25,8 @@ class RingUp{
             return json($chk_info);
         }
         $result = ['status'=>0 ,'info'=>"查询通话记录时发生错误！"];
-        $customer_id = input('customer_id',0,'int');
+        $customer_id = input('contactor_id',0,'int');
+        $contactor_num = input('contactor_num',0,'int');
         $num = 10;
         $p = input("p");
         $p = $p?:1;
@@ -33,7 +34,10 @@ class RingUp{
             $CallRecordModel = new CallRecord($chk_info['corp_id']);
             $map["userid"] = $chk_info["userinfo"]["id"];
             if($customer_id){
-                $map['cr.customer_id'] = $customer_id;
+                $map['cr.contactor_id'] = $customer_id;
+            }
+            if($contactor_num){
+                $map['cr.main_phone'] = $contactor_num;
             }
             $callRecord = $CallRecordModel->getCallRecord($num,$p,$map);
             $result['data'] = $callRecord;

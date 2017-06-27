@@ -12,11 +12,11 @@ use app\common\model\Base;
 class CustomerDelete extends Base
 {
     protected $dbprefix;
-    public function __construct()
+    public function __construct($corp_id = null)
     {
         $this->dbprefix = config('database.prefix');
         $this->table = $this->dbprefix.'customer';
-        parent::__construct();
+        parent::__construct($corp_id);
     }
 
     /**
