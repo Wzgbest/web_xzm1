@@ -31,12 +31,14 @@ class CorporationShare{
         $share["userid"] = $chk_info['userinfo']['id'];
         $share["content"] = $msg;
         $share["create_time"] = time();
+        trace(json_encode($share));
         $corporationShareModel = new CorporationShareModel($chk_info["corp_id"]);
         $share_id = $corporationShareModel->createCorporationShare($share);
         $share_picture["share_id"] = $share_id;
         $share_picture["path"] = $img;
+        trace(json_encode($share_picture));
         $corporationSharePicture = new CorporationSharePicture($chk_info["corp_id"]);
-        $share_id = $corporationSharePicture->createCorporationSharePicture($share_picture);
+        $share_pic_id = $corporationSharePicture->createCorporationSharePicture($share_picture);
         $result['data'] = $share_id;
         $result['status'] = 1;
         $result['info'] = "发布成功！";
