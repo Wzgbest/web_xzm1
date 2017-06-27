@@ -79,6 +79,17 @@ class CorporationSharePicture extends Base{
     }
 
     /**
+     * 创建配图,并返回结果
+     * @param $pictures array 配图信息数组
+     * @return array
+     * @throws \think\Exception
+     */
+    public function createMutipleCorporationSharePicture($pictures){
+        $b = $this->model->table($this->table)->insertAll($pictures);
+        return ['res'=>$b ,'error'=>"0"];
+    }
+
+    /**
      * 更新配图,并返回结果
      * @param $picture array 配图信息
      * @param $map array 配图筛选条件

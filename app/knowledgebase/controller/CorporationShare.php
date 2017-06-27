@@ -23,22 +23,29 @@ class CorporationShare{
 
         $result = ['status'=>0 ,'info'=>"发布动态时发生错误！"];
         $msg = input('param.msg');
-        $img = input('param.img');
-        $img_file = request()->file('file');
-        trace("share_test_file:");
-        trace(base64_encode($img_file));
-        if(!$msg || !$img){
+        $imgs = request()->file('img');
+        if(!$msg || !$imgs){
             $result['info'] = "参数错误！";
             return json($result);
         }
-        $img_info = get_app_img($img);
-        //if(!$img_info["status"]){
-        //    exception($img_info["message"]);
-        //}
+        $path = ROOT_PATH . 'public' . DS . 'webroot' . DS . $chk_info["corp_id"] . DS . 'images';
+        $infos = [];
+        foreach($imgs as $img){
+            $checkFlg = $img->check(["ext"=>config('upload_image.image_ext')]);
+            if(!$checkFlg){
+                return false;
+            }
+            $info = $img->move($path);
+            if(!$info){
+                exception("上传动态图片失败");
+            }
+            //var_exp($info,'$info');
+            $savename = $info->getSaveName();
+            $infos[] = $savename;
+        }
         $share["userid"] = $chk_info['userinfo']['id'];
         $share["content"] = $msg;
         $share["create_time"] = time();
-        trace(json_encode($share));
         $corporationShareModel = new CorporationShareModel($chk_info["corp_id"]);
         $corporationShareModel->link->startTrans();
         $share_id = $corporationShareModel->createCorporationShare($share);
@@ -46,14 +53,17 @@ class CorporationShare{
             $corporationShareModel->link->rollback();
             exception("发布动态失败");
         }
+        $share_pictures = [];
         $share_picture["share_id"] = $share_id;
-        $share_picture["path"] = $img;
-        trace(json_encode($share_picture));
+        foreach ($infos as $info){
+            $share_picture["path"] =  DS . 'webroot' . DS . $chk_info["corp_id"] . DS . 'images'.$info;
+            $share_pictures[] = $share_picture;
+        }
         $corporationSharePicture = new CorporationSharePicture($chk_info["corp_id"]);
-        $share_pic_id = $corporationSharePicture->createCorporationSharePicture($share_picture);
+        $share_pic_id = $corporationSharePicture->createMutipleCorporationSharePicture($share_pictures);
         if(!$share_pic_id){
             $corporationShareModel->link->rollback();
-            exception("上传动态图片失败");
+            exception("保存动态图片失败");
         }
         $corporationShareModel->link->commit();
         $result['data'] = $share_id;

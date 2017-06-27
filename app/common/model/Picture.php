@@ -34,7 +34,7 @@ class Picture extends Base{
             ->column('md5,id');
         foreach($files as $key=>$file){
             $value = [];
-            $path = ROOT_PATH . 'public' . DS . 'webroot' . DS . $this->corp_id . DS . 'import_file';
+            $path = ROOT_PATH . 'public' . DS . 'webroot' . DS . $this->corp_id . DS . 'images';
             $checkFlg = $file->check(["ext"=>config('upload_image.image_ext')]);
             if(!$checkFlg){
                 return false;
