@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我的客户</title>
+		<!--<link rel="stylesheet" href="../../css/reset.css" />
+		<link rel="stylesheet" href="css/index.css"/>
+		<link rel="stylesheet" href="css/table.css" />
+		<link rel="stylesheet" href="css/form.css" />
+		<link rel="stylesheet" href="../../css/font-awesome.min.css" />-->
+		<link rel="stylesheet" href="../frame/crm/css/form.css" />
+		<link rel="stylesheet" href="../frame/crm/css/index.css" />
+		<link rel="stylesheet" href="../frame/crm/css/table.css" />
+		<link rel="stylesheet" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/reset.css" />
+
+	</head>
+
+	<body>
+		<!--header-->
+		<header>
+			<ul class="m-firNav">
+				<li id="myAllClients" class="current">
+					<div>员工管理</div>
+				</li>
+				<!--<li id="awaitComClients"><div>待沟通客户（<span>160</span>）</div></li>
+				<li id="notFllowClients"><div>未跟进客户（<span>160</span>）</div></li>
+				<li id="followClients"><div>正常跟进客户（<span>160</span>）</div></li>
+				<li id="stagnantClients"><div>停滞客户（<span>160</span>）</div></li>
+				<li id="undeterminedClients"><div>待定客户（<span>160</span>）</div></li>
+				<li id="noIntentionClients"><div>无意向客户（<span>160</span>）</div></li>
+				<li id="overClients"><div>已成单客户（<span>160</span>）</div></li>
+				<li id="uselessClients"><div>无效客户（<span>160</span>）</div></li>-->
+			</ul>
+		</header>
+
+		<!--客户列表-->
+		<section id="myAllClientsPage">
+			<ul class="m-secNav">
+				<li class="active" onclick="newClient()">新建员工</li>
+				<li class="active">批量导入</li>
+				<li class="active">导入记录</li>
+				<li class="vertical"></li>
+				<li>导出</li>
+				<li>删除</li>
+				<!--<li>批量释放</li>-->
+				<div class="clearfix"></div>
+			</ul>
+			<div class="m-filterNav">
+				<select>
+					<option>直属部门</option>
+				</select>
+				<select>
+					<option>角色</option>
+				</select>
+				<select>
+					<option>状态</option>
+				</select>
+				<!--<select>
+				<option>沟通状态</option>
+			</select>-->
+				<input type="text" placeholder="输入工号" />
+				<input type="text" placeholder="输入姓名" />
+				<button class="u-btnSearch">查询</button>
+			</div>
+			<div class="m-tableBox2" >
+				<div class="m-table table2" >
+					<ul class="u-tabTitle">
+						<li class="u-tabCheckbox"><input type="checkbox" /></li>
+						<li>工号<i class="fa fa-unsorted"></i></li>
+						<li>姓名</li>
+						<li>直属部门<i class="fa fa-unsorted"></i></li>
+						<li>联系方式</li>
+						<li>是否领导<i class="fa fa-unsorted"></i></li>
+						<li>角色<i class="fa fa-unsorted"></i></li>
+						<li>状态</li>
+						<li>创建时间<i class="fa fa-unsorted"></i></li>
+						<!--<li>联系方式</li>
+					<li>上次跟进时间<i class="fa fa-unsorted"></i></li>
+					<li>剩余保有时间<i class="fa fa-unsorted"></i></li>
+					<li>预计合同到期时间<i class="fa fa-unsorted"></i></li>
+					<li>提醒时间<i class="fa fa-unsorted"></i></li>
+					<li>所在列</li>-->
+						<li>操作</li>
+						<div class="clearfix"></div>
+					</ul>
+					<ul class="u-tabList">
+						<li class="u-tabCheckbox"><input type="checkbox" /></li>
+						<li>001</li>
+						<li>李华</li>
+						<li>销售一部</li>
+						<li>13345021406</li>
+						<li>是</li>
+						<li>销售</li>
+						<!--<li></li>-->
+						<li>在职</li>
+						<!--<li class="u-tabLinkWay">18222287632<i class="fa fa-phone"></i></li>-->
+						<li>2017/01/22/15:09</li>
+						<!--<li>1天23:59</li>
+					<li>1天23:59</li>
+					<li>1天23:59</li>
+					<li>待沟通客户</li>-->
+						<li class="u-tabOperation"><span>详情</span><span>编辑</span><span>删除</span></li>
+						<div class="clearfix"></div>
+					</ul>
+				</div>
+
+			</div>
+			<div class="u-tabControlRow">
+				<span>显示行数</span>
+				<select onchange="listNumChange()">
+					<option value="5">5</option>
+					<option value="10">10</option>
+					<option value="20">20</option>
+				</select>
+				<span>1-10条/</span>
+				<span>共50条</span>
+				<button>上一页</button>
+				<button>下一页</button>
+				<span>前往</span>
+				<input type="text" />
+				<span>页</span>
+			</div>
+		</section>
+
+		<!--黑色遮罩-->
+		<section id="blackBg" class="hide page-client"></section>
+
+		<!--新建客户-->
+		<section id="newClient" class="hide page-client">
+			<header>
+				<h1>新建客户<i class="fa fa-close fa-2x" onclick="removeNewClient()"></i></h1>
+			</header>
+			<div class="m-formBox m-form">
+				<form id="newClientForm">
+					<div class="process">
+						<div id="state1" class="circle"><span>客户信息</span></div>
+						<div id="line1" class="rect"></div>
+						<div id="state2" class="circle"><span>联系人信息</span></div>
+						<div id="line2" class="rect"></div>
+						<div id="state3" class="circle"><span>销售机会</span></div>
+						<div class="clearfix"></div>
+					</div>
+					<div id="form1" class="hide">
+						<div>
+							<span class="cont"><span class="u-required">＊</span>客户名称</span>
+							<input type="text" required="required" placeholder="请输入客户名称" pattern="[\S]{1,40}" title="请输入1-40个字符" />
+							<span class="cont">沟通状态</span>
+							<select>
+								<option>无意向</option>
+								<option>号码无效</option>
+								<option>资料有误</option>
+								<option>未接通</option>
+								<option>待定</option>
+								<option>有意向</option>
+							</select>
+						</div>
+						<div>
+							<span class="cont">联系人</span>
+							<input type="text" pattern="[\S]{0,10}" placeholder="请输入联系人名称" title="只可填写10位以内字符" />
+
+							<span class="cont">客户级别</span>
+							<select>
+								<option>A</option>
+								<option>B</option>
+								<option>C</option>
+								<option>D</option>
+							</select>
+						</div>
+						<div>
+							<span class="cont"><span class="u-required">＊</span>联系电话</span>
+							<input type="text" required="required" pattern="[\d]{7,12}" placeholder="请输入电话号码" title="请输入正确的联系方式" />
+
+							<span class="cont">获取途径</span>
+							<select>
+								<option>转介绍</option>
+								<option>搜索</option>
+								<option>购买</option>
+							</select>
+						</div>
+						<div>
+							<span class="cont">客户行业</span>
+							<select class="u-3select">
+								<option></option>
+								<option>1</option>
+							</select>
+							<select class="u-3select">
+								<option></option>
+								<option>1</option>
+							</select>
+							<select class="u-3select">
+								<option></option>
+								<option>1</option>
+							</select>
+						</div>
+						<div>
+							<span class="cont">公司地址</span>
+							<select class="u-3select">
+								<option></option>
+								<option>1</option>
+							</select>
+							<select class="u-3select">
+								<option></option>
+								<option>1</option>
+							</select>
+							<select class="u-3select">
+								<option></option>
+								<option>1</option>
+							</select>
+						</div>
+						<div>
+							<span class="cont u-area">详细地址</span>
+							<textarea id="address" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入详细地址"></textarea>
+						</div>
+						<div>
+							<span class="cont">详细定位</span>
+							<input type="text" id="location" placeholder="请输入写字楼、街道、公司名称" />
+						</div>
+						<div>
+							<span class="cont">公司官网</span>
+							<input type="text" id="website" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入公司官网" />
+						</div>
+						<div>
+							<span class="cont">备注</span>
+							<span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+							<span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+							<span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+							<span class="u-addRemark"><i class="fa fa-plus"></i></span>
+							<div class="clearfix"></div>
+							<span class="cont"></span>
+							<textarea id="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
+						</div>
+						<div>
+							<span class="cont">保存到</span>
+							<input type="radio" name="saveIn" value="" checked="checked" />我的客户
+							<input type="radio" name="saveIn" value="" />公海池（售前）
+							<input type="radio" name="saveIn" value="" />我的客户（售后）
+							<div class="allStaff hide"></div>
+						</div>
+						<div class="u-submitButton">
+							<button>保存并添加下一客户</button>
+							<button>保存</button>
+							<button>下一步</button>
+							<button>取消</button>
+							<!--<input type="submit" />-->
+						</div>
+					</div>
+					<div id="form2" class="">
+						<div>
+							<span class="cont">联系人姓名</span>
+							<input type="text" id="linkmanName" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入联系人姓名" />
+							<span class="cont">性别</span>
+							<input type="radio" name="sex" value="male" />男
+							<input type="radio" name="sex" value="famale" />女
+						</div>
+						<div>
+							<span class="cont">联系方式1</span>
+							<input type="text" id="contactWay1" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码" />
+							<span class="cont">联系方式2</span>
+							<input type="text" id="contactWay2" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码" />
+						</div>
+						<div>
+							<span class="cont">联系方式3</span>
+							<input type="text" id="contactWay3" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码" />
+							<span class="cont">邮箱</span>
+							<input type="email" id="mail" placeholder="请输入邮箱" />
+						</div>
+						<div>
+							<span class="cont">QQ号</span>
+							<input type="text" id="qqNumber" pattern="[\d]{0,10}" title="请写正确格式" placeholder="请输入QQ号" />
+							<span class="cont">微信号</span>
+							<input type="text" id="wechatNumber" pattern="[\d\D]{0,40}" title="最多填写40位字符" placeholder="请输入微信号" />
+						</div>
+						<div>
+							<span class="cont">部门</span>
+							<input type="text" id="department" pattern="[\d\D]{0,16}" title="最多填写16位字符" placeholder="请输入所属部门" />
+							<span class="cont">职务</span>
+							<input type="text" id="duty" pattern="[\d\D]{0,16}" title="最多填写16位字符" placeholder="请输入职务" />
+						</div>
+						<div>
+							<span class="cont">关键决策人</span>
+							<div class="u-inlineRadio">
+								<input type="radio" name="isKeyDecisionMaker" value="true" />是
+								<input type="radio" name="isKeyDecisionMaker" value="false" />否
+							</div>
+							<span class="cont">决策能力</span>
+							<select>
+								<option>普通人</option>
+								<option>决策人</option>
+								<option>分项决策人</option>
+								<option>商务决策人</option>
+								<option>技术决策人</option>
+								<option>财务决策人</option>
+								<option>使用人</option>
+								<option>意见影响人</option>
+							</select>
+						</div>
+						<div>
+							<span class="cont">介绍人</span>
+							<input type="text" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入介绍人" />
+							<span class="cont">亲密程度</span>
+							<select>
+								<option></option>
+							</select>
+						</div>
+						<div>
+							<span class="cont">生日</span>
+							<input type="date" />
+						</div>
+						<div>
+							<span class="cont u-area">爱好</span>
+							<textarea placeholder="请输入爱好"></textarea>
+						</div>
+						<div>
+							<span class="cont">备注</span>
+							<span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+							<span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+							<span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+							<span class="u-addRemark"><i class="fa fa-plus"></i></span>
+							<div class="clearfix"></div>
+							<span class="cont"></span>
+							<textarea id="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
+						</div>
+						<div class="u-submitButton">
+							<button>保存并添加下一客户</button>
+							<button>保存</button>
+							<button>上一步</button>
+							<button>下一步</button>
+							<button>取消</button>
+							<!--<input type="submit" />-->
+						</div>
+					</div>
+					<div id="form3" class="hide">
+						<div>
+							<span class="cont"><span class="u-required">＊</span>销售机会</span>
+							<input type="text" placeholder="请输入销售机会" />
+							<span class="cont"><span class="u-required">＊</span>对应业务</span>
+							<select>
+								<option></option>
+							</select>
+						</div>
+						<div>
+							<span class="cont cont-max">预计成单金额</span>
+							<input type="text" placeholder="请输入金额" />
+							<span class="cont cont-max">预计成单时间</span>
+							<input type="date" />
+						</div>
+						<div>
+							<span class="cont">负责人</span>
+							<span class="cont" id="personCharge">李华</span>
+							<span class="cont">协助人</span>
+							<select>
+								<option></option>
+							</select>
+						</div>
+						<div>
+							<span class="cont">客户状态</span>
+							<select>
+								<option></option>
+							</select>
+							<span class="cont">老客户</span>
+							<input type="radio" name="oldClient" value="true" />是
+							<input type="radio" name="oldClient" value="false" />否
+						</div>
+						<div>
+							<span class="cont">备注</span>
+							<span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+							<span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+							<span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+							<span class="u-addRemark"><i class="fa fa-plus"></i></span>
+							<div class="clearfix"></div>
+							<span class="cont"></span>
+							<textarea id="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
+						</div>
+						<div class="u-submitButton">
+							<button>保存并添加下一客户</button>
+							<button>保存</button>
+							<button>上一步</button>
+							<!--<button>下一步</button>-->
+							<button>取消</button>
+							<!--<input type="submit" />-->
+						</div>
+					</div>
+				</form>
+			</div>
+		</section>
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<script type="text/javascript" src="../frame/crm/js/index.js"></script>
+	</body>
+
+</html>

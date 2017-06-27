@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>客户管理</title>
+		<link rel="stylesheet" href="../../css/reset.css" />
+		<link rel="stylesheet" href="css/index.css"/>
+		<link rel="stylesheet" href="../../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="css/table.css" />
+	</head>
+	<body>
+		<header>
+			<ul class="m-firNav">
+				<li id="myAllClients" class="current"><div>客户管理</div></li>
+			</ul>
+		</header>
+		<ul class="m-secNav">
+			<li class="active">新建客户</li>
+			<li class="vertical"></li>
+			<li>导出</li>
+			<li>删除</li>
+			<li>重分</li>
+			<li style="width: 90px;">更改可见范围</li>
+			<li>强制释放</li>
+			<div class="clearfix"></div>
+		</ul>
+		<div class="m-filterNav">
+			<select>
+				<option>客户状态</option>
+			</select>
+			<select>
+				<option>客户来源</option>
+			</select>
+			<select>
+				<option>沟通结果</option>
+			</select>
+			<select>
+				<option>获取途径</option>
+			</select>
+			<input type="text" placeholder="请输入导入批次"/>
+			<input type="text" placeholder="请输入跟踪人"/>
+			<input type="text" placeholder="请输入维护人"/>
+			<input type="text" placeholder="请输入添加人"/>
+			<button class="u-btnSearch">查询</button>
+		</div>
+		<div class="m-tableBox">
+			<div class="m-table table1">
+				<ul class="u-tabTitle">
+					<li class="u-tabCheckbox"><input type="checkbox"/></li>
+					<li class="u-">客户名称<i class="fa fa-caret-down"></i></li>
+					<li class="tab-3-ver">获取途径</li>
+					<li class="tab-4-ver">客户级别<i class="fa fa-unsorted"></i></li>
+					<li class="tab-5-ver">沟通状态<i class="fa fa-unsorted"></i></li>
+					<li class="tab-6-ver">商机</li>
+					<li class="tab-7-ver">预计成单金额<i class="fa fa-unsorted"></i></li>
+					<li class="tab-8-ver">成单金额</li>
+					<li class="tab-9-ver">联系人<i class="fa fa-unsorted"></i></li>
+					<li class="tab-10-ver">联系方式</li>
+					<li class="tab-11-ver">上次跟进时间<i class="fa fa-unsorted"></i></li>
+					<li class="tab-12-ver">剩余保有时间<i class="fa fa-unsorted"></i></li>
+					<li class="tab-13-ver">预计合同到期时间<i class="fa fa-unsorted"></i></li>
+					<li class="tab-14-ver">提醒时间<i class="fa fa-unsorted"></i></li>
+					<li class="tab-15-ver">所在列</li>
+					<li class="tab-16-ver">操作</li>
+					<div class="clearfix"></div>
+				</ul>
+				<ul class="u-tabList">
+					<li class="u-tabCheckbox"><input type="checkbox"/></li>
+					<li class="u-tabCilentName">山东中讯网络传媒有限公司</li>
+					<li class="tab-3-ver">自建</li>
+					<li class="tab-4-ver">A</li>
+					<li class="tab-5-ver">拜访客户</li>
+					<li class="tab-6-ver">百度大搜/网站建设</li>
+					<li class="tab-7-ver">5000.00元</li>
+					<li class="tab-8-ver"></li>
+					<li class="tab-9-ver">李经理</li>
+					<li class="u-tabLinkWay">18222287632<i class="fa fa-phone"></i></li>
+					<li class="tab-11-ver">2017/01/22</li>
+					<li class="tab-12-ver">1天23:59</li>
+					<li class="tab-13-ver">1天23:59</li>
+					<li class="tab-14-ver">1天23:59</li>
+					<li class="tab-15-ver">待沟通客户</li>
+					<li class="u-tabOperation"><span>详情</span><span>编辑</span><span>释放</span></li>
+					<div class="clearfix"></div>
+				</ul>
+			</div>
+		</div>
+		<div class="u-tabControlRow">
+			<span>显示行数</span>
+			<select>
+				<option>5</option>
+				<option>10</option>
+				<option>20</option>
+			</select>
+			<span>1-10条/</span>
+			<span>共50条</span>
+			<button>上一页</button>
+			<button>下一页</button>
+			<span>前往</span>
+			<input type="text" />
+			<span>页</span>
+		</div>
+		<script src="../../js/jquery.min.js"></script>
+		<script src="js/index.js"></script>
+	</body>
+</html>
