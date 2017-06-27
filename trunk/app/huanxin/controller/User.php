@@ -629,13 +629,9 @@ class User extends Controller{
         $this->employM->link->startTrans();
         try{
             $de = $this->employM->setEmployeeSingleInfo($userid,$de_data);
-            var_exp($de,'$de');
             $in = $this->employM->setEmployeeSingleInfo($to_user,$in_data);
-            var_exp($in,'$in');
             $from_r = $cashM->addOrderNumber($cash_from_data);
-            var_exp($from_r,'$from_r');
             $to_r = $cashM->addOrderNumber($cash_to_data);
-            var_exp($to_r,'$to_r');
             if ($de > 0 && $in > 0 && $from_r >0 && $to_r > 0) {
                 $this->employM->link->commit();
                 write_log($chk_info['userinfo']['id'],3,'用户app转账成功，转至用户id'.$to_userinfo['id'].',转账金额'.$take_money.'分',$chk_info['corp_id']);
