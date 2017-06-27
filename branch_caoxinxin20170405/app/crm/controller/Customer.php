@@ -289,11 +289,47 @@ class Customer extends Initialize{
         $fields_arr = explode(',',$fields);
         $fields_arr = array_filter($fields_arr);
         $fields_arr = array_unique($fields_arr);
+        if(in_array("customer_name", $field_column) && in_array("customer_name", $fields_arr)){//客户名称
+            $field[] = "customer_name";
+        }
         if(in_array("take_type", $field_column) && in_array("take_type", $fields_arr)){//获取途径
             $field[] = "take_type";
         }
         if(in_array("grade", $field_column) && in_array("grade", $fields_arr)){//客户级别
             $field[] = "grade";
+        }
+        if(in_array("comm_status", $field_column) && in_array("comm_status", $fields_arr)){//沟通状态
+            $field[] = "comm_status";
+        }
+        if(in_array("sale_biz_names", $field_column) && in_array("sale_biz_names", $fields_arr)){//商机
+            $field[] = "sale_biz_names";
+        }
+        if(in_array("all_guess_money", $field_column) && in_array("all_guess_money", $fields_arr)){//商机
+            $field[] = "all_guess_money";
+        }
+        if(in_array("all_final_money", $field_column) && in_array("all_final_money", $fields_arr)){//商机
+            $field[] = "all_final_money";
+        }
+        if(in_array("contact_name", $field_column) && in_array("contact_name", $fields_arr)){//商机
+            $field[] = "contact_name";
+        }
+        if(in_array("phone_first", $field_column) && in_array("phone_first", $fields_arr)){//商机
+            $field[] = "phone_first";
+        }
+        if(in_array("last_trace_time", $field_column) && in_array("last_trace_time", $fields_arr)){//上次跟进时间
+            $field[] = "last_trace_time";
+        }
+        if(in_array("save_time_str", $field_column) && in_array("save_time_str", $fields_arr)){//剩余保有时间
+            $field[] = "save_time_str";
+        }
+        if(in_array("contract_due_time_str", $field_column) && in_array("contract_due_time_str", $fields_arr)){//合同到期时间
+            $field[] = "contract_due_time_str";
+        }
+        if(in_array("remind_time_str", $field_column) && in_array("remind_time_str", $fields_arr)){//提醒时间
+            $field[] = "remind_time_str";
+        }
+        if(in_array("in_column", $field_column) && in_array("in_column", $fields_arr)){//所在列
+            $field[] = "in_column";
         }
         return $field;
     }

@@ -411,8 +411,7 @@ class Customer extends Base
         $subField = [
             "c.id",
             "c.customer_name",
-            "c.resource_from",
-            //"c.take_type",
+            "c.take_type",
             "c.grade",
             "cn.tend_to",
             "cn.phone_correct",
@@ -437,8 +436,7 @@ class Customer extends Base
         $listField = [
             "id",
             "customer_name",
-            "resource_from",
-            //"take_type",
+            "take_type",
             "grade",
             "tend_to",
             "phone_correct",
@@ -460,6 +458,7 @@ class Customer extends Base
             "sale_status",
             "ct_id",
         ];
+        /*
         //动态显示字段:获取途径
         if(in_array("take_type", $field)){
             $subField[] = "c.take_type";
@@ -470,6 +469,7 @@ class Customer extends Base
             $subField[] = "c.grade";
             $listField[] = "grade";
         }
+        */
 
         $subQuery = $this->model
             ->table($this->table)->alias('c')
@@ -906,7 +906,7 @@ class Customer extends Base
         ];
         $listField = [
             "id",
-            "tend_to",
+            /*"tend_to",
             "phone_correct",
             "profile_correct",
             "call_through",
@@ -914,7 +914,7 @@ class Customer extends Base
             "last_trace_time",
             "take_time",
             "sale_status",
-            "ct_id",
+            "ct_id",*/
             "(case when phone_correct = 0 and profile_correct = 0 then 8 when tend_to = 0 then 6 when is_wait = 0 then 5 when sale_status = 0 then 7 when ct_id = '' or ct_id is null then 2 when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >".$to_halt_day_max." then 4 when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >3 then 4 else 3 end ) as in_column",
         ];
         $countField = [

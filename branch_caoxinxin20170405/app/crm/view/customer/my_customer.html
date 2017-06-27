@@ -68,7 +68,7 @@
                 <ul class="u-tabList">
                     <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
                     <li class="u-tabCilentName">{$vo.customer_name}</li>
-                    <li>{$vo.resource_from|getResourceFromName}</li>
+                    <li>{$vo.take_type|getTakeTypeFromName}</li>
                     <li>{$vo.grade}</li>
                     <li>{$vo.comm_status|getCommStatusName}</li>
                     <li>{$vo.sale_biz_names}</li>

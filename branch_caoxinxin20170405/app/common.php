@@ -304,6 +304,24 @@ function getResourceFromName($resource_from){
     return $resource_from_name;
 }
 
+function getTakeFromName($resource_from){
+    $resource_from_name = null;
+    switch ($resource_from){
+        case 1:
+            $resource_from_name = "转介绍";
+            break;
+        case 2:
+            $resource_from_name = "搜索";
+            break;
+        case 3:
+            $resource_from_name = "购买";
+            break;
+        default:
+            $resource_from_name = "无";
+    }
+    return $resource_from_name;
+}
+
 function getInColumnName($in_column){
     $in_column_name = null;
     switch ($in_column){
