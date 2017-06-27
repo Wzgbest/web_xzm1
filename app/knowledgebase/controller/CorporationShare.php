@@ -36,7 +36,7 @@ class CorporationShare{
                 return false;
             }
             $info = $img->move($path);
-            if(!$info){
+            if($info===false){
                 exception("上传动态图片失败");
             }
             //var_exp($info,'$info');
