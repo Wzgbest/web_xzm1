@@ -12,10 +12,10 @@ use app\common\model\Base;
 
 class CallRecord extends Base{
     protected $dbprefix;
-    public function __construct(){
+    public function __construct($corp_id = null){
         $this->dbprefix = config('database.prefix');
         $this->table = $this->dbprefix.'call_record';
-        parent::__construct();
+        parent::__construct($corp_id);
     }
 
     /**

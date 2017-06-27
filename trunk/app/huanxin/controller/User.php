@@ -632,20 +632,20 @@ class User extends Controller{
             $in = $this->employM->setEmployeeSingleInfo($to_user,$in_data);
             $from_r = $cashM->addOrderNumber($cash_from_data);
             $to_r = $cashM->addOrderNumber($cash_to_data);
+            if ($de > 0 && $in > 0 && $from_r >0 && $to_r > 0) {
+                $this->employM->link->commit();
+                write_log($chk_info['userinfo']['id'],3,'用户app转账成功，转至用户id'.$to_userinfo['id'].',转账金额'.$take_money.'分',$chk_info['corp_id']);
+                $info['status'] = true;
+                $info['errnum'] = 0;
+                $info['message'] = '转账成功';
+            } else {
+                $this->employM->link->rollback();
+                write_log($chk_info['userinfo']['id'],3,'用户app转账失败，转至用户id'.$to_userinfo['id'].',转账金额'.$take_money.'分',$chk_info['corp_id']);
+                $info['message'] = '转账失败';
+                $info['errnum'] = 8;
+            }
         }catch (\Exception $e) {
             $this->employM->link->rollback();
-        }
-        if ($de > 0 && $in > 0 && $from_r >0 && $to_r > 0) {
-            $this->employM->link->commit();
-            write_log($chk_info['userinfo']['id'],3,'用户app转账成功，转至用户id'.$to_userinfo['id'].',转账金额'.$take_money.'分',$chk_info['corp_id']);
-            $info['status'] = true;
-            $info['errnum'] = 0;
-            $info['message'] = '转账成功';
-        } else {
-            $this->employM->link->rollback();
-            write_log($chk_info['userinfo']['id'],3,'用户app转账失败，转至用户id'.$to_userinfo['id'].',转账金额'.$take_money.'分',$chk_info['corp_id']);
-            $info['message'] = '转账失败';
-            $info['errnum'] = 8;
         }
         return json($info);
     }
