@@ -41,24 +41,26 @@ class CorporationShare extends Base{
 
     /**
      * 获取动态
+     * @param $uids array 数量
      * @param $num int 数量
-     * @param $page int 页
+     * @param $last_id int 最后一条动态的id
      * @param $map array 动态筛选条件
      * @param $order string 排序
      * @return array
      * @throws \think\Exception
      */
-    public function getCorporationShare($num=10,$page=0,$map=null,$order="id desc"){
-        $offset = 0;
-        if($page){
-            $offset = ($page-1)*$num;
+    public function getCorporationShare($num=10,$last_id=0,$map=[]){
+        $order="cs.id desc";
+        if($last_id){
+            $map["cs.id"] = ["lt",$last_id];
         }
-        $searchCustomerList = $this->model
-            ->table($this->table)
+        $searchCustomerList = $this->model->table($this->table)->alias('cs')
+            ->join($this->dbprefix.'corporation_share_picture csp','csp.share_id = cs.id',"LEFT")
             ->where($map)
             ->order($order)
-            ->limit($offset,$num)
-            ->field("*")//TODO
+            ->limit($num)
+            ->group("cs.id")
+            ->field("cs.*,GROUP_CONCAT(csp.path) as img")//TODO
             ->select();
         return ['res'=>$searchCustomerList ,'error'=>"0"];
     }
