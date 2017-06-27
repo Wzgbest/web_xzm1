@@ -259,6 +259,147 @@ function getCommStatusByArr($comm_status_arr){
     return $comm_status;
 }
 
+function getCommStatusName($comm_status){
+    $comm_status_name = null;
+    switch ($comm_status){
+        case 1:
+            $comm_status_name = "无意向";
+            break;
+        case 2:
+            $comm_status_name = "号码无效";
+            break;
+        case 3:
+            $comm_status_name = "资料有误";
+            break;
+        case 4:
+            $comm_status_name = "未接通";
+            break;
+        case 5:
+            $comm_status_name = "待定";
+            break;
+        case 6:
+            $comm_status_name = "有意向";
+            break;
+        default:
+            $comm_status_name = "无";
+    }
+    return $comm_status_name;
+}
+
+function getResourceFromName($resource_from){
+    $resource_from_name = null;
+    switch ($resource_from){
+        case 1:
+            $resource_from_name = "转介绍";
+            break;
+        case 2:
+            $resource_from_name = "搜索";
+            break;
+        case 3:
+            $resource_from_name = "购买";
+            break;
+        default:
+            $resource_from_name = "无";
+    }
+    return $resource_from_name;
+}
+
+function getTakeFromName($resource_from){
+    $resource_from_name = null;
+    switch ($resource_from){
+        case 1:
+            $resource_from_name = "转介绍";
+            break;
+        case 2:
+            $resource_from_name = "搜索";
+            break;
+        case 3:
+            $resource_from_name = "购买";
+            break;
+        default:
+            $resource_from_name = "无";
+    }
+    return $resource_from_name;
+}
+
+function getInColumnName($in_column){
+    $in_column_name = null;
+    switch ($in_column){
+        case 1:
+            $in_column_name = "待沟通";
+            break;
+        case 2:
+            $in_column_name = "未跟进";
+            break;
+        case 3:
+            $in_column_name = "正常跟进";
+            break;
+        case 4:
+            $in_column_name = "停滞";
+            break;
+        case 5:
+            $in_column_name = "待定";
+            break;
+        case 6:
+            $in_column_name = "无意向";
+            break;
+        case 7:
+            $in_column_name = "已成单";
+            break;
+        case 8:
+            $in_column_name = "无效客户";
+            break;
+        default:
+            $in_column_name = "无";
+    }
+    return $in_column_name;
+}
+
+/**
+ * 时间戳格式化
+ *
+ * @param int $time
+ * @return string 完整的时间显示
+ * @author huajie <banhuajie@163.com>
+ */
+function time_format($time = NULL, $format = 'Y-m-d H:i') {
+    if (empty ( $time ))
+        return '';
+
+    $time = $time === NULL ? NOW_TIME : intval ( $time );
+    return date ( $format, $time );
+}
+function day_format($time = NULL) {
+    return time_format ( $time, 'Y-m-d' );
+}
+function hour_format($time = NULL) {
+    return time_format ( $time, 'H:i' );
+}
+function time_offset($time = NULL) {
+    if (empty ( $time ))
+        return '00:00';
+
+    $mod = $time % 60;
+    $min = ($time - $mod) / 60;
+
+    $mod < 10 && $mod = '0' . $mod;
+    $min < 10 && $min = '0' . $min;
+
+    return $min . ':' . $mod;
+}
+function time_diff_day_time($time = NULL,$now_time=NULL) {
+    if(!$time){
+        $time = 0;
+    }
+    if(!$now_time){
+        $now_time = time();
+    }
+    $all_minute = round(($now_time-$time)/60);
+    $minute = $all_minute%60;
+    $hour = floor($minute/60);
+    $day = floor($hour/24);
+    return $day."天".$hour.":".$minute;
+}
 /**
  * 通过手机号获取用户id
  * @param $tel

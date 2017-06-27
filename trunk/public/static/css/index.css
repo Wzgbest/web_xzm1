@@ -92,7 +92,7 @@ aside dl i{
 	height: 100%;
 }
 /*顶部栏*/
-header{
+.header{
 	height: 39px;
 	/*width: 100%;*/
 	position: fixed;
