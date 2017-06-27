@@ -506,7 +506,7 @@ class User extends Controller{
             'remark' =>'员工提现',
             'to_userid' =>$chk_info['userinfo']['id']
         ];
-        $takeCashM = new TakeCashModel();
+        $takeCashM = new TakeCashModel($chk_info["corp_id"]);
         $corp_cashM = new CorporationCash();
         $this->employM->link->startTrans();
         Corporation::startTrans();
@@ -625,7 +625,7 @@ class User extends Controller{
             'from_userid'=>$chk_info['userinfo']['id'],
             'remark' => '收到转账'
         ];
-        $cashM = new TakeCash();
+        $cashM = new TakeCash($chk_info["corp_id"]);
         $this->employM->link->startTrans();
         try{
             $de = $this->employM->setEmployeeSingleInfo($userid,$de_data);
