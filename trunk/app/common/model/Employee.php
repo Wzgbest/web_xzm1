@@ -130,6 +130,7 @@ class Employee extends Base
      */
     public function setEmployeeSingleInfo($telephone,$data)
     {
+        var_exp($data,'$data',1);
         return $this->model->table($this->table)->where('telephone',$telephone)->update($data);
     }
 
