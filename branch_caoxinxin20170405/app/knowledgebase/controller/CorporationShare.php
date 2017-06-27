@@ -28,18 +28,22 @@ class CorporationShare{
             return json($result);
         }
         $imgs = request()->file('img');
-        trace(var_exp($imgs,'$imgs','return'));
+        $img_num = 9;
+        if(count($imgs)>$img_num){
+            exception("上传动态图片不能大于".$img_num."张!");
+        }
+        //trace(var_exp($imgs,'$imgs','return'));
         $infos = [];
         if($imgs) {
             $path = ROOT_PATH . 'public' . DS . 'webroot' . DS . $chk_info["corp_id"] . DS . 'images';
             foreach($imgs as $img){
                 $checkFlg = $img->check(["ext"=>config('upload_image.image_ext')]);
-                trace(var_exp($img,'$img','return'));
+                //trace(var_exp($img,'$img','return'));
                 if(!$checkFlg){
                     exception("上传动态图片检查失败");
                 }
                 $info = $img->move($path);
-                trace(var_exp($info,'$info','return'));
+                //trace(var_exp($info,'$info','return'));
                 if($info===false){
                     exception("上传动态图片失败");
                 }
@@ -48,14 +52,14 @@ class CorporationShare{
                 $infos[] = $savename;
             }
         }
-        trace(var_exp($infos,'$infos','return'));
+        //trace(var_exp($infos,'$infos','return'));
         $share["userid"] = $chk_info['userinfo']['id'];
         $share["content"] = $msg;
         $share["create_time"] = time();
         $corporationShareModel = new CorporationShareModel($chk_info["corp_id"]);
         $corporationShareModel->link->startTrans();
         $share_id = $corporationShareModel->createCorporationShare($share);
-        trace(var_exp($share_id,'$share_id','return'));
+        //trace(var_exp($share_id,'$share_id','return'));
         if(!$share_id){
             $corporationShareModel->link->rollback();
             exception("发布动态失败");
@@ -68,7 +72,7 @@ class CorporationShare{
                 $share_picture["path"] = $url_path . $info;
                 $share_pictures[] = $share_picture;
             }
-            trace(var_exp($share_pictures,'$share_pictures','return'));
+            //trace(var_exp($share_pictures,'$share_pictures','return'));
             $corporationSharePicture = new CorporationSharePicture($chk_info["corp_id"]);
             $corporationSharePicture->createMutipleCorporationSharePicture($share_pictures);
         }
@@ -78,7 +82,23 @@ class CorporationShare{
         $result['info'] = "发布成功！";
         return json($result);
     }
-    public function shareList(){}
+    public function shareList(User $user){
+        $userid = input('param.userid');
+        $access_token = input('param.access_token');
+        $chk_info = $user->checkUserAccess($userid,$access_token);
+        if (!$chk_info['status']) {
+            return json($chk_info);
+        }
+        $result = ['status'=>0 ,'info'=>"获取动态时发生错误！"];
+        $num = input('num',10,'int');
+        $last_id = input("last_id",0,"int");
+        $corporationShareModel = new CorporationShareModel($chk_info["corp_id"]);
+        $share_data = $corporationShareModel->getCorporationShare($num,$last_id);
+        $result['data'] = $share_data;
+        $result['status'] = 1;
+        $result['info'] = "获取成功！";
+        return json($result);
+    }
     public function shareInfo(){}
     public function relayShare(){}
     public function addComment(){}
