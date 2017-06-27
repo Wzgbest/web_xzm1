@@ -165,7 +165,7 @@ class SearchCustomer extends Base
      */
     public function updateSearchCustomer($customer,$map){
         if(empty($map)){
-            return ['res'=>0 ,'error'=>"1" ,'msg'=>"缺少更新目标！"];
+            return ['res'=>0 ,'error'=>"1" ,'msg'=>"更新参数错误！"];
         }
         $b = $this->model->table($this->table)->where($map)->data($customer)->save();
         return ['res'=>$b ,'error'=>"0"];

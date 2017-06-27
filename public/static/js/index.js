@@ -74,18 +74,10 @@ $("aside dl dd").click(function(){
 		$("#frames .once").addClass("hid");
 		//var fr = "<div src='"+$(this).attr("_src")+"' id='"+f+"' class='once'></div>";
 		//$("#frames").append(fr);
+		var html = '<div id="'+f+'" class="once"></div>';
+		$('#frames').append(html);
 		var url = $(this).attr('_src');
-		$.ajax({
-			url:url,
-			type:'get',
-			data:{},
-			async:false,
-			success:function (data) {
-                var html = '<div id="'+f+'" class="once"></div>';
-				$('#frames').append(html);
-                $('#frames #'+f).html(data);
-			}
-		});
+		loadPage(url,f);
 		$("#frames .once").width(window.innerWidth-220);
 		//子标题栏长度增加
 		subResize();
@@ -98,9 +90,19 @@ $("aside dl dd").click(function(){
 		document.getElementById(v).classList.add("active");
 		frameShow();
 	}
-
 });
-
+//侧边栏在当前被删除后的切换
+function loadPage(url,panel){
+	$.ajax({
+		url:url,
+		type:'get',
+		data:{},
+		async:false,
+		success:function (data) {
+			$('#frames #'+panel).html(data);
+		}
+	});
+}
 //副标题栏的点击事件
 //切换当前的效果
 $(document).on('click','#subtitle>div',function(){

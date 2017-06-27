@@ -9,6 +9,8 @@
 namespace app\knowledgebase\controller;
 
 use app\huanxin\controller\User;
+use app\knowledgebase\model\CorporationShare as CorporationShareModel;
+use app\knowledgebase\model\CorporationSharePicture;
 
 class CorporationShare{
     public function addShare(User $user){
@@ -21,25 +23,23 @@ class CorporationShare{
 
         $result = ['status'=>0 ,'info'=>"发布动态时发生错误！"];
         $msg = input('param.msg');
-        $imgs = input('param.img/a');
-        if(!$msg || !$imgs){
+        $img = input('param.img');
+        if(!$msg || !$img){
             $result['info'] = "参数错误！";
             return json($result);
         }
-        $time = time();//input('param.time');
-        $img_info_arr = [];
-        foreach ($imgs as $img ){
-            $img_info = get_app_img($img);
-            if(!$img_info["status"]){
-                $result['info'] = $img_info["message"];
-                return json($result);
-            }
-            $img_info_arr[] = $img_info;
-        }
-        $result['msg'] = $msg;
-        $result['imgs'] = $imgs;
-        $result['img_info_arr'] = $img_info_arr;
-        $result['info'] = "发布动态功能开发中！";
+        $share["userid"] = $chk_info['userinfo']['id'];
+        $share["content"] = $msg;
+        $share["create_time"] = time();
+        $corporationShareModel = new CorporationShareModel($chk_info["corp_id"]);
+        $share_id = $corporationShareModel->createCorporationShare($share);
+        $share_picture["share_id"] = $share_id;
+        $share_picture["path"] = $img;
+        $corporationSharePicture = new CorporationSharePicture($chk_info["corp_id"]);
+        $share_id = $corporationSharePicture->createCorporationSharePicture($share_picture);
+        $result['data'] = $share_id;
+        $result['status'] = 1;
+        $result['info'] = "发布成功！";
         return json($result);
     }
     public function shareList(){}
