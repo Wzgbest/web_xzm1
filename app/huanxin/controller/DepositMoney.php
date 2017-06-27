@@ -124,7 +124,7 @@ class DepositMoney
             write_log($r['userinfo']['id'],0,'app充值刷单嫌疑',$r['corp_id']);
             return json($info);
         }
-        $depoM = new DepositMoneyService();
+        $depoM = new DepositMoneyService($r['corp_id']);
         $res = $depoM->queryTradeNumber($trade_no,$out_trade_no,$money);
         if (!$res['status']) {
             $res['errnum'] = 6;
@@ -133,7 +133,7 @@ class DepositMoney
 
         //兑换货币
         $left_money = $total_money + $r['userinfo']['left_money'];
-        $cashM = new TakeCash();
+        $cashM = new TakeCash($r['corp_id']);
         //take_cash记录
         $cash_data = [
             'userid'=>$r['userinfo']['id'],
@@ -195,16 +195,16 @@ class DepositMoney
     public function getNotifyNotice()
     {
         $raw_data=input('param.');
-        $depositM = new DepositMoneyService();
         $out_trade_no = $raw_data['out_trade_no'];
         $alipay_info = AppAlipayTrade::getTradeInfo($out_trade_no);
+        $corp_id = Corporation::getCorpId($alipay_info['corp_id']);
+        $depositM = new DepositMoneyService($corp_id);
         $result = $depositM->checkAlipaySign($raw_data,$alipay_info);
         if (!$result) {
             return 'fail';
         } else {
-            $corp_id = Corporation::getCorpId($alipay_info['corp_id']);
             $employM = new Employee($corp_id);
-            $cashM = new TakeCash();
+            $cashM = new TakeCash($corp_id);
             $in_money = $alipay_info['money'];
             $in_data = [
                 'left_money' => ['exp', "left_money + $in_money"]
