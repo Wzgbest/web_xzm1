@@ -24,24 +24,9 @@ class CorporationShare{
         $result = ['status'=>0 ,'info'=>"发布动态时发生错误！"];
         $msg = input('param.msg');
         $imgs = request()->file('img');
-        if(!$msg || !$imgs){
+        if(!$msg){
             $result['info'] = "参数错误！";
             return json($result);
-        }
-        $path = ROOT_PATH . 'public' . DS . 'webroot' . DS . $chk_info["corp_id"] . DS . 'images';
-        $infos = [];
-        foreach($imgs as $img){
-            $checkFlg = $img->check(["ext"=>config('upload_image.image_ext')]);
-            if(!$checkFlg){
-                return false;
-            }
-            $info = $img->move($path);
-            if($info===false){
-                exception("上传动态图片失败");
-            }
-            //var_exp($info,'$info');
-            $savename = $info->getSaveName();
-            $infos[] = $savename;
         }
         $share["userid"] = $chk_info['userinfo']['id'];
         $share["content"] = $msg;
@@ -53,17 +38,30 @@ class CorporationShare{
             $corporationShareModel->link->rollback();
             exception("发布动态失败");
         }
-        $share_pictures = [];
-        $share_picture["share_id"] = $share_id;
-        foreach ($infos as $info){
-            $share_picture["path"] =  DS . 'webroot' . DS . $chk_info["corp_id"] . DS . 'images'.$info;
-            $share_pictures[] = $share_picture;
-        }
-        $corporationSharePicture = new CorporationSharePicture($chk_info["corp_id"]);
-        $share_pic_id = $corporationSharePicture->createMutipleCorporationSharePicture($share_pictures);
-        if(!$share_pic_id){
-            $corporationShareModel->link->rollback();
-            exception("保存动态图片失败");
+        if($imgs){
+            $path = ROOT_PATH . 'public' . DS . 'webroot' . DS . $chk_info["corp_id"] . DS . 'images';$infos = [];
+            $share_pictures = [];
+            $share_picture["share_id"] = $share_id;
+            foreach($imgs as $img){
+                $checkFlg = $img->check(["ext"=>config('upload_image.image_ext')]);
+                if(!$checkFlg){
+                    return false;
+                }
+                $info = $img->move($path);
+                if($info===false){
+                    exception("上传动态图片失败");
+                }
+                //var_exp($info,'$info');
+                $savename = $info->getSaveName();
+                $share_picture["path"] =  DS . 'webroot' . DS . $chk_info["corp_id"] . DS . 'images'. DS . $savename;
+                $share_pictures[] = $share_picture;
+            }
+            $corporationSharePicture = new CorporationSharePicture($chk_info["corp_id"]);
+            $share_pic_id = $corporationSharePicture->createMutipleCorporationSharePicture($share_pictures);
+            if(!$share_pic_id){
+                $corporationShareModel->link->rollback();
+                exception("保存动态图片失败");
+            }
         }
         $corporationShareModel->link->commit();
         $result['data'] = $share_id;
