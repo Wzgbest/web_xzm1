@@ -646,6 +646,8 @@ class User extends Controller{
             }
         }catch (\Exception $e) {
             $this->employM->link->rollback();
+            $info["转账时发生错误"];
+            $info['errnum'] = 9;
         }
         return json($info);
     }
