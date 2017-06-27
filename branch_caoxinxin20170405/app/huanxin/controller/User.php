@@ -239,7 +239,7 @@ class User extends Controller{
         if (!$chk_info['status']) {
             return json($chk_info);
         }
-        $paypass = $this->employM->getEmployee($userid);
+        $paypass = $this->employM->getEmployeeByTel($userid);
         if (!empty($paypass['pay_password'])) {
             return json(['status'=>false,'errnum'=>1,'message'=>'支付密码已设置，请勿重复设置']);
         }
