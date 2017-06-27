@@ -175,7 +175,7 @@ class User extends Controller{
             $data['password'] = md5($newpass);
             $corp_id = get_corpid($userid);
             $employee = new Employee($corp_id);
-            $r_userid = $employee->getEmployee($userid);
+            $r_userid = $employee->getEmployeeByTel($userid);
             $employee->setEmployeeSingleInfo($userid, $data);
             write_log($r_userid['id'],1,'用户修改登录密码',$corp_id);
             $info['status'] = true;
@@ -296,7 +296,7 @@ class User extends Controller{
         $data = ['pay_password'=>md5($newpass)];
         $corp_id = get_corpid($userid);
         $employee = new Employee($corp_id);
-        $r_userid = $employee->getEmployee($userid);
+        $r_userid = $employee->getEmployeeByTel($userid);
         $r = $employee->setEmployeeSingleInfo($userid,$data);
         if ($r >= 0) {
             session('reset_code'.$userid,null);
@@ -365,7 +365,7 @@ class User extends Controller{
         if (!$b[0]) {
             return json(['status'=>false,'errnum'=>1,'message'=>'账户余额查询请求失败，联系管理员']);
         }
-        $res = $this->employM->getEmployee($userid);
+        $res = $this->employM->getEmployeeByTel($userid);
         $left_money = $res['left_money'];
         $left_money = number_format($left_money/100, 2, '.', '');
         return json(['status'=>true,'message'=>'SUCCESS','errnum'=>0,'left_money'=>$left_money]);
@@ -576,7 +576,7 @@ class User extends Controller{
             $info['errnum'] = 3;
             return $info;
         }
-        $to_userinfo = $this->employM->getEmployee($to_user);
+        $to_userinfo = $this->employM->getEmployeeByTel($to_user);
         if (empty($to_userinfo)) {
             $info['message'] = '接收转账的用户不存在';
             $info['errnum'] = 4;
