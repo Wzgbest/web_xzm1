@@ -11,7 +11,7 @@ namespace app\knowledgebase\model;
 use app\common\model\Base;
 use think\Db;
 
-class CorporationShare extends Base{
+class CorporationShareTapeTape extends Base{
     protected $dbprefix;
     public function __construct($corp_id =null){
         $this->dbprefix = config('database.prefix');
@@ -20,90 +20,86 @@ class CorporationShare extends Base{
     }
 
     /**
-     * 获取动态
+     * 获取录音
      * @param $uid int 用户id
-     * @param $map array 动态筛选条件
+     * @param $map array 录音筛选条件
      * @param $order string 排序
      * @return array
      * @throws \think\Exception
      */
-    public function getAllCorporationShare($uid,$map=null,$order="id desc"){
+    public function getAllCorporationShareTape($uid,$map=null,$order="id desc"){
         $map["create_user"] = $uid;
         $map["status"]=1;
         $searchCustomerList = $this->model
             ->table($this->table)
             ->where($map)
             ->order($order)
+            ->field(array("id","customer_name","phone","contact_name","industry","com_adds","website"))
+            ->select();
+        return ['res'=>$searchCustomerList ,'error'=>"0"];
+    }
+
+    /**
+     * 获取录音
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $map array 录音筛选条件
+     * @param $order string 排序
+     * @return array
+     * @throws \think\Exception
+     */
+    public function getCorporationShareTape($num=10,$page=0,$map=null,$order="id desc"){
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+        $searchCustomerList = $this->model
+            ->table($this->table)
+            ->where($map)
+            ->order($order)
+            ->limit($offset,$num)
             ->field("*")//TODO
             ->select();
         return ['res'=>$searchCustomerList ,'error'=>"0"];
     }
 
     /**
-     * 获取动态
-     * @param $uids array 数量
-     * @param $num int 数量
-     * @param $last_id int 最后一条动态的id
-     * @param $map array 动态筛选条件
-     * @param $order string 排序
+     * 创建录音,并返回结果
+     * @param $customer array 录音信息
      * @return array
      * @throws \think\Exception
      */
-    public function getCorporationShare($num=10,$last_id=0,$map=[]){
-        $order="cs.id desc";
-        if($last_id){
-            $map["cs.id"] = ["lt",$last_id];
-        }
-        $corporationShareList = $this->model->table($this->table)->alias('cs')
-            ->join($this->dbprefix.'corporation_share_picture csp','csp.share_id = cs.id',"LEFT")
-            ->where($map)
-            ->order($order)
-            ->limit($num)
-            ->group("cs.id")
-            ->field("cs.*,GROUP_CONCAT(csp.path) as img")//TODO
-            ->select();
-        foreach ($corporationShareList as &$corporationShare){
-            $corporationShare["img"] = explode(",",$corporationShare["img"]);
-        }
-        return $corporationShareList;
-    }
-
-    /**
-     * 创建动态,并返回结果
-     * @param $share array 动态信息
-     * @return array
-     * @throws \think\Exception
-     */
-    public function createCorporationShare($share){
-        $userid = $share['userid'];
-        if(empty($userid)){
+    public function createCorporationShareTape($customer){
+        $customer_name = $customer['userid'];
+        if(empty($customer_name)){
             return ['res'=>0 ,'error'=>"1" ,'msg'=>"参数错误！"];
         }
-        return $this->model->table($this->table)->insertGetId($share);
-    }
-
-    /**
-     * 更新动态,并返回结果
-     * @param $share array 动态信息
-     * @param $map array 动态筛选条件
-     * @return array
-     * @throws \think\Exception
-     */
-    public function updateCorporationShare($share,$map){
-        if(empty($map)){
-            return ['res'=>0 ,'error'=>"1" ,'msg'=>"更新参数错误！"];
-        }
-        $b = $this->model->table($this->table)->where($map)->data($share)->save();
+        $b = $this->model->table($this->table)->insertGetId($customer);
         return ['res'=>$b ,'error'=>"0"];
     }
 
     /**
-     * 删除动态,并返回结果
-     * @param $map array 动态筛选条件
+     * 更新录音,并返回结果
+     * @param $customer array 录音信息
+     * @param $map array 录音筛选条件
      * @return array
      * @throws \think\Exception
      */
-    public function delCorporationShare($map){
+    public function updateCorporationShareTape($customer,$map){
+        if(empty($map)){
+            return ['res'=>0 ,'error'=>"1" ,'msg'=>"更新参数错误！"];
+        }
+        $b = $this->model->table($this->table)->where($map)->data($customer)->save();
+        return ['res'=>$b ,'error'=>"0"];
+    }
+
+    /**
+     * 删除录音,并返回结果
+     * @param $map array 录音筛选条件
+     * @return array
+     * @throws \think\Exception
+     */
+    public function delCorporationShareTape($map){
         if(empty($map)){
             return ['res'=>0 ,'error'=>"1" ,'msg'=>"缺少删除目标！"];
         }

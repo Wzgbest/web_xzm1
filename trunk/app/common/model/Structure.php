@@ -37,6 +37,17 @@ class Structure extends Base
     }
 
     /**
+     * 获取单个部门信息
+     * @param $struct_ids array 部门id
+     * @return array|false|\PDOStatement|string|\think\Model
+     * created by blu10ph
+     */
+    public function getStructureName($struct_ids)
+    {
+        return $this->model->table($this->table)->where('id',"in",$struct_ids)->column("struct_name","id");
+    }
+
+    /**
      * 添加部门信息
      * @param $data
      * @return int|string
