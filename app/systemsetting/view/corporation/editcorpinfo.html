@@ -1,9 +1,14 @@
 <div class="edit_corp_info">
     <div id="top">
-        <p>公司信息</p>
+        <ul class="firNav">
+            <li class="current">
+                <div>公司信息</div>
+            </li>
+            <!--<i class="fa fa-angle-right fa-2x"></i>-->
+        </ul>
     </div>
     <div id="content">
-        <form name="form_corp" action="#" method="post">
+        <form name="form_corp" class="form_corp" onsubmit="return false;" method="post">
             <p>
                 <img src="/systemsetting/images/corp_info.jpg" />
                 <span>公司名称</span>
@@ -28,9 +33,10 @@
             </p>
             <p class="p1">
                 <span>详细定位</span>
-                <input type="text" class="ipt1" value="{$data.corp_lat}"/>
+                <input type="text" name="corp_dist" type="text"  value="{$data.corp_dist}"/>
             </p>
             <p class="p2">
+                <input type="text" class="ipt1" value="{$data.corp_lat}"/>
                 <input type="text" class="ipt1" value="{$data.corp_lng}"/>
             </p>
             <p class="p1">
@@ -58,5 +64,27 @@
             </p>
         </form>
     </div>
+    </body>
+    <script>
+        $('#corp_submit').click(function() {
+            console.log($(".form_corp").serialize());
+            $.ajax({
+                url: '/systemsetting/corporation/editcorpinfo',
+                type: 'post',
+                data: $(".form_corp").serialize(),
+                success: function(data) {
+                    if(data.status) {
+                        console.log(data.message);
+                        loadPage("/systemsetting/corporation/showCorpInfo","company-informationfr");
+                    } else {
+                        console.log(data.message);
+                    }
+                },
+                error: function() {
+
+                },
+            });
+        });
+    </script>
 </div>
-<link rel="stylesheet" href="/systemsetting/css/index.css" />
+<link rel="stylesheet" href="/systemsetting/css/editcorpinfo.css" />

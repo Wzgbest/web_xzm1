@@ -33,6 +33,16 @@ class Employee extends Initialize{
     }
 
     /**
+     * 员工列表
+     * created by blu10ph
+     */
+    public function manage(Request $request,$page_now_num = 0, $page_rows = 10){
+        $employee_list = $this->showEmployeeList($request,$page_now_num, $page_rows);
+        $this->assign("listdata",$employee_list);
+        return view();
+    }
+
+    /**
      * 分页展示员工列表
      * @param $request Request 请求参数
      * @param int $page_now_num 当前页

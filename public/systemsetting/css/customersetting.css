@@ -1,0 +1,166 @@
+.customer_setting_edit {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    font-family: "微软雅黑";
+    width: 100%;
+    /*height: 810px;*/
+    height: 100%;
+    background-color: #f5f7fa;
+}
+
+
+.customer_setting_edit #top {
+    /*width: 1120px;*/
+    width: 100%;
+    height: 40px;
+    background-color: #fff;
+    margin: 0 10px;
+
+}
+
+.customer_setting_edit ul.firNav {
+    height: 40px;
+    margin-left: 1px;
+    /*padding: 10px 0;*/
+    box-shadow: -1px 2px #ebedf0;
+}
+
+.customer_setting_edit ul.firNav li {
+    float: left;
+    color: #b2b2b2;
+    height: 20px;
+    /*width: 130px;*/
+    padding: 10px 0;
+    /*line-height: 20px;*/
+    /*padding: 0 10px;*/
+    /*border-right:2px solid #b2b2b2 ;*/
+}
+
+.customer_setting_edit ul.firNav li:hover {
+    cursor: pointer;
+}
+
+.customer_setting_edit ul.firNav li div {
+    line-height: 20px;
+    padding: 0 5px;
+    font-size: 12px;
+    /*border-right:2px solid #b2b2b2 ;*/
+}
+
+.customer_setting_edit ul.firNav li:last-child div {
+    border: none;
+}
+
+.customer_setting_edit ul.firNav li.current {
+    color: #333333;
+    border-bottom: 1px solid #42a5f5;
+}
+
+.customer_setting_edit #top ul i {
+    height: 20px;
+    display: inline-block;
+    padding-left: 3px;
+    font-size: 16px;
+    line-height: 40px;
+    color: #999999;
+    vertical-align: middle;
+}
+
+.customer_setting_edit #top ul span {
+    display: inline-block;
+    height: 20px;
+    vertical-align: middle;
+    padding-left: 5px;
+    font-size: 12px;
+    line-height: 40px;
+    color: #999999;
+}
+
+.customer_setting_edit #content {
+    width: 100%;
+    /*width: 1120px;*/
+    height: 800px;
+    background-color: #fff;
+    margin: auto 10px;
+    margin-top: 6px;
+    margin-bottom: 12px;
+    padding-top: 21px;
+}
+
+.customer_setting_edit #content p {
+    margin-bottom: 14px;
+    margin-left: 34px;
+    /*background-color: red;*/
+}
+
+.customer_setting_edit #content .p5 {
+    margin-top: 89px;
+    margin-left: 340px;
+}
+
+.customer_setting_edit #content .p5 input {
+    width: 100px;
+    height: 41px;
+    border-radius: 10px;
+    margin-right: 100px;
+    background-color: #42a5f5;
+    color: #fff;
+    border: 1px solid #dcdcdc;
+}
+
+.customer_setting_edit #content .p5 button {
+    width: 100px;
+    height: 41px;
+    border-radius: 10px;
+    margin-right: 100px;
+    background-color: #fff;
+    border: 1px solid #dcdcdc;
+}
+
+.customer_setting_edit #content .sp1 {
+    display: inline-block;
+    width: 180px;
+    text-align: right;
+    margin-right: 16px;
+    font-size: 14px;
+}
+
+.customer_setting_edit #content input {
+    width: 100px;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 36px;
+    margin-right: 16px;
+}
+
+.customer_setting_edit #content .p6 {
+    margin-top: 20px;
+}
+
+.customer_setting_edit #content .p6 input {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    padding: 0;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.customer_setting_edit #content .sp2 {
+    display: inline-block;
+    width: 350px;
+    text-align: right;
+    font-size: 12px;
+    color: #B3B3B3;
+    text-align: left;
+}
+
+.customer_setting_edit #content .sp {
+    font-size: 14px;
+}
+
+.customer_setting_edit #content .sp3 {
+    margin-right: 20px;
+    vertical-align: middle;
+}
