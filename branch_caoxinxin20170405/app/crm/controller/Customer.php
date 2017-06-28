@@ -13,6 +13,7 @@ use app\crm\model\Customer as CustomerModel;
 use app\crm\model\CustomerDelete as CustomerDelete;
 use app\crm\model\CustomerNegotiate;
 use app\systemsetting\model\CustomerSetting;
+use app\common\model\Business;
 
 class Customer extends Initialize{
     public function index(){
@@ -38,6 +39,9 @@ class Customer extends Initialize{
             $this->assign("count",$customers_count);
             $listCount = $customerM->getColumnNum($uid,$filter);
             $this->assign("listCount",$listCount);
+            $business = new Business($this->corp_id);
+            $business_list = $business->getAllBusiness();
+            $this->assign("business_list",$business_list);
         }catch (\Exception $ex){
             $this->error($ex->getMessage());
         }
@@ -46,8 +50,9 @@ class Customer extends Initialize{
         $this->assign("p",$p);
         $this->assign("num",$num);
         $this->assign("max_page",$max_page);
-        $this->assign("start_num",$start_num+1);
         $this->assign("in_column",$in_column);
+        $this->assign("start_num",$start_num+1);
+        $this->assign("truename",session('userinfo.truename'));
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view();
     }
@@ -542,11 +547,16 @@ class Customer extends Initialize{
 
     protected function _getCustomerForInput(){
         // add customer page
+        $uid = session('userinfo.userid');
+        $customer['belongs_to'] = input('belongs_to',0,'int');
+        $customer['add_man'] = $uid;
+        $customer['add_time'] = time();
+        $customer['handle_man'] = ($customer['belongs_to']==2)?0:$uid;
+
         $customer['customer_name'] = input('customer_name');
         $customer['telephone'] = input('telephone');
-        $customer['comm_status'] = input('comm_status',0,'int');
 
-        $customer['take_type'] = input('take_type',0,'int');
+        $customer['resource_from'] = input('resource_from',0,'int');
         $customer['grade'] = input('grade');
 
         $customer['field'] = input('field',0,'int');
@@ -559,7 +569,6 @@ class Customer extends Initialize{
         $customer['lng'] = input('lng',0,'double');
         $customer['website'] = input('website');
         $customer['remark'] = input('remark');
-        $customer['belongs_to'] = input('belongs_to',0,'int');
 
         return $customer;
     }
@@ -571,7 +580,7 @@ class Customer extends Initialize{
     public function add(){
         $result = ['status'=>0 ,'info'=>"新建客户时发生错误！"];
         $customer = $this->_getCustomerForInput();
-        if(!in_array($customer['belongs_to'],[3,4])){
+        if(!in_array($customer['belongs_to'],[2,3])){
             $result['info'] = "参数错误！";
             return json($result);
         }

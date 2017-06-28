@@ -12,7 +12,7 @@ use app\common\model\Base;
 
 class CustomerNegotiate extends Base{
     public function __construct($corp_id){
-        $this->table = config('database.prefix').'customer_contact';
+        $this->table = config('database.prefix').'customer_negotiate';
         parent::__construct($corp_id);
     }
 

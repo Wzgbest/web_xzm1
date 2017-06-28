@@ -51,6 +51,7 @@ function newClient(){
 function removeNewClient(){
 	document.getElementById("newClient").classList.add("hide");
 	document.getElementById("blackBg").classList.add("hide");
+	my_customer_new_customer();
 }
 
 /**********************************/
@@ -110,20 +111,179 @@ $("#new-sale-chance").click(function(){
 $("#new-trace").click(function(){
 	$("#creat-traceRecord").removeClass("hide");
 });
+function check_form_html5(eles){
+	var ele;
+	for(var i = 0;i<eles.length;i++){
+		ele = eles[i];
+		if(ele.name){
+			if(!ele.checkValidity()){
+				ele.focus();
+				return false;
+			}
+		}
+	}
+	return true;
+}
+var my_customer_new_customer_id = 0;
+var my_customer_new_customer_contact_id = 0;
+var my_customer_new_customer_sale_chance_id = 0;
+function my_customer_add_customer(next_status){
+	if(!check_form_html5($(".newClientForm").get(0).elements)){
+		return;
+	}
+	var my_customer_add_customer_from_data = $(".newClientForm").serialize();
+	var url = '/crm/customer/add';
+	if(my_customer_new_customer_id>0){
+		url = '/crm/customer/update';
+		my_customer_add_customer_from_data += "&id="+my_customer_new_customer_id;
+	}
+	//console.log(my_customer_add_customer_from_data);
+	$.ajax({
+		url: url,
+		type: 'post',
+		data: my_customer_add_customer_from_data,
+		success: function(data) {
+			if(data.status) {
+				if(my_customer_new_customer_id==0) {
+					my_customer_new_customer_id = data.data;
+				}
+				if(next_status==0 || next_status==3){
+					alert(data.info);
+				}
+				my_customer_next_status(next_status,removeNewClient,my_customer_next_contact);
+			}else{
+				alert(data.info);
+			}
+		},
+		error: function() {
+			alert("保存失败!");
+		}
+	});
+}
+function my_customer_add_contact(next_status){
+	var my_customer_add_customer_contact_from_data = $(".newClientContactForm").serialize();
+	my_customer_add_customer_contact_from_data += "&customer_id="+my_customer_new_customer_id;
+	var url = '/crm/customer_contact/add';
+	if(my_customer_new_customer_contact_id>0){
+		url = '/crm/customer_contact/update';
+		my_customer_add_customer_contact_from_data += "&id="+my_customer_new_customer_contact_id;
+	}
+	//console.log(my_customer_add_customer_contact_from_data);
+	$.ajax({
+		url: url,
+		type: 'post',
+		data: my_customer_add_customer_contact_from_data,
+		success: function(data) {
+			if(data.status) {
+				if(my_customer_new_customer_contact_id==0) {
+					my_customer_new_customer_contact_id = data.data;
+				}
+				if(next_status==0 || next_status==3){
+					alert("保存成功!");
+				}
+				my_customer_next_status(next_status,my_customer_pre_customer,my_customer_next_sale_chance);
+			}else{
+				alert(data.info);
+			}
+		},
+		error: function() {
+			alert("保存失败!");
+		}
+	});
+}
+function my_customer_add_sale_chance(next_status){
+	var my_customer_add_customer_sale_chance_from_data = $(".newClientSaleChanceForm").serialize();
+	my_customer_add_customer_sale_chance_from_data += "&customer_id="+my_customer_new_customer_id;
+	var url = '/crm/sale_chance/add';
+	if(my_customer_new_customer_sale_chance_id>0){
+		url = '/crm/sale_chance/update';
+		my_customer_add_customer_sale_chance_from_data += "&id="+my_customer_new_customer_sale_chance_id;
+	}
+	//console.log(my_customer_add_customer_sale_chance_from_data);
+	$.ajax({
+		url: url,
+		type: 'post',
+		data: my_customer_add_customer_sale_chance_from_data,
+		success: function(data) {
+			if(data.status) {
+				if(my_customer_new_customer_sale_chance_id==0) {
+					my_customer_new_customer_sale_chance_id = data.data;
+				}
+				if(next_status==0 || next_status==3){
+					alert("保存成功!");
+				}
+				my_customer_next_status(next_status,my_customer_pre_contact,removeNewClient);
+			}else{
+				alert(data.info);
+			}
+		},
+		error: function() {
+			alert("保存失败!");
+		}
+	});
+}
+//next_status 0:新建;1:上一页;2:下一页;3:退出;
+//func_previous 上一页的方法
+//func_next 下一页的方法
+function my_customer_next_status(next_status,func_previous,func_next){
+	if(!next_status){
+		my_customer_new_customer();
+	}else if(next_status==1){
+		func_previous();
+	}else if(next_status==2){
+		func_next();
+	}else if(next_status==3){
+		removeNewClient();
+	}
+}
+function my_customer_new_customer(){
+	console.log("new_start");
+
+	my_customer_new_customer_id = 0;
+	my_customer_new_customer_contact_id = 0;
+	my_customer_new_customer_sale_chance_id = 0;
+
+	$(".newClientForm :text").val("");
+	$(".newClientContactForm :text").val("");
+	$(".newClientSaleChanceForm :text").val("");
+
+	$(".newClientForm textarea").val("");
+	$(".newClientContactForm textarea").val("");
+	$(".newClientSaleChanceForm textarea").val("");
+
+	$("#form1").removeClass("hide");
+	$("#form2").addClass("hide");
+	$("#form3").addClass("hide");
+
+
+	$(".newClientForm select").find("option:first").removeAttr("selected",true);
+	$(".newClientContactForm select").find("option:first").removeAttr("selected",true);
+	$(".newClientSaleChanceForm select").find("option:first").removeAttr("selected",true);
+
+	$(".newClientForm select").find("option:first").attr("selected",true);
+	$(".newClientContactForm select").find("option:first").attr("selected",true);
+	$(".newClientSaleChanceForm select").find("option:first").attr("selected",true);
+
+	$(".newClientForm :radio[name='belongs_to'][value='3']").attr("checked",true);
+	$(".newClientContactForm :radio[name='sex'][value='3']").attr("checked",true);
+	$(".newClientContactForm :radio[name='key_decide'][value='3']").attr("checked",true);
+
+	console.log("new_end");
+}
 /*新建翻页*/
-function next1(){
+function my_customer_next_contact(){
 	$("#form1").addClass("hide");
 	$("#form2").removeClass("hide");
 }
-function next2(){
+function my_customer_next_sale_chance(){
 	$("#form2").addClass("hide");
 	$("#form3").removeClass("hide");
 }
-function pre1(){
+function my_customer_pre_customer(){
 	$("#form2").addClass("hide");
 	$("#form1").removeClass("hide");
 }
-function pre2(){
+function my_customer_pre_contact(){
 	$("#form3").addClass("hide");
 	$("#form2").removeClass("hide");
 }
