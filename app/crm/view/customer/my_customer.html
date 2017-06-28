@@ -17,7 +17,7 @@
     <!--客户列表-->
     <section id="myAllClientsPage" >
         <ul class="m-secNav">
-            <li class="active" onclick="newClient()">新建客户</li>
+            <li class="active" onclick="newClient();">新建客户</li>
             <li class="active">导入客户</li>
             <li class="active">录入记录</li>
             <li class="vertical"></li>
@@ -147,7 +147,7 @@
             <h1>新建客户<i class="fa fa-close fa-2x" onclick="removeNewClient()"></i></h1>
         </header>
         <div class="m-formBox m-form">
-            <form id="newClientForm">
+            <form id="newClientForm" class="newClientForm" onsubmit="return false;">
                 <div class="process">
                     <div id="state1" class="circle"><span>客户信息</span></div>
                     <div id="line1" class="rect"></div>
@@ -159,81 +159,85 @@
                 <div id="form1" class="">
                     <div>
                         <span class="cont"><span class="u-required">＊</span>客户名称</span>
-                        <input type="text" required="required" placeholder="请输入客户名称" pattern="[\S]{1,40}" title="请输入1-40个字符"/>
+                        <input type="text" name="customer_name" required="required" placeholder="请输入客户名称" pattern="[\S]{1,40}" title="请输入1-40个字符"/>
                         <span class="cont">沟通状态</span>
-                        <select>
-                            <option>无意向</option>
-                            <option>号码无效</option>
-                            <option>资料有误</option>
-                            <option>未接通</option>
-                            <option>待定</option>
-                            <option>有意向</option>
+                        <select name="comm_status">
+                            <option value="1">无意向</option>
+                            <option value="2">号码无效</option>
+                            <option value="3">资料有误</option>
+                            <option value="4">未接通</option>
+                            <option value="5">待定</option>
+                            <option value="6">有意向</option>
                         </select>
                     </div>
                     <div>
                         <span class="cont">联系人</span>
-                        <input type="text" pattern="[\S]{0,10}"  placeholder="请输入联系人名称" title="只可填写10位以内字符"/>
-
+                        <input type="text" name="contact_name" pattern="[\S]{0,10}" placeholder="请输入联系人名称" title="只可填写10位以内字符"/>
                         <span class="cont">客户级别</span>
-                        <select>
-                            <option>A</option>
-                            <option>B</option>
-                            <option>C</option>
-                            <option>D</option>
+                        <select name="grade">
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
                         </select>
                     </div>
                     <div>
                         <span class="cont"><span class="u-required">＊</span>联系电话</span>
-                        <input type="text" required="required" pattern="[\d]{7,12}" placeholder="请输入电话号码" title="请输入正确的联系方式" />
-
+                        <input type="text" name="telephone" required="required" pattern="[\d]{7,12}" placeholder="请输入电话号码" title="请输入正确的联系方式" />
                         <span class="cont">获取途径</span>
-                        <select>
-                            <option>转介绍</option>
-                            <option>搜索</option>
-                            <option>购买</option>
+                        <select name="resource_from">
+                            <option value="1">转介绍</option>
+                            <option value="2">搜索</option>
+                            <option value="3">购买</option>
                         </select>
                     </div>
                     <div>
                         <span class="cont">客户行业</span>
-                        <select class="u-3select">
-                            <option></option>
-                            <option>1</option>
+                        <select name="field_1" class="u-3select">
+                            <option value="0">请选择</option>
+                            {volist name="business_list" id="vo"}
+                            <option value="{$vo.id}">{$vo.business_name}</option>
+                            {/volist}
                         </select>
-                        <select class="u-3select">
-                            <option></option>
-                            <option>1</option>
+                        <select name="field_2" class="u-3select">
+                            <option value="0">请选择</option>
+                            {volist name="business_list" id="vo"}
+                            <option value="{$vo.id}">{$vo.business_name}</option>
+                            {/volist}
                         </select>
-                        <select class="u-3select">
-                            <option></option>
-                            <option>1</option>
+                        <select name="field" class="u-3select">
+                            <option value="0">请选择</option>
+                            {volist name="business_list" id="vo"}
+                            <option value="{$vo.id}">{$vo.business_name}</option>
+                            {/volist}
                         </select>
                     </div>
                     <div>
                         <span class="cont">公司地址</span>
-                        <select class="u-3select">
-                            <option></option>
-                            <option>1</option>
+                        <select name="prov" class="u-3select">
+                            <option value="0">请选择</option>
+                            <option value="1">山东</option>
                         </select>
-                        <select class="u-3select">
-                            <option></option>
-                            <option>1</option>
+                        <select name="city" class="u-3select">
+                            <option value="0">请选择</option>
+                            <option value="1">潍坊</option>
                         </select>
-                        <select class="u-3select">
-                            <option></option>
-                            <option>1</option>
+                        <select name="dist" class="u-3select">
+                            <option value="0">请选择</option>
+                            <option value="1">维城</option>
                         </select>
                     </div>
                     <div>
                         <span class="cont u-area">详细地址</span>
-                        <textarea id="address" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入详细地址"></textarea>
+                        <textarea name="address" id="address" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入详细地址"></textarea>
                     </div>
                     <div>
                         <span class="cont">详细定位</span>
-                        <input type="text" id="location" placeholder="请输入写字楼、街道、公司名称"/>
+                        <input type="text" name="address" id="location" placeholder="请输入写字楼、街道、公司名称"/>
                     </div>
                     <div>
                         <span class="cont">公司官网</span>
-                        <input type="url" id="website"  title="最多可填写80个字符" placeholder="请输入公司官网"/>
+                        <input type="url" id="website" name="website" title="最多可填写80个字符" placeholder="请输入公司官网"/>
                     </div>
                     <div>
                         <span class="cont">备注</span>
@@ -243,88 +247,90 @@
                         <span class="u-addRemark"><i class="fa fa-plus"></i></span>
                         <div class="clearfix"></div>
                         <span class="cont"></span>
-                        <textarea id="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
+                        <textarea name="remark" id="remark_customer" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
                     </div>
                     <div>
                         <span class="cont">保存到</span>
-                        <input type="radio" name="saveIn" value=""  checked="checked"/>我的客户
-                        <input type="radio" name="saveIn" value="" />公海池（售前）
-                        <input type="radio" name="saveIn" value="" />我的客户（售后）
+                        <input type="radio" name="belongs_to" value="3" checked="checked"/>我的客户
+                        <input type="radio" name="belongs_to" value="2" />公海池
                         <div class="allStaff hide"></div>
                     </div>
                     <div class="u-submitButton">
-                        <button>保存并添加下一客户</button>
-                        <button>保存</button>
-                        <button onclick="next1()">下一步</button>
+                        <button onclick="my_customer_add_customer(0)">保存并添加下一客户</button>
+                        <button onclick="my_customer_add_customer(3)">保存</button>
+                        <button onclick="my_customer_add_customer(2)">下一步</button>
                         <button onclick="removeNewClient()">取消</button>
                         <!--<input type="submit" />-->
                     </div>
                 </div>
+            </form>
+            <form id="newClientContactForm" class="newClientContactForm" onsubmit="return false;">
                 <div id="form2" class="hide">
                     <div>
                         <span class="cont">联系人姓名</span>
-                        <input type="text" id="linkmanName" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入联系人姓名" />
+                        <input type="text" name="contact_name" id="linkmanName" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入联系人姓名" />
                         <span class="cont">性别</span>
                         <input type="radio" name="sex" value="male"/>男
                         <input type="radio" name="sex" value="famale"/>女
                     </div>
                     <div>
                         <span class="cont">联系方式1</span>
-                        <input type="text" id="contactWay1" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码"/>
+                        <input type="text" name="phone_first" id="contactWay1" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码"/>
                         <span class="cont">联系方式2</span>
-                        <input type="text" id="contactWay2" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码"/>
+                        <input type="text" name="phone_second" id="contactWay2" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码"/>
                     </div>
                     <div>
                         <span class="cont">联系方式3</span>
-                        <input type="text" id="contactWay3" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码"/>
+                        <input type="text" name="phone_third" id="contactWay3" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码"/>
                         <span class="cont">邮箱</span>
-                        <input type="email" id="mail" placeholder="请输入邮箱"/>
+                        <input type="email" name="email" id="mail" placeholder="请输入邮箱"/>
                     </div>
                     <div>
                         <span class="cont">QQ号</span>
-                        <input type="text" id="qqNumber" pattern="[\d]{0,10}" title="请写正确格式" placeholder="请输入QQ号"/>
+                        <input type="text" name="qqnum" id="qqNumber" pattern="[\d]{0,10}" title="请写正确格式" placeholder="请输入QQ号"/>
                         <span class="cont">微信号</span>
-                        <input type="text" id="wechatNumber" pattern="[\d\D]{0,40}" title="最多填写40位字符" placeholder="请输入微信号"/>
+                        <input type="text" name="wechat" id="wechatNumber" pattern="[\d\D]{0,40}" title="最多填写40位字符" placeholder="请输入微信号"/>
                     </div>
                     <div>
                         <span class="cont">部门</span>
-                        <input type="text" id="department" pattern="[\d\D]{0,16}" title="最多填写16位字符" placeholder="请输入所属部门"/>
+                        <input type="text" name="structure" id="department" pattern="[\d\D]{0,16}" title="最多填写16位字符" placeholder="请输入所属部门"/>
                         <span class="cont">职务</span>
-                        <input type="text" id="duty" pattern="[\d\D]{0,16}" title="最多填写16位字符" placeholder="请输入职务"/>
+                        <input type="text" name="occupation" id="duty" pattern="[\d\D]{0,16}" title="最多填写16位字符" placeholder="请输入职务"/>
                     </div>
                     <div>
                         <span class="cont">关键决策人</span>
                         <div class="u-inlineRadio">
-                            <input type="radio" name="isKeyDecisionMaker" value="true"/>是
-                            <input type="radio" name="isKeyDecisionMaker" value="false"/>否
+                            <input type="radio" name="key_decide" value="1"/>是
+                            <input type="radio" name="key_decide" value="0"/>否
                         </div>
                         <span class="cont">决策能力</span>
-                        <select>
-                            <option>普通人</option>
-                            <option>决策人</option>
-                            <option>分项决策人</option>
-                            <option>商务决策人</option>
-                            <option>技术决策人</option>
-                            <option>财务决策人</option>
-                            <option>使用人</option>
-                            <option>意见影响人</option>
+                        <select name="deal_capability">
+                            <option value="1">普通人</option>
+                            <option value="2">决策人</option>
+                            <option value="3">分项决策人</option>
+                            <option value="4">商务决策人</option>
+                            <option value="5">技术决策人</option>
+                            <option value="6">财务决策人</option>
+                            <option value="7">使用人</option>
+                            <option value="8">意见影响人</option>
                         </select>
                     </div>
                     <div>
                         <span class="cont">介绍人</span>
-                        <input type="text" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入介绍人"/>
+                        <input type="text" name="introducer" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入介绍人"/>
                         <span class="cont">亲密程度</span>
-                        <select>
-                            <option></option>
+                        <select name="close_degree">
+                            <option value="0">不亲密</option>
+                            <option value="1">亲密</option>
                         </select>
                     </div>
                     <div>
                         <span class="cont">生日</span>
-                        <input type="date" />
+                        <input type="date" name="birthday" />
                     </div>
                     <div>
                         <span class="cont u-area">爱好</span>
-                        <textarea placeholder="请输入爱好"></textarea>
+                        <textarea name="hobby" placeholder="请输入爱好"></textarea>
                     </div>
                     <div>
                         <span class="cont">备注</span>
@@ -334,48 +340,49 @@
                         <span class="u-addRemark"><i class="fa fa-plus"></i></span>
                         <div class="clearfix"></div>
                         <span class="cont"></span>
-                        <textarea id="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
+                        <textarea name="remark" id="remark_contact" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
                     </div>
                     <div class="u-submitButton">
-                        <button>保存并添加下一客户</button>
-                        <button>保存</button>
-                        <button onclick="pre1()">上一步</button>
-                        <button onclick="next2()">下一步</button>
+                        <button onclick="my_customer_add_contact(0)">保存并添加下一客户</button>
+                        <button onclick="my_customer_add_contact(3)">保存</button>
+                        <button onclick="my_customer_add_contact(1)">上一步</button>
+                        <button onclick="my_customer_add_contact(2)">下一步</button>
                         <button onclick="removeNewClient()">取消</button>
                         <!--<input type="submit" />-->
                     </div>
                 </div>
+            </form>
+            <form id="newClientSaleChanceForm" class="newClientSaleChanceForm" onsubmit="return false;">
                 <div id="form3" class="hide">
                     <div>
                         <span class="cont"><span class="u-required">＊</span>销售机会</span>
-                        <input type="text" placeholder="请输入销售机会" />
+                        <input type="text" name="sale_name" placeholder="请输入销售机会" />
                         <span class="cont"><span class="u-required">＊</span>对应业务</span>
-                        <select>
-                            <option></option>
+                        <select name="business_id">
+                            {volist name="business_list" id="vo"}
+                                <option value="{$vo.id}">{$vo.business_name}</option>
+                            {/volist}
                         </select>
                     </div>
                     <div>
                         <span class="cont cont-max">预计成单金额</span>
-                        <input type="text" placeholder="请输入金额" />
+                        <input type="text" name="guess_money" placeholder="请输入金额" />
                         <span class="cont cont-max">预计成单时间</span>
-                        <input type="date" />
+                        <input type="date" name="prepay_time" />
                     </div>
                     <div>
                         <span class="cont">负责人</span>
-                        <span class="cont" id="personCharge">李华</span>
+                        <span class="cont" id="personCharge">{$truename}</span>
                         <span class="cont">协助人</span>
-                        <select>
-                            <option></option>
+                        <select name="associator_id">
+                            <option value="0">无</option>
                         </select>
                     </div>
                     <div>
-                        <span class="cont">客户状态</span>
-                        <select>
+                        <span class="cont">商机状态</span>
+                        <select name="sale_status">
                             <option></option>
                         </select>
-                        <span class="cont">老客户</span>
-                        <input type="radio" name="oldClient" value="true"/>是
-                        <input type="radio" name="oldClient" value="false"/>否
                     </div>
                     <div>
                         <span class="cont">备注</span>
@@ -385,15 +392,13 @@
                         <span class="u-addRemark"><i class="fa fa-plus"></i></span>
                         <div class="clearfix"></div>
                         <span class="cont"></span>
-                        <textarea id="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
+                        <textarea name="remark" id="remark_sale_chance" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
                     </div>
                     <div class="u-submitButton">
-                        <button>保存并添加下一客户</button>
-                        <button>保存</button>
-                        <button onclick="pre2()">上一步</button>
-                        <!--<button>下一步</button>-->
+                        <button onclick="my_customer_add_sale_chance(0)">保存并添加下一客户</button>
+                        <button onclick="my_customer_add_sale_chance(3)">保存</button>
+                        <button onclick="my_customer_add_sale_chance(1)">上一步</button>
                         <button onclick="removeNewClient()">取消</button>
-                        <!--<input type="submit" />-->
                     </div>
                 </div>
             </form>

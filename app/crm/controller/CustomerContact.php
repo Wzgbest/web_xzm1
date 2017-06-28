@@ -16,7 +16,7 @@ class CustomerContact extends Initialize{
         echo "crm/customer_contact/index";
     }
     public function get(){
-        $result = ['status'=>0 ,'info'=>"获取客户信息时发生错误！"];
+        $result = ['status'=>0 ,'info'=>"获取联系人时发生错误！"];
         $id = input('id',0,'int');
         if(!$id){
             $result['info'] = "参数错误！";
@@ -31,13 +31,13 @@ class CustomerContact extends Initialize{
             return json($result);
         }
         $result['status'] = 1;
-        $result['info'] = "获取客户信息成功！";
+        $result['info'] = "获取联系人成功！";
         return json($result);
     }
     protected function _getCustomerContactForInput(){
         // add customer contact page
         $customerContact['customer_id'] = input('customer_id',0,'int');
-        $customerContact['contact_name'] = input('contact_name ');
+        $customerContact['contact_name'] = input('contact_name');
         $customerContact['phone_first'] = input('phone_first');
 
         $customerContact['phone_second'] = input('phone_second');
@@ -60,7 +60,7 @@ class CustomerContact extends Initialize{
         return $customerContact;
     }
     public function add(){
-        $result = ['status'=>0 ,'info'=>"新建客户联系人时发生错误！"];
+        $result = ['status'=>0 ,'info'=>"新建联系人时发生错误！"];
         $customerContact = $this->_getCustomerContactForInput();
         try{
             $customerContactM = new CustomerContactModel($this->corp_id);
@@ -71,11 +71,11 @@ class CustomerContact extends Initialize{
             return json($result);
         }
         $result['status'] = 1;
-        $result['info'] = "新建客户联系人成功！";
+        $result['info'] = "新建联系人成功！";
         return json($result);
     }
     public function update(){
-        $result = ['status'=>0 ,'info'=>"保存客户时发生错误！"];
+        $result = ['status'=>0 ,'info'=>"保存联系人时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){
             $result['info'] = "参数错误！";
@@ -91,7 +91,7 @@ class CustomerContact extends Initialize{
             return json($result);
         }
         $result['status'] = 1;
-        $result['info'] = "保存客户信息成功！";
+        $result['info'] = "保存联系人成功！";
         return json($result);
     }
 }

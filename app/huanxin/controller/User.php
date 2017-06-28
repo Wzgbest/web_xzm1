@@ -360,7 +360,7 @@ class User extends Controller{
             return json($chk_info);
         }
 
-        $params = json(['userid'=>$chk_info['userinfo']['id'],'corp_id'=>$chk_info['corp_id']]);
+        $params = json_encode(['userid'=>$chk_info['userinfo']['id'],'corp_id'=>$chk_info['corp_id']],true);
         $b = \think\Hook::listen('check_over_time_red',$params);
         if (!$b[0]) {
             return json(['status'=>false,'errnum'=>1,'message'=>'账户余额查询请求失败，联系管理员']);
