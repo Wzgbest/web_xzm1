@@ -88,6 +88,14 @@
 			.fold .last_ul {
 				background: url(img/last.jpg) no-repeat 15px top;
 			}
+			.fold .zk_change{
+				
+				background: url(img/1.jpg) no-repeat 19px center;
+			}
+			.fold .zk_change1{
+				
+				background: url(img/05.jpg) no-repeat 15px bottom;
+			}
 			/** {
 				margin: 0;
 				padding: 0;
@@ -97,7 +105,7 @@
 			
 			body {
 				width: 100%;
-				height: 770px;
+				height: 580px;
 				background-color: #f5f7fa;
 			}
 			
@@ -191,7 +199,7 @@
 			#content {
 				/*width: 1090px;*/
 				width: 100%;
-				height: 812px;
+				height: 580px;
 				background-color: #fff;
 				margin: auto 10px;
 				margin-top: 6px;
@@ -206,7 +214,7 @@
 			
 			#content .dv2 {
 				width: 870px;
-				height: 800px;
+				height: 550px;
 				float: left;
 			}
 			
@@ -367,9 +375,9 @@
 		
 			<div class="dv2">
 
-				<div class="m-tableBox3" style="margin-left: 10px;">
+				<div class="m-tableBox3">
 					<div class="m-table table3">
-						<ul class="u-tabTitle">
+						<ul class="u-tabTitle" style="position: fixed;">
 							<li>工号<i class="fa fa-sort-desc"></i></li>
 							<li>姓名<i class="fa fa-unsorted"></i></li>
 							<li>角色</li>
@@ -439,17 +447,15 @@
 		$("").ready(function() {
 			$(".zk_1").click(function() {
 				$(".zk_3").addClass('zk');
-				$(".zk_1").css("background", "url(img/05.jpg) no-repeat 15px bottom")
-				$(".zk_2").toggleClass('zk');
-
-				$(".zk_k").click(function() {
-					$("zk_k").css('background', 'url(img/1.jpg) no-repeat 15px center')
+				$(".zk_1").toggleClass('zk_change1')
+				$(".zk_2").toggleClass('zk');	
+				$(".zk_k").click(function(){
+					$(this).toggleClass('zk_change');
+//					$(this).css('background','url(img/1.jpg) no-repeat 19px center');
 					$(".zk_3").toggleClass('zk');
-
-				});
-
-			})
-
+				});	
+				
+			})			
 		})
 	</script>
 
