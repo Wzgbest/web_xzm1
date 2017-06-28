@@ -19,10 +19,11 @@ class Customer extends Initialize{
         echo "crm/customer/index";
     }
     public function my_customer(){
-        $num = input('num',0,'int');
-        $num = $num?:20;
-        $p = input("p",0,"int");
-        $p = $p?:1;
+        $num = input('num',20,'int');
+        $p = input("p",1,"int");
+        $customers_count=0;
+        $start_num = ($p-1)*$num;
+        $end_num = $start_num+$num;
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
         $uid = session('userinfo.userid');
@@ -32,11 +33,22 @@ class Customer extends Initialize{
             $customerM = new CustomerModel($this->corp_id);
             $customers_data = $customerM->getSelfCustomer($uid,$num,$p,$filter,$field,$order,$direction);
             $this->assign("listdata",$customers_data);
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_count = $customerM->getSelfCustomerCount($uid,$num,$p,$filter,$field,$order,$direction);
+            $this->assign("count",$customers_count);
             $listCount = $customerM->getColumnNum($uid,$filter);
             $this->assign("listCount",$listCount);
         }catch (\Exception $ex){
             $this->error($ex->getMessage());
         }
+        $max_page = ceil($customers_count/$num);
+        $in_column = isset($filter["in_column"])?$filter["in_column"]:0;
+        $this->assign("p",$p);
+        $this->assign("num",$num);
+        $this->assign("max_page",$max_page);
+        $this->assign("start_num",$start_num+1);
+        $this->assign("in_column",$in_column);
+        $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view();
     }
     

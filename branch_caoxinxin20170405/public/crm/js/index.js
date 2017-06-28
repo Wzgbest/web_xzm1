@@ -2,7 +2,7 @@ $(".m-firNav li").click(function(){
 	$(".m-firNav li").removeClass("current");
 	$(this).addClass("current");
 });
-var content1 = "<ul class='u-tabList'><li class='u-tabCheckbox'><input type='checkbox'/></li><li class='u-tabCilentName'></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li class='u-tabLinkWay'></li><li></li><li></li><li></li><li></li><li></li><li class='u-tabOperation'><span>详情</span><span>编辑</span><span>释放</span></li><div class='clearfix'></div></ul>";
+//var content1 = "<ul class='u-tabList'><li class='u-tabCheckbox'><input type='checkbox'/></li><li class='u-tabCilentName'></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li class='u-tabLinkWay'></li><li></li><li></li><li></li><li></li><li></li><li class='u-tabOperation'><span>详情</span><span>编辑</span><span>释放</span></li><div class='clearfix'></div></ul>";
 var content2 = "<ul class='u-tabList'><li class='u-tabCheckbox'><input type='checkbox'/></li><li class='u-tabCilentName'></li><li></li><li></li><li></li><li></li><li></li><li></li><li class='u-tabLinkWay'></li><li></li><li></li><li></li><li class='u-tabOperation'><span>详情</span><span>编辑</span><span>释放</span></li><div class='clearfix'></div></ul>";
 
 var t;
@@ -11,17 +11,33 @@ for(var i=0;i<t;i++){
 	//$(".table1").append(content1);
 	$(".table2").append(content2);
 }
-function listNumChange(){
+function listNumChange(p,in_column){
 	console.log($(".u-tabControlRow select").val());
-	t = $(".u-tabControlRow select").val();
-	//$(".u-tabList").remove();
-	for(var i=0;i<t;i++){
-		//$(".table1").append(content1);
-		$(".table2").append(content2);
-//		#myAllClientsPage
+	num = $(".u-tabControlRow select").val();
+	my_customer_change_page(p,num,in_column);
+}
+function my_customer_previous_page(p,num,in_column){
+	if(p-1<1){
+		return;
 	}
-//		var height = $("#myAllClientsPage").height();
-//		$("#myAllClientsPage").height(260+t*40);
+	my_customer_change_page(p-1,num,in_column);
+}
+function my_customer_next_page(p,num,max,in_column){
+	if(p+1>max){
+		return;
+	}
+	my_customer_change_page(p+1,num,in_column);
+}
+function my_customer_jump_page(num,max,in_column){
+	console.log($(".my_customer_jump_page").val());
+	p = $(".my_customer_jump_page").val();
+	if(p+1>max || p-1<1){
+		return;
+	}
+	my_customer_change_page(p,num,in_column);
+}
+function my_customer_change_page(p,num,in_column){
+	loadPage("/crm/customer/my_customer/p/"+p+"/num/"+num+"/in_column/"+in_column,"myclietsfr");
 }
 /***************************/
 $("#blackBg").height(window.innerHeight);
