@@ -16,7 +16,7 @@ class SaleChance extends Initialize{
         echo "crm/sale_chance/index";
     }
     public function get(){
-        $result = ['status'=>0 ,'info'=>"获取客户信息时发生错误！"];
+        $result = ['status'=>0 ,'info'=>"获取销售机会时发生错误！"];
         $id = input('id',0,'int');
         if(!$id){
             $result['info'] = "参数错误！";
@@ -31,7 +31,7 @@ class SaleChance extends Initialize{
             return json($result);
         }
         $result['status'] = 1;
-        $result['info'] = "获取客户信息成功！";
+        $result['info'] = "获取销售机会成功！";
         return json($result);
     }
     protected function _getSaleChanceForInput(){
@@ -55,7 +55,7 @@ class SaleChance extends Initialize{
         return $saleChance;
     }
     public function add(){
-        $result = ['status'=>0 ,'info'=>"新建客户销售机会时发生错误！"];
+        $result = ['status'=>0 ,'info'=>"新建销售机会时发生错误！"];
         $saleChance = $this->_getSaleChanceForInput();
         try{
             $saleChanceM = new SaleChanceModel($this->corp_id);
@@ -66,11 +66,11 @@ class SaleChance extends Initialize{
             return json($result);
         }
         $result['status'] = 1;
-        $result['info'] = "新建客户销售机会成功！";
+        $result['info'] = "新建销售机会成功！";
         return json($result);
     }
     public function update(){
-        $result = ['status'=>0 ,'info'=>"保存客户时发生错误！"];
+        $result = ['status'=>0 ,'info'=>"保存销售机会时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){
             $result['info'] = "参数错误！";
@@ -86,7 +86,7 @@ class SaleChance extends Initialize{
             return json($result);
         }
         $result['status'] = 1;
-        $result['info'] = "保存客户信息成功！";
+        $result['info'] = "保存销售机会成功！";
         return json($result);
     }
 }
