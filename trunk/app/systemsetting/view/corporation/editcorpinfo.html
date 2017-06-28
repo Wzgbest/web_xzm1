@@ -73,11 +73,10 @@
                 type: 'post',
                 data: $(".form_corp").serialize(),
                 success: function(data) {
+                    //console.log(data);
+                    alert(data.message);
                     if(data.status) {
-                        console.log(data.message);
                         loadPage("/systemsetting/corporation/showCorpInfo","company-informationfr");
-                    } else {
-                        console.log(data.message);
                     }
                 },
                 error: function() {

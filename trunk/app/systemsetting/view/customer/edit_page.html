@@ -84,11 +84,10 @@
             type: 'post',
             data: $(".form_customer_setting").serialize(),
             success: function(data) {
+                //console.log(data);
+                alert(data.info);
                 if(data.status) {
-                    console.log(data.info);
                     loadPage("/systemsetting/customer/index","customer-settingfr");
-                } else {
-                    console.log(data.info);
                 }
             },
             error: function() {
