@@ -1,10 +1,11 @@
-
 .edit_corp_info {
 	margin: 0;
 	padding: 0;
 	font-size: 12px;
 	font-family: "微软雅黑";
 	width: 100%;
+	/*height: 810px;*/
+	height: 100%;
 	background-color: #f5f7fa;
 }
 
@@ -12,6 +13,14 @@
 	/*width: 1120px;*/
 	width: 100%;
 	height: 41px;
+	background-color: #fff;
+	margin: 0 10px;
+}
+
+.edit_corp_info #top {
+	/*width: 1120px;*/
+	width: 100%;
+	height: 40px;
 	background-color: #fff;
 	margin: 0 10px;
 }
@@ -76,6 +85,8 @@
 
 .edit_corp_info #content {
 	width: 100%;
+	/*width: 1120px;*/
+	height: 500px;
 	background-color: #fff;
 	margin: auto 10px;
 	margin-top: 6px;

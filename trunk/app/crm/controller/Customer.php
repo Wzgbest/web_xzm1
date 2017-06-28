@@ -28,7 +28,7 @@ class Customer extends Initialize{
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
         $uid = session('userinfo.userid');
-        $filter = $this->_getCustomerFilter(["take_type","grade","sale_chance","comm_status","customer_name","tracer","contact_name","in_column"]);
+        $filter = $this->_getCustomerFilter(["take_type","grade","sale_chance","comm_status","customer_name","contact_name","in_column"]);
         $field = $this->_getCustomerField(["take_type","grade"]);
         try{
             $customerM = new CustomerModel($this->corp_id);
@@ -49,6 +49,7 @@ class Customer extends Initialize{
         $in_column = isset($filter["in_column"])?$filter["in_column"]:0;
         $this->assign("p",$p);
         $this->assign("num",$num);
+        $this->assign("filter",$filter);
         $this->assign("max_page",$max_page);
         $this->assign("in_column",$in_column);
         $this->assign("start_num",$start_num+1);

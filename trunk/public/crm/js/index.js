@@ -37,7 +37,38 @@ function my_customer_jump_page(num,max,in_column){
 	my_customer_change_page(p,num,in_column);
 }
 function my_customer_change_page(p,num,in_column){
-	loadPage("/crm/customer/my_customer/p/"+p+"/num/"+num+"/in_column/"+in_column,"myclietsfr");
+	loadPage(get_my_customer_url(p,num,in_column),"myclietsfr");
+}
+function my_customer_search(p,num,in_column){
+	var url = get_my_customer_url(p,num,in_column);
+	var take_type = $("#my_customer_search_take_type").val();
+	if(take_type!=""){
+		url += "/take_type/"+take_type;
+	}
+	var grade = $("#my_customer_search_grade").val();
+	if(grade!=""){
+		url += "/grade/"+grade;
+	}
+	var sale_chance = $("#my_customer_search_sale_chance").val();
+	if(sale_chance!=""){
+		url += "/sale_chance/"+sale_chance;
+	}
+	var comm_status = $("#my_customer_search_comm_status").val();
+	if(comm_status!=""){
+		url += "/comm_status/"+comm_status;
+	}
+	var customer_name = $("#my_customer_search_customer_name").val();
+	if(customer_name!=""){
+		url += "/customer_name/"+customer_name;
+	}
+	var contact_name = $("#my_customer_search_contact_name").val();
+	if(contact_name!=""){
+		url += "/contact_name/"+contact_name;
+	}
+	loadPage(url,"myclietsfr");
+}
+function get_my_customer_url(p,num,in_column){
+	return "/crm/customer/my_customer/p/"+p+"/num/"+num+"/in_column/"+in_column;
 }
 /***************************/
 $("#blackBg").height(window.innerHeight);

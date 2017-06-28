@@ -1022,11 +1022,11 @@ class Customer extends Base
         }
         //客户名称
         if(in_array("customer_name",$filter_column) && array_key_exists("customer_name", $filter)){
-            $map["c.customer_name"] = $filter["customer_name"];
+            $map["c.customer_name"] = ["like","%".$filter["customer_name"]."%"];
         }
         //联系人名称
         if(in_array("contact_name",$filter_column) && array_key_exists("contact_name", $filter)){
-            $map["cc.contact_name"] = $filter["contact_name"];
+            $map["cc.contact_name"] = ["like","%".$filter["contact_name"]."%"];
         }
         //沟通状态
         if(in_array("comm_status",$filter_column) && array_key_exists("comm_status", $filter)){
