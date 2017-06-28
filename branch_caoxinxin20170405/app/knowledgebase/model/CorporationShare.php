@@ -41,11 +41,9 @@ class CorporationShare extends Base{
 
     /**
      * 获取动态
-     * @param $uids array 数量
      * @param $num int 数量
      * @param $last_id int 最后一条动态的id
      * @param $map array 动态筛选条件
-     * @param $order string 排序
      * @return array
      * @throws \think\Exception
      */
@@ -56,11 +54,12 @@ class CorporationShare extends Base{
         }
         $corporationShareList = $this->model->table($this->table)->alias('cs')
             ->join($this->dbprefix.'corporation_share_picture csp','csp.share_id = cs.id',"LEFT")
+            ->join($this->dbprefix.'employee e','e.id = cs.userid',"LEFT")
             ->where($map)
             ->order($order)
             ->limit($num)
             ->group("cs.id")
-            ->field("cs.*,GROUP_CONCAT(csp.path) as img")//TODO
+            ->field("cs.*,GROUP_CONCAT(csp.path) as img,e.truename,e.userpic")//TODO
             ->select();
         foreach ($corporationShareList as &$corporationShare){
             $corporationShare["img"] = explode(",",$corporationShare["img"]);
