@@ -120,8 +120,8 @@ header{
 /************************************************************************/
 /*新建客户*/
 #newClient{
-	width: 1000px;
-	height: 650px;
+	width: 900px;
+	height: 520px;
 	position: absolute;
 	left: 66px;
 	top: 96px;

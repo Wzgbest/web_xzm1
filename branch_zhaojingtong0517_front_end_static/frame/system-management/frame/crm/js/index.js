@@ -4,7 +4,7 @@ $(".m-firNav li").click(function(){
 });
 var content1 = "<ul class='u-tabList'><li ></li><li ></li><li class='u-tabOperation'><span>查看员工</span><span>移除权限</span></li><div class='clearfix'></div></ul>";
 var content2 = "<ul class='u-tabList'><li class='u-tabCheckbox'><input type='checkbox'/></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li class='u-tabOperation'><span>详情</span><span>编辑</span><span>删除</span></li><div class='clearfix'></div></ul>";
-var content3 = "<ul class='u-tabList'><li></li><li></li><li></li><li></li><li></li><li></li><li class='u-tabOperation'><span>详情</span><span>移除</span></li><div class='clearfix'></div></ul>";
+var content3 = "<ul class='u-tabList'><li></li><li></li><li></li><li></li><li></li><li></li><li class='u-tabOperation'><span>详情</span><span class='big-link' data-reveal-id='myModal' data-animation='fade'>移至</span></li><div class='clearfix'></div></ul>";
 
 var t;
 t=15;
