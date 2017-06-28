@@ -13,8 +13,81 @@
 		<link rel="stylesheet" href="../frame/crm/css/form.css" />
 		<link rel="stylesheet" href="../frame/crm/css/index.css" />
 		<link rel="stylesheet" href="../frame/crm/css/table.css" />
-	
+
 		<style>
+			/*折叠面板*/
+			
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			.fold {
+				width: 250px;
+				height: 550px;
+				background-color: #f5f5f5;
+				float: left;
+			}
+			
+			.fold .top {
+				height: 50px;
+				border-bottom: 1px solid #ebebeb;
+			}
+			
+			.fold .top span {
+				font-size: 16px;
+				line-height: 50px;
+				margin-left: 15px;
+			}
+			
+			.fold .top i {
+				font-size: 20px;
+				line-height: 50px;
+				margin-left: 136px;
+				color: #b3b3b3;
+			}
+			
+			.fold ul li {
+				padding-left: 20px;
+				background: url(img/ul_li.jpg) no-repeat 15px center;
+				list-style: none;
+				height: 42px;
+				border-bottom: 1px solid #eeeeee;
+				line-height: 42px;
+				padding-left: 50px;
+			}
+			
+			.fold p {
+				padding-left: 30px;
+				background: url(img/部门管理_03.jpg) no-repeat 15px center;
+				height: 42px;
+				border-bottom: 1px solid #eeeeee;
+				line-height: 42px;
+			}
+			
+			.fold p span {
+				margin-left: 18px;
+			}
+			
+			.fold p .sp1 {
+				margin-left: 8px;
+			}
+			
+			.fold .zk_k {
+				background: url(img/zk_xiaoshou.jpg) no-repeat 15px center;
+			}
+			
+			.fold .zk_shichang {
+				background: url(img/06.jpg) no-repeat 15px top;
+			}
+			
+			.fold .zk {
+				display: none;
+			}
+			
+			.fold .last_ul {
+				background: url(img/last.jpg) no-repeat 15px top;
+			}
 			/** {
 				margin: 0;
 				padding: 0;
@@ -94,19 +167,22 @@
 				line-height: 40px;
 				color: #999999;
 			}
-			#top .add{
+			
+			#top .add {
 				width: 26px;
 				height: 38px;
 				position: absolute;
 				right: 50px;
-				top:0;
+				top: 0;
 				padding-top: 2px;
 			}
-			#top .add p{
+			
+			#top .add p {
 				font-size: 12px;
 				text-align: center;
 			}
-			#top .add i{
+			
+			#top .add i {
 				display: block;
 				color: #1f7ed0;
 				text-align: center;
@@ -122,12 +198,11 @@
 				margin-bottom: 12px;
 			}
 			
-			#content .dv1 {
-				width: 246px;
+			/*#content .dv1 {
+				width: 250px;
 				height: 800px;
-				background-color: green;
 				float: left;
-			}
+			}*/
 			
 			#content .dv2 {
 				width: 870px;
@@ -164,9 +239,8 @@
 				width: 42px;
 				height: 18px;
 			}
-			
-			
 			/*弹出框*/
+			
 			.reveal-modal-bg {
 				position: fixed;
 				height: 100%;
@@ -179,8 +253,8 @@
 			}
 			
 			.reveal-modal {
-				width: 590px ;
-				height: 280px ;
+				width: 590px;
+				height: 280px;
 				visibility: hidden;
 				top: 150px;
 				left: 50%;
@@ -211,13 +285,14 @@
 				color: #666666;
 				display: inline-block;
 			}
-			.reveal-modal select{
+			
+			.reveal-modal select {
 				width: 200px;
 				height: 30px;
 				margin-left: 10px;
 			}
+			
 			#myModal .p5 {
-				
 				margin-left: 165px;
 			}
 			
@@ -251,8 +326,6 @@
 				font-weight: bold;
 				cursor: pointer;
 			}
-			
-			
 		</style>
 	</head>
 
@@ -263,7 +336,7 @@
 					<div>部门管理</div>
 				</li>
 			</ul>
-			
+
 			<div class="add">
 				<i class="fa fa-plus fa-2x"></i>
 				<p>新增</p>
@@ -271,10 +344,30 @@
 		</div>
 		<div id="content">
 
-			<div class="dv1"></div>
-			<div class="dv2">
+			
+				<div class="fold">
+					<div class="top">
+						<span>组织架构</span>
+						<i class="fa fa-plus"></i>
+					</div>
+					<p class="zk_1 "><span class="sp1">CEO</span></p>
+					<p class="zk_2 zk zk_k"><span>销售部</span></p>
+					<ul class="zk_3 zk">
+
+						<li>销售一部</li>
+						<li>销售二部</li>
+						<li>销售三部</li>
+						<li class="last_ul">销售四部</li>
+
+					</ul>
+					<p class="zk_2 zk zk_shichang"><span>市场部</span></p>
 				
-				<div class="m-tableBox3">
+				</div>
+				
+		
+			<div class="dv2">
+
+				<div class="m-tableBox3" style="margin-left: 10px;">
 					<div class="m-table table3">
 						<ul class="u-tabTitle">
 							<li>工号<i class="fa fa-sort-desc"></i></li>
@@ -313,37 +406,51 @@
 					<input type="text" />
 					<span>页</span>
 				</div>
-				
+
 			</div>
-			
+
 			<!--<a href="#" class="big-link" data-reveal-id="myModal" data-animation="fade">点我弹出</a>-->
-		
-		<div id="myModal" class="reveal-modal">
-			<p class="p1">移动</p>
-			<p class="p2">移动该员工至
-				<select>
-					<option>销售一部</option>
-					<option>销售二部</option>
-					<option>销售三部</option>
-				</select>
-			</p>
-			
-			<p class="p5">
-				<input type="submit" value="确定" />
-				<button>取消</button>
-			</p>
-			<a class="close-reveal-modal">&#215;</a>
+
+			<div id="myModal" class="reveal-modal">
+				<p class="p1">移动</p>
+				<p class="p2">移动该员工至
+					<select>
+						<option>销售一部</option>
+						<option>销售二部</option>
+						<option>销售三部</option>
+					</select>
+				</p>
+
+				<p class="p5">
+					<input type="submit" value="确定" />
+					<button>取消</button>
+				</p>
+				<a class="close-reveal-modal">&#215;</a>
+			</div>
 		</div>
-	</div>
 	</body>
-	
+
 	<script type="text/javascript" src="../js/jquery.min.js"></script>
-	<script type="text/javascript" src="../frame/crm/js/jquery-1.4.4.min.js" ></script>
+	<script type="text/javascript" src="../frame/crm/js/jquery-1.4.4.min.js"></script>
 	<script type="text/javascript" src="../frame/crm/js/index.js"></script>
-	<script type="text/javascript" src="../frame/crm/js/jquery.reveal.js" ></script>
-	
+	<script type="text/javascript" src="../frame/crm/js/jquery.reveal.js"></script>
+
 	<script>
-		
+		$("").ready(function() {
+			$(".zk_1").click(function() {
+				$(".zk_3").addClass('zk');
+				$(".zk_1").css("background", "url(img/05.jpg) no-repeat 15px bottom")
+				$(".zk_2").toggleClass('zk');
+
+				$(".zk_k").click(function() {
+					$("zk_k").css('background', 'url(img/1.jpg) no-repeat 15px center')
+					$(".zk_3").toggleClass('zk');
+
+				});
+
+			})
+
+		})
 	</script>
 
 </html>
