@@ -32,17 +32,20 @@ class CustomerSetting extends Base
         if($page){
             $offset = ($page-1)*$num;
         }
-        $searchCustomerList = $this->model
+        $customerSettingList = $this->model
             ->table($this->table)
             ->where($map)
             ->order($order)
             ->limit($offset,$num)
             ->field('*')//TODO field list
             ->select();
-        if($num==1&&$page==0&&$searchCustomerList){
-            $searchCustomerList = $searchCustomerList[0];
+        foreach ($customerSettingList as &$customerSetting){
+            $customerSetting["set_to_structure_arr"] = explode(",",$customerSetting["set_to_structure"]);
         }
-        return $searchCustomerList;
+        if($num==1&&$page==0&&$customerSettingList){
+            $customerSettingList = $customerSettingList[0];
+        }
+        return $customerSettingList;
     }
     /**
      * 查询客户设置
@@ -57,13 +60,13 @@ class CustomerSetting extends Base
             $structure = intval($struct_id);
             $setting_map = ($setting_map==""?"":" or ")." find_in_set('$structure', set_to_structure) ";
         }
-        $searchCustomerList = $this->model
+        $customerSettingList = $this->model
             ->table($this->table)
             ->where($setting_map)
             ->order($order)
             ->field('*')//TODO field list
             ->select();
-        return $searchCustomerList;
+        return $customerSettingList;
     }
 
     /**

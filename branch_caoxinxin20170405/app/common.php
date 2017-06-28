@@ -304,7 +304,7 @@ function getResourceFromName($resource_from){
     return $resource_from_name;
 }
 
-function getTakeFromName($resource_from){
+function getTakeTypeFromName($resource_from){
     $resource_from_name = null;
     switch ($resource_from){
         case 1:
@@ -455,7 +455,7 @@ function get_app_img ($data) {
     $data = base64_decode($data);
     $res['status'] = false;
     try{
-        $img_path = $img_path.DS.date('Y-m-d',time());//相对路径
+        $img_path = $img_path.DS.date('Ymd',time());//相对路径
         $corp_id = get_corpid();
         $save_path = PUBLIC_PATH.DS."webroot".DS.$corp_id.DS.$img_path;//物理路径
         if (!is_dir($save_path)) {
