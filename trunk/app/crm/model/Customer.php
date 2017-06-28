@@ -520,6 +520,208 @@ class Customer extends Base
         }
         return $customerList;
     }
+    /**
+     * 获取我的客户
+     * @param $uid int 员工id
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $filter array 客户筛选条件
+     * @param $order string 排序
+     * @param $direction string 排序方向
+     * @return array
+     * @throws \think\Exception
+     * created by blu10ph
+     */
+    public function getSelfCustomerCount($uid,$num=10,$page=0,$filter=null,$field=null,$order="id",$direction="desc"){
+        $now_time = time();
+        //获取客户配置
+        $struct_ids = getStructureIds($uid);
+        $customerSettingModel = new CustomerSetting();
+        $searchCustomerList = $customerSettingModel->getCustomerSettingByStructIds($struct_ids);
+        //$protect_customer_days = [];
+        $protect_customer_day_max = 0;//暂定员工属于两个部门且有客户,保有时间按长的来
+        $to_halt_day_max = 0;//暂定员工属于两个部门且有客户,划归停滞客户的天数按长的来
+        foreach ($searchCustomerList as $customerSetting){
+            if(!$customerSetting){
+                $customerSetting["protect_customer_day"] = 0;
+                $customerSetting["to_halt_day"] = 0;
+            }
+            //$protect_customer_days[$structure] = $customerSetting["protect_customer_day"];
+            if($customerSetting["protect_customer_day"]>$protect_customer_day_max){//暂定员工属于两个部门且有客户,保有时间按长的来
+                $protect_customer_day_max = $customerSetting["protect_customer_day"];
+            }
+            if($customerSetting["to_halt_day"]>$to_halt_day_max){//暂定员工属于两个部门且有客户,划归停滞客户的天数按长的来
+                $to_halt_day_max = $customerSetting["to_halt_day"];
+            }
+        }
+
+        //筛选
+        $map = $this->_getMapByFilter($filter,["take_type","grade","customer_name","contact_name","comm_status","sale_chance"]);
+        $map['c.belongs_to'] = 3;
+        $map['c.handle_man'] = $uid;
+        $having = "";
+        //列筛选
+        if(array_key_exists("in_column", $filter)){
+            $in_column = $filter["in_column"];
+            if($in_column>0&&$in_column<9){
+                $having = " in_column = $in_column ";
+            }else{
+                $having = null;
+            }
+        }
+
+        //排序
+        if($direction!="desc" && $direction!="asc"){
+            $direction = "desc";
+        }
+        $orderPrefix = "";
+        $subOrder = [$orderPrefix.$order=>$direction];//聚合前排序
+        $listOrder = [$order=>$direction];//聚合后排序
+        switch ($order){
+            case "id":
+            case "customer_name":
+            case "grade":
+            case "take_time":
+                $orderPrefix = "c.";
+                $subOrder = [$orderPrefix.$order=>$direction];
+                $listOrder = [$order=>$direction];
+                break;
+            case "contact_name":
+                $orderPrefix = "cc.";
+                $subOrder = [$orderPrefix."id"=>"desc"];
+                $listOrder = [$order=>$direction];
+                break;
+            case "comm_status":
+                $orderPrefix = "cn.";
+                $subOrder = [
+                    $orderPrefix."tend_to"=>$direction,
+                    $orderPrefix."phone_correct"=>$direction,
+                    $orderPrefix."profile_correct"=>$direction,
+                    $orderPrefix."call_through"=>$direction,
+                    $orderPrefix."is_wait"=>$direction,
+                ];
+                $listOrder = [
+                    "tend_to"=>$direction,
+                    "phone_correct"=>$direction,
+                    "profile_correct"=>$direction,
+                    "call_through"=>$direction,
+                    "is_wait"=>$direction,
+                ];
+                break;
+            case "remind_time":
+                $orderPrefix = "cn.";
+                $order = "wait_alarm_time";
+                $subOrder = [
+                    $orderPrefix."is_wait"=>"desc",
+                    $orderPrefix.$order=>$direction,
+                ];
+                $listOrder = [
+                    "is_wait"=>"desc",
+                    $order=>$direction,
+                ];
+                break;
+            case "last_trace_time":
+                $orderPrefix = "ct.";
+                $order = "create_time";
+                $subOrder = [$orderPrefix.$order=>"desc"];
+                $listOrder = [$order=>$direction];
+                break;
+            case "guess_money":
+                //$orderPrefix = "sc.";
+                //$idsOrder = [$orderPrefix.$order=>$direction];
+                $listOrder = [$order=>"all_guess_money"];
+                break;
+        }
+        $subOrder["sc.id"] = "desc";//商机
+        $subOrder["cn.id"] = "desc";//沟通状态
+        $subOrder["ct.id"] = "desc";//客户跟踪
+        $subOrder["cc.id"] = "desc";//联系人
+
+        //固定显示字段
+        $subField = [
+            "c.id",
+            "c.customer_name",
+            "c.take_type",
+            "c.grade",
+            "cn.tend_to",
+            "cn.phone_correct",
+            "cn.profile_correct",
+            "cn.call_through",
+            "cn.is_wait",
+            //"'沟通状态' as comm_status",
+            //"sc.sale_name",
+            "scb.business_name as sale_biz_name",
+            "(case when sc.sale_status<1 then 0 when sc.sale_status<4 then 0 else sc.guess_money end) as in_progress_guess_money",//all_guess_money
+            "(case when sc.sale_status=5 then sc.final_money else 0 end) as win_final_money",//all_final_money
+            "cc.contact_name",
+            "cc.phone_first",
+            "ct.create_time as last_trace_time",
+            "c.take_time",//领取时间
+            "ca.due_time as contract_due_time",
+            "cn.wait_alarm_time as remind_time",
+            //"'所在列' as in_column",
+            "sc.sale_status",
+            "ct.id ct_id",
+        ];
+        $listField = [
+            "id",
+            "customer_name",
+            "take_type",
+            "grade",
+            "tend_to",
+            "phone_correct",
+            "profile_correct",
+            "call_through",
+            "is_wait",
+            //"comm_status",
+            //"group_concat(sale_name) as sale_names",
+            "group_concat(sale_biz_name) as sale_biz_names",
+            "SUM(in_progress_guess_money) as all_guess_money",
+            "SUM(win_final_money) as all_final_money",
+            "contact_name",
+            "phone_first",
+            "last_trace_time",
+            "take_time",
+            "contract_due_time",
+            "remind_time",
+            "(case when phone_correct = 0 and profile_correct = 0 then 8 when tend_to = 0 then 6 when is_wait = 0 then 5 when sale_status = 0 then 7 when ct_id = '' or ct_id is null then 2 when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >".$to_halt_day_max." then 4 when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >3 then 1 else 3 end ) as in_column",
+            "sale_status",
+            "ct_id",
+        ];
+        /*
+        //动态显示字段:获取途径
+        if(in_array("take_type", $field)){
+            $subField[] = "c.take_type";
+            $listField[] = "take_type";
+        }
+        //动态显示字段:客户级别
+        if(in_array("grade", $field)){
+            $subField[] = "c.grade";
+            $listField[] = "grade";
+        }
+        */
+
+        $subQuery = $this->model
+            ->table($this->table)->alias('c')
+            ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")//sc.employee_id = c.handle_man
+            ->join($this->dbprefix.'business scb','scb.id = sc.business_id',"LEFT")
+            ->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
+            ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")//ct.operator_id = c.handle_man
+            ->where($map)
+            ->order($subOrder)
+            ->field($subField)
+            ->buildSql();
+        //var_exp($subQuery,'$subQuery',1);
+        $customerCount = $this->model
+            ->table($subQuery." l")
+            ->group("id")
+            ->having($having)
+            ->field($listField)
+            ->count();
+        return $customerCount;
+    }
 
     /**
      * 获取我的下属的客户

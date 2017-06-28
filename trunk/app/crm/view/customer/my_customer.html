@@ -2,15 +2,15 @@
     <!--header-->
     <header>
         <ul class="m-firNav">
-            <li id="myAllClients" class="current"><div>我的所有客户（<span>{$listCount.column_all}</span>）</div></li>
-            <li id="awaitComClients"><div>待沟通客户（<span>{$listCount.column_1}</span>）</div></li>
-            <li id="notFllowClients"><div>未跟进客户（<span>{$listCount.column_2}</span>）</div></li>
-            <li id="followClients"><div>正常跟进客户（<span>{$listCount.column_3}</span>）</div></li>
-            <li id="stagnantClients"><div>停滞客户（<span>{$listCount.column_4}</span>）</div></li>
-            <li id="undeterminedClients"><div>待定客户（<span>{$listCount.column_5}</span>）</div></li>
-            <li id="noIntentionClients"><div>无意向客户（<span>{$listCount.column_6}</span>）</div></li>
-            <li id="overClients"><div>已成单客户（<span>{$listCount.column_7}</span>）</div></li>
-            <li id="uselessClients"><div>无效客户（<span>{$listCount.column_8}</span>）</div></li>
+            <li onclick="my_customer_change_page({$p},{$num},0);" id="myAllClients" class="{eq name='in_column' value='0'}current{/eq}"><div>我的所有客户（<span>{$listCount.column_all}</span>）</div></li>
+            <li onclick="my_customer_change_page({$p},{$num},1);" id="awaitComClients" class="{eq name='in_column' value='1'}current{/eq}"><div>待沟通客户（<span>{$listCount.column_1}</span>）</div></li>
+            <li onclick="my_customer_change_page({$p},{$num},2);" id="notFllowClients" class="{eq name='in_column' value='2'}current{/eq}"><div>未跟进客户（<span>{$listCount.column_2}</span>）</div></li>
+            <li onclick="my_customer_change_page({$p},{$num},3);" id="followClients" class="{eq name='in_column' value='3'}current{/eq}"><div>正常跟进客户（<span>{$listCount.column_3}</span>）</div></li>
+            <li onclick="my_customer_change_page({$p},{$num},4);" id="stagnantClients" class="{eq name='in_column' value='4'}current{/eq}"><div>停滞客户（<span>{$listCount.column_4}</span>）</div></li>
+            <li onclick="my_customer_change_page({$p},{$num},5);" id="undeterminedClients" class="{eq name='in_column' value='5'}current{/eq}"><div>待定客户（<span>{$listCount.column_5}</span>）</div></li>
+            <li onclick="my_customer_change_page({$p},{$num},6);" id="noIntentionClients" class="{eq name='in_column' value='6'}current{/eq}"><div>无意向客户（<span>{$listCount.column_6}</span>）</div></li>
+            <li onclick="my_customer_change_page({$p},{$num},7);" id="overClients" class="{eq name='in_column' value='7'}current{/eq}"><div>已成单客户（<span>{$listCount.column_7}</span>）</div></li>
+            <li onclick="my_customer_change_page({$p},{$num},8);" id="uselessClients" class="{eq name='in_column' value='8'}current{/eq}"><div>无效客户（<span>{$listCount.column_8}</span>）</div></li>
         </ul>
     </header>
 
@@ -123,17 +123,17 @@
         </div>
         <div class="u-tabControlRow">
             <span>显示行数</span>
-            <select onchange="listNumChange()">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="20">20</option>
+            <select onchange="listNumChange({$p},{$in_column});">
+                <option value="5" {eq name="num" value="5"} selected="selected"{/eq}>5</option>
+                <option value="10" {eq name="num" value="10"} selected="selected"{/eq}>10</option>
+                <option value="20" {eq name="num" value="20"} selected="selected"{/eq}>20</option>
             </select>
-            <span>1-10条/</span>
-            <span>共50条</span>
-            <button>上一页</button>
-            <button>下一页</button>
+            <span>{$start_num}-{$end_num}条/</span>
+            <span>共{$count}条</span>
+            <button onclick="my_customer_previous_page({$p},{$num},{$in_column});" class="my_customer_previous_page {eq name='p' value='1'} disabled{/eq}">上一页</button>
+            <button onclick="my_customer_next_page({$p},{$num},{$max_page},{$in_column});" class="my_customer_next_page {eq name='p' value='$max_page'} disabled{/eq}">下一页</button>
             <span>前往</span>
-            <input type="text" />
+            <input onblur="my_customer_jump_page({$num},{$max_page},{$in_column});" class="my_customer_jump_page" type="text" />
             <span>页</span>
         </div>
     </section>
@@ -402,5 +402,5 @@
     <script src="/crm/js/index.js"></script>
 </div>
 <link rel="stylesheet" href="/crm/css/index.css"/>
-<link rel="stylesheet" href="/static/css/table.css" />
-<link rel="stylesheet" href="/static/css/form.css" />
+<link rel="stylesheet" href="/crm/css/table.css" />
+<link rel="stylesheet" href="/crm/css/form.css" />
