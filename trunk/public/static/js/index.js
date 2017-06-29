@@ -5,7 +5,11 @@ $("#side").height(window.innerHeight);
 $("header").width(window.innerWidth-220);
 $("section#subt").width(window.innerWidth-220);
 $("#subtitle").width(window.innerWidth-220);
+$("#frames").width(window.innerWidth-220);
+$("#frames").height(window.innerHeight-80);
 $("#frames .once").width(window.innerWidth-220);
+$("#frames .once").height(window.innerHeight-80);
+
 //根据屏幕尺寸，设置侧边栏的可用高度
 window.onresize=function(){
 	changeH();
