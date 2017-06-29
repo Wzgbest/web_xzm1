@@ -1,7 +1,7 @@
-function public_pool_listNumChange(p){
+function public_pool_listNumChange(){
 	console.log($(".u-tabControlRow select").val());
 	num = $(".u-tabControlRow select").val();
-	public_pool_change_page(p,num);
+	public_pool_change_page(1,num);
 }
 function public_pool_previous_page(p,num){
 	if(p-1<1){
