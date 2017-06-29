@@ -1,6 +1,6 @@
 function employee_list_listNumChange(p){
 	console.log($(".u-tabControlRow select").val());
-	num = $(".u-tabControlRow select").val();
+	var num = $(".u-tabControlRow select").val();
 	employee_list_change_page(p,num);
 }
 function employee_list_previous_page(p,num){
@@ -17,7 +17,7 @@ function employee_list_next_page(p,num,max){
 }
 function employee_list_jump_page(num,max){
 	console.log($(".employee_list_jump_page").val());
-	p = $(".employee_list_jump_page").val();
+	var p = $(".employee_list_jump_page").val();
 	if(p+1>max || p-1<1){
 		return;
 	}
@@ -55,7 +55,7 @@ function employee_list_search(p,num){
 	loadPage(url,"staff-managementfr");
 }
 function get_employee_list_url(p,num){
-	return "/systemsetting/employee/public_employee_pool/p/"+p+"/num/"+num;
+	return "/systemsetting/employee/manage/p/"+p+"/num/"+num;
 }
 function employee_list_del(ids,p,num){
 	$.ajax({
