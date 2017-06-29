@@ -1,6 +1,6 @@
 function public_pool_listNumChange(){
 	console.log($(".u-tabControlRow select").val());
-	num = $(".u-tabControlRow select").val();
+	var num = $(".u-tabControlRow select").val();
 	public_pool_change_page(1,num);
 }
 function public_pool_previous_page(p,num){
@@ -17,7 +17,7 @@ function public_pool_next_page(p,num,max){
 }
 function public_pool_jump_page(num,max){
 	console.log($(".public_pool_jump_page").val());
-	p = $(".public_pool_jump_page").val();
+	var p = $(".public_pool_jump_page").val();
 	if(p+1>max || p-1<1){
 		return;
 	}

@@ -35,7 +35,7 @@ class Employee extends Initialize{
         $filter = $this->_getCustomerFilter(["structure","role","on_duty","worknum","truename"]);
         $field = $this->_getCustomerField([]);
         try{
-            $res = $this->showEmployeeList($request,$p,$num);
+            $res = $this->showEmployeeList($request,$start_num,$num);
             $this->assign("listdata",$res["data"]);
             $employees_count = $res["total_num"];
             $this->assign("count",$employees_count);

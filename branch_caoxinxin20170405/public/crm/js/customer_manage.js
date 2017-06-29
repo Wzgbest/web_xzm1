@@ -1,6 +1,7 @@
 function customer_manage_listNumChange(){
 	console.log($(".u-tabControlRow select").val());
-	num = $(".u-tabControlRow select").val();
+	var num = $(".u-tabControlRow select").val();
+	console.log(num);
 	customer_manage_change_page(1,num);
 }
 function customer_manage_previous_page(p,num){
@@ -17,7 +18,7 @@ function customer_manage_next_page(p,num,max){
 }
 function customer_manage_jump_page(num,max){
 	console.log($(".customer_manage_jump_page").val());
-	p = $(".customer_manage_jump_page").val();
+	var p = $(".customer_manage_jump_page").val();
 	if(p+1>max || p-1<1){
 		return;
 	}
