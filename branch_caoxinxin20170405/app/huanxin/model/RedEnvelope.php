@@ -9,10 +9,12 @@ use app\common\model\Base;
 
 class RedEnvelope extends Base
 {
+    protected $dbprefix;
     public function __construct($corp_id =null)
     {
         $this->table = config('database.prefix').'red_envelope';
         parent::__construct($corp_id);
+        $this->dbprefix = config('database.prefix');
     }
 
     /**
@@ -33,7 +35,7 @@ class RedEnvelope extends Base
     public function getRedInfoByRedId($red_id)
     {
         return $this->model->table($this->table)
-            ->field('id,fromuser,money,took_time,is_token,create_time,took_user,total_money,took_telephone')
+            ->field('id,redid,fromuser,money,took_time,is_token,create_time,took_user,total_money,took_telephone')
             ->where('redid',$red_id)
             ->where('is_token','<>',2)
             ->select();
@@ -144,15 +146,15 @@ class RedEnvelope extends Base
             $offset = ($page-1)*$num;
         }
         $field = [
-            'id',
+            're.id',
             'redid',
             'type',
             'fromuser as from_user',
             'e.telephone as from_telephone',
-            '(case when fromuser = '.$uid.' then total_money else money end) as money',
+            '(case when fromuser = '.$uid.' then 0-total_money else money end) as money',
             'took_time',
             'is_token',
-            'create_time',
+            're.create_time',
             'took_user',
             'took_telephone'
         ];
