@@ -71,7 +71,7 @@ aside dl i{
 	display: none;
 }
 .fa-angle-right{
-	float: right;
+	/*float: right;*/
 	margin-right: 20px;
 	margin-top: 12px;
 }
