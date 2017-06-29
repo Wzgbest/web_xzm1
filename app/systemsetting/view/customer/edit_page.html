@@ -1,7 +1,7 @@
 <div class="customer_setting_edit">
     <div id="top">
         <ul class="firNav">
-            <li class="current">
+            <li class="current" onclick="loadPage('{:url('index')}','customer-settingfr');">
                 <div>客户设置</div>
             </li>
             <i class="fa fa-angle-right fa-2x"></i><span class="span-info">添加客户设置</span>
@@ -70,7 +70,7 @@
         <p class="p5">
             <input type="hidden" name="id" value="{$customerSetting.id}"/>
             <input id="customer_setting_submit" type="submit" value="保存" />
-            <button>取消</button>
+            <button onclick="loadPage('{:url('index')}','customer-settingfr');">取消</button>
         </p>
         </form>
     </div>

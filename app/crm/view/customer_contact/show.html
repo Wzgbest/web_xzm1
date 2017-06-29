@@ -16,12 +16,13 @@
         <div class="clearfix"></div>
     </ul>
     <section  id="clientInfoLinkman" >
-        <div id="new-linkman">
+        <div id="new-linkman" onclick="{$fr}_contact_add({$customer_id});">
             <i class="fa fa-plus fa-2x"></i>
             新建联系人
         </div>
+        <div class="{$fr}_contact_add_panel hide"></div>
         {volist name="customer_contact" id="vo"}
-        <div class="m-divBlock m-form linkman my_customer_contact_{$vo.id}">
+        <div class="m-divBlock m-form linkman {$fr}_contact_{$vo.id}">
             <div class="creat-info">
                 <div>
                     <span>新建时间</span>
@@ -103,7 +104,7 @@
                     <span class="cont">备注：</span>
                     <span class="remark">{$vo.remark}</span>
                 </div>
-                <div onclick="my_customer_contact_edit('{$vo.id}');" class="edit">
+                <div onclick="{$fr}_contact_edit('{$vo.id}');" class="edit">
                     <i class="fa fa-file-text fa-2x"></i>
                     <span>编辑</span>
                 </div>
