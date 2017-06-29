@@ -57,6 +57,8 @@ class CustomerContact extends Initialize{
         return view();
     }
     public function add_page(){
+        $this->assign("fr",input('fr'));
+        $this->assign("customer_id",input('customer_id',0,"int"));
         return view();
     }
     public function get(){

@@ -174,17 +174,16 @@ function my_customer_contact_show(id){
 		}
 	});
 }
-function my_customer_contact_add(){
-	var url = "/crm/customer_contact/add_page/fr/my_customer";
+function my_customer_contact_add(customer_id){
+	var url = "/crm/customer_contact/add_page/customer_id/"+customer_id+"/fr/my_customer";
 	var panel = 'myclietsfr .crm_my_customer .customer_contact .new_customer_contact';
 	$.ajax({
 		url:url,
 		type:'get',
 		async:false,
 		success:function (data) {
-			$('#frames #'+my_customer_hide_panel).addClass("hide");
-			$('#frames #'+panel).html(data);
-			$('#frames #'+panel).removeClass("hide");
+			$('.my_customer_contact_add_panel').html(data);
+			$('.my_customer_contact_add_panel').removeClass("hide");
 		},
 		error:function(){
 			alert("获取客户信息失败!");
@@ -193,12 +192,12 @@ function my_customer_contact_add(){
 }
 function my_customer_contact_add_send(customer_id){
 	var my_customer_contact_add_from = $(".my_customer_contact_add_from").serialize();
-	my_customer_contact_add_from += "&fr=my_customer";
+	my_customer_contact_add_from += "&customer_id="+customer_id+"&fr=my_customer";
 	console.log(my_customer_contact_add_from);
 	$.ajax({
 		url: '/crm/customer_contact/add',
 		type: 'post',
-		data: my_customer_edit_from_data,
+		data: my_customer_contact_add_from,
 		success: function(data) {
 			//console.log(data);
 			alert(data.info);
