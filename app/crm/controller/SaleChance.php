@@ -9,11 +9,37 @@
 namespace app\crm\controller;
 
 use app\common\controller\Initialize;
+use app\crm\model\CustomerContact;
 use app\crm\model\SaleChance as SaleChanceModel;
+use app\crm\model\CustomerTrace;
 
 class SaleChance extends Initialize{
     public function index(){
         echo "crm/sale_chance/index";
+    }
+    protected function _showSaleChance(){
+        $customer_id = input('customer_id',0,'int');
+        if(!$customer_id){
+            $this->error("参数错误！");
+        }
+        $this->assign("customer_id",$customer_id);
+        $this->assign("fr",input('fr'));
+        $customerM = new SaleChanceModel($this->corp_id);
+        $SaleChancesData = $customerM->getAllSaleChancesByCustomerId($customer_id);
+        $this->assign("sale_chance",$SaleChancesData);
+        $customerM = new CustomerContact($this->corp_id);
+        $customerData = $customerM->getCustomerContactCount($customer_id);
+        $this->assign("customer_contact_num",$customerData);
+        $customerM = new SaleChanceModel($this->corp_id);
+        $customerData = $customerM->getSaleChanceCount($customer_id);
+        $this->assign("sale_chance_num",$customerData);
+        $customerM = new CustomerTrace($this->corp_id);
+        $customerData = $customerM->getCustomerTraceCount($customer_id);
+        $this->assign("customer_trace_num",$customerData);
+    }
+    public function show(){
+        $this->_showSaleChance();
+        return view();
     }
     public function get(){
         $result = ['status'=>0 ,'info'=>"获取销售机会时发生错误！"];

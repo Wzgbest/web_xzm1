@@ -1,107 +1,57 @@
-<div class="crm_customer crm_my_customer">
-    <div class="my_customer_panel my_customer">
-        <!--header-->
-        <header>
-            <ul class="m-firNav">
-                <li onclick="my_customer_change_page({$p},{$num},0);" id="myAllClients" class="{eq name='in_column' value='0'}current{/eq}"><div>我的所有客户（<span>{$listCount.column_all}</span>）</div></li>
-                <li onclick="my_customer_change_page({$p},{$num},1);" id="awaitComClients" class="{eq name='in_column' value='1'}current{/eq}"><div>待沟通客户（<span>{$listCount.column_1}</span>）</div></li>
-                <li onclick="my_customer_change_page({$p},{$num},2);" id="notFllowClients" class="{eq name='in_column' value='2'}current{/eq}"><div>未跟进客户（<span>{$listCount.column_2}</span>）</div></li>
-                <li onclick="my_customer_change_page({$p},{$num},3);" id="followClients" class="{eq name='in_column' value='3'}current{/eq}"><div>正常跟进客户（<span>{$listCount.column_3}</span>）</div></li>
-                <li onclick="my_customer_change_page({$p},{$num},4);" id="stagnantClients" class="{eq name='in_column' value='4'}current{/eq}"><div>停滞客户（<span>{$listCount.column_4}</span>）</div></li>
-                <li onclick="my_customer_change_page({$p},{$num},5);" id="undeterminedClients" class="{eq name='in_column' value='5'}current{/eq}"><div>待定客户（<span>{$listCount.column_5}</span>）</div></li>
-                <li onclick="my_customer_change_page({$p},{$num},6);" id="noIntentionClients" class="{eq name='in_column' value='6'}current{/eq}"><div>无意向客户（<span>{$listCount.column_6}</span>）</div></li>
-                <li onclick="my_customer_change_page({$p},{$num},7);" id="overClients" class="{eq name='in_column' value='7'}current{/eq}"><div>已成单客户（<span>{$listCount.column_7}</span>）</div></li>
-                <li onclick="my_customer_change_page({$p},{$num},8);" id="uselessClients" class="{eq name='in_column' value='8'}current{/eq}"><div>无效客户（<span>{$listCount.column_8}</span>）</div></li>
-            </ul>
-        </header>
-
+<div class="crm_customer crm_anonymous_pool">
+    <div class="anonymous_pool_panel anonymous_pool">
         <!--客户列表-->
         <section id="myAllClientsPage" >
             <ul class="m-secNav">
-                <li class="active" onclick="my_customer_newClient();">新建客户</li>
-                <li class="active">导入客户</li>
+                <li class="active" onclick="anonymous_pool_newClient();">新建</li>
+                <li class="active">导入</li>
                 <li class="active">导入记录</li>
+                <li class="active">批量申领</li>
                 <li class="vertical"></li>
-                <li>导出</li>
-                <li>群发短信</li>
-                <li>批量释放</li>
+                <li>删除</li>
+                <li>更改可见范围</li>
                 <div class="clearfix"></div>
             </ul>
             <div class="m-filterNav">
-                <select id="my_customer_search_take_type">
-                    <option value="">获取途径</option>
-                    <option value="1" {present name='filter.take_type'}{eq name='filter.take_type' value='1'} selected="selected"{/eq}{/present}>转介绍</option>
-                    <option value="2" {present name='filter.take_type'}{eq name='filter.take_type' value='2'} selected="selected"{/eq}{/present}>搜索</option>
-                    <option value="3" {present name='filter.take_type'}{eq name='filter.take_type' value='3'} selected="selected"{/eq}{/present}>购买</option>
+                <select id="anonymous_pool_search_resource_from">
+                    <option value="">客户来源</option>
+                    <option value="1" {present name='filter.resource_from'}{eq name='filter.resource_from' value='1'} selected="selected"{/eq}{/present}>员工添加</option>
+                    <option value="2" {present name='filter.resource_from'}{eq name='filter.resource_from' value='2'} selected="selected"{/eq}{/present}>批量导入</option>
+                    <option value="3" {present name='filter.resource_from'}{eq name='filter.resource_from' value='3'} selected="selected"{/eq}{/present}>员工搜集</option>
                 </select>
-                <select id="my_customer_search_grade">
-                    <option value="">客户级别</option>
-                    <option value="A" {present name='filter.grade'}{eq name='filter.grade' value='A'} selected="selected"{/eq}{/present}>A</option>
-                    <option value="B" {present name='filter.grade'}{eq name='filter.grade' value='B'} selected="selected"{/eq}{/present}>B</option>
-                    <option value="C" {present name='filter.grade'}{eq name='filter.grade' value='C'} selected="selected"{/eq}{/present}>C</option>
-                    <option value="D" {present name='filter.grade'}{eq name='filter.grade' value='D'} selected="selected"{/eq}{/present}>D</option>
+                <select id="anonymous_pool_search_is_public">
+                    <option value="">可见范围</option>
+                    <option value="1" {present name='filter.is_public'}{eq name='filter.is_public' value='1'} selected="selected"{/eq}{/present}>转介绍</option>
+                    <option value="2" {present name='filter.is_public'}{eq name='filter.is_public' value='2'} selected="selected"{/eq}{/present}>指定人</option>
+                    <option value="3" {present name='filter.is_public'}{eq name='filter.is_public' value='3'} selected="selected"{/eq}{/present}>指定部门</option>
                 </select>
-                <select id="my_customer_search_sale_chance">
-                    <option value="">商机</option>
-                    {volist name="business_list" id="vo"}
-                    <option value="{$vo.id}" {present name='filter.sale_chance'}{eq name='filter.sale_chance' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.business_name}</option>
-                    {/volist}
-                </select>
-                <select id="my_customer_search_comm_status">
-                    <option value="">沟通状态</option>
-                    <option value="1" {present name='filter.comm_status'}{eq name='filter.comm_status' value='1'} selected="selected"{/eq}{/present}>无意向</option>
-                    <option value="2" {present name='filter.comm_status'}{eq name='filter.comm_status' value='2'} selected="selected"{/eq}{/present}>号码无效</option>
-                    <option value="3" {present name='filter.comm_status'}{eq name='filter.comm_status' value='3'} selected="selected"{/eq}{/present}>资料有误</option>
-                    <option value="4" {present name='filter.comm_status'}{eq name='filter.comm_status' value='4'} selected="selected"{/eq}{/present}>未接通</option>
-                    <option value="5" {present name='filter.comm_status'}{eq name='filter.comm_status' value='5'} selected="selected"{/eq}{/present}>待定</option>
-                    <option value="6" {present name='filter.comm_status'}{eq name='filter.comm_status' value='6'} selected="selected"{/eq}{/present}>有意向</option>
-                </select>
-                <input type="text" id="my_customer_search_customer_name" placeholder="输入客户名称" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
-                <input type="text" id="my_customer_search_contact_name" placeholder="输入联系人名称" value="{present name='filter.contact_name'}{$filter.contact_name}{/present}"/>
-                <button onclick="my_customer_search({$p},{$num},{$in_column});" class="u-btnSearch">查询</button>
+                <input type="text" id="anonymous_pool_search_customer_name" placeholder="输入客户名称" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
+                <button onclick="anonymous_pool_search({$p},{$num});" class="u-btnSearch">查询</button>
             </div>
             <div class="m-tableBox">
-                <div class="m-table table1">
+                <div class="m-table table3">
                     <ul class="u-tabTitle">
                         <li class="u-tabCheckbox"><input type="checkbox"/></li>
                         <li>客户名称<i class="fa fa-caret-down"></i></li>
-                        <li>获取途径</li>
-                        <li>客户级别<i class="fa fa-unsorted"></i></li>
-                        <li>沟通状态<i class="fa fa-unsorted"></i></li>
-                        <li>商机</li>
-                        <li>预计成单金额<i class="fa fa-unsorted"></i></li>
-                        <li>成单金额</li>
-                        <li>联系人<i class="fa fa-unsorted"></i></li>
-                        <li>联系方式</li>
-                        <li>上次跟进时间<i class="fa fa-unsorted"></i></li>
-                        <li>剩余保有时间<i class="fa fa-unsorted"></i></li>
-                        <li>预计合同到期时间<i class="fa fa-unsorted"></i></li>
-                        <li>提醒时间<i class="fa fa-unsorted"></i></li>
-                        <li>所在列</li>
+                        <li>客户来源<i class="fa fa-unsorted"></i></li>
+                        <li>添加批次<i class="fa fa-unsorted"></i></li>
+                        <li>添加人</li>
+                        <li>展示范围</li>
+                        <li>创建时间<i class="fa fa-unsorted"></i></li>
                         <li>操作</li>
                         <div class="clearfix"></div>
                     </ul>
                     {volist name="listdata" id="vo"}
                     <ul class="u-tabList">
                         <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
-                        <li onclick="my_customer_general('{$vo.id}');" class="u-tabCilentName">{$vo.customer_name}</li>
-                        <li>{$vo.take_type|getTakeTypeFromName}</li>
-                        <li>{$vo.grade}</li>
-                        <li>{$vo.comm_status|getCommStatusName}</li>
-                        <li>{$vo.sale_biz_names}</li>
-                        <li>{$vo.all_guess_money}元</li>
-                        <li>{$vo.all_final_money}元</li>
-                        <li>{$vo.contact_name}</li>
-                        <li class="u-tabLinkWay">{$vo.phone_first}<i class="fa fa-phone"></i></li>
-                        <li>{$vo.last_trace_time|day_format}</li>
-                        <li>{$vo.save_time_str}</li>
-                        <li>{$vo.contract_due_time_str}</li>
-                        <li>{$vo.remind_time_str}</li>
-                        <li>{$vo.in_column|getInColumnName}</li>
+                        <li onclick="anonymous_pool_general('{$vo.id}');" class="u-tabCilentName">{$vo.customer_name}</li>
+                        <li>{$vo.resource_from|getResourceFromName}</li>
+                        <li>{$vo.add_batch}</li>
+                        <li>{$vo.add_man}</li>
+                        <li>{$vo.add_time}</li>
+                        <li>{eq name="vo.is_public" value="1"}全公司{else/}{notempty name="vo.public_to_employee"}指定人{/notempty}{notempty name="vo.public_to_department"}指定部门{/notempty}{/eq}</li>
                         <li class="u-tabOperation">
-                            <span onclick="my_customer_show('{$vo.id}');">详情</span>
-                            <span onclick="my_customer_edit('{$vo.id}');">编辑</span>
-                            <span onclick="my_customer_release_customers('{$vo.id}',{$p},{$num},{$in_column});">释放</span>
+                            <span>申领</span>
                         </li>
                         <div class="clearfix"></div>
                     </ul>
@@ -110,28 +60,28 @@
             </div>
             <div class="u-tabControlRow">
                 <span>显示行数</span>
-                <select onchange="my_customer_listNumChange({$p},{$in_column});">
+                <select onchange="anonymous_pool_listNumChange({$p});">
                     <option value="5" {eq name="num" value="5"} selected="selected"{/eq}>5</option>
                     <option value="10" {eq name="num" value="10"} selected="selected"{/eq}>10</option>
                     <option value="20" {eq name="num" value="20"} selected="selected"{/eq}>20</option>
                 </select>
                 <span>{$start_num}-{$end_num}条/</span>
                 <span>共{$count}条</span>
-                <button onclick="my_customer_previous_page({$p},{$num},{$in_column});" class="my_customer_previous_page {eq name='p' value='1'} disabled{/eq}">上一页</button>
-                <button onclick="my_customer_next_page({$p},{$num},{$max_page},{$in_column});" class="my_customer_next_page {eq name='p' value='$max_page'} disabled{/eq}">下一页</button>
+                <button onclick="anonymous_pool_previous_page({$p},{$num});" class="anonymous_pool_previous_page {eq name='p' value='1'} disabled{/eq}">上一页</button>
+                <button onclick="anonymous_pool_next_page({$p},{$num},{$max_page});" class="anonymous_pool_next_page {eq name='p' value='$max_page'} disabled{/eq}">下一页</button>
                 <span>前往</span>
-                <input onblur="my_customer_jump_page({$num},{$max_page},{$in_column});" class="my_customer_jump_page" type="text" />
+                <input onblur="anonymous_pool_jump_page({$num},{$max_page});" class="anonymous_pool_jump_page" type="text" />
                 <span>页</span>
             </div>
         </section>
 
         <!--黑色遮罩-->
-        <section id="my_customer_blackBg" class="blackBg hide page-client"></section>
+        <section id="anonymous_pool_blackBg" class="blackBg hide page-client"></section>
 
         <!--新建客户-->
-        <section id="my_customer_newClient" class="newClient hide page-client">
+        <section id="anonymous_pool_newClient" class="newClient hide page-client">
             <header>
-                <h1>新建客户<i class="fa fa-close fa-2x" onclick="my_customer_removeNewClient()"></i></h1>
+                <h1>新建客户<i class="fa fa-close fa-2x" onclick="anonymous_pool_removeNewClient()"></i></h1>
             </header>
             <div class="m-formBox m-form">
                 <div class="process">
@@ -142,7 +92,7 @@
                     <div id="state3" class="circle"><span>销售机会</span></div>
                     <div class="clearfix"></div>
                 </div>
-                <form id="my_customer_newClientForm" class="newClientForm" onsubmit="return false;">
+                <form id="anonymous_pool_newClientForm" class="newClientForm" onsubmit="return false;">
                     <div id="form1" class="">
                         <div>
                             <span class="cont"><span class="u-required">＊</span>客户名称</span>
@@ -243,15 +193,15 @@
                             <div class="allStaff hide"></div>
                         </div>
                         <div class="u-submitButton">
-                            <button onclick="my_customer_add_customer(0)">保存并添加下一客户</button>
-                            <button onclick="my_customer_add_customer(3)">保存</button>
-                            <button onclick="my_customer_add_customer(2)">下一步</button>
-                            <button onclick="my_customer_removeNewClient()">取消</button>
+                            <button onclick="anonymous_pool_add_customer(0)">保存并添加下一客户</button>
+                            <button onclick="anonymous_pool_add_customer(3)">保存</button>
+                            <button onclick="anonymous_pool_add_customer(2)">下一步</button>
+                            <button onclick="anonymous_pool_removeNewClient()">取消</button>
                             <!--<input type="submit" />-->
                         </div>
                     </div>
                 </form>
-                <form id="my_customer_newClientContactForm" class="my_customer_newClientContactForm" onsubmit="return false;">
+                <form id="anonymous_pool_newClientContactForm" class="anonymous_pool_newClientContactForm" onsubmit="return false;">
                     <div id="form2" class="hide">
                         <div>
                             <span class="cont">联系人姓名</span>
@@ -330,16 +280,16 @@
                             <textarea name="remark" id="remark_contact" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
                         </div>
                         <div class="u-submitButton">
-                            <button onclick="my_customer_add_contact(0)">保存并添加下一客户</button>
-                            <button onclick="my_customer_add_contact(3)">保存</button>
-                            <button onclick="my_customer_add_contact(1)">上一步</button>
-                            <button onclick="my_customer_add_contact(2)">下一步</button>
-                            <button onclick="my_customer_removeNewClient()">取消</button>
+                            <button onclick="anonymous_pool_add_contact(0)">保存并添加下一客户</button>
+                            <button onclick="anonymous_pool_add_contact(3)">保存</button>
+                            <button onclick="anonymous_pool_add_contact(1)">上一步</button>
+                            <button onclick="anonymous_pool_add_contact(2)">下一步</button>
+                            <button onclick="anonymous_pool_removeNewClient()">取消</button>
                             <!--<input type="submit" />-->
                         </div>
                     </div>
                 </form>
-                <form id="my_customer_newClientSaleChanceForm" class="my_customer_newClientSaleChanceForm" onsubmit="return false;">
+                <form id="anonymous_pool_newClientSaleChanceForm" class="anonymous_pool_newClientSaleChanceForm" onsubmit="return false;">
                     <div id="form3" class="hide">
                         <div>
                             <span class="cont"><span class="u-required">＊</span>销售机会</span>
@@ -347,7 +297,7 @@
                             <span class="cont"><span class="u-required">＊</span>对应业务</span>
                             <select name="business_id">
                                 {volist name="business_list" id="vo"}
-                                    <option value="{$vo.id}">{$vo.business_name}</option>
+                                <option value="{$vo.id}">{$vo.business_name}</option>
                                 {/volist}
                             </select>
                         </div>
@@ -382,26 +332,26 @@
                             <textarea name="remark" id="remark_sale_chance" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
                         </div>
                         <div class="u-submitButton">
-                            <button onclick="my_customer_add_sale_chance(0)">保存并添加下一客户</button>
-                            <button onclick="my_customer_add_sale_chance(3)">保存</button>
-                            <button onclick="my_customer_add_sale_chance(1)">上一步</button>
-                            <button onclick="my_customer_removeNewClient()">取消</button>
+                            <button onclick="anonymous_pool_add_sale_chance(0)">保存并添加下一客户</button>
+                            <button onclick="anonymous_pool_add_sale_chance(3)">保存</button>
+                            <button onclick="anonymous_pool_add_sale_chance(1)">上一步</button>
+                            <button onclick="anonymous_pool_removeNewClient()">取消</button>
                         </div>
                     </div>
                 </form>
             </div>
         </section>
-        <script src="/crm/js/my_customer.js"></script>
+        <script src="/crm/js/anonymous_pool.js"></script>
     </div>
-    <div class="my_customer_panel customer_general hide">
+    <div class="anonymous_pool_panel customer_general hide">
     </div>
-    <div class="my_customer_panel customer_info hide">
+    <div class="anonymous_pool_panel customer_info hide">
     </div>
-    <div class="my_customer_panel customer_contact hide">
+    <div class="anonymous_pool_panel customer_contact hide">
     </div>
-    <div class="my_customer_panel customer_sale_chance hide">
+    <div class="anonymous_pool_panel customer_sale_chance hide">
     </div>
-    <div class="my_customer_panel customer_trace hide">
+    <div class="anonymous_pool_panel customer_trace hide">
     </div>
 </div>
 <link rel="stylesheet" href="/crm/css/index.css"/>

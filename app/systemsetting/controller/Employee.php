@@ -20,6 +20,103 @@ class Employee extends Initialize{
     public function index(){}
 
     /**
+     * 员工列表
+     * created by blu10ph
+     */
+    public function manage(Request $request){
+        $num = input('num',20,'int');
+        $p = input("p",1,"int");
+        $employees_count=0;
+        $start_num = ($p-1)*$num;
+        $end_num = $start_num+$num;
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
+        $uid = session('userinfo.userid');
+        $filter = $this->_getCustomerFilter(["structure","role","on_duty","worknum","truename"]);
+        $field = $this->_getCustomerField([]);
+        try{
+            $res = $this->showEmployeeList($request,$p,$num);
+            $this->assign("listdata",$res["data"]);
+            $employees_count = $res["total_num"];
+            $this->assign("count",$employees_count);
+        }catch (\Exception $ex){
+            $this->error($ex->getMessage());
+        }
+        $max_page = ceil($employees_count/$num);
+        $this->assign("p",$p);
+        $this->assign("num",$num);
+        $this->assign("filter",$filter);
+        $this->assign("max_page",$max_page);
+        $this->assign("start_num",$start_num+1);
+        $this->assign("truename",session('userinfo.truename'));
+        $this->assign("end_num",$end_num<$employees_count?$end_num:$employees_count);
+        return view();
+    }
+    protected function _getCustomerFilter($filter_column){
+        $filter = [];
+        if(in_array("structure", $filter_column)){//直属部门
+            $structure = input("structure",0,"int");
+            if($structure){
+                $filter["structure"] = $structure;
+            }
+        }
+        if(in_array("role", $filter_column)){//角色
+            $role = input("role",0,"int");
+            if($role){
+                $filter["role"] = $role;
+            }
+        }
+        if(in_array("on_duty", $filter_column)){//状态
+            $on_duty = input("on_duty",0,"int");
+            if($on_duty){
+                $filter["on_duty"] = $on_duty;
+            }
+        }
+        if(in_array("worknum", $filter_column)){//工号
+            $add_man = input("worknum");
+            if($add_man){
+                $filter["worknum"] = $add_man;
+            }
+        }
+        if(in_array("truename", $filter_column)){//姓名
+            $add_man = input("truename");
+            if($add_man){
+                $filter["truename"] = $add_man;
+            }
+        }
+        return $filter;
+    }
+    protected function _getCustomerField($field_column){
+        $field = [];
+        $fields = input('field',"",'string');
+        $fields_arr = explode(',',$fields);
+        $fields_arr = array_filter($fields_arr);
+        $fields_arr = array_unique($fields_arr);
+//        if(in_array("in_column", $field_column) && in_array("in_column", $fields_arr)){//所在列
+//            $field[] = "in_column";
+//        }
+        return $field;
+    }
+
+    protected function _showEmployee(){
+        $id = input('id',0,'int');
+        if(!$id){
+            $this->error("参数错误！");
+        }
+        $this->assign("id",$id);
+        $this->assign("fr",input('fr'));
+        $employee = $this->showSingleEmployeeInfo($id);
+        $this->assign("employee",$employee);
+    }
+    public function show(){
+        $this->_showEmployee();
+        return view();
+    }
+    public function edit(){
+        $this->_showEmployee();
+        return view();
+    }
+    /**
      * 查看员工详情
      * @param $user_id int 员工id
      * @return array|false|\PDOStatement|string|\think\Model
@@ -30,16 +127,6 @@ class Employee extends Initialize{
         $employeeM = new EmployeeModel($this->corp_id);
         $info = $employeeM->getEmployeeByUserid($user_id);
         return $info;
-    }
-
-    /**
-     * 员工列表
-     * created by blu10ph
-     */
-    public function manage(Request $request,$page_now_num = 0, $page_rows = 10){
-        $employee_list = $this->showEmployeeList($request,$page_now_num, $page_rows);
-        $this->assign("listdata",$employee_list);
-        return view();
     }
 
     /**
@@ -120,7 +207,7 @@ class Employee extends Initialize{
                 }
                 if ($id > 0 && $f > 0 && $b > 0) {
                     //环信增加好友
-                    $d = $huanxin->addFriend($input['telephone']);//TODO 测试注释掉
+                    $d = $huanxin->addFriend($this->corp_id,$input['telephone']);//TODO 测试注释掉
 //                $d['status'] = true;//TODO 测试开启
                     if ($d['status']) {
                         $tel = [];
@@ -139,21 +226,23 @@ class Employee extends Initialize{
                     $info['message'] = '添加员工失败，联系管理员';
                     return $info;
                 }
+                if ($id > 0 && $f >0 && $d['status'] && $b > 0 && $im > 0) {
+                    $employeeM->link->commit();
+                    UserCorporation::commit();
+                    return [
+                        'status' => true,
+                        'message' => '新增员工成功，添加环信好友成功',
+                    ];
+                } else {
+                    $employeeM->link->rollback();
+                    UserCorporation::rollback();
+                    $info['message'] = '新增员工失败，或添加环信好友失败';
+                    return $info;
+                }
             }catch (\Exception $e){
                 $employeeM->link->rollback();
                 UserCorporation::rollback();
-            }
-            if ($id > 0 && $f >0 && $d['status'] && $b > 0 && $im > 0) {
-                $employeeM->link->commit();
-                UserCorporation::commit();
-                return [
-                    'status' => true,
-                    'message' => '新增员工成功，添加环信好友成功',
-                ];
-            } else {
-                $employeeM->link->rollback();
-                UserCorporation::rollback();
-                $info['message'] = '新增员工失败，或添加环信好友失败';
+                $info['message'] = $e->getMessage();
                 return $info;
             }
         }
@@ -251,18 +340,20 @@ class Employee extends Initialize{
                     }
                     $del_res = 1;
                 }
-            }catch (\Exception $e){
+                if ($em_res >= 0 && $res>0 && $del_res>0) {
+                    $employeeM->link->commit();
+                    return [
+                        'status' => true,
+                        'message' => '修改员工信息成功',
+                    ];
+                } else {
+                    $employeeM->link->rollback();
+                    $info['message'] = '修改员工信息失败';
+                    return $info;
+                }
+            }catch (\Exception $ex){
                 $employeeM->link->rollback();
-            }
-            if ($em_res >= 0 && $res>0 && $del_res>0) {
-                $employeeM->link->commit();
-                return [
-                    'status' => true,
-                    'message' => '修改员工信息成功',
-                ];
-            } else {
-                $employeeM->link->rollback();
-                $info['message'] = '修改员工信息失败';
+                $info['message'] = $ex->getMessage();
                 return $info;
             }
         }

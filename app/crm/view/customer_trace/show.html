@@ -1,0 +1,71 @@
+<!--客户详情-->
+<section class="page-info">
+    <header>
+        <ul class="m-firNav">
+            <li onclick="{$fr}_list_show_list();" class="current"><div>我的所有客户（<span>160</span>）</div></li>
+            <i class="fa fa-angle-right fa-2x"></i><span class="u-spanInfo">详情</span>
+        </ul>
+    </header>
+    <ul class="m-pageInfoNav">
+        <div class="clearfix"></div>
+        <li onclick="{$fr}_general('{$customer_id}');">概要</li>
+        <li onclick="{$fr}_show('{$customer_id}')">客户信息</li>
+        <li onclick="{$fr}_contact_show('{$customer_id}')">联系人（{$customer_contact_num}）</li>
+        <li onclick="{$fr}_sale_chance_show('{$customer_id}')">销售机会（{$sale_chance_num}）</li>
+        <li class="current">跟踪记录（{$customer_trace_num}）</li>
+        <div class="clearfix"></div>
+    </ul>
+    <!--添加跟踪记录-->
+    <section  id="clientInfoTrace" >
+        <div id="new-trace">
+            <i class="fa fa-plus fa-2x"></i>
+            添加跟踪记录
+        </div>
+        <div class="m-divBlock m-form">
+            <div class="u-traceRecord  hide" id="creat-traceRecord">
+                <div class="circle  first"></div>
+                <textarea></textarea>
+                <div class="u-submitButton">
+                    <button>保存</button>
+                    <button>取消</button>
+                </div>
+            </div>
+            <div class="u-traceRecord">
+                <div class="circle"></div>
+                <div class="date">
+                    <span>12月23日 19:45</span>
+                </div>
+                <div class="detail">
+                    <span>张三变更阶段 <span class="underline">拜访 </span>改为 <span class="underline">意向沟通</span></span>
+                </div>
+            </div>
+            <div class="u-traceRecord">
+                <div class="circle"></div>
+                <div class="date">
+                    <span>12月23日 19:45</span>
+                </div>
+                <div class="detail">
+                    <span>张三变更阶段 <span class="underline">拜访 </span>改为 <span class="underline">意向沟通</span></span>
+                </div>
+            </div>
+            <div class="u-traceRecord">
+                <div class="circle"></div>
+                <div class="date">
+                    <span>12月23日 19:45</span>
+                </div>
+                <div class="detail">
+                    <span>张三变更阶段 <span class="underline">拜访 </span>改为 <span class="underline">意向沟通</span></span>
+                </div>
+            </div>
+            <div class="u-traceRecord">
+                <div class="circle"></div>
+                <div class="date">
+                    <span>12月23日 19:45</span>
+                </div>
+                <div class="detail">
+                    <span>张三变更阶段 <span class="underline">拜访 </span>改为 <span class="underline">意向沟通</span></span>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

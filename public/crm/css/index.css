@@ -2,7 +2,7 @@
 	position: relative;
 	background-color: #f5f7fa;
 	overflow-x: hidden;
-	height: 800px;
+	height: 600px;
 }
 /*.hiddenY{
 	overflow-y: hidden;
@@ -108,7 +108,7 @@
 
 /************************************************************************/
 /*黑色遮罩*/
-.crm_customer #blackBg{
+.crm_customer .blackBg{
 	width: 100%;
 	position: absolute;
 	top: 0;
@@ -119,7 +119,7 @@
 
 /************************************************************************/
 /*新建客户*/
-.crm_customer #newClient{
+.crm_customer .newClient{
 	width: 1000px;
 	height: 650px;
 	position: absolute;
@@ -129,31 +129,31 @@
 	/*overflow-y: auto;
 	overflow-x:hidden ;*/
 }
-.crm_customer #newClient header{
+.crm_customer .newClient header{
 	width: 100%;
 	height: 50px;
 	background-color: #6b7a99;
 }
-.crm_customer #newClient header h1{
+.crm_customer .newClient header h1{
 	position: relative;
 	color: white;
 	line-height: 50px;
 	text-align: center;
 }
-.crm_customer #newClient header .fa-close{
+.crm_customer .newClient header .fa-close{
 	position: absolute;
 	color: #939aab;
 	right: 10px;
 	top: 10px;
 }
-.crm_customer #newClient .process{
+.crm_customer .newClient .process{
 	padding: 20px 0;
 	width: 598px;
 	margin:0 auto;
 	/*margin-left:15px ;*/
 	transform: translateX(-15px);
 }
-.crm_customer #newClient .circle{
+.crm_customer .newClient .circle{
 	float: left;
 	position: relative;
 	width:18px;
@@ -162,14 +162,14 @@
 	background-color: white;
 	border: 4px solid #7abd52;
 }
-.crm_customer #newClient .rect{
+.crm_customer .newClient .rect{
 	float: left;
 	margin-top: 9px;
 	width: 260px;
 	height: 8px;
 	background-color: #e6e6e6;
 }
-.crm_customer #newClient .process span{
+.crm_customer .newClient .process span{
 	white-space: nowrap;
 	position: absolute;
 	top: 30px;
@@ -178,7 +178,7 @@
 	transform: translateX(-50%);
 }
 /*表单*/
-.crm_customer #newClientForm{
+.crm_customer .newClientForm{
 	margin-top: 20px;
 	padding-left: 30px;
 }
@@ -425,4 +425,55 @@
 .crm_customer .u-traceRecord .u-submitButton{
 	margin-top:20px !important ;
 	margin-left: 200px !important;
+}
+
+/*弹窗*/
+.crm_customer .m-popup{
+	width: 600px;
+	height: 360px;
+	position: absolute;
+	left: 66px;
+	top: 96px;
+	background-color: #fff;
+}
+.crm_customer .m-popup header {
+	width: 100%;
+	height: 50px;
+	background-color: #6b7a99;
+}
+.crm_customer .m-popup header h1{
+	position: relative;
+	color: white;
+	line-height: 50px;
+	text-align: center;
+}
+.crm_customer .m-popup header .fa-close {
+	position: absolute;
+	color: #939aab;
+	right: 10px;
+	top: 10px;
+}
+.crm_customer .m-popup h2{
+	text-align: center;
+	font-weight: normal;
+	font-size: 20px;
+	margin-top: 50px;
+	margin-bottom: 30px;
+	color: #666;
+}
+.crm_customer .m-popup input[type="text"]{
+	display: block;
+	margin: 0 auto !important;
+}
+.crm_customer .m-popup h3{
+	text-align: center;
+	font-weight: normal;
+	font-size: 16px;
+	margin-top: 10px;
+	margin-bottom: 30px;
+	color: #666;
+}
+.crm_customer .m-form .u-submitButton {
+	/*margin: 60px auto;*/
+	padding-left: 200px !important;
 }
