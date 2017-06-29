@@ -1,6 +1,6 @@
 function customer_manage_listNumChange(){
-	console.log($(".u-tabControlRow select").val());
-	var num = $(".u-tabControlRow select").val();
+	//console.log($(".u-tabControlRow select").val());
+	var num = $(".customer_manage .u-tabControlRow select").val();
 	customer_manage_change_page(1,num);
 }
 function customer_manage_previous_page(p,num){

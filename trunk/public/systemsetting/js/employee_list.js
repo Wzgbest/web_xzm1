@@ -1,6 +1,6 @@
 function employee_list_listNumChange(){
-	console.log($(".u-tabControlRow select").val());
-	var num = $(".u-tabControlRow select").val();
+	//console.log($(".employee_list .u-tabControlRow select").val());
+	var num = $(".employee_list .u-tabControlRow select").val();
 	employee_list_change_page(1,num);
 }
 function employee_list_previous_page(p,num){

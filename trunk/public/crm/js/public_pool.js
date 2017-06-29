@@ -1,6 +1,6 @@
 function public_pool_listNumChange(){
-	console.log($(".u-tabControlRow select").val());
-	var num = $(".u-tabControlRow select").val();
+	//console.log($(".u-tabControlRow select").val());
+	var num = $(".public_pool .u-tabControlRow select").val();
 	public_pool_change_page(1,num);
 }
 function public_pool_previous_page(p,num){

@@ -342,10 +342,10 @@ class Employee extends Base
     {
         $map = $this->_getPageEmployeeListWhereSql($where);
         if (is_null($rows)) {
-            $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`on_duty`,`a`.`worknum`,`a`.`email`,`a`.`qqnum`,`a`.`create_time`,`b`.`role_name`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employee` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employee` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.'GROUP BY `a`.`id` order by `a`.`worknum`;';
+            $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`on_duty`,`a`.`worknum`,`a`.`email`,`a`.`qqnum`,`a`.`create_time`,`b`.`role_name`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employee` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employee` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.'GROUP BY `a`.`id` order by `a`.`worknum` desc;';
 
         } else {
-            $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`on_duty`,`a`.`worknum`,`a`.`email`,`a`.`qqnum`,`a`.`create_time`,`b`.`role_name`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employee` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employee` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.'GROUP BY `a`.`id` order by `a`.`worknum` limit '.$page_now_num.','.$rows.';';
+            $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`on_duty`,`a`.`worknum`,`a`.`email`,`a`.`qqnum`,`a`.`create_time`,`b`.`role_name`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employee` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employee` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.'GROUP BY `a`.`id` order by `a`.`worknum` desc limit '.$page_now_num.','.$rows.';';
         }
         //var_exp($sql,'$sql',1);
         return $this->model->table($this->table)->query($sql);
