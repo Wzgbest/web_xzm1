@@ -2,10 +2,10 @@ $(".crm_my_customer .m-firNav li").click(function(){
 	$(".m-firNav li").removeClass("current");
 	$(this).addClass("current");
 });
-function my_customer_listNumChange(p,in_column){
+function my_customer_listNumChange(in_column){
 	console.log($(".u-tabControlRow select").val());
 	num = $(".u-tabControlRow select").val();
-	my_customer_change_page(p,num,in_column);
+	my_customer_change_page(1,num,in_column);
 }
 function my_customer_previous_page(p,num,in_column){
 	if(p-1<1){
