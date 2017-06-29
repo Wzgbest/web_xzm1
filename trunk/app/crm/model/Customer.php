@@ -69,9 +69,11 @@ class Customer extends Base
             "c.belongs_to",
             "c.resource_from",
             "c.is_public",
-            "'' as tracer",
+            "c.public_to_employee",
+            "c.public_to_department",
+            "te.truename as tracer",
             "'' as guardian",
-            "c.add_man",
+            "ae.truename as add_man",
             "c.add_time",
             "c.take_type",
             "cn.tend_to",
@@ -87,8 +89,10 @@ class Customer extends Base
             "belongs_to",
             "resource_from",
             "is_public",
-            "'' as tracer",
-            "'' as guardian",
+            "public_to_employee",
+            "public_to_department",
+            "tracer",
+            "guardian",
             "add_man",
             "add_time",
             "take_type",
@@ -102,6 +106,8 @@ class Customer extends Base
         $subQuery = $this->model
             ->table($this->table)->alias('c')
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'employee ae','c.add_man = ae.id',"LEFT")
+            ->join($this->dbprefix.'employee te','c.handle_man = te.id',"LEFT")
             ->where($map)
             ->order($subOrder)
             ->field($subField)
@@ -125,6 +131,77 @@ class Customer extends Base
             ]);
         }
         return $customerList;
+    }
+    /**
+     * 获取管理的客户数量
+     * @param $filter array 客户筛选条件
+     * @param $order string 排序
+     * @param $direction string 排序方向
+     * @return array
+     * @throws \think\Exception
+     * created by blu10ph
+     */
+    public function getManageCustomerCount($filter=null,$order="id",$direction="desc"){
+
+        //筛选
+        $map = $this->_getMapByFilter($filter,["belongs_to","resource_from","comm_status","take_type","tracer","guardian","add_man"]);
+        //$map['belongs_to'] = 1;
+
+        //排序
+        if($direction!="desc" && $direction!="asc"){
+            $direction = "desc";
+        }
+        $orderPrefix = "";
+        $subOrder = [$orderPrefix.$order=>$direction];//聚合前排序
+        switch ($order){
+            case "id":
+            case "customer_name":
+            case "grade":
+            case "is_public":
+            case "add_time":
+                $orderPrefix = "c.";
+                $subOrder = [$orderPrefix.$order=>$direction];
+                break;
+        }
+        $subOrder["cn.id"] = "desc";//沟通状态
+
+        //固定显示字段
+        $subField = [
+            "c.id",
+            "c.customer_name",
+            "c.grade",
+            "c.belongs_to",
+            "c.resource_from",
+            "c.is_public",
+            "c.public_to_employee",
+            "c.public_to_department",
+            "te.truename as tracer",
+            "'' as guardian",
+            "ae.truename as add_man",
+            "c.add_time",
+            "c.take_type",
+            "cn.tend_to",
+            "cn.phone_correct",
+            "cn.profile_correct",
+            "cn.call_through",
+            "cn.is_wait",
+        ];
+
+        $subQuery = $this->model
+            ->table($this->table)->alias('c')
+            ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'employee ae','c.add_man = ae.id',"LEFT")
+            ->join($this->dbprefix.'employee te','c.handle_man = te.id',"LEFT")
+            ->where($map)
+            ->order($subOrder)
+            ->field($subField)
+            ->buildSql();
+        //var_exp($subQuery,'$subQuery',1);
+        $customerCount = $this->model
+            ->table($subQuery." l")
+            ->group("id")
+            ->count();
+        return $customerCount;
     }
 
     /**
@@ -181,9 +258,9 @@ class Customer extends Base
             "c.customer_name",
             "c.resource_from",
             "c.grade",
-            "c.add_man",
+            "ae.truename as add_man",
             "cc.contact_name",
-            "cc.phone_first",
+            "IFNULL(cc.phone_first,c.telephone) as phone_first",
         ];
         $listField = [
             "id",
@@ -195,8 +272,8 @@ class Customer extends Base
             "phone_first",
         ];
 
-        $subQuery = $this->model
-            ->table($this->table)->alias('c')
+        $subQuery = $this->model->table($this->table)->alias('c')
+            ->join($this->dbprefix.'employee ae','c.add_man = ae.id',"LEFT")
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
             ->where($map)
             //->where($map_str)
@@ -261,16 +338,17 @@ class Customer extends Base
 
         //固定显示字段
         $Field = [
-            "id",
-            "customer_name",
-            "resource_from",
-            "add_man",
-            "is_public",
-            "add_time",
+            "c.id",
+            "c.customer_name",
+            "c.resource_from",
+            "c.add_batch",
+            "ae.truename as add_man",
+            "c.is_public",
+            "c.add_time",
         ];
 
-        $customerList = $this->model
-            ->table($this->table)
+        $customerList = $this->model->table($this->table)->alias('c')
+            ->join($this->dbprefix.'employee ae','c.add_man = ae.id',"LEFT")
             ->where($map)
             ->where($map_str)
             ->order($Order)
@@ -283,6 +361,102 @@ class Customer extends Base
         }
         return $customerList;
     }
+    /**
+     * 获取公开公海池中的客户数量
+     * @param $uid int 员工id
+     * @param $filter array 客户筛选条件
+     * @param $order string 排序
+     * @param $direction string 排序方向
+     * @return array
+     * @throws \think\Exception
+     * created by blu10ph
+     */
+    public function getPublicPoolCustomerCount($uid,$filter=null,$order="id",$direction="desc"){
+        //部门
+        $struct_ids = getStructureIds($uid);
+        //$struct_ids_str = array_column($struct_ids, 'struct_id');
+
+        //筛选
+        $map = $this->_getMapByFilter($filter,["resource_from","grade","customer_name"]);
+        $map['belongs_to'] = 2;
+        $map_str = " is_public = 1 or find_in_set($uid,public_to_employee) ";
+        foreach ($struct_ids as $struct_id){
+            $map_str .=" or find_in_set(".$struct_id["struct_id"].",public_to_department) ";
+        }
+
+        //排序
+        if($direction!="desc" && $direction!="asc"){
+            $direction = "desc";
+        }
+        $orderPrefix = "";
+        $subOrder = [$orderPrefix.$order=>$direction];//聚合前排序
+        switch ($order){
+            case "id":
+            case "customer_name":
+            case "resource_from":
+            case "grade":
+                $orderPrefix = "c.";
+                $subOrder = [$orderPrefix.$order=>$direction];
+                $listOrder = [$order=>$direction];
+                break;
+        }
+        $subOrder["cc.id"] = "desc";//联系人
+
+        //固定显示字段
+        $subField = [
+            "c.id",
+            "c.customer_name",
+            "c.resource_from",
+            "c.grade",
+            "c.add_man",
+            "cc.contact_name",
+            "cc.phone_first",
+        ];
+
+        $subQuery = $this->model
+            ->table($this->table)->alias('c')
+            ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
+            ->where($map)
+            //->where($map_str)
+            ->order($subOrder)
+            ->field($subField)
+            ->buildSql();
+        //var_exp($subQuery,'$subQuery',1);
+        $customerCount = $this->model
+            ->table($subQuery." l")
+            ->group("id")
+            ->count();
+        return $customerCount;
+    }
+
+    /**
+     * 获取公海池中的客户数量
+     * @param $uid int 员工id
+     * @param $filter array 客户筛选条件
+     * @return array
+     * @throws \think\Exception
+     * created by blu10ph
+     */
+    public function getPoolCustomerCount($uid,$filter=null){
+        //部门
+        $struct_ids = getStructureIds($uid);
+        //$struct_ids_str = array_column($struct_ids, 'struct_id');
+
+        //筛选
+        $map = $this->_getMapByFilter($filter,["resource_from","is_public","customer_name"]);
+        $map['belongs_to'] = 2;
+        $map_str = " is_public = 1 or find_in_set($uid,public_to_employee) ";
+        foreach ($struct_ids as $struct_id){
+            $map_str .=" or find_in_set(".$struct_id["struct_id"].",public_to_department) ";
+        }
+
+        $customerCount = $this->model
+            ->table($this->table)
+            ->where($map)
+            ->where($map_str)
+            ->count();
+        return $customerCount;
+    }
 
     /**
      * 获取我的客户
@@ -290,6 +464,7 @@ class Customer extends Base
      * @param $num int 数量
      * @param $page int 页
      * @param $filter array 客户筛选条件
+     * @param $field array 字段筛选
      * @param $order string 排序
      * @param $direction string 排序方向
      * @return array
@@ -424,7 +599,7 @@ class Customer extends Base
             "(case when sc.sale_status<1 then 0 when sc.sale_status<4 then 0 else sc.guess_money end) as in_progress_guess_money",//all_guess_money
             "(case when sc.sale_status=5 then sc.final_money else 0 end) as win_final_money",//all_final_money
             "cc.contact_name",
-            "cc.phone_first",
+            "IFNULL(cc.phone_first,c.telephone) as phone_first",
             "ct.create_time as last_trace_time",
             "c.take_time",//领取时间
             "ca.due_time as contract_due_time",
@@ -471,8 +646,7 @@ class Customer extends Base
         }
         */
 
-        $subQuery = $this->model
-            ->table($this->table)->alias('c')
+        $subQuery = $this->model->table($this->table)->alias('c')
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")//sc.employee_id = c.handle_man
@@ -523,8 +697,6 @@ class Customer extends Base
     /**
      * 获取我的客户
      * @param $uid int 员工id
-     * @param $num int 数量
-     * @param $page int 页
      * @param $filter array 客户筛选条件
      * @param $order string 排序
      * @param $direction string 排序方向
@@ -532,8 +704,7 @@ class Customer extends Base
      * @throws \think\Exception
      * created by blu10ph
      */
-    public function getSelfCustomerCount($uid,$num=10,$page=0,$filter=null,$field=null,$order="id",$direction="desc"){
-        $now_time = time();
+    public function getSelfCustomerCount($uid,$filter=null,$order="id",$direction="desc"){
         //获取客户配置
         $struct_ids = getStructureIds($uid);
         $customerSettingModel = new CustomerSetting();
@@ -576,7 +747,6 @@ class Customer extends Base
         }
         $orderPrefix = "";
         $subOrder = [$orderPrefix.$order=>$direction];//聚合前排序
-        $listOrder = [$order=>$direction];//聚合后排序
         switch ($order){
             case "id":
             case "customer_name":
@@ -584,12 +754,10 @@ class Customer extends Base
             case "take_time":
                 $orderPrefix = "c.";
                 $subOrder = [$orderPrefix.$order=>$direction];
-                $listOrder = [$order=>$direction];
                 break;
             case "contact_name":
                 $orderPrefix = "cc.";
                 $subOrder = [$orderPrefix."id"=>"desc"];
-                $listOrder = [$order=>$direction];
                 break;
             case "comm_status":
                 $orderPrefix = "cn.";
@@ -600,13 +768,6 @@ class Customer extends Base
                     $orderPrefix."call_through"=>$direction,
                     $orderPrefix."is_wait"=>$direction,
                 ];
-                $listOrder = [
-                    "tend_to"=>$direction,
-                    "phone_correct"=>$direction,
-                    "profile_correct"=>$direction,
-                    "call_through"=>$direction,
-                    "is_wait"=>$direction,
-                ];
                 break;
             case "remind_time":
                 $orderPrefix = "cn.";
@@ -615,21 +776,13 @@ class Customer extends Base
                     $orderPrefix."is_wait"=>"desc",
                     $orderPrefix.$order=>$direction,
                 ];
-                $listOrder = [
-                    "is_wait"=>"desc",
-                    $order=>$direction,
-                ];
                 break;
             case "last_trace_time":
                 $orderPrefix = "ct.";
                 $order = "create_time";
                 $subOrder = [$orderPrefix.$order=>"desc"];
-                $listOrder = [$order=>$direction];
                 break;
             case "guess_money":
-                //$orderPrefix = "sc.";
-                //$idsOrder = [$orderPrefix.$order=>$direction];
-                $listOrder = [$order=>"all_guess_money"];
                 break;
         }
         $subOrder["sc.id"] = "desc";//商机
@@ -688,18 +841,6 @@ class Customer extends Base
             "sale_status",
             "ct_id",
         ];
-        /*
-        //动态显示字段:获取途径
-        if(in_array("take_type", $field)){
-            $subField[] = "c.take_type";
-            $listField[] = "take_type";
-        }
-        //动态显示字段:客户级别
-        if(in_array("grade", $field)){
-            $subField[] = "c.grade";
-            $listField[] = "grade";
-        }
-        */
 
         $subQuery = $this->model
             ->table($this->table)->alias('c')
@@ -1177,7 +1318,7 @@ class Customer extends Base
             "c.id as customer_id",
         ];
         $customers = $this->model->table($this->table)->alias('c')
-            ->join($this->dbprefix.'employee e','c.handle_man = e.id')
+            ->join($this->dbprefix.'employee e','c.handle_man = e.id',"LEFT")
             ->field($field)
             ->where('handle_man','in',$ids)
             ->select();
@@ -1238,7 +1379,7 @@ class Customer extends Base
         }
         $map['belongs_to'] = 3;
         $map['id'] = ["in",$customer_ids];
-        $data['belongs_to'] = 1;
+        $data['belongs_to'] = 2;
         $data['handle_man'] = 0;
         return $this->model
             ->table($this->table)
@@ -1283,7 +1424,7 @@ class Customer extends Base
         ];
         $customer = $this->model->table($this->table)->alias('c')
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
-            ->where('id',$cid)
+            ->where('c.id',$cid)
             ->field($field)
             ->find();
         $customer['comm_status'] = getCommStatusByArr([

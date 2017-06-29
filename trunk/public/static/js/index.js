@@ -96,7 +96,6 @@ function loadPage(url,panel){
 	$.ajax({
 		url:url,
 		type:'get',
-		data:{},
 		async:false,
 		success:function (data) {
 			$('#frames #'+panel).html(data);

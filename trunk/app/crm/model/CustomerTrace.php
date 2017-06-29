@@ -37,4 +37,33 @@ class CustomerTrace extends Base
         return $this->model->table($this->table)->insertAll($data);
     }
 
+    /**根据客户ID获取所有
+     * @param $customer_id int 客户id
+     * @return false|\PDOStatement|int|\think\Collection
+     * created by blu10ph
+     */
+    public function getAllCustomerTraceByCustomerId($customer_id)
+    {
+        return $this->model->table($this->table)->where('customer_id',$customer_id)->select();
+    }
+
+    /**获取
+     * @param $id int 客户id
+     * @return false|\PDOStatement|int|\think\Collection
+     * created by blu10ph
+     */
+    public function getCustomerTrace($id)
+    {
+        return $this->model->table($this->table)->where('d',$id)->find();
+    }
+
+    /**获取数量
+     * @param $customer_id int 客户id
+     * @return false|\PDOStatement|int|\think\Collection
+     * created by blu10ph
+     */
+    public function getCustomerTraceCount($customer_id)
+    {
+        return $this->model->table($this->table)->where('customer_id',$customer_id)->count();
+    }
 }

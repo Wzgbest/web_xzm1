@@ -64,7 +64,6 @@
             </p>
         </form>
     </div>
-    </body>
     <script>
         $('#corp_submit').click(function() {
             console.log($(".form_corp").serialize());
@@ -80,7 +79,7 @@
                     }
                 },
                 error: function() {
-
+                    alert("保存公司信息发生错误!");
                 },
             });
         });

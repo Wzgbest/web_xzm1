@@ -297,7 +297,6 @@ class RedEnvelope
      * 红包领取情况
      * @param userid
      * @param access_token
-     * @param redid 红包标识
      * @param \app\huanxin\controller\User $user
      * @return string
      */
@@ -311,8 +310,7 @@ class RedEnvelope
 
         $result = ['status'=>0 ,'info'=>"查询红包收支明细时发生错误！"];
         $num = 10;
-        $p = input("p",0,"int");
-        $p = $p?:1;
+        $p = input("p",1,"int");
 
         try{
             $redM = new RedB($chk_info['corp_id']);
