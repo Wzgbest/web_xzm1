@@ -143,13 +143,27 @@ class RedEnvelope extends Base
         if($page){
             $offset = ($page-1)*$num;
         }
-        return $this->model->table($this->table)
-            ->field('id,fromuser,money,took_time,is_token,create_time,took_user,total_money,took_telephone')
+        $field = [
+            'id',
+            'redid',
+            'type',
+            'fromuser as from_user',
+            'e.telephone as from_telephone',
+            '(case when fromuser = '.$uid.' then total_money else money end) as money',
+            'took_time',
+            'is_token',
+            'create_time',
+            'took_user',
+            'took_telephone'
+        ];
+        return $this->model->table($this->table)->alias('re')
+            ->join($this->dbprefix.'employee e','e.id = re.fromuser',"LEFT")
             ->where($map)
             ->where('fromuser|took_user',$uid)
             //->whereOr('is_token','<>',2)
             ->order($order)
             ->limit($offset,$num)
+            ->field($field)
             ->select();
     }
 }

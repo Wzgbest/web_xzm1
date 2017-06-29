@@ -1,0 +1,116 @@
+<div class="crm_customer crm_customer_manage">
+    <div class="customer_manage_panel customer_manage">
+        <!--客户列表-->
+        <section id="myAllClientsPage" >
+            <ul class="m-secNav">
+                <li class="vertical"></li>
+                <li>导出</li>
+                <li>删除</li>
+                <li>重分</li>
+                <li>更改可见范围</li>
+                <li>强制释放</li>
+                <div class="clearfix"></div>
+            </ul>
+            <div class="m-filterNav">
+                <select id="customer_manage_search_belongs_to">
+                    <option value="">客户级别</option>
+                    <option value="A" {present name='filter.belongs_to'}{eq name='filter.belongs_to' value='A'} selected="selected"{/eq}{/present}>A</option>
+                    <option value="B" {present name='filter.belongs_to'}{eq name='filter.belongs_to' value='B'} selected="selected"{/eq}{/present}>B</option>
+                    <option value="C" {present name='filter.belongs_to'}{eq name='filter.belongs_to' value='C'} selected="selected"{/eq}{/present}>C</option>
+                    <option value="D" {present name='filter.belongs_to'}{eq name='filter.belongs_to' value='D'} selected="selected"{/eq}{/present}>D</option>
+                </select>
+                <select id="customer_manage_search_resource_from">
+                    <option value="">客户来源</option>
+                    <option value="1" {present name='filter.resource_from'}{eq name='filter.resource_from' value='1'} selected="selected"{/eq}{/present}>员工添加</option>
+                    <option value="2" {present name='filter.resource_from'}{eq name='filter.resource_from' value='2'} selected="selected"{/eq}{/present}>批量导入</option>
+                    <option value="3" {present name='filter.resource_from'}{eq name='filter.resource_from' value='3'} selected="selected"{/eq}{/present}>员工搜集</option>
+                </select>
+                <select id="customer_manage_search_comm_status">
+                    <option value="">沟通结果</option>
+                    <option value="1" {present name='filter.comm_status'}{eq name='filter.comm_status' value='1'} selected="selected"{/eq}{/present}>无意向</option>
+                    <option value="2" {present name='filter.comm_status'}{eq name='filter.comm_status' value='2'} selected="selected"{/eq}{/present}>号码无效</option>
+                    <option value="3" {present name='filter.comm_status'}{eq name='filter.comm_status' value='3'} selected="selected"{/eq}{/present}>资料有误</option>
+                    <option value="4" {present name='filter.comm_status'}{eq name='filter.comm_status' value='4'} selected="selected"{/eq}{/present}>未接通</option>
+                    <option value="5" {present name='filter.comm_status'}{eq name='filter.comm_status' value='5'} selected="selected"{/eq}{/present}>待定</option>
+                    <option value="6" {present name='filter.comm_status'}{eq name='filter.comm_status' value='6'} selected="selected"{/eq}{/present}>有意向</option>
+                </select>
+                <select id="customer_manage_search_take_type">
+                    <option value="">获取途径</option>
+                    <option value="1" {present name='filter.take_type'}{eq name='filter.take_type' value='1'} selected="selected"{/eq}{/present}>转介绍</option>
+                    <option value="2" {present name='filter.take_type'}{eq name='filter.take_type' value='2'} selected="selected"{/eq}{/present}>搜索</option>
+                    <option value="3" {present name='filter.take_type'}{eq name='filter.take_type' value='3'} selected="selected"{/eq}{/present}>购买</option>
+                </select>
+                <input type="text" id="customer_manage_search_tracer" placeholder="请输入跟踪人" value="{present name='filter.tracer'}{$filter.tracer}{/present}"/>
+                <input type="text" id="customer_manage_search_guardian" placeholder="请输入维护人" value="{present name='filter.guardian'}{$filter.guardian}{/present}"/>
+                <input type="text" id="customer_manage_search_add_man" placeholder="请输入添加人" value="{present name='filter.add_man'}{$filter.add_man}{/present}"/>
+                <button onclick="customer_manage_search({$p},{$num});" class="u-btnSearch">查询</button>
+            </div>
+            <div class="m-tableBox">
+                <div class="m-table table2">
+                    <ul class="u-tabTitle">
+                        <li class="u-tabCheckbox"><input type="checkbox"/></li>
+                        <li>客户名称<i class="fa fa-caret-down"></i></li>
+                        <li>客户级别<i class="fa fa-unsorted"></i></li>
+                        <li>客户状态</li>
+                        <li>客户来源</li>
+                        <li>可见范围</li>
+                        <li>跟踪人</li>
+                        <li>维护人</li>
+                        <li>添加人</li>
+                        <li>添加时间<i class="fa fa-unsorted"></i></li>
+                        <li>沟通结果<i class="fa fa-unsorted"></i></li>
+                        <li>获取途径</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                    {volist name="listdata" id="vo"}
+                    <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+                        <li onclick="customer_manage_general('{$vo.id}','customer_manage');" class="u-tabCilentName">{$vo.customer_name}</li>
+                        <li>{$vo.grade}</li>
+                        <li>{$vo.belongs_to|getBelongsToManageName}</li>
+                        <li>{$vo.resource_from|getResourceFromName}</li>
+                        <li>{eq name="vo.is_public" value="1"}全公司{else/}{notempty name="vo.public_to_employee"}指定人{/notempty}{notempty name="vo.public_to_department"}指定部门{/notempty}{/eq}</li>
+                        <li>{$vo.tracer}</li>
+                        <li>{$vo.guardian}</li>
+                        <li>{$vo.add_man}</li>
+                        <li>{$vo.add_time}</li>
+                        <li>{$vo.comm_status|getCommStatusName}</li>
+                        <li>{$vo.take_type|getTakeTypeFromName}</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                    {/volist}
+                </div>
+            </div>
+            <div class="u-tabControlRow">
+                <span>显示行数</span>
+                <select onchange="customer_manage_listNumChange({$p});">
+                    <option value="5" {eq name="num" value="5"} selected="selected"{/eq}>5</option>
+                    <option value="10" {eq name="num" value="10"} selected="selected"{/eq}>10</option>
+                    <option value="20" {eq name="num" value="20"} selected="selected"{/eq}>20</option>
+                </select>
+                <span>{$start_num}-{$end_num}条/</span>
+                <span>共{$count}条</span>
+                <button onclick="customer_manage_previous_page({$p},{$num});" class="customer_manage_previous_page {eq name='p' value='1'} disabled{/eq}">上一页</button>
+                <button onclick="customer_manage_next_page({$p},{$num},{$max_page});" class="customer_manage_next_page {eq name='p' value='$max_page'} disabled{/eq}">下一页</button>
+                <span>前往</span>
+                <input onblur="customer_manage_jump_page({$num},{$max_page});" class="customer_manage_jump_page" type="text" />
+                <span>页</span>
+            </div>
+        </section>
+        <script src="/crm/js/customer_manage.js"></script>
+    </div>
+    <div class="customer_manage_panel customer_general hide">
+    </div>
+    <div class="customer_manage_panel customer_info hide">
+    </div>
+    <div class="customer_manage_panel customer_contact hide">
+    </div>
+    <div class="customer_manage_panel customer_sale_chance hide">
+    </div>
+    <div class="customer_manage_panel customer_trace hide">
+    </div>
+</div>
+<link rel="stylesheet" href="/crm/css/index.css"/>
+<link rel="stylesheet" href="/crm/css/table.css" />
+<link rel="stylesheet" href="/crm/css/form.css" />
+<link rel="stylesheet" href="/crm/css/divBlock.css" />

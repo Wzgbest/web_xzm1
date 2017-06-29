@@ -9,8 +9,10 @@ use app\common\model\Base;
 
 class SaleChance extends Base
 {
+    protected $dbprefix;
     public function __construct($corp_id)
     {
+        $this->dbprefix = config('database.prefix');
         $this->table = config('database.prefix').'sale_chance';
         parent::__construct($corp_id);
     }
@@ -22,6 +24,33 @@ class SaleChance extends Base
     public function getAllSaleChances()
     {
         return $this->model->table($this->table)->select();
+    }
+
+    /**根据客户ID获取所有
+     * @param $customer_id int 客户id
+     * @return false|\PDOStatement|int|\think\Collection
+     * created by blu10ph
+     */
+    public function getAllSaleChancesByCustomerId($customer_id)
+    {
+        return $this->model->table($this->table)->alias('sc')
+            ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'business scb','scb.id = sc.business_id',"LEFT")
+            ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
+            ->join($this->dbprefix.'employee ae','sc.associator_id = ae.id',"LEFT")
+            ->where('customer_id',$customer_id)
+            ->field("sc.*,scb.business_name,e.truename as employee,ae.truename as associator,c.remark")
+            ->select();
+    }
+
+    /**获取数量
+     * @param $customer_id int 客户id
+     * @return false|\PDOStatement|int|\think\Collection
+     * created by blu10ph
+     */
+    public function getSaleChanceCount($customer_id)
+    {
+        return $this->model->table($this->table)->where('customer_id',$customer_id)->count();
     }
 
     /**添加

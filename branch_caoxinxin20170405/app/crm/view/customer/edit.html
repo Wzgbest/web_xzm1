@@ -1,0 +1,110 @@
+<!--客户详情-->
+<section class="page-info">
+    <header>
+        <ul class="m-firNav">
+            <li onclick="{$fr}_list_show_list();" class="current"><div>我的所有客户（<span>160</span>）</div></li>
+            <i class="fa fa-angle-right fa-2x"></i><span class="u-spanInfo">详情</span>
+        </ul>
+    </header>
+    <ul class="m-pageInfoNav">
+        <div class="clearfix"></div>
+        <li onclick="{$fr}_general('{$id}');">概要</li>
+        <li class="current">客户信息</li>
+        <li onclick="{$fr}_contact_show('{$id}')">联系人（{$customer_contact_num}）</li>
+        <li onclick="{$fr}_sale_chance_show('{$id}')">销售机会（{$sale_chance_num}）</li>
+        <li onclick="{$fr}_trace_show('{$id}')">跟踪记录（{$customer_trace_num}）</li>
+        <div class="clearfix"></div>
+    </ul>
+    <form id="newClientForm" class="{$fr}_edit" onsubmit="return false;">
+        <section id="clientInformationEdit" class="m-form m-divBlock">
+            <div class="clearfix"></div>
+            <div >
+                <span class="cont"><span class="u-required">＊</span>客户名称</span>
+                <input type="text" name="customer_name" required="required" placeholder="请输入客户名称" pattern="[\S]{1,40}" title="请输入1-40个字符" value="{$customer.customer_name}"/>
+
+                <span class="cont">客户编码</span>
+                <input type="text" required="required" placeholder="请输入客户编码" pattern="[\S]{1,40}" title="请输入1-40个字符" value="{$customer.id}"/>
+            </div>
+            <div>
+                <span class="cont">联系人</span>
+                <input type="text" pattern="[\S]{0,10}"  placeholder="请输入联系人名称" title="只可填写10位以内字符" value=""/>
+
+                <span class="cont">客户级别</span>
+                <select name="grade">
+                    <option value="A" {eq name='customer.grade' value='A'} selected="selected"{/eq}>A</option>
+                    <option value="B" {eq name='customer.grade' value='B'} selected="selected"{/eq}>B</option>
+                    <option value="C" {eq name='customer.grade' value='C'} selected="selected"{/eq}>C</option>
+                    <option value="D" {eq name='customer.grade' value='D'} selected="selected"{/eq}>D</option>
+                </select>
+            </div>
+            <div>
+                <span class="cont"><span class="u-required">＊</span>联系电话</span>
+                <input type="text" name="telephone" required="required" pattern="[\d]{7,12}" placeholder="请输入电话号码" title="请输入正确的联系方式" value="{$customer.telephone}"/>
+
+                <span class="cont">获取途径</span>
+                <select name="resource_from">
+                    <option value="1" {eq name='customer.resource_from' value='1'} selected="selected"{/eq}>转介绍</option>
+                    <option value="2" {eq name='customer.resource_from' value='2'} selected="selected"{/eq}>搜索</option>
+                    <option value="3" {eq name='customer.resource_from' value='3'} selected="selected"{/eq}>购买</option>
+                </select>
+            </div>
+            <div>
+                <span class="cont">客户行业</span>
+                <select name="field1" class="u-3select">
+                    {volist name="business_array" id="vo" key="key"}
+                    <option value="{$key}" {eq name='customer.field1' value='$key'} selected="selected"{/eq}>{$vo}</option>
+                    {/volist}
+                </select>
+                <select name="field2" class="u-3select">
+                    {volist name="business_array" id="vo" key="key"}
+                    <option value="{$key}" {eq name='customer.field2' value='$key'} selected="selected"{/eq}>{$vo}</option>
+                    {/volist}
+                </select>
+                <select name="field" class="u-3select">
+                    {volist name="business_array" id="vo" key="key"}
+                    <option value="{$key}" {eq name='customer.field' value='$key'} selected="selected"{/eq}>{$vo}</option>
+                    {/volist}
+                </select>
+            </div>
+            <div>
+                <span class="cont">公司地址</span>
+                <select name="prov" class="u-3select">
+                    <option value="1" {eq name='customer.prov' value='1'} selected="selected"{/eq}>山东省</option>
+                </select>
+                <select name="city" class="u-3select">
+                    <option value="1" {eq name='customer.city' value='1'} selected="selected"{/eq}>潍坊市</option>
+                </select>
+                <select name="dist" class="u-3select">
+                    <option value="1" {eq name='customer.dist' value='1'} selected="selected"{/eq}>潍城区</option>
+                </select>
+            </div>
+            <div>
+                <span class="cont u-area">详细地址</span>
+                <textarea name="address" id="address" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入详细地址">{$customer.address}</textarea>
+            </div>
+            <div>
+                <span class="cont">详细定位</span>
+                <input type="text" name="location" id="location" placeholder="请输入写字楼、街道、公司名称" value="{$customer.location}"/>
+            </div>
+            <div>
+                <span class="cont">公司官网</span>
+                <input type="text" name="website" id="website" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入公司官网" value="{$customer.website}"/>
+            </div>
+            <div>
+                <span class="cont">备注</span>
+                <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                <span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                <span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                <span class="u-addRemark"><i class="fa fa-plus"></i></span>
+                <div class="clearfix"></div>
+                <span class="cont"></span>
+                <textarea name="remark" id="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注">{$customer.remark}</textarea>
+            </div>
+            <div class="u-submitButton">
+                <button onclick="{$fr}_edit_update('{$id}')">保存</button>
+                <button onclick="{$fr}_show('{$id}')">取消</button>
+                <!--<input type="submit" />-->
+            </div>
+        </section>
+    </form>
+</section>

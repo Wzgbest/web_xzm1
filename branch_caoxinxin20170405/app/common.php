@@ -304,6 +304,24 @@ function getResourceFromName($resource_from){
     return $resource_from_name;
 }
 
+function getBelongsToManageName($resource_from){
+    $resource_from_name = null;
+    switch ($resource_from){
+        case 1:
+        case 2:
+        $resource_from_name = "未申领";
+            break;
+        case 3:
+            $resource_from_name = "跟进中";
+            break;
+        case 4:
+            $resource_from_name = "待处理";
+            break;
+        default:
+            $resource_from_name = "无";
+    }
+    return $resource_from_name;
+}
 function getTakeTypeFromName($resource_from){
     $resource_from_name = null;
     switch ($resource_from){
@@ -353,6 +371,42 @@ function getInColumnName($in_column){
             $in_column_name = "无";
     }
     return $in_column_name;
+}
+
+function getSaleStatusName($sale_status){
+    $sale_status_name = null;
+    switch ($sale_status){
+        case 0:
+            $sale_status_name = "无意向";
+            break;
+        case 1:
+            $sale_status_name = "有意向";
+            break;
+        case 2:
+            $sale_status_name = "预约拜访";
+            break;
+        case 3:
+            $sale_status_name = "已拜访";
+            break;
+        case 4:
+            $sale_status_name = "成单申请";
+            break;
+        case 5:
+            $sale_status_name = "赢单";
+            break;
+        case 6:
+            $sale_status_name = "输单";
+            break;
+        case 7:
+            $sale_status_name = "作废";
+            break;
+        case 8:
+            $sale_status_name = "发票申请";
+            break;
+        default:
+            $sale_status_name = "无";
+    }
+    return $sale_status_name;
 }
 
 /**

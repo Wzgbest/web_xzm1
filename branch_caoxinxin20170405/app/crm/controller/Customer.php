@@ -10,6 +10,9 @@ namespace app\crm\controller;
 
 use app\common\controller\Initialize;
 use app\crm\model\Customer as CustomerModel;
+use app\crm\model\CustomerContact;
+use app\crm\model\SaleChance;
+use app\crm\model\CustomerTrace;
 use app\crm\model\CustomerDelete as CustomerDelete;
 use app\crm\model\CustomerNegotiate;
 use app\systemsetting\model\CustomerSetting;
@@ -18,6 +21,40 @@ use app\common\model\Business;
 class Customer extends Initialize{
     public function index(){
         echo "crm/customer/index";
+    }
+    public function customer_manage(){
+        $num = input('num',20,'int');
+        $p = input("p",1,"int");
+        $customers_count=0;
+        $start_num = ($p-1)*$num;
+        $end_num = $start_num+$num;
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
+        $uid = session('userinfo.userid');
+        $filter = $this->_getCustomerFilter(["belongs_to","resource_from","comm_status","take_type","tracer","guardian","add_man"]);
+        $field = $this->_getCustomerField([]);
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_data = $customerM->getManageCustomer($num,$p,$filter,$field,$order,$direction);
+            $this->assign("listdata",$customers_data);
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_count = $customerM->getManageCustomerCount($filter,$order,$direction);
+            $this->assign("count",$customers_count);
+            $business = new Business($this->corp_id);
+            $business_list = $business->getAllBusiness();
+            $this->assign("business_list",$business_list);
+        }catch (\Exception $ex){
+            $this->error($ex->getMessage());
+        }
+        $max_page = ceil($customers_count/$num);
+        $this->assign("p",$p);
+        $this->assign("num",$num);
+        $this->assign("filter",$filter);
+        $this->assign("max_page",$max_page);
+        $this->assign("start_num",$start_num+1);
+        $this->assign("truename",session('userinfo.truename'));
+        $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
+        return view();
     }
     public function my_customer(){
         $num = input('num',20,'int');
@@ -35,7 +72,7 @@ class Customer extends Initialize{
             $customers_data = $customerM->getSelfCustomer($uid,$num,$p,$filter,$field,$order,$direction);
             $this->assign("listdata",$customers_data);
             $customerM = new CustomerModel($this->corp_id);
-            $customers_count = $customerM->getSelfCustomerCount($uid,$num,$p,$filter,$field,$order,$direction);
+            $customers_count = $customerM->getSelfCustomerCount($uid,$filter,$order,$direction);
             $this->assign("count",$customers_count);
             $listCount = $customerM->getColumnNum($uid,$filter);
             $this->assign("listCount",$listCount);
@@ -55,6 +92,110 @@ class Customer extends Initialize{
         $this->assign("start_num",$start_num+1);
         $this->assign("truename",session('userinfo.truename'));
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
+        return view();
+    }
+    public function public_customer_pool(){
+        $num = input('num',20,'int');
+        $p = input("p",1,"int");
+        $customers_count=0;
+        $start_num = ($p-1)*$num;
+        $end_num = $start_num+$num;
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
+        $uid = session('userinfo.userid');
+
+        //获取客户配置
+        $view_name="";
+        $struct_ids = getStructureIds($uid);
+        $customerSettingModel = new CustomerSetting();
+        $searchCustomerList = $customerSettingModel->getCustomerSettingByStructIds($struct_ids);
+        $public_flg = false;
+        foreach ($searchCustomerList as $customerSetting){
+            if(!$customerSetting["public_sea_seen"]==1){
+                $public_flg = true;
+                break;
+            }
+        }
+        if($public_flg){
+            $view_name="public_pool";
+            $filter = $this->_getCustomerFilter(["resource_from","grade","customer_name"]);
+            $field = $this->_getCustomerField([]);
+            try{
+                $customerM = new CustomerModel($this->corp_id);
+                $customers_data = $customerM->getPublicPoolCustomer($uid,$num,$p,$filter,$field,$order,$direction);
+                $this->assign("listdata",$customers_data);
+                $customerM = new CustomerModel($this->corp_id);
+                $customers_count = $customerM->getPublicPoolCustomerCount($uid,$filter,$order,$direction);
+                $this->assign("count",$customers_count);
+            }catch (\Exception $ex){
+                $result['info'] = $ex->getMessage();
+                return json($result);
+            }
+        }else{
+            $view_name="anonymous_pool";
+            $filter = $this->_getCustomerFilter(["resource_from","is_public","customer_name"]);
+            $field = $this->_getCustomerField([]);
+            try{
+                $customerM = new CustomerModel($this->corp_id);
+                $customers_data = $customerM->getPoolCustomer($uid,$num,$p,$filter,$field,$order,$direction);
+                $this->assign("listdata",$customers_data);
+                $customerM = new CustomerModel($this->corp_id);
+                $customers_count = $customerM->getPoolCustomerCount($uid,$filter);
+                $this->assign("count",$customers_count);
+            }catch (\Exception $ex){
+                $this->error($ex->getMessage());
+            }
+        }
+        try{
+            $business = new Business($this->corp_id);
+            $business_list = $business->getAllBusiness();
+            $this->assign("business_list",$business_list);
+        }catch (\Exception $ex){
+            $this->error($ex->getMessage());
+        }
+        $max_page = ceil($customers_count/$num);
+        $this->assign("p",$p);
+        $this->assign("num",$num);
+        $this->assign("filter",$filter);
+        $this->assign("max_page",$max_page);
+        $this->assign("start_num",$start_num+1);
+        $this->assign("truename",session('userinfo.truename'));
+        $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
+        return view($view_name);
+    }
+    protected function _showCustomer(){
+        $id = input('id',0,'int');
+        if(!$id){
+            $this->error("参数错误！");
+        }
+        $this->assign("id",$id);
+        $this->assign("fr",input('fr'));
+        $customerM = new CustomerModel($this->corp_id);
+        $customerData = $customerM->getCustomer($id);
+        $this->assign("customer",$customerData);
+        $customerM = new CustomerContact($this->corp_id);
+        $customerData = $customerM->getCustomerContactCount($id);
+        $this->assign("customer_contact_num",$customerData);
+        $customerM = new SaleChance($this->corp_id);
+        $customerData = $customerM->getSaleChanceCount($id);
+        $this->assign("sale_chance_num",$customerData);
+        $customerM = new CustomerTrace($this->corp_id);
+        $customerData = $customerM->getCustomerTraceCount($id);
+        $this->assign("customer_trace_num",$customerData);
+        $business = new Business($this->corp_id);
+        $business_list = $business->getBusinessArray();
+        $this->assign("business_array",$business_list);
+    }
+    public function general(){
+        $this->_showCustomer();
+        return view();
+    }
+    public function show(){
+        $this->_showCustomer();
+        return view();
+    }
+    public function edit(){
+        $this->_showCustomer();
         return view();
     }
     
@@ -221,7 +362,7 @@ class Customer extends Initialize{
         $filter = [];
         if(in_array("belongs_to", $filter_column)){//客户状态
             $belongs_to = input("belongs_to",0,"int");
-            if($belongs_to && in_array($belongs_to,[2,3])){//TODO 维护状态??
+            if($belongs_to && in_array($belongs_to,[1,2,3])){//TODO 维护状态??
                 $filter["belongs_to"] = $belongs_to;
             }
         }
@@ -546,13 +687,15 @@ class Customer extends Initialize{
         return json($result);
     }
 
-    protected function _getCustomerForInput(){
+    protected function _getCustomerForInput($mode){
         // add customer page
-        $uid = session('userinfo.userid');
-        $customer['belongs_to'] = input('belongs_to',0,'int');
-        $customer['add_man'] = $uid;
-        $customer['add_time'] = time();
-        $customer['handle_man'] = ($customer['belongs_to']==2)?0:$uid;
+        if($mode){
+            $uid = session('userinfo.userid');
+            $customer['belongs_to'] = input('belongs_to',0,'int');
+            $customer['add_man'] = $uid;
+            $customer['add_time'] = time();
+            $customer['handle_man'] = ($customer['belongs_to']==2)?0:$uid;
+        }
 
         $customer['customer_name'] = input('customer_name');
         $customer['telephone'] = input('telephone');
@@ -560,6 +703,8 @@ class Customer extends Initialize{
         $customer['resource_from'] = input('resource_from',0,'int');
         $customer['grade'] = input('grade');
 
+        $customer['field1'] = input('field1',0,'int');
+        $customer['field2'] = input('field2',0,'int');
         $customer['field'] = input('field',0,'int');
         $customer['prov'] = input('prov');
         $customer['city'] = input('city');
@@ -580,7 +725,7 @@ class Customer extends Initialize{
     }
     public function add(){
         $result = ['status'=>0 ,'info'=>"新建客户时发生错误！"];
-        $customer = $this->_getCustomerForInput();
+        $customer = $this->_getCustomerForInput("all");
         if(!in_array($customer['belongs_to'],[2,3])){
             $result['info'] = "参数错误！";
             return json($result);
@@ -617,7 +762,7 @@ class Customer extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
-        $customer = $this->_getCustomerForInput();
+        $customer = $this->_getCustomerForInput(0);
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
         $customerM = new CustomerModel($this->corp_id);
         try{
