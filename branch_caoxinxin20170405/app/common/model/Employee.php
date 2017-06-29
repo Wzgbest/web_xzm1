@@ -340,58 +340,63 @@ class Employee extends Base
      */
     public function getPageEmployeeList($page_now_num = 0,$rows = null,$where = null)
     {
-        if ($where) {
-            $map = 'where ';
-            if ($where['struct_id']) {
-                $map .= 'c.struct_id ='.$where['struct_id'].' ';
-                if ($where['role']) {
-                    $map .= 'and a.role ='.$where['role'].' ';
-                    if ($where['on_duty']) {
-                        if ($where['on_duty']==-1) {
-                            $map .= 'and a.status=-1 ';
-                        } else {
-                            $map .= 'and a.on_duty='.$where['on_duty'].' ';
-                        }
-                    } else {
-                        $map .= 'and a.status = 1 ';
-                    }
-                }
-            } else {
-                if ($where['role']) {
-                    $map .= ' a.role ='.$where['role'].' ';
-                    if ($where['on_duty']) {
-                        if ($where['on_duty']==-1) {
-                            $map .= 'and a.status=-1 ';
-                        } else {
-                            $map .= 'and a.on_duty='.$where['on_duty'].' ';
-                        }
-                    } else {
-                        $map .= 'and a.status = 1';
-                    }
-                } else {
-                    if ($where['on_duty']) {
-                        if ($where['on_duty']==-1) {
-                            $map .= 'a.status=-1 ';
-                        } else {
-                            $map .= 'a.on_duty='.$where['on_duty'].' ';
-                        }
-                    } else {
-                        $map .= 'and a.status = 1 ';
-                    }
-                }
-            }
-        } else {
-            $map = '';
-        }
+        $map = $this->_getPageEmployeeListWhereSql($where);
         if (is_null($rows)) {
             $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`on_duty`,`a`.`worknum`,`a`.`email`,`a`.`qqnum`,`a`.`create_time`,`b`.`role_name`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employee` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employee` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.'GROUP BY `a`.`id` order by `a`.`worknum`;';
-            return $this->model->table($this->table)->query($sql);
+
         } else {
             $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`on_duty`,`a`.`worknum`,`a`.`email`,`a`.`qqnum`,`a`.`create_time`,`b`.`role_name`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employee` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employee` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.'GROUP BY `a`.`id` order by `a`.`worknum` limit '.$page_now_num.','.$rows.';';
-            return $this->model->table($this->table)->query($sql);
         }
+        //var_exp($sql,'$sql',1);
+        return $this->model->table($this->table)->query($sql);
     }
-
+     protected function _getPageEmployeeListWhereSql($where){
+         $map = "";
+         if ($where) {
+             $map = 'where 1=1 ';
+             if (isset($where['struct_id']) && $where['struct_id']) {
+                 $map .= 'c.struct_id ='.$where['struct_id'].' ';
+                 if (isset($where['role']) && $where['role']) {
+                     $map .= 'and a.role ='.$where['role'].' ';
+                     if (isset($where['on_duty']) && $where['on_duty']) {
+                         if ($where['on_duty']==-1) {
+                             $map .= 'and a.status=-1 ';
+                         } else {
+                             $map .= 'and a.on_duty='.$where['on_duty'].' ';
+                         }
+                     } else {
+                         $map .= 'and a.status = 1 ';
+                     }
+                 }
+             } else {
+                 if (isset($where['role']) && $where['role']) {
+                     $map .= ' a.role ='.$where['role'].' ';
+                     if (isset($where['on_duty']) && $where['on_duty']) {
+                         if ($where['on_duty']==-1) {
+                             $map .= 'and a.status=-1 ';
+                         } else {
+                             $map .= 'and a.on_duty='.$where['on_duty'].' ';
+                         }
+                     } else {
+                         $map .= 'and a.status = 1';
+                     }
+                 } else {
+                     if (isset($where['on_duty']) && $where['on_duty']) {
+                         if ($where['on_duty']==-1) {
+                             $map .= 'a.status=-1 ';
+                         } else {
+                             $map .= 'a.on_duty='.$where['on_duty'].' ';
+                         }
+                     } else {
+                         $map .= 'and a.status = 1 ';
+                     }
+                 }
+             }
+         } else {
+             $map = '';
+         }
+         return $map;
+     }
     /**
      * 所有员工总数
      * @param null|array $where[
@@ -404,49 +409,7 @@ class Employee extends Base
      */
     public function countPageEmployeeList($where = null)
     {
-        if ($where) {
-            $map = 'where ';
-            if ($where['struct_id']) {
-                $map .= 'c.struct_id ='.$where['struct_id'].' ';
-                if ($where['role']) {
-                    $map .= 'and a.role ='.$where['role'].' ';
-                    if ($where['on_duty']) {
-                        if ($where['on_duty']==-1) {
-                            $map .= 'and a.status=-1 ';
-                        } else {
-                            $map .= 'and a.on_duty='.$where['on_duty'].' ';
-                        }
-                    } else {
-                        $map .= 'and a.status = 1 ';
-                    }
-                }
-            } else {
-                if ($where['role']) {
-                    $map .= ' a.role ='.$where['role'].' ';
-                    if ($where['on_duty']) {
-                        if ($where['on_duty']==-1) {
-                            $map .= 'and a.status=-1 ';
-                        } else {
-                            $map .= 'and a.on_duty='.$where['on_duty'].' ';
-                        }
-                    } else {
-                        $map .= 'and a.status = 1';
-                    }
-                } else {
-                    if ($where['on_duty']) {
-                        if ($where['on_duty']==-1) {
-                            $map .= 'a.status=-1 ';
-                        } else {
-                            $map .= 'a.on_duty='.$where['on_duty'].' ';
-                        }
-                    } else {
-                        $map .= 'and a.status = 1 ';
-                    }
-                }
-            }
-        } else {
-            $map = '';
-        }
+        $map = $this->_getPageEmployeeListWhereSql($where);
         $sql = 'SELECT count(distinct `a`.`id`) as num FROM `'.$this->dbprefix.'employee` `a` LEFT JOIN `'.$this->dbprefix.'role` `b` ON `a`.`role`=`b`.`id` INNER JOIN `'.$this->dbprefix.'structure_employee` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` '.$map.';';
         return $this->model->table($this->table)->query($sql);
     }
