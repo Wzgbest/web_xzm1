@@ -4,7 +4,7 @@ $(".crm_my_customer .m-firNav li").click(function(){
 });
 function my_customer_listNumChange(in_column){
 	console.log($(".u-tabControlRow select").val());
-	num = $(".u-tabControlRow select").val();
+	var num = $(".u-tabControlRow select").val();
 	my_customer_change_page(1,num,in_column);
 }
 function my_customer_previous_page(p,num,in_column){
@@ -21,7 +21,7 @@ function my_customer_next_page(p,num,max,in_column){
 }
 function my_customer_jump_page(num,max,in_column){
 	console.log($(".my_customer_jump_page").val());
-	p = $(".my_customer_jump_page").val();
+	var p = $(".my_customer_jump_page").val();
 	if(p+1>max || p-1<1){
 		return;
 	}
