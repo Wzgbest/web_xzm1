@@ -70,12 +70,12 @@ aside dl i{
 .hide{
 	display: none;
 }
-.fa-angle-right{
+#side .fa-angle-right{
 	float: right;
 	margin-right: 20px;
 	margin-top: 12px;
 }
-.fa-angle-down{
+#side .fa-angle-down{
 	float: right;
 	margin-right: 20px;
 	margin-top: 12px;
