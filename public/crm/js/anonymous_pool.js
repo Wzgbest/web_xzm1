@@ -1,6 +1,6 @@
 function anonymous_pool_listNumChange(){
-	console.log($(".u-tabControlRow select").val());
-	var num = $(".u-tabControlRow select").val();
+	//console.log($(".u-tabControlRow select").val());
+	var num = $(".anonymous_pool .u-tabControlRow select").val();
 	anonymous_pool_change_page(1,num);
 }
 function anonymous_pool_previous_page(p,num){

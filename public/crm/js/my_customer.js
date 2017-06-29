@@ -3,8 +3,8 @@ $(".crm_my_customer .m-firNav li").click(function(){
 	$(this).addClass("current");
 });
 function my_customer_listNumChange(in_column){
-	console.log($(".u-tabControlRow select").val());
-	var num = $(".u-tabControlRow select").val();
+	//console.log($(".u-tabControlRow select").val());
+	var num = $(".my_customer .u-tabControlRow select").val();
 	my_customer_change_page(1,num,in_column);
 }
 function my_customer_previous_page(p,num,in_column){
