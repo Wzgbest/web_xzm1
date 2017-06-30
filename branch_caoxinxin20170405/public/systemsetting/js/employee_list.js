@@ -59,7 +59,7 @@ function get_employee_list_url(p,num){
 }
 function employee_list_del(ids,p,num){
 	$.ajax({
-		url: '/systemsetting/employee/deleteMultipleEmployee',
+		url: '/systemsetting/employee/deleteMultipleEmployee.html',
 		type: 'post',
 		data: "ids="+ids,
 		success: function(data) {
@@ -77,7 +77,7 @@ function employee_list_del(ids,p,num){
 
 var employee_list_hide_panel = 'staff-managementfr .sys_employee_list .employee_list_panel';
 function employee_list_show(id){
-	var url = "/systemsetting/employee/show/id/"+id+"/fr/employee_list";
+	var url = "/systemsetting/employee/show.html?s=/id/"+id+"/fr/employee_list";
 	var panel = 'staff-managementfr .sys_employee_list .employee_info';
 	$.ajax({
 		url:url,
@@ -94,7 +94,7 @@ function employee_list_show(id){
 	});
 }
 function employee_list_edit(id){
-	var url = "/systemsetting/employee/edit/id/"+id+"/fr/employee_list";
+	var url = "/systemsetting/employee/edit.html?s=/id/"+id+"/fr/employee_list";
 	var panel = 'staff-managementfr .sys_employee_list .employee_info';
 	$.ajax({
 		url:url,
@@ -115,7 +115,7 @@ function employee_list_edit_update(id){
 	employee_list_edit_from_data += "&user_id="+id;
 	console.log(employee_list_edit_from_data);
 	$.ajax({
-		url: '/systemsetting/employee/editEmployee',
+		url: '/systemsetting/employee/editemployee.html',
 		type: 'post',
 		data: employee_list_edit_from_data,
 		success: function(data) {

@@ -1,7 +1,7 @@
 <div class="edit_corp_info">
     <div id="top">
         <ul class="firNav">
-            <li onclick="loadPage('/systemsetting/corporation/showCorpInfo','company-informationfr');" class="current">
+            <li onclick="loadPage('{:url('/systemsetting/corporation/showcorpinfo')}','company-informationfr');" class="current">
                 <div>公司信息</div>
             </li>
             <i class="fa fa-angle-right fa-2x">编辑</i>
@@ -60,7 +60,7 @@
             </p>
             <p class="p5">
                 <input id="corp_submit" type="submit" value="保存"/>
-                <button onclick="loadPage('/systemsetting/corporation/showCorpInfo','company-informationfr');">取消</button>
+                <button onclick="loadPage('{:url('/systemsetting/corporation/showcorpinfo')}','company-informationfr');">取消</button>
             </p>
         </form>
     </div>
@@ -68,14 +68,15 @@
         $('#corp_submit').click(function() {
             console.log($(".form_corp").serialize());
             $.ajax({
-                url: '/systemsetting/corporation/editcorpinfo',
+                url: "{:url('/systemsetting/corporation/updatecorpinfo')}",
                 type: 'post',
                 data: $(".form_corp").serialize(),
+                dataType: 'json',
                 success: function(data) {
                     //console.log(data);
                     alert(data.message);
                     if(data.status) {
-                        loadPage("/systemsetting/corporation/showCorpInfo","company-informationfr");
+                        loadPage("{:url('/systemsetting/corporation/showcorpinfo')}","company-informationfr");
                     }
                 },
                 error: function() {
