@@ -83,6 +83,7 @@
             url: '/systemsetting/customer/update.html',
             type: 'post',
             data: $(".form_customer_setting").serialize(),
+            dataType: 'json',
             success: function(data) {
                 //console.log(data);
                 alert(data.info);
