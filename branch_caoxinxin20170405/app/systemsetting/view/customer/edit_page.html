@@ -11,13 +11,15 @@
     <div id="content">
         <form name="form_customer_setting" class="form_customer_setting" onsubmit="return false;" method="post">
         <p>
+            <span class="sp1">客户设置名称</span>
+            <input type="text" placeholder="请输入" name="setting_name" value="{$customerSetting.setting_name}"/>
+        </p>        <p>
             <span class="sp1">客户保护时间</span>
             <input type="text" placeholder="请输入" name="protect_customer_day" value="{$customerSetting.protect_customer_day}"/>
             <span class="sp">天</span>
             <span class="sp2">（员工拥有客户时间）</span>
         </p>
         <p>
-
             <span class="sp1">员工可领取单个顾客次数</span>
             <input type="text" placeholder="请输入" name="take_times_employee" value="{$customerSetting.take_times_employee}"/>
             <span class="sp">次</span>

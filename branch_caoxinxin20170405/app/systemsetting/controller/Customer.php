@@ -24,18 +24,13 @@ class Customer extends Initialize{
         parent::_initialize();
     }
     public function index(){
-        $num = 10;
         $structure = input("structure",0,'int');
-        $p = input("p");
-        $p = $p?:1;
         try{
-            $customerSettings = null;
+            $map = null;
             if($structure){
                 $map = "find_in_set('$structure', set_to_structure)";
-                $customerSettings = $this->_customerSettingModel->getCustomerSetting($num,$p,$map);
-            }else{
-                $customerSettings = $this->_customerSettingModel->getCustomerSetting($num,$p);
             }
+            $customerSettings = $this->_customerSettingModel->getAllCustomerSetting($map);
             $structure_ids = [];
             $structure_ids_arr = array_column($customerSettings, 'set_to_structure');
             foreach ($structure_ids_arr as $id_str){
@@ -59,6 +54,7 @@ class Customer extends Initialize{
     public function add_page(){
         $customerSetting = [
             "id"=>"",
+            "setting_name"=>"",
             "protect_customer_day"=>"",
             "take_times_employee"=>"",
             "take_times_structure"=>"",
@@ -138,6 +134,7 @@ class Customer extends Initialize{
     }
 
     protected function _getCustomerSettingForInput(){
+        $customerSetting['setting_name'] = input('setting_name');
         $customerSetting['protect_customer_day'] = input('protect_customer_day',0,'int');
         $customerSetting['take_times_employee'] = input('take_times_employee',0,'int');
         $customerSetting['take_times_structure'] = input('take_times_structure',0,'int');

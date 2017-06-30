@@ -40,7 +40,7 @@ ol {
     height: 200px;
     background-color: #ebf3ff;
     float: left;
-    margin-right: 10px;
+    margin:0 10px 10px 0;
     border-radius: 6px;
 }
 
