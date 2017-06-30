@@ -1,10 +1,10 @@
 <div class="edit_corp_info">
     <div id="top">
         <ul class="firNav">
-            <li class="current">
+            <li onclick="loadPage('/systemsetting/corporation/showCorpInfo','company-informationfr');" class="current">
                 <div>公司信息</div>
             </li>
-            <!--<i class="fa fa-angle-right fa-2x"></i>-->
+            <i class="fa fa-angle-right fa-2x">编辑</i>
         </ul>
     </div>
     <div id="content">
@@ -36,7 +36,7 @@
                 <input type="text" name="corp_dist" type="text"  value="{$data.corp_lat},{$data.corp_lng}"/>
             </p>
             <p class="p2">
-                <input type="text" class="ipt1" value="{$data.corp_lat}"/>
+                <input type="text" class="ipt1" value="{$data.corp_lat}"/><br/>
                 <input type="text" class="ipt1" value="{$data.corp_lng}"/>
             </p>
             <p class="p1">
@@ -60,7 +60,7 @@
             </p>
             <p class="p5">
                 <input id="corp_submit" type="submit" value="保存"/>
-                <button>取消</button>
+                <button onclick="loadPage('/systemsetting/corporation/showCorpInfo','company-informationfr');">取消</button>
             </p>
         </form>
     </div>
