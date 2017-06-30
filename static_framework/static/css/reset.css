@@ -20,7 +20,7 @@ html, body, div, ul, li, h1, h2, h3, h4, h5, h6, p, dl, dt, dd, ol, form, input,
 /**{box-sizing: border-box;}*/
 html{
   font: 62.5% "Microsoft YaHei",Arial,Helvetica;
-  /*color: #929292;*/
+  color: #929292;
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: none;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -48,7 +48,7 @@ table {
 
 input, textarea {
   outline: none;
-  /*border: none;*/
+  border: none;
   font-family: 'microsoft yahei';
 }
 
@@ -111,11 +111,9 @@ textarea {
   *display: inline;
   *zoom: 1;
 }
-
 .hide{
-	display: none !important;
-}
-
+	display:none !important;
+	}
 /*jquery_mobile初始化*/
 .ui-loader-default{ display:none}
 .ui-mobile-viewport{ border:none;}
