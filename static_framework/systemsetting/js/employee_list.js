@@ -77,7 +77,7 @@ function employee_list_del(ids,p,num){
 
 var employee_list_hide_panel = 'staff-managementfr .sys_employee_list .employee_list_panel';
 function employee_list_show(id){
-	var url = "/systemsetting/employee/show/id/"+id+"/fr/employee_list";
+	var url = "/systemsetting/employee/show.html?s=/id/"+id+"/fr/employee_list";
 	var panel = 'staff-managementfr .sys_employee_list .employee_info';
 	$.ajax({
 		url:url,
@@ -94,7 +94,7 @@ function employee_list_show(id){
 	});
 }
 function employee_list_edit(id){
-	var url = "/systemsetting/employee/edit/id/"+id+"/fr/employee_list";
+	var url = "/systemsetting/employee/edit.html?s=/id/"+id+"/fr/employee_list";
 	var panel = 'staff-managementfr .sys_employee_list .employee_info';
 	$.ajax({
 		url:url,
