@@ -12,7 +12,7 @@ $("#frames .once").height(window.innerHeight-80);
 
 //根据屏幕尺寸，设置侧边栏的可用高度
 window.onresize=function(){
-	changeH();
+	changeFramesSize();
 };
 function subResize(){
 	var wid = $("#subtitle").width();
@@ -25,14 +25,19 @@ function subResize(){
 			$("#subtitle>div>span").css("width","auto");
 		}
 }
-function changeH(){
+function changeFramesSize(){
 	//console.log(window.innerHeight);
 //	var wid = window.innerWidth-220;
-	$("aside").height(window.innerHeight);
-	$("header").width(window.innerWidth-220);
+	$("#side").height(window.innerHeight);
+	$(".header").width(window.innerWidth-220);
 	$("section#subt").width(window.innerWidth-220);
 	$("#subtitle").width(window.innerWidth-220);
+	$("body").width(window.innerWidth);
+	$("body").height(window.innerHeight);
+	$("#frames").width(window.innerWidth-220);
+	$("#frames").height(window.innerHeight-80);
 	$("#frames .once").width(window.innerWidth-220);
+	$("#frames .once").height(window.innerHeight-80);
 	subResize();
 };
 
@@ -82,6 +87,8 @@ $("aside dl dd").click(function(){
 		$('#frames').append(html);
 		var url = $(this).attr('_src');
 		loadPage(url,f);
+		$("#frames").width(window.innerWidth-220);
+		$("#frames").height(window.innerHeight-80);
 		$("#frames .once").width(window.innerWidth-220);
 		$("#frames .once").height(window.innerHeight-80);
 		//子标题栏长度增加

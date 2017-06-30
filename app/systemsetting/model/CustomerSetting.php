@@ -48,6 +48,27 @@ class CustomerSetting extends Base
         return $customerSettingList;
     }
     /**
+     * 查询所有客户设置
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $map array 客户筛选条件
+     * @param $order string 排序
+     * @return array|false
+     * @throws \think\Exception
+     */
+    public function getAllCustomerSetting($map=null,$order="id desc"){
+        $customerSettingList = $this->model
+            ->table($this->table)
+            ->where($map)
+            ->order($order)
+            ->field('*')//TODO field list
+            ->select();
+        foreach ($customerSettingList as &$customerSetting){
+            $customerSetting["set_to_structure_arr"] = explode(",",$customerSetting["set_to_structure"]);
+        }
+        return $customerSettingList;
+    }
+    /**
      * 查询客户设置
      * @param $struct_ids array 部门列表
      * @param $order string 排序
