@@ -1,13 +1,20 @@
+.sys_employee_list {
+	height: 100%;
+}
+.sys_employee_list .p5 {
+	width: 256px;
+	margin-top: 39px;
+	margin-left: auto;
+	margin-right: auto;
+}
 .sys_employee_list .p5 input {
 	width: 100px;
 	height: 41px;
 	border-radius: 10px;
-	/*	margin-right: 60px;*/
 	background-color: #42a5f5;
 	color: #fff;
 	border: 1px solid #dcdcdc;
 	margin-top: 60px;
-	/*margin-left: 300px;*/
 }
 
 .sys_employee_list .p5 button {
