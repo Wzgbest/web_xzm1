@@ -59,7 +59,7 @@ function get_employee_list_url(p,num){
 }
 function employee_list_del(ids,p,num){
 	$.ajax({
-		url: '/systemsetting/employee/deleteMultipleEmployee',
+		url: '/systemsetting/employee/deleteMultipleEmployee.html',
 		type: 'post',
 		data: "ids="+ids,
 		success: function(data) {
@@ -115,7 +115,7 @@ function employee_list_edit_update(id){
 	employee_list_edit_from_data += "&user_id="+id;
 	console.log(employee_list_edit_from_data);
 	$.ajax({
-		url: '/systemsetting/employee/editEmployee',
+		url: '/systemsetting/employee/editemployee.html',
 		type: 'post',
 		data: employee_list_edit_from_data,
 		success: function(data) {
