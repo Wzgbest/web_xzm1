@@ -111,7 +111,9 @@ textarea {
   *display: inline;
   *zoom: 1;
 }
-
+.hide{
+	display:none !important;
+	}
 /*jquery_mobile初始化*/
 .ui-loader-default{ display:none}
 .ui-mobile-viewport{ border:none;}
