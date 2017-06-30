@@ -1,0 +1,19 @@
+/*焦点图*/
+.banner{height:1163px;width:1920px;margin-left:-960px;left:50%;position:relative;overflow:hidden;}
+.fn-clear{zoom:1;}
+.box_skitter{position:relative;background:none;}
+.box_skitter ul{display:none;}
+.box_skitter .container_skitter{overflow:hidden;position:relative;}
+.box_skitter .image{overflow:hidden;}
+.box_skitter .image img{display:none;}
+.box_skitter .box_clone{position:absolute;top:0;left:0;width:100px;overflow:hidden;display:none;z-index:20;}
+.box_skitter .box_clone img{position:absolute;top:0;left:0;z-index:20;}
+.box_skitter .prev_button{position:absolute;top:35%;left:30px;z-index:100;width:54px;height:105px;overflow:hidden;text-indent:-9999em;margin-top:-25px;background:url(../img/banner_btn_l.png)/*tpa=http://xinshijibancai.com/Public/Home/pc/Css/img/banner_btn_l.png*/ no-repeat left top!important;opacity:0.3;transition: all .5s;}
+.box_skitter .prev_button:hover{left: 40px;transition: all .5s;}
+.box_skitter .next_button{position:absolute;top:35%;right:30px;z-index:100;width:54px;height:105px;overflow:hidden;text-indent:-9999em;margin-top:-25px;background:url(../img/banner_btn_r.png)/*tpa=http://xinshijibancai.com/Public/Home/pc/Css/img/banner_btn_r.png*/ no-repeat left top!important;opacity:0.3;transition: all .5s;}
+.box_skitter .next_button:hover{right: 40px;transition: all .5s;}
+.box_skitter .label_skitter{z-index:150;position:absolute;display:none;}
+.loading{position:absolute;top:50%;right:50%;z-index:10000;margin:-16px -16px;color:#fff;text-indent:-9999em;overflow:hidden;background:url(../img/ajax-loader.gif)/*tpa=http://xinshijibancai.com/Public/Home/pc/Css/img/ajax-loader.gif*/ no-repeat left top;width:31px;height:31px;}
+#slideshow{width:100%;height:1163px;}
+#slideshow ul{display:none;}
+.zz{background: url(../img/zz.png)/*tpa=http://xinshijibancai.com/Public/Home/pc/Css/img/zz.png*/ no-repeat bottom left;width: 100%;height: 425px;position: absolute;bottom: 0px;left: 0px;z-index: 999;}
