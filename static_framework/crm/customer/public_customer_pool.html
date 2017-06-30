@@ -1,0 +1,528 @@
+<div class="crm_customer crm_public_pool">
+    <div class="public_pool_panel public_pool">
+        <!--客户列表-->
+        <section id="myAllClientsPage" >
+            <ul class="m-secNav">
+                <li class="active" onclick="public_pool_newClient();">新建</li>
+                <li class="active">导入</li>
+                <li class="active">导入记录</li>
+                <li class="active">批量申领</li>
+                <li class="vertical"></li>
+                <li>删除</li>
+                <li>更改可见范围</li>
+                <div class="clearfix"></div>
+            </ul>
+            <div class="m-filterNav">
+                <select id="public_pool_search_take_type">
+                    <option value="">获取途径</option>
+                    <option value="1" >转介绍</option>
+                    <option value="2" >搜索</option>
+                    <option value="3" >购买</option>
+                </select>
+                <select id="public_pool_search_belongs_to">
+                    <option value="">客户级别</option>
+                    <option value="A" >A</option>
+                    <option value="B" >B</option>
+                    <option value="C" >C</option>
+                    <option value="D" >D</option>
+                </select>
+                <input type="text" id="public_pool_search_customer_name" placeholder="输入客户名称" value=""/>
+                <button onclick="public_pool_search(1,20);" class="u-btnSearch">查询</button>
+            </div>
+            <div class="m-tableBox">
+                <div class="m-table table3">
+                    <ul class="u-tabTitle">
+                        <li class="u-tabCheckbox"><input type="checkbox"/></li>
+                        <li>客户名称<i class="fa fa-caret-down"></i></li>
+                        <li>获取途径</li>
+                        <li>客户级别<i class="fa fa-unsorted"></i></li>
+                        <li>添加人</li>
+                        <li>联系人<i class="fa fa-unsorted"></i></li>
+                        <li>联系方式</li>
+                        <li>操作</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="27"/></li>
+                        <li onclick="public_pool_general('27');" class="u-tabCilentName">测试测试</li>
+                        <li>转介绍</li>
+                        <li>A</li>
+                        <li>曹鑫鑫</li>
+                        <li>联系人</li>
+                        <li class="u-tabLinkWay">15766666666<i class="fa fa-phone"></i></li>
+                        <li class="u-tabOperation">
+                            <span>变更为我的客户</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="25"/></li>
+                        <li onclick="public_pool_general('25');" class="u-tabCilentName">李灰</li>
+                        <li>无</li>
+                        <li>A</li>
+                        <li>曹鑫鑫</li>
+                        <li>李白</li>
+                        <li class="u-tabLinkWay">18888888888<i class="fa fa-phone"></i></li>
+                        <li class="u-tabOperation">
+                            <span>变更为我的客户</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="24"/></li>
+                        <li onclick="public_pool_general('24');" class="u-tabCilentName">李太白</li>
+                        <li>无</li>
+                        <li>A</li>
+                        <li>曹鑫鑫</li>
+                        <li></li>
+                        <li class="u-tabLinkWay">18888888888<i class="fa fa-phone"></i></li>
+                        <li class="u-tabOperation">
+                            <span>变更为我的客户</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="23"/></li>
+                        <li onclick="public_pool_general('23');" class="u-tabCilentName">陆游7</li>
+                        <li>无</li>
+                        <li>A</li>
+                        <li>曹鑫鑫</li>
+                        <li></li>
+                        <li class="u-tabLinkWay">18888888888<i class="fa fa-phone"></i></li>
+                        <li class="u-tabOperation">
+                            <span>变更为我的客户</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="22"/></li>
+                        <li onclick="public_pool_general('22');" class="u-tabCilentName">陆游6</li>
+                        <li>无</li>
+                        <li>A</li>
+                        <li>曹鑫鑫</li>
+                        <li></li>
+                        <li class="u-tabLinkWay">18888888888<i class="fa fa-phone"></i></li>
+                        <li class="u-tabOperation">
+                            <span>变更为我的客户</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="21"/></li>
+                        <li onclick="public_pool_general('21');" class="u-tabCilentName">陆游5</li>
+                        <li>无</li>
+                        <li>A</li>
+                        <li>曹鑫鑫</li>
+                        <li></li>
+                        <li class="u-tabLinkWay">18888888888<i class="fa fa-phone"></i></li>
+                        <li class="u-tabOperation">
+                            <span>变更为我的客户</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="20"/></li>
+                        <li onclick="public_pool_general('20');" class="u-tabCilentName">陆游4</li>
+                        <li>无</li>
+                        <li>A</li>
+                        <li>曹鑫鑫</li>
+                        <li></li>
+                        <li class="u-tabLinkWay">18888888888<i class="fa fa-phone"></i></li>
+                        <li class="u-tabOperation">
+                            <span>变更为我的客户</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="19"/></li>
+                        <li onclick="public_pool_general('19');" class="u-tabCilentName">陆游3</li>
+                        <li>无</li>
+                        <li>A</li>
+                        <li>曹鑫鑫</li>
+                        <li></li>
+                        <li class="u-tabLinkWay">18888888888<i class="fa fa-phone"></i></li>
+                        <li class="u-tabOperation">
+                            <span>变更为我的客户</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="18"/></li>
+                        <li onclick="public_pool_general('18');" class="u-tabCilentName">陆游2</li>
+                        <li>无</li>
+                        <li>A</li>
+                        <li>曹鑫鑫</li>
+                        <li></li>
+                        <li class="u-tabLinkWay">18888888888<i class="fa fa-phone"></i></li>
+                        <li class="u-tabOperation">
+                            <span>变更为我的客户</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="17"/></li>
+                        <li onclick="public_pool_general('17');" class="u-tabCilentName">陆游1</li>
+                        <li>无</li>
+                        <li>A</li>
+                        <li>曹鑫鑫</li>
+                        <li></li>
+                        <li class="u-tabLinkWay">18888888888<i class="fa fa-phone"></i></li>
+                        <li class="u-tabOperation">
+                            <span>变更为我的客户</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="16"/></li>
+                        <li onclick="public_pool_general('16');" class="u-tabCilentName">陆游</li>
+                        <li>无</li>
+                        <li>A</li>
+                        <li>曹鑫鑫</li>
+                        <li></li>
+                        <li class="u-tabLinkWay">18888888888<i class="fa fa-phone"></i></li>
+                        <li class="u-tabOperation">
+                            <span>变更为我的客户</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="4"/></li>
+                        <li onclick="public_pool_general('4');" class="u-tabCilentName">王昌龄</li>
+                        <li>转介绍</li>
+                        <li></li>
+                        <li>王启文</li>
+                        <li></li>
+                        <li class="u-tabLinkWay">13355788753<i class="fa fa-phone"></i></li>
+                        <li class="u-tabOperation">
+                            <span>变更为我的客户</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="3"/></li>
+                        <li onclick="public_pool_general('3');" class="u-tabCilentName">白居易</li>
+                        <li>转介绍</li>
+                        <li></li>
+                        <li>王启文</li>
+                        <li></li>
+                        <li class="u-tabLinkWay">13321215656<i class="fa fa-phone"></i></li>
+                        <li class="u-tabOperation">
+                            <span>变更为我的客户</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="2"/></li>
+                        <li onclick="public_pool_general('2');" class="u-tabCilentName">杜甫</li>
+                        <li>转介绍</li>
+                        <li></li>
+                        <li>王启文</li>
+                        <li></li>
+                        <li class="u-tabLinkWay">13321125355<i class="fa fa-phone"></i></li>
+                        <li class="u-tabOperation">
+                            <span>变更为我的客户</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                    </div>
+            </div>
+            <div class="u-tabControlRow">
+                <span>显示行数</span>
+                <select onchange="public_pool_listNumChange();">
+                    <option value="5" >5</option>
+                    <option value="10" >10</option>
+                    <option value="20"  selected="selected">20</option>
+                </select>
+                <span>1-14条/</span>
+                <span>共14条</span>
+                <button onclick="public_pool_previous_page(1,20);" class="public_pool_previous_page  disabled">上一页</button>
+                <button onclick="public_pool_next_page(1,20,1);" class="public_pool_next_page  disabled">下一页</button>
+                <span>前往</span>
+                <input onblur="public_pool_jump_page(20,1);" class="public_pool_jump_page" type="text" />
+                <span>页</span>
+            </div>
+        </section>
+
+        <!--黑色遮罩-->
+        <section id="public_pool_blackBg" class="blackBg hide page-client"></section>
+
+        <!--新建客户-->
+        <section id="public_pool_newClient" class="newClient hide page-client">
+            <header>
+                <h1>新建客户<i class="fa fa-close fa-2x" onclick="public_pool_removeNewClient()"></i></h1>
+            </header>
+            <div class="m-formBox m-form">
+                <div class="process">
+                    <div id="state1" class="circle"><span>客户信息</span></div>
+                    <div id="line1" class="rect"></div>
+                    <div id="state2" class="circle"><span>联系人信息</span></div>
+                    <div id="line2" class="rect"></div>
+                    <div id="state3" class="circle"><span>销售机会</span></div>
+                    <div class="clearfix"></div>
+                </div>
+                <form id="public_pool_newClientForm" class="newClientForm" onsubmit="return false;">
+                    <div id="form1" class="">
+                        <div>
+                            <span class="cont"><span class="u-required">＊</span>客户名称</span>
+                            <input type="text" name="customer_name" required="required" placeholder="请输入客户名称" pattern="[\S]{1,40}" title="请输入1-40个字符"/>
+                            <span class="cont">沟通状态</span>
+                            <select name="comm_status">
+                                <option value="1">无意向</option>
+                                <option value="2">号码无效</option>
+                                <option value="3">资料有误</option>
+                                <option value="4">未接通</option>
+                                <option value="5">待定</option>
+                                <option value="6">有意向</option>
+                            </select>
+                        </div>
+                        <div>
+                            <span class="cont">联系人</span>
+                            <input type="text" name="contact_name" pattern="[\S]{0,10}" placeholder="请输入联系人名称" title="只可填写10位以内字符"/>
+                            <span class="cont">客户级别</span>
+                            <select name="grade">
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                            </select>
+                        </div>
+                        <div>
+                            <span class="cont"><span class="u-required">＊</span>联系电话</span>
+                            <input type="text" name="telephone" required="required" pattern="[\d]{7,12}" placeholder="请输入电话号码" title="请输入正确的联系方式" />
+                            <span class="cont">获取途径</span>
+                            <select name="resource_from">
+                                <option value="1">转介绍</option>
+                                <option value="2">搜索</option>
+                                <option value="3">购买</option>
+                            </select>
+                        </div>
+                        <div>
+                            <span class="cont">客户行业</span>
+                            <select name="field_1" class="u-3select">
+                                <option value="0">请选择</option>
+                                                                <option value="1">IT行业</option>
+                                                                <option value="2">金融行业</option>
+                                                                <option value="3">制造业</option>
+                                                            </select>
+                            <select name="field_2" class="u-3select">
+                                <option value="0">请选择</option>
+                                                                <option value="1">IT行业</option>
+                                                                <option value="2">金融行业</option>
+                                                                <option value="3">制造业</option>
+                                                            </select>
+                            <select name="field" class="u-3select">
+                                <option value="0">请选择</option>
+                                                                <option value="1">IT行业</option>
+                                                                <option value="2">金融行业</option>
+                                                                <option value="3">制造业</option>
+                                                            </select>
+                        </div>
+                        <div>
+                            <span class="cont">公司地址</span>
+                            <select name="prov" class="u-3select">
+                                <option value="0">请选择</option>
+                                <option value="1">山东</option>
+                            </select>
+                            <select name="city" class="u-3select">
+                                <option value="0">请选择</option>
+                                <option value="1">潍坊</option>
+                            </select>
+                            <select name="dist" class="u-3select">
+                                <option value="0">请选择</option>
+                                <option value="1">潍城</option>
+                            </select>
+                        </div>
+                        <div>
+                            <span class="cont u-area">详细地址</span>
+                            <textarea name="address" id="address" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入详细地址"></textarea>
+                        </div>
+                        <div>
+                            <span class="cont">详细定位</span>
+                            <input type="text" name="address" id="location" placeholder="请输入写字楼、街道、公司名称"/>
+                        </div>
+                        <div>
+                            <span class="cont">公司官网</span>
+                            <input type="url" id="website" name="website" title="最多可填写80个字符" placeholder="请输入公司官网"/>
+                        </div>
+                        <div>
+                            <span class="cont">备注</span>
+                            <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                            <span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                            <span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                            <span class="u-addRemark"><i class="fa fa-plus"></i></span>
+                            <div class="clearfix"></div>
+                            <span class="cont"></span>
+                            <textarea name="remark" id="remark_customer" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
+                        </div>
+                        <div>
+                            <span class="cont">保存到</span>
+                            <input type="radio" name="belongs_to" value="3" checked="checked"/>我的客户
+                            <input type="radio" name="belongs_to" value="2" />公海池
+                            <div class="allStaff hide"></div>
+                        </div>
+                        <div class="u-submitButton">
+                            <button onclick="public_pool_add_customer(0)">保存并添加下一客户</button>
+                            <button onclick="public_pool_add_customer(3)">保存</button>
+                            <button onclick="public_pool_add_customer(2)">下一步</button>
+                            <button onclick="public_pool_removeNewClient()">取消</button>
+                            <!--<input type="submit" />-->
+                        </div>
+                    </div>
+                </form>
+                <form id="public_pool_newClientContactForm" class="public_pool_newClientContactForm" onsubmit="return false;">
+                    <div id="form2" class="hide">
+                        <div>
+                            <span class="cont">联系人姓名</span>
+                            <input type="text" name="contact_name" id="linkmanName" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入联系人姓名" />
+                            <span class="cont">性别</span>
+                            <input type="radio" name="sex" value="male"/>男
+                            <input type="radio" name="sex" value="famale"/>女
+                        </div>
+                        <div>
+                            <span class="cont">联系方式1</span>
+                            <input type="text" name="phone_first" id="contactWay1" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码"/>
+                            <span class="cont">联系方式2</span>
+                            <input type="text" name="phone_second" id="contactWay2" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码"/>
+                        </div>
+                        <div>
+                            <span class="cont">联系方式3</span>
+                            <input type="text" name="phone_third" id="contactWay3" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码"/>
+                            <span class="cont">邮箱</span>
+                            <input type="email" name="email" id="mail" placeholder="请输入邮箱"/>
+                        </div>
+                        <div>
+                            <span class="cont">QQ号</span>
+                            <input type="text" name="qqnum" id="qqNumber" pattern="[\d]{0,10}" title="请写正确格式" placeholder="请输入QQ号"/>
+                            <span class="cont">微信号</span>
+                            <input type="text" name="wechat" id="wechatNumber" pattern="[\d\D]{0,40}" title="最多填写40位字符" placeholder="请输入微信号"/>
+                        </div>
+                        <div>
+                            <span class="cont">部门</span>
+                            <input type="text" name="structure" id="department" pattern="[\d\D]{0,16}" title="最多填写16位字符" placeholder="请输入所属部门"/>
+                            <span class="cont">职务</span>
+                            <input type="text" name="occupation" id="duty" pattern="[\d\D]{0,16}" title="最多填写16位字符" placeholder="请输入职务"/>
+                        </div>
+                        <div>
+                            <span class="cont">关键决策人</span>
+                            <div class="u-inlineRadio">
+                                <input type="radio" name="key_decide" value="1"/>是
+                                <input type="radio" name="key_decide" value="0"/>否
+                            </div>
+                            <span class="cont">决策能力</span>
+                            <select name="deal_capability">
+                                <option value="1">普通人</option>
+                                <option value="2">决策人</option>
+                                <option value="3">分项决策人</option>
+                                <option value="4">商务决策人</option>
+                                <option value="5">技术决策人</option>
+                                <option value="6">财务决策人</option>
+                                <option value="7">使用人</option>
+                                <option value="8">意见影响人</option>
+                            </select>
+                        </div>
+                        <div>
+                            <span class="cont">介绍人</span>
+                            <input type="text" name="introducer" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入介绍人"/>
+                            <span class="cont">亲密程度</span>
+                            <select name="close_degree">
+                                <option value="0">不亲密</option>
+                                <option value="1">亲密</option>
+                            </select>
+                        </div>
+                        <div>
+                            <span class="cont">生日</span>
+                            <input type="date" name="birthday" />
+                        </div>
+                        <div>
+                            <span class="cont u-area">爱好</span>
+                            <textarea name="hobby" placeholder="请输入爱好"></textarea>
+                        </div>
+                        <div>
+                            <span class="cont">备注</span>
+                            <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                            <span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                            <span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                            <span class="u-addRemark"><i class="fa fa-plus"></i></span>
+                            <div class="clearfix"></div>
+                            <span class="cont"></span>
+                            <textarea name="remark" id="remark_contact" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
+                        </div>
+                        <div class="u-submitButton">
+                            <button onclick="public_pool_add_contact(0)">保存并添加下一客户</button>
+                            <button onclick="public_pool_add_contact(3)">保存</button>
+                            <button onclick="public_pool_add_contact(1)">上一步</button>
+                            <button onclick="public_pool_add_contact(2)">下一步</button>
+                            <button onclick="public_pool_removeNewClient()">取消</button>
+                            <!--<input type="submit" />-->
+                        </div>
+                    </div>
+                </form>
+                <form id="public_pool_newClientSaleChanceForm" class="public_pool_newClientSaleChanceForm" onsubmit="return false;">
+                    <div id="form3" class="hide">
+                        <div>
+                            <span class="cont"><span class="u-required">＊</span>销售机会</span>
+                            <input type="text" name="sale_name" placeholder="请输入销售机会" />
+                            <span class="cont"><span class="u-required">＊</span>对应业务</span>
+                            <select name="business_id">
+                                                                <option value="1">IT行业</option>
+                                                                <option value="2">金融行业</option>
+                                                                <option value="3">制造业</option>
+                                                            </select>
+                        </div>
+                        <div>
+                            <span class="cont cont-max">预计成单金额</span>
+                            <input type="text" name="guess_money" placeholder="请输入金额" />
+                            <span class="cont cont-max">预计成单时间</span>
+                            <input type="date" name="prepay_time" />
+                        </div>
+                        <div>
+                            <span class="cont">负责人</span>
+                            <span class="cont" id="personCharge">曹鑫鑫</span>
+                            <span class="cont">协助人</span>
+                            <select name="associator_id">
+                                <option value="0">无</option>
+                            </select>
+                        </div>
+                        <div>
+                            <span class="cont">商机状态</span>
+                            <select name="sale_status">
+                                <option></option>
+                            </select>
+                        </div>
+                        <div>
+                            <span class="cont">备注</span>
+                            <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                            <span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                            <span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                            <span class="u-addRemark"><i class="fa fa-plus"></i></span>
+                            <div class="clearfix"></div>
+                            <span class="cont"></span>
+                            <textarea name="remark" id="remark_sale_chance" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
+                        </div>
+                        <div class="u-submitButton">
+                            <button onclick="public_pool_add_sale_chance(0)">保存并添加下一客户</button>
+                            <button onclick="public_pool_add_sale_chance(3)">保存</button>
+                            <button onclick="public_pool_add_sale_chance(1)">上一步</button>
+                            <button onclick="public_pool_removeNewClient()">取消</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <script src="/crm/js/public_pool.js"></script>
+    </div>
+    <div class="public_pool_panel customer_general hide">
+    </div>
+    <div class="public_pool_panel customer_info hide">
+    </div>
+    <div class="public_pool_panel customer_contact hide">
+    </div>
+    <div class="public_pool_panel customer_sale_chance hide">
+    </div>
+    <div class="public_pool_panel customer_trace hide">
+    </div>
+</div>
+<link rel="stylesheet" href="/crm/css/index.css"/>
+<link rel="stylesheet" href="/crm/css/table.css" />
+<link rel="stylesheet" href="/crm/css/form.css" />
+<link rel="stylesheet" href="/crm/css/divBlock.css" />

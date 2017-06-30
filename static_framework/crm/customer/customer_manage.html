@@ -1,0 +1,369 @@
+<div class="crm_customer crm_customer_manage">
+    <div class="customer_manage_panel customer_manage">
+        <!--客户列表-->
+        <section id="myAllClientsPage" >
+            <ul class="m-secNav">
+                <li class="vertical"></li>
+                <li>导出</li>
+                <li>删除</li>
+                <li>重分</li>
+                <li>更改可见范围</li>
+                <li>强制释放</li>
+                <div class="clearfix"></div>
+            </ul>
+            <div class="m-filterNav">
+                <select id="customer_manage_search_belongs_to">
+                    <option value="">客户级别</option>
+                    <option value="A" >A</option>
+                    <option value="B" >B</option>
+                    <option value="C" >C</option>
+                    <option value="D" >D</option>
+                </select>
+                <select id="customer_manage_search_resource_from">
+                    <option value="">客户来源</option>
+                    <option value="1" >员工添加</option>
+                    <option value="2" >批量导入</option>
+                    <option value="3" >员工搜集</option>
+                </select>
+                <select id="customer_manage_search_comm_status">
+                    <option value="">沟通结果</option>
+                    <option value="1" >无意向</option>
+                    <option value="2" >号码无效</option>
+                    <option value="3" >资料有误</option>
+                    <option value="4" >未接通</option>
+                    <option value="5" >待定</option>
+                    <option value="6" >有意向</option>
+                </select>
+                <select id="customer_manage_search_take_type">
+                    <option value="">获取途径</option>
+                    <option value="1" >转介绍</option>
+                    <option value="2" >搜索</option>
+                    <option value="3" >购买</option>
+                </select>
+                <input type="text" id="customer_manage_search_tracer" placeholder="请输入跟踪人" value=""/>
+                <input type="text" id="customer_manage_search_guardian" placeholder="请输入维护人" value=""/>
+                <input type="text" id="customer_manage_search_add_man" placeholder="请输入添加人" value=""/>
+                <button onclick="customer_manage_search(1,20);" class="u-btnSearch">查询</button>
+            </div>
+            <div class="m-tableBox">
+                <div class="m-table table2">
+                    <ul class="u-tabTitle">
+                        <li class="u-tabCheckbox"><input type="checkbox"/></li>
+                        <li>客户名称<i class="fa fa-caret-down"></i></li>
+                        <li>客户级别<i class="fa fa-unsorted"></i></li>
+                        <li>客户状态</li>
+                        <li>客户来源</li>
+                        <li>可见范围</li>
+                        <li>跟踪人</li>
+                        <li>维护人</li>
+                        <li>添加人</li>
+                        <li>添加时间<i class="fa fa-unsorted"></i></li>
+                        <li>沟通结果<i class="fa fa-unsorted"></i></li>
+                        <li>获取途径</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="27"/></li>
+                        <li onclick="customer_manage_general('27','customer_manage');" class="u-tabCilentName">测试测试</li>
+                        <li>A</li>
+                        <li>未申领</li>
+                        <li>转介绍</li>
+                        <li>全公司</li>
+                        <li></li>
+                        <li></li>
+                        <li>曹鑫鑫</li>
+                        <li>1498705429</li>
+                        <li>无意向</li>
+                        <li>无</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="26"/></li>
+                        <li onclick="customer_manage_general('26','customer_manage');" class="u-tabCilentName">说大哥散发的该</li>
+                        <li>B</li>
+                        <li>跟进中</li>
+                        <li>转介绍</li>
+                        <li>全公司</li>
+                        <li>曹鑫鑫</li>
+                        <li></li>
+                        <li>曹鑫鑫</li>
+                        <li>1498674183</li>
+                        <li>无</li>
+                        <li>无</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="25"/></li>
+                        <li onclick="customer_manage_general('25','customer_manage');" class="u-tabCilentName">李灰</li>
+                        <li>A</li>
+                        <li>未申领</li>
+                        <li>无</li>
+                        <li>全公司</li>
+                        <li></li>
+                        <li></li>
+                        <li>曹鑫鑫</li>
+                        <li>1498630504</li>
+                        <li>无</li>
+                        <li>无</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="24"/></li>
+                        <li onclick="customer_manage_general('24','customer_manage');" class="u-tabCilentName">李太白</li>
+                        <li>A</li>
+                        <li>未申领</li>
+                        <li>无</li>
+                        <li>全公司</li>
+                        <li></li>
+                        <li></li>
+                        <li>曹鑫鑫</li>
+                        <li>1498630369</li>
+                        <li>无</li>
+                        <li>无</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="23"/></li>
+                        <li onclick="customer_manage_general('23','customer_manage');" class="u-tabCilentName">陆游7</li>
+                        <li>A</li>
+                        <li>未申领</li>
+                        <li>无</li>
+                        <li>全公司</li>
+                        <li></li>
+                        <li></li>
+                        <li>曹鑫鑫</li>
+                        <li>1498626575</li>
+                        <li>无</li>
+                        <li>无</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="22"/></li>
+                        <li onclick="customer_manage_general('22','customer_manage');" class="u-tabCilentName">陆游6</li>
+                        <li>A</li>
+                        <li>未申领</li>
+                        <li>无</li>
+                        <li>全公司</li>
+                        <li></li>
+                        <li></li>
+                        <li>曹鑫鑫</li>
+                        <li>1498626570</li>
+                        <li>无</li>
+                        <li>无</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="21"/></li>
+                        <li onclick="customer_manage_general('21','customer_manage');" class="u-tabCilentName">陆游5</li>
+                        <li>A</li>
+                        <li>未申领</li>
+                        <li>无</li>
+                        <li>全公司</li>
+                        <li></li>
+                        <li></li>
+                        <li>曹鑫鑫</li>
+                        <li>1498626564</li>
+                        <li>无</li>
+                        <li>无</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="20"/></li>
+                        <li onclick="customer_manage_general('20','customer_manage');" class="u-tabCilentName">陆游4</li>
+                        <li>A</li>
+                        <li>未申领</li>
+                        <li>无</li>
+                        <li>全公司</li>
+                        <li></li>
+                        <li></li>
+                        <li>曹鑫鑫</li>
+                        <li>1498626558</li>
+                        <li>无</li>
+                        <li>无</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="19"/></li>
+                        <li onclick="customer_manage_general('19','customer_manage');" class="u-tabCilentName">陆游3</li>
+                        <li>A</li>
+                        <li>未申领</li>
+                        <li>无</li>
+                        <li>全公司</li>
+                        <li></li>
+                        <li></li>
+                        <li>曹鑫鑫</li>
+                        <li>1498626536</li>
+                        <li>无</li>
+                        <li>无</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="18"/></li>
+                        <li onclick="customer_manage_general('18','customer_manage');" class="u-tabCilentName">陆游2</li>
+                        <li>A</li>
+                        <li>未申领</li>
+                        <li>无</li>
+                        <li>全公司</li>
+                        <li></li>
+                        <li></li>
+                        <li>曹鑫鑫</li>
+                        <li>1498626529</li>
+                        <li>无</li>
+                        <li>无</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="17"/></li>
+                        <li onclick="customer_manage_general('17','customer_manage');" class="u-tabCilentName">陆游1</li>
+                        <li>A</li>
+                        <li>未申领</li>
+                        <li>无</li>
+                        <li>全公司</li>
+                        <li></li>
+                        <li></li>
+                        <li>曹鑫鑫</li>
+                        <li>1498626523</li>
+                        <li>无</li>
+                        <li>无</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="16"/></li>
+                        <li onclick="customer_manage_general('16','customer_manage');" class="u-tabCilentName">陆游</li>
+                        <li>A</li>
+                        <li>未申领</li>
+                        <li>无</li>
+                        <li>全公司</li>
+                        <li></li>
+                        <li></li>
+                        <li>曹鑫鑫</li>
+                        <li>1498626513</li>
+                        <li>无</li>
+                        <li>无</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="15"/></li>
+                        <li onclick="customer_manage_general('15','customer_manage');" class="u-tabCilentName">山东光大电子机械设备自动化回收绿色环保有限公司</li>
+                        <li>B</li>
+                        <li>未申领</li>
+                        <li>转介绍</li>
+                        <li>全公司</li>
+                        <li></li>
+                        <li></li>
+                        <li>曹鑫鑫</li>
+                        <li>1498656606</li>
+                        <li>无</li>
+                        <li>无</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="11"/></li>
+                        <li onclick="customer_manage_general('11','customer_manage');" class="u-tabCilentName">山东中迅网络传媒有限公司</li>
+                        <li>A</li>
+                        <li>跟进中</li>
+                        <li>转介绍</li>
+                        <li>全公司</li>
+                        <li>曹鑫鑫</li>
+                        <li></li>
+                        <li>李洪金</li>
+                        <li>1495527860</li>
+                        <li>无意向</li>
+                        <li>转介绍</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="4"/></li>
+                        <li onclick="customer_manage_general('4','customer_manage');" class="u-tabCilentName">王昌龄</li>
+                        <li></li>
+                        <li>未申领</li>
+                        <li>转介绍</li>
+                        <li>全公司</li>
+                        <li>孙大鹏</li>
+                        <li></li>
+                        <li>王启文</li>
+                        <li>0</li>
+                        <li>无</li>
+                        <li>无</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="3"/></li>
+                        <li onclick="customer_manage_general('3','customer_manage');" class="u-tabCilentName">白居易</li>
+                        <li></li>
+                        <li>未申领</li>
+                        <li>转介绍</li>
+                        <li>全公司</li>
+                        <li>王启文</li>
+                        <li></li>
+                        <li>王启文</li>
+                        <li>0</li>
+                        <li>无</li>
+                        <li>无</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="2"/></li>
+                        <li onclick="customer_manage_general('2','customer_manage');" class="u-tabCilentName">杜甫</li>
+                        <li></li>
+                        <li>未申领</li>
+                        <li>转介绍</li>
+                        <li>全公司</li>
+                        <li>李洪金</li>
+                        <li></li>
+                        <li>王启文</li>
+                        <li>0</li>
+                        <li>无</li>
+                        <li>无</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="1"/></li>
+                        <li onclick="customer_manage_general('1','customer_manage');" class="u-tabCilentName">李白</li>
+                        <li></li>
+                        <li>跟进中</li>
+                        <li>转介绍</li>
+                        <li>全公司</li>
+                        <li>史学鹏</li>
+                        <li></li>
+                        <li>王启文</li>
+                        <li>0</li>
+                        <li>无</li>
+                        <li>无</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                    </div>
+            </div>
+            <div class="u-tabControlRow">
+                <span>显示行数</span>
+                <select onchange="customer_manage_listNumChange();">
+                    <option value="5" >5</option>
+                    <option value="10" >10</option>
+                    <option value="20"  selected="selected">20</option>
+                </select>
+                <span>1-18条/</span>
+                <span>共18条</span>
+                <button onclick="customer_manage_previous_page(1,20);" class="customer_manage_previous_page  disabled">上一页</button>
+                <button onclick="customer_manage_next_page(1,20,1);" class="customer_manage_next_page  disabled">下一页</button>
+                <span>前往</span>
+                <input onblur="customer_manage_jump_page(20,1);" class="customer_manage_jump_page" type="text" />
+                <span>页</span>
+            </div>
+        </section>
+        <script src="/crm/js/customer_manage.js"></script>
+    </div>
+    <div class="customer_manage_panel customer_general hide">
+    </div>
+    <div class="customer_manage_panel customer_info hide">
+    </div>
+    <div class="customer_manage_panel customer_contact hide">
+    </div>
+    <div class="customer_manage_panel customer_sale_chance hide">
+    </div>
+    <div class="customer_manage_panel customer_trace hide">
+    </div>
+</div>
+<link rel="stylesheet" href="/crm/css/index.css"/>
+<link rel="stylesheet" href="/crm/css/table.css" />
+<link rel="stylesheet" href="/crm/css/form.css" />
+<link rel="stylesheet" href="/crm/css/divBlock.css" />
