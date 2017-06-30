@@ -83,6 +83,7 @@ $("aside dl dd").click(function(){
 		var url = $(this).attr('_src');
 		loadPage(url,f);
 		$("#frames .once").width(window.innerWidth-220);
+		$("#frames .once").height(window.innerHeight-80);
 		//子标题栏长度增加
 		subResize();
 	}else{
