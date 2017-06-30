@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css"> body, html,#allmap {width: 804px;height:380px;overflow: hidden;margin:0; }
+.BMap { background: #c00}
+
+ </style>
+<script type="text/javascript" src="../js/api-v=2.0&ak=kOkmIaGKrMbxHlAtudGMvtYi.js" tppabs="http://api.map.baidu.com/api?v=2.0&ak=kOkmIaGKrMbxHlAtudGMvtYi"></script>
+<link rel="stylesheet" type="text/css" href="../css/SearchInfoWindow_min.css" tppabs="http://sdyypc.com/template/css/SearchInfoWindow_min.css">
+<script src="../js/SearchInfoWindow_min.js" tppabs="http://sdyypc.com/template/js/SearchInfoWindow_min.js"></script>
+</head>
+<body>
+<div id="allmap"></div>
+</body>
+</html>
+ 
+ 
+
+ 
+ 
+ 
+<script type="text/javascript"> 
+ 
+// 百度地图API功能
+    var map = new BMap.Map('allmap');
+    var poi = new BMap.Point(115.612205,35.357756);
+    var point = new BMap.Point(115.612205,35.357756);
+    map.centerAndZoom(point,15);
+            
+    map.setZoom(15);  //将视图切换到指定的缩放等级，中心点坐标不变
+    var  mapStyle ={ 
+        features: ["road", "building","water","land"],//隐藏地图上的poi
+        style : "dark"  //设置地图风格为高端黑
+    }
+    map.setMapStyle(mapStyle);
+        
+ 
+    
+
+    //创建检索信息窗口对象
+    
+    var pt = new BMap.Point(115.612205,35.357756);
+
+    
+    var icon = new BMap.Icon("icon_map.png"/*tpa=http://sdyypc.com/template/images/icon_map.png*/, new BMap.Size(140,118), {'anchor':new BMap.Size(85,150)});
+    
+    var marker = new BMap.Marker(pt,{icon:icon});
+    
+    
+        
+    marker.addEventListener("click", function(e){
+        searchInfoWindow.open(marker);
+    })
+    map.addOverlay(marker); //在地图中添加marker
+    $("close").onclick = function(){
+        searchInfoWindow.close();
+    }
+    $("open").onclick = function(){
+        var enableSendToPhone = false;
+        if ($("enableSendToPhone").checked) {
+            enableSendToPhone = true;
+        }
+        searchInfoWindow = new BMapLib.SearchInfoWindow(map, content, {
+            title  : "",      //标题
+            width  : 290,             //宽度
+            height : 105,              //高度
+            panel  : "panel",         //检索结果面板
+            enableAutoPan : true,     //自动平移
+            enableSendToPhone: enableSendToPhone, //是否启用发送到手机
+            searchTypes   :[
+                BMAPLIB_TAB_SEARCH,   //周边检索
+                BMAPLIB_TAB_TO_HERE,  //到这里去
+                BMAPLIB_TAB_FROM_HERE //从这里出发
+            ]
+        });
+        if ($("enableAutoPan").checked) {
+            searchInfoWindow.enableAutoPan();
+        } else {
+            searchInfoWindow.disableAutoPan();
+        };
+        searchInfoWindow.open(marker);
+    }
+    $("show").onclick = function(){
+        searchInfoWindow.show();
+    }
+    $("hide").onclick = function(){
+        searchInfoWindow.hide();
+    }
+    $("getPosition").onclick = function(){
+        var position = searchInfoWindow.getPosition();
+        alert("经度：" + position.lng + "；纬度：" + position.lat);
+    }
+    $("setValue").onclick = function(){
+        searchInfoWindow.setPosition(new BMap.Point($("lng").value, $("lat").value));
+        searchInfoWindow.setTitle($("title").value);
+        searchInfoWindow.setContent($("content").value);
+    }
+    $("getContent").onclick = function(){
+        alert(searchInfoWindow.getContent());
+    }
+    $("getTitle").onclick = function(){
+        alert(searchInfoWindow.getTitle());
+    }
+    function $(id){
+        return document.getElementById(id);
+    }
+ 
+
+
+ 
+ 
+   
+</script>
+ 
+ 
+ 
+
+ 

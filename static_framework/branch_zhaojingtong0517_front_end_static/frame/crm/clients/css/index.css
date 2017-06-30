@@ -1,0 +1,154 @@
+body{
+	background-color: white;
+	height: 810px;
+}
+header{
+	height: 40px;
+}
+ul.firNav{
+	height: 40px;
+	margin-left: 1px;
+	/*padding: 10px 0;*/ 
+	box-shadow: -1px 2px #ebedf0;
+}
+ul.firNav li{
+	float: left;
+	color: #b2b2b2;
+	height: 20px;
+	padding: 10px 0;
+	/*line-height: 20px;*/
+	/*padding: 0 10px;*/
+	/*border-right:2px solid #b2b2b2 ;*/
+}
+ul.firNav li:hover{
+	cursor: pointer;
+}
+ul.firNav li div{
+	line-height: 20px;
+	padding: 0 10px;
+	font-size: 12px;
+	border-right:2px solid #b2b2b2 ;
+}
+ul.firNav li:last-child div{
+	border: none;
+}
+ul.firNav li.current{
+	color: #333333;
+	border-bottom: 1px solid #42a5f5;
+}
+.secNav{
+	padding: 20px 6px;
+}
+.secNav li:not(.vertical){
+	float: left;
+	width: 80px;
+	height: 25px;
+	line-height: 25px;
+	font-size: 12px;
+	text-align: center;
+	margin-right: 10px;
+	border-radius: 12.5px;
+	color: #cccccc;
+	background-color: #e6e6e6;
+}
+.secNav li:not(.vertival).active{
+	color: white;
+	background-color: #42a5f5;
+}
+.vertical{
+	float: left;
+	width: 1px;
+	height: 25px;
+	margin-right: 10px;
+	background-color: #ecf0f5;
+}
+.filterNav{
+	margin-left: 4px;
+}
+.filterNav select{
+	width: 120px;
+	height: 25px;
+	box-sizing: content-box;
+	margin-right: 10px;
+	border: 1px solid #dddddd;
+}
+input[type="text"]{
+	width: 110px;
+	padding: 0 5px;
+	height: 25px;
+	box-sizing: content-box;
+	margin-right: 10px;
+	border: 1px solid #dddddd;
+	/*background-color: black;*/
+}
+button.search{
+	width: 60px;
+	height: 25px;
+	border-radius: 12.5px;
+	line-height: 25px;
+	margin-left: 10px;
+	text-align: center;
+	color: white;
+	border: none;
+	background-color: #42a5f5;
+}
+.table-box{
+	width: 100%;
+	margin-top: 20px;
+	margin-left: 4px;
+	overflow-x: auto;
+}
+.table{
+	width: 1274px;
+}
+.table ul{
+	border-bottom: 1px solid #eeeeee;
+}
+.tab-list li{
+	border-right: 1px solid #f2f2f2;
+}
+.table li{
+	float: left;
+	height: 40px;
+	width: 116px;
+	padding: 0 10px;
+	line-height: 40px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-align: left;
+}
+.table i{
+	margin-left: 10px;
+}
+.tab-title{
+	border-bottom: 2px solid #eeeeee !important;
+}
+.tab-title li{
+	color: #333333;
+	border-right: 1px solid white;
+	background-color: #f7f7f7;
+}
+.tab-list{
+	color: #666666;
+}
+.tab-1-ver{
+	text-align: center !important;
+	width: 40px !important;
+	padding: 0 !important;
+}
+.tab-2-ver{
+	color: #77b8ff;
+}
+.tab-10-ver{
+	color: #13ae6b;
+}
+.tab-16-ver span{
+	margin-right: 10px;
+	color: #77b8ff;
+}
+.control-row{
+	margin-left: 20px;
+	margin-top: 20px;
+	font-size: 14px;
+}

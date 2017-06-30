@@ -1,0 +1,102 @@
+/*=======css reset=======*/
+/**{transition:all .5s;}*/
+html{overflow-x:hidden; }
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,img{margin:0;padding:0;}
+/*body{text-align: center;}*/
+table{border-collapse:collapse;border-spacing:0}
+fieldset,img{border:0}
+address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:normal}
+ol,ul{list-style:none}
+caption,th{text-align:left}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}
+q:before,q:after{content:''}
+abbr,acronym{border:0;font-variant:normal}
+sup{vertical-align:text-top}
+sub{vertical-align:text-bottom}
+input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit}
+input,textarea,select{*font-size:100%}
+legend{color:#000}
+a{color: #333;text-decoration: none;}
+body{font-family: "Microsoft Yahei" !important; font-size: 12px; background: #f4efcf; color: #333;}
+li{list-style: none;}
+.alignright{float: right;}
+body{cursor: default;}
+.clear{clear: both;height: 0px;overflow: hidden;width: 0px;}
+/*html5 ele*/
+article, aside, dialog, footer, header, section, nav, figure, menu { display: block; }
+/*webkit scroll*/
+::-webkit-scrollbar-track-piece {background-color:#f5f5f5;border-left:1px solid #d2d2d2;}
+::-webkit-scrollbar {width:8px;height:13px;}
+::-webkit-scrollbar-thumb {background-color:#171515;background-clip:padding-box;min-height:28px;}
+::-webkit-scrollbar-thumb:hover {background-color:#7fbc23;}
+/*ie scroll*/
+@-ms-viewport {width:device-width;}
+/*padding不影响宽高*/
+/** {
+    box-sizing: border-box;
+}*/
+
+/*更改鼠标选中颜色*/
+::selection { background:#f20202; color:#fff;}
+::-moz-selection { background:#f20202; color:#fff;}
+::-webkit-selection { background:#f20202; color:#fff;}
+
+/*更多*/
+.more{}
+.more:hover{color: #ea7c1a;}
+
+/*间距*/
+.mt5{margin: 5px 0 0 0;}
+.mt10{margin: 10px 0 0 0;}
+.mt15{margin: 15px 0 0 0;}
+.mt20{margin: 20px 0 0 0;}
+.mt25{margin: 25px 0 0 0;}
+.mt30{margin: 30px 0 0 0;}
+.mt35{margin: 35px 0 0 0;}
+.mt40{margin: 40px 0 0 0;}
+.mt45{margin: 45px 0 0 0;}
+.mt50{margin: 50px 0 0 0;}
+.mt60{margin: 60px 0 0 0;}
+.mt70{margin: 70px 0 0 0;}
+.mt80{margin: 80px 0 0 0;}
+.mt90{margin: 90px 0 0 0;}
+.mb20{margin: 0 0 20px 0;}
+
+/*字体*/
+.f12 {font-size:14px;}
+.f13 {font-size:13px;}
+.f14 {font-size:14px;}
+.f16 {font-size:16px;}
+.f20 {font-size:20px;}
+.f24 {font-size:24px;}
+.f30 {font-size:30px;}
+.fb {font-weight:bold;}
+.fn {font-weight:normal;}
+.t2 {text-indent:2em;}
+.lh150 {line-height:150%;}
+.lh180 {line-height:180%;}
+.lh200 {line-height:200%;}
+.unl {text-decoration:underline;}
+.no_unl {text-decoration:none;}
+.h_unl:hover{text-decoration:underline}
+
+@font-face { 
+  font-family:'Qingke'; 
+  src: url('方正清刻本悦宋简体.ttf')/*tpa=http://xinshijibancai.com/Public/Home/pc/Css/img/方正清刻本悦宋简体.ttf*/; 
+}
+.Qingke{font-family: "Qingke";}
+@font-face { 
+  font-family:'shijian'; 
+  src: url('../font/Eagle.otf')/*tpa=http://xinshijibancai.com/Public/Home/pc/Css/img/Eagle.otf*/;
+}
+.Shijian{font-family: "Shijian";}
+/*对齐*/
+.tl {text-align:left;}
+.tc {text-align:center;}
+.tr {text-align:right;}
+.bc {margin-left:auto; margin-right:auto;}
+.fl {float:left; display:inline;}
+.fr {float:right; display:inline;}
+
+
+.wrap{width:1200px;margin:0 auto;clear: both;}
