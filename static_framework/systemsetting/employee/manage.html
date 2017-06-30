@@ -1,0 +1,499 @@
+<div class="crm_customer sys_employee_list">
+    <div class="employee_list_panel employee_list">
+        <!--员工列表-->
+        <section id="myAllClientsPage" >
+            <ul class="m-secNav">
+                <li class="active" onclick="employee_list_newClient();">新建员工</li>
+                <li class="active">批量导入</li>
+                <li class="active">导入记录</li>
+                <li class="vertical"></li>
+                <li>导出</li>
+                <li>删除</li>
+                <div class="clearfix"></div>
+            </ul>
+            <div class="m-filterNav">
+                <select id="employee_list_search_structure">
+                    <option value="">直属部门</option>
+                    <option value="1" >员工添加</option>
+                    <option value="2" >批量导入</option>
+                    <option value="3" >员工搜集</option>
+                </select>
+                <select id="employee_list_search_role">
+                    <option value="">角色</option>
+                    <option value="1" >转介绍</option>
+                    <option value="2" >指定人</option>
+                    <option value="3" >指定部门</option>
+                </select>
+                <select id="employee_list_search_on_duty">
+                    <option value="">状态</option>
+                    <option value="1" >在职</option>
+                    <option value="2" >休假</option>
+                </select>
+                <input type="text" id="employee_list_search_worknum" placeholder="输入工号" value=""/>
+                <input type="text" id="employee_list_search_truename" placeholder="输入姓名" value=""/>
+                <button onclick="employee_list_search(1,20);" class="u-btnSearch">查询</button>
+            </div>
+            <div class="m-tableBox">
+                <div class="m-table table2">
+                    <ul class="u-tabTitle">
+                        <li class="u-tabCheckbox"><input type="checkbox"/></li>
+                        <li>工号<i class="fa fa-unsorted"></i></li>
+                        <li>姓名</li>
+                        <li>直属部门<i class="fa fa-unsorted"></i></li>
+                        <li>联系方式</li>
+                        <li>是否领导<i class="fa fa-unsorted"></i></li>
+                        <li>角色<i class="fa fa-unsorted"></i></li>
+                        <li>状态</li>
+                        <li>创建时间<i class="fa fa-unsorted"></i></li>
+                        <li>操作</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="68"/></li>
+                        <li>NO.000022</li>
+                        <li>随便</li>
+                        <li>总公司</li>
+                        <li>15656565656</li>
+                        <li>否</li>
+                        <li>董事长</li>
+                        <li>1</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('68');">详情</span>
+                            <span onclick="employee_list_edit('68');">编辑</span>
+                            <span onclick="employee_list_del('68',1,20);">删除</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="67"/></li>
+                        <li>NO.000021</li>
+                        <li>测试哈哈</li>
+                        <li>总公司</li>
+                        <li>15678987654</li>
+                        <li>否</li>
+                        <li>董事长</li>
+                        <li>1</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('67');">详情</span>
+                            <span onclick="employee_list_edit('67');">编辑</span>
+                            <span onclick="employee_list_del('67',1,20);">删除</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="66"/></li>
+                        <li>NO.000020</li>
+                        <li>测试哈</li>
+                        <li>总公司</li>
+                        <li>15678987656</li>
+                        <li>否</li>
+                        <li>董事长</li>
+                        <li>1</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('66');">详情</span>
+                            <span onclick="employee_list_edit('66');">编辑</span>
+                            <span onclick="employee_list_del('66',1,20);">删除</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="63"/></li>
+                        <li>NO.000019</li>
+                        <li>都是发生的</li>
+                        <li>总公司</li>
+                        <li>13366666666</li>
+                        <li>否</li>
+                        <li>董事长</li>
+                        <li>1</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('63');">详情</span>
+                            <span onclick="employee_list_edit('63');">编辑</span>
+                            <span onclick="employee_list_del('63',1,20);">删除</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="62"/></li>
+                        <li>NO.000018</li>
+                        <li>Tom</li>
+                        <li>总公司</li>
+                        <li>18012121212</li>
+                        <li>否</li>
+                        <li>分公司总经理</li>
+                        <li>1</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('62');">详情</span>
+                            <span onclick="employee_list_edit('62');">编辑</span>
+                            <span onclick="employee_list_del('62',1,20);">删除</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="61"/></li>
+                        <li>NO.000017</li>
+                        <li>xiaomei</li>
+                        <li>总公司</li>
+                        <li>13345021410</li>
+                        <li>否</li>
+                        <li>部门经理</li>
+                        <li>1</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('61');">详情</span>
+                            <span onclick="employee_list_edit('61');">编辑</span>
+                            <span onclick="employee_list_del('61',1,20);">删除</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="60"/></li>
+                        <li>NO.000016</li>
+                        <li>小美3</li>
+                        <li>销售三部</li>
+                        <li>13345021409</li>
+                        <li>否</li>
+                        <li>职员</li>
+                        <li>1</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('60');">详情</span>
+                            <span onclick="employee_list_edit('60');">编辑</span>
+                            <span onclick="employee_list_del('60',1,20);">删除</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="59"/></li>
+                        <li>NO.000015</li>
+                        <li>小美2</li>
+                        <li>销售三部</li>
+                        <li>13345021408</li>
+                        <li>否</li>
+                        <li>部门经理</li>
+                        <li>1</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('59');">详情</span>
+                            <span onclick="employee_list_edit('59');">编辑</span>
+                            <span onclick="employee_list_del('59',1,20);">删除</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="58"/></li>
+                        <li>NO.000014</li>
+                        <li>小美1</li>
+                        <li>销售二部</li>
+                        <li>13345021407</li>
+                        <li>否</li>
+                        <li>分公司总经理</li>
+                        <li>1</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('58');">详情</span>
+                            <span onclick="employee_list_edit('58');">编辑</span>
+                            <span onclick="employee_list_del('58',1,20);">删除</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="57"/></li>
+                        <li>NO.000013</li>
+                        <li>小美0</li>
+                        <li>销售二部</li>
+                        <li>13345021406</li>
+                        <li>否</li>
+                        <li>大区经理</li>
+                        <li>1</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('57');">详情</span>
+                            <span onclick="employee_list_edit('57');">编辑</span>
+                            <span onclick="employee_list_del('57',1,20);">删除</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="51"/></li>
+                        <li>NO.000012</li>
+                        <li>测试测试</li>
+                        <li>总公司</li>
+                        <li>13399999997</li>
+                        <li>否</li>
+                        <li>总裁</li>
+                        <li>1</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('51');">详情</span>
+                            <span onclick="employee_list_edit('51');">编辑</span>
+                            <span onclick="employee_list_del('51',1,20);">删除</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="11"/></li>
+                        <li>NO.000011</li>
+                        <li>董倩</li>
+                        <li>潍坊中迅</li>
+                        <li>13311119999</li>
+                        <li>否</li>
+                        <li>董事长</li>
+                        <li>1</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('11');">详情</span>
+                            <span onclick="employee_list_edit('11');">编辑</span>
+                            <span onclick="employee_list_del('11',1,20);">删除</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="10"/></li>
+                        <li>NO.000010</li>
+                        <li>张雨</li>
+                        <li>潍坊中迅</li>
+                        <li>13311118888</li>
+                        <li>否</li>
+                        <li>部门经理</li>
+                        <li>1</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('10');">详情</span>
+                            <span onclick="employee_list_edit('10');">编辑</span>
+                            <span onclick="employee_list_del('10',1,20);">删除</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="9"/></li>
+                        <li>NO.000009</li>
+                        <li>李华宝</li>
+                        <li>总公司</li>
+                        <li>13311116666</li>
+                        <li>否</li>
+                        <li>董事长</li>
+                        <li>1</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('9');">详情</span>
+                            <span onclick="employee_list_edit('9');">编辑</span>
+                            <span onclick="employee_list_del('9',1,20);">删除</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="8"/></li>
+                        <li>NO.000008</li>
+                        <li>史学鹏</li>
+                        <li>潍坊中迅</li>
+                        <li>13311115555</li>
+                        <li>否</li>
+                        <li>大区经理</li>
+                        <li>1</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('8');">详情</span>
+                            <span onclick="employee_list_edit('8');">编辑</span>
+                            <span onclick="employee_list_del('8',1,20);">删除</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="7"/></li>
+                        <li>NO.000007</li>
+                        <li>赵婧彤</li>
+                        <li>潍坊中迅</li>
+                        <li>13311113333</li>
+                        <li>否</li>
+                        <li>总裁</li>
+                        <li>1</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('7');">详情</span>
+                            <span onclick="employee_list_edit('7');">编辑</span>
+                            <span onclick="employee_list_del('7',1,20);">删除</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="6"/></li>
+                        <li>NO.000006</li>
+                        <li>肖文昌</li>
+                        <li>潍坊中迅</li>
+                        <li>13311111111</li>
+                        <li>否</li>
+                        <li>董事长</li>
+                        <li>1</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('6');">详情</span>
+                            <span onclick="employee_list_edit('6');">编辑</span>
+                            <span onclick="employee_list_del('6',1,20);">删除</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="5"/></li>
+                        <li>NO.000005</li>
+                        <li>张晓阳</li>
+                        <li>华北大区</li>
+                        <li>13322226666</li>
+                        <li>否</li>
+                        <li>部门经理</li>
+                        <li>1</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('5');">详情</span>
+                            <span onclick="employee_list_edit('5');">编辑</span>
+                            <span onclick="employee_list_del('5',1,20);">删除</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="4"/></li>
+                        <li>NO.000004</li>
+                        <li>孙大鹏</li>
+                        <li>华北大区</li>
+                        <li>13322225555</li>
+                        <li>否</li>
+                        <li>分公司总经理</li>
+                        <li>1</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('4');">详情</span>
+                            <span onclick="employee_list_edit('4');">编辑</span>
+                            <span onclick="employee_list_del('4',1,20);">删除</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="3"/></li>
+                        <li>NO.000003</li>
+                        <li>曹鑫鑫</li>
+                        <li>潍坊中迅</li>
+                        <li>13311112222</li>
+                        <li>否</li>
+                        <li>大区经理</li>
+                        <li>1</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('3');">详情</span>
+                            <span onclick="employee_list_edit('3');">编辑</span>
+                            <span onclick="employee_list_del('3',1,20);">删除</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                    </div>
+            </div>
+            <div class="u-tabControlRow">
+                <span>显示行数</span>
+                <select onchange="employee_list_listNumChange();">
+                    <option value="5" >5</option>
+                    <option value="10" >10</option>
+                    <option value="20"  selected="selected">20</option>
+                </select>
+                <span>1-20条/</span>
+                <span>共23条</span>
+                <button onclick="employee_list_previous_page(1,20);" class="employee_list_previous_page  disabled">上一页</button>
+                <button onclick="employee_list_next_page(1,20,2);" class="employee_list_next_page ">下一页</button>
+                <span>前往</span>
+                <input onblur="employee_list_jump_page(20,2);" class="employee_list_jump_page" type="text" />
+                <span>页</span>
+            </div>
+        </section>
+
+        <!--黑色遮罩-->
+        <section id="employee_list_blackBg" class="hide page-client"></section>
+
+        <!--新建员工-->
+        <section id="employee_list_newClient" class="newClient hide page-client">
+            <header>
+                <h1>新建员工<i class="fa fa-close fa-2x" onclick="employee_list_removeNewClient()"></i></h1>
+            </header>
+            <div class="m-formBox m-form">
+                <form id="employee_list_newClientForm" class="newClientForm" onsubmit="return false;">
+                    <div id="form2" class="">
+                        <div>
+                            <span class="cont">姓名</span>
+                            <input type="text" name="truename" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入联系人姓名" />
+
+                            <span class="cont">直属部门</span>
+                            <input type="text" name="struct_id" pattern="[\d\D]{0,16}" title="最多填写16位字符" placeholder="请输入所属部门" />
+
+                        </div>
+                        <div>
+                            <span class="cont">昵称</span>
+                            <input type="text" name="nickname" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入昵称" />
+
+                            <span class="cont">工号</span>
+                            <input type="text" name="worknum" pattern="[\d\D]{0,10}" title="最多填写10位字符" placeholder="请输入工号" />
+
+                        </div>
+                        <div style="height: 30px;">
+                            <span class="cont">性别</span>
+                            <input type="radio" name="gender" value="1" checked="checked"/>男
+                            <input type="radio" name="gender" value="0" />女
+
+                            <span class="cont" style="margin-left: 216px;">是否领导</span>
+                            <div class="u-inlineRadio">
+                                <input type="radio" name="is_leader" value="1" />是
+                                <input type="radio" name="is_leader" value="0" checked="checked"/>否
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="cont">手机号</span>
+                            <input type="text" name="telephone" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码" />
+                            <span class="cont">邮箱</span>
+                            <input type="email" name="email" placeholder="请输入邮箱" />
+                        </div>
+                        <div>
+                            <span class="cont">座机号</span>
+                            <input type="text" name="wired_phone" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码" />
+                            <span class="cont">QQ号</span>
+                            <input type="text" name="qqnum" pattern="[\d]{0,10}" title="请写正确格式" placeholder="请输入QQ号" />
+
+                        </div>
+                        <div>
+                            <span class="cont">分机号</span>
+                            <input type="text" name="part_phone" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码" />
+
+                            <span class="cont">微信号</span>
+                            <input type="text" name="wechat" pattern="[\d\D]{0,40}" title="最多填写40位字符" placeholder="请输入微信号" />
+                        </div>
+
+                        <div>
+                            <span class="cont">员工状态</span>
+                            <select name="on_duty">
+                                <option value="1">在职</option>
+                                <option value="2">休假</option>
+                            </select>
+                            <span class="cont">职位</span>
+                            <select name="role">
+                                <option value="1">请选择</option>
+                            </select>
+                        </div>
+                        <p class="p5">
+                            <input type="submit" onclick="employee_list_add_employee();" value="确定" />
+                            <button onclick="employee_list_removeNewClient();">取消</button>
+                        </p>
+
+                    </div>
+                </form>
+            </div>
+        </section>
+        <script src="/systemsetting/js/employee_list.js"></script>
+    </div>
+    <div class="employee_list_panel employee_info hide">
+    </div>
+</div>
+<link rel="stylesheet" href="/crm/css/index.css"/>
+<link rel="stylesheet" href="/crm/css/table.css" />
+<link rel="stylesheet" href="/crm/css/form.css" />
+<link rel="stylesheet" href="/crm/css/divBlock.css" />
+<link rel="stylesheet" href="/systemsetting/css/employeelist.css" />
