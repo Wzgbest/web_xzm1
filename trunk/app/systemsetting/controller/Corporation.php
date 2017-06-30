@@ -42,44 +42,48 @@ class Corporation extends Initialize
     }
 
     /**
-     * 修改公司信息
+     * 修改公司信息页面
      * @return mixed
      * created by messhair
      */
-    public function editCorpInfo(Request $request)
-    {
-        if ($request->isGet()) {
-            $this->_showCorpInfo();
-            return view();
-        } elseif ($request->isPost()) {
-            $info = ['status'=>0,"message"=>"修改公司信息时发生错误!"];
-            $input = $request->param();
+    public function editCorpInfo(){
+        $this->_showCorpInfo();
+        return view();
+    }
 
-            if (empty($this->corp_id) || empty($input['corp_name']) ||empty($input['corp_tel']) || empty($input['corp_field'])) {
-                $info['message'] = '参数错误!';
-                return $info;
-            }
+    /**
+     * 修改公司信息
+     * @return mixed
+     * created by blu10ph
+     */
+    public function updateCorpInfo(Request $request){
+        $info = ['status'=>0,"message"=>"修改公司信息时发生错误!"];
+        $input = $request->param();
 
-            $data = [
-                'corp_name' => $input['corp_name'],
-                'corp_tel' => $input['corp_tel'],
-                'corp_website' => $input['corp_web'],
-                'corp_address' => $input['corp_addr'],
-                'corp_dist' => $input['corp_dist'],
-                'corp_field' => $input['corp_field'],
-                'corp_product_keys' => $input['corp_product_keys'],
-            ];
-
-            $corpM = new CorporationModel();
-            $res = $corpM->setCorporationInfo($this->corp_id,$data);
-            if ($res >= 0) {
-                $info['status'] = 1;
-                $info['message'] = '修改公司信息成功';
-            } else {
-                $info['message'] = '修改公司信息失败';
-            }
+        if (empty($this->corp_id) || empty($input['corp_name']) ||empty($input['corp_tel']) || empty($input['corp_field'])) {
+            $info['message'] = '参数错误!';
             return $info;
         }
+
+        $data = [
+            'corp_name' => $input['corp_name'],
+            'corp_tel' => $input['corp_tel'],
+            'corp_website' => $input['corp_web'],
+            'corp_address' => $input['corp_addr'],
+            'corp_dist' => $input['corp_dist'],
+            'corp_field' => $input['corp_field'],
+            'corp_product_keys' => $input['corp_product_keys'],
+        ];
+
+        $corpM = new CorporationModel();
+        $res = $corpM->setCorporationInfo($this->corp_id,$data);
+        if ($res >= 0) {
+            $info['status'] = 1;
+            $info['message'] = '修改公司信息成功';
+        } else {
+            $info['message'] = '修改公司信息失败';
+        }
+        return $info;
     }
 
     /**
