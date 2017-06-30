@@ -1,8 +1,8 @@
 <div class="customer_setting_list">
     <div id="content">
-        {volist name="listdata" id="vo" key="key"}
+        {volist name="listdata" id="vo"}
             <div>
-                <h4>客户设置{$key}</h4>
+                <h4>{$vo.setting_name}</h4>
                 {volist name="vo.set_to_structure_arr" id="svo" length="4"}
                     <p>{$structure_name[$svo]}</p>
                 {/volist}
