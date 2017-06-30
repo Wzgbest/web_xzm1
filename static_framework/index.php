@@ -1,18 +1,17 @@
 <?PHP
-define('DS', DIRECTORY_SEPARATOR);
-$request_uri_array = explode(DS,$_SERVER["REQUEST_URI"]);
+$request_uri_array = explode("/",$_SERVER["REQUEST_URI"]);
 $file_url = "";
-if($_SERVER["REQUEST_URI"]==DS){
+if($_SERVER["REQUEST_URI"]=="/"){
 	$request_uri_array = ["","index","index","index"];
 }
 if(count($request_uri_array)>=4){
 	session_start();
-	$file_url = ".".DS.$request_uri_array[1].DS.$request_uri_array[2];
+	$file_url = "./".$request_uri_array[1]."/".$request_uri_array[2];
 	$file_array = explode(",",$request_uri_array[3]);
 	if(count($file_array)==2 && $file_array[1]=='html'){
-		$file_url .= DS.$request_uri_array[3];
+		$file_url .= "/".$request_uri_array[3];
 	}else{
-		$file_url .= DS.$request_uri_array[3].".html";
+		$file_url .= "/".$request_uri_array[3].".html";
 	}
 	$file_url = strtolower($file_url);
 	if($file_url=="./login/index/verifylogin.html"){
