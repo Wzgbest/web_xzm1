@@ -19,11 +19,16 @@ use app\systemsetting\model\CustomerSetting;
 use app\common\model\Business;
 
 class Customer extends Initialize{
+    var $paginate_list_rows = 10;
+    public function _initialize(){
+        parent::_initialize();
+        $this->paginate_list_rows = config("paginate.list_rows");
+    }
     public function index(){
         echo "crm/customer/index";
     }
     public function customer_manage(){
-        $num = input('num',20,'int');
+        $num = input('num',$this->paginate_list_rows,'int');
         $p = input("p",1,"int");
         $customers_count=0;
         $start_num = ($p-1)*$num;
@@ -57,7 +62,7 @@ class Customer extends Initialize{
         return view();
     }
     public function my_customer(){
-        $num = input('num',20,'int');
+        $num = input('num',$this->paginate_list_rows,'int');
         $p = input("p",1,"int");
         $customers_count=0;
         $start_num = ($p-1)*$num;
@@ -95,7 +100,7 @@ class Customer extends Initialize{
         return view();
     }
     public function public_customer_pool(){
-        $num = input('num',20,'int');
+        $num = input('num',$this->paginate_list_rows,'int');
         $p = input("p",1,"int");
         $customers_count=0;
         $start_num = ($p-1)*$num;
@@ -202,8 +207,7 @@ class Customer extends Initialize{
     public function manage(){
         //TODO 管理员权限验证?
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
-        $num = input('num',0,'int');
-        $num = $num?:20;
+        $num = input('num',$this->paginate_list_rows,'int');
         $p = input("p",0,"int");
         $p = $p?:1;
         $order = input("order","id","string");
@@ -245,8 +249,7 @@ class Customer extends Initialize{
     }
     protected function public_pool(){
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
-        $num = input('num',0,'int');
-        $num = $num?:20;
+        $num = input('num',$this->paginate_list_rows,'int');
         $p = input("p",0,"int");
         $p = $p?:1;
         $order = input("order","id","string");
@@ -268,8 +271,7 @@ class Customer extends Initialize{
     }
     protected function anonymous_pool(){
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
-        $num = input('num',0,'int');
-        $num = $num?:20;
+        $num = input('num',$this->paginate_list_rows,'int');
         $p = input("p",0,"int");
         $p = $p?:1;
         $order = input("order","id","string");
@@ -291,8 +293,7 @@ class Customer extends Initialize{
     }
     public function self(){
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
-        $num = input('num',0,'int');
-        $num = $num?:20;
+        $num = input('num',$this->paginate_list_rows,'int');
         $p = input("p",0,"int");
         $p = $p?:1;
         $order = input("order","id","string");
@@ -315,8 +316,7 @@ class Customer extends Initialize{
     public function subordinate(){
         //TODO 权限验证?
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
-        $num = input('num',0,'int');
-        $num = $num?:20;
+        $num = input('num',$this->paginate_list_rows,'int');
         $p = input("p",0,"int");
         $p = $p?:1;
         $order = input("order","id","string");
@@ -338,8 +338,7 @@ class Customer extends Initialize{
     }
     public function pending(){//TODO
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
-        $num = input('num',0,'int');
-        $num = $num?:20;
+        $num = input('num',$this->paginate_list_rows,'int');
         $p = input("p",0,"int");
         $p = $p?:1;
         $order = input("order","id","string");

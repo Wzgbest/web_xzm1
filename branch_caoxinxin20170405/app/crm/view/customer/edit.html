@@ -2,17 +2,18 @@
 <section class="page-info">
     <header>
         <ul class="m-firNav">
-            <li onclick="{$fr}_list_show_list();" class="current"><div>我的所有客户（<span>160</span>）</div></li>
-            <i class="fa fa-angle-right fa-2x"></i><span class="u-spanInfo">详情</span>
+            <li class="current back"><div>我的所有客户（<span>160</span>）</div></li>
+            <i class="fa fa-angle-right fa-2x"></i>
+            <span class="u-spanInfo">详情</span>
         </ul>
     </header>
     <ul class="m-pageInfoNav">
         <div class="clearfix"></div>
-        <li onclick="{$fr}_general('{$id}');">概要</li>
+        <li class="customer_general_show">概要</li>
         <li class="current">客户信息</li>
-        <li onclick="{$fr}_contact_show('{$id}')">联系人（{$customer_contact_num}）</li>
-        <li onclick="{$fr}_sale_chance_show('{$id}')">销售机会（{$sale_chance_num}）</li>
-        <li onclick="{$fr}_trace_show('{$id}')">跟踪记录（{$customer_trace_num}）</li>
+        <li class="customer_contact_show">联系人（{$customer_contact_num}）</li>
+        <li class="customer_sale_chance_show">销售机会（{$sale_chance_num}）</li>
+        <li class="customer_trace_show">跟踪记录（{$customer_trace_num}）</li>
         <div class="clearfix"></div>
     </ul>
     <form id="newClientForm" class="{$fr}_edit" onsubmit="return false;">
@@ -101,8 +102,8 @@
                 <textarea name="remark" id="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注">{$customer.remark}</textarea>
             </div>
             <div class="u-submitButton">
-                <button onclick="{$fr}_edit_update('{$id}')">保存</button>
-                <button onclick="{$fr}_show('{$id}')">取消</button>
+                <button class="save customer_edit_save">保存</button>
+                <button class="cancel customer_edit_cancel">取消</button>
                 <!--<input type="submit" />-->
             </div>
         </section>
