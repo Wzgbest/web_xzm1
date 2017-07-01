@@ -2,25 +2,26 @@
 <section class="page-info">
     <header>
         <ul class="m-firNav">
-            <li onclick="{$fr}_list_show_list();" class="current"><div>我的所有客户（<span>160</span>）</div></li>
-            <i class="fa fa-angle-right fa-2x"></i><span class="u-spanInfo">详情</span>
+            <li class="current back"><div>我的所有客户（<span>160</span>）</div></li>
+            <i class="fa fa-angle-right fa-2x"></i>
+            <span class="u-spanInfo">详情</span>
         </ul>
     </header>
     <ul class="m-pageInfoNav">
         <div class="clearfix"></div>
-        <li onclick="{$fr}_general('{$customer_id}');">概要</li>
-        <li onclick="{$fr}_show('{$customer_id}')">客户信息</li>
+        <li class="customer_general_show">概要</li>
+        <li class="customer_info_show">客户信息</li>
         <li class="current">联系人（{$customer_contact_num}）</li>
-        <li onclick="{$fr}_sale_chance_show('{$customer_id}')">销售机会（{$sale_chance_num}）</li>
-        <li onclick="{$fr}_trace_show('{$customer_id}')">跟踪记录（{$customer_trace_num}）</li>
+        <li class="customer_sale_chance_show">销售机会（{$sale_chance_num}）</li>
+        <li class="customer_trace_show">跟踪记录（{$customer_trace_num}）</li>
         <div class="clearfix"></div>
     </ul>
-    <section  id="clientInfoLinkman" >
-        <div id="new-linkman" onclick="{$fr}_contact_add({$customer_id});">
+    <section id="clientInfoLinkman" class="clientInfoLinkman">
+        <div id="new-linkman" class="addClientInfoLinkman">
             <i class="fa fa-plus fa-2x"></i>
             新建联系人
         </div>
-        <div class="{$fr}_contact_add_panel hide"></div>
+        <div class="{$fr}_contact_add_panel contact_add_panel hide"></div>
         {volist name="customer_contact" id="vo"}
         <div class="m-divBlock m-form linkman {$fr}_contact_{$vo.id}">
             <div class="creat-info">
@@ -104,9 +105,10 @@
                     <span class="cont">备注：</span>
                     <span class="remark">{$vo.remark}</span>
                 </div>
-                <div onclick="{$fr}_contact_edit('{$vo.id}');" class="edit">
+                <div class="edit editlinkman">
                     <i class="fa fa-file-text fa-2x"></i>
                     <span>编辑</span>
+                    <input type="hidden" class="edit_id" value="{$vo.id}"/>
                 </div>
             </div>
         </div>

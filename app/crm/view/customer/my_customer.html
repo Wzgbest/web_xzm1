@@ -86,7 +86,7 @@
                     {volist name="listdata" id="vo"}
                     <ul class="u-tabList">
                         <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
-                        <li onclick="my_customer_general('{$vo.id}');" class="u-tabCilentName">{$vo.customer_name}</li>
+                        <li class="u-tabCilentName customer_info_name_show">{$vo.customer_name}</li>
                         <li>{$vo.take_type|getTakeTypeFromName}</li>
                         <li>{$vo.grade}</li>
                         <li>{$vo.comm_status|getCommStatusName}</li>
@@ -101,9 +101,9 @@
                         <li>{$vo.remind_time_str}</li>
                         <li>{$vo.in_column|getInColumnName}</li>
                         <li class="u-tabOperation">
-                            <span onclick="my_customer_show('{$vo.id}');">详情</span>
-                            <span onclick="my_customer_edit('{$vo.id}');">编辑</span>
-                            <span onclick="my_customer_release_customers('{$vo.id}',{$p},{$num},{$in_column});">释放</span>
+                            <span class="customer_info_show">详情</span>
+                            <span class="customer_info_edit">编辑</span>
+                            <span class="release_customers">释放</span>
                         </li>
                         <div class="clearfix"></div>
                     </ul>
@@ -126,6 +126,15 @@
                 <span>页</span>
             </div>
         </section>
+        <script src="/static/js/list.js"></script>
+        <script language="javascript">
+            var my_customer_list_manage = new list_manage("my_customer","myclietsfr","/crm/customer/my_customer",'{$p}','{$num}','{$max_page}','{$in_column}');
+        </script>
+        <script src="/crm/js/customer_info_manage.js"></script>
+        <script language="javascript">
+            var my_customer_info_manage = new customer_info_manage("my_customer","myclietsfr");
+        </script>
+        <script src="/crm/js/my_customer.js"></script>
 
         <!--黑色遮罩-->
         <section id="my_customer_blackBg" class="blackBg hide page-client"></section>
@@ -393,21 +402,18 @@
                 </form>
             </div>
         </section>
-        <script src="/static/js/list.js"></script>
-        <script language="javascript">
-            var my_customer_list_manage = new list_manage("my_customer","myclietsfr","/crm/customer/my_customer",'{$p}','{$num}','{$max_page}','{$in_column}');
-        </script>
-        <script src="/crm/js/my_customer.js"></script>
     </div>
-    <div class="my_customer_panel customer_general hide">
+    <div class="my_customer_panel customer_info_panel customer_general hide">
     </div>
-    <div class="my_customer_panel customer_info hide">
+    <div class="my_customer_panel customer_info_panel customer_info hide">
     </div>
-    <div class="my_customer_panel customer_contact hide">
+    <div class="my_customer_panel customer_info_panel customer_edit hide">
     </div>
-    <div class="my_customer_panel customer_sale_chance hide">
+    <div class="my_customer_panel customer_info_panel customer_contact hide">
     </div>
-    <div class="my_customer_panel customer_trace hide">
+    <div class="my_customer_panel customer_info_panel customer_sale_chance hide">
+    </div>
+    <div class="my_customer_panel customer_info_panel customer_trace hide">
     </div>
 </div>
 <link rel="stylesheet" href="/crm/css/index.css"/>

@@ -8,7 +8,7 @@ function list_manage(from,target,url,p,num,max,in_column){
     this.max = parseInt(max);
     this.in_column = parseInt(in_column);
 
-    //当前列表事件绑定
+    //事件绑定
     var self = this;
     $("."+this.from+" .m-firNav li").click(function(){
         var in_column = $(this).attr("in_column");
@@ -27,10 +27,10 @@ function list_manage(from,target,url,p,num,max,in_column){
     $("."+this.from+" .u-tabControlRow .next_page").click(function(){
         self.next_page();
     });
-    $("."+this.from+" .u-tabControlRow input").blur(function(){
+    /*$("."+this.from+" .u-tabControlRow input").blur(function(){
         var p = parseInt($(this).val());
         self.jump_page(p);
-    });
+    });*/
     $("."+this.from+" .u-tabControlRow input").bind('keypress',function(event){
         if(event.keyCode == "13"){
             var p = parseInt($(this).val());
