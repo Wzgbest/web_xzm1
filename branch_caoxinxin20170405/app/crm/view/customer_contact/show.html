@@ -15,12 +15,12 @@
         <li onclick="{$fr}_trace_show('{$customer_id}')">跟踪记录（{$customer_trace_num}）</li>
         <div class="clearfix"></div>
     </ul>
-    <section  id="clientInfoLinkman" >
+    <section id="clientInfoLinkman" >
         <div id="new-linkman" onclick="{$fr}_contact_add({$customer_id});">
             <i class="fa fa-plus fa-2x"></i>
             新建联系人
         </div>
-        <div class="{$fr}_contact_add_panel hide"></div>
+        <div class="{$fr}_contact_add_panel contact_add_panel hide"></div>
         {volist name="customer_contact" id="vo"}
         <div class="m-divBlock m-form linkman {$fr}_contact_{$vo.id}">
             <div class="creat-info">
