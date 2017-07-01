@@ -1,68 +1,4 @@
-$(".crm_my_customer .m-firNav li").click(function(){
-	$(".m-firNav li").removeClass("current");
-	$(this).addClass("current");
-});
-function my_customer_listNumChange(in_column){
-	//console.log($(".u-tabControlRow select").val());
-	var num = $(".my_customer .u-tabControlRow select").val();
-	my_customer_change_page(1,num,in_column);
-}
-function my_customer_previous_page(p,num,in_column){
-	if(p-1<1){
-		return;
-	}
-	my_customer_change_page(p-1,num,in_column);
-}
-function my_customer_next_page(p,num,max,in_column){
-	if(p+1>max){
-		return;
-	}
-	my_customer_change_page(p+1,num,in_column);
-}
-function my_customer_jump_page(num,max,in_column){
-	console.log($(".my_customer_jump_page").val());
-	var p = $(".my_customer_jump_page").val();
-	if(p+1>max || p-1<1){
-		return;
-	}
-	my_customer_change_page(p,num,in_column);
-}
-function my_customer_change_page(p,num,in_column){
-	loadPage(get_my_customer_url(p,num,in_column),"myclietsfr");
-}
-function my_customer_search(p,num,in_column){
-	var url = get_my_customer_url(p,num,in_column);
-	var take_type = $("#my_customer_search_take_type").val();
-	if(take_type!=""){
-		url += "/take_type/"+take_type;
-	}
-	var grade = $("#my_customer_search_grade").val();
-	if(grade!=""){
-		url += "/grade/"+grade;
-	}
-	var sale_chance = $("#my_customer_search_sale_chance").val();
-	if(sale_chance!=""){
-		url += "/sale_chance/"+sale_chance;
-	}
-	var comm_status = $("#my_customer_search_comm_status").val();
-	if(comm_status!=""){
-		url += "/comm_status/"+comm_status;
-	}
-	var customer_name = $("#my_customer_search_customer_name").val();
-	if(customer_name!=""){
-		url += "/customer_name/"+customer_name;
-	}
-	var contact_name = $("#my_customer_search_contact_name").val();
-	if(contact_name!=""){
-		url += "/contact_name/"+contact_name;
-	}
-	loadPage(url,"myclietsfr");
-}
-function get_my_customer_url(p,num,in_column){
-	return "/crm/customer/my_customer/p/"+p+"/num/"+num+"/in_column/"+in_column;
-}
-
-function my_customer_release_customers(ids,p,num,in_column){
+function my_customer_release_customers(ids){
 	$.ajax({
 		url: '/crm/customer/release_customers',
 		type: 'post',
@@ -71,7 +7,7 @@ function my_customer_release_customers(ids,p,num,in_column){
 			//console.log(data);
 			alert(data.info);
 			if(data.status) {
-				my_customer_search(p,num,in_column);
+				my_customer_list_manage.reload_list();
 			}
 		},
 		error: function() {
