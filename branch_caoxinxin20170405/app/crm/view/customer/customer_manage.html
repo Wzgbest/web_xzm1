@@ -67,7 +67,7 @@
                     {volist name="listdata" id="vo"}
                     <ul class="u-tabList">
                         <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
-                        <li onclick="customer_manage_general('{$vo.id}','customer_manage');" class="u-tabCilentName">{$vo.customer_name}</li>
+                        <li class="u-tabCilentName customer_info_name_show">{$vo.customer_name}</li>
                         <li>{$vo.grade}</li>
                         <li>{$vo.belongs_to|getBelongsToManageName}</li>
                         <li>{$vo.resource_from|getResourceFromName}</li>
@@ -109,15 +109,17 @@
         </script>
         <script src="/crm/js/customer_manage.js"></script>
     </div>
-    <div class="customer_manage_panel customer_general hide">
+    <div class="customer_manage_panel customer_info_panel customer_general hide">
     </div>
-    <div class="customer_manage_panel customer_info hide">
+    <div class="customer_manage_panel customer_info_panel customer_info hide">
     </div>
-    <div class="customer_manage_panel customer_contact hide">
+    <div class="customer_manage_panel customer_info_panel customer_edit hide">
     </div>
-    <div class="customer_manage_panel customer_sale_chance hide">
+    <div class="customer_manage_panel customer_info_panel customer_contact hide">
     </div>
-    <div class="customer_manage_panel customer_trace hide">
+    <div class="customer_manage_panel customer_info_panel customer_sale_chance hide">
+    </div>
+    <div class="customer_manage_panel customer_info_panel customer_trace hide">
     </div>
 </div>
 <link rel="stylesheet" href="/crm/css/index.css"/>

@@ -6,7 +6,6 @@ function customer_info_manage(from,target,list_manage){
 	this.target = target;
 	this.list_manage = list_manage;
 	this.panel_base = '#frames #'+this.target+' .crm_'+this.from;
-	this.hide_panel = this.panel_base+' .panel';
 	var self = this;
 
 	//事件绑定
@@ -22,29 +21,6 @@ function customer_info_manage(from,target,list_manage){
 		var id = $(this).parent().siblings().children(":checkbox").val();
 		self.edit(id);
 	});
-	$(this.panel_base+" ."+this.from+" .u-tabList .u-tabOperation .release_customers").click(function(){
-		var id = $(this).parent().siblings().children(":checkbox").val();
-		self.release_customers(id);
-	});
-
-	//列表方法
-	this.release_customers=function(ids){
-		$.ajax({
-			url: '/crm/customer/release_customers',
-			type: 'post',
-			data: "ids="+ids,
-			success: function(data) {
-				//console.log(data);
-				alert(data.info);
-				if(data.status) {
-					my_customer_list_manage.reload_list();
-				}
-			},
-			error: function() {
-				alert("释放客户时发生错误!");
-			}
-		});
-	};
 
 	//弹出框方法
 	this.close=function(){
@@ -166,7 +142,7 @@ function customer_info_manage(from,target,list_manage){
 	};
 	this.contact_show=function(id){
 		this.id = id;
-		console.log(this.id);
+		//console.log(this.id);
 		var url = "/crm/customer_contact/show/customer_id/"+id+"/fr/"+this.from;
 		var panel = this.panel_base+' .customer_contact';
 		$.ajax({
@@ -175,6 +151,13 @@ function customer_info_manage(from,target,list_manage){
 			async:false,
 			success:function (data) {
 				self.show_panel(panel,data);
+				$(panel+" .page-info .addClientInfoLinkman").click(function(){
+					self.contact_add(self.id);
+				});
+				$(panel+" .page-info .linkman .editlinkman").click(function(){
+					var edit_id = $(this).children(":input").val();
+					self.contact_edit(edit_id);
+				});
 			},
 			error:function(){
 				alert("获取联系人失败!");
@@ -191,6 +174,12 @@ function customer_info_manage(from,target,list_manage){
 			success:function (data) {
 				$(panel+' .contact_add_panel').html(data);
 				$(panel+' .contact_add_panel').removeClass("hide");
+				$(panel+" .contact_add_panel .customer_contact_add_save").click(function(){
+					self.contact_add_send(self.id);
+				});
+				$(panel+" .contact_add_panel .customer_contact_add_cancel").click(function(){
+					$(panel+" .contact_add_panel").addClass("hide");
+				});
 			},
 			error:function(){
 				alert("获取客户信息失败!");
@@ -201,7 +190,7 @@ function customer_info_manage(from,target,list_manage){
 		var panel = this.panel_base+' .customer_contact';
 		var contact_add_from = $(panel+" .contact_add_from").serialize();
 		contact_add_from += "&customer_id="+customer_id+"&fr="+this.from;
-		console.log(contact_add_from);
+		//console.log(contact_add_from);
 		$.ajax({
 			url: '/crm/customer_contact/add',
 			type: 'post',
@@ -219,7 +208,7 @@ function customer_info_manage(from,target,list_manage){
 		});
 	};
 	this.contact_edit=function(id){
-		console.log(id);
+		//console.log(id);
 		var url = "/crm/customer_contact/edit_page/id/"+id+"/fr/"+this.from;
 		var panel = this.panel_base+' .customer_contact';
 		$.ajax({
@@ -230,8 +219,16 @@ function customer_info_manage(from,target,list_manage){
 				var html = '<div class="contact_edit_panel">';
 				html+= data;
 				html+= '</div>';
-				$(panel+' .contact_'+id).addClass("hide");
-				$(panel+' .contact_'+id).before(html);
+				console.log($(panel));
+				$(panel+' .'+self.from+'_contact_'+id).addClass("hide");
+				$(panel+' .'+self.from+'_contact_'+id).before(html);
+				$(panel+" .contact_edit_panel .customer_contact_edit_save").click(function(){
+					self.contact_edit_update(id,self.id);
+				});
+				$(panel+" .contact_edit_panel .customer_contact_edit_cancel").click(function(){
+					$(panel+" .contact_edit_panel").addClass("hide");
+					$(panel+' .'+self.from+'_contact_'+id).removeClass("hide");
+				});
 			},
 			error:function(){
 				alert("获取客户信息失败!");
@@ -240,7 +237,7 @@ function customer_info_manage(from,target,list_manage){
 	};
 	this.contact_edit_update=function(id,customer_id){
 		var panel = this.panel_base+' .customer_contact';
-		var contact_edit_from = $(panel+" .contact_edit_from").serialize();
+		var contact_edit_from = $(panel+" .contact_edit_panel .contact_edit_from").serialize();
 		contact_edit_from += "&id="+id+"&fr="+this.from;
 		console.log(contact_edit_from);
 		$.ajax({

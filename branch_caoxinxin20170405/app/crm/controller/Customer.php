@@ -507,6 +507,29 @@ class Customer extends Initialize{
         $result['info'] = "查询客户列信息成功！";
         return json($result);
     }
+    public function take_public_customers_to_self(){
+        //TODO 权限验证?
+        $result = ['status'=>0 ,'info'=>"变更客户时发生错误！"];
+        $ids = input('ids/a');
+        if(!$ids){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $uid = session('userinfo.userid');
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $releaseFlg = $customerM->takeCustomers($ids,$uid);
+            //TODO add trace
+            if(!$releaseFlg){
+                exception('变更客户失败!');
+            }
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['info'] = "功能开发中！";
+        return json($result);
+    }
     public function take_customers_to_self(){
         $result = ['status'=>0 ,'info'=>"申领客户时发生错误！"];
         $ids = input('ids/a');

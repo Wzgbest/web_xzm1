@@ -16,8 +16,8 @@
         <li class="customer_trace_show">跟踪记录（{$customer_trace_num}）</li>
         <div class="clearfix"></div>
     </ul>
-    <section id="clientInfoLinkman" >
-        <div id="new-linkman" onclick="{$fr}_contact_add({$customer_id});">
+    <section id="clientInfoLinkman" class="clientInfoLinkman">
+        <div id="new-linkman" class="addClientInfoLinkman">
             <i class="fa fa-plus fa-2x"></i>
             新建联系人
         </div>
@@ -105,9 +105,10 @@
                     <span class="cont">备注：</span>
                     <span class="remark">{$vo.remark}</span>
                 </div>
-                <div onclick="{$fr}_contact_edit('{$vo.id}');" class="edit">
+                <div class="edit editlinkman">
                     <i class="fa fa-file-text fa-2x"></i>
                     <span>编辑</span>
+                    <input type="hidden" class="edit_id" value="{$vo.id}"/>
                 </div>
             </div>
         </div>
