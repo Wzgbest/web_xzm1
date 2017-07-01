@@ -47,14 +47,14 @@
                     {volist name="listdata" id="vo"}
                     <ul class="u-tabList">
                         <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
-                        <li onclick="public_pool_general('{$vo.id}');" class="u-tabCilentName">{$vo.customer_name}</li>
+                        <li class="u-tabCilentName customer_info_name_show">{$vo.customer_name}</li>
                         <li>{$vo.resource_from|getResourceFromName}</li>
                         <li>{$vo.grade}</li>
                         <li>{$vo.add_man}</li>
                         <li>{$vo.contact_name}</li>
                         <li class="u-tabLinkWay">{$vo.phone_first}<i class="fa fa-phone"></i></li>
                         <li class="u-tabOperation">
-                            <span>变更为我的客户</span>
+                            <span class="take_public_customer">变更为我的客户</span>
                         </li>
                         <div class="clearfix"></div>
                     </ul>
@@ -77,6 +77,15 @@
                 <span>页</span>
             </div>
         </section>
+        <script src="/static/js/list.js"></script>
+        <script language="javascript">
+            var public_pool_list_manage = new list_manage("public_pool","high-seafr","/crm/customer/public_customer_pool",'{$p}','{$num}','{$max_page}','0');
+        </script>
+        <script src="/crm/js/customer_info_manage.js"></script>
+        <script language="javascript">
+            var public_pool_info_manage = new customer_info_manage("public_pool","high-seafr");
+        </script>
+        <script src="/crm/js/public_pool.js"></script>
 
         <!--黑色遮罩-->
         <section id="public_pool_blackBg" class="blackBg hide page-client"></section>
@@ -344,21 +353,18 @@
                 </form>
             </div>
         </section>
-        <script src="/static/js/list.js"></script>
-        <script language="javascript">
-            var public_pool_list_manage = new list_manage("public_pool","high-seafr","/crm/customer/public_customer_pool",'{$p}','{$num}','{$max_page}','0');
-        </script>
-        <script src="/crm/js/public_pool.js"></script>
     </div>
-    <div class="public_pool_panel customer_general hide">
+    <div class="public_pool_panel customer_info_panel customer_general hide">
     </div>
-    <div class="public_pool_panel customer_info hide">
+    <div class="public_pool_panel customer_info_panel customer_info hide">
     </div>
-    <div class="public_pool_panel customer_contact hide">
+    <div class="public_pool_panel customer_info_panel customer_edit hide">
     </div>
-    <div class="public_pool_panel customer_sale_chance hide">
+    <div class="public_pool_panel customer_info_panel customer_contact hide">
     </div>
-    <div class="public_pool_panel customer_trace hide">
+    <div class="public_pool_panel customer_info_panel customer_sale_chance hide">
+    </div>
+    <div class="public_pool_panel customer_info_panel customer_trace hide">
     </div>
 </div>
 <link rel="stylesheet" href="/crm/css/index.css"/>

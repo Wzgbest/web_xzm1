@@ -46,14 +46,14 @@
                     {volist name="listdata" id="vo"}
                     <ul class="u-tabList">
                         <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
-                        <li onclick="anonymous_pool_general('{$vo.id}');" class="u-tabCilentName">{$vo.customer_name}</li>
+                        <li class="u-tabCilentName customer_info_name_show">{$vo.customer_name}</li>
                         <li>{$vo.resource_from|getResourceFromName}</li>
                         <li>{$vo.add_batch}</li>
                         <li>{$vo.add_man}</li>
                         <li>{$vo.add_time}</li>
                         <li>{eq name="vo.is_public" value="1"}全公司{else/}{notempty name="vo.public_to_employee"}指定人{/notempty}{notempty name="vo.public_to_department"}指定部门{/notempty}{/eq}</li>
                         <li class="u-tabOperation">
-                            <span>申领</span>
+                            <span class="take_customer">申领</span>
                         </li>
                         <div class="clearfix"></div>
                     </ul>
@@ -76,6 +76,15 @@
                 <span>页</span>
             </div>
         </section>
+        <script src="/static/js/list.js"></script>
+        <script language="javascript">
+            var anonymous_pool_list_manage = new list_manage("anonymous_pool","high-seafr","/crm/customer/public_customer_pool",'{$p}','{$num}','{$max_page}','0');
+        </script>
+        <script src="/crm/js/customer_info_manage.js"></script>
+        <script language="javascript">
+            var anonymous_pool_info_manage = new customer_info_manage("anonymous_pool","high-seafr");
+        </script>
+        <script src="/crm/js/anonymous_pool.js"></script>
 
         <!--黑色遮罩-->
         <section id="anonymous_pool_blackBg" class="blackBg hide page-client"></section>
@@ -343,21 +352,18 @@
                 </form>
             </div>
         </section>
-        <script src="/static/js/list.js"></script>
-        <script language="javascript">
-            var anonymous_pool_list_manage = new list_manage("anonymous_pool","high-seafr","/crm/customer/public_customer_pool",'{$p}','{$num}','{$max_page}','0');
-        </script>
-        <script src="/crm/js/anonymous_pool.js"></script>
     </div>
-    <div class="anonymous_pool_panel customer_general hide">
+    <div class="anonymous_pool_panel customer_info_panel customer_general hide">
     </div>
-    <div class="anonymous_pool_panel customer_info hide">
+    <div class="anonymous_pool_panel customer_info_panel customer_info hide">
     </div>
-    <div class="anonymous_pool_panel customer_contact hide">
+    <div class="anonymous_pool_panel customer_info_panel customer_edit hide">
     </div>
-    <div class="anonymous_pool_panel customer_sale_chance hide">
+    <div class="anonymous_pool_panel customer_info_panel customer_contact hide">
     </div>
-    <div class="anonymous_pool_panel customer_trace hide">
+    <div class="anonymous_pool_panel customer_info_panel customer_sale_chance hide">
+    </div>
+    <div class="anonymous_pool_panel customer_info_panel customer_trace hide">
     </div>
 </div>
 <link rel="stylesheet" href="/crm/css/index.css"/>
