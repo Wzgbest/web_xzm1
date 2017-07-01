@@ -13,21 +13,23 @@
                 <div class="clearfix"></div>
             </ul>
             <div class="m-filterNav">
-                <select id="public_pool_search_take_type">
-                    <option value="">获取途径</option>
-                    <option value="1" {present name='filter.take_type'}{eq name='filter.take_type' value='1'} selected="selected"{/eq}{/present}>转介绍</option>
-                    <option value="2" {present name='filter.take_type'}{eq name='filter.take_type' value='2'} selected="selected"{/eq}{/present}>搜索</option>
-                    <option value="3" {present name='filter.take_type'}{eq name='filter.take_type' value='3'} selected="selected"{/eq}{/present}>购买</option>
-                </select>
-                <select id="public_pool_search_belongs_to">
-                    <option value="">客户级别</option>
-                    <option value="A" {present name='filter.belongs_to'}{eq name='filter.belongs_to' value='A'} selected="selected"{/eq}{/present}>A</option>
-                    <option value="B" {present name='filter.belongs_to'}{eq name='filter.belongs_to' value='B'} selected="selected"{/eq}{/present}>B</option>
-                    <option value="C" {present name='filter.belongs_to'}{eq name='filter.belongs_to' value='C'} selected="selected"{/eq}{/present}>C</option>
-                    <option value="D" {present name='filter.belongs_to'}{eq name='filter.belongs_to' value='D'} selected="selected"{/eq}{/present}>D</option>
-                </select>
-                <input type="text" id="public_pool_search_customer_name" placeholder="输入客户名称" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
-                <button onclick="public_pool_search({$p},{$num});" class="u-btnSearch">查询</button>
+                <form class="search_form" onsubmit="return false;">
+                    <select id="public_pool_search_take_type">
+                        <option value="">获取途径</option>
+                        <option value="1" {present name='filter.take_type'}{eq name='filter.take_type' value='1'} selected="selected"{/eq}{/present}>转介绍</option>
+                        <option value="2" {present name='filter.take_type'}{eq name='filter.take_type' value='2'} selected="selected"{/eq}{/present}>搜索</option>
+                        <option value="3" {present name='filter.take_type'}{eq name='filter.take_type' value='3'} selected="selected"{/eq}{/present}>购买</option>
+                    </select>
+                    <select id="public_pool_search_belongs_to">
+                        <option value="">客户级别</option>
+                        <option value="A" {present name='filter.belongs_to'}{eq name='filter.belongs_to' value='A'} selected="selected"{/eq}{/present}>A</option>
+                        <option value="B" {present name='filter.belongs_to'}{eq name='filter.belongs_to' value='B'} selected="selected"{/eq}{/present}>B</option>
+                        <option value="C" {present name='filter.belongs_to'}{eq name='filter.belongs_to' value='C'} selected="selected"{/eq}{/present}>C</option>
+                        <option value="D" {present name='filter.belongs_to'}{eq name='filter.belongs_to' value='D'} selected="selected"{/eq}{/present}>D</option>
+                    </select>
+                    <input type="text" id="public_pool_search_customer_name" placeholder="输入客户名称" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
+                    <button class="u-btnSearch">查询</button>
+                </form>
             </div>
             <div class="m-tableBox">
                 <div class="m-table table3">
@@ -61,17 +63,17 @@
             </div>
             <div class="u-tabControlRow">
                 <span>显示行数</span>
-                <select onchange="public_pool_listNumChange();">
+                <select>
                     <option value="5" {eq name="num" value="5"} selected="selected"{/eq}>5</option>
                     <option value="10" {eq name="num" value="10"} selected="selected"{/eq}>10</option>
                     <option value="20" {eq name="num" value="20"} selected="selected"{/eq}>20</option>
                 </select>
                 <span>{$start_num}-{$end_num}条/</span>
                 <span>共{$count}条</span>
-                <button onclick="public_pool_previous_page({$p},{$num});" class="public_pool_previous_page {eq name='p' value='1'} disabled{/eq}">上一页</button>
-                <button onclick="public_pool_next_page({$p},{$num},{$max_page});" class="public_pool_next_page {eq name='p' value='$max_page'} disabled{/eq}">下一页</button>
+                <button class="my_customer_previous_page previous_page {eq name='p' value='1'} disabled{/eq}">上一页</button>
+                <button class="my_customer_next_page next_page {eq name='p' value='$max_page'} disabled{/eq}">下一页</button>
                 <span>前往</span>
-                <input onblur="public_pool_jump_page({$num},{$max_page});" class="public_pool_jump_page" type="text" />
+                <input class="my_customer_jump_page jump_page" type="text" />
                 <span>页</span>
             </div>
         </section>
@@ -342,6 +344,10 @@
                 </form>
             </div>
         </section>
+        <script src="/static/js/list.js"></script>
+        <script language="javascript">
+            var public_pool_list_manage = new list_manage("public_pool","high-seafr","/crm/customer/public_customer_pool",'{$p}','{$num}','{$max_page}','0');
+        </script>
         <script src="/crm/js/public_pool.js"></script>
     </div>
     <div class="public_pool_panel customer_general hide">

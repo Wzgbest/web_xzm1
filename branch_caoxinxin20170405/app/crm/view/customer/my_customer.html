@@ -3,15 +3,15 @@
         <!--header-->
         <header>
             <ul class="m-firNav">
-                <li onclick="my_customer_change_page({$p},{$num},0);" id="myAllClients" class="{eq name='in_column' value='0'}current{/eq}"><div>我的所有客户（<span>{$listCount.column_all}</span>）</div></li>
-                <li onclick="my_customer_change_page({$p},{$num},1);" id="awaitComClients" class="{eq name='in_column' value='1'}current{/eq}"><div>待沟通客户（<span>{$listCount.column_1}</span>）</div></li>
-                <li onclick="my_customer_change_page({$p},{$num},2);" id="notFllowClients" class="{eq name='in_column' value='2'}current{/eq}"><div>未跟进客户（<span>{$listCount.column_2}</span>）</div></li>
-                <li onclick="my_customer_change_page({$p},{$num},3);" id="followClients" class="{eq name='in_column' value='3'}current{/eq}"><div>正常跟进客户（<span>{$listCount.column_3}</span>）</div></li>
-                <li onclick="my_customer_change_page({$p},{$num},4);" id="stagnantClients" class="{eq name='in_column' value='4'}current{/eq}"><div>停滞客户（<span>{$listCount.column_4}</span>）</div></li>
-                <li onclick="my_customer_change_page({$p},{$num},5);" id="undeterminedClients" class="{eq name='in_column' value='5'}current{/eq}"><div>待定客户（<span>{$listCount.column_5}</span>）</div></li>
-                <li onclick="my_customer_change_page({$p},{$num},6);" id="noIntentionClients" class="{eq name='in_column' value='6'}current{/eq}"><div>无意向客户（<span>{$listCount.column_6}</span>）</div></li>
-                <li onclick="my_customer_change_page({$p},{$num},7);" id="overClients" class="{eq name='in_column' value='7'}current{/eq}"><div>已成单客户（<span>{$listCount.column_7}</span>）</div></li>
-                <li onclick="my_customer_change_page({$p},{$num},8);" id="uselessClients" class="{eq name='in_column' value='8'}current{/eq}"><div>无效客户（<span>{$listCount.column_8}</span>）</div></li>
+                <li in_column="0" id="myAllClients" class="{eq name='in_column' value='0'}current{/eq}"><div>我的所有客户（<span>{$listCount.column_all}</span>）</div></li>
+                <li in_column="1" id="awaitComClients" class="{eq name='in_column' value='1'}current{/eq}"><div>待沟通客户（<span>{$listCount.column_1}</span>）</div></li>
+                <li in_column="2" id="notFllowClients" class="{eq name='in_column' value='2'}current{/eq}"><div>未跟进客户（<span>{$listCount.column_2}</span>）</div></li>
+                <li in_column="3" id="followClients" class="{eq name='in_column' value='3'}current{/eq}"><div>正常跟进客户（<span>{$listCount.column_3}</span>）</div></li>
+                <li in_column="4" id="stagnantClients" class="{eq name='in_column' value='4'}current{/eq}"><div>停滞客户（<span>{$listCount.column_4}</span>）</div></li>
+                <li in_column="5" id="undeterminedClients" class="{eq name='in_column' value='5'}current{/eq}"><div>待定客户（<span>{$listCount.column_5}</span>）</div></li>
+                <li in_column="6" id="noIntentionClients" class="{eq name='in_column' value='6'}current{/eq}"><div>无意向客户（<span>{$listCount.column_6}</span>）</div></li>
+                <li in_column="7" id="overClients" class="{eq name='in_column' value='7'}current{/eq}"><div>已成单客户（<span>{$listCount.column_7}</span>）</div></li>
+                <li in_column="8" id="uselessClients" class="{eq name='in_column' value='8'}current{/eq}"><div>无效客户（<span>{$listCount.column_8}</span>）</div></li>
             </ul>
         </header>
 
@@ -28,37 +28,39 @@
                 <div class="clearfix"></div>
             </ul>
             <div class="m-filterNav">
-                <select id="my_customer_search_take_type">
-                    <option value="">获取途径</option>
-                    <option value="1" {present name='filter.take_type'}{eq name='filter.take_type' value='1'} selected="selected"{/eq}{/present}>转介绍</option>
-                    <option value="2" {present name='filter.take_type'}{eq name='filter.take_type' value='2'} selected="selected"{/eq}{/present}>搜索</option>
-                    <option value="3" {present name='filter.take_type'}{eq name='filter.take_type' value='3'} selected="selected"{/eq}{/present}>购买</option>
-                </select>
-                <select id="my_customer_search_grade">
-                    <option value="">客户级别</option>
-                    <option value="A" {present name='filter.grade'}{eq name='filter.grade' value='A'} selected="selected"{/eq}{/present}>A</option>
-                    <option value="B" {present name='filter.grade'}{eq name='filter.grade' value='B'} selected="selected"{/eq}{/present}>B</option>
-                    <option value="C" {present name='filter.grade'}{eq name='filter.grade' value='C'} selected="selected"{/eq}{/present}>C</option>
-                    <option value="D" {present name='filter.grade'}{eq name='filter.grade' value='D'} selected="selected"{/eq}{/present}>D</option>
-                </select>
-                <select id="my_customer_search_sale_chance">
-                    <option value="">商机</option>
-                    {volist name="business_list" id="vo"}
-                    <option value="{$vo.id}" {present name='filter.sale_chance'}{eq name='filter.sale_chance' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.business_name}</option>
-                    {/volist}
-                </select>
-                <select id="my_customer_search_comm_status">
-                    <option value="">沟通状态</option>
-                    <option value="1" {present name='filter.comm_status'}{eq name='filter.comm_status' value='1'} selected="selected"{/eq}{/present}>无意向</option>
-                    <option value="2" {present name='filter.comm_status'}{eq name='filter.comm_status' value='2'} selected="selected"{/eq}{/present}>号码无效</option>
-                    <option value="3" {present name='filter.comm_status'}{eq name='filter.comm_status' value='3'} selected="selected"{/eq}{/present}>资料有误</option>
-                    <option value="4" {present name='filter.comm_status'}{eq name='filter.comm_status' value='4'} selected="selected"{/eq}{/present}>未接通</option>
-                    <option value="5" {present name='filter.comm_status'}{eq name='filter.comm_status' value='5'} selected="selected"{/eq}{/present}>待定</option>
-                    <option value="6" {present name='filter.comm_status'}{eq name='filter.comm_status' value='6'} selected="selected"{/eq}{/present}>有意向</option>
-                </select>
-                <input type="text" id="my_customer_search_customer_name" placeholder="输入客户名称" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
-                <input type="text" id="my_customer_search_contact_name" placeholder="输入联系人名称" value="{present name='filter.contact_name'}{$filter.contact_name}{/present}"/>
-                <button onclick="my_customer_search({$p},{$num},{$in_column});" class="u-btnSearch">查询</button>
+                <form class="search_form" onsubmit="return false;">
+                    <select name="take_type">
+                        <option value="">获取途径</option>
+                        <option value="1" {present name='filter.take_type'}{eq name='filter.take_type' value='1'} selected="selected"{/eq}{/present}>转介绍</option>
+                        <option value="2" {present name='filter.take_type'}{eq name='filter.take_type' value='2'} selected="selected"{/eq}{/present}>搜索</option>
+                        <option value="3" {present name='filter.take_type'}{eq name='filter.take_type' value='3'} selected="selected"{/eq}{/present}>购买</option>
+                    </select>
+                    <select name="grade">
+                        <option value="">客户级别</option>
+                        <option value="A" {present name='filter.grade'}{eq name='filter.grade' value='A'} selected="selected"{/eq}{/present}>A</option>
+                        <option value="B" {present name='filter.grade'}{eq name='filter.grade' value='B'} selected="selected"{/eq}{/present}>B</option>
+                        <option value="C" {present name='filter.grade'}{eq name='filter.grade' value='C'} selected="selected"{/eq}{/present}>C</option>
+                        <option value="D" {present name='filter.grade'}{eq name='filter.grade' value='D'} selected="selected"{/eq}{/present}>D</option>
+                    </select>
+                    <select name="sale_chance">
+                        <option value="">商机</option>
+                        {volist name="business_list" id="vo"}
+                        <option value="{$vo.id}" {present name='filter.sale_chance'}{eq name='filter.sale_chance' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.business_name}</option>
+                        {/volist}
+                    </select>
+                    <select name="comm_status">
+                        <option value="">沟通状态</option>
+                        <option value="1" {present name='filter.comm_status'}{eq name='filter.comm_status' value='1'} selected="selected"{/eq}{/present}>无意向</option>
+                        <option value="2" {present name='filter.comm_status'}{eq name='filter.comm_status' value='2'} selected="selected"{/eq}{/present}>号码无效</option>
+                        <option value="3" {present name='filter.comm_status'}{eq name='filter.comm_status' value='3'} selected="selected"{/eq}{/present}>资料有误</option>
+                        <option value="4" {present name='filter.comm_status'}{eq name='filter.comm_status' value='4'} selected="selected"{/eq}{/present}>未接通</option>
+                        <option value="5" {present name='filter.comm_status'}{eq name='filter.comm_status' value='5'} selected="selected"{/eq}{/present}>待定</option>
+                        <option value="6" {present name='filter.comm_status'}{eq name='filter.comm_status' value='6'} selected="selected"{/eq}{/present}>有意向</option>
+                    </select>
+                    <input type="text" name="customer_name" placeholder="输入客户名称" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
+                    <input type="text" name="contact_name" placeholder="输入联系人名称" value="{present name='filter.contact_name'}{$filter.contact_name}{/present}"/>
+                    <button class="u-btnSearch">查询</button>
+                </form>
             </div>
             <div class="m-tableBox">
                 <div class="m-table table1">
@@ -110,17 +112,17 @@
             </div>
             <div class="u-tabControlRow">
                 <span>显示行数</span>
-                <select onchange="my_customer_listNumChange({$in_column});">
+                <select>
                     <option value="5" {eq name="num" value="5"} selected="selected"{/eq}>5</option>
                     <option value="10" {eq name="num" value="10"} selected="selected"{/eq}>10</option>
                     <option value="20" {eq name="num" value="20"} selected="selected"{/eq}>20</option>
                 </select>
                 <span>{$start_num}-{$end_num}条/</span>
                 <span>共{$count}条</span>
-                <button onclick="my_customer_previous_page({$p},{$num},{$in_column});" class="my_customer_previous_page {eq name='p' value='1'} disabled{/eq}">上一页</button>
-                <button onclick="my_customer_next_page({$p},{$num},{$max_page},{$in_column});" class="my_customer_next_page {eq name='p' value='$max_page'} disabled{/eq}">下一页</button>
+                <button class="my_customer_previous_page previous_page {eq name='p' value='1'} disabled{/eq}">上一页</button>
+                <button class="my_customer_next_page next_page {eq name='p' value='$max_page'} disabled{/eq}">下一页</button>
                 <span>前往</span>
-                <input onblur="my_customer_jump_page({$num},{$max_page},{$in_column});" class="my_customer_jump_page" type="text" />
+                <input class="my_customer_jump_page jump_page" type="text" />
                 <span>页</span>
             </div>
         </section>
@@ -391,6 +393,10 @@
                 </form>
             </div>
         </section>
+        <script src="/static/js/list.js"></script>
+        <script language="javascript">
+            var my_customer_list_manage = new list_manage("my_customer","myclietsfr","/crm/customer/my_customer",'{$p}','{$num}','{$max_page}','{$in_column}');
+        </script>
         <script src="/crm/js/my_customer.js"></script>
     </div>
     <div class="my_customer_panel customer_general hide">

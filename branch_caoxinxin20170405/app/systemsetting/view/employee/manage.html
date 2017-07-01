@@ -12,26 +12,28 @@
                 <div class="clearfix"></div>
             </ul>
             <div class="m-filterNav">
-                <select id="employee_list_search_structure">
-                    <option value="">直属部门</option>
-                    <option value="1" {present name='filter.structure'}{eq name='filter.structure' value='1'} selected="selected"{/eq}{/present}>员工添加</option>
-                    <option value="2" {present name='filter.structure'}{eq name='filter.structure' value='2'} selected="selected"{/eq}{/present}>批量导入</option>
-                    <option value="3" {present name='filter.structure'}{eq name='filter.structure' value='3'} selected="selected"{/eq}{/present}>员工搜集</option>
-                </select>
-                <select id="employee_list_search_role">
-                    <option value="">角色</option>
-                    <option value="1" {present name='filter.role'}{eq name='filter.role' value='1'} selected="selected"{/eq}{/present}>转介绍</option>
-                    <option value="2" {present name='filter.role'}{eq name='filter.role' value='2'} selected="selected"{/eq}{/present}>指定人</option>
-                    <option value="3" {present name='filter.role'}{eq name='filter.role' value='3'} selected="selected"{/eq}{/present}>指定部门</option>
-                </select>
-                <select id="employee_list_search_on_duty">
-                    <option value="">状态</option>
-                    <option value="1" {present name='filter.on_duty'}{eq name='filter.on_duty' value='1'} selected="selected"{/eq}{/present}>在职</option>
-                    <option value="2" {present name='filter.on_duty'}{eq name='filter.on_duty' value='2'} selected="selected"{/eq}{/present}>休假</option>
-                </select>
-                <input type="text" id="employee_list_search_worknum" placeholder="输入工号" value="{present name='filter.worknum'}{$filter.worknum}{/present}"/>
-                <input type="text" id="employee_list_search_truename" placeholder="输入姓名" value="{present name='filter.truename'}{$filter.truename}{/present}"/>
-                <button onclick="employee_list_search({$p},{$num});" class="u-btnSearch">查询</button>
+                <form class="search_form" onsubmit="return false;">
+                    <select id="employee_list_search_structure">
+                        <option value="">直属部门</option>
+                        <option value="1" {present name='filter.structure'}{eq name='filter.structure' value='1'} selected="selected"{/eq}{/present}>员工添加</option>
+                        <option value="2" {present name='filter.structure'}{eq name='filter.structure' value='2'} selected="selected"{/eq}{/present}>批量导入</option>
+                        <option value="3" {present name='filter.structure'}{eq name='filter.structure' value='3'} selected="selected"{/eq}{/present}>员工搜集</option>
+                    </select>
+                    <select id="employee_list_search_role">
+                        <option value="">角色</option>
+                        <option value="1" {present name='filter.role'}{eq name='filter.role' value='1'} selected="selected"{/eq}{/present}>转介绍</option>
+                        <option value="2" {present name='filter.role'}{eq name='filter.role' value='2'} selected="selected"{/eq}{/present}>指定人</option>
+                        <option value="3" {present name='filter.role'}{eq name='filter.role' value='3'} selected="selected"{/eq}{/present}>指定部门</option>
+                    </select>
+                    <select id="employee_list_search_on_duty">
+                        <option value="">状态</option>
+                        <option value="1" {present name='filter.on_duty'}{eq name='filter.on_duty' value='1'} selected="selected"{/eq}{/present}>在职</option>
+                        <option value="2" {present name='filter.on_duty'}{eq name='filter.on_duty' value='2'} selected="selected"{/eq}{/present}>休假</option>
+                    </select>
+                    <input type="text" id="employee_list_search_worknum" placeholder="输入工号" value="{present name='filter.worknum'}{$filter.worknum}{/present}"/>
+                    <input type="text" id="employee_list_search_truename" placeholder="输入姓名" value="{present name='filter.truename'}{$filter.truename}{/present}"/>
+                    <button class="u-btnSearch">查询</button>
+                </form>
             </div>
             <div class="m-tableBox">
                 <div class="m-table table2">
@@ -71,17 +73,17 @@
             </div>
             <div class="u-tabControlRow">
                 <span>显示行数</span>
-                <select onchange="employee_list_listNumChange();">
+                <select>
                     <option value="5" {eq name="num" value="5"} selected="selected"{/eq}>5</option>
                     <option value="10" {eq name="num" value="10"} selected="selected"{/eq}>10</option>
                     <option value="20" {eq name="num" value="20"} selected="selected"{/eq}>20</option>
                 </select>
                 <span>{$start_num}-{$end_num}条/</span>
                 <span>共{$count}条</span>
-                <button onclick="employee_list_previous_page({$p},{$num});" class="employee_list_previous_page {eq name='p' value='1'} disabled{/eq}">上一页</button>
-                <button onclick="employee_list_next_page({$p},{$num},{$max_page});" class="employee_list_next_page {eq name='p' value='$max_page'} disabled{/eq}">下一页</button>
+                <button class="my_customer_previous_page previous_page {eq name='p' value='1'} disabled{/eq}">上一页</button>
+                <button class="my_customer_next_page next_page {eq name='p' value='$max_page'} disabled{/eq}">下一页</button>
                 <span>前往</span>
-                <input onblur="employee_list_jump_page({$num},{$max_page});" class="employee_list_jump_page" type="text" />
+                <input class="my_customer_jump_page jump_page" type="text" />
                 <span>页</span>
             </div>
         </section>
@@ -166,6 +168,10 @@
                 </form>
             </div>
         </section>
+        <script src="/static/js/list.js"></script>
+        <script language="javascript">
+            var employee_list_list_manage = new list_manage("employee_list","staff-managementfr","/systemsetting/employee/manage",'{$p}','{$num}','{$max_page}','0');
+        </script>
         <script src="/systemsetting/js/employee_list.js"></script>
     </div>
     <div class="employee_list_panel employee_info hide">

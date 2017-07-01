@@ -111,6 +111,9 @@ function loadPage(url,panel){
 		async:false,
 		success:function (data) {
 			$('#frames #'+panel).html(data);
+		},
+		error:function(){
+			$('#frames #'+panel).html("页面加载时发生错误!");
 		}
 	});
 }
