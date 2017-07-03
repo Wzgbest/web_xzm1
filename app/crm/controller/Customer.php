@@ -95,7 +95,6 @@ class Customer extends Initialize{
         $this->assign("max_page",$max_page);
         $this->assign("in_column",$in_column);
         $this->assign("start_num",$start_num+1);
-        $this->assign("truename",session('userinfo.truename'));
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view();
     }
@@ -164,7 +163,6 @@ class Customer extends Initialize{
         $this->assign("filter",$filter);
         $this->assign("max_page",$max_page);
         $this->assign("start_num",$start_num+1);
-        $this->assign("truename",session('userinfo.truename'));
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view($view_name);
     }
@@ -190,6 +188,14 @@ class Customer extends Initialize{
         $business = new Business($this->corp_id);
         $business_list = $business->getBusinessArray();
         $this->assign("business_array",$business_list);
+    }
+    public function add_page(){
+        $this->assign("fr",input('fr'));
+        $business = new Business($this->corp_id);
+        $business_list = $business->getAllBusiness();
+        $this->assign("business_list",$business_list);
+        $this->assign("truename",session('userinfo.truename'));
+        return view();
     }
     public function general(){
         $this->_showCustomer();

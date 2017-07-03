@@ -22,9 +22,8 @@ class EmployeeImport extends Initialize{
     
     public function table(){
         $result = ['status'=>0 ,'info'=>"查询员工导入发生错误！"];
-        $num = 10;
-        $p = input("p");
-        $p = $p?:1;
+        $num = input("num",10,"int");
+        $p = input("p",1,"int");
         try{
             $employeeImport = new EmployeeImportRecord($this->corp_id);
             $employeeImportRecord = $employeeImport->getImportEmployeeRecord($num,$p);
@@ -236,7 +235,13 @@ class EmployeeImport extends Initialize{
      * created by blu10ph
      */
     public function exportEmployee(){
-        $where = null;
+        $ids = input("ids");
+        if(!$ids){
+            $this->error("参数错误!");
+        }
+        $ids_arr = explode(",",$ids);
+        //var_exp($ids_arr,'$ids_arr',1);
+        $where["id"] = ["in",$ids_arr];
         $employeeM = new EmployeeModel($this->corp_id);
         $employees_data = $employeeM->exportAllEmployees($where);
         if(!$employees_data){
