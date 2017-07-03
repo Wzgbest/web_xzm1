@@ -8,8 +8,8 @@
                 <li class="active">导入记录</li>
                 <li class="active">批量申领</li>
                 <li class="vertical"></li>
-                <li>删除</li>
-                <li>更改可见范围</li>
+                <li class="delete">删除</li>
+                <li class="change_customers_visible_range">更改可见范围</li>
                 <div class="clearfix"></div>
             </ul>
             <div class="m-filterNav">
@@ -33,7 +33,7 @@
             <div class="m-tableBox">
                 <div class="m-table table3">
                     <ul class="u-tabTitle">
-                        <li class="u-tabCheckbox"><input type="checkbox"/></li>
+                        <li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
                         <li>客户名称<i class="fa fa-caret-down"></i></li>
                         <li>客户来源<i class="fa fa-unsorted"></i></li>
                         <li>添加批次<i class="fa fa-unsorted"></i></li>
@@ -79,10 +79,6 @@
         <script src="/static/js/list_manage.js"></script>
         <script language="javascript">
             var anonymous_pool_list_manage = new list_manage("anonymous_pool","high-seafr","/crm/customer/public_customer_pool",'{$p}','{$num}','{$max_page}','0');
-        </script>
-        <script src="/crm/js/customer_info_manage.js"></script>
-        <script language="javascript">
-            var anonymous_pool_info_manage = new customer_info_manage("anonymous_pool","high-seafr",anonymous_pool_list_manage);
         </script>
         <script src="/crm/js/customer_add.js"></script>
         <script language="javascript">

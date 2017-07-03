@@ -7,6 +7,7 @@ function list_manage(from,target,url,p,num,max,in_column){
     this.num = parseInt(num);
     this.max = parseInt(max);
     this.in_column = parseInt(in_column);
+    this.activity_buttons = new Array();
 
     //事件绑定
     var self = this;
@@ -16,6 +17,12 @@ function list_manage(from,target,url,p,num,max,in_column){
     });
     $("."+this.from+" .m-filterNav .u-btnSearch").click(function(){
         self.search();
+    });
+    $("."+this.from+" .u-tabTitle input[type='checkbox']").click(function(){
+        self.selectAll($(this).attr("checked")!="checked");
+    });
+    $("."+this.from+' .u-tabList input[type="checkbox"]').click(function(){
+        self.select($(this).val(),$(this).attr("checked")!="checked");
     });
     $("."+this.from+" .u-tabControlRow select").click(function(){
         var num = $(this).val();
@@ -38,7 +45,7 @@ function list_manage(from,target,url,p,num,max,in_column){
         }
     });
 
-        //列表动作
+    //列表动作
     this.columnChange=function(in_column){
         this.load_list(1,this.num,in_column);
     };
@@ -57,6 +64,76 @@ function list_manage(from,target,url,p,num,max,in_column){
                 alert("搜索时发生错误!");
             }
         });
+    };
+    this.isSelect=function(){
+        var selected_length = $("."+this.from+' .u-tabList .u-tabCheckbox :checked').length;
+        //console.log(selected_length);
+        return (selected_length>0);
+    };
+    this.isSelectAll=function(){
+        var selected_length = $("."+this.from+' .u-tabList .u-tabCheckbox :checked').length;
+        //console.log(selected_length);
+        return (selected_length==this.num);
+    };
+    this.select=function(id,status){
+        if(status){
+            $("."+this.from+' .u-tabList input[type="checkbox"]').find("[value="+id+"]").attr("checked","checked");
+        }else{
+            $("."+this.from+' .u-tabList input[type="checkbox"]').find("[value="+id+"]").removeAttr("checked");
+        }
+        var selected_all = this.isSelectAll();
+        //console.log(selected_all);
+        if(selected_all){
+            $("."+this.from+" .u-tabTitle input[type='checkbox']").attr("checked","checked");
+        }else{
+            $("."+this.from+" .u-tabTitle input[type='checkbox']").removeAttr("checked");
+        }
+        $("."+this.from+' .u-tabTitle input[type="checkbox"]').prop("checked",selected_all);
+
+        this.updateActivityButtons();
+    };
+    this.selectAll=function(status){
+        //console.log(status);
+        if(status){
+            $("."+this.from+" .u-tabTitle input[type='checkbox']").attr("checked","checked");
+            $("."+this.from+' .u-tabList input[type="checkbox"]').attr("checked","checked");
+        }else{
+            $("."+this.from+" .u-tabTitle input[type='checkbox']").removeAttr("checked");
+            $("."+this.from+' .u-tabList input[type="checkbox"]').removeAttr("checked");
+        }
+        $("."+this.from+' .u-tabList input[type="checkbox"]').prop("checked",status);
+
+        this.updateActivityButtons();
+    };
+    this.getAllSelectVal=function(header,delimiter){
+        header = header||"ids[]=";
+        delimiter = delimiter||"&";
+        var ids_str = "";
+        if($("."+this.from+' .u-tabList .u-tabCheckbox :checked').length==0){
+            return ids_str;
+        }
+        var ids_arr = new Array();
+        $("."+this.from+' .u-tabList .u-tabCheckbox :checked').each(function(index){
+            ids_arr[index] = $(this).val();
+        });
+        ids_str += header+ids_arr.join(delimiter+header);
+        //console.log(ids_arr);
+        //console.log(ids_str);
+        return ids_str;
+    };
+    this.listenSelect=function(class_name){
+        this.activity_buttons[this.activity_buttons.length] = class_name;
+    };
+    this.updateActivityButtons=function(){
+        var selected = this.isSelect();
+        for (var i = 0; i < this.activity_buttons.length; i++) {
+            var btn = $("."+this.from+' .m-secNav .'+this.activity_buttons[i]);
+            if(selected){
+                btn.addClass("active");
+            }else{
+                btn.removeClass("active");
+            }
+        }
     };
     this.listNumChange=function(num){
         this.load_list(1,num,this.in_column);
