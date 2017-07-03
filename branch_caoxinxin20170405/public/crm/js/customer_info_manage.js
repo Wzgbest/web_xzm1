@@ -3,6 +3,7 @@ function customer_info_manage(from,target,list_manage){
 	this.id = 0;
 	this.last = 0;
 	this.from = from;
+	this.reload_flg = 0;
 	this.target = target;
 	this.list_manage = list_manage;
 	this.panel_base = '#frames #'+this.target+' .crm_'+this.from;
@@ -25,7 +26,9 @@ function customer_info_manage(from,target,list_manage){
 	//弹出框方法
 	this.close=function(){
 		$(this.panel_base+" .customer_info_panel").addClass("hide");
-		self.list_manage.reload_list();
+		if(this.reload_flg){
+			this.list_manage.reload_list();
+		}
 	};
 	this.show_panel=function(panel,data){
 		$(panel).html(data);
@@ -123,6 +126,7 @@ function customer_info_manage(from,target,list_manage){
 		var panel = this.panel_base+' .customer_edit';
 		var edit_from_data = $(panel+" .edit").serialize();
 		edit_from_data += "&id="+id+"&fr="+this.from;
+		this.reload_flg = 1;
 		//console.log(edit_from_data);
 		$.ajax({
 			url: '/crm/customer/update',
@@ -190,6 +194,7 @@ function customer_info_manage(from,target,list_manage){
 		var panel = this.panel_base+' .customer_contact';
 		var contact_add_from = $(panel+" .contact_add_from").serialize();
 		contact_add_from += "&customer_id="+customer_id+"&fr="+this.from;
+		this.reload_flg = 1;
 		//console.log(contact_add_from);
 		$.ajax({
 			url: '/crm/customer_contact/add',
@@ -239,6 +244,7 @@ function customer_info_manage(from,target,list_manage){
 		var panel = this.panel_base+' .customer_contact';
 		var contact_edit_from = $(panel+" .contact_edit_panel .contact_edit_from").serialize();
 		contact_edit_from += "&id="+id+"&fr="+this.from;
+		this.reload_flg = 1;
 		//console.log(contact_edit_from);
 		$.ajax({
 			url: '/crm/customer_contact/update',

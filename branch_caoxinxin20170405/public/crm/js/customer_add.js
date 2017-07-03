@@ -86,9 +86,9 @@ function customer_add(from,target,list_manage){
 		});
 	};
 	this.removeNewClient=function(){
-		$(self.panel_base+" .add_customer").remove();
-		if(self.new_customer_id > 0){
-			self.list_manage.reload_list();
+		$(this.panel_base+" .add_customer").remove();
+		if(this.new_customer_id > 0){
+			this.list_manage.reload_list();
 		}
 	};
 	this.new_add_customer=function(){
