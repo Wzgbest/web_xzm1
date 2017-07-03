@@ -17,6 +17,11 @@ use app\common\model\EmployeeDelete;
 use app\common\model\UserCorporation;
 
 class Employee extends Initialize{
+    var $paginate_list_rows = 10;
+    public function _initialize(){
+        parent::_initialize();
+        $this->paginate_list_rows = config("paginate.list_rows");
+    }
     public function index(){}
 
     /**
@@ -24,7 +29,7 @@ class Employee extends Initialize{
      * created by blu10ph
      */
     public function manage(Request $request){
-        $num = input('num',20,'int');
+        $num = input('num',$this->paginate_list_rows,'int');
         $p = input("p",1,"int");
         $employees_count=0;
         $start_num = ($p-1)*$num;
@@ -165,6 +170,7 @@ class Employee extends Initialize{
         } elseif ($request->isPost()) {
             $input = $request->param();
             $result = $this->validate($input,'Employee');
+            var_exp($result,'$result',1);
             $info['status'] = false;
             //验证字段
             if(true !== $result){
@@ -369,7 +375,8 @@ class Employee extends Initialize{
     {
         $customerM = new CustomerModel();
 //        检测有无保护客户
-        $res = $customerM->getCustomersByUserIds($user_ids); $res =null;
+        $res = $customerM->getCustomersByUserIds($user_ids);
+        //$res =null;
         if (!empty($res)) {
             $arr=[];
             foreach ($res as $k=>$v) {

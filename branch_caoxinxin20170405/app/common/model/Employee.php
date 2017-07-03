@@ -7,11 +7,10 @@ namespace app\common\model;
 
 use app\common\model\Base;
 
-class Employee extends Base
-{
+class Employee extends Base{
+    protected $pk = 'id';
     protected $dbprefix;
-    public function __construct($corp_id=null)
-    {
+    public function __construct($corp_id=null){
         $this->table = config('database.prefix').'employee';
         parent::__construct($corp_id);
         $this->dbprefix = config('database.prefix');
