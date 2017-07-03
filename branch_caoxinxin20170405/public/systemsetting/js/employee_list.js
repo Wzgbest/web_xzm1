@@ -64,7 +64,16 @@ $(employee_list_nav_base+" .delete").click(function(){
 	});
 });
 
+var employee_list_edit_hide_flg = 0;
 var employee_list_hide_panel = 'staff-managementfr .sys_employee_list .employee_list_panel';
+function employee_list_panel_close(id){
+	if(employee_list_edit_hide_flg){
+		employee_list_show(id);
+	}else{
+		$('#frames #'+employee_list_hide_panel).addClass("hide");
+		$('#frames #staff-managementfr .sys_employee_list .employee_list').removeClass("hide");
+	}
+}
 function employee_list_show(id){
 	var url = "/systemsetting/employee/show/id/"+id+"/fr/employee_list";
 	var panel = 'staff-managementfr .sys_employee_list .employee_info';
@@ -82,7 +91,7 @@ function employee_list_show(id){
 		}
 	});
 }
-function employee_list_edit(id){
+function employee_list_edit(id,status){
 	var url = "/systemsetting/employee/edit/id/"+id+"/fr/employee_list";
 	var panel = 'staff-managementfr .sys_employee_list .employee_info';
 	$.ajax({
@@ -90,6 +99,7 @@ function employee_list_edit(id){
 		type:'get',
 		async:false,
 		success:function (data) {
+			employee_list_edit_hide_flg = status;
 			$('#frames #'+employee_list_hide_panel).addClass("hide");
 			$('#frames #'+panel).html(data);
 			$('#frames #'+panel).removeClass("hide");
@@ -111,7 +121,7 @@ function employee_list_edit_update(id){
 			//console.log(data);
 			alert(data.message);
 			if(data.status) {
-				employee_list_show(id);
+				employee_list_panel_close(id);
 			}
 		},
 		error: function() {
@@ -124,7 +134,7 @@ function employee_list_show_list(){
 	$('#frames #staff-managementfr .sys_employee_list .employee_list').removeClass("hide");
 }
 /***************************/
-$(".blackBg").height(window.innerHeight);
+$("#frames #staff-managementfr .sys_employee_list .blackBg").height(window.innerHeight);
 /*****************************************************************/
 /*新建*/
 function employee_list_newClient(){
