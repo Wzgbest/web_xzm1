@@ -185,7 +185,8 @@ return [
 
     'cache'                  => [
         // 驱动方式
-        'type'   => 'File',
+        //'type'   => 'File',
+        'type'   => 'Redis',
         // 缓存保存目录
         'path'   => CACHE_PATH,
         // 缓存前缀
@@ -231,14 +232,14 @@ return [
     ],
 
     //分页配置
-    'paginate'               => [
+    'paginate'=>[
         'type'      => 'bootstrap',
         'var_page'  => 'page',
-        'list_rows' => 15,
+        'list_rows' => 10,
     ],
     'db_config1'    =>  [
         'type'        => 'mysql',
-        'hostname'    => '112.253.21.74',
+        'hostname'    => '192.168.102.200',
         'database'    => '',
         'username'    => 'zxwz',
         'password'    => '123456',
@@ -250,11 +251,12 @@ return [
 //        'type'        => 'mysql',
 //        'hostname'    => 'localhost',
 //        'database'    => '',
-//        'username'    => 'root',
-//        'password'    => 'root',
-//        'hostport'    => '3306',
+//        'username'    => 'zxwz',
+//        'password'    => '123456',
+//        'hostport'    => '3307',
 //        'charset'     => 'utf8',
 //        'prefix'      => 'guguo_',
+//        'params'      => ['PDO::MYSQL_ATTR_INIT_COMMAND' =>'set names utf8;'],
 //    ],
     'db_common_prefix'=>'guguo_',//分库前缀
     //sms短信账号
@@ -264,15 +266,21 @@ return [
     'system_email'  =>[
         'user' =>'yingying-help@winbywin.com',
         'pass' =>'QAZQAZQAZ7.',
-        'host'  =>'smtp.qiye.163.com',
         'from_name' =>'系统管理员'
     ],
     //app上传图片设置
     'upload_image'  =>[
-        'image_path'    => '/static/images/',
+        'image_path'    => 'images',
         'image_max_size' => '',
         'image_ext'    => 'png,jpg,jpeg,gif',
     ],
+    //上传导入文件设置
+    'upload_import_file'  =>[
+        'type'    => 'application/vnd.ms-excel,application/x-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/octet-stream',
+        'size' => '',
+        'ext'    => 'xls,xlsx',
+    ],
+    'image_block'  =>"./static/images/block.png",
     //app红包相关
     'red_envelope' =>[
         //超时时间，单位秒

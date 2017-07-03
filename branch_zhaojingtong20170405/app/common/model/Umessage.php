@@ -1,11 +1,15 @@
 <?php
+/**
+ * Created by: messhair
+ * Date: 2017/5/9
+ */
 namespace app\common\model;
 
 use app\common\model\Base;
 
 class Umessage extends Base
 {
-    public function __construct($corp_id)
+    public function __construct($corp_id=null)
     {
         $this->table=config('database.prefix').'umessage';
         parent::__construct($corp_id);
@@ -15,6 +19,7 @@ class Umessage extends Base
      * 记录操作
      * @param $data
      * @return int|string
+     * created by messhair
      */
     public function addUmessage($data)
     {

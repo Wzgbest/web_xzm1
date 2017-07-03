@@ -1,0 +1,190 @@
+.sys_employee_list {
+	height: 100%;
+}
+.sys_employee_list .p5 {
+	/*width: 256px;*/
+	margin-top: 39px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.sys_employee_list .p5 input {
+	width: 100px;
+	height: 41px;
+	border-radius: 10px;
+	background-color: #42a5f5;
+	color: #fff;
+	border: 1px solid #dcdcdc;
+	margin-top: 60px;
+}
+
+.sys_employee_list .p5 button {
+	width: 100px;
+	height: 41px;
+	border-radius: 10px;
+	/*margin-right: 100px;*/
+	background-color: #fff;
+	border: 1px solid #dcdcdc;
+	margin-left: 50px;
+}
+/*弹出框*/
+
+.sys_employee_list .reveal-modal-bg {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	z-index: 100;
+	display: none;
+	top: 0;
+	left: 0;
+	background: rgba(00, 00, 00, 0.4)
+}
+
+.sys_employee_list .reveal-modal {
+	width: 590px;
+	height: 280px;
+	visibility: hidden;
+	top: 150px;
+	left: 50%;
+	margin-left: -300px;
+	position: absolute;
+	z-index: 101;
+	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+	-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+	background-color: #fff;
+}
+
+.sys_employee_list .reveal-modal .p1 {
+	width: 589px !important;
+	height: 50px !important;
+	background-color: #6b7a99;
+	font-size: 18px !important;
+	text-align: center;
+	line-height: 50px !important;
+	color: #fff;
+}
+
+.sys_employee_list .reveal-modal .p2 {
+	width: 590px;
+	font-size: 18px;
+	text-align: center;
+	line-height: 140px;
+	color: #666666;
+	display: inline-block;
+}
+
+.sys_employee_list .reveal-modal select {
+	width: 200px;
+	height: 30px;
+	margin-left: 10px;
+}
+
+.sys_employee_list #myModal .p5 input {
+	margin-left: 160px;
+	margin-top: 20px;
+}
+/*
+.sys_employee_list #myModal .p5 {
+        margin-left: 165px;
+        margin-top: -50px;
+    }
+
+.sys_employee_list #myModal .p5 input {
+        width: 100px;
+        height: 41px;
+        border-radius: 10px;
+        margin-right: 60px;
+        background-color: #42a5f5;
+        color: #fff;
+        border: 1px solid #dcdcdc;
+    }
+
+.sys_employee_list #myModal .p5 button {
+        width: 100px;
+        height: 41px;
+        border-radius: 10px;
+        margin-right: 100px;
+        background-color: #fff;
+        border: 1px solid #dcdcdc;
+    }
+    */
+
+.sys_employee_list .reveal-modal .close-reveal-modal {
+	font-size: 32px;
+	line-height: 0.5;
+	position: absolute;
+	top: 15px;
+	right: 18px;
+	color: #fff;
+	text-shadow: 0 -1px 1px rbga(0, 0, 0, .6);
+	font-weight: bold;
+	cursor: pointer;
+}
+
+/************************************************************************/
+
+/************************************************************************/
+/*客户列表*/
+.sys_employee #myAllClientsPage{
+
+}
+.sys_employee .m-secNav{
+	padding: 20px 6px;
+}
+.sys_employee .m-secNav li:not(.vertical){
+	float: left;
+	width: 80px;
+	height: 25px;
+	line-height: 25px;
+	font-size: 12px;
+	text-align: center;
+	margin-right: 10px;
+	border-radius: 12.5px;
+	color: #cccccc;
+	background-color: #e6e6e6;
+	cursor: pointer;
+}
+.sys_employee .m-secNav li:not(.vertival).active{
+	color: white;
+	background-color: #42a5f5;
+}
+.sys_employee .m-secNav li.vertical{
+	float: left;
+	width: 1px;
+	height: 25px;
+	margin-right: 10px;
+	background-color: #ecf0f5;
+}
+.sys_employee .m-filterNav{
+	margin-left: 4px;
+}
+.sys_employee .m-filterNav select{
+	width: 110px;
+	height: 25px;
+	box-sizing: content-box;
+	margin-right: 8px;
+	border: 1px solid #dddddd;
+}
+.sys_employee .m-filterNav input[type="text"]{
+	width: 110px;
+	padding: 0 5px;
+	height: 25px;
+	box-sizing: content-box;
+	margin-right: 8px;
+	border: 1px solid #dddddd;
+	/*background-color: black;*/
+}
+.sys_employee .u-btnSearch{
+	width: 60px;
+	height: 25px;
+	border-radius: 12.5px;
+	line-height: 25px;
+	margin-left: 10px;
+	text-align: center;
+	color: white;
+	border: none;
+	background-color: #42a5f5;
+}
+
+
+/************************************************************************/

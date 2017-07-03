@@ -13,6 +13,7 @@ class CorporationCash
      * 公司资金流动记录
      * @param $data
      * @return int|string
+     * created by messhair
      */
     public function addCorporationCashInfo($data)
     {

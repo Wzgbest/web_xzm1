@@ -10,7 +10,7 @@ use app\common\model\Base;
 class TakeCash extends Base
 {
 
-    public function __construct($corp_id)
+    public function __construct($corp_id=null)
     {
         $this->table = config('database.prefix').'take_cash';
         parent::__construct($corp_id);

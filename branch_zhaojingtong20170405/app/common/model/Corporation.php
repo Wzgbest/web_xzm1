@@ -13,6 +13,7 @@ class Corporation extends Db
      * 根据公司代号查询
      * @param $corp_id
      * @return array
+     * created by messhair
      */
     public static function getCorporation($corp_id)
     {
@@ -23,6 +24,7 @@ class Corporation extends Db
      * 根据id查询
      * @param $id 公司表id
      * @return array|false|\PDOStatement|string|\think\Model
+     * created by messhair
      */
     public static function getCorpId ($id)
     {
@@ -40,6 +42,7 @@ class Corporation extends Db
      * @param $data
      * @return int|string
      * @throws \think\Exception
+     * created by messhair
      */
     public static function setCorporationInfo($corp_id,$data)
     {

@@ -1,0 +1,117 @@
+<!--客户详情-->
+<section class="page-info">
+    <header>
+        <ul class="m-firNav">
+            <li class="current back"><div>我的所有客户（<span>160</span>）</div></li>
+            <i class="fa fa-angle-right fa-2x"></i>
+            <span class="u-spanInfo">详情</span>
+        </ul>
+    </header>
+    <ul class="m-pageInfoNav">
+        <div class="clearfix"></div>
+        <li class="customer_general_show">概要</li>
+        <li class="customer_info_show">客户信息</li>
+        <li class="current">联系人（{$customer_contact_num}）</li>
+        <li class="customer_sale_chance_show">销售机会（{$sale_chance_num}）</li>
+        <li class="customer_trace_show">跟踪记录（{$customer_trace_num}）</li>
+        <div class="clearfix"></div>
+    </ul>
+    <section id="clientInfoLinkman" class="clientInfoLinkman">
+        <div id="new-linkman" class="addClientInfoLinkman">
+            <i class="fa fa-plus fa-2x"></i>
+            新建联系人
+        </div>
+        <div class="{$fr}_contact_add_panel contact_add_panel hide"></div>
+        {volist name="customer_contact" id="vo"}
+        <div class="m-divBlock m-form linkman {$fr}_contact_{$vo.id}">
+            <div class="creat-info">
+                <div>
+                    <span>新建时间</span>
+                    <span>{$vo.create_time}</span>
+                </div>
+                <div>
+                    <span>创建人</span>
+                    <span>{$vo.create_user_name}</span>
+                </div>
+            </div>
+            <div class="linkman-info">
+                <div>
+                    <span class="cont-max">联系人姓名：</span>
+                    <span class="cont-x">{$vo.contact_name}</span>
+                    <span class="cont">性别：</span>
+                    <span class="cont-x">{eq name="vo.sex" value="1"}男{else/}女{/eq}</span>
+                </div>
+                <div>
+                    <span class="cont">联系方式1：</span>
+                    <span class="cont-x telephone">{$vo.phone_first}<i class="fa fa-phone"></i><i class="fa fa-qq"></i><i class="fa fa-wechat active"></i><i class="fa fa-check-circle"></i></span>
+                    <span class="cont">联系方式2：</span>
+                    <span class="cont-x telephone">{$vo.phone_second}<i class="fa fa-phone"></i><i class="fa fa-qq active"></i><i class="fa fa-wechat"></i><i class="fa fa-check-circle"></i></span>
+                </div>
+                <div>
+                    <span class="cont">联系方式3：</span>
+                    <span class="cont-x telephone">{$vo.phone_third}<i class="fa fa-phone"></i><i class="fa fa-qq"></i><i class="fa fa-wechat"></i><i class="fa fa-question-circle"></i></span>
+                    <span class="cont">邮箱：</span>
+                    <span class="cont-x number">{$vo.email}<i class="fa fa-envelope-o mar"></i></span>
+                </div>
+                <div>
+                    <span class="cont">QQ号：</span>
+                    <span class="cont-x number">{$vo.qqnum}</span>
+                    <span class="cont">微信号：</span>
+                    <span class="cont-x number">{$vo.wechat}</span>
+                </div>
+                <div>
+                    <span class="cont">部门：</span>
+                    <span class="cont-x">{$vo.structure}</span>
+                    <span class="cont">职务：</span>
+                    <span class="cont-x">{$vo.occupation}</span>
+                </div>
+                <div>
+                    <span class="cont-max">关键决策人：</span>
+                    <span class="cont-x">{eq name="vo.key_decide" value="1"}是{else/}否{/eq}</span>
+                    <span class="cont">决策能力：</span>
+                    <span class="cont-x">
+                        {switch	name="vo.deal_capability"}
+                        {case value="1"}普通人{/case}
+                        {case value="2"}决策人{/case}
+                        {case value="3"}分项决策人{/case}
+                        {case value="4"}商务决策人{/case}
+                        {case value="5"}技术决策人{/case}
+                        {case value="6"}财务决策人{/case}
+                        {case value="7"}使用人{/case}
+                        {case value="8"}意见影响人{/case}
+                        {/switch}
+                    </span>
+                </div>
+                <div>
+                    <span class="cont">介绍人：</span>
+                    <span class="cont-x telephone">{$vo.introducer}<i class="fa fa-phone"></i></span>
+                    <span class="cont">亲密程度：</span>
+                    <span class="cont-x">
+                        {switch	name="vo.close_degree"}
+                        {case value="0"}不亲密{/case}
+                        {case value="1"}亲密{/case}
+                        {/switch}
+                    </span>
+                </div>
+                <div>
+                    <span class="cont">生日：</span>
+                    <span class="cont-x">{$vo.birthday|day_format}</span>
+                </div>
+                <div>
+                    <span class="cont">爱好：</span>
+                    <span class="cont-x">{$vo.hobby}</span>
+                </div>
+                <div>
+                    <span class="cont">备注：</span>
+                    <span class="remark">{$vo.remark}</span>
+                </div>
+                <div class="edit editlinkman">
+                    <i class="fa fa-file-text fa-2x"></i>
+                    <span>编辑</span>
+                    <input type="hidden" class="edit_id" value="{$vo.id}"/>
+                </div>
+            </div>
+        </div>
+        {/volist}
+    </section>
+</section>

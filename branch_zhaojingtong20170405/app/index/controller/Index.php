@@ -1,11 +1,26 @@
 <?php
+/**
+ * Created by: messhair
+ * Date: 2017/5/9
+ */
 namespace app\index\controller;
 
-class Index
+use think\Db;
+use app\huanxin\service\Api;
+use think\Controller;
+
+class Index extends Controller
 {
     public function index()
     {
-        return 'index/index';
+        $userinfo = session('userinfo');
+        if (empty($userinfo)) {
+            $this->redirect('/login/index/index');
+        }
+        return view();
     }
 
+    public function developing(){
+        return view();
+    }
 }

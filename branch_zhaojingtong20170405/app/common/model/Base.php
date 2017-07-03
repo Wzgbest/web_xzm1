@@ -11,10 +11,23 @@ class Base
 {
     protected $model;
     public $link;
-    public function __construct($corp_id)
+    protected $corp_id;
+    public $table;
+
+    /**
+     * 数据库分库访问基类
+     * @param null $corp_id
+     * created by messhair
+     */
+    public function __construct($corp_id = null)
     {
-        config('db_config1.database',config('db_common_prefix').$corp_id);
-        $this->model = Db::connect('db_config1');
+        if (is_null($corp_id)) {
+            $this->corp_id = get_corpid();
+        } else {
+            $this->corp_id = $corp_id;
+        }
+        config('db_config1.database',config('db_common_prefix').$this->corp_id);
+        $this->model = Db::connect(config('db_config1'));
         $this->link =$this->model->getConnection();
     }
 }
