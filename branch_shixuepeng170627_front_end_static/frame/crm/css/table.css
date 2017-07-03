@@ -15,6 +15,19 @@
 .table3{
 	width: 1000px;
 }
+/*我的合同-所有合同*/
+.table4{
+	width: 1140px;
+}
+/*我的合同-合同审核中*/
+.table5{
+	width: 570px;
+}
+/*公海池-导入记录*/
+.table6{
+	width: 1330px;
+}
+
 .m-table ul{
 	border-bottom: 1px solid #eeeeee;
 }
@@ -34,6 +47,10 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	text-align: left;
+}
+.m-table2 li{
+	width: 169px;
+	padding: 0 10px;
 }
 .m-table i{
 	margin-left: 10px;
@@ -70,4 +87,15 @@
 	height: 30px;
 	margin-top: 20px;
 	font-size: 14px;
+}
+.u-tabControlRow select,.u-tabControlRow button{
+	width: 60px;
+	height: 25px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background-color: transparent;
+}
+.u-tabControlRow input{
+	width: 40px;
+	border-radius: 4px;
 }

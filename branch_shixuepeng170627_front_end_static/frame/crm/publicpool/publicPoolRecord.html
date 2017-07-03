@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>公海池-导入记录</title>
+		<link rel="stylesheet" href="../../../css/reset.css" />
+		<link rel="stylesheet" href="../css/index.css"/>
+		<link rel="stylesheet" href="../css/divBlock.css" />
+		<link rel="stylesheet" href="../css/table.css" />
+		<link rel="stylesheet" href="../css/form.css" />
+		<link rel="stylesheet" href="../../../css/font-awesome.min.css" />
+	</head>
+	<body>
+		<header>
+			<ul class="m-firNav">
+				<li class="current"><div style="border: none;">公海池</div></li>
+				<i class="fa fa-angle-right fa-2x" style="line-height: 40px;margin-left: 5px;"></i><span class="u-spanInfo">导入记录</span>
+			</ul>
+		</header>
+		<div class="m-tableBox">
+			<div class="m-filterNav" style="margin-bottom: 20px;">
+				<input type="date" /> ----
+				<input type="date" style="margin-right: 10px;"/> 
+				<input type="text" placeholder="请输入批次"/>
+				<input type="text" placeholder="请输入导入人"/>
+				<button class="u-btnSearch">查询</button>
+			</div>
+			<div class="m-table m-table2 table6">
+				<ul class="u-tabTitle">
+					<li>导入批次<i class="fa fa-caret-down"></i></li>
+					<li>导入时间<i class="fa fa-unsorted"></i></li>
+					<li>导入人</li>
+					<li>导入结果</li>
+					<li>成功<i class="fa fa-unsorted"></i></li>
+					<li>失败<i class="fa fa-unsorted"></i></li>
+					<li>操作</li>
+					<div class="clearfix"></div>
+				</ul>
+				<ul class="u-tabList">
+					<li>20170703</li>
+					<li>2017/07/03 17:52</li>
+					<li>我</li>
+					<li>全部成功</li>
+					<li>20</li>
+					<li>0</li>
+					<li class="u-tabOperation"><span>失败列表下载</span><span>客户详情</span></li>
+					<div class="clearfix"></div>
+				</ul>
+			</div>
+			<div class="u-tabControlRow">
+				<span>显示行数</span>
+				<select>
+					<option>5</option>
+					<option>10</option>
+					<option>20</option>
+				</select>
+				<span>1-10条/</span>
+				<span>共50条</span>
+				<button>上一页</button>
+				<button>下一页</button>
+				<span>前往</span>
+				<input type="text" />
+				<span>页</span>
+			</div>
+		</div>
+		<script src="../../../js/jquery.min.js"></script>
+		<script src="../js/publicPool.js"></script>
+		<script src="../js/common.js"></script>
+	</body>
+</html>
