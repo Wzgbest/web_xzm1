@@ -10,7 +10,7 @@ use app\huanxin\controller\User;
 use app\huanxin\model\TakeCash;
 use app\huanxin\service\DepositMoney as DepositMoneyService;
 use app\huanxin\model\AppAlipayTrade;
-use app\common\model\Employer;
+use app\common\model\Employee;
 
 class DepositMoney
 {
@@ -36,17 +36,17 @@ class DepositMoney
         if (!preg_match('/^[0-9]{1,30}\.[0-9]{1,2}$/',$money)) {
             $info['message'] = '用户充值金额格式不正确';
             $info['errnum'] = 1;
-            return json_encode($info,true);
+            return json($info);
         }
         $total_money = intval($money*100);
         if ($total_money < 1) {
             $info['message'] = '用户充值金额过少';
             $info['errnum'] = 2;
-            return json_encode($info,true);
+            return json($info);
         }
         $r = $user->checkUserAccess($userid,$access_token);
         if (!$r['status']) {
-            return json_encode($r,true);
+            return json($r);
         }
 
         $out_trade_no = 'guguo_app_pay'.date('YmdHis',time()).time().rand(1000,9999);
@@ -70,7 +70,7 @@ class DepositMoney
             $info['message'] = '生成订单失败';
             $info['errnum'] = 3;
         }
-        return json_encode($info,true);
+        return json($info);
     }
 
     /**
@@ -95,45 +95,45 @@ class DepositMoney
         if (!preg_match('/^[0-9]{1,30}\.[0-9]{1,2}$/',$money)) {
             $info['message'] = '用户充值金额格式不正确';
             $info['errnum'] = 1;
-            return json_encode($info,true);
+            return json($info);
         }
         $total_money = intval($money*100);
         if ($total_money < 1) {
             $info['message'] = '用户充值金额过少';
             $info['errnum'] = 2;
-            return json_encode($info,true);
+            return json($info);
         }
         if (!preg_match('/^guguo_app_pay[0-9]{28}/',$out_trade_no)) {
             $info['message'] = '订单格式不正确';
             $info['errnum'] = 3;
-            return json_encode($info,true);
+            return json($info);
         }
         $r = $user->checkUserAccess($userid,$access_token);
         if (!$r['status']) {
-            return json_encode($r,true);
+            return json($r);
         }
         $trade_info = AppAlipayTrade::getTradeInfo($out_trade_no);
         if (empty($trade_info)) {
             $info['message'] = '提交的订单不存在';
             $info['errnum'] = 4;
-            return json_encode($info,true);
+            return json($info);
         }
         if ($trade_info['status'] ==1) {
             $info['message'] = '该订单已在系统中充值，不要重复提交';
             $info['errnum'] = 5;
             write_log($r['userinfo']['id'],0,'app充值刷单嫌疑',$r['corp_id']);
-            return json_encode($info,true);
+            return json($info);
         }
-        $depoM = new DepositMoneyService();
+        $depoM = new DepositMoneyService($r['corp_id']);
         $res = $depoM->queryTradeNumber($trade_no,$out_trade_no,$money);
         if (!$res['status']) {
             $res['errnum'] = 6;
-            return json_encode($res,true);
+            return json($res);
         }
 
         //兑换货币
         $left_money = $total_money + $r['userinfo']['left_money'];
-        $cashM = new TakeCash();
+        $cashM = new TakeCash($r['corp_id']);
         //take_cash记录
         $cash_data = [
             'userid'=>$r['userinfo']['id'],
@@ -150,7 +150,7 @@ class DepositMoney
         ];
         $cashM->link->startTrans();
         try {
-            $add = $user->employM->setEmployerSingleInfo($userid,['left_money' => $left_money]);
+            $add = $user->employM->setEmployeeSingleInfo($userid,['left_money' => $left_money]);
             $cash_rec = $cashM->addOrderNumber($cash_data);
             $app_r = AppAlipayTrade::setTradeStatus($out_trade_no,$app_data);
         } catch (\Exception $e){
@@ -169,7 +169,7 @@ class DepositMoney
             $info['message'] = '兑换系统货币失败，联系管理员';
             $info['errnum'] = 7;
         }
-        return json_encode($info,true);
+        return json($info);
     }
 
     /**
@@ -195,16 +195,16 @@ class DepositMoney
     public function getNotifyNotice()
     {
         $raw_data=input('param.');
-        $depositM = new DepositMoneyService();
         $out_trade_no = $raw_data['out_trade_no'];
         $alipay_info = AppAlipayTrade::getTradeInfo($out_trade_no);
+        $corp_id = Corporation::getCorpId($alipay_info['corp_id']);
+        $depositM = new DepositMoneyService($corp_id);
         $result = $depositM->checkAlipaySign($raw_data,$alipay_info);
         if (!$result) {
             return 'fail';
         } else {
-            $corp_id = Corporation::getCorpId($alipay_info['corp_id']);
-            $employM = new Employer();
-            $cashM = new TakeCash();
+            $employM = new Employee($corp_id);
+            $cashM = new TakeCash($corp_id);
             $in_money = $alipay_info['money'];
             $in_data = [
                 'left_money' => ['exp', "left_money + $in_money"]
@@ -219,7 +219,7 @@ class DepositMoney
             $employM->link->startTrans();
             Corporation::startTrans();
             try{
-                $add = $employM->setSingleEmployerInfobyId($alipay_info['userid'],$in_data);
+                $add = $employM->setSingleEmployeeInfobyId($alipay_info['userid'],$in_data);
                 $cash_rec = $cashM->addOrderNumber($cash_data);
             }catch (\Exception $e){
                 $employM->link->rollback();

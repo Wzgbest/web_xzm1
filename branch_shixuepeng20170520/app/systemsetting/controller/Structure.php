@@ -6,10 +6,10 @@
 namespace app\systemsetting\controller;
 
 use app\common\controller\Initialize;
-use app\systemsetting\controller\Employer;
-use app\common\model\Employer as EmployerModel;
+use app\systemsetting\controller\Employee;
+use app\common\model\Employee as EmployeeModel;
 use app\common\model\Structure as StructureModel;
-use app\common\model\StructureEmployer as StructureEmployerModel;
+use app\common\model\StructureEmployee as StructureEmployeeModel;
 
 class Structure extends Initialize
 {
@@ -36,23 +36,23 @@ class Structure extends Initialize
      */
     public function showPointedDepartment($struct_id,$page_now_num=0,$page_row=10)
     {
-        $employerM = new EmployerModel();
-        $total_num = $employerM->countEmployerByStructId($struct_id);
-        $data = $employerM->getEmployerByStructId($struct_id,$page_now_num,$page_row);
+        $employeeM = new EmployeeModel();
+        $total_num = $employeeM->countEmployeeByStructId($struct_id);
+        $data = $employeeM->getEmployeeByStructId($struct_id,$page_now_num,$page_row);
         $res = ['data'=>$data,'page'=>['page_now_num'=>$page_now_num,'page_row'=>$page_row,'total_num'=>$total_num]];
         return $res;
     }
 
     /**
      * 显示员工详情
-     * @param \app\systemsetting\controller\Employer $employer
+     * @param \app\systemsetting\controller\Employee $employee
      * @param $user_id 员工id
      * @return array|false|\PDOStatement|string|\think\Model
      * created by messhair
      */
-    public function showEmployerInfo(Employer $employer, $user_id)
+    public function showEmployeeInfo(Employee $employee, $user_id)
     {
-        $info = $employer->showSingleEmployerInfo($user_id);
+        $info = $employee->showSingleEmployeeInfo($user_id);
         return $info;
     }
 
@@ -91,18 +91,18 @@ class Structure extends Initialize
      * @return array
      * created by messhair
      */
-    public function changeEmployerStructure($user_id,$group,$to_group)
+    public function changeEmployeeStructure($user_id,$group,$to_group)
     {
         $struM = new CorporationStructure();
         $st_res = $struM->getStructureInfo($to_group);
         if (empty($st_res)) {
             return ['status'=>false,'message'=>'选择的部门不存在'];
         }
-        $employerM = new StructureEmployerModel();
+        $employeeM = new StructureEmployeeModel();
         $data = [
             'struct_id' => $to_group,
         ];
-        $res = $employerM->setStructureEmployerById($user_id,$group,$data);
+        $res = $employeeM->setStructureEmployeeById($user_id,$group,$data);
         if ($res >0) {
             $info=[
                 'status' =>true,
@@ -136,12 +136,12 @@ class Structure extends Initialize
         $ids = deep_get_ids($st_res_all,$struct_id);
         $ids = implode(',',$ids);
 
-        $employerM = new StructureEmployerModel();
-        $users = $employerM->getEmployerByStructIds($ids);
+        $employeeM = new StructureEmployeeModel();
+        $users = $employeeM->getEmployeeByStructIds($ids);
         if ($trans == 1) {
             //转移员工到默认组
             if (empty($users)) {
-                $employerM->link->startTrans();
+                $employeeM->link->startTrans();
                 $b = 1;
             } else {
                 $user_ids = [];
@@ -152,19 +152,19 @@ class Structure extends Initialize
                 $data = [
                     'struct_id' => -1,
                 ];
-                $employerM->link->startTrans();
-                $b = $employerM->setStructureEmployerbyIds($user_ids,$data);
+                $employeeM->link->startTrans();
+                $b = $employeeM->setStructureEmployeebyIds($user_ids,$data);
             }
 
             $d = $struM->deleteStructure($ids);
             if ($b>0 && $d>0) {
-                $employerM->link->commit();
+                $employeeM->link->commit();
                 $info = [
                     'status' =>true,
                     'message' =>'员工移动到默认部门，部门已删除'
                 ];
             } else {
-                $employerM->link->rollback();
+                $employeeM->link->rollback();
                 $info = [
                     'status' =>true,
                     'message' =>'操作失败'
@@ -173,7 +173,7 @@ class Structure extends Initialize
         } elseif ($trans == 0) {
             //删除所有员工
             if (empty($users)) {
-                $employerM->link->startTrans();
+                $employeeM->link->startTrans();
                 $b = 1;
             } else {
                 $user_ids = [];
@@ -184,19 +184,19 @@ class Structure extends Initialize
                 $data = [
                     'struct_id' => -1,
                 ];
-                $employerM->link->startTrans();
-                $b = $employerM->setStructureEmployerbyIds($user_ids,$data);
+                $employeeM->link->startTrans();
+                $b = $employeeM->setStructureEmployeebyIds($user_ids,$data);
             }
 
             $d = $struM->deleteStructure($ids);
             if ($b>0 && $d>0) {
-                $employerM->link->commit();
+                $employeeM->link->commit();
                 $info = [
                     'status' =>true,
                     'message' =>'员工已删除，部门已删除'
                 ];
             } else {
-                $employerM->link->rollback();
+                $employeeM->link->rollback();
                 $info = [
                     'status' =>true,
                     'message' =>'操作失败'

@@ -34,7 +34,11 @@ class ImportFile extends Base{
             ->column('md5,id');
         foreach($files as $key=>$file){
             $value = [];
-            $path = ROOT_PATH . 'public' . DS . 'uploads';
+            $path = ROOT_PATH . 'public' . DS . 'webroot' . DS . $this->corp_id . DS . 'import_file';
+            $checkFlg = $file->check(config('upload_import_file'));
+            if(!$checkFlg){
+                return false;
+            }
             $info = $file->move($path);
             //var_exp($info,'$info');
             $savename = $info->getSaveName();
@@ -77,10 +81,11 @@ class ImportFile extends Base{
     /**
      * 获取文件
      * @param $file Object File类对象
+     * @param $type string hash类型
      * @return string md5字符串
      */
-    protected function getHash($file){
-        $hash_md5 = $file->hash('md5');
+    protected function getHash($file,$type='md5'){
+        $hash_md5 = $file->hash($type);
         return $hash_md5;
     }
 

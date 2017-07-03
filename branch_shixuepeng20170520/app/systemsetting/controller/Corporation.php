@@ -7,6 +7,7 @@ namespace app\systemsetting\controller;
 
 use app\common\controller\Initialize;
 use app\common\model\Corporation as CorporationModel;
+use app\common\model\Business;
 use think\Request;
 
 class Corporation extends Initialize
@@ -17,58 +18,72 @@ class Corporation extends Initialize
     }
 
     /**
-     * 修改公司信息
+     * 获取公司信息并绑定到模板
+     * @return array
+     * created by blu10ph
+     */
+    protected function _showCorpInfo(){
+        $data = CorporationModel::getCorporation($this->corp_id);
+        $business = new Business($this->corp_id);
+        $business_list = $business->getAllBusiness();
+        $corpInfo = ['business_list'=>$business_list,'data'=>$data];
+        $this->assign($corpInfo);
+        return $corpInfo;
+    }
+
+    /**
+     * 显示公司信息
+     * @return mixed
+     * created by blu10ph
+     */
+    public function showCorpInfo(){
+        $this->_showCorpInfo();
+        return view();
+    }
+
+    /**
+     * 修改公司信息页面
      * @return mixed
      * created by messhair
      */
-    public function editCorpInfo(Request $request)
-    {
-        if ($request->isGet()) {
-            $corpM = new CorporationModel();
-            $data = $corpM->getCorporation($this->corp_id);
-            $location = explode(",",$data['corp_location']);
-            $data['lat'] = $location[0];
-            $data['lng'] = $location[1];
-            $field_list = [];//TODO 获取行业列表
-            $field_list[] = ["id"=>1,"title"=>"IT行业"];
-            $field_list[] = ["id"=>3,"title"=>"金融行业"];
-            $field_list[] = ["id"=>2,"title"=>"制造行业"];
-            $this->assign('field_list',$field_list);
-            $this->assign('data',$data);
-            return view();
-        } elseif ($request->isPost()) {
-            $info['status'] = false;
-            if (empty($this->corp_id)) {
-                $info['message'] = '访问有误';
-                return $info;
-            }
-            $input = $request->param();
+    public function editCorpInfo(){
+        $this->_showCorpInfo();
+        return view();
+    }
 
-            if (empty($input['corp_name']) ||empty($input['corp_tel']) || empty($input['corp_field'])) {
-                $info['message'] = '缺少必填信息';
-                return $info;
-            }
+    /**
+     * 修改公司信息
+     * @return mixed
+     * created by blu10ph
+     */
+    public function updateCorpInfo(Request $request){
+        $info = ['status'=>0,"message"=>"修改公司信息时发生错误!"];
+        $input = $request->param();
 
-            $data = [
-                'corp_name' => $input['corp_name'],
-                'corp_tel' => $input['corp_tel'],
-                'corp_website' => $input['corp_web'],
-                'corp_address' => $input['corp_addr'],
-                'corp_dist' => $input['corp_dist'],
-                'corp_field' => $input['corp_field'],
-                'corp_product_keys' => $input['corp_product_keys'],
-            ];
-
-            $corpM = new CorporationModel();
-            $res = $corpM->setCorporationInfo($this->corp_id,$data);
-            if ($res >= 0) {
-                $info['status'] = true;
-                $info['message'] = '修改公司信息成功';
-            } else {
-                $info['message'] = '修改公司信息失败';
-            }
+        if (empty($this->corp_id) || empty($input['corp_name']) ||empty($input['corp_tel']) || empty($input['corp_field'])) {
+            $info['message'] = '参数错误!';
             return $info;
         }
+
+        $data = [
+            'corp_name' => $input['corp_name'],
+            'corp_tel' => $input['corp_tel'],
+            'corp_website' => $input['corp_web'],
+            'corp_address' => $input['corp_addr'],
+            'corp_dist' => $input['corp_dist'],
+            'corp_field' => $input['corp_field'],
+            'corp_product_keys' => $input['corp_product_keys'],
+        ];
+
+        $corpM = new CorporationModel();
+        $res = $corpM->setCorporationInfo($this->corp_id,$data);
+        if ($res >= 0) {
+            $info['status'] = 1;
+            $info['message'] = '修改公司信息成功';
+        } else {
+            $info['message'] = '修改公司信息失败';
+        }
+        return $info;
     }
 
     /**
@@ -80,17 +95,18 @@ class Corporation extends Initialize
     {
         $input = input('param.');
         $info['status'] = false;
-        if (empty($input['corp_location'])) {
+        if (empty($input['lat']) || empty($input['lng'])) {
             $info['message'] = '定位信息不能为空';
             return $info;
         }
 
         $data = [
-            'corp_location' => $input['corp_location'],
+            'corp_lat' => $input['lat'],
+            'corp_lng' => $input['lng'],
         ];
 
         $corpM = new CorporationModel();
-        $res = $corpM->setCorporationInfo($corp_id,$data);
+        $res = $corpM->setCorporationInfo($this->corp_id,$data);
         if ($res >= 0) {
             $info['message'] = '修改定位信息成功';
             $info['status'] = true;

@@ -6,7 +6,7 @@
 namespace app\login\controller;
 
 use app\common\model\UserCorporation;
-use app\common\model\Employer;
+use app\common\model\Employee;
 use think\Controller;
 
 class Index extends Controller
@@ -44,8 +44,8 @@ class Index extends Controller
             $req_reg['errnum'] = 3;
             return $req_reg;
         }
-        $model = new Employer($corp_id);
-        $user_arr = $model->getEmployerByTel($telephone);
+        $model = new Employee($corp_id);
+        $user_arr = $model->getEmployeeByTel($telephone);
         if (empty($user_arr)) {
             $req_reg['message'] = '用户不存在或用户未划分公司归属';
             $req_reg['errnum'] = 3;
@@ -62,7 +62,7 @@ class Index extends Controller
             return $req_reg;
         }
         $data =['lastloginip'=>$ip,'lastlogintime'=>time()];
-        if ($model->setEmployerSingleInfo($telephone,$data) <= 0) {
+        if ($model->setEmployeeSingleInfo($telephone,$data) <= 0) {
             $reg_reg['message'] = '登录信息写入失败，联系管理员';
             $reg_reg['errnum'] = 7;
             return $reg_reg;
@@ -78,6 +78,6 @@ class Index extends Controller
             'role'=>$user_arr['role_name'],
         ];
         session('userinfo',$userinfo);
-        $this->redirect('systemsetting/corporation/index');
+        $this->redirect('index/index/index');
     }
 }

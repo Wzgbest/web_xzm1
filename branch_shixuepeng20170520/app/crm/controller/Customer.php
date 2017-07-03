@@ -10,190 +10,854 @@ namespace app\crm\controller;
 
 use app\common\controller\Initialize;
 use app\crm\model\Customer as CustomerModel;
-use app\crm\model\CustomerContact as CustomerContactModel;
-use app\crm\model\CustomerImportRecord as CustomerImport;
-use app\crm\model\CustomerImportFail;
+use app\crm\model\CustomerContact;
+use app\crm\model\SaleChance;
+use app\crm\model\CustomerTrace;
+use app\crm\model\CustomerDelete as CustomerDelete;
+use app\crm\model\CustomerNegotiate;
+use app\systemsetting\model\CustomerSetting;
+use app\common\model\Business;
 
 class Customer extends Initialize{
-
-
-    public function importCustomer(){
-        $result =  ['status'=>0 ,'info'=>"导入失败！"];
-        $file_id = input("file_id",0,"int");
-        $import_to = input("import_to",0,"int");//导入到1客户管理，2公海池
-
-        //客户信息默认参数
-        $customer_default = [];
-        if($import_to==1){
-            $customer_default['belongs_to'] = 1;
-        }elseif($import_to==2){
-            $customer_default['belongs_to'] = 2;
-        }else{
-            $result['info'] = '参数错误!';
-            return json($result);
+    var $paginate_list_rows = 10;
+    public function _initialize(){
+        parent::_initialize();
+        $this->paginate_list_rows = config("paginate.list_rows");
+    }
+    public function index(){
+        echo "crm/customer/index";
+    }
+    public function customer_manage(){
+        $num = input('num',$this->paginate_list_rows,'int');
+        $p = input("p",1,"int");
+        $customers_count=0;
+        $start_num = ($p-1)*$num;
+        $end_num = $start_num+$num;
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
+        $uid = session('userinfo.userid');
+        $filter = $this->_getCustomerFilter(["belongs_to","resource_from","comm_status","take_type","tracer","guardian","add_man"]);
+        $field = $this->_getCustomerField([]);
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_data = $customerM->getManageCustomer($num,$p,$filter,$field,$order,$direction);
+            $this->assign("listdata",$customers_data);
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_count = $customerM->getManageCustomerCount($filter,$order,$direction);
+            $this->assign("count",$customers_count);
+            $business = new Business($this->corp_id);
+            $business_list = $business->getAllBusiness();
+            $this->assign("business_list",$business_list);
+        }catch (\Exception $ex){
+            $this->error($ex->getMessage());
         }
-        $customer_default['handle_man'] = 0;
-
-        $column = array (
-            'A' => 'customer_name',
-            'B' => 'telephone',
-            'C' => 'address',
-            'D' => 'location',
-            'E' => 'field',
-            'F' => 'website',
-        );
-        $column_res = getHeadFormExcel($file_id);
-        if ($column_res ['status'] == 0) {
-            $result['info'] = $column_res ['data'];
-            return json($result);
+        $max_page = ceil($customers_count/$num);
+        $this->assign("p",$p);
+        $this->assign("num",$num);
+        $this->assign("filter",$filter);
+        $this->assign("max_page",$max_page);
+        $this->assign("start_num",$start_num+1);
+        $this->assign("truename",session('userinfo.truename'));
+        $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
+        return view();
+    }
+    public function my_customer(){
+        $num = input('num',$this->paginate_list_rows,'int');
+        $p = input("p",1,"int");
+        $customers_count=0;
+        $start_num = ($p-1)*$num;
+        $end_num = $start_num+$num;
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
+        $uid = session('userinfo.userid');
+        $filter = $this->_getCustomerFilter(["take_type","grade","sale_chance","comm_status","customer_name","contact_name","in_column"]);
+        $field = $this->_getCustomerField(["take_type","grade"]);
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_data = $customerM->getSelfCustomer($uid,$num,$p,$filter,$field,$order,$direction);
+            $this->assign("listdata",$customers_data);
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_count = $customerM->getSelfCustomerCount($uid,$filter,$order,$direction);
+            $this->assign("count",$customers_count);
+            $listCount = $customerM->getColumnNum($uid,$filter);
+            $this->assign("listCount",$listCount);
+            $business = new Business($this->corp_id);
+            $business_list = $business->getAllBusiness();
+            $this->assign("business_list",$business_list);
+        }catch (\Exception $ex){
+            $this->error($ex->getMessage());
         }
-        $column_default = [
-            0 => '公司名称',
-            1 => '电话号码',
-            2 => '地址',
-            3 => '定位',
-            4 => '行业',
-            5 => '官网',];
-        $length=count($column_default);
-        for($i=0;$i<$length;$i++){
-            if($column_res['data'][$i]!=$column_default[$i]){
-                $result['info'] = 'Excel文件表头读取失败,请勿更改模板列!';
-                return json($result);
+        $max_page = ceil($customers_count/$num);
+        $in_column = isset($filter["in_column"])?$filter["in_column"]:0;
+        $this->assign("p",$p);
+        $this->assign("num",$num);
+        $this->assign("filter",$filter);
+        $this->assign("max_page",$max_page);
+        $this->assign("in_column",$in_column);
+        $this->assign("start_num",$start_num+1);
+        $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
+        return view();
+    }
+    public function public_customer_pool(){
+        $num = input('num',$this->paginate_list_rows,'int');
+        $p = input("p",1,"int");
+        $customers_count=0;
+        $start_num = ($p-1)*$num;
+        $end_num = $start_num+$num;
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
+        $uid = session('userinfo.userid');
+
+        //获取客户配置
+        $view_name="";
+        $struct_ids = getStructureIds($uid);
+        $customerSettingModel = new CustomerSetting();
+        $searchCustomerList = $customerSettingModel->getCustomerSettingByStructIds($struct_ids);
+        $public_flg = false;
+        foreach ($searchCustomerList as $customerSetting){
+            if(!$customerSetting["public_sea_seen"]==1){
+                $public_flg = true;
+                break;
             }
         }
-        $res = importFormExcel($file_id,$column);
-        //var_exp($res['data'],'$res[\'data\']');
-        if ($res ['status'] == 0) {
-            $result['info'] = 'Excel文件读取失败!';
-            return json($result);
-        }
-
-        //获取批次
-        $customerImport = new CustomerImport($this->corp_id);
-        $record = $customerImport->getNewImportCustomerRecord(session('userinfo.id'));
-        if(!$record){
-            $result['info'] = '添加导入记录失败!';
-            return json($result);
-        }
-        //var_exp($record,'$record',1);
-        $batch = $record['batch'];
-        $uid = session('userinfo.id');
-
-        //校验数据
-        $success_num = 0;
-        $fail_array = [];
-        $customerImport->link->startTrans();
-        foreach ($res ['data'] as $item) {
-            $item['batch'] = $batch;
-            try {
-                $customer = $customer_default;
-                $customer['customer_name'] = $item['customer_name'];
-                $customer['resource_from'] = 1;
-                $customer['telephone'] = $item['telephone'];
-                $customer['add_man'] = $uid;
-                $customer['add_batch'] = $item['batch'];
-                $validate_result = $this->validate($customer,'Customer');
-                //验证字段
-                if(true !== $validate_result){
-                    exception($validate_result);
-                }
-                $customerImport->link->startTrans();
+        if($public_flg){
+            $view_name="public_pool";
+            $filter = $this->_getCustomerFilter(["resource_from","grade","customer_name"]);
+            $field = $this->_getCustomerField([]);
+            try{
                 $customerM = new CustomerModel($this->corp_id);
-                $add_flg = $customerM->addCustomer($customer);
-                if(!$add_flg){
-                    exception('添加客户失败!');
-                }
-                $customerContact['customer_id'] = $add_flg;
-                $customerContact['contact_name'] = $item['customer_name'];
-                $customerContact['phone_first'] = $item['telephone'];
-                $validate_result = $this->validate($customerContact,'CustomerContact');
-                //验证字段
-                if(true !== $validate_result){
-                    exception($validate_result);
-                }
-                $customerContactM = new CustomerContactModel($this->corp_id);
-                $user_corp_add_flg = $customerContactM->addCustomerContact($customerContact);
-                if(!$user_corp_add_flg){
-                    exception('添加客户联系方式失败!');
-                }
-            }catch(\Exception $e){
-                $customerImport->link->rollback();
-                $item['remark'] = $e->getMessage();
-                $fail_array[] = $item;
-                continue;
-            }
-            $customerImport->link->commit();
-            $success_num++;
-        }
-        $customerImport->link->commit();
-        $fail_num = count($fail_array);
-
-        //判断执行情况,写入失败记录
-        if($fail_num == 0){
-            $data['import_result'] = 2;
-        }else{
-            $customerImportFail = new CustomerImportFail($this->corp_id);
-            $fail_save_flg = $customerImportFail->addMutipleImportCustomerFail($fail_array);
-            if(!$fail_save_flg){
-                $result['info'] = '写入导入失败记录时发生错误!';
+                $customers_data = $customerM->getPublicPoolCustomer($uid,$num,$p,$filter,$field,$order,$direction);
+                $this->assign("listdata",$customers_data);
+                $customerM = new CustomerModel($this->corp_id);
+                $customers_count = $customerM->getPublicPoolCustomerCount($uid,$filter,$order,$direction);
+                $this->assign("count",$customers_count);
+            }catch (\Exception $ex){
+                $result['info'] = $ex->getMessage();
                 return json($result);
             }
-            if($success_num == 0){
-                $data['import_result'] = 0;
-            }else{
-                $data['import_result'] = 1;
+        }else{
+            $view_name="anonymous_pool";
+            $filter = $this->_getCustomerFilter(["resource_from","is_public","customer_name"]);
+            $field = $this->_getCustomerField([]);
+            try{
+                $customerM = new CustomerModel($this->corp_id);
+                $customers_data = $customerM->getPoolCustomer($uid,$num,$p,$filter,$field,$order,$direction);
+                $this->assign("listdata",$customers_data);
+                $customerM = new CustomerModel($this->corp_id);
+                $customers_count = $customerM->getPoolCustomerCount($uid,$filter);
+                $this->assign("count",$customers_count);
+            }catch (\Exception $ex){
+                $this->error($ex->getMessage());
+            }
+        }
+        try{
+            $business = new Business($this->corp_id);
+            $business_list = $business->getAllBusiness();
+            $this->assign("business_list",$business_list);
+        }catch (\Exception $ex){
+            $this->error($ex->getMessage());
+        }
+        $max_page = ceil($customers_count/$num);
+        $this->assign("p",$p);
+        $this->assign("num",$num);
+        $this->assign("filter",$filter);
+        $this->assign("max_page",$max_page);
+        $this->assign("start_num",$start_num+1);
+        $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
+        return view($view_name);
+    }
+    protected function _showCustomer(){
+        $id = input('id',0,'int');
+        if(!$id){
+            $this->error("参数错误！");
+        }
+        $this->assign("id",$id);
+        $this->assign("fr",input('fr'));
+        $customerM = new CustomerModel($this->corp_id);
+        $customerData = $customerM->getCustomer($id);
+        $this->assign("customer",$customerData);
+        $customerM = new CustomerContact($this->corp_id);
+        $customerData = $customerM->getCustomerContactCount($id);
+        $this->assign("customer_contact_num",$customerData);
+        $customerM = new SaleChance($this->corp_id);
+        $customerData = $customerM->getSaleChanceCount($id);
+        $this->assign("sale_chance_num",$customerData);
+        $customerM = new CustomerTrace($this->corp_id);
+        $customerData = $customerM->getCustomerTraceCount($id);
+        $this->assign("customer_trace_num",$customerData);
+        $business = new Business($this->corp_id);
+        $business_list = $business->getBusinessArray();
+        $this->assign("business_array",$business_list);
+    }
+    public function add_page(){
+        $this->assign("fr",input('fr'));
+        $business = new Business($this->corp_id);
+        $business_list = $business->getAllBusiness();
+        $this->assign("business_list",$business_list);
+        $this->assign("truename",session('userinfo.truename'));
+        return view();
+    }
+    public function general(){
+        $this->_showCustomer();
+        return view();
+    }
+    public function show(){
+        $this->_showCustomer();
+        return view();
+    }
+    public function edit(){
+        $this->_showCustomer();
+        return view();
+    }
+    
+    public function manage(){
+        //TODO 管理员权限验证?
+        $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
+        $num = input('num',$this->paginate_list_rows,'int');
+        $p = input("p",0,"int");
+        $p = $p?:1;
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
+        $filter = $this->_getCustomerFilter(["belongs_to","resource_from","comm_status","take_type","tracer","guardian","add_man"]);
+        $field = $this->_getCustomerField([]);
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_data = $customerM->getManageCustomer($num,$p,$filter,$field,$order,$direction);
+            $result['data'] = $customers_data;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "查询成功！";
+        return json($result);
+    }
+    public function pool(){
+        $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
+        $uid = session('userinfo.userid');
+        //获取客户配置
+        $struct_ids = getStructureIds($uid);
+        $customerSettingModel = new CustomerSetting();
+        $searchCustomerList = $customerSettingModel->getCustomerSettingByStructIds($struct_ids);
+        $public_flg = false;
+        foreach ($searchCustomerList as $customerSetting){
+            if(!$customerSetting["public_sea_seen"]==1){
+                $public_flg = true;
+                break;
+            }
+        }
+        if($public_flg){
+            $result = $this->public_pool();
+        }else{
+            $result = $this->anonymous_pool();
+        }
+        return json($result);
+    }
+    protected function public_pool(){
+        $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
+        $num = input('num',$this->paginate_list_rows,'int');
+        $p = input("p",0,"int");
+        $p = $p?:1;
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
+        $uid = session('userinfo.userid');
+        $filter = $this->_getCustomerFilter(["resource_from","grade","customer_name"]);
+        $field = $this->_getCustomerField([]);
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_data = $customerM->getPublicPoolCustomer($uid,$num,$p,$filter,$field,$order,$direction);
+            $result['data'] = $customers_data;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "查询成功！";
+        return $result;
+    }
+    protected function anonymous_pool(){
+        $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
+        $num = input('num',$this->paginate_list_rows,'int');
+        $p = input("p",0,"int");
+        $p = $p?:1;
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
+        $uid = session('userinfo.userid');
+        $filter = $this->_getCustomerFilter(["resource_from","is_public","customer_name"]);
+        $field = $this->_getCustomerField([]);
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_data = $customerM->getPoolCustomer($uid,$num,$p,$filter,$field,$order,$direction);
+            $result['data'] = $customers_data;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "查询成功！";
+        return $result;
+    }
+    public function self(){
+        $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
+        $num = input('num',$this->paginate_list_rows,'int');
+        $p = input("p",0,"int");
+        $p = $p?:1;
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
+        $uid = session('userinfo.userid');
+        $filter = $this->_getCustomerFilter(["take_type","grade","sale_chance","comm_status","customer_name","tracer","contact_name","in_column"]);
+        $field = $this->_getCustomerField(["take_type","grade"]);
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_data = $customerM->getSelfCustomer($uid,$num,$p,$filter,$field,$order,$direction);
+            $result['data'] = $customers_data;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "查询成功！";
+        return json($result);
+    }
+    public function subordinate(){
+        //TODO 权限验证?
+        $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
+        $num = input('num',$this->paginate_list_rows,'int');
+        $p = input("p",0,"int");
+        $p = $p?:1;
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
+        $uid = session('userinfo.userid');
+        $filter = $this->_getCustomerFilter(["take_type","grade","sale_chance","belongs_to","comm_status","customer_name","tracer","contact_name","in_column"]);
+        $field = $this->_getCustomerField([]);
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_data = $customerM->getSubordinateCustomer($uid,$num,$p,$filter,$field,$order,$direction);
+            $result['data'] = $customers_data;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "查询成功！";
+        return json($result);
+    }
+    public function pending(){//TODO
+        $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
+        $num = input('num',$this->paginate_list_rows,'int');
+        $p = input("p",0,"int");
+        $p = $p?:1;
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
+        $filter = $this->_getCustomerFilter([]);
+        $field = $this->_getCustomerField([]);
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customers_data = $customerM->getPendingCustomer($num,$p,$filter,$field,$order,$direction);
+            $result['data'] = $customers_data;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "查询成功！";
+        return json($result);
+    }
+    protected function _getCustomerFilter($filter_column){
+        $filter = [];
+        if(in_array("belongs_to", $filter_column)){//客户状态
+            $belongs_to = input("belongs_to",0,"int");
+            if($belongs_to && in_array($belongs_to,[1,2,3])){//TODO 维护状态??
+                $filter["belongs_to"] = $belongs_to;
+            }
+        }
+        if(in_array("tracer", $filter_column)){//TODO 跟踪人??
+            $tracer = input("tracer");
+            if($tracer){
+                $filter["tracer"] = $tracer;
+            }
+        }
+        if(in_array("guardian", $filter_column)){//TODO 维护人??
+            $guardian = input("guardian");
+            if($guardian){
+                $filter["guardian"] = $guardian;
+            }
+        }
+        if(in_array("add_man", $filter_column)){//添加人
+            $add_man = input("add_man");
+            if($add_man){
+                $filter["add_man"] = $add_man;
+            }
+        }
+        if(in_array("resource_from", $filter_column)){//客户来源
+            $resource_from = input("resource_from",0,"int");
+            if($resource_from && in_array($resource_from,[1,2,3])){
+                $filter["resource_from"] = $resource_from;
+            }
+        }
+        if(in_array("take_type", $filter_column)){//获取途径
+            $take_type = input("take_type",0,"int");
+            if($take_type){
+                $filter["take_type"] = $take_type;
+            }
+        }
+        if(in_array("grade", $filter_column)){//客户级别
+            $grade = input("grade","","string");
+            if($grade){
+                $filter["grade"] = $grade;
+            }
+        }
+        if(in_array("customer_name", $filter_column)){//客户名称
+            $customer_name = input("customer_name","","string");
+            if($customer_name){
+                $filter["customer_name"] = $customer_name;
+            }
+        }
+        if(in_array("contact_name", $filter_column)){//联系人名称
+            $contact_name = input("contact_name","","string");
+            if($contact_name){
+                $filter["contact_name"] = $contact_name;
+            }
+        }
+        if(in_array("comm_status", $filter_column)){//沟通状态
+            $comm_status = input("comm_status",0,"int");
+            if($comm_status){
+                $filter["comm_status"] = $comm_status;
+            }
+        }
+        if(in_array("sale_chance", $filter_column)){//商机业务
+            $comm_status = input("sale_chance",0,"int");
+            if($comm_status){
+                $filter["sale_chance"] = $comm_status;
+            }
+        }
+        if(in_array("is_public", $filter_column)){//可见范围
+            $is_public = input("is_public",0,"int");
+            if($is_public){
+                $filter["is_public"] = $is_public;
             }
         }
 
-        //更新记录数
-        $data['success_num'] = $success_num;
-        $data['fail_num'] = $fail_num;
-        $save_flg = $customerImport->setImportCustomerRecord($record['id'],$data);
-        if(!$save_flg){
-            $result['info'] = '写入导入记录失败!';
+        //所在列
+        if(in_array("in_column", $filter_column)){
+            $in_column = input("in_column",0,"int");
+            if($in_column){
+                $filter["in_column"] = $in_column;
+            }
+        }
+        return $filter;
+    }
+    protected function _getCustomerField($field_column){
+        $field = [];
+        $fields = input('field',"",'string');
+        $fields_arr = explode(',',$fields);
+        $fields_arr = array_filter($fields_arr);
+        $fields_arr = array_unique($fields_arr);
+        if(in_array("customer_name", $field_column) && in_array("customer_name", $fields_arr)){//客户名称
+            $field[] = "customer_name";
+        }
+        if(in_array("take_type", $field_column) && in_array("take_type", $fields_arr)){//获取途径
+            $field[] = "take_type";
+        }
+        if(in_array("grade", $field_column) && in_array("grade", $fields_arr)){//客户级别
+            $field[] = "grade";
+        }
+        if(in_array("comm_status", $field_column) && in_array("comm_status", $fields_arr)){//沟通状态
+            $field[] = "comm_status";
+        }
+        if(in_array("sale_biz_names", $field_column) && in_array("sale_biz_names", $fields_arr)){//商机
+            $field[] = "sale_biz_names";
+        }
+        if(in_array("all_guess_money", $field_column) && in_array("all_guess_money", $fields_arr)){//商机
+            $field[] = "all_guess_money";
+        }
+        if(in_array("all_final_money", $field_column) && in_array("all_final_money", $fields_arr)){//商机
+            $field[] = "all_final_money";
+        }
+        if(in_array("contact_name", $field_column) && in_array("contact_name", $fields_arr)){//商机
+            $field[] = "contact_name";
+        }
+        if(in_array("phone_first", $field_column) && in_array("phone_first", $fields_arr)){//商机
+            $field[] = "phone_first";
+        }
+        if(in_array("last_trace_time", $field_column) && in_array("last_trace_time", $fields_arr)){//上次跟进时间
+            $field[] = "last_trace_time";
+        }
+        if(in_array("save_time_str", $field_column) && in_array("save_time_str", $fields_arr)){//剩余保有时间
+            $field[] = "save_time_str";
+        }
+        if(in_array("contract_due_time_str", $field_column) && in_array("contract_due_time_str", $fields_arr)){//合同到期时间
+            $field[] = "contract_due_time_str";
+        }
+        if(in_array("remind_time_str", $field_column) && in_array("remind_time_str", $fields_arr)){//提醒时间
+            $field[] = "remind_time_str";
+        }
+        if(in_array("in_column", $field_column) && in_array("in_column", $fields_arr)){//所在列
+            $field[] = "in_column";
+        }
+        return $field;
+    }
+    public function get_column_num(){
+        $result = ['status'=>0 ,'info'=>"查询客户列信息时发生错误！"];
+        $uid = session('userinfo.userid');
+        $filter = $this->_getCustomerFilter(["take_type","grade","customer_name","contact_name","comm_status","sale_chance"]);
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $listCount = $customerM->getColumnNum($uid,$filter);
+            $result['data'] = $listCount;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
             return json($result);
         }
-
-        //返回信息
         $result['status'] = 1;
-        $result['info'] = '成功导入'.$success_num.'条,失败'.$fail_num.'条!';
+        $result['info'] = "查询客户列信息成功！";
+        return json($result);
+    }
+    public function take_public_customers_to_self(){
+        //TODO 权限验证?
+        $result = ['status'=>0 ,'info'=>"变更客户时发生错误！"];
+        $ids = input('ids/a');
+        if(!$ids){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $uid = session('userinfo.userid');
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $releaseFlg = $customerM->takeCustomers($ids,$uid);
+            //TODO add trace
+            if(!$releaseFlg){
+                exception('变更客户失败!');
+            }
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['info'] = "功能开发中！";
+        return json($result);
+    }
+    public function take_customers_to_self(){
+        $result = ['status'=>0 ,'info'=>"申领客户时发生错误！"];
+        $ids = input('ids/a');
+        if(!$ids){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $uid = session('userinfo.userid');
+        try{
+            //TODO 检查申领次数
+            $ids = [];
+            $customerM = new CustomerModel($this->corp_id);
+            $releaseFlg = $customerM->takeCustomers($ids,$uid);
+            //TODO add trace
+            if(!$releaseFlg){
+                exception('变更客户时发生错误!');
+            }
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['info'] = "功能开发中！";
+        return json($result);
+    }
+    public function release_customers(){
+        $result = ['status'=>0 ,'info'=>"释放客户时发生错误！"];
+        $ids = input('ids/a');
+        if(!$ids){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $uid = session('userinfo.userid');
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $releaseFlg = $customerM->releaseCustomers($ids,$uid);
+            //TODO add trace
+            if(!$releaseFlg){
+                exception('释放客户失败!');
+            }
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "释放客户成功！";
+        return json($result);
+    }
+    public function imposed_release_customers(){
+        //TODO 权限验证?
+        $result = ['status'=>0 ,'info'=>"强制释放客户时发生错误！"];
+        $ids = input('ids/a');
+        if(!$ids){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $releaseFlg = $customerM->releaseCustomers($ids);
+            //TODO add trace
+            if(!$releaseFlg){
+                exception('强制释放客户失败!');
+            }
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "强制释放客户成功！";
+        return json($result);
+    }
+    public function change_customers_to_employee(){
+        //TODO 权限验证?
+        $result = ['status'=>0 ,'info'=>"重分客户时发生错误！"];
+        $ids = input('ids/a');
+        $uid = input('uid',0,"int");
+        if(!$ids || !$uid){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $releaseFlg = $customerM->releaseCustomers($ids,$uid);
+            //TODO add trace
+            if(!$releaseFlg){
+                exception('重分客户时发生错误!');
+            }
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "重分客户成功！";
+        return json($result);
+    }
+    public function send_customer_group_message(){
+        $result = ['status'=>0 ,'info'=>"群发短信时发生错误！"];
+        $ids = input('ids/a');
+        //var_exp($ids,'$ids',1);
+        if(!$ids){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        //TODO 获取手机号, send_sms ($tel,$code,$content);
+        $result['info'] = "群发短信功能开发中！";
+        return json($result);
+    }
+    public function change_customers_visible_range(){
+        //TODO 权限验证?
+        $result = ['status'=>0 ,'info'=>"更改客户可见范围失败！"];
+        $ids = input('ids/a');
+        $is_public = input('is_public');
+        $employees = input('employees/a');
+        $departments = input('departments/a');
+        if(!$ids || !$is_public || !$employees || !$departments){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        if($is_public && ($employees || $departments)){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $is_public = $is_public?1:0;
+        $employees_str = implode(",",$employees);
+        $departments_str = implode(",",$departments);
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $releaseFlg = $customerM->changeCustomersVisibleRange($ids,$is_public,$employees_str,$departments_str);
+            //TODO add trace
+            if(!$releaseFlg){
+                exception('更改客户可见范围时发生错误!');
+            }
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "更改客户可见范围成功！";
+        return json($result);
+    }
+    public function get_customer_general(){
+        $result = ['status'=>0 ,'info'=>"获取客户信息时发生错误！"];
+        $id = input('id',0,'int');
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customerData = $customerM->getCustomer($id);
+            //TODO 获取其他表内容
+            $result['data'] = $customerData;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "获取客户信息成功！";
+        return json($result);
+    }
+    public function get(){
+        $result = ['status'=>0 ,'info'=>"获取客户信息时发生错误！"];
+        $id = input('id',0,'int');
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        try{
+            $customerM = new CustomerModel($this->corp_id);
+            $customerData = $customerM->getCustomer($id);
+            $result['data'] = $customerData;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "获取客户信息成功！";
         return json($result);
     }
 
-    public function exportFailCustomer(){
-        $result =  ['status'=>0 ,'info'=>"导出失败！"];
-        $record_id = input("record_id",0,"int");
-        $customerImport = new CustomerImport($this->corp_id);
-        $record = $customerImport->getImportCustomerRecord($record_id);
-        if(!$record){
-            $result['info'] = '未找到导入记录!';
+    protected function _getCustomerForInput($mode){
+        // add customer page
+        if($mode){
+            $uid = session('userinfo.userid');
+            $customer['belongs_to'] = input('belongs_to',0,'int');
+            $customer['add_man'] = $uid;
+            $customer['add_time'] = time();
+            $customer['handle_man'] = ($customer['belongs_to']==2)?0:$uid;
+        }
+
+        $customer['customer_name'] = input('customer_name');
+        $customer['telephone'] = input('telephone');
+
+        $customer['resource_from'] = input('resource_from',0,'int');
+        $customer['grade'] = input('grade');
+
+        $customer['field1'] = input('field1',0,'int');
+        $customer['field2'] = input('field2',0,'int');
+        $customer['field'] = input('field',0,'int');
+        $customer['prov'] = input('prov');
+        $customer['city'] = input('city');
+        $customer['dist'] = input('dist');
+        $customer['address'] = input('address');
+        $customer['location'] = input('location');
+        $customer['lat'] = input('lat',0,'double');
+        $customer['lng'] = input('lng',0,'double');
+        $customer['website'] = input('website');
+        $customer['remark'] = input('remark');
+
+        return $customer;
+    }
+    protected function _getCustomerNegotiateForInput(){
+        $comm_status = input('comm_status',0,'int');
+        $customerNegotiate = getCommStatusArr($comm_status);
+        return $customerNegotiate;
+    }
+    public function add(){
+        $result = ['status'=>0 ,'info'=>"新建客户时发生错误！"];
+        $customer = $this->_getCustomerForInput("all");
+        if(!in_array($customer['belongs_to'],[2,3])){
+            $result['info'] = "参数错误！";
             return json($result);
         }
-        if($record['import_result']==2){
-            $result['info'] = '该批次导入全部成功,无法导出!';
+        $customerNegotiate = $this->_getCustomerNegotiateForInput();
+        $customerM = new CustomerModel($this->corp_id);
+        try{
+            $customerM->link->startTrans();
+            $customerId = $customerM->addCustomer($customer);
+            if(!$customerId){
+                exception('添加客户失败!');
+            }
+            $customerNegotiate["customer_id"] = $customerId;
+            $customerNegotiateM = new CustomerNegotiate($this->corp_id);
+            $customersNegotiateId = $customerNegotiateM->addCustomerNegotiate($customerNegotiate);
+            if(!$customersNegotiateId){
+                exception('添加客户沟通状态失败!');
+            }
+            $result['data'] = $customerId;
+            $customerM->link->commit();
+        }catch (\Exception $ex){
+            $customerM->link->rollback();
+            $result['info'] = $ex->getMessage();
             return json($result);
         }
-        $batch = $record['batch'];
-        $customerImportFail = new CustomerImportFail($this->corp_id);
-        $importFailCustomers = $customerImportFail->getCustomerByBatch($batch);
-        if(!$importFailCustomers){
-            $result['info'] = '未找到导入失败的员工!';
+        $result['status'] = 1;
+        $result['info'] = "新建客户信息成功！";
+        return json($result);
+    }
+    public function update(){
+        $result = ['status'=>0 ,'info'=>"保存客户时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
             return json($result);
         }
-        $excel_data = [[
-            0 => "导入批次",
-            1 => '公司名称',
-            2 => '电话号码',
-            3 => '地址',
-            4 => '定位',
-            5 => '行业',
-            6 => '官网',
-            7 => "备注"
-        ]];
-        foreach ($importFailCustomers as $importFailCustomer){
-            unset($importFailCustomer['id']);
-            $excel_data[] = $importFailCustomer;
+        $customer = $this->_getCustomerForInput(0);
+        $customerNegotiate = $this->_getCustomerNegotiateForInput();
+        $customerM = new CustomerModel($this->corp_id);
+        try{
+            //$customerM->link->startTrans();
+            $customersFlg = $customerM->setCustomer($id,$customer);
+            /*if(!$customersFlg){
+                exception('添加客户失败!');
+            }*/
+            $customerNegotiateM = new CustomerNegotiate($this->corp_id);
+            $customersNegotiateFlg = $customerNegotiateM->updateCustomerNegotiate($id,$customerNegotiate);
+            /*if(!$customersNegotiateFlg){
+                exception('更新客户沟通状态失败!');
+            }*/
+            //TODO add trace
+            //$customerM->link->commit();
+        }catch (\Exception $ex){
+            //$customerM->link->rollback();
+            $result['info'] = $ex->getMessage();
+            return json($result);
         }
-        outExcel($excel_data,'import-Fail-Customers-'.$batch.'-'.time().'.xlsx');
+        $result['status'] = 1;
+        $result['info'] = "保存客户信息成功！";
+        return json($result);
+    }
+    public function update_comm_status(){
+        $result = ['status'=>0 ,'info'=>"保存客户沟通结果时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $customerNegotiate = $this->_getCustomerNegotiateForInput();
+        try{
+            $customerNegotiateM = new CustomerNegotiate($this->corp_id);
+            $customersNegotiateFlg = $customerNegotiateM->updateCustomerNegotiate($id,$customerNegotiate);
+            if(!$customersNegotiateFlg){
+                exception('更新客户沟通状态失败!');
+            }
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "保存客户沟通结果成功！";
+        return json($result);
+    }
+    public function del(){
+        $result = ['status'=>0 ,'info'=>"删除客户信息时发生错误！"];
+        $ids = input('ids/a');
+        //var_exp($ids,'$ids',1);
+        if(!$ids){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        try{
+            $customerDeleteM = new CustomerDelete($this->corp_id);
+            $customersDeleteFlg = $customerDeleteM->moveInDelMultipleCustomer($ids);
+            if(!$customersDeleteFlg){
+                exception('删除客户失败!');
+            }
+            //TODO add trace
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "删除客户信息成功！";
+        return json($result);
     }
 }

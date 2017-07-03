@@ -1,59 +1,89 @@
-<div id="top">
-    <p>公司信息</p>
-</div>
-<div id="content">
-    <form name="form_corp" action="#" method="post">
-        <p>
-            <img src="/systemsetting/images/corp_info.jpg" />
-            <span>公司名称</span>
-            <input name="corp_name" type="text" value="{$data.corp_name}"/>
-        </p>
-        <p>
-            <img src="/systemsetting/images/corp_info.jpg" />
-            <span>公司网址</span>
-            <input name="corp_web" type="text" value="{$data.corp_website}"/>
-        </p>
-        <p class="p1">
-            <span>公司电话</span>
-            <input name="corp_tel" type="text" value="{$data.corp_tel}"/>
-        </p>
-        <p class="p3">
-            <span>公司所在地</span>
-            <input name="corp_addr" type="text" value="{$data.corp_address}"/>
-        </p>
-        <p class="p1">
-            <span>详细地址</span>
-            <input name="corp_dist" type="text" value="{$data.corp_dist}"/>
-        </p>
-        <p class="p1">
-            <span>详细定位</span>
-            <input type="text" class="ipt1" value="{$data.lat}"/>
-        </p>
-        <p class="p2">
-            <input type="text" class="ipt1" value="{$data.lng}"/>
-        </p>
-        <p class="p1">
-            <span>所属行业</span>
-            <select name="corp_field">
-                {volist name="field_list" id="vo"}
+<div class="edit_corp_info">
+    <div id="top">
+        <ul class="firNav">
+            <li onclick="loadPage('{:url('/systemsetting/corporation/showcorpinfo')}','company-informationfr');" class="current">
+                <div>公司信息</div>
+            </li>
+            <i class="fa fa-angle-right fa-2x">编辑</i>
+        </ul>
+    </div>
+    <div id="content">
+        <form name="form_corp" class="form_corp" onsubmit="return false;" method="post">
+            <p>
+                <img src="/systemsetting/images/corp_info.jpg" />
+                <span>公司名称</span>
+                <input name="corp_name" type="text" value="{$data.corp_name}"/>
+            </p>
+            <p>
+                <img src="/systemsetting/images/corp_info.jpg" />
+                <span>公司网址</span>
+                <input name="corp_web" type="text" value="{$data.corp_website}"/>
+            </p>
+            <p class="p1">
+                <span>公司电话</span>
+                <input name="corp_tel" type="text" value="{$data.corp_tel}"/>
+            </p>
+            <p class="p3">
+                <span>公司所在地</span>
+                <input name="corp_addr" type="text" value="{$data.corp_address}"/>
+            </p>
+            <p class="p1">
+                <span>详细地址</span>
+                <input name="corp_dist" type="text" value="{$data.corp_dist}"/>
+            </p>
+            <p class="p1">
+                <span>详细定位</span>
+                <input type="text" name="corp_dist" type="text"  value="{$data.corp_lat},{$data.corp_lng}"/>
+            </p>
+            <p class="p2">
+                <input type="text" class="ipt1" value="{$data.corp_lat}"/><br/>
+                <input type="text" class="ipt1" value="{$data.corp_lng}"/>
+            </p>
+            <p class="p1">
+                <span>所属行业</span>
+                <select name="corp_field">
+                    {volist name="business_list" id="vo"}
                     {eq name="vo.id" value="$data.corp_field"}
-                        <option value="{$vo.id}" selected="selected">{$vo.title}</option>
-                        {else/}
-                        <option value="{$vo.id}">{$vo.title}</option>
+                    <option value="{$vo.id}" selected="selected">{$vo.business_name}</option>
+                    {else/}
+                    <option value="{$vo.id}">{$vo.business_name}</option>
                     {/eq}
-                {/volist}
-            </select>
-        </p>
-        <p class="p4">
-            （多个关键字之间用逗号    "，（英文半角字符）"区分）：
-        </p>
-        <p class="p3">
-            <span>产品关键字</span>
-            <textarea name="corp_product_keys" class="ipt2">{$data.corp_product_keys}</textarea>
-        </p>
-        <p class="p5">
-            <input id="corp_submit" type="submit" value="保存"/>
-            <button>取消</button>
-        </p>
-    </form>
+                    {/volist}
+                </select>
+            </p>
+            <p class="p4">
+                （多个关键字之间用逗号    "，（英文半角字符）"区分）：
+            </p>
+            <p class="p3">
+                <span>产品关键字</span>
+                <textarea name="corp_product_keys" class="ipt2">{$data.corp_product_keys}</textarea>
+            </p>
+            <p class="p5">
+                <input id="corp_submit" type="submit" value="保存"/>
+                <button onclick="loadPage('{:url('/systemsetting/corporation/showcorpinfo')}','company-informationfr');">取消</button>
+            </p>
+        </form>
+    </div>
+    <script language="javascript">
+        $('#corp_submit').click(function() {
+            console.log($(".form_corp").serialize());
+            $.ajax({
+                url: "{:url('/systemsetting/corporation/updatecorpinfo')}",
+                type: 'post',
+                data: $(".form_corp").serialize(),
+                dataType: 'json',
+                success: function(data) {
+                    //console.log(data);
+                    alert(data.message);
+                    if(data.status) {
+                        loadPage("{:url('/systemsetting/corporation/showcorpinfo')}","company-informationfr");
+                    }
+                },
+                error: function() {
+                    alert("保存公司信息发生错误!");
+                },
+            });
+        });
+    </script>
 </div>
+<link rel="stylesheet" href="/systemsetting/css/corpinfoedit.css" />

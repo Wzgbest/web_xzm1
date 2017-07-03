@@ -16,9 +16,11 @@ class Index extends Controller
         $userinfo = session('userinfo');
         if (empty($userinfo)) {
             $this->redirect('/login/index/index');
-        } else {
-            $this->redirect('/systemsetting/corporation/index');
         }
+        return view();
     }
 
+    public function developing(){
+        return view();
+    }
 }

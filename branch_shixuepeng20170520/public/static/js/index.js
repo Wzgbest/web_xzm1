@@ -5,10 +5,14 @@ $("#side").height(window.innerHeight);
 $("header").width(window.innerWidth-220);
 $("section#subt").width(window.innerWidth-220);
 $("#subtitle").width(window.innerWidth-220);
-$("iframe").width(window.innerWidth-220);
+$("#frames").width(window.innerWidth-220);
+$("#frames").height(window.innerHeight-80);
+$("#frames .once").width(window.innerWidth-220);
+$("#frames .once").height(window.innerHeight-80);
+
 //根据屏幕尺寸，设置侧边栏的可用高度
 window.onresize=function(){
-	changeH();
+	changeFramesSize();
 };
 function subResize(){
 	var wid = $("#subtitle").width();
@@ -21,14 +25,19 @@ function subResize(){
 			$("#subtitle>div>span").css("width","auto");
 		}
 }
-function changeH(){
+function changeFramesSize(){
 	//console.log(window.innerHeight);
 //	var wid = window.innerWidth-220;
-	$("aside").height(window.innerHeight);
-	$("header").width(window.innerWidth-220);
+	$("#side").height(window.innerHeight);
+	$(".header").width(window.innerWidth-220);
 	$("section#subt").width(window.innerWidth-220);
 	$("#subtitle").width(window.innerWidth-220);
-	$("iframe").width(window.innerWidth-220);
+	$("body").width(window.innerWidth);
+	$("body").height(window.innerHeight);
+	$("#frames").width(window.innerWidth-220);
+	$("#frames").height(window.innerHeight-80);
+	$("#frames .once").width(window.innerWidth-220);
+	$("#frames .once").height(window.innerHeight-80);
 	subResize();
 };
 
@@ -63,7 +72,7 @@ $("aside dl dd").click(function(){
 	var v = $(this).data().subid;
 	var f = v+"fr";
 	var x= subtitleGroup.indexOf(v);
-	console.log(t,v,x,f,subtitleGroup);
+	//console.log(t,v,x,f,subtitleGroup);
 	//当前点击
 	if(x==-1){
 		subtitleGroup.push(v);
@@ -71,42 +80,49 @@ $("aside dl dd").click(function(){
 		var tv = "<div id='"+v+"'class='active' ><span>"+t+"</span><i class='fa fa-close'></i></div>";
 		$("#subtitle").append(tv);
 		//frame
-		$("iframe").addClass("hid");
+		$("#frames .once").addClass("hid");
 		//var fr = "<div src='"+$(this).attr("_src")+"' id='"+f+"' class='once'></div>";
 		//$("#frames").append(fr);
+		var html = '<div id="'+f+'" class="once"></div>';
+		$('#frames').append(html);
 		var url = $(this).attr('_src');
-		$.ajax({
-			url:url,
-			type:'get',
-			data:{},
-			async:false,
-			success:function (data) {
-                var html = '<div id="'+f+'" class="once"></div>';
-				$('#frames').append(html);
-                $('#frames #'+f).html(data);
-			}
-		});
-		$("iframe").width(window.innerWidth-220);
+		loadPage(url,f);
+		$("#frames").width(window.innerWidth-220);
+		$("#frames").height(window.innerHeight-80);
+		$("#frames .once").width(window.innerWidth-220);
+		$("#frames .once").height(window.innerHeight-80);
 		//子标题栏长度增加
 		subResize();
 	}else{
 		//非当前点击
-		/*$("iframe").addClass("hid");
+		/*$("#frames .once").addClass("hid");
 		document.getElementById(f).classList.remove("hid");*/
 		$("#subtitle>div").removeClass("active");
 		//document.getElementById(v).setAttribute("class","active");
 		document.getElementById(v).classList.add("active");
-		frameShow();	
+		frameShow();
 	}
-	
 });
-
+//侧边栏在当前被删除后的切换
+function loadPage(url,panel){
+	$.ajax({
+		url:url,
+		type:'get',
+		async:false,
+		success:function (data) {
+			$('#frames #'+panel).html(data);
+		},
+		error:function(){
+			$('#frames #'+panel).html("页面加载时发生错误!");
+		}
+	});
+}
 //副标题栏的点击事件
 //切换当前的效果
 $(document).on('click','#subtitle>div',function(){
 	$(this).addClass("active").siblings().removeClass("active");
 	//console.log($(this).attr("id"));
-//	$("iframe").addClass("hid");
+//	$("#frames .once").addClass("hid");
 //	document.getElementById($(this).attr("id")+"fr").classList.remove("hid");
 	frameShow();
 	asideChange();
@@ -116,14 +132,14 @@ $(document).on('click','#subtitle>div i.fa-close',function(){
 	//当前删除和非当前删除
 	//是否是当前项
 	var cla = $(this).parent().attr("class");
-	console.log(cla);
+	//console.log(cla);
 	//获取位置
 	var id = $(this).parent().attr("id");
 	var t = subtitleGroup.indexOf(id);
 	//判断位置,添加删除后的active项
 	//如果是当前删除，需要判断删除后显示那一个页面
 	if(cla=="active"){
-		console.log(22222);
+		//console.log(22222);
 		var len = subtitleGroup.length;
 		//如果是最后一个位置
 		if(t==len-1){
@@ -134,8 +150,10 @@ $(document).on('click','#subtitle>div i.fa-close',function(){
 	}
 	//删除选中项！
 	subtitleGroup.splice(t,1);
-	console.log(subtitleGroup);
+	//console.log(subtitleGroup);
 	$(this).parent().remove();
+	//console.log($(this).parent().attr("id"));
+	$("#"+$(this).parent().attr("id")+"fr").remove();
 	subResize();
 	frameShow();
 	asideChange();
@@ -143,7 +161,7 @@ $(document).on('click','#subtitle>div i.fa-close',function(){
 //iframe的展示
 function frameShow(){
 	//隐藏所有
-	$("iframe").addClass("hid");
+	$("#frames .once").addClass("hid");
 	//判断当前项是谁显示
 	document.getElementById($("#subtitle>div.active").attr("id")+"fr").classList.remove("hid");
 }
@@ -154,17 +172,17 @@ function asideChange(){
 	$("aside dl dd").removeClass("ddcurrent");
 	//判断当前显示
 	var a = getElementByAttr('dd','data-subid',$("#subtitle>div.active").attr("id"))[0];
-	console.log(a);
+	//console.log(a);
 /*	a.addClass("ddcurrent");
 	a.sibling("dt").addClass("dtcurrent");*/
 	a.classList.add("ddcurrent");
 	var ap = a.parentNode;
-	console.log(ap.getElementsByTagName("dt")[0]);
+	//console.log(ap.getElementsByTagName("dt")[0]);
 	ap.getElementsByTagName("dt")[0].classList.add("dtcurrent");
 	
 	/*var apc = ap.firstChild;
-	console.log(a);
-	console.log(ap);*/
+	//console.log(a);
+	//console.log(ap);*/
 	//console.log(apc);
 	//a.parentNode().firstChild().classList.add("dtcurrent");
 	

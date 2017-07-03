@@ -15,17 +15,19 @@ class ImportFile extends Initialize{
     protected $_fileModel = null;
     public function __construct(){
         parent::__construct();
-        $corp_id = get_corpid();
-        $this->_fileModel = new FileModel($corp_id);
+        $this->_fileModel = new FileModel($this->corp_id);
+    }
+    public function _initialize(){
+        parent::_initialize();
     }
 
     public function upload(){
         $result  = ['status' => 1, 'info' => '上传成功!'];
-        $type = input("type");
+        $type = input("type",0,"int");
         if(!$type){
             $result['status'] = 0;
             $result['info'] = '上传失败,参数有误!';
-            return json_encode($result);
+            return json($result);
         }
         $infos = $this->_fileModel->upload($type);
         if($infos){
@@ -34,6 +36,6 @@ class ImportFile extends Initialize{
             $result['status'] = 0;
             $result['info'] = '上传失败!';
         }
-        return json_encode($result);
+        return json($result);
     }
 }

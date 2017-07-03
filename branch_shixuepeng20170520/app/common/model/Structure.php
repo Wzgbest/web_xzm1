@@ -27,13 +27,24 @@ class Structure extends Base
 
     /**
      * 获取单个部门信息
-     * @param $struct_id 部门id
+     * @param $struct_id int 部门id
      * @return array|false|\PDOStatement|string|\think\Model
      * created by messhair
      */
     public function getStructureInfo($struct_id)
     {
         return $this->model->table($this->table)->where('id',$struct_id)->find();
+    }
+
+    /**
+     * 获取单个部门信息
+     * @param $struct_ids array 部门id
+     * @return array|false|\PDOStatement|string|\think\Model
+     * created by blu10ph
+     */
+    public function getStructureName($struct_ids)
+    {
+        return $this->model->table($this->table)->where('id',"in",$struct_ids)->column("struct_name","id");
     }
 
     /**
@@ -49,8 +60,8 @@ class Structure extends Base
 
     /**
      * 更新单个部门信息
-     * @param $id 部门id
-     * @param $data 数据信息
+     * @param $id int 部门id
+     * @param $data array 数据信息
      * @return int|string
      * @throws \think\Exception
      * created by messhair
@@ -62,7 +73,7 @@ class Structure extends Base
 
     /**
      * 删除部门
-     * @param $id 部门id
+     * @param $id int 部门id
      * @return int
      * @throws \think\Exception
      * created by messhair

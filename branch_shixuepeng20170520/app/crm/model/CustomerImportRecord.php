@@ -6,7 +6,6 @@
 // +----------------------------------------------------------------------
 // | Author: blu10ph <blu10ph@gmail.com> <http://www.blu10ph.cn>
 // +----------------------------------------------------------------------
-
 namespace app\crm\model;
 
 use app\common\model\Base;
@@ -20,14 +19,30 @@ class CustomerImportRecord extends Base{
     }
 
     /**
-     * 获取上传记录
-     * @param $id 记录id
+     * 获取上传记录列表
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $map array 筛选条件
+     * @param $order string 排序
      * @return int|string
      * @throws \think\Exception
      */
-    public function getImportCustomerRecord($id)
-    {
-        return $this->model->table($this->table)->where('id',$id)->find();
+    public function getImportCustomerRecord($num=10,$page=0,$map=null,$order="id desc"){
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+        $importCustomerRecordList = $this->model
+            ->table($this->table)
+            ->where($map)
+            ->order($order)
+            ->limit($offset,$num)
+            ->field('*')//TODO field list
+            ->select();
+        if($num==1&&$page==0&&$importCustomerRecordList){
+            $importCustomerRecordList = $importCustomerRecordList[0];
+        }
+        return $importCustomerRecordList;
     }
 
     /**

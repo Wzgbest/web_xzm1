@@ -9,10 +9,12 @@ use app\common\model\Base;
 
 class RedEnvelope extends Base
 {
+    protected $dbprefix;
     public function __construct($corp_id =null)
     {
         $this->table = config('database.prefix').'red_envelope';
         parent::__construct($corp_id);
+        $this->dbprefix = config('database.prefix');
     }
 
     /**
@@ -33,7 +35,7 @@ class RedEnvelope extends Base
     public function getRedInfoByRedId($red_id)
     {
         return $this->model->table($this->table)
-            ->field('id,fromuser,money,took_time,is_token,create_time,took_user,total_money,took_telephone')
+            ->field('id,redid,fromuser,money,took_time,is_token,create_time,took_user,total_money,took_telephone')
             ->where('redid',$red_id)
             ->where('is_token','<>',2)
             ->select();
@@ -78,7 +80,7 @@ class RedEnvelope extends Base
     public function getFetchedRedList($red_id)
     {
         return $this->model->table($this->table)->alias('a')
-            ->join(config('database.prefix').'employer b','a.took_user = b.id')
+            ->join(config('database.prefix').'employee b','a.took_user = b.id')
             ->field('a.redid,a.money,a.total_money,a.took_time,b.telephone,b.truename as took_user')
             ->where('a.redid',$red_id)->where('a.is_token',1)->select();
     }
@@ -126,6 +128,44 @@ class RedEnvelope extends Base
         return $this->model->table($this->table)
             ->where('fromuser',$userid)->where('is_token',0)
             ->where('create_time','<',$dep_time)
+            ->select();
+    }
+
+    /**
+     * 根据红包red_id获取所有信息
+     * @param $num int 每页数量
+     * @param $page int 页码
+     * @param $uid int 员工id
+     * @param $map array 筛选条件
+     * @param $order string 排序方式
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public function getMyRedEnvelope($num=10,$page=0,$uid,$map=null,$order="id desc"){
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+        $field = [
+            're.id',
+            'redid',
+            'type',
+            'fromuser as from_user',
+            'e.telephone as from_telephone',
+            '(case when fromuser = '.$uid.' then 0-total_money else money end) as money',
+            'took_time',
+            'is_token',
+            're.create_time',
+            'took_user',
+            'took_telephone'
+        ];
+        return $this->model->table($this->table)->alias('re')
+            ->join($this->dbprefix.'employee e','e.id = re.fromuser',"LEFT")
+            ->where($map)
+            ->where('fromuser|took_user',$uid)
+            //->whereOr('is_token','<>',2)
+            ->order($order)
+            ->limit($offset,$num)
+            ->field($field)
             ->select();
     }
 }

@@ -32,17 +32,62 @@ class CustomerSetting extends Base
         if($page){
             $offset = ($page-1)*$num;
         }
-        $searchCustomerList = $this->model
+        $customerSettingList = $this->model
             ->table($this->table)
             ->where($map)
             ->order($order)
             ->limit($offset,$num)
             ->field('*')//TODO field list
             ->select();
-        if($page==0&&$num==1&&$searchCustomerList){
-            $searchCustomerList = $searchCustomerList[0];
+        foreach ($customerSettingList as &$customerSetting){
+            $customerSetting["set_to_structure_arr"] = explode(",",$customerSetting["set_to_structure"]);
         }
-        return $searchCustomerList;
+        if($num==1&&$page==0&&$customerSettingList){
+            $customerSettingList = $customerSettingList[0];
+        }
+        return $customerSettingList;
+    }
+    /**
+     * 查询所有客户设置
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $map array 客户筛选条件
+     * @param $order string 排序
+     * @return array|false
+     * @throws \think\Exception
+     */
+    public function getAllCustomerSetting($map=null,$order="id desc"){
+        $customerSettingList = $this->model
+            ->table($this->table)
+            ->where($map)
+            ->order($order)
+            ->field('*')//TODO field list
+            ->select();
+        foreach ($customerSettingList as &$customerSetting){
+            $customerSetting["set_to_structure_arr"] = explode(",",$customerSetting["set_to_structure"]);
+        }
+        return $customerSettingList;
+    }
+    /**
+     * 查询客户设置
+     * @param $struct_ids array 部门列表
+     * @param $order string 排序
+     * @return array|false
+     * @throws \think\Exception
+     */
+    public function getCustomerSettingByStructIds($struct_ids,$order="id desc"){
+        $setting_map = "";
+        foreach ($struct_ids as $struct_id){
+            $structure = intval($struct_id);
+            $setting_map = ($setting_map==""?"":" or ")." find_in_set('$structure', set_to_structure) ";
+        }
+        $customerSettingList = $this->model
+            ->table($this->table)
+            ->where($setting_map)
+            ->order($order)
+            ->field('*')//TODO field list
+            ->select();
+        return $customerSettingList;
     }
 
     /**
@@ -68,7 +113,7 @@ class CustomerSetting extends Base
     }
 
     /**
-     * 删除搜索的客户,并返回结果
+     * 删除客户设置,并返回结果
      * @param $map array 客户筛选条件
      * @return array
      * @throws \think\Exception

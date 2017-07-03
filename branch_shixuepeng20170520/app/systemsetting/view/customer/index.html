@@ -1,1 +1,18 @@
-{$uri}
+<div class="customer_setting_list">
+    <div id="content">
+        {volist name="listdata" id="vo"}
+            <div>
+                <h4>{$vo.setting_name}</h4>
+                {volist name="vo.set_to_structure_arr" id="svo" length="4"}
+                    <p>{$structure_name[$svo]}</p>
+                {/volist}
+                <a href="javascript:loadPage('{:url('edit_page',['id'=>$vo.id])}','customer-settingfr');">查看编辑</a>
+            </div>
+        {/volist}
+        <div>
+            <h2>+</h2>
+            <a href="javascript:loadPage('{:url('add_page')}','customer-settingfr');" class="a1">添加更多客户设置</a>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="/systemsetting/css/customersettinglist.css" />

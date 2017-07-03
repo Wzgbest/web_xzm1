@@ -10,6 +10,7 @@ namespace app\systemsetting\controller;
 
 use app\common\controller\Initialize;
 use app\systemsetting\model\CustomerSetting;
+use app\common\model\Structure;
 use think\Exception;
 
 class Customer extends Initialize{
@@ -19,9 +20,76 @@ class Customer extends Initialize{
         $corp_id = get_corpid();
         $this->_customerSettingModel = new CustomerSetting($corp_id);
     }
+    public function _initialize(){
+        parent::_initialize();
+    }
     public function index(){
-        $uri = "systemsetting/Customer/index";
-        return view('index',["uri"=>$uri]);
+        $structure = input("structure",0,'int');
+        try{
+            $map = null;
+            if($structure){
+                $map = "find_in_set('$structure', set_to_structure)";
+            }
+            $customerSettings = $this->_customerSettingModel->getAllCustomerSetting($map);
+            $structure_ids = [];
+            $structure_ids_arr = array_column($customerSettings, 'set_to_structure');
+            foreach ($structure_ids_arr as $id_str){
+                $id_arr = explode(",",$id_str);
+                if($id_arr){
+                    $structure_ids = array_merge($structure_ids,$id_arr);
+                }
+            }
+            $structure_ids = array_filter($structure_ids);
+            $structure_ids = array_unique($structure_ids);
+            $structure = new Structure($this->corp_id);
+            $structureName = $structure->getStructureName($structure_ids);
+            $this->assign("listdata",$customerSettings);
+            $this->assign("structure_name",$structureName);
+        }catch (\Exception $ex){
+            $this->error($ex->getMessage());
+        }
+        return view();
+    }
+
+    public function add_page(){
+        $customerSetting = [
+            "id"=>"",
+            "setting_name"=>"",
+            "protect_customer_day"=>"",
+            "take_times_employee"=>"",
+            "take_times_structure"=>"",
+            "to_halt_day"=>"",
+            "effective_call"=>"",
+            "protect_customer_num"=>"",
+            "public_sea_seen"=>"",
+            "set_to_structure"=>"",
+            "set_to_structure_arr"=>[],
+        ];
+        $this->assign("customerSetting",$customerSetting);
+        $structure = new Structure($this->corp_id);
+        $structures = $structure->getAllStructure();
+        $this->assign("structures",$structures);
+        $this->assign("url",url("add"));
+        return view("edit_page");
+    }
+
+    public function edit_page(){
+        $id = input("id");
+        if(!$id){
+            $this->error("参数错误!");
+        }
+        $map["id"] = $id;
+        try{
+            $customerSetting = $this->_customerSettingModel->getCustomerSetting(1,0,$map,"");
+            $this->assign("customerSetting",$customerSetting);
+            $structure = new Structure($this->corp_id);
+            $structures = $structure->getAllStructure();
+            $this->assign("structures",$structures);
+        }catch (\Exception $ex){
+            $this->error($ex->getMessage());
+        }
+        $this->assign("url",url("update"));
+        return view("edit_page");
     }
 
     public function table(){
@@ -66,22 +134,27 @@ class Customer extends Initialize{
     }
 
     protected function _getCustomerSettingForInput(){
+        $customerSetting['setting_name'] = input('setting_name');
         $customerSetting['protect_customer_day'] = input('protect_customer_day',0,'int');
-        $customerSetting['take_times_employer'] = input('take_times_employer',0,'int');
+        $customerSetting['take_times_employee'] = input('take_times_employee',0,'int');
         $customerSetting['take_times_structure'] = input('take_times_structure',0,'int');
         $customerSetting['to_halt_day'] = input('to_halt_day',0,'int');
         $customerSetting['effective_call'] = input('effective_call',0,'int');
         $customerSetting['protect_customer_num'] = input('protect_customer_num',0,'int');
         $customerSetting['public_sea_seen'] = input('public_sea_seen',0,'int');
-        $set_to_structure = input('set_to_structure',"",'string');
-        $set_to_structure_arr = explode(',',$set_to_structure);
+//        $set_to_structure = input('set_to_structure',"",'string');
+//        $set_to_structure_arr = explode(',',$set_to_structure);
+        $set_to_structure_arr = input('set_to_structure/a');
         $set_to_structure_arr = array_map("intval",$set_to_structure_arr);
         $set_to_structure_arr = array_filter($set_to_structure_arr);
         $set_to_structure_arr = array_unique($set_to_structure_arr);
-        $zero_flg = array_search(0,$set_to_structure_arr);
-        if($zero_flg){
-            unset($set_to_structure_arr[$zero_flg]);
-        }
+        $zero_flg = true;
+        do{
+            $zero_flg = array_search(0,$set_to_structure_arr);
+            if($zero_flg){
+                unset($set_to_structure_arr[$zero_flg]);
+            }
+        }while($zero_flg);
         $customerSetting['set_to_structure'] = implode(",",$set_to_structure_arr);
         return $customerSetting;
     }

@@ -24,6 +24,10 @@ class Business extends Base
     {
         return $this->model->table($this->table)->select();
     }
+    public function getBusinessArray()
+    {
+        return $this->model->table($this->table)->column("business_name","id");
+    }
 
     public function addBusiness($data)
     {

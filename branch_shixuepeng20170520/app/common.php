@@ -10,12 +10,12 @@
 // +----------------------------------------------------------------------
 use think\Db;
 use app\common\model\UserCorporation;
-use app\common\model\CorporationStructure;
 use app\common\model\Umessage;
-use app\common\model\Employer;
-use app\common\model\Structure as StructureModel;
+use app\common\model\Employee;
+use app\common\model\StructureEmployee;
 use app\crm\model\CustomerTrace;
 use app\common\model\ImportFile as FileModel;
+use app\common\model\Picture as PictureModel;
 
 // 应用公共文件
 
@@ -139,21 +139,336 @@ function send_sms ($tel,$code,$content) {
  */
 function get_corpid ($tel = null) {
     $userinfo = session('userinfo');
-    if (empty($userinfo)) {
-        return false;
-    }
+//    if(!$userinfo){
+//        $userinfo = [];//TODO根据token获取登录后的session
+//        session('userinfo',$userinfo);
+//    }
     if (!empty($userinfo['corp_id'])) {
         return $userinfo['corp_id'];
-    } else {
-        if (!is_null($tel)) {
-            $corp_id = UserCorporation::getUserCorp($tel);
-            session('userinfo',['corp_id'=>$corp_id]);
-            return $corp_id;
-        }
-        return false;
     }
+    if (!is_null($tel)) {
+        $corp_id = UserCorporation::getUserCorp($tel);
+        //session('userinfo',['corp_id'=>$corp_id]);
+        return $corp_id;
+    }
+    return false;
 }
 
+function getStructureIds($user_id = null){
+    $userinfo = session('userinfo');
+    if (!empty($userinfo['structure_ids'])) {
+        return $userinfo['structure_ids'];
+    }
+    if (!is_null($user_id)) {
+        $structureEmployee = new StructureEmployee();
+        $struct_ids = $structureEmployee->getStructIdsByEmployee($user_id);
+        //session('userinfo',['corp_id'=>$corp_id]);
+        return $struct_ids;
+    }
+    return false;
+}
+
+function getCommStatusArr($comm_status){
+    $comm_status_arr = [];
+    switch ($comm_status){
+        case 1:
+            $comm_status_arr=[
+                "tend_to"=>0,
+                "phone_correct"=>1,
+                "profile_correct"=>1,
+                "call_through"=>1,
+                "is_wait"=>0,
+            ];
+            break;
+        case 2:
+            $comm_status_arr=[
+                "tend_to"=>0,
+                "phone_correct"=>0,
+                "profile_correct"=>0,
+                "call_through"=>0,
+                "is_wait"=>0,
+            ];
+            break;
+        case 3:
+            $comm_status_arr=[
+                "tend_to"=>0,
+                "phone_correct"=>1,
+                "profile_correct"=>0,
+                "call_through"=>1,
+                "is_wait"=>0,
+            ];
+            break;
+        case 4:
+            $comm_status_arr=[
+                "tend_to"=>0,
+                "phone_correct"=>1,
+                "profile_correct"=>0,
+                "call_through"=>0,
+                "is_wait"=>0,
+            ];
+            break;
+        case 5:
+            $comm_status_arr=[
+                "tend_to"=>0,
+                "phone_correct"=>1,
+                "profile_correct"=>1,
+                "call_through"=>1,
+                "is_wait"=>1,
+            ];
+            break;
+        case 6:
+            $comm_status_arr=[
+                "tend_to"=>1,
+                "phone_correct"=>1,
+                "profile_correct"=>1,
+                "call_through"=>1,
+                "is_wait"=>0,
+            ];
+            break;
+    }
+    return $comm_status_arr;
+}
+
+function getCommStatusByArr($comm_status_arr){
+    $comm_status = 0;
+    $comm_status_str = $comm_status_arr['tend_to'].
+        $comm_status_arr['phone_correct'].
+        $comm_status_arr['profile_correct'].
+        $comm_status_arr['call_through'].
+        $comm_status_arr['is_wait'];
+    switch ($comm_status_str){
+        case "01110":
+            $comm_status = 1;
+            break;
+        case "00000":
+            $comm_status = 2;
+            break;
+        case "01010":
+            $comm_status = 3;
+            break;
+        case "01000":
+            $comm_status = 4;
+            break;
+        case "01111":
+            $comm_status = 5;
+            break;
+        case "11110":
+            $comm_status = 6;
+            break;
+    }
+    return $comm_status;
+}
+
+function getCommStatusName($comm_status){
+    $comm_status_name = null;
+    switch ($comm_status){
+        case 1:
+            $comm_status_name = "无意向";
+            break;
+        case 2:
+            $comm_status_name = "号码无效";
+            break;
+        case 3:
+            $comm_status_name = "资料有误";
+            break;
+        case 4:
+            $comm_status_name = "未接通";
+            break;
+        case 5:
+            $comm_status_name = "待定";
+            break;
+        case 6:
+            $comm_status_name = "有意向";
+            break;
+        default:
+            $comm_status_name = "无";
+    }
+    return $comm_status_name;
+}
+
+function getResourceFromName($resource_from){
+    $resource_from_name = null;
+    switch ($resource_from){
+        case 1:
+            $resource_from_name = "转介绍";
+            break;
+        case 2:
+            $resource_from_name = "搜索";
+            break;
+        case 3:
+            $resource_from_name = "购买";
+            break;
+        default:
+            $resource_from_name = "无";
+    }
+    return $resource_from_name;
+}
+
+function getBelongsToManageName($resource_from){
+    $resource_from_name = null;
+    switch ($resource_from){
+        case 1:
+        case 2:
+        $resource_from_name = "未申领";
+            break;
+        case 3:
+            $resource_from_name = "跟进中";
+            break;
+        case 4:
+            $resource_from_name = "待处理";
+            break;
+        default:
+            $resource_from_name = "无";
+    }
+    return $resource_from_name;
+}
+function getTakeTypeFromName($resource_from){
+    $resource_from_name = null;
+    switch ($resource_from){
+        case 1:
+            $resource_from_name = "转介绍";
+            break;
+        case 2:
+            $resource_from_name = "搜索";
+            break;
+        case 3:
+            $resource_from_name = "购买";
+            break;
+        default:
+            $resource_from_name = "无";
+    }
+    return $resource_from_name;
+}
+
+function getInColumnName($in_column){
+    $in_column_name = null;
+    switch ($in_column){
+        case 1:
+            $in_column_name = "待沟通";
+            break;
+        case 2:
+            $in_column_name = "未跟进";
+            break;
+        case 3:
+            $in_column_name = "正常跟进";
+            break;
+        case 4:
+            $in_column_name = "停滞";
+            break;
+        case 5:
+            $in_column_name = "待定";
+            break;
+        case 6:
+            $in_column_name = "无意向";
+            break;
+        case 7:
+            $in_column_name = "已成单";
+            break;
+        case 8:
+            $in_column_name = "无效客户";
+            break;
+        default:
+            $in_column_name = "无";
+    }
+    return $in_column_name;
+}
+
+function getSaleStatusName($sale_status){
+    $sale_status_name = null;
+    switch ($sale_status){
+        case 0:
+            $sale_status_name = "无意向";
+            break;
+        case 1:
+            $sale_status_name = "有意向";
+            break;
+        case 2:
+            $sale_status_name = "预约拜访";
+            break;
+        case 3:
+            $sale_status_name = "已拜访";
+            break;
+        case 4:
+            $sale_status_name = "成单申请";
+            break;
+        case 5:
+            $sale_status_name = "赢单";
+            break;
+        case 6:
+            $sale_status_name = "输单";
+            break;
+        case 7:
+            $sale_status_name = "作废";
+            break;
+        case 8:
+            $sale_status_name = "发票申请";
+            break;
+        default:
+            $sale_status_name = "无";
+    }
+    return $sale_status_name;
+}
+
+function getEmployeeOnDutyName($on_duty){
+    $on_duty_name = null;
+    switch ($on_duty){
+        case 1:
+            $on_duty_name = "在职";
+            break;
+        case 2:
+            $on_duty_name = "休假";
+            break;
+        default:
+            $on_duty_name = "无";
+    }
+    return $on_duty_name;
+}
+
+/**
+ * 时间戳格式化
+ *
+ * @param int $time
+ * @return string 完整的时间显示
+ * @author huajie <banhuajie@163.com>
+ */
+function time_format($time = NULL, $format = 'Y-m-d H:i') {
+    if (empty ( $time ))
+        return '';
+
+    $time = $time === NULL ? NOW_TIME : intval ( $time );
+    return date ( $format, $time );
+}
+function day_format($time = NULL) {
+    return time_format ( $time, 'Y-m-d' );
+}
+function hour_format($time = NULL) {
+    return time_format ( $time, 'H:i' );
+}
+function time_offset($time = NULL) {
+    if (empty ( $time ))
+        return '00:00';
+
+    $mod = $time % 60;
+    $min = ($time - $mod) / 60;
+
+    $mod < 10 && $mod = '0' . $mod;
+    $min < 10 && $min = '0' . $min;
+
+    return $min . ':' . $mod;
+}
+function time_diff_day_time($time = NULL,$now_time=NULL) {
+    if(!$time){
+        $time = 0;
+    }
+    if(!$now_time){
+        $now_time = time();
+    }
+    $all_minute = round(($now_time-$time)/60);
+    $minute = $all_minute%60;
+    $hour = floor($minute/60);
+    $day = floor($hour/24);
+    return $day."天".$hour.":".$minute;
+}
 /**
  * 通过手机号获取用户id
  * @param $tel
@@ -165,27 +480,57 @@ function get_userid_from_tel ($tel,$corp_id='') {
     if (empty($corp_id)) {
         $corp_id = get_corpid($tel);
     }
-    $employM = new Employer($corp_id);
-    $users = $employM->getEmployerByTel($tel);
+    $employM = new Employee($corp_id);
+    $users = $employM->getEmployeeByTel($tel);
     return $users['id'];
+}
+/**
+ * 根据图片ID获取图像文件路径
+ * @param $id int 图片ID
+ * @return mixed|string
+ * created by blu10ph
+ */
+function get_img_path_by_id($id,$corp_id='') {
+    $img_path = "";
+    if (empty($id)) {
+        return $img_path;
+    }
+    if (empty($corp_id)) {
+        $corp_id = get_corpid();
+    }
+    $pictureInfo = cache($corp_id."_img.".$id);
+    if(!$pictureInfo){
+        $pictureModel = new PictureModel($corp_id);
+        $pictureInfo = $pictureModel->get(1,0,["id"=>$id,"status"=>1]);
+        cache($corp_id."_img_".$id,$pictureInfo);
+    }
+    if(!$pictureInfo){
+        return $img_path;
+    }
+    if($pictureInfo["block"]){
+        $img_path = config('image_block');
+        return $img_path;
+    }
+    return $img_path;
 }
 /**
  * 处理app端传来图像文件
  * @param $data
  * @return mixed|string
- * created by messhair
+ * created by messhaira
  */
 function get_app_img ($data) {
     $img_path = config('upload_image.image_path');
     $data = base64_decode($data);
     $res['status'] = false;
     try{
-        $img_path = $img_path.date('Y-m-d',time());//相对路径
-        $save_path = PUBLIC_PATH.$img_path;//物理路径
+        $img_path = $img_path.DS.date('Ymd',time());//相对路径
+        $corp_id = get_corpid();
+        $save_path = PUBLIC_PATH.DS."webroot".DS.$corp_id.DS.$img_path;//物理路径
         if (!is_dir($save_path)) {
-            mkdir($save_path,0755);
+            mkdirs($save_path);
         }
-        $img_path = $img_path.'/'.time().rand(10000,99999).'.tmp';//相对路径文件
+        $img_path = $img_path.DS.time().rand(10000,99999).'.tmp';//相对路径文件
         $save_path = PUBLIC_PATH.$img_path;//物理路径文件
         file_put_contents($save_path,$data);
         $arr=getimagesize($save_path);
@@ -490,12 +835,12 @@ function var_exp($val,$valName='',$exit=false,$hr=true){
  * @return boolean
  * created by blu10ph
  */
-function mkdirs($dir) {
+function mkdirs($dir,$mode=0755) {
     if(!is_dir($dir)) {
         if (!mkdirs(dirname($dir))){
             return false;
         }
-        if(!mkdir($dir,0777)){
+        if(!mkdir($dir,$mode)){
             return false;
         }
     }
@@ -691,7 +1036,8 @@ function outExcel($data, $filename = '', $sheet = false) {
  * created by blu10ph
  */
 function saveExcel($data, $sheet = false) {
-    $path = dirname($_SERVER['SCRIPT_FILENAME']) . DS . 'download' . DS . date('Ymd');
+    $corp_id = get_corpid();
+    $path = PUBLIC_PATH.DS."webroot".DS.$corp_id . DS . 'download' . DS . date('Ymd');
     $mkdir_flg = true;
     if(!is_dir($path) && function_exists('mkdirs')){
         $mkdir_flg = mkdirs($path);
@@ -700,7 +1046,7 @@ function saveExcel($data, $sheet = false) {
         return false;
     }
     $savename = md5(microtime(true)).'.xlsx';
-    $relative_path = dirname($_SERVER['SCRIPT_NAME']).'/download/' . date('Ymd') . '/' . $savename;
+    $relative_path = $path . DS . $savename;
     saveExcelToPath($data, $sheet,$savename,$path);
     unset ( $sheet );
     unset ( $dataArr );

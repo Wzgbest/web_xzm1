@@ -13,8 +13,9 @@ use think\Validate;
 class CustomerSetting extends Validate
 {
     protected $rule = [
+        'setting_name' => 'require',
         'protect_customer_day' => 'require|number',
-        'take_times_employer' => 'require|number',
+        'take_times_employee' => 'require|number',
         'take_times_structure' => 'require|number',
         'to_halt_day' => 'require|number',
         'effective_call' => 'require|number',
@@ -24,8 +25,9 @@ class CustomerSetting extends Validate
     ];
 
     protected $message = [
+        'setting_name.require' => '客户设置名称不能为空',
         'resource_from.require' => '客户保护天数不能为空',
-        'take_times_employer.require' => '员工同一客户领取次数不能为空',
+        'take_times_employee.require' => '员工同一客户领取次数不能为空',
         'take_times_structure.require' => '部门同一客户领取次数不能为空',
         'to_halt_day.require' => '划归停滞客户的天数不能为空',
         'effective_call.require' => '有效通话时间不能为空',
