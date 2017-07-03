@@ -1,4 +1,4 @@
-<div class="crm_customer sys_employee_list">
+<div class="sys_employee sys_employee_list">
     <div class="employee_list_panel employee_list">
         <!--员工列表-->
         <section id="myAllClientsPage" >
@@ -7,8 +7,8 @@
                 <li class="active">批量导入</li>
                 <li class="active">导入记录</li>
                 <li class="vertical"></li>
-                <li>导出</li>
-                <li>删除</li>
+                <li class="exportCustomer">导出</li>
+                <li class="delete">删除</li>
                 <div class="clearfix"></div>
             </ul>
             <div class="m-filterNav">
@@ -59,12 +59,12 @@
                         <li>{$vo.telephone}</li>
                         <li>{eq name="vo.is_leader" value="1"}是{else/}否{/eq}</li>
                         <li>{$vo.role_name}</li>
-                        <li>{$vo.on_duty}</li>
+                        <li>{$vo.on_duty|getEmployeeOnDutyName}</li>
                         <li>{$vo.create_time|time_format}</li>
                         <li class="u-tabOperation">
                             <span onclick="employee_list_show('{$vo.id}');">详情</span>
                             <span onclick="employee_list_edit('{$vo.id}');">编辑</span>
-                            <span onclick="employee_list_del('{$vo.id}',{$p},{$num});">删除</span>
+                            <span onclick="employee_list_del('{$vo.id}');">删除</span>
                         </li>
                         <div class="clearfix"></div>
                     </ul>
@@ -87,11 +87,21 @@
                 <span>页</span>
             </div>
         </section>
-        <script src="/static/js/list.js"></script>
+        <script src="/static/js/list_manage.js"></script>
         <script language="javascript">
             var employee_list_list_manage = new list_manage("employee_list","staff-managementfr","/systemsetting/employee/manage",'{$p}','{$num}','{$max_page}','0');
         </script>
         <script src="/systemsetting/js/employee_list.js"></script>
+
+        <div id="myModal" class="reveal-modal">
+            <p class="p1">导出</p>
+            <p class="p2">你已选中1~34位员工是否导出</p>
+            <p class="p5">
+                <input type="submit" value="确定" />
+                <button>取消</button>
+            </p>
+            <a class="close-reveal-modal">&#215;</a>
+        </div>
 
         <!--黑色遮罩-->
         <section id="employee_list_blackBg" class="hide page-client"></section>

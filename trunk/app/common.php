@@ -409,6 +409,21 @@ function getSaleStatusName($sale_status){
     return $sale_status_name;
 }
 
+function getEmployeeOnDutyName($on_duty){
+    $on_duty_name = null;
+    switch ($on_duty){
+        case 1:
+            $on_duty_name = "在职";
+            break;
+        case 2:
+            $on_duty_name = "休假";
+            break;
+        default:
+            $on_duty_name = "无";
+    }
+    return $on_duty_name;
+}
+
 /**
  * 时间戳格式化
  *
