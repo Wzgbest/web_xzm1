@@ -25,12 +25,12 @@ function customer_info_manage(from,target,list_manage){
 	//弹出框方法
 	this.close=function(){
 		$(this.panel_base+" .customer_info_panel").addClass("hide");
+		self.list_manage.reload_list();
 	};
 	this.show_panel=function(panel,data){
 		$(panel).html(data);
 		$(panel).height(window.innerHeight);
 		this.listen_nav_click(panel);
-		this.close();
 		$(panel).removeClass("hide");
 	};
 	this.listen_nav_click=function(panel){
@@ -55,7 +55,7 @@ function customer_info_manage(from,target,list_manage){
 	};
 	this.general=function(id){
 		this.id = id;
-		console.log(this.id);
+		//console.log(this.id);
 		var url = "/crm/customer/general/id/"+id+"/fr/"+this.from;
 		var panel = this.panel_base+' .customer_general';
 		$.ajax({
@@ -72,7 +72,7 @@ function customer_info_manage(from,target,list_manage){
 	};
 	this.show=function(id){
 		this.id = id;
-		console.log(this.id);
+		//console.log(this.id);
 		var url = "/crm/customer/show/id/"+id+"/fr/"+this.from;
 		var panel = this.panel_base+' .customer_info';
 		$.ajax({
@@ -93,7 +93,7 @@ function customer_info_manage(from,target,list_manage){
 	this.edit=function(id,last){
 		this.id = id;
 		this.last = last;
-		console.log(this.id);
+		//console.log(this.id);
 		var url = "/crm/customer/edit/id/"+id+"/fr/"+this.from;
 		var panel = this.panel_base+' .customer_edit';
 		$.ajax({
@@ -123,7 +123,7 @@ function customer_info_manage(from,target,list_manage){
 		var panel = this.panel_base+' .customer_edit';
 		var edit_from_data = $(panel+" .edit").serialize();
 		edit_from_data += "&id="+id+"&fr="+this.from;
-		console.log(edit_from_data);
+		//console.log(edit_from_data);
 		$.ajax({
 			url: '/crm/customer/update',
 			type: 'post',
@@ -219,7 +219,7 @@ function customer_info_manage(from,target,list_manage){
 				var html = '<div class="contact_edit_panel">';
 				html+= data;
 				html+= '</div>';
-				console.log($(panel));
+				//console.log($(panel));
 				$(panel+' .'+self.from+'_contact_'+id).addClass("hide");
 				$(panel+' .'+self.from+'_contact_'+id).before(html);
 				$(panel+" .contact_edit_panel .customer_contact_edit_save").click(function(){
@@ -239,7 +239,7 @@ function customer_info_manage(from,target,list_manage){
 		var panel = this.panel_base+' .customer_contact';
 		var contact_edit_from = $(panel+" .contact_edit_panel .contact_edit_from").serialize();
 		contact_edit_from += "&id="+id+"&fr="+this.from;
-		console.log(contact_edit_from);
+		//console.log(contact_edit_from);
 		$.ajax({
 			url: '/crm/customer_contact/update',
 			type: 'post',
@@ -258,7 +258,7 @@ function customer_info_manage(from,target,list_manage){
 	};
 	this.sale_chance_show=function(customer_id){
 		this.id = customer_id;
-		console.log(this.id);
+		//console.log(this.id);
 		var url = "/crm/sale_chance/show/customer_id/"+customer_id+"/fr/"+this.from;
 		var panel = this.panel_base+' .customer_sale_chance';
 		$.ajax({
@@ -275,7 +275,7 @@ function customer_info_manage(from,target,list_manage){
 	};
 	this.trace_show=function(customer_id){
 		this.id = customer_id;
-		console.log(this.id);
+		//console.log(this.id);
 		var url = "/crm/customer_trace/show/customer_id/"+customer_id+"/fr/"+this.from;
 		var panel = this.panel_base+' .customer_sale_chance';
 		$.ajax({

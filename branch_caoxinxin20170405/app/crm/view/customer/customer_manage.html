@@ -99,13 +99,13 @@
                 <span>页</span>
             </div>
         </section>
-        <script src="/static/js/list.js"></script>
+        <script src="/static/js/list_manage.js"></script>
         <script language="javascript">
             var customer_manage_list_manage = new list_manage("customer_manage","cilents-managefr","/crm/customer/customer_manage",'{$p}','{$num}','{$max_page}','0');
         </script>
         <script src="/crm/js/customer_info_manage.js"></script>
         <script language="javascript">
-            var customer_manage_info_manage = new customer_info_manage("customer_manage","cilents-managefr");
+            var customer_manage_info_manage = new customer_info_manage("customer_manage","cilents-managefr",customer_manage_list_manage);
         </script>
         <script src="/crm/js/customer_manage.js"></script>
     </div>
