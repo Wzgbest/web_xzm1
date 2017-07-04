@@ -1,2 +1,84 @@
 <?PHP
+$server = "http://xzm.blu10ph.cn";
+$cookie_file = './cookie.txt';
+$page_list = [];
+$page_list[] = ["crm","customer","customer_pool",""];
+$page_list[] = ["crm","customer","my_customer",""];
+$page_list[] = ["crm","customer","general","/id/11/fr/my_customer"];
+$page_list[] = ["crm","customer","show","/id/11/fr/my_customer"];
+$page_list[] = ["crm","customer","edit","/id/11/fr/my_customer"];
+$page_list[] = ["crm","customer_contact","show","/customer_id/11/fr/my_customer"];
+$page_list[] = ["crm","customer_contact","add_page","/customer_id/11/fr/my_customer"];
+$page_list[] = ["crm","customer_contact","edit_page","/id/1/fr/my_customer"];
+$page_list[] = ["crm","sale_chance","show","/customer_id/11/fr/my_customer"];
+$page_list[] = ["crm","customer_trace","show","/customer_id/11/fr/my_customer"];
+$page_list[] = ["crm","customer","public_customer_pool",""];
+$page_list[] = ["crm","customer","customer_pool",""];
+$page_list[] = ["systemsetting","corporation","showcorpinfo",""];
+$page_list[] = ["systemsetting","corporation","editcorpinfo",""];
+$page_list[] = ["systemsetting","customer","index",""];
+$page_list[] = ["systemsetting","customer","add_page",""];
+$page_list[] = ["systemsetting","customer","edit_page","/id/7"];
+$page_list[] = ["systemsetting","employee","manage",""];
+
+login($server,$cookie_file);
+foreach($page_list as $page){
+    echo var_export($page, true)."\r\n";
+    downPageToPath($server,$page,$cookie_file);
+}
+
+function login($server,$cookie_file){
+    $url = $server+'/index/index/verifylogin';
+    $data = 'telephone=13311112222&password=password';
+    curl_post($url,$data,$cookie_file);
+}
+function downPageToPath($server,$page,$cookie_file){
+    $url = $server.getPageUrl($page);
+    $page_html = curl_get($url,$cookie_file);
+    $file_path = getFilePath($page);
+    file_write($file_path,$page_html);
+}
+function getPageUrl($page){
+    return ("/".$page[0]."/".$page[1]."/".strtolower($page[2])."/".$page[4]);
+}
+function getFilePath($page){
+    return ("./".$page[0]."/".$page[1]."/".strtolower($page[2])."html");
+}
+
+/**
+ *curl post请求
+ */
+function curl_post($url,$data,$cookie_file){
+    $curl=curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);                
+    curl_setopt($curl, CURLOPT_POST, 1 );
+    curl_setopt($curl, CURLOPT_HEADER, 0 );
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1 );
+    curl_setopt($curl, CURLOPT_COOKIEFILE, $cookie_file);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $data );
+    $return = curl_exec ( $curl );
+    curl_close ( $curl );
+    return $return;
+}
+
+/**
+ *curl get请求
+ */
+function curl_get($url,$cookie_file){
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);//登陆后要从哪个页面获取信息
+    curl_setopt($curl, CURLOPT_HEADER, false);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($curl, CURLOPT_COOKIEFILE, $cookie_file);
+    $content = curl_exec($curl);
+    $return=json_decode($content,true);
+    curl_close($curl);
+    return $return;
+}
+
+function file_write($file_path,$page_html){
+    $file = fopen($file_path, "a") or die("Unable to open file!");
+    fwrite($file, $page_html);
+    fclose($file);
+}
 ?>
