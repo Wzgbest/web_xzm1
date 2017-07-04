@@ -210,14 +210,21 @@ class CustomerImport extends Initialize{
     }
 
     public function exportCustomer(){
-        $scale = input('scale',0,'int');
-        if(!$scale){
+        $self = input('self',0,'int');
+        if($self){
+            //TODO 权限验证
+        }
+        $ids = input("ids");
+        if(!$ids){
             $this->error("参数错误!");
         }
-        $self = input('self',0,'int');
+        $ids_arr = explode(",",$ids);
+        $ids_arr = array_map("intval",$ids_arr);
+        //var_exp($ids_arr,'$ids_arr',1);
+        $scale = input('scale',0,'int');
         $uid = session('userinfo.userid');
         $customerM = new CustomerModel($this->corp_id);
-        $customers_data = $customerM->getExportCustomers($uid,$scale,$self);
+        $customers_data = $customerM->getExportCustomers($uid,$scale,$self,$ids_arr);
         //var_exp($customers_data,'$customers_data',1);
         if(!$customers_data){
             $this->error("导出员工失败!");

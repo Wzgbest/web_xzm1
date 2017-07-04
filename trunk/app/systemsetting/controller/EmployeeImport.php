@@ -240,6 +240,7 @@ class EmployeeImport extends Initialize{
             $this->error("参数错误!");
         }
         $ids_arr = explode(",",$ids);
+        $ids_arr = array_map("intval",$ids_arr);
         //var_exp($ids_arr,'$ids_arr',1);
         $where["id"] = ["in",$ids_arr];
         $employeeM = new EmployeeModel($this->corp_id);
