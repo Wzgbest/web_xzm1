@@ -36,7 +36,7 @@ class Customer extends Initialize{
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
         $uid = session('userinfo.userid');
-        $filter = $this->_getCustomerFilter(["belongs_to","resource_from","comm_status","take_type","tracer","guardian","add_man"]);
+        $filter = $this->_getCustomerFilter(["grade","resource_from","comm_status","take_type","tracer","guardian","add_man"]);
         $field = $this->_getCustomerField([]);
         try{
             $customerM = new CustomerModel($this->corp_id);
@@ -56,7 +56,7 @@ class Customer extends Initialize{
         $this->assign("num",$num);
         $this->assign("filter",$filter);
         $this->assign("max_page",$max_page);
-        $this->assign("start_num",$start_num+1);
+        $this->assign("start_num",$customers_count?$start_num+1:0);
         $this->assign("truename",session('userinfo.truename'));
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view();
@@ -94,11 +94,14 @@ class Customer extends Initialize{
         $this->assign("filter",$filter);
         $this->assign("max_page",$max_page);
         $this->assign("in_column",$in_column);
-        $this->assign("start_num",$start_num+1);
+        $this->assign("start_num",$customers_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view();
     }
-    public function public_customer_pool(){
+    public function customer_pool(){
+        return $this->public_customer_pool(1);
+    }
+    public function public_customer_pool($fff=0){
         $num = input('num',$this->paginate_list_rows,'int');
         $p = input("p",1,"int");
         $customers_count=0;
@@ -119,6 +122,9 @@ class Customer extends Initialize{
                 $public_flg = true;
                 break;
             }
+        }
+        if($fff){
+            $public_flg = !$public_flg;
         }
         if($public_flg){
             $view_name="public_pool";
@@ -162,7 +168,7 @@ class Customer extends Initialize{
         $this->assign("num",$num);
         $this->assign("filter",$filter);
         $this->assign("max_page",$max_page);
-        $this->assign("start_num",$start_num+1);
+        $this->assign("start_num",$customers_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view($view_name);
     }

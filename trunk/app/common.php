@@ -412,6 +412,9 @@ function getSaleStatusName($sale_status){
 function getEmployeeOnDutyName($on_duty){
     $on_duty_name = null;
     switch ($on_duty){
+        case -1:
+            $on_duty_name = "离职";
+            break;
         case 1:
             $on_duty_name = "在职";
             break;
@@ -422,6 +425,24 @@ function getEmployeeOnDutyName($on_duty){
             $on_duty_name = "无";
     }
     return $on_duty_name;
+}
+
+function getImportResultName($import_result){
+    $import_result_name = null;
+    switch ($import_result){
+        case 0:
+            $import_result_name = "全部失败";
+            break;
+        case 1:
+            $import_result_name = "部分失败";
+            break;
+        case 2:
+            $import_result_name = "全部成功";
+            break;
+        default:
+            $import_result_name = "无";
+    }
+    return $import_result_name;
 }
 
 /**

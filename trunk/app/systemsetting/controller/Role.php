@@ -14,6 +14,18 @@ use app\systemsetting\controller\Employee as EmployeeController;
 class Role extends Initialize
 {
     /**
+     * 首页显示
+     * @return \think\response\View
+     * created by messhair
+     */
+    public function index()
+    {
+        $rol = new RoleModel();
+        $data = $rol->getAllRole();
+        $this->assign('roles',$data);
+        return view();
+    }
+    /**
      * 角色列表
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair

@@ -24,27 +24,65 @@ class EmployeeImportRecord extends Base{
      * 获取上传记录列表
      * @param $num int 数量
      * @param $page int 页
-     * @param $map array 筛选条件
+     * @param $filter array 筛选条件
      * @param $order string 排序
      * @return int|string
      * @throws \think\Exception
      */
-    public function getImportEmployeeRecord($num=10,$page=0,$map=null,$order="id desc"){
+    public function getImportEmployeeRecord($num=10,$page=0,$filter=null,$order="eir.id desc"){
         $offset = 0;
         if($page){
             $offset = ($page-1)*$num;
         }
-        $importEmployeeRecordList = $this->model
-            ->table($this->table)
+        $map = $this->_getMapByFilter($filter,["start_time","end_time","batch","operator"]);
+        $importEmployeeRecordList = $this->model->table($this->table)->alias('eir')
+            ->join($this->dbprefix.'employee e','eir.operator = e.id','left')
             ->where($map)
             ->order($order)
             ->limit($offset,$num)
-            ->field('*')//TODO field list
+            ->field('eir.*,e.truename')//TODO field list
             ->select();
         if($num==1&&$page==0&&$importEmployeeRecordList){
             $importEmployeeRecordList = $importEmployeeRecordList[0];
         }
         return $importEmployeeRecordList;
+    }
+
+    /**
+     * 获取上传记录数量
+     * @param $filter array 筛选条件
+     * @param $order string 排序
+     * @return int|string
+     * @throws \think\Exception
+     */
+    public function getImportEmployeeRecordCount($filter=null){
+        $map = $this->_getMapByFilter($filter,["start_time","end_time","batch","operator"]);
+        $importEmployeeRecordCount = $this->model->table($this->table)->alias('eir')
+            ->join($this->dbprefix.'employee e','eir.operator = e.id','left')
+            ->where($map)
+            ->count();
+        return $importEmployeeRecordCount;
+    }
+
+    protected function _getMapByFilter($filter,$filter_column){
+        $map = [];
+        //开始时间
+        if(in_array("start_time",$filter_column) && array_key_exists("start_time", $filter)){
+            $map["eir.create_time"] = ["egt",$filter["start_time"]];
+        }
+        //结束时间
+        if(in_array("end_time",$filter_column) && array_key_exists("end_time", $filter)){
+            $map["eir.create_time"] = ["elt",$filter["end_time"]];
+        }
+        //批次
+        if(in_array("batch",$filter_column) && array_key_exists("batch", $filter)){
+            $map["eir.batch"] = ["like","%".$filter["batch"]."%"];
+        }
+        //导入人
+        if(in_array("operator",$filter_column) && array_key_exists("operator", $filter)){
+            $map["e.truename"] = ["like","%".$filter["operator"]."%"];
+        }
+        return $map;
     }
 
     /**

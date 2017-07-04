@@ -34,6 +34,7 @@ function customer_info_manage(from,target,list_manage){
 		$(panel).html(data);
 		$(panel).height(window.innerHeight);
 		this.listen_nav_click(panel);
+		$(this.panel_base+" .customer_info_panel").addClass("hide");
 		$(panel).removeClass("hide");
 	};
 	this.listen_nav_click=function(panel){
@@ -132,6 +133,7 @@ function customer_info_manage(from,target,list_manage){
 			url: '/crm/customer/update',
 			type: 'post',
 			data: edit_from_data,
+			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
 				alert(data.info);
@@ -200,6 +202,7 @@ function customer_info_manage(from,target,list_manage){
 			url: '/crm/customer_contact/add',
 			type: 'post',
 			data: contact_add_from,
+			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
 				alert(data.info);
@@ -250,6 +253,7 @@ function customer_info_manage(from,target,list_manage){
 			url: '/crm/customer_contact/update',
 			type: 'post',
 			data: contact_edit_from,
+			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
 				alert(data.info);
