@@ -1,26 +1,12 @@
 var customer_manage_nav_base = "#cilents-managefr .customer_manage .m-secNav";
 customer_manage_list_manage.listenSelect("exportCustomer");
 $(customer_manage_nav_base+" .exportCustomer").click(function(){
-    var ids = customer_manage_list_manage.getAllSelectVal();
+    var ids = customer_manage_list_manage.getAllSelectVal(" ",",");
     if(ids==""){
         return;
     }
-    //console.log(ids);
-    $.ajax({
-        url: '/crm/customer_import/exportCustomer',
-        type: 'post',
-        data: ids,
-        success: function(data) {
-            //console.log(data);
-            alert(data.info);
-            if(data.status) {
-                customer_manage_list_manage.reload_list();
-            }
-        },
-        error: function() {
-            alert("导出客户时发生错误!");
-        }
-    });
+    console.log(ids);
+    window.open("/crm/customer_import/exportCustomer/ids/"+ids);
 });
 customer_manage_list_manage.listenSelect("delete");
 $(customer_manage_nav_base+" .delete").click(function(){

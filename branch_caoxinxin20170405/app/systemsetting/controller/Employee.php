@@ -157,6 +157,20 @@ class Employee extends Initialize{
         ];
     }
 
+    public function checkPhone(){
+        $result = ['status'=>0 ,'info'=>"查询时发生错误！"];
+        $phone = input('phone',0,'int');
+        $employeeM = new EmployeeModel($this->corp_id);
+        $check_flg = $employeeM->getEmployeeByTel($phone);
+        if($check_flg){
+            $result['info'] = "电话已被使用！";
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "电话未被使用！";
+        return json($result);
+    }
+
     /**
      * 添加员工
      * @param $request Request 增加员工页面提交信息
@@ -170,7 +184,7 @@ class Employee extends Initialize{
         } elseif ($request->isPost()) {
             $input = $request->param();
             $result = $this->validate($input,'Employee');
-            var_exp($result,'$result',1);
+            //var_exp($result,'$result',1);
             $info['status'] = false;
             //验证字段
             if(true !== $result){
@@ -252,6 +266,20 @@ class Employee extends Initialize{
                 return $info;
             }
         }
+    }
+
+    public function changePhone(){
+        $result = ['status'=>0 ,'info'=>"更换手机号时发生错误！"];
+        $phone = input('phone',0,'int');
+        $employeeM = new EmployeeModel($this->corp_id);
+        $check_flg = $employeeM->getEmployeeByTel($phone);
+        if($check_flg){
+            $result['info'] = "更换手机号失败！";
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "更换手机号成功！";
+        return json($result);
     }
 
     /**
@@ -367,12 +395,12 @@ class Employee extends Initialize{
 
     /**
      * 删除单个员工、多个员工
-     * @param $user_ids string 用户ids，逗号分隔
      * @return array
      * created by messhair
      */
-    public function deleteMultipleEmployee($user_ids)
+    public function deleteMultipleEmployee()
     {
+        $user_ids = input("ids/a");
         $customerM = new CustomerModel();
 //        检测有无保护客户
         $res = $customerM->getCustomersByUserIds($user_ids);
