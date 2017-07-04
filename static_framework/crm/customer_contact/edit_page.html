@@ -1,42 +1,42 @@
 <div id="creat-linkman" class="m-divBlock m-form">
-    <form id="my_customer_contact_edit_from" class="my_customer_contact_edit_from" onsubmit="return false;">
+    <form id="my_customer_contact_edit_from" class="my_customer_contact_edit_from contact_edit_from" onsubmit="return false;">
         <h1><i class="fa fa-vcard-o"></i>编辑联系人</h1>
         <div>
             <span class="cont">联系人姓名</span>
-            <input type="text" name="contact_name" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入联系人姓名" value="发达" />
+            <input type="text" name="contact_name" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入联系人姓名" value="刘六溜" />
             <span class="cont">性别</span>
             <input type="radio" name="sex"  checked="checked" value="1"/>男
             <input type="radio" name="sex"  value="0"/>女
         </div>
         <div>
             <span class="cont">联系方式1</span>
-            <input type="text" name="phone_first" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码" value="18888888888"/>
+            <input type="text" name="phone_first" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码" value="16666666666"/>
             <span class="cont">联系方式2</span>
-            <input type="text" name="phone_second" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码" value=""/>
+            <input type="text" name="phone_second" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码" value="010-56565516"/>
         </div>
         <div>
             <span class="cont">联系方式3</span>
             <input type="text" name="phone_third" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码" value=""/>
             <span class="cont">邮箱</span>
-            <input type="email" name="email" placeholder="请输入邮箱" value="sfds@asda.com"/>
+            <input type="email" name="email" placeholder="请输入邮箱" value=""/>
         </div>
         <div>
             <span class="cont">QQ号</span>
-            <input type="text" name="qqnum" pattern="[\d]{0,10}" title="请写正确格式" placeholder="请输入QQ号" value="123123123"/>
+            <input type="text" name="qqnum" pattern="[\d]{0,10}" title="请写正确格式" placeholder="请输入QQ号" value=""/>
             <span class="cont">微信号</span>
-            <input type="text" name="wechat" pattern="[\d\D]{0,40}" title="最多填写40位字符" placeholder="请输入微信号" value="1231312"/>
+            <input type="text" name="wechat" pattern="[\d\D]{0,40}" title="最多填写40位字符" placeholder="请输入微信号" value=""/>
         </div>
         <div>
             <span class="cont">部门</span>
-            <input type="text" name="structure" pattern="[\d\D]{0,16}" title="最多填写16位字符" placeholder="请输入所属部门" value="时发生的"/>
+            <input type="text" name="structure" pattern="[\d\D]{0,16}" title="最多填写16位字符" placeholder="请输入所属部门" value=""/>
             <span class="cont">职务</span>
-            <input type="text" name="occupation" pattern="[\d\D]{0,16}" title="最多填写16位字符" placeholder="请输入职务" value="到沙发大饭店时"/>
+            <input type="text" name="occupation" pattern="[\d\D]{0,16}" title="最多填写16位字符" placeholder="请输入职务" value=""/>
         </div>
         <div>
             <span class="cont">关键决策人</span>
             <div class="u-inlineRadio">
                 <input type="radio" name="key_decide"  value="1"/>是
-                <input type="radio" name="key_decide"  value="0"/>否
+                <input type="radio" name="key_decide"  checked="checked" value="0"/>否
             </div>
             <span class="cont">决策能力</span>
             <select name="deal_capability">
@@ -55,8 +55,8 @@
             <input type="text" name="introducer" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入介绍人" value="0"/>
             <span class="cont">亲密程度</span>
             <select name="close_degree">
-                <option value="0"  selected="selected">不亲密</option>
-                <option value="1" >亲密</option>
+                <option value="0" >不亲密</option>
+                <option value="1"  selected="selected">亲密</option>
             </select>
         </div>
         <div>
@@ -65,7 +65,7 @@
         </div>
         <div>
             <span class="cont u-area">爱好</span>
-            <textarea name="hobby" placeholder="请输入爱好">撒发射的</textarea>
+            <textarea name="hobby" placeholder="请输入爱好"></textarea>
         </div>
         <div>
             <span class="cont">备注</span>
@@ -75,11 +75,11 @@
             <span class="u-addRemark"><i class="fa fa-plus"></i></span>
             <div class="clearfix"></div>
             <span class="cont"></span>
-            <textarea name="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注">啊额撒他是个否</textarea>
+            <textarea name="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
         </div>
         <div class="u-submitButton">
-            <button onclick="my_customer_contact_edit_update('3','26');">保存</button>
-            <button onclick="my_customer_contact_show('26');" class="close">取消</button>
+            <button class="save customer_contact_edit_save">保存</button>
+            <button class="close cancel customer_contact_edit_cancel">取消</button>
         </div>
     </form>
 </div>

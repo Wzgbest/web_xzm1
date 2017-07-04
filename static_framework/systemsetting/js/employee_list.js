@@ -172,11 +172,9 @@ function employee_list_show_list(){
 	$('#frames #'+employee_list_hide_panel).addClass("hide");
 	$('#frames #staff-managementfr .sys_employee_list .employee_list').removeClass("hide");
 }
-/***************************/
-$("#frames #staff-managementfr .sys_employee_list .blackBg").height(window.innerHeight);
-/*****************************************************************/
 /*新建*/
 function employee_list_newClient(){
+	$("#frames #staff-managementfr .sys_employee_list .blackBg").height(window.innerHeight);
 	document.getElementById("employee_list_newClient").classList.remove("hide");
 	document.getElementById("employee_list_blackBg").classList.remove("hide");
 //	document.getElementsByTagName("body")[0].classList.add("hiddenY");

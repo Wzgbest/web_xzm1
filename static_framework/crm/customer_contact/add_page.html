@@ -1,5 +1,5 @@
 <div id="creat-linkman" class="m-divBlock m-form">
-    <form id="my_customer_contact_add_from" class="my_customer_contact_add_from" onsubmit="return false;">
+    <form id="my_customer_contact_add_from" class="my_customer_contact_add_from contact_add_from" onsubmit="return false;">
         <h1><i class="fa fa-vcard-o"></i>新建联系人</h1>
         <div>
             <span class="cont">联系人姓名</span>
@@ -78,8 +78,8 @@
             <textarea name="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
         </div>
         <div class="u-submitButton">
-            <button onclick="my_customer_contact_add_send('26');">保存</button>
-            <button onclick="my_customer_contact_show('26');" class="close">取消</button>
+            <button class="save customer_contact_add_save">保存</button>
+            <button class="close cancel customer_contact_add_cancel">取消</button>
         </div>
     </form>
 </div>

@@ -11,20 +11,20 @@
         <div class="clearfix"></div>
         <li class="customer_general_show">概要</li>
         <li class="current">客户信息</li>
-        <li class="customer_contact_show">联系人（0）</li>
-        <li class="customer_sale_chance_show">销售机会（0）</li>
-        <li class="customer_trace_show">跟踪记录（0）</li>
+        <li class="customer_contact_show">联系人（2）</li>
+        <li class="customer_sale_chance_show">销售机会（2）</li>
+        <li class="customer_trace_show">跟踪记录（1）</li>
         <div class="clearfix"></div>
     </ul>
-    <form id="newClientForm" class="customer_manage_edit" onsubmit="return false;">
+    <form id="newClientForm" class="my_customer_edit" onsubmit="return false;">
         <section id="clientInformationEdit" class="m-form m-divBlock">
             <div class="clearfix"></div>
             <div >
                 <span class="cont"><span class="u-required">＊</span>客户名称</span>
-                <input type="text" name="customer_name" required="required" placeholder="请输入客户名称" pattern="[\S]{1,40}" title="请输入1-40个字符" value="前往额"/>
+                <input type="text" name="customer_name" required="required" placeholder="请输入客户名称" pattern="[\S]{1,40}" title="请输入1-40个字符" value="山东中迅网络传媒有限公司"/>
 
                 <span class="cont">客户编码</span>
-                <input type="text" required="required" placeholder="请输入客户编码" pattern="[\S]{1,40}" title="请输入1-40个字符" value="52"/>
+                <input type="text" required="required" placeholder="请输入客户编码" pattern="[\S]{1,40}" title="请输入1-40个字符" value="11"/>
             </div>
             <div>
                 <span class="cont">联系人</span>
@@ -40,7 +40,7 @@
             </div>
             <div>
                 <span class="cont"><span class="u-required">＊</span>联系电话</span>
-                <input type="text" name="telephone" required="required" pattern="[\d]{7,12}" placeholder="请输入电话号码" title="请输入正确的联系方式" value="15685324643"/>
+                <input type="text" name="telephone" required="required" pattern="[\d]{7,12}" placeholder="请输入电话号码" title="请输入正确的联系方式" value="010-58585518"/>
 
                 <span class="cont">获取途径</span>
                 <select name="resource_from">
@@ -53,11 +53,11 @@
                 <span class="cont">客户行业</span>
                 <select name="field1" class="u-3select">
                                         <option value="2" >IT行业</option>
-                                        <option value="3" >金融行业</option>
+                                        <option value="3"  selected="selected">金融行业</option>
                                         <option value="4" >制造业</option>
                                     </select>
                 <select name="field2" class="u-3select">
-                                        <option value="2" >IT行业</option>
+                                        <option value="2"  selected="selected">IT行业</option>
                                         <option value="3" >金融行业</option>
                                         <option value="4" >制造业</option>
                                     </select>
@@ -81,7 +81,7 @@
             </div>
             <div>
                 <span class="cont u-area">详细地址</span>
-                <textarea name="address" id="address" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入详细地址"></textarea>
+                <textarea name="address" id="address" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入详细地址">潍坊市</textarea>
             </div>
             <div>
                 <span class="cont">详细定位</span>
@@ -89,7 +89,7 @@
             </div>
             <div>
                 <span class="cont">公司官网</span>
-                <input type="text" name="website" id="website" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入公司官网" value=""/>
+                <input type="text" name="website" id="website" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入公司官网" value="0"/>
             </div>
             <div>
                 <span class="cont">备注</span>
