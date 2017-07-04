@@ -98,7 +98,10 @@ class Customer extends Initialize{
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view();
     }
-    public function public_customer_pool(){
+    public function customer_pool(){
+        return public_customer_pool(1);
+    }
+    public function public_customer_pool($fff){
         $num = input('num',$this->paginate_list_rows,'int');
         $p = input("p",1,"int");
         $customers_count=0;
@@ -119,6 +122,9 @@ class Customer extends Initialize{
                 $public_flg = true;
                 break;
             }
+        }
+        if($fff){
+            $public_flg = !$public_flg;
         }
         if($public_flg){
             $view_name="public_pool";

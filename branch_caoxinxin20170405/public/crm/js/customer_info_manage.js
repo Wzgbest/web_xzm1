@@ -132,6 +132,7 @@ function customer_info_manage(from,target,list_manage){
 			url: '/crm/customer/update',
 			type: 'post',
 			data: edit_from_data,
+			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
 				alert(data.info);
@@ -200,6 +201,7 @@ function customer_info_manage(from,target,list_manage){
 			url: '/crm/customer_contact/add',
 			type: 'post',
 			data: contact_add_from,
+			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
 				alert(data.info);
@@ -250,6 +252,7 @@ function customer_info_manage(from,target,list_manage){
 			url: '/crm/customer_contact/update',
 			type: 'post',
 			data: contact_edit_from,
+			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
 				alert(data.info);

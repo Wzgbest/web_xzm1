@@ -22,6 +22,7 @@ $(employee_list_base+" #employee_import_iframe").load(function() {
 			url: '/systemsetting/employee_import/importEmployee',
 			type: 'post',
 			data: "file_id="+file_id,
+			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
 				alert(data.info);
@@ -84,6 +85,7 @@ $(employee_list_base+" .employee_delete_ui .employee_delete_ok_btn").click(funct
 		url: '/systemsetting/employee/deleteMultipleEmployee',
 		type: 'post',
 		data: ids,
+		dataType: 'json',
 		success: function(data) {
 			//console.log(data);
 			alert(data.message);
@@ -153,6 +155,7 @@ function employee_list_edit_update(id){
 		url: '/systemsetting/employee/editemployee.html',
 		type: 'post',
 		data: employee_list_edit_from_data,
+		dataType: 'json',
 		success: function(data) {
 			//console.log(data);
 			alert(data.message);
@@ -169,11 +172,9 @@ function employee_list_show_list(){
 	$('#frames #'+employee_list_hide_panel).addClass("hide");
 	$('#frames #staff-managementfr .sys_employee_list .employee_list').removeClass("hide");
 }
-/***************************/
-$("#frames #staff-managementfr .sys_employee_list .blackBg").height(window.innerHeight);
-/*****************************************************************/
 /*新建*/
 function employee_list_newClient(){
+	$("#frames #staff-managementfr .sys_employee_list .blackBg").height(window.innerHeight);
 	document.getElementById("employee_list_newClient").classList.remove("hide");
 	document.getElementById("employee_list_blackBg").classList.remove("hide");
 //	document.getElementsByTagName("body")[0].classList.add("hiddenY");
@@ -208,6 +209,7 @@ function employee_list_add_employee(){
 		url: url,
 		type: 'post',
 		data: employee_list_add_employee_from_data,
+		dataType: 'json',
 		success: function(data) {
 			alert(data.message);
 			if(data.status) {
