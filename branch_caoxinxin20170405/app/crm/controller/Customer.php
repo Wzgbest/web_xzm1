@@ -99,7 +99,7 @@ class Customer extends Initialize{
         return view();
     }
     public function customer_pool(){
-        return public_customer_pool(1);
+        return $this->public_customer_pool(1);
     }
     public function public_customer_pool($fff=0){
         $num = input('num',$this->paginate_list_rows,'int');
