@@ -273,7 +273,7 @@ class Customer extends Initialize{
         }
         $result['status'] = 1;
         $result['info'] = "查询成功！";
-        return $result;
+        return json($result);
     }
     protected function anonymous_pool(){
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
@@ -295,7 +295,7 @@ class Customer extends Initialize{
         }
         $result['status'] = 1;
         $result['info'] = "查询成功！";
-        return $result;
+        return json($result);
     }
     public function self(){
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];

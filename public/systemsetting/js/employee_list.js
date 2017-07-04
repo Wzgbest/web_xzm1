@@ -1,8 +1,89 @@
+var employee_list_del_ids = "";
 function employee_list_del(ids){
+	employee_list_del_ids = "ids[]="+ids;
+	$(employee_list_base+" .employee_delete_ui").reveal("{data-animation:'fade'}");
+}
+
+var employee_list_base = "#staff-managementfr .employee_list";
+var employee_list_nav_base = employee_list_base+" .m-secNav";
+
+$(employee_list_base+" .employee_import_ui .employee_import_templet_download").click(function(){
+	window.open("/download/templet/Employee.xlsx");
+});
+$(employee_list_base+" #employee_import_iframe").load(function() {
+	var body = $(window.frames['employee_import_iframe'].document.body);
+	//console.log(body);
+	var upload_data = JSON.parse(body[0].textContent);
+	//console.log(upload_data);
+	$(employee_list_base+" .employee_import_ui").trigger('reveal:close');
+	if (upload_data.status == "1") {
+		var file_id = upload_data.data[0].id;
+		$.ajax({
+			url: '/systemsetting/employee_import/importEmployee',
+			type: 'post',
+			data: "file_id="+file_id,
+			success: function(data) {
+				//console.log(data);
+				alert(data.info);
+				if(data.status) {
+					employee_list_list_manage.reload_list();
+				}
+			},
+			error: function() {
+				alert("导入员工时发生错误!");
+			}
+		});
+	}else{
+		alert("上传文件时发生错误!");
+	}
+});
+$(employee_list_base+" .employee_import_ui .employee_import_cancel_btn").click(function(){
+	$(employee_list_base+" .employee_import_ui").trigger('reveal:close');
+});
+
+employee_list_list_manage.listenSelect("exportEmployee");
+$(employee_list_nav_base+" .exportEmployee").click(function(){
+	var ids = employee_list_list_manage.getAllSelectVal(" ",",");
+	if(ids==""){
+		return;
+	}
+	console.log(ids);
+	$(employee_list_base+" .exportEmployeeUI").reveal("{data-animation:'fade'}");
+});
+$(employee_list_base+" .exportEmployeeUI .exportEmployeeUIOkBtn").click(function(){
+	$(employee_list_base+" .exportEmployeeUI").trigger('reveal:close');
+	var ids = employee_list_list_manage.getAllSelectVal(" ",",");
+	if(ids==""){
+		return;
+	}
+	console.log(ids);
+	window.open("/systemsetting/employee_import/exportEmployee/ids/"+ids);
+});
+$(employee_list_base+" .exportEmployeeUI .exportEmployeeUICancelBtn").click(function(){
+	$(employee_list_base+" .exportEmployeeUI").trigger('reveal:close');
+});
+
+employee_list_list_manage.listenSelect("delete");
+$(employee_list_nav_base+" .delete").click(function(){
+	var ids = employee_list_list_manage.getAllSelectVal();
+	if(ids==""){
+		return;
+	}
+	employee_list_del_ids = ids;
+	//console.log(ids);
+	$(employee_list_base+" .employee_delete_ui").reveal("{data-animation:'fade'}");
+});
+$(employee_list_base+" .employee_delete_ui .employee_delete_ok_btn").click(function(){
+	$(employee_list_base+" .employee_delete_ui").trigger('reveal:close');
+	var ids = employee_list_del_ids;
+	if(ids==""){
+		return;
+	}
+	//console.log(ids);
 	$.ajax({
-		url: '/systemsetting/employee/deleteMultipleEmployee.html',
+		url: '/systemsetting/employee/deleteMultipleEmployee',
 		type: 'post',
-		data: "ids="+ids,
+		data: ids,
 		success: function(data) {
 			//console.log(data);
 			alert(data.message);
@@ -11,57 +92,12 @@ function employee_list_del(ids){
 			}
 		},
 		error: function() {
-			alert("删除员工信息时发生错误!");
-		}
-	});
-}
-var employee_list_nav_base = "#staff-managementfr .employee_list .m-secNav";
-employee_list_list_manage.listenSelect("exportCustomer");
-$(employee_list_nav_base+" .exportCustomer").click(function(){
-	var ids = employee_list_list_manage.getAllSelectVal(" ",",");
-	if(ids==""){
-		return;
-	}
-	console.log(ids);
-	window.open("/systemsetting/employee_import/exportEmployee/ids/"+ids);
-	// $.ajax({
-	// 	url: '/systemsetting/employee_import/exportEmployee',
-	// 	type: 'post',
-	// 	data: "ids="+ids,
-	// 	success: function(data) {
-	// 		//console.log(data);
-	// 		alert(data.info);
-	// 		if(data.status) {
-	// 			employee_list_list_manage.reload_list();
-	// 		}
-	// 	},
-	// 	error: function() {
-	// 		alert("导出员工时发生错误!");
-	// 	}
-	// });
-});
-employee_list_list_manage.listenSelect("delete");
-$(employee_list_nav_base+" .delete").click(function(){
-	var ids = employee_list_list_manage.getAllSelectVal();
-	if(ids==""){
-		return;
-	}
-	//console.log(ids);
-	$.ajax({
-		url: '/systemsetting/employee/del',
-		type: 'post',
-		data: ids,
-		success: function(data) {
-			//console.log(data);
-			alert(data.info);
-			if(data.status) {
-				employee_list_list_manage.reload_list();
-			}
-		},
-		error: function() {
 			alert("删除员工时发生错误!");
 		}
 	});
+});
+$(employee_list_base+" .employee_delete_ui .employee_delete_cancel_btn").click(function(){
+	$(employee_list_base+" .employee_delete_ui").trigger('reveal:close');
 });
 
 var employee_list_edit_hide_flg = 0;

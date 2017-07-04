@@ -37,7 +37,7 @@ $(my_customer_nav_base+" .exportCustomer").click(function(){
 			}
 		},
 		error: function() {
-			alert("导出短信时发生错误!");
+			alert("导出客户时发生错误!");
 		}
 	});
 });

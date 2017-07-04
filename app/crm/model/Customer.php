@@ -1326,24 +1326,35 @@ class Customer extends Base
     }
 
     /**
-     * 获取所有客户信息
+     * 获取导出客户信息
      * @param $uid int|array 员工id
      * @param $scale int|array 客户类型
      * @param $self int 是否只查询自己的客户
+     * @param $ids int|array 客户id
      * @return false|\PDOStatement|string|\think\Collection
      * created by blu10ph
      */
-    public function getExportCustomers($uid,$scale,$self){
+    public function getExportCustomers($uid,$scale,$self,$ids){
+        $map = null;
         if($self){
             $map['c.handle_man'] = $uid;
-        }else{
-            $map['c.handle_man'] = ["in",[0,$uid]];
         }
-        $map['c.belongs_to'] = $scale;
+        if($ids){
+            $map['c.id'] = ["in",$ids];
+        }
+        if($scale){
+            $map['c.belongs_to'] = $scale;
+        }
         return $this->model->table($this->table)->alias('c')
             //->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id')
             ->where($map)
-            ->field("c.customer_name,c.telephone,c.address,CONCAT(c.lat,',',c.lng),c.field,c.website")
+            ->field([
+                "c.customer_name",
+                "c.telephone",
+                "c.address","
+                CONCAT(c.lat,',',c.lng) as location",
+                "c.field,c.website"
+            ])
             ->select();
     }
 

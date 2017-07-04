@@ -4,11 +4,11 @@
         <section id="myAllClientsPage" >
             <ul class="m-secNav">
                 <li class="active" onclick="employee_list_newClient();">新建员工</li>
-                <li class="active">批量导入</li>
+                <li class="active"><span class="big-link" data-reveal-id="employee_list_import" data-animation="fade">批量导入</span></li>
                 <li class="active">导入记录</li>
                 <li class="vertical"></li>
-                <li class="exportCustomer">导出</li>
-                <li class="delete">删除</li>
+                <li class="exportEmployee"><span>导出</span></li>
+                <li class="delete"><span>删除</span></li>
                 <div class="clearfix"></div>
             </ul>
             <div class="m-filterNav">
@@ -93,12 +93,38 @@
         </script>
         <script src="/systemsetting/js/employee_list.js"></script>
 
-        <div id="myModal" class="reveal-modal">
+        <div class="reveal-modal exportEmployeeUI">
             <p class="p1">导出</p>
             <p class="p2">你已选中1~34位员工是否导出</p>
             <p class="p5">
-                <input type="submit" value="确定" />
-                <button>取消</button>
+                <input type="submit" class="exportEmployeeUIOkBtn" value="确定" />
+                <button class="exportEmployeeUICancelBtn">取消</button>
+            </p>
+            <a class="close-reveal-modal">&#215;</a>
+        </div>
+        <div id="employee_list_import" class="reveal-modal employee_import_ui">
+            <form class="employee_import_from" action="/index/import_file/upload/" method="post" enctype="multipart/form-data" target="employee_import_iframe">
+                <p class="p1">批量导入</p>
+                <p class="p2">
+                    <img class="employee_import_templet_download" src="/static/images/file.jpg" />
+                    <span class="employee_import_templet_download" style="font-size: 12px;">导入模板下载</span>
+                    <input type="file" name="files" style="width: 256px;height: 26px;border-radius: 6px;background-color: #efefef;" title="选择文件"/>
+                </p>
+                <input type="hidden" name="type" value="1"/>
+                <p class="p5">
+                    <input type="submit" value="确定" />
+                    <button class="employee_import_cancel_btn">取消</button>
+                </p>
+                <a class="close-reveal-modal">&#215;</a>
+            </form>
+            <iframe id="employee_import_iframe" name="employee_import_iframe" style="display: none;" />
+        </div>
+        <div id="employee_list_delete" class="reveal-modal employee_delete_ui">
+            <p class="p1">删除</p>
+            <p class="p2">是否要删除这些员工</p>
+            <p class="p5">
+                <input type="submit" class="employee_delete_ok_btn" value="确定" />
+                <button class="employee_delete_cancel_btn">取消</button>
             </p>
             <a class="close-reveal-modal">&#215;</a>
         </div>
