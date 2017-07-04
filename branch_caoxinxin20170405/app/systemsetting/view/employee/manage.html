@@ -5,7 +5,7 @@
             <ul class="m-secNav">
                 <li class="active" onclick="employee_list_newClient();">新建员工</li>
                 <li class="active"><span class="big-link" data-reveal-id="employee_list_import" data-animation="fade">批量导入</span></li>
-                <li class="active">导入记录</li>
+                <li class="active employee_import">导入记录</li>
                 <li class="vertical"></li>
                 <li class="exportEmployee"><span>导出</span></li>
                 <li class="delete"><span>删除</span></li>
@@ -20,7 +20,7 @@
                         {/volist}
                     </select>
                     <select name="role">
-                        <option value="">角色</option>
+                        <option value="">职位</option>
                         {volist name="roles" id="vo"}
                         <option value="{$vo.id}" {present name='filter.role'}{eq name='filter.role' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.role_name}</option>
                         {/volist}
@@ -45,7 +45,7 @@
                         <li>直属部门<i class="fa fa-unsorted"></i></li>
                         <li>联系方式</li>
                         <li>是否领导<i class="fa fa-unsorted"></i></li>
-                        <li>角色<i class="fa fa-unsorted"></i></li>
+                        <li>职位<i class="fa fa-unsorted"></i></li>
                         <li>状态</li>
                         <li>创建时间<i class="fa fa-unsorted"></i></li>
                         <li>操作</li>
@@ -90,7 +90,7 @@
         </section>
         <script src="/static/js/list_manage.js"></script>
         <script language="javascript">
-            var employee_list_list_manage = new list_manage("employee_list","staff-managementfr","/systemsetting/employee/manage",'{$p}','{$num}','{$max_page}','0');
+            var employee_list_list_manage = new list_manage("employee_list","staff-managementfr","/systemsetting/employee/manage",'{$p}','{$num}','{$max_page}','0',"");
         </script>
         <script src="/systemsetting/js/employee_list.js"></script>
 
@@ -199,7 +199,7 @@
                                 <option value="1">在职</option>
                                 <option value="2">休假</option>
                             </select>
-                            <span class="cont">员工角色</span>
+                            <span class="cont">员工职位</span>
                             <select name="role">
                                 {volist name="roles" id="vo"}
                                 <option value="{$vo.id}">{$vo.role_name}</option>
@@ -219,6 +219,15 @@
     <div class="employee_list_panel employee_info hide">
     </div>
     <div class="employee_list_panel employee_import_record hide">
+        <header>
+            <ul class="m-firNav">
+                <li class="current" in_column="bak"><div style="border: none;">员工管理</div></li>
+                <i class="fa fa-angle-right fa-2x" style="line-height: 40px;margin-left: 5px;"></i><span class="u-spanInfo">导入记录</span>
+            </ul>
+        </header>
+        <div class="employee_import_record_list">
+
+        </div>
     </div>
 </div>
 <link rel="stylesheet" href="/crm/css/index.css"/>

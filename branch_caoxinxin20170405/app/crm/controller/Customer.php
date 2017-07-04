@@ -36,7 +36,7 @@ class Customer extends Initialize{
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
         $uid = session('userinfo.userid');
-        $filter = $this->_getCustomerFilter(["belongs_to","resource_from","comm_status","take_type","tracer","guardian","add_man"]);
+        $filter = $this->_getCustomerFilter(["grade","resource_from","comm_status","take_type","tracer","guardian","add_man"]);
         $field = $this->_getCustomerField([]);
         try{
             $customerM = new CustomerModel($this->corp_id);

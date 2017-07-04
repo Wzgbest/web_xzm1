@@ -38,7 +38,7 @@ class Customer extends Base
         }
 
         //筛选
-        $map = $this->_getMapByFilter($filter,["belongs_to","resource_from","comm_status","take_type","tracer","guardian","add_man"]);
+        $map = $this->_getMapByFilter($filter,["grade","resource_from","comm_status","take_type","tracer","guardian","add_man"]);
         //$map['belongs_to'] = 1;
 
         //排序

@@ -62,7 +62,7 @@ class Employee extends Initialize{
         $this->assign("num",$num);
         $this->assign("filter",$filter);
         $this->assign("max_page",$max_page);
-        $this->assign("start_num",$start_num+1);
+        $this->assign("start_num",$employees_count?$start_num+1:0);
         $this->assign("truename",session('userinfo.truename'));
         $this->assign("end_num",$end_num<$employees_count?$end_num:$employees_count);
         return view();
@@ -88,15 +88,15 @@ class Employee extends Initialize{
             }
         }
         if(in_array("worknum", $filter_column)){//工号
-            $add_man = input("worknum");
-            if($add_man){
-                $filter["worknum"] = $add_man;
+            $worknum = input("worknum");
+            if($worknum){
+                $filter["worknum"] = $worknum;
             }
         }
         if(in_array("truename", $filter_column)){//姓名
-            $add_man = input("truename");
-            if($add_man){
-                $filter["truename"] = $add_man;
+            $truename = input("truename");
+            if($truename){
+                $filter["truename"] = $truename;
             }
         }
         return $filter;

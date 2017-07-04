@@ -43,7 +43,7 @@
                 </select>
             </p>
             <p>
-                <span>员工角色</span>
+                <span>员工职位</span>
                 <select name="role">
                     {volist name="roles" id="vo"}
                     <option value="{$vo.id}" {eq name='employee.role' value='$vo.id'} selected="selected"{/eq}>{$vo.role_name}</option>
