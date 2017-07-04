@@ -5,7 +5,7 @@
             <ul class="m-secNav">
                 <li class="active" onclick="employee_list_newClient();">新建员工</li>
                 <li class="active"><span class="big-link" data-reveal-id="employee_list_import" data-animation="fade">批量导入</span></li>
-                <li class="active">导入记录</li>
+                <li class="active employee_import">导入记录</li>
                 <li class="vertical"></li>
                 <li class="exportEmployee"><span>导出</span></li>
                 <li class="delete"><span>删除</span></li>
@@ -13,25 +13,33 @@
             </ul>
             <div class="m-filterNav">
                 <form class="search_form" onsubmit="return false;">
-                    <select id="employee_list_search_structure">
+                    <select name="structure">
                         <option value="">直属部门</option>
-                        <option value="1" >员工添加</option>
-                        <option value="2" >批量导入</option>
-                        <option value="3" >员工搜集</option>
-                    </select>
-                    <select id="employee_list_search_role">
-                        <option value="">角色</option>
-                        <option value="1" >转介绍</option>
-                        <option value="2" >指定人</option>
-                        <option value="3" >指定部门</option>
-                    </select>
-                    <select id="employee_list_search_on_duty">
+                                                <option value="1" >总公司</option>
+                                                <option value="2" >华北大区</option>
+                                                <option value="3" >潍坊中迅</option>
+                                                <option value="4" >销售部</option>
+                                                <option value="5" >销售一部</option>
+                                                <option value="6" >销售二部</option>
+                                                <option value="7" >销售三部</option>
+                                            </select>
+                    <select name="role">
+                        <option value="">职位</option>
+                                                <option value="1" >董事长</option>
+                                                <option value="2" >总裁</option>
+                                                <option value="3" >大区经理</option>
+                                                <option value="4" >分公司总经理</option>
+                                                <option value="5" >部门经理</option>
+                                                <option value="6" >职员</option>
+                                            </select>
+                    <select name="on_duty">
                         <option value="">状态</option>
                         <option value="1" >在职</option>
                         <option value="2" >休假</option>
+                        <option value="-1" >离职</option>
                     </select>
-                    <input type="text" id="employee_list_search_worknum" placeholder="输入工号" value=""/>
-                    <input type="text" id="employee_list_search_truename" placeholder="输入姓名" value=""/>
+                    <input type="text" name="worknum" placeholder="输入工号" value=""/>
+                    <input type="text" name="truename" placeholder="输入姓名" value=""/>
                     <button class="u-btnSearch">查询</button>
                 </form>
             </div>
@@ -44,10 +52,27 @@
                         <li>直属部门<i class="fa fa-unsorted"></i></li>
                         <li>联系方式</li>
                         <li>是否领导<i class="fa fa-unsorted"></i></li>
-                        <li>角色<i class="fa fa-unsorted"></i></li>
+                        <li>职位<i class="fa fa-unsorted"></i></li>
                         <li>状态</li>
                         <li>创建时间<i class="fa fa-unsorted"></i></li>
                         <li>操作</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                                        <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="70"/></li>
+                        <li>NO999999</li>
+                        <li>后黑后</li>
+                        <li>销售三部</li>
+                        <li>15715530636</li>
+                        <li>否</li>
+                        <li>职员</li>
+                        <li>离职</li>
+                        <li></li>
+                        <li class="u-tabOperation">
+                            <span onclick="employee_list_show('70');">详情</span>
+                            <span onclick="employee_list_edit('70',0);">编辑</span>
+                            <span onclick="employee_list_del('70');">删除</span>
+                        </li>
                         <div class="clearfix"></div>
                     </ul>
                                         <ul class="u-tabList">
@@ -58,7 +83,7 @@
                         <li>15656565656</li>
                         <li>否</li>
                         <li>董事长</li>
-                        <li>在职</li>
+                        <li>休假</li>
                         <li></li>
                         <li class="u-tabOperation">
                             <span onclick="employee_list_show('68');">详情</span>
@@ -74,8 +99,8 @@
                         <li>总公司</li>
                         <li>15678987654</li>
                         <li>否</li>
-                        <li>董事长</li>
-                        <li>在职</li>
+                        <li>职员</li>
+                        <li>离职</li>
                         <li></li>
                         <li class="u-tabOperation">
                             <span onclick="employee_list_show('67');">详情</span>
@@ -203,23 +228,6 @@
                         </li>
                         <div class="clearfix"></div>
                     </ul>
-                                        <ul class="u-tabList">
-                        <li class="u-tabCheckbox"><input type="checkbox" value="57"/></li>
-                        <li>NO000013</li>
-                        <li>小美0</li>
-                        <li>销售二部</li>
-                        <li>13345021406</li>
-                        <li>否</li>
-                        <li>大区经理</li>
-                        <li>在职</li>
-                        <li></li>
-                        <li class="u-tabOperation">
-                            <span onclick="employee_list_show('57');">详情</span>
-                            <span onclick="employee_list_edit('57',0);">编辑</span>
-                            <span onclick="employee_list_del('57');">删除</span>
-                        </li>
-                        <div class="clearfix"></div>
-                    </ul>
                                     </div>
             </div>
             <div class="u-tabControlRow">
@@ -230,7 +238,7 @@
                     <option value="20" >20</option>
                 </select>
                 <span>1-10条/</span>
-                <span>共23条</span>
+                <span>共24条</span>
                 <button class="my_customer_previous_page previous_page  disabled">上一页</button>
                 <button class="my_customer_next_page next_page ">下一页</button>
                 <span>前往</span>
@@ -240,7 +248,7 @@
         </section>
         <script src="/static/js/list_manage.js"></script>
         <script language="javascript">
-            var employee_list_list_manage = new list_manage("employee_list","staff-managementfr","/systemsetting/employee/manage",'1','10','3','0');
+            var employee_list_list_manage = new list_manage("employee_list","staff-managementfr","/systemsetting/employee/manage",'1','10','3','0',"");
         </script>
         <script src="/systemsetting/js/employee_list.js"></script>
 
@@ -259,7 +267,7 @@
                 <p class="p2">
                     <img class="employee_import_templet_download" src="/static/images/file.jpg" />
                     <span class="employee_import_templet_download" style="font-size: 12px;">导入模板下载</span>
-                    <input type="file" name="files" style="width: 256px;height: 26px;border-radius: 6px;background-color: #efefef;" title="选择文件"/>
+                    <input type="file" name="files" required="required" placeholder="请选择文件" style="width: 256px;height: 26px;border-radius: 6px;background-color: #efefef;" title="选择文件"/>
                 </p>
                 <input type="hidden" name="type" value="1"/>
                 <p class="p5">
@@ -296,8 +304,15 @@
                             <input type="text" name="truename" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入联系人姓名" />
 
                             <span class="cont">直属部门</span>
-                            <input type="text" name="struct_id" pattern="[\d\D]{0,16}" title="最多填写16位字符" placeholder="请输入所属部门" />
-
+                            <select name="struct_id">
+                                                                <option value="1">总公司</option>
+                                                                <option value="2">华北大区</option>
+                                                                <option value="3">潍坊中迅</option>
+                                                                <option value="4">销售部</option>
+                                                                <option value="5">销售一部</option>
+                                                                <option value="6">销售二部</option>
+                                                                <option value="7">销售三部</option>
+                                                            </select>
                         </div>
                         <div>
                             <span class="cont">昵称</span>
@@ -346,10 +361,15 @@
                                 <option value="1">在职</option>
                                 <option value="2">休假</option>
                             </select>
-                            <span class="cont">职位</span>
+                            <span class="cont">员工职位</span>
                             <select name="role">
-                                <option value="1">请选择</option>
-                            </select>
+                                                                <option value="1">董事长</option>
+                                                                <option value="2">总裁</option>
+                                                                <option value="3">大区经理</option>
+                                                                <option value="4">分公司总经理</option>
+                                                                <option value="5">部门经理</option>
+                                                                <option value="6">职员</option>
+                                                            </select>
                         </div>
                         <p class="p5">
                             <input type="submit" onclick="employee_list_add_employee();" value="确定" />
@@ -364,6 +384,15 @@
     <div class="employee_list_panel employee_info hide">
     </div>
     <div class="employee_list_panel employee_import_record hide">
+        <header>
+            <ul class="m-firNav">
+                <li class="current" in_column="bak"><div style="border: none;">员工管理</div></li>
+                <i class="fa fa-angle-right fa-2x" style="line-height: 40px;margin-left: 5px;"></i><span class="u-spanInfo">导入记录</span>
+            </ul>
+        </header>
+        <div class="employee_import_record_list">
+
+        </div>
     </div>
 </div>
 <link rel="stylesheet" href="/crm/css/index.css"/>

@@ -10,7 +10,7 @@
         <div class="dv1">
             <p>
                 <span>姓名</span>
-                <input type="text" name="truename" value="随便"/>
+                <input type="text" name="truename" value="孙大鹏"/>
             </p>
             <p>
                 <span>昵称</span>
@@ -23,7 +23,7 @@
             </p>
             <p>
                 <span>手机号</span>
-                <span class="">15656565656</span>
+                <span class="">13322225555</span>
                 <span class="sp1">更换手机号</span>
             </p>
             <p>
@@ -37,26 +37,39 @@
             <p>
                 <span>员工状态</span>
                 <select name="on_duty">
-                    <option value="1">在职</option>
-                    <option value="2">休假</option>
+                    <option value="1"  selected="selected">在职</option>
+                    <option value="2" >休假</option>
+                    <option value="-1" >离职</option>
                 </select>
             </p>
             <p>
-                <span>员工角色</span>
+                <span>员工职位</span>
                 <select name="role">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                </select>
+                                        <option value="1" >董事长</option>
+                                        <option value="2" >总裁</option>
+                                        <option value="3" >大区经理</option>
+                                        <option value="4"  selected="selected">分公司总经理</option>
+                                        <option value="5" >部门经理</option>
+                                        <option value="6" >职员</option>
+                                    </select>
             </p>
         </div>
         <div class="dv2">
             <p>
                 <span>直属部门</span>
-                <input type="text" name="struct_id" value="1" />
+                <select name="struct_id">
+                                        <option value="1" >总公司</option>
+                                        <option value="2"  selected="selected">华北大区</option>
+                                        <option value="3" >潍坊中迅</option>
+                                        <option value="4" >销售部</option>
+                                        <option value="5" >销售一部</option>
+                                        <option value="6" >销售二部</option>
+                                        <option value="7" >销售三部</option>
+                                    </select>
             </p>
             <p>
                 <span>工号</span>
-                <input type="text" name="worknum" value="NO000022" />
+                <input type="text" name="worknum" value="NO000004" />
             </p>
             <p class="p1">
                 <span>是否领导</span>
@@ -65,7 +78,7 @@
             </p>
             <p>
                 <span>邮箱</span>
-                <input type="text" name="email" value="asd@dsf.com" />
+                <input type="text" name="email" value="" />
             </p>
             <p>
                 <span>QQ号</span>
@@ -77,8 +90,8 @@
             </p>
         </div>
         <p class="p5">
-            <input type="submit" onclick="employee_list_edit_update('68');" value="保存"/>
-            <button onclick="employee_list_panel_close('68');">取消</button>
+            <input type="submit" onclick="employee_list_edit_update('4');" value="保存"/>
+            <button onclick="employee_list_panel_close('4');">取消</button>
         </p>
     </form>
 </div>

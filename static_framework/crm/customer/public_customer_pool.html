@@ -14,20 +14,20 @@
             </ul>
             <div class="m-filterNav">
                 <form class="search_form" onsubmit="return false;">
-                    <select id="public_pool_search_take_type">
+                    <select name="take_type">
                         <option value="">获取途径</option>
                         <option value="1" >转介绍</option>
                         <option value="2" >搜索</option>
                         <option value="3" >购买</option>
                     </select>
-                    <select id="public_pool_search_belongs_to">
+                    <select name="grade">
                         <option value="">客户级别</option>
                         <option value="A" >A</option>
                         <option value="B" >B</option>
                         <option value="C" >C</option>
                         <option value="D" >D</option>
                     </select>
-                    <input type="text" id="public_pool_search_customer_name" placeholder="输入客户名称" value=""/>
+                    <input type="text" name="customer_name" placeholder="输入客户名称" value=""/>
                     <button class="u-btnSearch">查询</button>
                 </form>
             </div>
@@ -194,7 +194,7 @@
         </section>
         <script src="/static/js/list_manage.js"></script>
         <script language="javascript">
-            var public_pool_list_manage = new list_manage("public_pool","high-seafr","/crm/customer/public_customer_pool",'1','10','4','0');
+            var public_pool_list_manage = new list_manage("public_pool","high-seafr","/crm/customer/public_customer_pool",'1','10','4','0',"");
         </script>
         <script src="/crm/js/customer_info_manage.js"></script>
         <script language="javascript">

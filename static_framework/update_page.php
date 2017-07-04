@@ -20,6 +20,9 @@ $page_list[] = ["systemsetting","customer","index",""];
 $page_list[] = ["systemsetting","customer","add_page",""];
 $page_list[] = ["systemsetting","customer","edit_page","id/7"];
 $page_list[] = ["systemsetting","employee","manage",""];
+$page_list[] = ["systemsetting","employee","show","id/4"];
+$page_list[] = ["systemsetting","employee","edit","id/4"];
+$page_list[] = ["systemsetting","employee_import","index",""];
 
 login($server,$cookie_file);
 foreach($page_list as $page){
@@ -89,8 +92,32 @@ function curl_get($url,$cookie_file){
 }
 
 function file_write($file_path,$page_html){
+    $save_path = dirname($file_path);
+    if (!is_dir($save_path)) {
+        mkdirs($save_path);
+    }
     $file = fopen($file_path, "w") or die("Unable to open file!");
     fwrite($file, $page_html);
     fclose($file);
 }
+
+
+/**
+ * 创建多级目录
+ * @param $dir string 要创建的路径,可多级
+ * @return boolean
+ * created by blu10ph
+ */
+function mkdirs($dir,$mode=0755) {
+    if(!is_dir($dir)) {
+        if (!mkdirs(dirname($dir))){
+            return false;
+        }
+        if(!mkdir($dir,$mode)){
+            return false;
+        }
+    }
+    return true;
+}
+
 ?>

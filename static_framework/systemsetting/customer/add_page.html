@@ -1,0 +1,99 @@
+<div class="customer_setting_edit">
+    <div id="top">
+        <ul class="firNav">
+            <li class="current" onclick="loadPage('/systemsetting/customer/index.html','customer-settingfr');">
+                <div>客户设置</div>
+            </li>
+            <i class="fa fa-angle-right fa-2x"></i><span class="span-info">添加客户设置</span>
+        </ul>
+
+    </div>
+    <div id="content">
+        <form name="form_customer_setting" class="form_customer_setting" onsubmit="return false;" method="post">
+        <p>
+            <span class="sp1">客户设置名称</span>
+            <input type="text" placeholder="请输入" name="setting_name" value=""/>
+        </p>        <p>
+            <span class="sp1">客户保护时间</span>
+            <input type="text" placeholder="请输入" name="protect_customer_day" value=""/>
+            <span class="sp">天</span>
+            <span class="sp2">（员工拥有客户时间）</span>
+        </p>
+        <p>
+            <span class="sp1">员工可领取单个顾客次数</span>
+            <input type="text" placeholder="请输入" name="take_times_employee" value=""/>
+            <span class="sp">次</span>
+            <span class="sp2">（公海池内员工可持续领取次数）</span>
+        </p>
+        <p>
+            <span class="sp1">部门可领取单个客户次数</span>
+            <input type="text" placeholder="请输入" name="take_times_structure" value=""/>
+            <span class="sp">次</span>
+            <span class="sp2">（公海池内员工可持续领取次数）</span>
+        </p>
+        <p>
+            <span class="sp1">停滞客户（销售机会）时间</span>
+            <input type="text" placeholder="请输入" name="to_halt_day" value=""/>
+            <span class="sp">天</span>
+            <span class="sp2">（多长时间不维护客户变更为停滞状态，根据公司业务情况设置）</span>
+        </p>
+        <p>
+            <span class="sp1">有效通话</span>
+            <input type="text" placeholder="请输入" name="effective_call" value=""/>
+            <span class="sp">秒</span>
+            <span class="sp2">（超过此时间为有效通话）</span>
+        </p>
+        <p>
+            <span class="sp1">客户保护个数</span>
+            <input type="text" class="ipt1" placeholder="请输入" name="protect_customer_num" value=""/>
+            <span class="sp">个</span>
+            <span class="sp2">（当前用户最多保护客户个数）</span>
+        </p>
+        <p class="p6">
+            <span class="sp1">公海池客户名称</span>
+            <input type="radio" name="public_sea_seen" class="sp3"
+                               / value="0"><span class="sp3">隐藏</span>
+            <input type="radio" name="public_sea_seen" class="sp3"
+                               / value="1"><span class="sp3">显示</span>
+        </p>
+        <p class="p6">
+            <span class="sp1">该设置对应部门</span>
+                                <input type="checkbox" name="set_to_structure[]" value="1"/><span class="sp3">总公司</span>
+                                    <input type="checkbox" name="set_to_structure[]" value="2"/><span class="sp3">华北大区</span>
+                                    <input type="checkbox" name="set_to_structure[]" value="3"/><span class="sp3">潍坊中迅</span>
+                                    <input type="checkbox" name="set_to_structure[]" value="4"/><span class="sp3">销售部</span>
+                                    <input type="checkbox" name="set_to_structure[]" value="5"/><span class="sp3">销售一部</span>
+                                    <input type="checkbox" name="set_to_structure[]" value="6"/><span class="sp3">销售二部</span>
+                                    <input type="checkbox" name="set_to_structure[]" value="7"/><span class="sp3">销售三部</span>
+                        </p>
+
+        <p class="p5">
+            <input type="hidden" name="id" value=""/>
+            <input id="customer_setting_submit" type="submit" value="保存" />
+            <button onclick="loadPage('/systemsetting/customer/index.html','customer-settingfr');">取消</button>
+        </p>
+        </form>
+    </div>
+</div>
+<link rel="stylesheet" href="/systemsetting/css/customersetting.css" />
+<script>
+    $('#customer_setting_submit').click(function() {
+        console.log($(".form_customer_setting").serialize());
+        $.ajax({
+            url: '/systemsetting/customer/add.html',
+            type: 'post',
+            data: $(".form_customer_setting").serialize(),
+            dataType: 'json',
+            success: function(data) {
+                //console.log(data);
+                alert(data.info);
+                if(data.status) {
+                    loadPage("/systemsetting/customer/index","customer-settingfr");
+                }
+            },
+            error: function() {
+
+            },
+        });
+    });
+</script>

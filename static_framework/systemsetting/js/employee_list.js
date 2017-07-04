@@ -1,11 +1,35 @@
 var employee_list_del_ids = "";
+var employee_list_base = "#staff-managementfr .employee_list";
+var employee_list_nav_base = employee_list_base+" .m-secNav";
+var employee_list_edit_hide_flg = 0;
+var employee_list_hide_panel = 'staff-managementfr .sys_employee_list .employee_list_panel';
+
 function employee_list_del(ids){
 	employee_list_del_ids = "ids[]="+ids;
 	$(employee_list_base+" .employee_delete_ui").reveal("{data-animation:'fade'}");
 }
 
-var employee_list_base = "#staff-managementfr .employee_list";
-var employee_list_nav_base = employee_list_base+" .m-secNav";
+$("#frames #staff-managementfr .sys_employee_list .employee_import_record .m-firNav .current").click(function(){
+	$('#frames #'+employee_list_hide_panel).addClass("hide");
+	$('#frames #staff-managementfr .sys_employee_list .employee_list').removeClass("hide");
+});
+$(employee_list_nav_base+" .employee_import").click(function(){
+	var url = "/systemsetting/employee_import/index/";
+	var panel = 'staff-managementfr .sys_employee_list .employee_import_record_list';
+	$.ajax({
+		url:url,
+		type:'get',
+		async:false,
+		success:function (data) {
+			$('#frames #'+employee_list_hide_panel).addClass("hide");
+			$('#frames #'+panel).html(data);
+			$('#frames #staff-managementfr .sys_employee_list .employee_import_record').removeClass("hide");
+		},
+		error:function(){
+			alert("获取员工信息失败!");
+		}
+	});
+});
 
 $(employee_list_base+" .employee_import_ui .employee_import_templet_download").click(function(){
 	window.open("/download/templet/Employee.xlsx");
@@ -15,6 +39,9 @@ $(employee_list_base+" #employee_import_iframe").load(function() {
 	//console.log(body);
 	var upload_data = JSON.parse(body[0].textContent);
 	//console.log(upload_data);
+	if(upload_data==null){
+		alert("上传文件时发生错误!");
+	}
 	$(employee_list_base+" .employee_import_ui").trigger('reveal:close');
 	if (upload_data.status == "1") {
 		var file_id = upload_data.data[0].id;
@@ -35,7 +62,7 @@ $(employee_list_base+" #employee_import_iframe").load(function() {
 			}
 		});
 	}else{
-		alert("上传文件时发生错误!");
+		alert(data.info);
 	}
 });
 $(employee_list_base+" .employee_import_ui .employee_import_cancel_btn").click(function(){
@@ -102,8 +129,6 @@ $(employee_list_base+" .employee_delete_ui .employee_delete_cancel_btn").click(f
 	$(employee_list_base+" .employee_delete_ui").trigger('reveal:close');
 });
 
-var employee_list_edit_hide_flg = 0;
-var employee_list_hide_panel = 'staff-managementfr .sys_employee_list .employee_list_panel';
 function employee_list_panel_close(id){
 	if(employee_list_edit_hide_flg){
 		employee_list_show(id);
@@ -160,7 +185,7 @@ function employee_list_edit_update(id){
 			//console.log(data);
 			alert(data.message);
 			if(data.status) {
-				employee_list_panel_close(id);
+				employee_list_list_manage.reload_list();
 			}
 		},
 		error: function() {
@@ -213,7 +238,7 @@ function employee_list_add_employee(){
 		success: function(data) {
 			alert(data.message);
 			if(data.status) {
-				employee_list_removeNewClient();
+				employee_list_list_manage.reload_list();
 			}
 		},
 		error: function() {
