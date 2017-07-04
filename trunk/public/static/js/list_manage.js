@@ -12,7 +12,7 @@ function list_manage(from,target,url,p,num,max,in_column,sub){
 
     //事件绑定
     var self = this;
-    $("."+this.from+" .m-firNav li").click(function(){
+    $("."+this.from+" .m-firNav .in_column").click(function(){
         var in_column = $(this).attr("in_column");
         self.columnChange(in_column);
     });

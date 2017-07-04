@@ -68,7 +68,7 @@ class CustomerImport extends Initialize{
 
         //客户信息默认参数
         $customer_default = [];
-        if(in_array($import_to,[1,2])){
+        if(in_array($import_to,[2,3])){
             $customer_default['belongs_to'] = $import_to;
         }else{
             $result['info'] = '参数错误!';
