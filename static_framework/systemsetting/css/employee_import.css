@@ -141,3 +141,8 @@
     font-weight: bold;
     border-bottom: 2px solid #42a5f5;
 }
+
+
+.sys_employee_list .employee_import_record .u-tabOperation{
+    width:256px;
+}

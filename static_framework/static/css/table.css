@@ -1,45 +1,31 @@
 /******************************/
 /*table*/
-.m-tableBox1{
-	clear: both;
-	width: 640px;
-	/*display: inline-block;*/
+.m-tableBox{
+	width: 100%;
 	margin-top: 20px;
 	margin-left: 4px;
-	overflow-y: auto;
-	height: 300px;
-	/*background-color: yellow;*/
-}
-.m-tableBox2{
-	clear: both;
-	width: 1290px;
-	/*display: inline-block;*/
-	margin-top: 20px;
-	margin-left: 4px;
-	overflow-y: auto;
-	height: 300px;
-	/*background-color: yellow;*/
-}
-.m-tableBox3{
-	clear: both;
-	width: 977px;
-	/*display: inline-block;*/
-	margin-top: 20px;
-	margin-left: 4px;
-	overflow-y: auto;
-	height: 300px;
-	/*background-color: yellow;*/
-	margin-left: 25px;
+	overflow-x: auto;
 }
 .table1{
-	width: 600px;
-	/*background-color: cyan;*/
+	width: 2096px;
 }
 .table2{
-	width: 1274px;
+	width: 1685px;
 }
 .table3{
-	width: 960px;
+	width: 1000px;
+}
+/*我的合同-所有合同*/
+.table4{
+	width: 1140px;
+}
+/*我的合同-合同审核中*/
+.table5{
+	width: 570px;
+}
+/*公海池-导入记录*/
+.table6{
+	width: 1330px;
 }
 .m-table ul{
 	border-bottom: 1px solid #eeeeee;
@@ -53,19 +39,13 @@
 .m-table li{
 	float: left;
 	height: 40px;
-	width: 179px;
+	width: 116px;
 	padding: 0 10px;
 	line-height: 40px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	text-align: left;
-}
-.table2 li{
-	width: 116px;
-}
-.table3 li{
-	width: 116px;
 }
 .m-table i{
 	margin-left: 10px;
@@ -102,9 +82,4 @@
 	height: 30px;
 	margin-top: 20px;
 	font-size: 14px;
-}
-
-.u-tabControlRow input{
-	width: 42px;
-	height: 18px;
 }
