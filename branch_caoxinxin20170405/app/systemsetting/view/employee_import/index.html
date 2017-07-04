@@ -28,6 +28,7 @@
             <li>{$vo.success_num}</li>
             <li>{$vo.fail_num}</li>
             <li class="u-tabOperation">
+                <input type="hidden" value="{$vo.id}"/>
                 <span class="fail_download">失败列表下载</span>
                 <span class="employee_list">员工详情</span>
             </li>
@@ -55,4 +56,5 @@
 <script language="javascript">
     var employee_import_list_list_manage = new list_manage("sys_employee_list","staff-managementfr","/systemsetting/employee_import/index",'{$p}','{$num}','{$max_page}','0'," .employee_import_record_list");
 </script>
+<script src="/systemsetting/js/employee_import.js"></script>
 <link rel="stylesheet" href="/systemsetting/css/employee_import.css" />
