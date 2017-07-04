@@ -15,6 +15,8 @@ use think\Db;
 use app\crm\model\Customer as CustomerModel;
 use app\common\model\EmployeeDelete;
 use app\common\model\UserCorporation;
+use app\common\model\Structure as StructureModel;
+use app\common\model\Role as RoleModel;
 
 class Employee extends Initialize{
     var $paginate_list_rows = 10;
@@ -28,7 +30,7 @@ class Employee extends Initialize{
      * 员工列表
      * created by blu10ph
      */
-    public function manage(Request $request){
+    public function manage(){
         $num = input('num',$this->paginate_list_rows,'int');
         $p = input("p",1,"int");
         $employees_count=0;
@@ -40,10 +42,18 @@ class Employee extends Initialize{
         $filter = $this->_getCustomerFilter(["structure","role","on_duty","worknum","truename"]);
         $field = $this->_getCustomerField([]);
         try{
-            $res = $this->showEmployeeList($request,$start_num,$num);
-            $this->assign("listdata",$res["data"]);
-            $employees_count = $res["total_num"];
+            $employeeM = new EmployeeModel($this->corp_id);
+            $listdata = $employeeM->getPageEmployeeList($start_num,$num,$filter);
+            $this->assign("listdata",$listdata);
+            $count = $employeeM->countPageEmployeeList($filter);
+            $employees_count = empty($count)? 0:$count[0]['num'];
             $this->assign("count",$employees_count);
+            $struM = new StructureModel();
+            $structs = $struM->getAllStructure();
+            $this->assign("structs",$structs);
+            $rolM = new RoleModel();
+            $roles = $rolM->getAllRole();
+            $this->assign("roles",$roles);
         }catch (\Exception $ex){
             $this->error($ex->getMessage());
         }
@@ -52,7 +62,7 @@ class Employee extends Initialize{
         $this->assign("num",$num);
         $this->assign("filter",$filter);
         $this->assign("max_page",$max_page);
-        $this->assign("start_num",$start_num+1);
+        $this->assign("start_num",$employees_count?$start_num+1:0);
         $this->assign("truename",session('userinfo.truename'));
         $this->assign("end_num",$end_num<$employees_count?$end_num:$employees_count);
         return view();
@@ -78,15 +88,15 @@ class Employee extends Initialize{
             }
         }
         if(in_array("worknum", $filter_column)){//工号
-            $add_man = input("worknum");
-            if($add_man){
-                $filter["worknum"] = $add_man;
+            $worknum = input("worknum");
+            if($worknum){
+                $filter["worknum"] = $worknum;
             }
         }
         if(in_array("truename", $filter_column)){//姓名
-            $add_man = input("truename");
-            if($add_man){
-                $filter["truename"] = $add_man;
+            $truename = input("truename");
+            if($truename){
+                $filter["truename"] = $truename;
             }
         }
         return $filter;
@@ -112,6 +122,12 @@ class Employee extends Initialize{
         $this->assign("fr",input('fr'));
         $employee = $this->showSingleEmployeeInfo($id);
         $this->assign("employee",$employee);
+        $struM = new StructureModel();
+        $structs = $struM->getAllStructure();
+        $this->assign("structs",$structs);
+        $rolM = new RoleModel();
+        $roles = $rolM->getAllRole();
+        $this->assign("roles",$roles);
     }
     public function show(){
         $this->_showEmployee();
@@ -136,18 +152,17 @@ class Employee extends Initialize{
 
     /**
      * 分页展示员工列表
-     * @param $request Request 请求参数
      * @param int $page_now_num 当前页
      * @param int $page_rows 行数
      * @return array
      * created by messhair
      */
-    public function showEmployeeList(Request $request,$page_now_num = 0, $page_rows = 10)
+    public function showEmployeeList($page_now_num = 0, $page_rows = 10)
     {
-        $input = $request->param();
+        $filter = $this->_getCustomerFilter(["structure","role","on_duty","worknum","truename"]);
         $employeeM = new EmployeeModel($this->corp_id);
-        $res = $employeeM->getPageEmployeeList($page_now_num,$page_rows,$input);
-        $count = $employeeM->countPageEmployeeList($input);
+        $res = $employeeM->getPageEmployeeList($page_now_num,$page_rows,$filter);
+        $count = $employeeM->countPageEmployeeList($filter);
         $count = empty($count)? 0:$count[0]['num'];
         return [
             'data'=>$res,
@@ -201,6 +216,10 @@ class Employee extends Initialize{
             }
             $struct_ids = $input['struct_id'];
             unset($input['struct_id']);
+            if($input["on_duty"]==-1){
+                $input["on_duty"] = 1;
+                $input["status"] = -1;
+            }
             $employeeM = new EmployeeModel($this->corp_id);
             $struct_empM = new StructureEmployee($this->corp_id);
             $huanxin = new HuanxinApi();
@@ -209,6 +228,13 @@ class Employee extends Initialize{
             UserCorporation::startTrans();
             $employeeM->link->startTrans();
             try{
+                $check_flg = $employeeM->getEmployeeByTel($input['telephone']);
+                if($check_flg){
+                    $employeeM->link->rollback();
+                    UserCorporation::rollback();
+                    $result['message'] = "手机号已存在！";
+                    return json($result);
+                }
                 //员工表增加信息
                 $id = $employeeM->addSingleEmployee($input);
                 $user_tel = ['telephone'=>$input['telephone'],'corp_name'=>$this->corp_id];
@@ -317,6 +343,10 @@ class Employee extends Initialize{
             }
             $struct_ids = $input['struct_id'];
             $user_id = $input['user_id'];
+            if($input["on_duty"]==-1){
+                $input["on_duty"] = 1;
+                $input["status"] = -1;
+            }
             unset($input['struct_id']);
             unset($input['user_id']);
             $employeeM = new EmployeeModel($this->corp_id);

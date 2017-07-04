@@ -158,6 +158,16 @@
 	background-color: #42a5f5;
 }
 
+/************************************************************************/
+
+.sys_employee_list .employee_list .blackBg{
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	/*height: 100%;*/
+	background-color: rgba(0,0,0,0.4);
+}
 
 /************************************************************************/
 /*新建客户*/
