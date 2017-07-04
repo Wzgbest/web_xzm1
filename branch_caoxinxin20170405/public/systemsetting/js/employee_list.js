@@ -163,7 +163,7 @@ function employee_list_edit_update(id){
 			//console.log(data);
 			alert(data.message);
 			if(data.status) {
-				employee_list_panel_close(id);
+				employee_list_list_manage.reload_list();
 			}
 		},
 		error: function() {
@@ -216,7 +216,7 @@ function employee_list_add_employee(){
 		success: function(data) {
 			alert(data.message);
 			if(data.status) {
-				employee_list_removeNewClient();
+				employee_list_list_manage.reload_list();
 			}
 		},
 		error: function() {

@@ -13,25 +13,26 @@
             </ul>
             <div class="m-filterNav">
                 <form class="search_form" onsubmit="return false;">
-                    <select id="employee_list_search_structure">
+                    <select name="structure">
                         <option value="">直属部门</option>
-                        <option value="1" {present name='filter.structure'}{eq name='filter.structure' value='1'} selected="selected"{/eq}{/present}>员工添加</option>
-                        <option value="2" {present name='filter.structure'}{eq name='filter.structure' value='2'} selected="selected"{/eq}{/present}>批量导入</option>
-                        <option value="3" {present name='filter.structure'}{eq name='filter.structure' value='3'} selected="selected"{/eq}{/present}>员工搜集</option>
+                        {volist name="structs" id="vo"}
+                        <option value="{$vo.id}" {present name='filter.structure'}{eq name='filter.structure' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.struct_name}</option>
+                        {/volist}
                     </select>
-                    <select id="employee_list_search_role">
+                    <select name="role">
                         <option value="">角色</option>
-                        <option value="1" {present name='filter.role'}{eq name='filter.role' value='1'} selected="selected"{/eq}{/present}>转介绍</option>
-                        <option value="2" {present name='filter.role'}{eq name='filter.role' value='2'} selected="selected"{/eq}{/present}>指定人</option>
-                        <option value="3" {present name='filter.role'}{eq name='filter.role' value='3'} selected="selected"{/eq}{/present}>指定部门</option>
+                        {volist name="roles" id="vo"}
+                        <option value="{$vo.id}" {present name='filter.role'}{eq name='filter.role' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.role_name}</option>
+                        {/volist}
                     </select>
-                    <select id="employee_list_search_on_duty">
+                    <select name="on_duty">
                         <option value="">状态</option>
                         <option value="1" {present name='filter.on_duty'}{eq name='filter.on_duty' value='1'} selected="selected"{/eq}{/present}>在职</option>
                         <option value="2" {present name='filter.on_duty'}{eq name='filter.on_duty' value='2'} selected="selected"{/eq}{/present}>休假</option>
+                        <option value="-1" {present name='filter.on_duty'}{eq name='filter.on_duty' value='-1'} selected="selected"{/eq}{/present}>离职</option>
                     </select>
-                    <input type="text" id="employee_list_search_worknum" placeholder="输入工号" value="{present name='filter.worknum'}{$filter.worknum}{/present}"/>
-                    <input type="text" id="employee_list_search_truename" placeholder="输入姓名" value="{present name='filter.truename'}{$filter.truename}{/present}"/>
+                    <input type="text" name="worknum" placeholder="输入工号" value="{present name='filter.worknum'}{$filter.worknum}{/present}"/>
+                    <input type="text" name="truename" placeholder="输入姓名" value="{present name='filter.truename'}{$filter.truename}{/present}"/>
                     <button class="u-btnSearch">查询</button>
                 </form>
             </div>
@@ -145,8 +146,11 @@
                             <input type="text" name="truename" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入联系人姓名" />
 
                             <span class="cont">直属部门</span>
-                            <input type="text" name="struct_id" pattern="[\d\D]{0,16}" title="最多填写16位字符" placeholder="请输入所属部门" />
-
+                            <select name="struct_id">
+                                {volist name="structs" id="vo"}
+                                <option value="{$vo.id}">{$vo.struct_name}</option>
+                                {/volist}
+                            </select>
                         </div>
                         <div>
                             <span class="cont">昵称</span>
@@ -195,9 +199,11 @@
                                 <option value="1">在职</option>
                                 <option value="2">休假</option>
                             </select>
-                            <span class="cont">职位</span>
+                            <span class="cont">员工角色</span>
                             <select name="role">
-                                <option value="1">请选择</option>
+                                {volist name="roles" id="vo"}
+                                <option value="{$vo.id}">{$vo.role_name}</option>
+                                {/volist}
                             </select>
                         </div>
                         <p class="p5">

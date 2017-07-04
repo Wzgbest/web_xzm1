@@ -412,6 +412,9 @@ function getSaleStatusName($sale_status){
 function getEmployeeOnDutyName($on_duty){
     $on_duty_name = null;
     switch ($on_duty){
+        case -1:
+            $on_duty_name = "离职";
+            break;
         case 1:
             $on_duty_name = "在职";
             break;
