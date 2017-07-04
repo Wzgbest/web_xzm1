@@ -22,6 +22,7 @@ $(employee_list_base+" #employee_import_iframe").load(function() {
 			url: '/systemsetting/employee_import/importEmployee',
 			type: 'post',
 			data: "file_id="+file_id,
+			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
 				alert(data.info);
@@ -84,6 +85,7 @@ $(employee_list_base+" .employee_delete_ui .employee_delete_ok_btn").click(funct
 		url: '/systemsetting/employee/deleteMultipleEmployee',
 		type: 'post',
 		data: ids,
+		dataType: 'json',
 		success: function(data) {
 			//console.log(data);
 			alert(data.message);
@@ -153,6 +155,7 @@ function employee_list_edit_update(id){
 		url: '/systemsetting/employee/editemployee.html',
 		type: 'post',
 		data: employee_list_edit_from_data,
+		dataType: 'json',
 		success: function(data) {
 			//console.log(data);
 			alert(data.message);
@@ -208,6 +211,7 @@ function employee_list_add_employee(){
 		url: url,
 		type: 'post',
 		data: employee_list_add_employee_from_data,
+		dataType: 'json',
 		success: function(data) {
 			alert(data.message);
 			if(data.status) {
