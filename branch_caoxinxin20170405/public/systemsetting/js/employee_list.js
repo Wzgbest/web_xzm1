@@ -15,6 +15,9 @@ $(employee_list_base+" #employee_import_iframe").load(function() {
 	//console.log(body);
 	var upload_data = JSON.parse(body[0].textContent);
 	//console.log(upload_data);
+	if(upload_data==null){
+		alert("上传文件时发生错误!");
+	}
 	$(employee_list_base+" .employee_import_ui").trigger('reveal:close');
 	if (upload_data.status == "1") {
 		var file_id = upload_data.data[0].id;
@@ -35,7 +38,7 @@ $(employee_list_base+" #employee_import_iframe").load(function() {
 			}
 		});
 	}else{
-		alert("上传文件时发生错误!");
+		alert(data.info);
 	}
 });
 $(employee_list_base+" .employee_import_ui .employee_import_cancel_btn").click(function(){
