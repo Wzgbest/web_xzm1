@@ -23,7 +23,7 @@ class Role extends Initialize
     {
         $roleM = new RoleModel();
         $roles = $roleM->getAllRole();
-        $rules_str_arr = array_column($roles,"rules");
+        /*$rules_str_arr = array_column($roles,"rules");
         $rule_ids = [];
         foreach ($rules_str_arr as $rules_str){
             $rule_ids = array_merge($rule_ids,explode(",",$rules_str));
@@ -39,8 +39,8 @@ class Role extends Initialize
             }
             $role["rules"] = $rules_arr;
         }
+        $this->assign('rules',$rules);*/
         $this->assign('roles',$roles);
-        $this->assign('rules',$rules);
         return view();
     }
 

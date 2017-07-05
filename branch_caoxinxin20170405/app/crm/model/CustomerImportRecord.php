@@ -20,6 +20,7 @@ class CustomerImportRecord extends Base{
 
     /**
      * 获取上传记录列表
+     * @param $type int 类型
      * @param $num int 数量
      * @param $page int 页
      * @param $filter array 筛选条件
@@ -27,12 +28,13 @@ class CustomerImportRecord extends Base{
      * @return int|string
      * @throws \think\Exception
      */
-    public function getImportCustomerRecord($num=10,$page=0,$filter=null,$order="cir.id desc"){
+    public function getImportCustomerRecord($type,$num=10,$page=0,$filter=null,$order="cir.id desc"){
         $offset = 0;
         if($page){
             $offset = ($page-1)*$num;
         }
         $map = $this->_getMapByFilter($filter,["id","start_time","end_time","batch","operator"]);
+        $map["cir.import_to"] = $type;
         $importCustomerRecordList = $this->model->table($this->table)->alias('cir')
             ->join($this->dbprefix.'employee e','cir.operator = e.id','left')
             ->where($map)
@@ -48,12 +50,14 @@ class CustomerImportRecord extends Base{
 
     /**
      * 获取上传记录数量
+     * @param $type int 类型
      * @param $filter array 筛选条件
      * @return int|string
      * @throws \think\Exception
      */
-    public function getImportCustomerRecordCount($filter=null){
+    public function getImportCustomerRecordCount($type,$filter=null){
         $map = $this->_getMapByFilter($filter,["start_time","end_time","batch","operator"]);
+        $map["cir.import_to"] = $type;
         $importCustomerRecordCount = $this->model->table($this->table)->alias('cir')
             ->join($this->dbprefix.'employee e','cir.operator = e.id','left')
             ->where($map)

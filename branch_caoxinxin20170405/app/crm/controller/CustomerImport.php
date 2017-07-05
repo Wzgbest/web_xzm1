@@ -22,15 +22,16 @@ class CustomerImport extends Initialize{
     public function index(){
         $num = input('num',$this->paginate_list_rows,'int');
         $p = input("p",1,"int");
+        $type = input("type",0,"int");
         $customers_count=0;
         $start_num = ($p-1)*$num;
         $end_num = $start_num+$num;
         $filter = $this->_getCustomerFilter(["start_time","end_time","batch","operator"]);
         try{
             $customerImport = new CustomerImportRecordModel($this->corp_id);
-            $customerImportRecord = $customerImport->getImportCustomerRecord($num,$p,$filter);
+            $customerImportRecord = $customerImport->getImportCustomerRecord($type,$num,$p,$filter);
             $this->assign("listdata",$customerImportRecord);
-            $customers_count = $customerImport->getImportCustomerRecordCount($filter);
+            $customers_count = $customerImport->getImportCustomerRecordCount($type,$filter);
             $this->assign("count",$customers_count);
         }catch (\Exception $ex){
             $this->error($ex->getMessage());
@@ -77,12 +78,12 @@ class CustomerImport extends Initialize{
         $result = ['status'=>0 ,'info'=>"查询客户导入发生错误！"];
         $num = 10;
         $import_to = input("import_to",0,'int');
-        $p = input("p");
-        $p = $p?:1;
+        $p = input("p",1,"int");
+        $type = input("type",0,"int");
         try{
             $map = ['import_to'=>$import_to];
             $customerImport = new CustomerImportRecordModel($this->corp_id);
-            $customerImportRecord = $customerImport->getImportCustomerRecord($num,$p,$map);
+            $customerImportRecord = $customerImport->getImportCustomerRecord($type,$num,$p,$map);
             $result['data'] = $customerImportRecord;
         }catch (\Exception $ex){
             return json($result);
@@ -95,6 +96,7 @@ class CustomerImport extends Initialize{
     public function get(){
         $result = ['status'=>0 ,'info'=>"获取客户导入发生错误！"];
         $id = input("id");
+        $type = input("type",0,"int");
         if(!$id){
             $result['info'] = "参数错误！";
             return json($result);
@@ -102,7 +104,7 @@ class CustomerImport extends Initialize{
         $map["id"] = $id;
         try{
             $customerImport = new CustomerImportRecordModel($this->corp_id);
-            $customerImportRecord = $customerImport->getImportCustomerRecord(1,0,["id"=>$id]);
+            $customerImportRecord = $customerImport->getImportCustomerRecord($type,1,0,["id"=>$id]);
             $result['data'] = $customerImportRecord;
         }catch (\Exception $ex){
             return json($result);
@@ -302,8 +304,9 @@ class CustomerImport extends Initialize{
     public function exportFailCustomer(){
         $result =  ['status'=>0 ,'info'=>"导出失败！"];
         $record_id = input("record_id",0,"int");
+        $type = input("type",0,"int");
         $customerImport = new CustomerImportRecordModel($this->corp_id);
-        $record = $customerImport->getImportCustomerRecord(1,0,["id"=>$record_id]);
+        $record = $customerImport->getImportCustomerRecord($type,1,0,["id"=>$record_id]);
         if(!$record){
             $result['info'] = '未找到导入记录!';
             return json($result);
