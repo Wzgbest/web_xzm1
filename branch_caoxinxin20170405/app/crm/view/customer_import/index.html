@@ -29,7 +29,9 @@
             <li>{$vo.fail_num}</li>
             <li class="u-tabOperation">
                 <input type="hidden" value="{$vo.id}"/>
+                {neq name="vo.import_result" value="2"}
                 <span class="fail_download">失败列表下载</span>
+                {/neq}
             </li>
             <div class="clearfix"></div>
         </ul>

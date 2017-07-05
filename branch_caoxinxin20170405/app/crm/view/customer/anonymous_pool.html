@@ -5,7 +5,7 @@
             <ul class="m-secNav">
                 <li class="active showNewClient">新建</li>
                 <li class="active">导入</li>
-                <li class="active">导入记录</li>
+                <li class="active customer_import">导入记录</li>
                 <li class="active">批量申领</li>
                 <li class="vertical"></li>
                 <li class="delete">删除</li>
@@ -84,6 +84,10 @@
         <script language="javascript">
             var anonymous_pool_add = new customer_add("anonymous_pool","high-seafr",anonymous_pool_list_manage);
         </script>
+        <script src="/crm/js/customer_import.js"></script>
+        <script language="javascript">
+            var anonymous_pool_customer_import = new customer_import("#frames #high-seafr .crm_anonymous_pool .customer_import_record",2);
+        </script>
         <script src="/crm/js/anonymous_pool.js"></script>
     </div>
     <div class="anonymous_pool_panel customer_info_panel customer_general hide">
@@ -97,6 +101,17 @@
     <div class="anonymous_pool_panel customer_info_panel customer_sale_chance hide">
     </div>
     <div class="anonymous_pool_panel customer_info_panel customer_trace hide">
+    </div>
+    <div class="anonymous_pool_panel customer_info_panel customer_import_record hide">
+        <header>
+            <ul class="m-firNav">
+                <li class="current"><div style="border: none;">公海池</div></li>
+                <i class="fa fa-angle-right fa-2x" style="line-height: 40px;margin-left: 5px;"></i><span class="u-spanInfo">导入记录</span>
+            </ul>
+        </header>
+        <div class="customer_import_record_list">
+
+        </div>
     </div>
 </div>
 <link rel="stylesheet" href="/crm/css/index.css"/>

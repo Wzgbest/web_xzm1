@@ -17,7 +17,14 @@ $("#high-seafr .anonymous_pool .u-tabList .u-tabOperation .take_public_customer"
     });
 });
 
-var public_pool_nav_base = "#high-seafr .public_pool .m-secNav";
+var public_pool_base = "#frames #high-seafr .crm_public_pool";
+var public_pool_nav_base = public_pool_base+" .public_pool .m-secNav";
+$(public_pool_base+" .customer_import_record .m-firNav .current").click(function(){
+    $(public_pool_base+" .customer_import_record").addClass("hide");
+});
+$(public_pool_nav_base+" .customer_import").click(function(){
+    public_pool_customer_import.load_list();
+});
 public_pool_list_manage.listenSelect("delete");
 $(public_pool_nav_base+" .delete").click(function(){
     var ids = public_pool_list_manage.getAllSelectVal();
