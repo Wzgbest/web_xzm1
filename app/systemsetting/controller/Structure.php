@@ -23,7 +23,7 @@ class Structure extends Initialize
         $struM = new StructureModel();
         $structs = $struM->getAllStructure();
         $tree = new \myvendor\Tree($structs,['id','struct_pid']);
-        $res = $tree->leaf(0);
+        $res = $tree->leaf(1);
         $this->assign('struct',$res);
         return view();
     }
