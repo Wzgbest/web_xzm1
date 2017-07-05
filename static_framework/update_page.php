@@ -2,6 +2,7 @@
 $server = "http://xzm.blu10ph.cn";
 $cookie_file = './cookie.txt';
 $page_list = [];
+$page_list[] = ["crm","customer","add_page",""];
 $page_list[] = ["crm","customer","customer_pool",""];
 $page_list[] = ["crm","customer","my_customer",""];
 $page_list[] = ["crm","customer","general","id/11/fr/my_customer"];
