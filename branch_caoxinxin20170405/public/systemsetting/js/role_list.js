@@ -28,7 +28,7 @@ function loadRuleManage(role_id){
         async:false,
         success:function (data) {
             $(panel).html(data);
-            listenEmployeeTable(panel);
+            listenEmployeeTable(role_id);
         },
         error:function(){
             alert("获取权限失败!");
@@ -43,7 +43,7 @@ function loadEmployeeTable(role_id){
         async:false,
         success:function (data) {
             $(panel).html(data);
-            listenRuleManage(panel);
+            listenRuleManage(role_id);
         },
         error:function(){
             alert("获取成员失败!");
@@ -52,16 +52,17 @@ function loadEmployeeTable(role_id){
 }
 $(role_list_panel_base+" .dv1 .compile").click(function(){
     var role_id = findRoleId(this);
-    console.log(role_id);
+    //console.log(role_id);
     loadRuleManage(role_id);
 });
 $(".systemsetting_role .content .dv1 .del").click(function(){
     var role_id = findRoleId(this);
-    console.log(role_id);
+    //console.log(role_id);
     $.ajax({
         url: '/systemsetting/role/deleteRole',
         type: 'post',
         data: "role_id="+role_id,
+        dataType:"json",
         success: function(data) {
             //console.log(data);
             alert(data.message);
