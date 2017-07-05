@@ -14,8 +14,63 @@ use app\crm\model\CustomerImportRecord as CustomerImportRecordModel;
 use app\crm\model\CustomerImportFail;
 
 class CustomerImport extends Initialize{
+    var $paginate_list_rows = 10;
+    public function _initialize(){
+        parent::_initialize();
+        $this->paginate_list_rows = config("paginate.list_rows");
+    }
     public function index(){
-        echo "crm/customer_import/index";
+        $num = input('num',$this->paginate_list_rows,'int');
+        $p = input("p",1,"int");
+        $customers_count=0;
+        $start_num = ($p-1)*$num;
+        $end_num = $start_num+$num;
+        $filter = $this->_getCustomerFilter(["start_time","end_time","batch","operator"]);
+        try{
+            $customerImport = new CustomerImportRecordModel($this->corp_id);
+            $customerImportRecord = $customerImport->getImportCustomerRecord($num,$p,$filter);
+            $this->assign("listdata",$customerImportRecord);
+            $customers_count = $customerImport->getImportCustomerRecordCount($filter);
+            $this->assign("count",$customers_count);
+        }catch (\Exception $ex){
+            $this->error($ex->getMessage());
+        }
+        $max_page = ceil($customers_count/$num);
+        $this->assign("p",$p);
+        $this->assign("num",$num);
+        $this->assign("filter",$filter);
+        $this->assign("max_page",$max_page);
+        $this->assign("start_num",$customers_count?$start_num+1:0);
+        $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
+        return view();
+    }
+    protected function _getCustomerFilter($filter_column){
+        $filter = [];
+        if(in_array("start_time", $filter_column)){//开始时间
+            $structure = input("start_time");
+            if($structure){
+                $filter["start_time"] = $structure;
+            }
+        }
+        if(in_array("end_time", $filter_column)){//结束时间
+            $role = input("end_time");
+            if($role){
+                $filter["end_time"] = $role;
+            }
+        }
+        if(in_array("batch", $filter_column)){//批次
+            $batch = input("batch");
+            if($batch){
+                $filter["batch"] = $batch;
+            }
+        }
+        if(in_array("operator", $filter_column)){//导入人
+            $operator = input("operator");
+            if($operator){
+                $filter["operator"] = $operator;
+            }
+        }
+        return $filter;
     }
 
     public function table(){

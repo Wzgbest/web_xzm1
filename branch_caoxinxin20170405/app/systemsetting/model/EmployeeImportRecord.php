@@ -34,7 +34,7 @@ class EmployeeImportRecord extends Base{
         if($page){
             $offset = ($page-1)*$num;
         }
-        $map = $this->_getMapByFilter($filter,["start_time","end_time","batch","operator"]);
+        $map = $this->_getMapByFilter($filter,["id","start_time","end_time","batch","operator"]);
         $importEmployeeRecordList = $this->model->table($this->table)->alias('eir')
             ->join($this->dbprefix.'employee e','eir.operator = e.id','left')
             ->where($map)
@@ -51,7 +51,6 @@ class EmployeeImportRecord extends Base{
     /**
      * 获取上传记录数量
      * @param $filter array 筛选条件
-     * @param $order string 排序
      * @return int|string
      * @throws \think\Exception
      */
@@ -66,6 +65,14 @@ class EmployeeImportRecord extends Base{
 
     protected function _getMapByFilter($filter,$filter_column){
         $map = [];
+        //id
+        if(in_array("id",$filter_column) && array_key_exists("id", $filter)){
+            $map["eir.id"] = $filter["id"];
+        }
+        //ids
+        if(in_array("ids",$filter_column) && array_key_exists("ids", $filter)){
+            $map["eir.id"] = ["in",$filter["ids"]];
+        }
         //开始时间
         if(in_array("start_time",$filter_column) && array_key_exists("start_time", $filter)){
             $map["eir.create_time"] = ["egt",$filter["start_time"]];

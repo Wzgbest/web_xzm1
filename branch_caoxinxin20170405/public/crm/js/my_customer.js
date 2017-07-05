@@ -17,7 +17,28 @@ $("#frames #myclietsfr .crm_my_customer .my_customer .u-tabList .u-tabOperation 
 	});
 });
 
-var my_customer_nav_base = "#frames #myclietsfr .crm_my_customer .my_customer .m-secNav";
+var my_customer_base = "#frames #myclietsfr .crm_my_customer";
+var my_customer_nav_base = my_customer_base+" .my_customer .m-secNav";
+$(my_customer_base+" .customer_import_record .m-firNav .current").click(function(){
+	$(my_customer_base+" .customer_import_record").addClass("hide");
+});
+$(my_customer_nav_base+" .customer_import").click(function(){
+	var url = "/crm/customer_import/index/";
+	var panel = my_customer_base+"  .customer_import_record_list";
+	$.ajax({
+		url:url,
+		type:'get',
+		async:false,
+		success:function (data) {
+			$(panel).html(data);
+			$(panel).height(window.innerHeight);
+			$(my_customer_base+" .customer_import_record").removeClass("hide");
+		},
+		error:function(){
+			alert("获取员工信息失败!");
+		}
+	});
+});
 my_customer_list_manage.listenSelect("exportCustomer");
 $(my_customer_nav_base+" .exportCustomer").click(function(){
 	var ids = my_customer_list_manage.getAllSelectVal();
