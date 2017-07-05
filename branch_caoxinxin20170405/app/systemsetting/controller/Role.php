@@ -43,6 +43,15 @@ class Role extends Initialize
         $this->assign('rules',$rules);
         return view();
     }
+
+    public function rule_manage(){
+        return view();
+    }
+
+    public function employee_list(){
+        return view();
+    }
+
     /**
      * 角色列表
      * @return false|\PDOStatement|string|\think\Collection
@@ -58,14 +67,14 @@ class Role extends Initialize
     /**
      * 显示角色对应的权限
      * @param $role_id
+     * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
     public function showRules($role_id)
     {
         $rol = new RoleModel();
         $rules = $rol->getRoleInfo($role_id);
-        $this->assign('role',$rules);
-        return view();
+        return $rules;
     }
 
     /**

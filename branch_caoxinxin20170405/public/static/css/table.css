@@ -1,5 +1,35 @@
 /******************************/
 /*table*/
+.m-tableBox1{
+	clear: both;
+	width: 640px;
+	/*display: inline-block;*/
+	margin-top: 20px;
+	margin-left: 4px;
+	overflow-y: auto;
+	height: 300px;
+	/*background-color: yellow;*/
+}
+.m-tableBox2{
+	clear: both;
+	width: 1290px;
+	/*display: inline-block;*/
+	margin-top: 20px;
+	margin-left: 4px;
+	overflow-y: auto;
+	height: 300px;
+	/*background-color: yellow;*/
+}
+.m-tableBox3{
+	clear: both;
+	width: 1000px;
+	/*display: inline-block;*/
+	margin-top: 0px;
+	overflow-y: auto;
+	height: 300px;
+	/*background-color: yellow;*/
+	margin-left: 25px;
+}
 .m-tableBox{
 	width: 100%;
 	margin-top: 20px;
