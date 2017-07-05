@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{volist name="roles" id="vo"}
+    {$vo.id}-{$vo.role_name}:
+    {volist name="vo.rules" id="vou" key="k"}
+        {$vou.id}-{$vou.rule_name}-{$vou.rule_title},
+    {/volist}
+    ;<br/>
+{/volist}

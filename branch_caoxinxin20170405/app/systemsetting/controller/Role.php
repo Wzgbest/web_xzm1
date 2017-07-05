@@ -8,6 +8,7 @@ namespace app\systemsetting\controller;
 use app\common\controller\Initialize;
 use app\common\model\Employee;
 use app\common\model\Role as RoleModel;
+use app\common\model\Rule as RuleModel;
 use think\Request;
 use app\systemsetting\controller\Employee as EmployeeController;
 
@@ -20,9 +21,26 @@ class Role extends Initialize
      */
     public function index()
     {
-        $rol = new RoleModel();
-        $data = $rol->getAllRole();
-        $this->assign('roles',$data);
+        $roleM = new RoleModel();
+        $roles = $roleM->getAllRole();
+        $rules_str_arr = array_column($roles,"rules");
+        $rule_ids = [];
+        foreach ($rules_str_arr as $rules_str){
+            $rule_ids = array_merge($rule_ids,explode(",",$rules_str));
+        }
+        $ruleM = new RuleModel();
+        $rules = $ruleM->getRulesColumnByIds($rule_ids);
+        //var_exp($rules,'$rules',1);
+        foreach ($roles as &$role){
+            $rules_arr = [];
+            $rules_id_arr = explode(",",$role["rules"]);
+            foreach ($rules_id_arr as $rules_id){
+                $rules_arr[] = ["id"=>$rules_id,"rule_name"=>$rules[$rules_id]["rule_name"],"rule_title"=>$rules[$rules_id]["rule_title"]];
+            }
+            $role["rules"] = $rules_arr;
+        }
+        $this->assign('roles',$roles);
+        $this->assign('rules',$rules);
         return view();
     }
     /**
@@ -52,10 +70,11 @@ class Role extends Initialize
 
     /**
      * 添加角色
-     * @return array
+     * @param $role_name string 职位名称
+     * @return array created by messhair
      * created by messhair
      */
-    public function addRole()
+    public function addRole($role_name)
     {
         $rol = new RoleModel();
         $data = [
