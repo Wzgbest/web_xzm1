@@ -1,0 +1,311 @@
+.systemsetting_role {
+    width: 100%;
+    height: 770px;
+    background-color: #f5f7fa;
+}
+
+.systemsetting_role .top {
+    /*width: 1120px;*/
+    width: 100%;
+    height: 40px;
+    background-color: #fff;
+    margin: 0 10px;
+    position: relative;
+}
+
+.systemsetting_role ul.firNav {
+    height: 40px;
+    margin-left: 1px;
+    /*padding: 10px 0;*/
+    box-shadow: -1px 2px #ebedf0;
+}
+
+.systemsetting_role ul.firNav li {
+    float: left;
+    color: #b2b2b2;
+    height: 20px;
+    /*width: 130px;*/
+    padding: 10px 0;
+    /*line-height: 20px;*/
+    /*padding: 0 10px;*/
+    /*border-right:2px solid #b2b2b2 ;*/
+}
+
+.systemsetting_role ul.firNav li:hover {
+    cursor: pointer;
+}
+
+.systemsetting_role ul.firNav li div {
+    line-height: 20px;
+    padding: 0 5px;
+    font-size: 12px;
+    /*border-right:2px solid #b2b2b2 ;*/
+}
+
+.systemsetting_role ul.firNav li:last-child div {
+    border: none;
+}
+
+.systemsetting_role ul.firNav li.current {
+    color: #333333;
+    border-bottom: 2px solid #42a5f5;
+}
+
+.systemsetting_role .top ul i {
+    height: 20px;
+    display: inline-block;
+    padding-left: 3px;
+    font-size: 16px;
+    line-height: 40px;
+    color: #999999;
+    vertical-align: middle;
+}
+
+.systemsetting_role .top ul span {
+    display: inline-block;
+    height: 20px;
+    vertical-align: middle;
+    padding-left: 5px;
+    font-size: 12px;
+    line-height: 40px;
+    color: #999999;
+}
+.systemsetting_role .top .add{
+    width: 26px;
+    height: 38px;
+    position: absolute;
+    right: 50px;
+    top:0;
+    padding-top: 2px;
+}
+.systemsetting_role .top .add p{
+    font-size: 12px;
+    text-align: center;
+}
+.systemsetting_role .top .add i{
+    display: block;
+    color: #1f7ed0;
+    text-align: center;
+}
+
+.systemsetting_role .content {
+    /*width: 1090px;*/
+    width: 100%;
+    height: 646px;
+    background-color: #fff;
+    margin: auto 10px;
+    margin-top: 6px;
+    margin-bottom: 12px;
+}
+
+.systemsetting_role .content .dv1 {
+    width: 246px;
+    height: 100%;
+    background-color: #f5f5f5;
+    float: left;
+}
+
+.systemsetting_role .content .dv2 {
+    width: 870px;
+    height: 800px;
+    float: left;
+}
+
+.systemsetting_role .content .one {
+    clear: both;
+    height: 30px;
+    margin-left: 25px;
+    margin-top: 10px;
+}
+
+.systemsetting_role .content .p1 {
+    font-size: 12px;
+    float: left;
+    width: 67px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border: 1px solid #e5e5e5;
+    padding: 0px;
+    border-top: 2px solid #e5e5e5;
+}
+.systemsetting_role .content .one .activity{
+    border-top: 2px solid #77b8ff;
+    background-color: #ffffff;
+}
+
+.systemsetting_role .content .two {
+    margin-top: 30px;
+    clear: both;
+    width: 875px;
+    height: 60px;
+    line-height: 60px;
+    border-bottom: 1px solid #E5E5E5;
+    margin-left: 25px;
+}
+
+.systemsetting_role .content .table1 {
+    margin-left: 21px;
+}
+
+.systemsetting_role .content input {
+    width: 42px;
+    height: 18px;
+}
+.systemsetting_role .dv1 .role{
+    width: 246px;
+    height: 42px;
+    border-bottom: 1px solid #eee;
+
+}
+.systemsetting_role .dv1 .role p{
+    font-size: 14px;
+    margin-left: 15px;
+    line-height: 42px;
+}
+.systemsetting_role .dv1 ul li{
+    width: 244px;
+    height: 40px;
+    border: 1px solid #eee;
+    background-color: #f5f5f5;
+}
+.systemsetting_role .dv1 ul li:hover{
+    background-color: #e6e6e6;
+    color: #77b8ff;
+}
+.systemsetting_role .dv1 ul li:hover img{
+    display: inline-block;
+}
+.systemsetting_role .dv1 ul li span{
+    display: inline-block;
+    width: 160px;
+    line-height: 40px;
+    margin-left: 20px;
+    font-size: 14px;
+    vertical-align: middle;
+}
+.systemsetting_role .dv1 ul li img{
+    vertical-align: middle;
+    margin-right: 10px;
+    display: none;
+}
+
+.systemsetting_role .content .table1 {
+    margin-left: 21px;
+}
+
+.systemsetting_role .content input {
+    width: 42px;
+    height: 18px;
+}
+.systemsetting_role .table{
+    clear: both;
+    width: 852px;
+    height: 519px;
+    border: 1px solid #e5e5e5;
+    margin-left: 25px;
+
+}
+.systemsetting_role .tab_1{
+    width: 133px;
+    height: 80px;
+    float: left;
+    border-bottom:1px solid #e5e5e5 ;
+    border-right: 1px solid #e5e5e5;
+    background-color: #ebf3ff;
+}
+.systemsetting_role .tab_1 p{
+    text-align: center;
+    line-height: 80px;
+    font-size: 12px;
+
+}
+.systemsetting_role .tab_2{
+    width: 718px;
+    height: 81px;
+    float: left;
+    /*border-bottom:1px solid #e5e5e5 ;*/
+}
+
+.systemsetting_role .tab_2 div{
+    width: 718px;
+    height: 40px;
+}
+.systemsetting_role .tab_2 .xuanze {
+    border-bottom: 1px solid #e5e5e5;
+    line-height: 40px;
+}
+.systemsetting_role .tab_2 .xuanze  input{
+    vertical-align: middle;
+    margin-left: 5px;
+}
+.systemsetting_role .tab_2 .xuanze span{
+    vertical-align: middle;
+}
+.systemsetting_role .tab_2 select{
+    vertical-align: middle;
+    width: 170px;
+    height: 26px;
+    margin-left: 10px;
+}
+.systemsetting_role .tab_3{
+    width: 133px;
+    height: 440px;
+    float: left;
+    border-right: 1px solid #e5e5e5;
+    background-color: #ebf3ff;
+}
+.systemsetting_role .tab_3 p{
+    text-align: center;
+    line-height: 440px;
+    font-size: 12px;
+
+}
+.systemsetting_role .tab_4{
+    width: 718px;
+    height: 440px;
+    float: left;
+
+}
+.systemsetting_role .tab_4 .left{
+    width: 220px;
+    height: 440px;
+    float: left;
+    border-right: 1px solid #e5e5e5;
+
+}
+.systemsetting_role .tab_4 .right{
+    width: 496px;
+    height: 440px;
+    float: right;
+}
+.systemsetting_role .tab_4 .left ul li{
+    width: 220px;
+    height: 39px;
+    border-top:1px solid #e5e5e5;
+
+}
+.systemsetting_role .tab_4 .right ul li{
+    width: 498px;
+    height: 39px;
+    border-top:1px solid #e5e5e5;
+
+}
+.systemsetting_role .tab_4 ul li:nth-child(1){
+    border-top:none;
+    background-color: #f2f6fd;
+    text-align: center;
+    line-height: 40px;
+}
+.systemsetting_role .tab_4 ul li:nth-child(11){
+
+    height: 40px;
+}
+.systemsetting_role .tab_4 ul li input{
+    vertical-align: middle;
+}
+.systemsetting_role .tab_4 ul li span{
+    vertical-align: middle;
+    line-height: 40px;
+    margin-right: 20px;
+}

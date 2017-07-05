@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-页面开发中...
-</body>
-</html>
+{$struct|var_exp='$struct'}<br/>
+{present name="struct"}{volist name="struct" id="vo"}
+    ├{$vo.id}:{$vo.struct_name};<br/>
+    {present name="vo.child"}{volist name="vo.child" id="voc"}
+        &nbsp;&nbsp;├{$voc.id}:{$voc.struct_name};<br/>
+        {present name="voc.child"}{volist name="voc.child" id="vocc"}
+            &nbsp;&nbsp;&nbsp;&nbsp;├{$vocc.id}:{$vocc.struct_name};<br/>
+            {present name="vocc.child"}{volist name="vocc.child" id="voccc"}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├{$voccc.id}:{$voccc.struct_name};<br/>
+                {present name="voccc.child"}{volist name="voccc.child" id="vocccc"}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├{$vocccc.id}:{$vocccc.struct_name};<br/>
+                {/volist}{/present}
+            {/volist}{/present}
+        {/volist}{/present}
+    {/volist}{/present}
+{/volist}{/present}
