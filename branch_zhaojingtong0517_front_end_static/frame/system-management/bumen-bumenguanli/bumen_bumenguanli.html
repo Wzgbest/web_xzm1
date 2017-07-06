@@ -49,7 +49,7 @@
 			
 			.fold ul li {
 				padding-left: 20px;
-				background: url(img/ul_li.jpg) no-repeat 15px center;
+				background: url(img/ul_li.png) no-repeat 20px center;
 				list-style: none;
 				height: 42px;
 				border-bottom: 1px solid #eeeeee;
@@ -59,7 +59,7 @@
 			
 			.fold p {
 				padding-left: 30px;
-				background: url(img/部门管理_03.jpg) no-repeat 15px center;
+				background: url(img/部门管理_03.png) no-repeat 15px center;
 				height: 42px;
 				border-bottom: 1px solid #eeeeee;
 				line-height: 42px;
@@ -74,11 +74,11 @@
 			}
 			
 			.fold .zk_k {
-				background: url(img/zk_xiaoshou.jpg) no-repeat 15px center;
+				background: url(img/zk_xiaoshou.png) no-repeat 15px center;
 			}
 			
 			.fold .zk_shichang {
-				background: url(img/06.jpg) no-repeat 15px top;
+				background: url(img/06.png) no-repeat 15px top;
 			}
 			
 			.fold .zk {
@@ -86,15 +86,15 @@
 			}
 			
 			.fold .last_ul {
-				background: url(img/last.jpg) no-repeat 15px top;
+				background: url(img/last.png) no-repeat 15px top;
 			}
 			.fold .zk_change{
 				
-				background: url(img/1.jpg) no-repeat 19px center;
+				background: url(img/1.png) no-repeat 19px center;
 			}
 			.fold .zk_change1{
 				
-				background: url(img/05.jpg) no-repeat 15px bottom;
+				background: url(img/05.png) no-repeat 15px bottom;
 			}
 			/** {
 				margin: 0;
@@ -334,6 +334,37 @@
 				font-weight: bold;
 				cursor: pointer;
 			}
+			
+			.fold .onepng{
+				margin-left: 60px;
+			}
+			
+			.fold img{
+				margin-right: 10px;
+				display: none;
+			}
+			.fold ul li:hover{
+				background-color: #e6e6e6;
+			}
+			.fold .zk_1{
+				width: 220px;
+			}
+			.fold .zk_1:hover{
+			    
+				background-color: #e6e6e6;
+			}
+			.fold .zk_2:hover{
+				background-color: #e6e6e6;
+			}
+			.fold ul li:hover img{
+				display: inline-block;
+			}
+			.fold .zk_1:hover img{
+				display: inline-block;
+			}
+			.fold .zk_2:hover img{
+				display: inline-block;
+			}
 		</style>
 	</head>
 
@@ -358,17 +389,26 @@
 						<span>组织架构</span>
 						<i class="fa fa-plus"></i>
 					</div>
-					<p class="zk_1 "><span class="sp1">CEO</span></p>
-					<p class="zk_2 zk zk_k"><span>销售部</span></p>
+					<p class="zk_1 ">
+						<span class="sp1">CEO</span>
+						<img src="img/add.png" class="onepng"/><img src="img/pen.png" /><img src="img/delete.png" />
+					</p>
+					<p class="zk_2 zk zk_k">
+						<span>销售部</span>
+						<img src="img/add.png" class="onepng"/><img src="img/pen.png" /><img src="img/delete.png" />
+					</p>
 					<ul class="zk_3 zk">
 
-						<li>销售一部</li>
-						<li>销售二部</li>
-						<li>销售三部</li>
-						<li class="last_ul">销售四部</li>
+						<li>销售一部<img src="img/add.png" class="onepng"/><img src="img/pen.png" /><img src="img/delete.png" /> </li>
+						<li>销售二部<img src="img/add.png" class="onepng"/><img src="img/pen.png" /><img src="img/delete.png" /></li>
+						<li>销售三部<img src="img/add.png" class="onepng"/><img src="img/pen.png" /><img src="img/delete.png" /></li>
+						<li class="last_ul">销售四部<img src="img/add.png" class="onepng"/><img src="img/pen.png" /><img src="img/delete.png" /></li>
 
 					</ul>
-					<p class="zk_2 zk zk_shichang"><span>市场部</span></p>
+					<p class="zk_2 zk zk_shichang">
+						<span>市场部</span>
+						<img src="img/add.png" class="onepng"/><img src="img/pen.png" /><img src="img/delete.png" />
+					</p>
 				
 				</div>
 				
