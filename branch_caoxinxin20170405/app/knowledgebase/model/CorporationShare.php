@@ -36,7 +36,7 @@ class CorporationShare extends Base{
             ->where($map)
             ->order($order)
             ->group("cs.id")
-            ->field("cs.*,GROUP_CONCAT(csp.path) as img,e.truename,e.userpic")//TODO
+            ->field("cs.*,GROUP_CONCAT(csp.path) as img,e.truename,e.telephone,e.userpic")//TODO
             ->select();
         return $corporationShareList;
     }
@@ -61,7 +61,7 @@ class CorporationShare extends Base{
             ->order($order)
             ->limit($num)
             ->group("cs.id")
-            ->field("cs.*,GROUP_CONCAT(csp.path) as img,e.truename,e.userpic")//TODO
+            ->field("cs.*,GROUP_CONCAT(csp.path) as img,e.telephone,e.truename,e.userpic")//TODO
             ->select();
         foreach ($corporationShareList as &$corporationShare){
             $corporationShare["img"] = explode(",",$corporationShare["img"]);
@@ -81,21 +81,6 @@ class CorporationShare extends Base{
             return ['res'=>0 ,'error'=>"1" ,'msg'=>"参数错误！"];
         }
         return $this->model->table($this->table)->insertGetId($share);
-    }
-
-    /**
-     * 更新动态,并返回结果
-     * @param $share array 动态信息
-     * @param $map array 动态筛选条件
-     * @return array
-     * @throws \think\Exception
-     */
-    public function updateCorporationShare($share,$map){
-        if(empty($map)){
-            return ['res'=>0 ,'error'=>"1" ,'msg'=>"更新参数错误！"];
-        }
-        $b = $this->model->table($this->table)->where($map)->data($share)->save();
-        return $b;
     }
 
     /**

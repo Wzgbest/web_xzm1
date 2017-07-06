@@ -26,8 +26,7 @@ class CorporationShare extends Initialize{
         $result = ['status'=>0 ,'info'=>"发布动态时发生错误！"];
         $msg = input('param.msg');
         if(!$msg){
-            $result['info'] = "参数错误！";
-            return json($result);
+            exception("参数错误!");
         }
         $imgs = request()->file('img');
         $img_num = 9;
@@ -108,8 +107,44 @@ class CorporationShare extends Initialize{
         return json($result);
     }
     public function shareInfo(){}
-    public function relayShare(){}
-    public function addComment(){}
+    public function relayShare(){
+
+    }
+    public function addComment(){
+        $result = ['status'=>0 ,'info'=>"评论动态时发生错误！"];
+        $share_id = input('share_id',0,"int");
+        $reply_content = input('reply_content',"","string");
+        if(empty($share_id) || empty($reply_content)){
+            exception("参数错误!");
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $replyer_id = $uid;
+        $reviewer = input('reviewer',0,"int");
+        $reviewer_id = 0;
+        if($reviewer){
+            if (!check_tel($reviewer)) {
+                exception("用户名格式不正确!");
+            }
+            $corp_id = get_corpid($reviewer);
+            if ($corp_id == false) {
+                exception("用户不存在!");
+            }
+            $this->employM = new Employee($this->corp_id);
+            $reviewer_info = $this->employM->getEmployeeByTel($reviewer);
+            $reviewer_id = $reviewer_info["id"];
+        }
+        $comment["share_id"] = $share_id;
+        $comment["replyer_id"] = $replyer_id;
+        $comment["reply_content"] = $reply_content;
+        $comment["reviewer_id"] = $reviewer_id;
+        $corporationShareCommentModel = new CorporationShareCommentModel($this->corp_id);
+        $add_comment_flg= $corporationShareCommentModel->createCorporationShareComment($comment);
+        $result['data'] = $add_comment_flg;
+        $result['status'] = 1;
+        $result['info'] = "评论成功！";
+        return json($result);
+    }
     public function like(){}
     public function tip(){}
 }

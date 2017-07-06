@@ -41,23 +41,19 @@ class CorporationShareComment extends Base{
             ->where($map)
             ->order($order)
             ->limit($offset,$num)
-            ->field("csc.*,re.truename as replyer_name,re.userpic as replyer_pic,rve.truename as reviewer_name,rve.userpic as reviewer_pic")//TODO
+            ->field("csc.*,re.telephone as replyer_telephone,re.truename as replyer_name,re.userpic as replyer_pic,rve.telephone as reviewer_telephone,rve.truename as reviewer_name,rve.userpic as reviewer_pic")//TODO
             ->select();
         return $corporationShareCommentList;
     }
 
     /**
      * 创建评论,并返回结果
-     * @param $customer array 评论信息
+     * @param $comment array 评论信息
      * @return array
      * @throws \think\Exception
      */
-    public function createCorporationShareComment($customer){
-        $customer_name = $customer['userid'];
-        if(empty($customer_name)){
-            return ['res'=>0 ,'error'=>"1" ,'msg'=>"参数错误！"];
-        }
-        $b = $this->model->table($this->table)->insertGetId($customer);
+    public function createCorporationShareComment($comment){
+        $b = $this->model->table($this->table)->insertGetId($comment);
         return $b;
     }
 
