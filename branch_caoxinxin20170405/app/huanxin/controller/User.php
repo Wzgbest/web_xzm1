@@ -161,7 +161,7 @@ class User extends Controller{
             $info['errnum'] = 3;
             return json($info);
         }
-        $ini_code = session('reset_code' . $userid);
+        $ini_code = get_reset_code($userid);
         if ($ini_code != $code) {
             $info['message'] = '手机验证码不正确';
             $info['errnum'] = 4;
@@ -181,7 +181,7 @@ class User extends Controller{
             $info['status'] = true;
             $info['message'] = '修改成功，请重新登陆';
             $info['errnum'] = 0;
-            session('reset_code'.$userid, null);
+            set_reset_code($userid,null);
         } else {
             $info['message'] = '修改环信密码失败，联系管理员';
             $info['errnum'] = 5;
@@ -287,7 +287,7 @@ class User extends Controller{
             $info['errnum'] = 4;
             return json($info);
         }
-        $ini_code = session('reset_code' . $userid);
+        $ini_code = get_reset_code($userid);;
         if ($ini_code != $code) {
             $info['message'] = '手机验证码不正确';
             $info['errnum'] = 5;
@@ -299,7 +299,7 @@ class User extends Controller{
         $r_userid = $employee->getEmployeeByTel($userid);
         $r = $employee->setEmployeeSingleInfo($userid,$data);
         if ($r >= 0) {
-            session('reset_code'.$userid,null);
+            set_reset_code($userid,null);
             write_log($r_userid['id'],1,'用户修改支付密码',$corp_id);
             $info['status'] = true;
             $info['errnum'] = 0;

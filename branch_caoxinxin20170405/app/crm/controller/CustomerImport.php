@@ -168,7 +168,8 @@ class CustomerImport extends Initialize{
         }
 
         //获取批次
-        $uid = session('userinfo.userid');
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $customerImport = new CustomerImportRecordModel($this->corp_id);
         $record = $customerImport->getNewImportCustomerRecord($uid);
         if(!$record){
@@ -279,7 +280,8 @@ class CustomerImport extends Initialize{
         $ids_arr = array_map("intval",$ids_arr);
         //var_exp($ids_arr,'$ids_arr',1);
         $scale = input('scale',0,'int');
-        $uid = session('userinfo.userid');
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $customerM = new CustomerModel($this->corp_id);
         $customers_data = $customerM->getExportCustomers($uid,$scale,$self,$ids_arr);
         //var_exp($customers_data,'$customers_data',1);
