@@ -30,13 +30,15 @@ class CorporationShare extends Base{
     public function getAllCorporationShare($uid,$map=null,$order="id desc"){
         $map["create_user"] = $uid;
         $map["status"]=1;
-        $searchCustomerList = $this->model
-            ->table($this->table)
+        $corporationShareList = $this->model->table($this->table)->alias('cs')
+            ->join($this->dbprefix.'corporation_share_picture csp','csp.share_id = cs.id',"LEFT")
+            ->join($this->dbprefix.'employee e','e.id = cs.userid',"LEFT")
             ->where($map)
             ->order($order)
-            ->field("*")//TODO
+            ->group("cs.id")
+            ->field("cs.*,GROUP_CONCAT(csp.path) as img,e.truename,e.userpic")//TODO
             ->select();
-        return ['res'=>$searchCustomerList ,'error'=>"0"];
+        return $corporationShareList;
     }
 
     /**
@@ -93,7 +95,7 @@ class CorporationShare extends Base{
             return ['res'=>0 ,'error'=>"1" ,'msg'=>"更新参数错误！"];
         }
         $b = $this->model->table($this->table)->where($map)->data($share)->save();
-        return ['res'=>$b ,'error'=>"0"];
+        return $b;
     }
 
     /**
@@ -107,6 +109,6 @@ class CorporationShare extends Base{
             return ['res'=>0 ,'error'=>"1" ,'msg'=>"缺少删除目标！"];
         }
         $b = $this->model->table($this->table)->where($map)->delete();
-        return ['res'=>$b ,'error'=>"0"];
+        return $b;
     }
 }
