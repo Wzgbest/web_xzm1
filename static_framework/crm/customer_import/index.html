@@ -1,0 +1,55 @@
+<div class="m-tableBox">
+    <div class="m-filterNav" style="margin-bottom: 20px;">
+        <form class="search_form" onsubmit="return false;">
+            <input type="date" name="start_time" /> --
+            <input type="date" name="end_time" style="margin-right: 10px;"/>
+            <input type="text" name="batch" placeholder="请输入批次"/>
+            <input type="text" name="operator" placeholder="请输入导入人"/>
+            <button class="u-btnSearch">查询</button>
+        </form>
+    </div>
+    <div class="m-table m-table2 table4">
+        <ul class="u-tabTitle">
+            <li>导入批次<i class="fa fa-caret-down"></i></li>
+            <li>导入时间<i class="fa fa-unsorted"></i></li>
+            <li>导入人</li>
+            <li>导入结果</li>
+            <li>成功<i class="fa fa-unsorted"></i></li>
+            <li>失败<i class="fa fa-unsorted"></i></li>
+            <li>操作</li>
+            <div class="clearfix"></div>
+        </ul>
+                <ul class="u-tabList">
+            <li>2017050007</li>
+            <li>2017-05-23 16:24</li>
+            <li>李洪金</li>
+            <li>全部成功</li>
+            <li>1</li>
+            <li>0</li>
+            <li class="u-tabOperation">
+                <input type="hidden" value="12"/>
+                            </li>
+            <div class="clearfix"></div>
+        </ul>
+            </div>
+    <div class="u-tabControlRow">
+        <span>显示行数</span>
+        <select>
+            <option value="5" >5</option>
+            <option value="10"  selected="selected">10</option>
+            <option value="20" >20</option>
+        </select>
+        <span>1-1条/</span>
+        <span>共1条</span>
+        <button class="previous_page  disabled">上一页</button>
+        <button class="next_page  disabled">下一页</button>
+        <span>前往</span>
+        <input class="jump_page" type="text" />
+        <span>页</span>
+    </div>
+</div>
+<script src="/static/js/list_manage.js"></script>
+<script language="javascript">
+    var customer_import_list_list_manage = new list_manage("crm_my_customer","myclietsfr","/crm/customer_import/index",'1','10','1','0'," .customer_import_record_list");
+</script>
+<link rel="stylesheet" href="/crm/css/customer_import.css" />
