@@ -82,7 +82,8 @@ class CustomerContact extends Initialize{
     }
     protected function _getCustomerContactForInput($mode){
         if($mode){
-            $uid = session('userinfo.userid');
+            $userinfo = get_userinfo();
+            $uid = $userinfo["userid"];
             $customerContact['create_time'] = time();
             $customerContact['create_user'] = $uid;
             $customerContact['customer_id'] = input('customer_id',0,'int');

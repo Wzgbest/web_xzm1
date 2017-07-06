@@ -45,6 +45,14 @@ function check_alipay_account ($alipay) {
     return false;
 }
 
+function set_cache_by_tel($telephone, $name, $data, $config=null){
+    cache("user_cache_".$telephone."_".$name,$data);
+}
+
+function get_cache_by_tel($telephone, $name){
+    $data = cache("user_cache_".$telephone."_".$name);
+    return $data;
+}
 
 /**
  * 权限验证
@@ -54,8 +62,8 @@ function check_alipay_account ($alipay) {
  * created by messhair
  */
 function check_auth ($rule,$uid) {
-    $corp_id = session('corp_id');
-    $corp_id ='sdzhongxun';//TODO,测试开启
+    $corp_id = get_corpid();
+    //$corp_id ='sdzhongxun';//TODO,测试开启
     $auth = new \myvendor\Auth($corp_id);
     if (!$auth->check($rule,$uid)) {
         return false;
@@ -63,74 +71,38 @@ function check_auth ($rule,$uid) {
         return true;
     }
 }
-
-/**
- * 发送邮件
- * @param $sender 发件人邮箱
- * @param $pass 发件人邮箱密码
- * @param $to_user 接收人邮箱
- * @param $title  主题
- * @param $sender_nick 发件人昵称
- * @param string $content 内容
- * @param array $attachment['path','name'] 附件['地址','附件名称']
- * @return bool
- * @throws Exception
- * @throws phpmailerException
- * created by messhair
- */
-function send_mail ($sender,$pass,$to_user, $title, $sender_nick='',$content='',$attachment=array()) {
-    $mail = new PHPMailer(true);
-    $mail->IsSMTP();                  // send via SMTP
-    $mail->Host = get_mail_smtp($sender);   // SMTP servers
-    $mail->SMTPAuth = true;           // turn on SMTP authentication
-    $mail->Username = $sender;     // SMTP username  注意：普通邮件认证不需要加 @域名
-    $mail->Password = $pass; // SMTP password
-    $mail->From = $sender;      // 发件人邮箱
-    $mail->FromName =  $sender_nick;  // 发件人称呼
-//    $mail->SMTPSecure = 'ssl';
-//    $mail->Port = 465;
-    $mail->CharSet = "UTF-8";   // 这里指定字符集！
-    $mail->AddAddress($to_user);  // 收件人邮箱和姓名
-    //$mail->WordWrap = 50; // set word wrap 换行字数
-    if (!empty($attachment)) {
-        if (isset($attachment['name'])) {
-            $mail->AddAttachment($attachment['path'], $attachment['name']);
-        } else {
-            $mail->AddAttachment($attachment['path']);
-        }
-    }
-    $mail->IsHTML(true);  // send as HTML
-    $mail->Subject = $title;
-    $mail->Body = $content;
-    $status = $mail->send();
-    return $status;
+function set_userinfo($corp_id,$telephone,$user_arr){
+    $userinfo = [
+        'corp_id'=>$corp_id,
+        'telephone'=>$telephone,
+        'userid'=>$user_arr['id'],
+        'wiredphone'=>$user_arr['wired_phone'],
+        'partphone'=>$user_arr['part_phone'],
+        'truename'=>$user_arr['truename'],
+        'role'=>$user_arr['role_name'],
+    ];
+    session('userinfo',$userinfo);
+    return $userinfo;
 }
-
+function get_userinfo(){
+    $userinfo = session('userinfo');
+    return $userinfo;
+}
 /**
- * 云径短信平台发送手机验证码
+ * 通过手机号获取用户id
  * @param $tel
- * @param $code
- * @param $content
- * @return array
+ * @param string $corp_id
+ * @return int
  * created by messhair
  */
-function send_sms ($tel,$code,$content) {
-    $user = config('sms_workid');
-    $pass = config('sms_workpass');
-    $url = "http://smshttp.k400.cc/SendSMS.aspx?User=" . $user . "&Pass=" . $pass . "&Destinations=". $tel . "&Content=" . $content;
-    $data = file_get_contents($url);
-    $data = json_decode($data,true);
-    $data['MsgID']=true;//TODO 测试开启
-    if ($data['MsgID']) {
-        session('reset_code'.$tel,$code);
-        return ['status'=>true];
-    } else {
-        $content = '手机号'.$tel.'发送信息失败，原因为：'.$data['Result'];
-        send_mail(config('system_email.user'),config('system_email.pass'),'wangqiwen@winbywin.com', '通信项目短信问题',config('system_email.from_name'), $content);
-        return ['status'=>false,'message'=>$content];
+function get_userid_from_tel ($tel,$corp_id='') {
+    if (empty($corp_id)) {
+        $corp_id = get_corpid($tel);
     }
+    $employM = new Employee($corp_id);
+    $users = $employM->getEmployeeByTel($tel);
+    return $users['id'];
 }
-
 /**
  * 获取公司id代号
  * @param $tel
@@ -138,31 +110,46 @@ function send_sms ($tel,$code,$content) {
  * created by messhair
  */
 function get_corpid ($tel = null) {
-    $userinfo = session('userinfo');
-//    if(!$userinfo){
-//        $userinfo = [];//TODO根据token获取登录后的session
-//        session('userinfo',$userinfo);
-//    }
+    $userinfo = get_userinfo();
     if (!empty($userinfo['corp_id'])) {
         return $userinfo['corp_id'];
     }
     if (!is_null($tel)) {
         $corp_id = UserCorporation::getUserCorp($tel);
-        //session('userinfo',['corp_id'=>$corp_id]);
         return $corp_id;
     }
     return false;
 }
 
+/**
+ * 依次列出部门下所有部门id
+ * @param $arr 存放所有部门信息
+ * @param $id 初始部门id
+ * @param array $new_arr
+ * @return array
+ * created by messhair
+ */
+function deep_get_ids ($arr,$id,$new_arr=[]) {
+    foreach ($arr as $key => $val) {
+        if ($val['struct_pid'] ==$id) {
+            $new_arr[] .= $val['id'];
+            unset($arr[$key]);
+            $new_arr = deep_get_ids($arr,$val['id'],$new_arr);
+        } else {
+            continue;
+        }
+    }
+    return $new_arr;
+}
+
 function getStructureIds($user_id = null){
-    $userinfo = session('userinfo');
+    $userinfo = get_userinfo();
     if (!empty($userinfo['structure_ids'])) {
         return $userinfo['structure_ids'];
     }
     if (!is_null($user_id)) {
         $structureEmployee = new StructureEmployee();
         $struct_ids = $structureEmployee->getStructIdsByEmployee($user_id);
-        //session('userinfo',['corp_id'=>$corp_id]);
         return $struct_ids;
     }
     return false;
@@ -491,21 +478,6 @@ function time_diff_day_time($time = NULL,$now_time=NULL) {
     return $day."天".$hour.":".$minute;
 }
 /**
- * 通过手机号获取用户id
- * @param $tel
- * @param string $corp_id
- * @return int
- * created by messhair
- */
-function get_userid_from_tel ($tel,$corp_id='') {
-    if (empty($corp_id)) {
-        $corp_id = get_corpid($tel);
-    }
-    $employM = new Employee($corp_id);
-    $users = $employM->getEmployeeByTel($tel);
-    return $users['id'];
-}
-/**
  * 根据图片ID获取图像文件路径
  * @param $id int 图片ID
  * @return mixed|string
@@ -754,24 +726,78 @@ function decrypt_email_pass ($input) {
 }
 
 /**
- * 依次列出部门下所有部门id
- * @param $arr 存放所有部门信息
- * @param $id 初始部门id
- * @param array $new_arr
+ * 发送邮件
+ * @param $sender 发件人邮箱
+ * @param $pass 发件人邮箱密码
+ * @param $to_user 接收人邮箱
+ * @param $title  主题
+ * @param $sender_nick 发件人昵称
+ * @param string $content 内容
+ * @param array $attachment['path','name'] 附件['地址','附件名称']
+ * @return bool
+ * @throws Exception
+ * @throws phpmailerException
+ * created by messhair
+ */
+function send_mail ($sender,$pass,$to_user, $title, $sender_nick='',$content='',$attachment=array()) {
+    $mail = new PHPMailer(true);
+    $mail->IsSMTP();                  // send via SMTP
+    $mail->Host = get_mail_smtp($sender);   // SMTP servers
+    $mail->SMTPAuth = true;           // turn on SMTP authentication
+    $mail->Username = $sender;     // SMTP username  注意：普通邮件认证不需要加 @域名
+    $mail->Password = $pass; // SMTP password
+    $mail->From = $sender;      // 发件人邮箱
+    $mail->FromName =  $sender_nick;  // 发件人称呼
+//    $mail->SMTPSecure = 'ssl';
+//    $mail->Port = 465;
+    $mail->CharSet = "UTF-8";   // 这里指定字符集！
+    $mail->AddAddress($to_user);  // 收件人邮箱和姓名
+    //$mail->WordWrap = 50; // set word wrap 换行字数
+    if (!empty($attachment)) {
+        if (isset($attachment['name'])) {
+            $mail->AddAttachment($attachment['path'], $attachment['name']);
+        } else {
+            $mail->AddAttachment($attachment['path']);
+        }
+    }
+    $mail->IsHTML(true);  // send as HTML
+    $mail->Subject = $title;
+    $mail->Body = $content;
+    $status = $mail->send();
+    return $status;
+}
+function set_reset_code($tel,$code){
+    //session('reset_code'.$tel,$code);
+    set_cache_by_tel($tel,"reset_code",$code);
+}
+function get_reset_code($tel){
+    //$code = session('reset_code'.$tel);
+    $code = get_cache_by_tel($tel,"reset_code");
+    return $code;
+}
+/**
+ * 云径短信平台发送手机验证码
+ * @param $tel
+ * @param $code
+ * @param $content
  * @return array
  * created by messhair
  */
-function deep_get_ids ($arr,$id,$new_arr=[]) {
-    foreach ($arr as $key => $val) {
-        if ($val['struct_pid'] ==$id) {
-            $new_arr[] .= $val['id'];
-            unset($arr[$key]);
-            $new_arr = deep_get_ids($arr,$val['id'],$new_arr);
-        } else {
-            continue;
-        }
+function send_sms ($tel,$code,$content) {
+    $user = config('sms_workid');
+    $pass = config('sms_workpass');
+    $url = "http://smshttp.k400.cc/SendSMS.aspx?User=" . $user . "&Pass=" . $pass . "&Destinations=". $tel . "&Content=" . $content;
+    $data = file_get_contents($url);
+    $data = json_decode($data,true);
+    $data['MsgID']=true;//TODO 测试开启
+    if ($data['MsgID']) {
+        set_reset_code($tel,$code);
+        return ['status'=>true];
+    } else {
+        $content = '手机号'.$tel.'发送信息失败，原因为：'.$data['Result'];
+        send_mail(config('system_email.user'),config('system_email.pass'),'wangqiwen@winbywin.com', '通信项目短信问题',config('system_email.from_name'), $content);
+        return ['status'=>false,'message'=>$content];
     }
-    return $new_arr;
 }
 /**
  * curl并发测试

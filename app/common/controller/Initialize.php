@@ -6,17 +6,45 @@
 namespace app\common\controller;
 
 use think\Controller;
+use app\common\model\Employee;
 
 class Initialize extends Controller
 {
     protected $corp_id;
-    public function _initialize()
-    {
-        $userinfo = session('userinfo');
+    public function _initialize(){
+        $userinfo = get_userinfo();
+        if (empty($userinfo)) {
+            $userid = input('param.userid');
+            $access_token = input('param.access_token');
+            $info['status'] = false;
+            if (empty($userid) || empty($access_token)) {
+                $info['message'] = '用户id为空或token为空';
+                $info['errnum'] = 101;
+                return $info;
+            }
+            if (!check_tel($userid)) {
+                $info['message'] = '用户名格式不正确';
+                $info['errnum'] = 102;
+                return $info;
+            }
+            $corp_id = get_corpid($userid);
+            if ($corp_id == false) {
+                $info['message'] = '用户不存在';
+                $info['errnum'] = 103;
+                return $info;
+            }
+            $this->employM = new Employee($corp_id);
+            $userinfo = $this->employM->getEmployeeByTel($userid);
+            if ($userinfo['system_token'] != $access_token) {
+                $info['message'] = 'token不正确，请重新登陆';
+                $info['errnum'] = 104;
+                return $info;
+            }
+            $userinfo = set_userinfo($corp_id,$userid,$userinfo);
+        }
         if (empty($userinfo)) {
             $this->redirect('/login/index/index');
         }
         $this->corp_id = get_corpid();
-//        $this->corp_id = 'sdzhonghu';
     }
 }
