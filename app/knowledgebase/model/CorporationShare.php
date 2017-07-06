@@ -30,13 +30,15 @@ class CorporationShare extends Base{
     public function getAllCorporationShare($uid,$map=null,$order="id desc"){
         $map["create_user"] = $uid;
         $map["status"]=1;
-        $searchCustomerList = $this->model
-            ->table($this->table)
+        $corporationShareList = $this->model->table($this->table)->alias('cs')
+            ->join($this->dbprefix.'corporation_share_picture csp','csp.share_id = cs.id',"LEFT")
+            ->join($this->dbprefix.'employee e','e.id = cs.userid',"LEFT")
             ->where($map)
             ->order($order)
-            ->field("*")//TODO
+            ->group("cs.id")
+            ->field("cs.*,GROUP_CONCAT(csp.path) as img,e.truename,e.telephone,e.userpic")//TODO
             ->select();
-        return ['res'=>$searchCustomerList ,'error'=>"0"];
+        return $corporationShareList;
     }
 
     /**
@@ -59,7 +61,7 @@ class CorporationShare extends Base{
             ->order($order)
             ->limit($num)
             ->group("cs.id")
-            ->field("cs.*,GROUP_CONCAT(csp.path) as img,e.truename,e.userpic")//TODO
+            ->field("cs.*,GROUP_CONCAT(csp.path) as img,e.telephone,e.truename,e.userpic")//TODO
             ->select();
         foreach ($corporationShareList as &$corporationShare){
             $corporationShare["img"] = explode(",",$corporationShare["img"]);
@@ -82,21 +84,6 @@ class CorporationShare extends Base{
     }
 
     /**
-     * 更新动态,并返回结果
-     * @param $share array 动态信息
-     * @param $map array 动态筛选条件
-     * @return array
-     * @throws \think\Exception
-     */
-    public function updateCorporationShare($share,$map){
-        if(empty($map)){
-            return ['res'=>0 ,'error'=>"1" ,'msg'=>"更新参数错误！"];
-        }
-        $b = $this->model->table($this->table)->where($map)->data($share)->save();
-        return ['res'=>$b ,'error'=>"0"];
-    }
-
-    /**
      * 删除动态,并返回结果
      * @param $map array 动态筛选条件
      * @return array
@@ -107,6 +94,6 @@ class CorporationShare extends Base{
             return ['res'=>0 ,'error'=>"1" ,'msg'=>"缺少删除目标！"];
         }
         $b = $this->model->table($this->table)->where($map)->delete();
-        return ['res'=>$b ,'error'=>"0"];
+        return $b;
     }
 }
