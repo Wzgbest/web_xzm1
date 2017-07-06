@@ -38,7 +38,8 @@ class Employee extends Initialize{
         $end_num = $start_num+$num;
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
-        $uid = session('userinfo.userid');
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $filter = $this->_getCustomerFilter(["structure","role","on_duty","worknum","truename"]);
         $field = $this->_getCustomerField([]);
         try{
@@ -58,12 +59,14 @@ class Employee extends Initialize{
             $this->error($ex->getMessage());
         }
         $max_page = ceil($employees_count/$num);
+        $userinfo = get_userinfo();
+        $truename = $userinfo["truename"];
         $this->assign("p",$p);
         $this->assign("num",$num);
         $this->assign("filter",$filter);
         $this->assign("max_page",$max_page);
+        $this->assign("truename",$truename);
         $this->assign("start_num",$employees_count?$start_num+1:0);
-        $this->assign("truename",session('userinfo.truename'));
         $this->assign("end_num",$end_num<$employees_count?$end_num:$employees_count);
         return view();
     }
@@ -498,7 +501,9 @@ class Employee extends Initialize{
                 if ($b > 0 && $d > 0 && $f > 0 && $g > 0) {
                     $emp_delM->link->commit();
                     UserCorporation::commit();
-                    write_log(session('userinfo')['userid'],6,'删除员工'.$names.'成功',$this->corp_id);
+                    $userinfo = get_userinfo();
+                    $uid = $userinfo["userid"];
+                    write_log($uid,6,'删除员工'.$names.'成功',$this->corp_id);
                     return [
                         'status'=>true,
                         'message'=>'删除员工成功',

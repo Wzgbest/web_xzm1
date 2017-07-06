@@ -13,7 +13,7 @@ class Index extends Controller
 {
     public function index()
     {
-        $userinfo = session('userinfo');
+        $userinfo = get_userinfo();
         if (empty($userinfo)) {
             $this->redirect('/login/index/index');
         }

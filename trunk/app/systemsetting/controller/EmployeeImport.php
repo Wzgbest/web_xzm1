@@ -165,7 +165,8 @@ class EmployeeImport extends Initialize{
         }
 
         //获取批次
-        $uid = session('userinfo.userid');
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $employeeImport = new EmployeeImportRecord($this->corp_id);
         $record = $employeeImport->getNewImportEmployeeRecord($uid);
         if(!$record){
