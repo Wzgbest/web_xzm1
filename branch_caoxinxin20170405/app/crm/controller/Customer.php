@@ -227,8 +227,7 @@ class Customer extends Initialize{
         //TODO 管理员权限验证?
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
         $num = input('num',$this->paginate_list_rows,'int');
-        $p = input("p",0,"int");
-        $p = $p?:1;
+        $p = input("p",1,"int");
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
         $filter = $this->_getCustomerFilter(["belongs_to","resource_from","comm_status","take_type","tracer","guardian","add_man"]);
@@ -270,8 +269,7 @@ class Customer extends Initialize{
     protected function public_pool(){
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
         $num = input('num',$this->paginate_list_rows,'int');
-        $p = input("p",0,"int");
-        $p = $p?:1;
+        $p = input("p",1,"int");
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
@@ -293,8 +291,7 @@ class Customer extends Initialize{
     protected function anonymous_pool(){
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
         $num = input('num',$this->paginate_list_rows,'int');
-        $p = input("p",0,"int");
-        $p = $p?:1;
+        $p = input("p",1,"int");
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
@@ -315,9 +312,13 @@ class Customer extends Initialize{
     }
     public function self(){
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
-        $num = input('num',$this->paginate_list_rows,'int');
-        $p = input("p",0,"int");
-        $p = $p?:1;
+        $num=0;
+        $p=0;
+        $get_all = input("get_all",0,"int");
+        if(!$get_all){
+            $num = input('num',$this->paginate_list_rows,'int');
+            $p = input("p",1,"int");
+        }
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
@@ -340,8 +341,7 @@ class Customer extends Initialize{
         //TODO 权限验证?
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
         $num = input('num',$this->paginate_list_rows,'int');
-        $p = input("p",0,"int");
-        $p = $p?:1;
+        $p = input("p",1,"int");
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
@@ -363,8 +363,7 @@ class Customer extends Initialize{
     public function pending(){//TODO
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
         $num = input('num',$this->paginate_list_rows,'int');
-        $p = input("p",0,"int");
-        $p = $p?:1;
+        $p = input("p",1,"int");
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
         $filter = $this->_getCustomerFilter([]);

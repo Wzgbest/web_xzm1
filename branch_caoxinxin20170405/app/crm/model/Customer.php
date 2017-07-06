@@ -496,8 +496,13 @@ class Customer extends Base
 
         //分页
         $offset = 0;
-        if($page){
-            $offset = ($page-1)*$num;
+        $all_flg = 0;
+        if($num==0&&$page==0){
+            $all_flg = 1;
+        }else{
+            if($page){
+                $offset = ($page-1)*$num;
+            }
         }
 
         //筛选
@@ -577,6 +582,7 @@ class Customer extends Base
                 $listOrder = [$order=>"all_guess_money"];
                 break;
         }
+        $subOrder["cr.id"] = "desc";//电话
         $subOrder["sc.id"] = "desc";//商机
         $subOrder["cn.id"] = "desc";//沟通状态
         $subOrder["ct.id"] = "desc";//客户跟踪
@@ -601,6 +607,7 @@ class Customer extends Base
             "cc.contact_name",
             "IFNULL(cc.phone_first,c.telephone) as phone_first",
             "ct.create_time as last_trace_time",
+            "cr.begin_time as last_call_time",
             "c.take_time",//领取时间
             "ca.due_time as contract_due_time",
             "cn.wait_alarm_time as remind_time",
@@ -626,6 +633,7 @@ class Customer extends Base
             "contact_name",
             "phone_first",
             "last_trace_time",
+            "last_call_time",
             "take_time",
             "contract_due_time",
             "remind_time",
@@ -649,6 +657,7 @@ class Customer extends Base
         $subQuery = $this->model->table($this->table)->alias('c')
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'call_record cr','cr.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")//sc.employee_id = c.handle_man
             ->join($this->dbprefix.'business scb','scb.id = sc.business_id',"LEFT")
             ->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
@@ -658,12 +667,16 @@ class Customer extends Base
             ->field($subField)
             ->buildSql();
         //var_exp($subQuery,'$subQuery',1);
-        $customerList = $this->model
+        $customerQuery = $this->model
             ->table($subQuery." l")
             ->group("id")
             ->order($listOrder)
-            ->having($having)
-            ->limit($offset,$num)
+            ->having($having);
+        if(!$all_flg){
+            $customerQuery = $customerQuery
+                ->limit($offset,$num);
+        }
+        $customerList = $customerQuery
             ->field($listField)
             ->select();
         //var_exp($customerList,'$customerList',1);
@@ -694,8 +707,9 @@ class Customer extends Base
         }
         return $customerList;
     }
+
     /**
-     * 获取我的客户
+     * 获取我的客户数量
      * @param $uid int 员工id
      * @param $filter array 客户筛选条件
      * @param $order string 排序
