@@ -303,7 +303,9 @@
 			#myModal .p5 {
 				margin-left: 165px;
 			}
-			
+			#myModalone .p5 {
+				margin-left: 50px;
+			}
 			#myModal .p5 input {
 				width: 100px;
 				height: 41px;
@@ -313,7 +315,15 @@
 				color: #fff;
 				border: 1px solid #dcdcdc;
 			}
-			
+			#myModalone .p5 input {
+				width: 160px;
+				height: 41px;
+				border-radius: 10px;
+				margin-right: 60px;
+				background-color: #42a5f5;
+				color: #fff;
+				border: 1px solid #dcdcdc;
+			}
 			#myModal .p5 button {
 				width: 100px;
 				height: 41px;
@@ -322,7 +332,14 @@
 				background-color: #fff;
 				border: 1px solid #dcdcdc;
 			}
-			
+			#myModalone .p5 button {
+				width: 270px;
+				height: 41px;
+				border-radius: 10px;
+				
+				background-color: #fff;
+				border: 1px solid #dcdcdc;
+			}
 			.reveal-modal .close-reveal-modal {
 				font-size: 32px;
 				line-height: 0.5;
@@ -382,8 +399,6 @@
 			</div>
 		</div>
 		<div id="content">
-
-			
 				<div class="fold">
 					<div class="top">
 						<span>组织架构</span>
@@ -411,13 +426,11 @@
 					</p>
 				
 				</div>
-				
-		
 			<div class="dv2">
 
 				<div class="m-tableBox3">
 					<div class="m-table table3">
-						<ul class="u-tabTitle" style="position: fixed;">
+						<ul class="u-tabTitle" >
 							<li>工号<i class="fa fa-sort-desc"></i></li>
 							<li>姓名<i class="fa fa-unsorted"></i></li>
 							<li>角色</li>
@@ -434,7 +447,7 @@
 							<li>否</li>
 							<li>13345021406</li>
 							<li>10123456789@qq.com</li>
-							<li class="u-tabOperation"><span>详情</span><span class="big-link" data-reveal-id="myModal" data-animation="fade">移至</span></li>
+							<li class="u-tabOperation"><span class="big-link" data-reveal-id="myModalone" data-animation="fade">删除</span><span class="big-link" data-reveal-id="myModal" data-animation="fade">移至</span></li>
 							<div class="clearfix"></div>
 						</ul>
 					</div>
@@ -472,6 +485,16 @@
 				<p class="p5">
 					<input type="submit" value="确定" />
 					<button>取消</button>
+				</p>
+				<a class="close-reveal-modal">&#215;</a>
+			</div>
+			
+			<div id="myModalone" class="reveal-modal">
+				<p class="p1">删除</p>
+				<p class="p2">该部门有1346名员工，是否删除</p>
+				<p class="p5">
+					<input type="submit" value="是，删除员工和部门" />
+					<button>不，仅删除部门<span>（员工移至待处理员工）</span></button>
 				</p>
 				<a class="close-reveal-modal">&#215;</a>
 			</div>
