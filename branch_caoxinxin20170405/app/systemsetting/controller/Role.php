@@ -12,8 +12,12 @@ use app\common\model\Rule as RuleModel;
 use think\Request;
 use app\systemsetting\controller\Employee as EmployeeController;
 
-class Role extends Initialize
-{
+class Role extends Initialize{
+    var $paginate_list_rows = 10;
+    public function _initialize(){
+        parent::_initialize();
+        $this->paginate_list_rows = config("paginate.list_rows");
+    }
     /**
      * 首页显示
      * @return \think\response\View
@@ -23,6 +27,11 @@ class Role extends Initialize
     {
         $roleM = new RoleModel();
         $roles = $roleM->getAllRole();
+        $this->assign('roles',$roles);
+        return view();
+    }
+
+    public function rule_manage(){
         /*$rules_str_arr = array_column($roles,"rules");
         $rule_ids = [];
         foreach ($rules_str_arr as $rules_str){
@@ -40,15 +49,40 @@ class Role extends Initialize
             $role["rules"] = $rules_arr;
         }
         $this->assign('rules',$rules);*/
-        $this->assign('roles',$roles);
-        return view();
-    }
-
-    public function rule_manage(){
         return view();
     }
 
     public function employee_list(){
+        $rule_id = input("id",0,"int");
+        if(!$rule_id){
+            $this->error("参数错误!");
+        }
+        $num = input('num',$this->paginate_list_rows,'int');
+        $p = input("p",1,"int");
+        $employees_count=0;
+        $start_num = ($p-1)*$num;
+        $end_num = $start_num+$num;
+        try{
+            $employeeM = new Employee();
+            $employee_list = $employeeM->getEmployeeByRole($rule_id,$start_num,$num);
+            //var_exp($employee_list,'$employee_list',1);
+            $this->assign('listdata',$employee_list);
+            $employees_count = $employeeM->getEmployeeCountByRole($rule_id);
+            //var_exp($employees_count,'$employees_count',1);
+            $this->assign("count",$employees_count);
+        }catch (\Exception $ex){
+            $this->error($ex->getMessage());
+        }
+        $max_page = ceil($employees_count/$num);
+        $userinfo = get_userinfo();
+        $truename = $userinfo["truename"];
+        $this->assign("p",$p);
+        $this->assign("num",$num);
+        $this->assign("id",$rule_id);
+        $this->assign("max_page",$max_page);
+        $this->assign("truename",$truename);
+        $this->assign("start_num",$employees_count?$start_num+1:0);
+        $this->assign("end_num",$end_num<$employees_count?$end_num:$employees_count);
         return view();
     }
 

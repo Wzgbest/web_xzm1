@@ -3,7 +3,7 @@
     <p class="p1 employee_manage activity">成员管理</p>
 </div>
 <div class="employee_list">
-    <div class="m-tableBox3">
+    <div class="m-tableBox">
         <div class="m-table table3">
             <ul class="u-tabTitle">
                 <li>工号<i class="fa fa-sort-desc"></i></li>
@@ -15,31 +15,41 @@
                 <li>操作</li>
                 <div class="clearfix"></div>
             </ul>
-            <ul class="u-tabList" >
-                <li>001</li>
-                <li>李理</li>
-                <li>销售一部</li>
-                <li>13345021406</li>
-                <li>是</li>
-                <li>2017/07/01/15:10</li>
-                <li class="u-tabOperation"><span>详情</span><span>移除</span></li>
+            {volist name="listdata" id="vo"}
+            <ul class="u-tabList">
+                <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+                <li>{$vo.worknum}</li>
+                <li>{$vo.truename}</li>
+                <li>{$vo.struct_name}</li>
+                <li>{$vo.telephone}</li>
+                <li>{eq name="vo.is_leader" value="1"}是{else/}否{/eq}</li>
+                <li>{$vo.create_time|time_format}</li>
+                <li class="u-tabOperation">
+                    <span onclick="employee_list_show('{$vo.id}');">详情</span>
+                    <span onclick="employee_list_del('{$vo.id}');">移除</span>
+                </li>
                 <div class="clearfix"></div>
             </ul>
+            {/volist}
         </div>
     </div>
     <div class="u-tabControlRow">
         <span>显示行数</span>
-        <select onchange="listNumChange()">
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+        <select>
+            <option value="5" {eq name="num" value="5"} selected="selected"{/eq}>5</option>
+            <option value="10" {eq name="num" value="10"} selected="selected"{/eq}>10</option>
+            <option value="20" {eq name="num" value="20"} selected="selected"{/eq}>20</option>
         </select>
-        <span>1-10条/</span>
-        <span>共50条</span>
-        <button>上一页</button>
-        <button>下一页</button>
+        <span>{$start_num}-{$end_num}条/</span>
+        <span>共{$count}条</span>
+        <button class="employee_list_previous_page previous_page {eq name='p' value='1'} disabled{/eq}">上一页</button>
+        <button class="employee_list_next_page next_page {eq name='p' value='$max_page'} disabled{/eq}">下一页</button>
         <span>前往</span>
-        <input type="text" />
+        <input class="employee_list_jump_page jump_page" type="text" />
         <span>页</span>
     </div>
 </div>
+<script src="/static/js/list_manage.js"></script>
+<script language="javascript">
+    var employee_list_list_manage = new list_manage("content","role-managementfr","/systemsetting/role/employee_list/id/{$id}",'{$p}','{$num}','{$max_page}','0'," .dv2");
+</script>
