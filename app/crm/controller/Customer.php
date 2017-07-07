@@ -60,6 +60,7 @@ class Customer extends Initialize{
         $this->assign("filter",$filter);
         $this->assign("max_page",$max_page);
         $this->assign("truename",$truename);
+        $this->assign("customers_count",$customers_count);
         $this->assign("start_num",$customers_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view();
@@ -98,6 +99,7 @@ class Customer extends Initialize{
         $this->assign("filter",$filter);
         $this->assign("max_page",$max_page);
         $this->assign("in_column",$in_column);
+        $this->assign("customers_count",$customers_count);
         $this->assign("start_num",$customers_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view();
@@ -173,6 +175,7 @@ class Customer extends Initialize{
         $this->assign("num",$num);
         $this->assign("filter",$filter);
         $this->assign("max_page",$max_page);
+        $this->assign("customers_count",$customers_count);
         $this->assign("start_num",$customers_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view($view_name);

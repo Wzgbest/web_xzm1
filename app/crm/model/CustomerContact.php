@@ -35,7 +35,7 @@ class CustomerContact extends Base
         return $this->model->table($this->table)->alias('cc')
             ->join($this->dbprefix.'employee e','cc.create_user = e.id',"LEFT")
             ->where('customer_id',$customer_id)
-            ->field("cc.*,e.truename as create_user_name")
+            ->field("cc.*,e.truename as create_user_name,e.telephone as create_user_telephone")
             ->select();
     }
 

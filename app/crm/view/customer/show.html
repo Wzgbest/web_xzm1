@@ -21,12 +21,21 @@
             <div>
                 <span class="cont">客户名称：</span>
                 <span class="cont-x">{$customer.customer_name}</span>
-                <span class="cont">客户编码：</span>
-                <span class="cont-x number">{$customer.id}</span>
+                <span class="cont">沟通状态：</span>
+                <span class="cont-x number">
+                        {switch	name="customer.comm_status"}
+                        {case value="1"}无意向{/case}
+                        {case value="2"}号码无效{/case}
+                        {case value="3"}资料有误{/case}
+                        {case value="4"}未接通{/case}
+                        {case value="5"}待定{/case}
+                        {case value="6"}有意向{/case}
+                        {/switch}
+                </span>
             </div>
             <div>
-                <span class="cont">联系人：</span>
-                <span class="cont-x"></span>
+                <span class="cont">客户编码：</span>
+                <span class="cont-x">{$customer.id}</span>
                 <span class="cont">客户级别：</span>
                 <span class="cont-x color-blue">{$customer.grade}<i class="fa fa-caret-right" style="margin-left: 5px;"></i></span>
             </div>
