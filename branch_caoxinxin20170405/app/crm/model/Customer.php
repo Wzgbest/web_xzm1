@@ -1274,8 +1274,7 @@ class Customer extends Base
             "ct_id",*/
             "(case when phone_correct = 0 and profile_correct = 0 then 8 when tend_to = 0 then 6 when is_wait = 0 then 5 when sale_status = 0 then 7 when ct_id = '' or ct_id is null then 2 when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >".$to_halt_day_max." then 4 when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >3 then 4 else 3 end ) as in_column",
         ];
-        $countField = [
-            "count(*) as `0`",
+        $getCountField = [
             "(case when in_column = 1 then 1 else 0 end) as `1`",
             "(case when in_column = 2 then 1 else 0 end) as `2`",
             "(case when in_column = 3 then 1 else 0 end) as `3`",
@@ -1284,6 +1283,17 @@ class Customer extends Base
             "(case when in_column = 6 then 1 else 0 end) as `6`",
             "(case when in_column = 7 then 1 else 0 end) as `7`",
             "(case when in_column = 8 then 1 else 0 end) as `8`",
+        ];
+        $countField = [
+            "count(*) as `0`",
+            "sum(`1`) as `1`",
+            "sum(`2`) as `2`",
+            "sum(`3`) as `3`",
+            "sum(`4`) as `4`",
+            "sum(`5`) as `5`",
+            "sum(`6`) as `6`",
+            "sum(`7`) as `7`",
+            "sum(`8`) as `8`",
         ];
         $subQuery = $this->model->table($this->table)->alias('c')
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
@@ -1301,8 +1311,13 @@ class Customer extends Base
             ->field($listField)
             ->buildSql();
         //var_exp($customerQuery,'$customerQuery',1);
+        $getListCount = $this->model
+            ->table($customerQuery." glc")
+            ->field($getCountField)
+            ->buildSql();
+        //var_exp($getListCount,'$listCount');
         $listCount = $this->model
-            ->table($customerQuery." lc")
+            ->table($getListCount." lc")
             ->field($countField)
             ->find();
         //var_exp($listCount,'$listCount',1);
