@@ -330,6 +330,9 @@ function getTakeTypeFromName($resource_from){
 function getInColumnName($in_column){
     $in_column_name = null;
     switch ($in_column){
+        case 0:
+            $in_column_name = "我的所有客户";
+            break;
         case 1:
             $in_column_name = "待沟通";
             break;
