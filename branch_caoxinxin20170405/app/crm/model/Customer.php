@@ -1275,15 +1275,15 @@ class Customer extends Base
             "(case when phone_correct = 0 and profile_correct = 0 then 8 when tend_to = 0 then 6 when is_wait = 0 then 5 when sale_status = 0 then 7 when ct_id = '' or ct_id is null then 2 when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >".$to_halt_day_max." then 4 when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >3 then 4 else 3 end ) as in_column",
         ];
         $countField = [
-            "count(*) as column_all",
-            "(case when in_column = 1 then 1 else 0 end) as column_1",
-            "(case when in_column = 2 then 1 else 0 end) as column_2",
-            "(case when in_column = 3 then 1 else 0 end) as column_3",
-            "(case when in_column = 4 then 1 else 0 end) as column_4",
-            "(case when in_column = 5 then 1 else 0 end) as column_5",
-            "(case when in_column = 6 then 1 else 0 end) as column_6",
-            "(case when in_column = 7 then 1 else 0 end) as column_7",
-            "(case when in_column = 8 then 1 else 0 end) as column_8",
+            "count(*) as `0`",
+            "(case when in_column = 1 then 1 else 0 end) as `1`",
+            "(case when in_column = 2 then 1 else 0 end) as `2`",
+            "(case when in_column = 3 then 1 else 0 end) as `3`",
+            "(case when in_column = 4 then 1 else 0 end) as `4`",
+            "(case when in_column = 5 then 1 else 0 end) as `5`",
+            "(case when in_column = 6 then 1 else 0 end) as `6`",
+            "(case when in_column = 7 then 1 else 0 end) as `7`",
+            "(case when in_column = 8 then 1 else 0 end) as `8`",
         ];
         $subQuery = $this->model->table($this->table)->alias('c')
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")

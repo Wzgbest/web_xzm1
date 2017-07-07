@@ -167,3 +167,11 @@
 	background-color: #fff;
 	border: 1px solid #dcdcdc;
 }
+.sys_employee_list .employee_info #content .right{
+	/*width: 100px;*/
+	/*background-color: red;*/
+	display: inline-block;
+	text-align: left;
+	margin-left: 15px;
+	width:78px;
+}
