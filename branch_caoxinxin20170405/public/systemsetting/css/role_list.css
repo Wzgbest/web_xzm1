@@ -159,8 +159,8 @@
 
 }
 .systemsetting_role .dv1 .role p{
-    font-size: 14px;
-    margin-left: 15px;
+    font-size: 18px;
+    margin-left: 25px;
     line-height: 42px;
 }
 .systemsetting_role .dv1 ul li{
@@ -180,7 +180,7 @@
     display: inline-block;
     width: 160px;
     line-height: 40px;
-    margin-left: 20px;
+    margin-left: 15px;
     font-size: 14px;
     vertical-align: middle;
 }
