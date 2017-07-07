@@ -18,13 +18,15 @@ class Structure extends Initialize
      * @return \think\response\View
      * created by messhair
      */
-    public function index()
-    {
+    public function index(){
+        $root_id = 1;
         $struM = new StructureModel();
         $structs = $struM->getAllStructure();
         $tree = new \myvendor\Tree($structs,['id','struct_pid']);
-        $res = $tree->leaf(1);
+        $res = $tree->leaf($root_id);
         $this->assign('struct',$res);
+        $this->assign('struct_json',json_encode($res));
+        $this->assign('root_id',$root_id);
         return view();
     }
 

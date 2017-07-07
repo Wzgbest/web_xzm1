@@ -152,13 +152,13 @@
     width: 42px;
     height: 18px;
 }
-.systemsetting_role .dv1 .role{
+.systemsetting_role .dv1 .title{
     width: 246px;
     height: 42px;
     border-bottom: 1px solid #eee;
 
 }
-.systemsetting_role .dv1 .role p{
+.systemsetting_role .dv1 .title p{
     font-size: 18px;
     margin-left: 25px;
     line-height: 42px;
