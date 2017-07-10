@@ -272,14 +272,35 @@ class Employee extends Base{
 
     /**
      * 根据角色id查询员工信息
-     * @param $role_id 员工id
+     * @param $role_id int 员工id
+     * @param $page_first int 开始数量
+     * @param $page_rows int 获取数量
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
     public function getEmployeeByRole($role_id, $page_first=0, $page_rows = 10)
     {
-        $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`worknum`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employee` `a` INNER JOIN `'.$this->dbprefix.'structure_employee` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` WHERE `a`.`role`='.$role_id.' GROUP BY `a`.`id` order by `a`.`worknum` LIMIT '.$page_first.','.$page_rows.';';
+        $sql = 'SELECT `a`.`id`,`a`.`truename`,`a`.`role`,`a`.`telephone`,`a`.`is_leader`,`a`.`worknum`,`a`.`create_time`,GROUP_CONCAT(`d`.`struct_name`) as `struct_name` FROM `'.$this->dbprefix.'employee` `a` INNER JOIN `'.$this->dbprefix.'structure_employee` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` WHERE find_in_set('.$role_id.',`a`.`role`) GROUP BY `a`.`id` order by `a`.`worknum` LIMIT '.$page_first.','.$page_rows.';';
         return $this->model->table($this->table)->query($sql);
+    }
+
+    /**
+     * 根据角色id查询员工数量
+     * @param $role_id int 员工id
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
+     */
+    public function getEmployeeCountByRole($role_id)
+    {
+        $sql = 'select count(*) as `count` from ( SELECT a.id FROM `'.$this->dbprefix.'employee` `a` INNER JOIN `'.$this->dbprefix.'structure_employee` `c` ON `a`.`id`=`c`.`user_id` INNER JOIN `'.$this->dbprefix.'structure` `d` ON `c`.`struct_id`=`d`.`id` WHERE find_in_set('.$role_id.',`a`.`role`) GROUP BY `a`.`id` ) t;';
+        $count = $this->model->table($this->table)->query($sql);
+        //var_exp($count,'$count',1);
+        if($count){
+            $count = $count[0]["count"];
+        }else{
+            $count = 0;
+        }
+        return $count;
     }
 
     /**
