@@ -31,30 +31,55 @@ function tree(config) {
     var self = this;
 
     //get html by tree
-    this.get_html=function(node){
+    this.get_html=function(node,head){
+        //console.log(head);
+        var level = head.length;
         var html = '';
-        var lenght = node.length;
-        for(var i=0;i<lenght;i++){
+        var node_length = node.length;
+        for(var i=0;i<node_length;i++){
             var sub_node = node[i];
-            var class_str = '';
+            var class_str = ' level'+level;
+            var plus_str = '';
             var child_str = '';
-            if(i+1==lenght){
+            var is_last_node = false;
+            if(i+1==node_length){
                 class_str+=" is_last";
+                is_last_node = true;
+            }
+            for(var j=1;j<=level;j++){
+                var is_last_head = j==level;
+                if(is_last_head){
+                    if(is_last_node){
+                        plus_str+='<img class="node_branch_last" src="/static/images/none.png"/>';
+                    }else{
+                        plus_str+='<img class="node_branch" src="/static/images/none.png"/>';
+                    }
+                }else{
+                    if(head[j]){
+                        plus_str+='<img class="node_none" src="/static/images/none.png"/>';
+                    }else{
+                        plus_str+='<img class="node_line" src="/static/images/none.png"/>';
+                    }
+                }
             }
             if(sub_node.hasOwnProperty("child")){
                 child_str+='<div class="child_list child_list'+sub_node["id"]+' hide">';
-                child_str+=self.get_html(sub_node["child"]);
+                var head_sub = head.concat();
+                head_sub.push(is_last_node);
+                child_str+=self.get_html(sub_node["child"],head_sub);
                 child_str+='</div>';
+                plus_str+='<img class="node_plus" src="/static/images/none.png"/>';
             }else{
                 class_str+=" is_leaf";
             }
             html+='<div class="node node'+sub_node["id"];
             html+=class_str+'" node_id="'+sub_node["id"]+'">';
             html+='<div class="node_item">';
+            html+=plus_str;
             html+='<span class="node_name">'+sub_node["struct_name"]+'</span>';
-            html+='<img class="node_tool del" src="/systemsetting/images/del.png" />';
-            html+='<img class="node_tool info" src="/systemsetting/images/compile.png" />';
             html+='<img class="node_tool add" src="/systemsetting/images/add.png" />';
+            html+='<img class="node_tool info" src="/systemsetting/images/compile.png" />';
+            html+='<img class="node_tool del" src="/systemsetting/images/del.png" />';
             html+='</div>'+child_str+'</div>';
         }
         return html;
@@ -67,44 +92,50 @@ function tree(config) {
         }
     };
     this.update=function(){
-        this.tree_html = '<div class="five_tree">'+this.get_html(this.data,1)+'</div>';
+        this.tree_html = '<div class="five_tree">'+this.get_html(this.data,[true])+'</div>';
         $(this.target).html(this.tree_html);
     };
     this.update();
-    $(this.target).on('click','.node_item',function(){
+    this.getItem=function(sel_lab){
+        return $(sel_lab).parent().parent();
+    };
+    this.getId=function(sel_lab){
+        return this.getItem(sel_lab).attr("node_id");
+    };
+    $(this.target).on('click','.node_plus',function(){
         var is_plus = !$(this).hasClass("node_sub");
         if(is_plus){
-            $(this).parent().children(".child_list").removeClass('hide');
+            self.getItem(this).children(".child_list").removeClass('hide');
             $(this).addClass('node_sub');
         }else{
-            $(this).parent().children(".child_list").addClass('hide');
+            self.getItem(this).children(".child_list").addClass('hide');
             $(this).removeClass('node_sub');
         }
     });
     $(this.target).on('click','.node_name',function(){
         if(self.listen_arr.selFun!=null){
-            var id = $(this).parent().attr("node_id");
+            var id = self.getId(this);
             console.log("sel",id);
             self.listen_arr.selFun(id);
         }
     });
     $(this.target).on('click','.node .add',function(){
         if(self.listen_arr.addFun!=null){
-            var id = $(this).parent().attr("node_id");
+            var id = self.getId(this);
             console.log("add",id);
             self.listen_arr.addFun(id);
         }
     });
     $(this.target).on('click','.node .info',function(){
         if(self.listen_arr.editFun!=null){
-            var id = $(this).parent().attr("node_id");
+            var id = self.getId(this);
             console.log("info",id);
             self.listen_arr.editFun(id);
         }
     });
     $(this.target).on('click','.node .del',function(){
         if(self.listen_arr.delFun!=null){
-            var id = $(this).parent().attr("node_id");
+            var id = self.getId(this);
             console.log("del",id);
             self.listen_arr.delFun(id);
         }

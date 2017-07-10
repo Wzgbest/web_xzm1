@@ -5,12 +5,46 @@
 }
 .five_tree .node .node_item {
     height: 42px;
-    padding-left: 20px;
-    background: url('/systemsetting/images/pane_plus.png') no-repeat 5px;
+}
+.five_tree .is_leaf .node_item {
+    padding-left: 0;
+    background: none;
+}
+.five_tree .node .node_plus {
+    display: inline-block;
+    width:20px;
+    height:42px;
+    background: url('/systemsetting/images/pane_plus.png') no-repeat;
+}
+.five_tree .node .node_sub {
+    background: url('/systemsetting/images/pane_sub.png') no-repeat;
+}
+.five_tree .node .node_none {
+    display: inline-block;
+    width:20px;
+    height:42px;
+    background: none;
+}
+.five_tree .node .node_line {
+    display: inline-block;
+    width:20px;
+    height:42px;
+    background: url('/systemsetting/images/line.png') no-repeat;
+}
+.five_tree .node .node_branch {
+    display: inline-block;
+    width:20px;
+    height:42px;
+    background: url('/systemsetting/images/branch.png') no-repeat;
+}
+.five_tree .node .node_branch_last {
+    display: inline-block;
+    width:20px;
+    height:42px;
+    background: url('/systemsetting/images/branch_last.png') no-repeat;
 }
 .five_tree .node .node_name {
     display: inline-block;
-    width: 60px;
     margin: 12px 0 0 8px;
 }
 .five_tree .node .node_item .node_tool{
@@ -23,13 +57,6 @@
 .five_tree .node .node_item:hover .node_tool{
     display: inline-block;
 }
-.five_tree .node .node_sub {
-    background: url('/systemsetting/images/pane_sub.png') no-repeat 5px;
-}
 .five_tree .node .child_list {
-    margin-left: 20px;
-}
-.five_tree .is_leaf .node_item {
-    padding-left: 0;
-    background: none;
+    /*margin-left: 20px;*/
 }
