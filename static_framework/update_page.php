@@ -21,6 +21,7 @@ $page_list[] = ["systemsetting","corporation","editcorpinfo",""];
 $page_list[] = ["systemsetting","customer","index",""];
 $page_list[] = ["systemsetting","customer","add_page",""];
 $page_list[] = ["systemsetting","customer","edit_page","id/7"];
+$page_list[] = ["systemsetting","structure","index",""];
 $page_list[] = ["systemsetting","role","index",""];
 $page_list[] = ["systemsetting","role","rule_manage","id/1"];
 $page_list[] = ["systemsetting","role","employee_list","id/1"];

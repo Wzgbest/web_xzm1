@@ -3,7 +3,7 @@
     <p class="p1 employee_manage activity">成员管理</p>
 </div>
 <div class="employee_list">
-    <div class="m-tableBox3">
+    <div class="m-tableBox">
         <div class="m-table table3">
             <ul class="u-tabTitle">
                 <li>工号<i class="fa fa-sort-desc"></i></li>
@@ -15,31 +15,137 @@
                 <li>操作</li>
                 <div class="clearfix"></div>
             </ul>
-            <ul class="u-tabList" >
-                <li>001</li>
-                <li>李理</li>
-                <li>销售一部</li>
-                <li>13345021406</li>
+                        <ul class="u-tabList">
+                <li class="u-tabCheckbox"><input type="checkbox" value="50"/></li>
+                <li>NB74110</li>
+                <li>李华</li>
+                <li>潍坊中迅</li>
+                <li>15858585518</li>
                 <li>是</li>
-                <li>2017/07/01/15:10</li>
-                <li class="u-tabOperation"><span>详情</span><span>移除</span></li>
+                <li></li>
+                <li class="u-tabOperation">
+                    <span onclick="employee_list_show('50');">详情</span>
+                    <span onclick="employee_list_del('50');">移除</span>
+                </li>
                 <div class="clearfix"></div>
             </ul>
-        </div>
+                        <ul class="u-tabList">
+                <li class="u-tabCheckbox"><input type="checkbox" value="1"/></li>
+                <li>NO000001</li>
+                <li>李洪金</li>
+                <li>销售一部</li>
+                <li>13322223333</li>
+                <li>否</li>
+                <li>2017-01-12 16:24</li>
+                <li class="u-tabOperation">
+                    <span onclick="employee_list_show('1');">详情</span>
+                    <span onclick="employee_list_del('1');">移除</span>
+                </li>
+                <div class="clearfix"></div>
+            </ul>
+                        <ul class="u-tabList">
+                <li class="u-tabCheckbox"><input type="checkbox" value="6"/></li>
+                <li>NO000006</li>
+                <li>肖文昌</li>
+                <li>潍坊中迅</li>
+                <li>13311111111</li>
+                <li>否</li>
+                <li></li>
+                <li class="u-tabOperation">
+                    <span onclick="employee_list_show('6');">详情</span>
+                    <span onclick="employee_list_del('6');">移除</span>
+                </li>
+                <div class="clearfix"></div>
+            </ul>
+                        <ul class="u-tabList">
+                <li class="u-tabCheckbox"><input type="checkbox" value="9"/></li>
+                <li>NO000009</li>
+                <li>李华宝</li>
+                <li>总公司</li>
+                <li>13311116666</li>
+                <li>否</li>
+                <li></li>
+                <li class="u-tabOperation">
+                    <span onclick="employee_list_show('9');">详情</span>
+                    <span onclick="employee_list_del('9');">移除</span>
+                </li>
+                <div class="clearfix"></div>
+            </ul>
+                        <ul class="u-tabList">
+                <li class="u-tabCheckbox"><input type="checkbox" value="11"/></li>
+                <li>NO000011</li>
+                <li>董倩</li>
+                <li>潍坊中迅</li>
+                <li>13311119999</li>
+                <li>否</li>
+                <li></li>
+                <li class="u-tabOperation">
+                    <span onclick="employee_list_show('11');">详情</span>
+                    <span onclick="employee_list_del('11');">移除</span>
+                </li>
+                <div class="clearfix"></div>
+            </ul>
+                        <ul class="u-tabList">
+                <li class="u-tabCheckbox"><input type="checkbox" value="63"/></li>
+                <li>NO000019</li>
+                <li>都是发生的</li>
+                <li>总公司</li>
+                <li>13366666666</li>
+                <li>否</li>
+                <li></li>
+                <li class="u-tabOperation">
+                    <span onclick="employee_list_show('63');">详情</span>
+                    <span onclick="employee_list_del('63');">移除</span>
+                </li>
+                <div class="clearfix"></div>
+            </ul>
+                        <ul class="u-tabList">
+                <li class="u-tabCheckbox"><input type="checkbox" value="66"/></li>
+                <li>NO000020</li>
+                <li>测试哈</li>
+                <li>总公司</li>
+                <li>15678987656</li>
+                <li>否</li>
+                <li></li>
+                <li class="u-tabOperation">
+                    <span onclick="employee_list_show('66');">详情</span>
+                    <span onclick="employee_list_del('66');">移除</span>
+                </li>
+                <div class="clearfix"></div>
+            </ul>
+                        <ul class="u-tabList">
+                <li class="u-tabCheckbox"><input type="checkbox" value="68"/></li>
+                <li>NO000022</li>
+                <li>随便</li>
+                <li>总公司</li>
+                <li>15656565656</li>
+                <li>否</li>
+                <li></li>
+                <li class="u-tabOperation">
+                    <span onclick="employee_list_show('68');">详情</span>
+                    <span onclick="employee_list_del('68');">移除</span>
+                </li>
+                <div class="clearfix"></div>
+            </ul>
+                    </div>
     </div>
     <div class="u-tabControlRow">
         <span>显示行数</span>
-        <select onchange="listNumChange()">
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+        <select>
+            <option value="5" >5</option>
+            <option value="10"  selected="selected">10</option>
+            <option value="20" >20</option>
         </select>
-        <span>1-10条/</span>
-        <span>共50条</span>
-        <button>上一页</button>
-        <button>下一页</button>
+        <span>1-8条/</span>
+        <span>共8条</span>
+        <button class="employee_list_previous_page previous_page  disabled">上一页</button>
+        <button class="employee_list_next_page next_page  disabled">下一页</button>
         <span>前往</span>
-        <input type="text" />
+        <input class="employee_list_jump_page jump_page" type="text" />
         <span>页</span>
     </div>
 </div>
+<script src="/static/js/list_manage.js"></script>
+<script language="javascript">
+    var employee_list_list_manage = new list_manage("content","role-managementfr","/systemsetting/role/employee_list/id/1",'1','10','1','0'," .dv2");
+</script>
