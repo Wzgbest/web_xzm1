@@ -31,6 +31,42 @@ class Structure extends Initialize
     }
 
     /**
+     * 添加部门
+     * @return string json
+     * created by blu10ph
+     */
+    public function add(){
+        $result = ['status'=>0 ,'info'=>"添加部门时发生错误！"];
+        $pid = input("pid",0,"int");
+        $name = input("name");
+        $max_deep_level = 5;
+        if($pid<=0||!$name){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        try{
+            $struM = new StructureModel();
+            $check_flg = $struM->checkStructureLevelDeep($pid,$max_deep_level);
+            if(!$check_flg){
+                exception("部门层级达到上限");
+            }
+            $add_data['struct_pid'] = $pid;
+            $add_data['struct_name'] = $name;
+            $add_flg = $struM->addStructure($add_data);
+            if(!$check_flg){
+                exception("添加部门失败!");
+            }
+            $result['data'] = $add_flg;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "添加部门成功！";
+        return json($result);
+    }
+
+    /**
      * 显示指定部门的员工
      * @param $struct_id 部门id
      * @return \think\response\View
@@ -43,19 +79,6 @@ class Structure extends Initialize
         $data = $employeeM->getEmployeeByStructId($struct_id,$page_now_num,$page_row);
         $res = ['data'=>$data,'page'=>['page_now_num'=>$page_now_num,'page_row'=>$page_row,'total_num'=>$total_num]];
         return $res;
-    }
-
-    /**
-     * 显示员工详情
-     * @param \app\systemsetting\controller\Employee $employee
-     * @param $user_id 员工id
-     * @return array|false|\PDOStatement|string|\think\Model
-     * created by messhair
-     */
-    public function showEmployeeInfo(Employee $employee, $user_id)
-    {
-        $info = $employee->showSingleEmployeeInfo($user_id);
-        return $info;
     }
 
     /**
