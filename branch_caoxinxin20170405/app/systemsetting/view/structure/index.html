@@ -1,25 +1,3 @@
-<div>
-    <div>
-        {$struct|var_exp='$struct'}
-    </div>
-    <div>
-        {notempty name="struct"}{volist name="struct" id="vo"}
-            ├{$vo.id}:{$vo.struct_name};<br/>
-            {notempty name="vo.child"}{volist name="vo.child" id="voc"}
-                &nbsp;&nbsp;├{$voc.id}:{$voc.struct_name};<br/>
-                {notempty name="voc.child"}{volist name="voc.child" id="vocc"}
-                    &nbsp;&nbsp;&nbsp;&nbsp;├{$vocc.id}:{$vocc.struct_name};<br/>
-                    {notempty name="vocc.child"}{volist name="vocc.child" id="voccc"}
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├{$voccc.id}:{$voccc.struct_name};<br/>
-                        {notempty name="voccc.child"}{volist name="voccc.child" id="vocccc"}
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├{$vocccc.id}:{$vocccc.struct_name};<br/>
-                        {/volist}{/notempty}
-                    {/volist}{/notempty}
-                {/volist}{/notempty}
-            {/volist}{/notempty}
-        {/volist}{/notempty}
-    </div>
-</div>
 <div class="structure_list">
     <div class="top">
         <ul class="firNav">
