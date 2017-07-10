@@ -106,7 +106,7 @@
 }
 
 .systemsetting_role .content .dv2 {
-    width: 870px;
+    width: 800px;
     height: 800px;
     float: left;
 }
@@ -152,15 +152,15 @@
     width: 42px;
     height: 18px;
 }
-.systemsetting_role .dv1 .role{
+.systemsetting_role .dv1 .title{
     width: 246px;
     height: 42px;
     border-bottom: 1px solid #eee;
 
 }
-.systemsetting_role .dv1 .role p{
-    font-size: 14px;
-    margin-left: 15px;
+.systemsetting_role .dv1 .title p{
+    font-size: 18px;
+    margin-left: 25px;
     line-height: 42px;
 }
 .systemsetting_role .dv1 ul li{
@@ -180,7 +180,7 @@
     display: inline-block;
     width: 160px;
     line-height: 40px;
-    margin-left: 20px;
+    margin-left: 15px;
     font-size: 14px;
     vertical-align: middle;
 }
@@ -205,6 +205,10 @@
     border: 1px solid #e5e5e5;
     margin-left: 25px;
 
+}
+.systemsetting_role .m-tableBox{
+    margin-top: 0;
+    margin-left: 25px;
 }
 .systemsetting_role .tab_1{
     width: 133px;

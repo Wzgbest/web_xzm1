@@ -45,15 +45,6 @@ function check_alipay_account ($alipay) {
     return false;
 }
 
-function set_cache_by_tel($telephone, $name, $data, $config=null){
-    cache("user_cache_".$telephone."_".$name,$data);
-}
-
-function get_cache_by_tel($telephone, $name){
-    $data = cache("user_cache_".$telephone."_".$name);
-    return $data;
-}
-
 /**
  * 权限验证
  * @param $rule 权限名称 string
@@ -71,6 +62,16 @@ function check_auth ($rule,$uid) {
         return true;
     }
 }
+
+function set_cache_by_tel($telephone, $name, $data, $config=null){
+    cache("user_cache_".$telephone."_".$name,$data);
+}
+
+function get_cache_by_tel($telephone, $name){
+    $data = cache("user_cache_".$telephone."_".$name);
+    return $data;
+}
+
 function set_userinfo($corp_id,$telephone,$user_arr){
     $userinfo = [
         'corp_id'=>$corp_id,

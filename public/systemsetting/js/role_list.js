@@ -7,6 +7,10 @@
 // +----------------------------------------------------------------------
 var role_list_panel_base = "#frames #role-managementfr .systemsetting_role .content";
 var panel = role_list_panel_base+" .dv2";
+$(window).resize(function() {
+    $("#frames .once").width(window.innerWidth-220);
+    $("#frames .once").height(window.innerHeight-80);
+});
 function findRoleId(target){
     return $(target).parent().attr("role_id");
 }
