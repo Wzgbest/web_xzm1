@@ -19,7 +19,7 @@ class Structure extends Initialize
      * created by messhair
      */
     public function index(){
-        $root_id = 1;
+        $root_id = 0;
         $struM = new StructureModel();
         $structs = $struM->getAllStructure();
         $tree = new \myvendor\Tree($structs,['id','struct_pid']);

@@ -121,11 +121,7 @@
         var structure_tree_panel = "#division-managementfr .structure_list .content .structure_tree";
         var structure_tree = new tree({
             target:structure_tree_panel,
-            data:'{$struct_json}',
-            selFun:function(id){console.log("hlselFun",id);},
-            addFun:function(id){console.log("hladdFun",id);},
-            editFun:function(id){console.log("hleditFun",id);},
-            delFun:function(id){console.log("hldelFun",id);}
+            data:'{$struct_json}'
         });
     </script>
     <script type="text/javascript" src="/systemsetting/js/structure_list.js"></script>
