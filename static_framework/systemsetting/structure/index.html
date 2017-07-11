@@ -1,0 +1,132 @@
+<div class="structure_list">
+    <div class="top">
+        <ul class="firNav">
+            <li class="current">
+                <div>部门管理</div>
+            </li>
+        </ul>
+
+        <div class="add">
+            <i class="fa fa-plus fa-2x"></i>
+            <p>新增</p>
+        </div>
+    </div>
+    <div class="content">
+        <div class="fold">
+            <div class="title">
+                <span>组织架构</span>
+                <i class="fa fa-plus"></i>
+            </div>
+            <div class="structure_tree">
+                <p class="zk_1 ">
+                    <span class="sp1">CEO</span>
+                    <img src="/systemsetting/images/add.png" class="onepng"/><img src="/systemsetting/images/compile.png" /><img src="/systemsetting/images/del.png" />
+                </p>
+                <p class="zk_2 zk zk_k">
+                    <span>销售部</span>
+                    <img src="/systemsetting/images/add.png" class="onepng"/><img src="/systemsetting/images/compile.png" /><img src="/systemsetting/images/del.png" />
+                </p>
+                <ul class="zk_3 zk">
+                    <li class="leaf">销售一部<img src="/systemsetting/images/add.png" class="onepng"/><img src="/systemsetting/images/compile.png" /><img src="/systemsetting/images/del.png" /> </li>
+                    <li class="leaf">销售二部<img src="/systemsetting/images/add.png" class="onepng"/><img src="/systemsetting/images/compile.png" /><img src="/systemsetting/images/del.png" /></li>
+                    <li class="leaf">销售三部<img src="/systemsetting/images/add.png" class="onepng"/><img src="/systemsetting/images/compile.png" /><img src="/systemsetting/images/del.png" /></li>
+                    <li class="leaf last_ul">销售四部<img src="/systemsetting/images/add.png" class="onepng"/><img src="/systemsetting/images/compile.png" /><img src="/systemsetting/images/del.png" /></li>
+                </ul>
+                <p class="zk_2 zk zk_shichang">
+                    <span>市场部</span>
+                    <img src="/systemsetting/images/add.png" class="onepng"/><img src="/systemsetting/images/compile.png" /><img src="/systemsetting/images/del.png" />
+                </p>
+            </div>
+        </div>
+        <div class="dv2">
+            <div class="m-tableBox">
+                <div class="m-table table3">
+                    <ul class="u-tabTitle" >
+                        <li>工号<i class="fa fa-sort-desc"></i></li>
+                        <li>姓名<i class="fa fa-unsorted"></i></li>
+                        <li>角色</li>
+                        <li>是否部门领导人</li>
+                        <li>注册手机号</li>
+                        <li>邮箱</li>
+                        <li>操作</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                    <ul class="u-tabList">
+                        <li>00001</li>
+                        <li>李华</li>
+                        <li>员工</li>
+                        <li>否</li>
+                        <li>13345021406</li>
+                        <li>10123456789@qq.com</li>
+                        <li class="u-tabOperation"><span class="big-link" data-reveal-id="structure_del" data-animation="fade">删除</span><span class="big-link" data-reveal-id="structure_move" data-animation="fade">移至</span></li>
+                        <div class="clearfix"></div>
+                    </ul>
+                </div>
+            </div>
+            <div class="u-tabControlRow">
+                <span>显示行数</span>
+                <select onchange="listNumChange()">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                </select>
+                <span>1-10条/</span>
+                <span>共50条</span>
+                <button>上一页</button>
+                <button>下一页</button>
+                <span>前往</span>
+                <input type="text" />
+                <span>页</span>
+            </div>
+
+        </div>
+
+        <!--<a href="#" class="big-link" data-reveal-id="structure_move" data-animation="fade">点我弹出</a>-->
+
+        <div id="structure_move" class="reveal-modal myModal">
+            <p class="p1">移动</p>
+            <p class="p2">移动该员工至
+                <select>
+                    <option>销售一部</option>
+                    <option>销售二部</option>
+                    <option>销售三部</option>
+                </select>
+            </p>
+
+            <p class="p5">
+                <input type="submit" value="确定" />
+                <button>取消</button>
+            </p>
+            <a class="close-reveal-modal">&#215;</a>
+        </div>
+
+        <div id="structure_del" class="reveal-modal myModalone">
+            <p class="p1">删除</p>
+            <p class="p2">该部门有1346名员工，是否删除</p>
+            <p class="p5">
+                <input type="submit" value="是，删除员工和部门" />
+                <button>不，仅删除部门<span>（员工移至待处理员工）</span></button>
+            </p>
+            <a class="close-reveal-modal">&#215;</a>
+        </div>
+    </div>
+    <link rel="stylesheet" href="/static/css/index.css"/>
+    <link rel="stylesheet" href="/static/css/table.css" />
+    <link rel="stylesheet" href="/static/css/form.css" />
+    <link rel="stylesheet" href="/static/css/divBlock.css" />
+    <link rel="stylesheet" href="/static/css/tree.css" />
+    <link rel="stylesheet" href="/systemsetting/css/structure_list.css"/>
+    <script type="text/javascript" src="/static/js/tree.js"></script>
+    <script type="text/javascript">
+        var structure_tree_panel = "#division-managementfr .structure_list .content .structure_tree";
+        var structure_tree = new tree({
+            target:structure_tree_panel,
+            data:'[{"id":2,"struct_pid":1,"struct_name":"\u534e\u5317\u5927\u533a","struct_en":null,"struct_intro":null,"struct_leader":null,"child":[{"id":3,"struct_pid":2,"struct_name":"\u6f4d\u574a\u4e2d\u8fc5","struct_en":null,"struct_intro":null,"struct_leader":null,"child":[{"id":4,"struct_pid":3,"struct_name":"\u9500\u552e\u90e8","struct_en":null,"struct_intro":null,"struct_leader":null,"child":[{"id":5,"struct_pid":4,"struct_name":"\u9500\u552e\u4e00\u90e8","struct_en":null,"struct_intro":null,"struct_leader":null,"child":[{"id":18,"struct_pid":5,"struct_name":"\u5185\u52e4","struct_en":null,"struct_intro":null,"struct_leader":null}]},{"id":6,"struct_pid":4,"struct_name":"\u9500\u552e\u4e8c\u90e8","struct_en":null,"struct_intro":null,"struct_leader":null},{"id":7,"struct_pid":4,"struct_name":"\u9500\u552e\u4e09\u90e8","struct_en":null,"struct_intro":null,"struct_leader":null}]},{"id":12,"struct_pid":3,"struct_name":"\u6280\u672f\u90e8","struct_en":null,"struct_intro":null,"struct_leader":null},{"id":13,"struct_pid":3,"struct_name":"\u7814\u53d1\u90e8","struct_en":null,"struct_intro":null,"struct_leader":null}]},{"id":8,"struct_pid":2,"struct_name":"\u6d4e\u5b81\u4e2d\u8fc5","struct_en":null,"struct_intro":null,"struct_leader":null,"child":[{"id":14,"struct_pid":8,"struct_name":"\u9500\u552e\u90e8","struct_en":null,"struct_intro":null,"struct_leader":null}]},{"id":9,"struct_pid":2,"struct_name":"\u6cf0\u5b89\u4e2d\u8fc5","struct_en":null,"struct_intro":null,"struct_leader":null,"child":[{"id":15,"struct_pid":9,"struct_name":"\u9500\u552e\u90e8","struct_en":null,"struct_intro":null,"struct_leader":null}]},{"id":10,"struct_pid":2,"struct_name":"\u83cf\u6cfd\u4e2d\u8fc5","struct_en":null,"struct_intro":null,"struct_leader":null,"child":[{"id":16,"struct_pid":10,"struct_name":"\u9500\u552e\u90e8","struct_en":null,"struct_intro":null,"struct_leader":null}]},{"id":11,"struct_pid":2,"struct_name":"\u83b1\u829c\u4e2d\u8fc5","struct_en":null,"struct_intro":null,"struct_leader":null,"child":[{"id":17,"struct_pid":11,"struct_name":"\u9500\u552e\u90e8","struct_en":null,"struct_intro":null,"struct_leader":null}]}]},{"id":20,"struct_pid":1,"struct_name":"\u5176\u4ed6\u5927\u533a","struct_en":null,"struct_intro":null,"struct_leader":null,"child":[{"id":21,"struct_pid":20,"struct_name":"\u5176\u4ed6\u5206\u516c\u53f8","struct_en":null,"struct_intro":null,"struct_leader":null,"child":[{"id":22,"struct_pid":21,"struct_name":"\u5176\u4ed6\u90e8\u95e81","struct_en":null,"struct_intro":null,"struct_leader":null},{"id":23,"struct_pid":21,"struct_name":"\u5176\u4ed6\u90e8\u95e82","struct_en":null,"struct_intro":null,"struct_leader":null}]}]}]',
+            selFun:function(id){console.log("hlselFun",id);},
+            addFun:function(id){console.log("hladdFun",id);},
+            editFun:function(id){console.log("hleditFun",id);},
+            delFun:function(id){console.log("hldelFun",id);}
+        });
+    </script>
+    <script type="text/javascript" src="/systemsetting/js/structure_list.js"></script>
+</div>
