@@ -37,7 +37,7 @@ function tree(config) {
         var html = '';
         var node_length = node.length;
         for(var i=0;i<node_length;i++){
-            var sub_node = node[i];
+            var node_item = node[i];
             var class_str = ' level'+level;
             var plus_str = '';
             var child_str = '';
@@ -62,24 +62,29 @@ function tree(config) {
                     }
                 }
             }
-            if(sub_node.hasOwnProperty("child")){
-                child_str+='<div class="child_list child_list'+sub_node["id"]+' hide">';
+            if(node_item.hasOwnProperty("child")){
+                child_str+='<div class="child_list child_list'+node_item["id"]+' hide">';
                 var head_sub = head.concat();
                 head_sub.push(is_last_node);
-                child_str+=self.get_html(sub_node["child"],head_sub);
+                child_str+=self.get_html(node_item["child"],head_sub);
                 child_str+='</div>';
                 plus_str+='<img class="node_plus" src="/static/images/none.png"/>';
             }else{
                 class_str+=" is_leaf";
+                plus_str+='<img class="node_leaf" src="/static/images/none.png"/>';
             }
-            html+='<div class="node node'+sub_node["id"];
-            html+=class_str+'" node_id="'+sub_node["id"]+'">';
+            html+='<div class="node node'+node_item["id"];
+            html+=class_str+'" node_id="'+node_item["id"]+'">';
             html+='<div class="node_item">';
             html+=plus_str;
-            html+='<span class="node_name">'+sub_node["struct_name"]+'</span>';
-            html+='<img class="node_tool add" src="/systemsetting/images/add.png" />';
-            html+='<img class="node_tool info" src="/systemsetting/images/compile.png" />';
-            html+='<img class="node_tool del" src="/systemsetting/images/del.png" />';
+            html+='<span class="node_name">'+node_item["struct_name"]+'</span>';
+            if(node_item["id"]!=1){
+                if(level<5){
+                    html+='<img class="node_tool add" src="/systemsetting/images/add.png" />';
+                }
+                html+='<img class="node_tool info" src="/systemsetting/images/compile.png" />';
+                html+='<img class="node_tool del" src="/systemsetting/images/del.png" />';
+            }
             html+='</div>'+child_str+'</div>';
         }
         return html;
@@ -115,28 +120,28 @@ function tree(config) {
     $(this.target).on('click','.node_name',function(){
         if(self.listen_arr.selFun!=null){
             var id = self.getId(this);
-            console.log("sel",id);
+            //console.log("sel",id);
             self.listen_arr.selFun(id);
         }
     });
     $(this.target).on('click','.node .add',function(){
         if(self.listen_arr.addFun!=null){
             var id = self.getId(this);
-            console.log("add",id);
+            //console.log("add",id);
             self.listen_arr.addFun(id);
         }
     });
     $(this.target).on('click','.node .info',function(){
         if(self.listen_arr.editFun!=null){
             var id = self.getId(this);
-            console.log("info",id);
+            //console.log("info",id);
             self.listen_arr.editFun(id);
         }
     });
     $(this.target).on('click','.node .del',function(){
         if(self.listen_arr.delFun!=null){
             var id = self.getId(this);
-            console.log("del",id);
+            //console.log("del",id);
             self.listen_arr.delFun(id);
         }
     });
