@@ -69,7 +69,7 @@ class Structure extends Base
             ->field($field)
             ->find();
         //var_exp($level_info,'$level_info',1);
-        if($level_info && $level_info["id".$level_deep] && $level_info["id".$level_deep]!=1){
+        if($level_info && $level_info["id".$level_deep]){
             return false;
         }
         return true;
