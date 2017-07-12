@@ -12,10 +12,9 @@ class Initialize extends Controller
 {
     protected $corp_id;
     public function _initialize(){
-        $userinfo = get_userinfo();
-        if (empty($userinfo)) {
-            $userid = input('userid');
-            $access_token = input('access_token');
+        $userid = input('userid');
+        $access_token = input('access_token');
+        if ($userid && $access_token) {
             $info['status'] = false;
             if (empty($userid) || empty($access_token)) {
                 $info['message'] = '用户id为空或token为空';
@@ -41,6 +40,8 @@ class Initialize extends Controller
                 $this->sendErrorToApp($info);
             }
             $userinfo = set_userinfo($corp_id,$userid,$userinfo);
+        }else{
+            $userinfo = get_userinfo();
         }
         if (empty($userinfo)) {
             $this->redirect('/login/index/index');
