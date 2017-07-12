@@ -22,9 +22,6 @@ class ImportFile extends Base{
      */
     public function upload($type){
         $files = request()->file('files');
-        if(empty($files)){
-            return false;
-        }
         $infos = [];
         $files_hash = [];
         if(is_array($files)){
