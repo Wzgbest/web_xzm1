@@ -276,7 +276,7 @@ return [
     ],
     //上传导入文件设置
     'upload_import_file'  =>[
-        'type'    => 'application/vnd.ms-excel,application/x-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/octet-stream',
+        'type'    => 'application/vnd.ms-excel,application/x-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,application/octet-stream',
         'size' => '',
         'ext'    => 'xls,xlsx',
     ],
