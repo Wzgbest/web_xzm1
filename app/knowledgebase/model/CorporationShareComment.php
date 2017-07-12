@@ -47,6 +47,22 @@ class CorporationShareComment extends Base{
     }
 
     /**
+     * 根据评论id评论
+     * @param $commont_id int 评论id
+     * @return array
+     * @throws \think\Exception
+     */
+    public function getOneComment($commont_id){
+        $map["id"] = $commont_id;
+        $corporationShareComment = $this->model
+            ->table($this->table)
+            ->where($map)
+            ->field("*")//TODO
+            ->find();
+        return $corporationShareComment;
+    }
+
+    /**
      * 创建评论,并返回结果
      * @param $comment array 评论信息
      * @return array
