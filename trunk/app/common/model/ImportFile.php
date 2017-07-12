@@ -29,6 +29,7 @@ class ImportFile extends Base{
         }else{
             $files_hash[] = $this->getHash($files);
         }
+        var_exp($files,'$files');
         $fileHashData = $this
             ->model
             ->table($this->table)
@@ -44,6 +45,7 @@ class ImportFile extends Base{
             $value = $this->getUploadFileInfo($files,$type,$fileHashData);
             $infos[] = $value;
         }
+        var_exp($infos,'$infos',1);
         if($infos){
             return $infos;
         }else{
@@ -68,6 +70,9 @@ class ImportFile extends Base{
             return false;
         }
         $info = $file->move($path);
+        if(!$info){
+            return false;
+        }
         //var_exp($info,'$info');
         $savename = $info->getSaveName();
         $original_info = $info->getInfo();
