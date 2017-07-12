@@ -120,25 +120,18 @@ class CorporationShare extends Initialize{
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
         $replyer_id = $uid;
-        $reviewer = input('reviewer',0,"int");
+        $commont_id = input('commont_id',0,"int");
         $reviewer_id = 0;
-        if($reviewer){
-            if (!check_tel($reviewer)) {
-                exception("用户名格式不正确!");
-            }
-            $corp_id = get_corpid($reviewer);
-            if ($corp_id == false) {
-                exception("用户不存在!");
-            }
-            $this->employM = new Employee($this->corp_id);
-            $reviewer_info = $this->employM->getEmployeeByTel($reviewer);
-            $reviewer_id = $reviewer_info["id"];
+        $corporationShareCommentModel = new CorporationShareCommentModel($this->corp_id);
+        if($commont_id){
+            $replay_comment= $corporationShareCommentModel->getOneComment($commont_id);
+            $reviewer_id = $replay_comment["replyer_id"];
         }
         $comment["share_id"] = $share_id;
         $comment["replyer_id"] = $replyer_id;
         $comment["reply_content"] = $reply_content;
         $comment["reviewer_id"] = $reviewer_id;
-        $corporationShareCommentModel = new CorporationShareCommentModel($this->corp_id);
+        $comment["reply_commont_id"] = $commont_id;
         $add_comment_flg= $corporationShareCommentModel->createCorporationShareComment($comment);
         $result['data'] = $add_comment_flg;
         $result['status'] = 1;
