@@ -22,7 +22,7 @@ class ImportFile extends Base{
      */
     public function upload($type){
         $files = request()->file('files');
-        if(!$files){
+        if(empty($files)){
             return false;
         }
         $infos = [];
