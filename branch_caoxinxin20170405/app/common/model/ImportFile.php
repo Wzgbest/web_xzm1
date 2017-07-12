@@ -44,7 +44,7 @@ class ImportFile extends Base{
             $value = $this->getUploadFileInfo($files,$type,$fileHashData);
             $infos[] = $value;
         }
-        var_exp($infos,'$infos',1);
+        //var_exp($infos,'$infos',1);
         if($infos){
             return $infos;
         }else{
@@ -68,7 +68,6 @@ class ImportFile extends Base{
         if (!$checkFlg) {
             return false;
         }
-        var_exp($file,'$file');
         $info = $file->move($path);
         if(!$info){
             return false;
