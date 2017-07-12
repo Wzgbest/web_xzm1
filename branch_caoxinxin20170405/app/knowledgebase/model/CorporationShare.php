@@ -64,7 +64,11 @@ class CorporationShare extends Base{
             ->field("cs.*,GROUP_CONCAT(csp.path) as img,e.telephone,e.truename,e.userpic")//TODO
             ->select();
         foreach ($corporationShareList as &$corporationShare){
-            $corporationShare["img"] = explode(",",$corporationShare["img"]);
+            if($corporationShare["img"]){
+                $corporationShare["img"] = explode(",",$corporationShare["img"]);
+            }else{
+                $corporationShare["img"] = null;
+            }
         }
         return $corporationShareList;
     }
