@@ -29,7 +29,6 @@ class ImportFile extends Base{
         }else{
             $files_hash[] = $this->getHash($files);
         }
-        var_exp($files,'$files');
         $fileHashData = $this
             ->model
             ->table($this->table)
@@ -69,6 +68,7 @@ class ImportFile extends Base{
         if (!$checkFlg) {
             return false;
         }
+        var_exp($file,'$file');
         $info = $file->move($path);
         if(!$info){
             return false;
