@@ -418,7 +418,7 @@ class Employee extends Base{
         return $this->model
             ->table($this->table)
             ->where($where)
-            ->field('id,truename,telephone,wired_phone,part_phone,gender,worknum,is_leader,role,qqnum,wechat')
+            ->field('id,truename,telephone,wired_phone,part_phone,gender,worknum,is_leader,"" as struct,role,qqnum,wechat')
             ->select();
     }
 }

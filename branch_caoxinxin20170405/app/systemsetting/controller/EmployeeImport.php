@@ -261,7 +261,7 @@ class EmployeeImport extends Initialize{
                     $struct_str_arr = explode(",",$item['struct']);
                     $struct_ids = [];
                     foreach($struct_str_arr as $struct_str){
-                        if(!isset($structs_arr[$struct_str])){
+                        if(!empty($struct_str) && !isset($structs_arr[$struct_str])){
                             exception('未找到名称为 '.$struct_str.' 的部门!');
                         }
                         $struct_ids[] = $structs_arr[$struct_str];
@@ -370,17 +370,47 @@ class EmployeeImport extends Initialize{
             4 => "性别",
             5 => "工号",
             6 => "是领导",
-            7 => "角色",
-            8 => "QQ号",
-            9 => "微信号",
-            10 => "备注"
+            7 => "部门",
+            8 => "职位",
+            9 => "QQ号",
+            10 => "微信号"
         ]];
+        $struM = new StructureModel();
+        $structs = $struM->getAllStructure();
+        $structs_arr = [];
+        foreach ($structs as $struct){
+            $structs_arr[$struct["id"]] = $struct["struct_name"];
+        }
+        //var_exp($structs_arr,'$structs_arr');
+        $rolM = new RoleModel();
+        $roles = $rolM->getAllRole();
+        $roles_arr = [];
+        foreach ($roles as $role){
+            $roles_arr[$role["id"]] = $role["role_name"];
+        }
+        //var_exp($roles_arr,'$roles_arr');
+        $struct_empM = new StructureEmployee($this->corp_id);
+        $user_struct_ids = $struct_empM->getStructIdsByEmployeeIds($ids_arr);
         foreach ($employees_data as $employee){
-            unset($employee['id']);
+            //var_exp($employee,'$employee');
+            $struct_arr = [];
+            if(isset($user_struct_ids[$employee['id']])){
+                //var_exp($user_struct_ids[$employee['id']],'$user_struct_ids[$employee[\'id\']]');
+                foreach ($user_struct_ids[$employee['id']] as $struct_id){
+                    if(isset($structs_arr[$struct_id])){
+                        $struct_arr[] = $structs_arr[$struct_id];
+                    }
+                }
+            }
+            //var_exp($roles_arr[$employee["role"]],'$roles_arr[$employee["role"]]',1);
+            $employee['struct'] = implode(",",$struct_arr);
+            $employee['role'] = isset($roles_arr[$employee["role"]])?$roles_arr[$employee["role"]]:"";
             $employee['gender'] = $employee['gender']==1?"男":"女";
             $employee['is_leader'] = $employee['is_leader']==1?"是":"否";
+            unset($employee['id']);
             $excel_data[] = $employee;
         }
+        //var_exp($excel_data,'$excel_data',1);
         outExcel($excel_data,'employees-'.time().'.xlsx');
     }
 
@@ -417,10 +447,11 @@ class EmployeeImport extends Initialize{
             5 => "性别",
             6 => "工号",
             7 => "是领导",
-            8 => "角色",
-            9 => "QQ号",
-            10 => "微信号",
-            11 => "备注"
+            8 => "部门",
+            9 => "职位",
+            10 => "QQ号",
+            11 => "微信号",
+            12 => "备注"
         ]];
         foreach ($importFailEmployees as $importFailEmployee){
             unset($importFailEmployee['id']);

@@ -372,9 +372,9 @@ class Employee extends Initialize{
             $info['status'] = false;
             //取出旧设置的部门ids
             $struct_old = $struct_empM->getStructIdsByEmployee($user_id);
-            $struct_ = [];
+            $struct_old_arr = [];
             foreach ($struct_old as $val) {
-                $struct_[] .=$val['struct_id'];
+                $struct_old_arr[] .=$val['struct_id'];
             }
 
             $employeeM->link->startTrans();
@@ -382,10 +382,10 @@ class Employee extends Initialize{
                 //员工表修改信息
                 $em_res = $employeeM->setSingleEmployeeInfobyId($user_id,$input);
 
-                //部门表修改信息，1,2,3 --->  1,2,3,4,5   1,2,3,4,5--->1,2,3
+                //部门表修改信息，1,2,3 ---> 2,3,4 => 新增4,删除1
                 if ($input['is_leader'] == 1) {
-                    $insert = array_diff($struct_ids,$struct_);//新添加的
-                    $delete = array_diff($struct_,$struct_ids);//需要删除的
+                    $insert = array_diff($struct_ids,$struct_old_arr);//新添加的
+                    $delete = array_diff($struct_old_arr,$struct_ids);//需要删除的
                     //有需要添加的
                     if (!empty($insert)) {
                         $insert_data = [];
