@@ -118,6 +118,15 @@ class Api
         return $result;
     }
 
+    public function deleteMultiHuanxinUser($users){
+        $result = [];
+        foreach ($users as $user){
+            $result[] = $this->deleteSingleHuanxinUser($user);
+            usleep(100000);
+        }
+        return $result;
+    }
+
     /**
      * 由【后台单个注册】的用户，添加环信好友
      * @param $owner string|array 用户tel或含tel的数组

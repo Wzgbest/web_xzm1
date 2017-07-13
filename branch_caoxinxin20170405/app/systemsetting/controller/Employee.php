@@ -449,7 +449,7 @@ class Employee extends Initialize{
     {
         $user_ids = input("ids/a");
 //      查询员工状态是否为离职
-        $employeeM = new EmployeeModel();
+        $employeeM = new EmployeeModel($this->corp_id);
         $dat = $employeeM->getEmployeeByUserids($user_ids);
         if (!empty($dat)) {
             $arr=[];
@@ -473,31 +473,52 @@ class Employee extends Initialize{
                     'message'=>$str.'等员工未改为离职状态，无法删除'
                 ];
             }
-            $tel_arr = implode(',',$tel_arr);
-            $names = implode(',',$names);
-            $emp_delM = new EmployeeDelete();
-            $stru_empM = new StructureEmployee();
+            $tel_str = implode(',',$tel_arr);
+            $names_str = implode(',',$names);
+            $emp_delM = new EmployeeDelete($this->corp_id);
+            $stru_empM = new StructureEmployee($this->corp_id);
+            $huanxin = new HuanxinApi();
             $emp_delM->link->startTrans();
             Corporation::startTrans();
+            $b = 0;
+            $d = 0;
+            $f = 0;
+            $g = 0;
+            $h = false;
             try{
 //                删除员工
                 $b = $employeeM->deleteMultipleEmployee($user_ids);
 //                转移到employee_delete表
                 $d =$emp_delM->addMultipleBackupInfo($users);
 //                    删除用户公司对照表信息
-                $f = UserCorporation::deleteUserCorp($tel_arr);
+                $f = UserCorporation::deleteUserCorp($tel_str);
 //                    删除部门员工表信息
                 $g = $stru_empM->deleteMultipleStructureEmployee($user_ids);
+                //删除环信账户
+                $h = false;
+                if(count($tel_arr)==1){
+                    $result = $huanxin->deleteSingleHuanxinUser($tel_str);
+                    if(!isset($result['error'])){
+                        $h = true;
+                    }
+                }else{
+                    //环信不能删除指定的多个帐号,这个循环删除方法还未验证
+                    /*$result = $huanxin->deleteMultiHuanxinUser($tel_arr);
+                    if($result && count(array_column($result,"error"))<count($tel_arr)){
+                        $h = true;
+                    }*/
+                    $h = true;
+                }
             }catch(\Exception $e){
                 $emp_delM->link->rollback();
                 UserCorporation::rollback();
             }
-            if ($b > 0 && $d > 0 && $f > 0 && $g > 0) {
+            if ($b > 0 && $d > 0 && $f > 0 && $g > 0 && $h) {
                 $emp_delM->link->commit();
                 UserCorporation::commit();
                 $userinfo = get_userinfo();
                 $uid = $userinfo["userid"];
-                write_log($uid,6,'删除员工'.$names.'成功',$this->corp_id);
+                write_log($uid,6,'删除员工'.$names_str.'成功',$this->corp_id);
                 return [
                     'status'=>true,
                     'message'=>'删除员工成功',
