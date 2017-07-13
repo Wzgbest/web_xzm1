@@ -329,7 +329,9 @@ class Employee extends Initialize{
             return $employee_info;
         } elseif ($request->isPost()) {
             $input = $request->param();
+            $input["telephone"]=15888888888;
             $result = $this->validate($input,'Employee');
+            unset($input["telephone"]);
             $info['status'] = false;
             //验证字段
             if(true !== $result){
@@ -344,11 +346,23 @@ class Employee extends Initialize{
                     ];
                 }
             }
-            $struct_ids = $input['struct_id'];
+            $struct_ids = explode(",",$input['struct_id']);
             $user_id = $input['user_id'];
             if($input["on_duty"]==-1){
                 $input["on_duty"] = 1;
                 $input["status"] = -1;
+            }
+            if(isset($input["status"]) && $input["status"] == -1){
+                $customerM = new CustomerModel();
+                //检测有无保护客户
+                $res = $customerM->getCustomersByUserIds($user_id);
+                //$res =null;
+                if (!empty($res)) {
+                    return [
+                        'status'=>false,
+                        'message'=>'用户有未释放的客户，不能设置为离职!',
+                    ];
+                }
             }
             unset($input['struct_id']);
             unset($input['user_id']);
@@ -434,94 +448,73 @@ class Employee extends Initialize{
     public function deleteMultipleEmployee()
     {
         $user_ids = input("ids/a");
-        $customerM = new CustomerModel();
-//        检测有无保护客户
-        $res = $customerM->getCustomersByUserIds($user_ids);
-        //$res =null;
-        if (!empty($res)) {
+//      查询员工状态是否为离职
+        $employeeM = new EmployeeModel();
+        $dat = $employeeM->getEmployeeByUserids($user_ids);
+        if (!empty($dat)) {
             $arr=[];
-            foreach ($res as $k=>$v) {
-                array_push($arr,$v['truename']);
+            $users=[];
+            $tel_arr=[];
+            $names = [];
+            foreach ($dat as $k=>$v) {
+                if ($v['status'] ==1) {
+                    array_push($arr,$v['truename']);
+                }
+                unset($v['status']);
+                unset($v['on_duty']);
+                array_push($users,$v);
+                array_push($tel_arr,$v['telephone']);
+                array_push($names,$v['truename']);
             }
-            $arr = array_unique($arr);
-            if (count($arr) < 4) {
-                $str = implode(',',$arr);
-            } else {
-                $str = $arr[0].','.$arr[1].','.$arr[2];
-            }
-            return [
-                'status'=>false,
-                'message'=>$str.'等用户有未释放的客户，删除失败',
-            ];
-        } else {
-//        查询员工状态是否为离职
-            $employeeM = new EmployeeModel();
-            $dat = $employeeM->getEmployeeByUserids($user_ids);
-            if (!empty($dat)) {
-                $arr=[];
-                $users=[];
-                $tel_arr=[];
-                $names = [];
-                foreach ($dat as $k=>$v) {
-                    if ($v['status'] ==1) {
-                        array_push($arr,$v['truename']);
-                    }
-                    unset($v['status']);
-                    unset($v['on_duty']);
-                    array_push($users,$v);
-                    array_push($tel_arr,$v['telephone']);
-                    array_push($names,$v['truename']);
-                }
-                if (!empty($arr)) {
-                    $str = count($arr) < 4 ? implode(',',$arr) : $arr[0].','.$arr[1].','.$arr[2];
-                    return [
-                        'status'=>false,
-                        'message'=>$str.'等员工未改为离职状态，无法删除'
-                    ];
-                }
-                $tel_arr = implode(',',$tel_arr);
-                $names = implode(',',$names);
-                $emp_delM = new EmployeeDelete();
-                $stru_empM = new StructureEmployee();
-                $emp_delM->link->startTrans();
-                Corporation::startTrans();
-                try{
-//                删除员工
-                    $b = $employeeM->deleteMultipleEmployee($user_ids);
-//                转移到employee_delete表
-                    $d =$emp_delM->addMultipleBackupInfo($users);
-//                    删除用户公司对照表信息
-                    $f = UserCorporation::deleteUserCorp($tel_arr);
-//                    删除部门员工表信息
-                    $g = $stru_empM->deleteMultipleStructureEmployee($user_ids);
-                }catch(\Exception $e){
-                    $emp_delM->link->rollback();
-                    UserCorporation::rollback();
-                }
-                if ($b > 0 && $d > 0 && $f > 0 && $g > 0) {
-                    $emp_delM->link->commit();
-                    UserCorporation::commit();
-                    $userinfo = get_userinfo();
-                    $uid = $userinfo["userid"];
-                    write_log($uid,6,'删除员工'.$names.'成功',$this->corp_id);
-                    return [
-                        'status'=>true,
-                        'message'=>'删除员工成功',
-                    ];
-                } else {
-                    $emp_delM->link->rollback();
-                    UserCorporation::rollback();
-                    return [
-                        'status'=>false,
-                        'message' =>'删除员工失败',
-                    ];
-                }
-            } else {
+            if (!empty($arr)) {
+                $str = count($arr) < 4 ? implode(',',$arr) : $arr[0].','.$arr[1].','.$arr[2];
                 return [
                     'status'=>false,
-                    'message'=>'员工不存在'
+                    'message'=>$str.'等员工未改为离职状态，无法删除'
                 ];
             }
+            $tel_arr = implode(',',$tel_arr);
+            $names = implode(',',$names);
+            $emp_delM = new EmployeeDelete();
+            $stru_empM = new StructureEmployee();
+            $emp_delM->link->startTrans();
+            Corporation::startTrans();
+            try{
+//                删除员工
+                $b = $employeeM->deleteMultipleEmployee($user_ids);
+//                转移到employee_delete表
+                $d =$emp_delM->addMultipleBackupInfo($users);
+//                    删除用户公司对照表信息
+                $f = UserCorporation::deleteUserCorp($tel_arr);
+//                    删除部门员工表信息
+                $g = $stru_empM->deleteMultipleStructureEmployee($user_ids);
+            }catch(\Exception $e){
+                $emp_delM->link->rollback();
+                UserCorporation::rollback();
+            }
+            if ($b > 0 && $d > 0 && $f > 0 && $g > 0) {
+                $emp_delM->link->commit();
+                UserCorporation::commit();
+                $userinfo = get_userinfo();
+                $uid = $userinfo["userid"];
+                write_log($uid,6,'删除员工'.$names.'成功',$this->corp_id);
+                return [
+                    'status'=>true,
+                    'message'=>'删除员工成功',
+                ];
+            } else {
+                $emp_delM->link->rollback();
+                UserCorporation::rollback();
+                return [
+                    'status'=>false,
+                    'message' =>'删除员工失败',
+                ];
+            }
+        } else {
+            return [
+                'status'=>false,
+                'message'=>'员工不存在'
+            ];
         }
     }
 }
