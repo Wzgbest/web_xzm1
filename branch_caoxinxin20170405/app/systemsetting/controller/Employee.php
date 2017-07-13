@@ -19,6 +19,7 @@ use app\common\model\Structure as StructureModel;
 use app\common\model\Role as RoleModel;
 
 class Employee extends Initialize{
+    var $default_password = 87654321;
     var $paginate_list_rows = 10;
     public function _initialize(){
         parent::_initialize();
@@ -239,11 +240,14 @@ class Employee extends Initialize{
                     return json($result);
                 }
                 //员工表增加信息
+                $input["password"] = md5($this->default_password);
+                $input["userpic"] = "/static/images/".($input["gender"]?"default_head_man.jpg":"default_head_woman.jpg");
                 $id = $employeeM->addSingleEmployee($input);
                 $user_tel = ['telephone'=>$input['telephone'],'corp_name'=>$this->corp_id];
                 $b = UserCorporation::addSingleUserTel($user_tel);
                 //部门表增加信息
                 if ($input['is_leader'] == 1) {
+                    $struct_data=[];
                     foreach ($struct_ids as $k=>$v) {
                         $struct_data[$k]['user_id'] =$id;
                         $struct_data[$k]['struct_id'] = $v;
@@ -255,17 +259,13 @@ class Employee extends Initialize{
                     $f = $struct_empM->addStructureEmployee($struct_data);
                 }
                 if ($id > 0 && $f > 0 && $b > 0) {
-                    //环信增加好友
-                    $d = $huanxin->addFriend($this->corp_id,$input['telephone']);//TODO 测试注释掉
-//                $d['status'] = true;//TODO 测试开启
-                    if ($d['status']) {
-                        $tel = [];
-                        array_push($tel,$input['telephone']);
-                        $im = $employeeM->saveIm($tel);
-                    } else {
+                    //环信增加帐号
+                    $d = $huanxin->regUser($this->corp_id,$input['telephone'],$this->default_password,$input['truename']);//TODO 测试注释掉
+                    //$d['status'] = true;//TODO 测试开启
+                    if (!$d['status']) {
                         $employeeM->link->rollback();
                         UserCorporation::rollback();
-                        $info['message'] = '添加环信好友有失败，联系管理员';
+                        $info['message'] = '添加IM帐号失败，请联系管理员';
                         $info['error'] = $d['error'];
                         return $info;
                     }
@@ -275,17 +275,17 @@ class Employee extends Initialize{
                     $info['message'] = '添加员工失败，联系管理员';
                     return $info;
                 }
-                if ($id > 0 && $f >0 && $d['status'] && $b > 0 && $im > 0) {
+                if ($id > 0 && $f >0 && $d['status'] && $b > 0) {
                     $employeeM->link->commit();
                     UserCorporation::commit();
                     return [
                         'status' => true,
-                        'message' => '新增员工成功，添加环信好友成功',
+                        'message' => '新增员工成功，添加IM帐号成功',
                     ];
                 } else {
                     $employeeM->link->rollback();
                     UserCorporation::rollback();
-                    $info['message'] = '新增员工失败，或添加环信好友失败';
+                    $info['message'] = '新增员工失败，或添加IM帐号失败';
                     return $info;
                 }
             }catch (\Exception $e){

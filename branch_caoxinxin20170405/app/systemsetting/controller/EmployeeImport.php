@@ -16,8 +16,12 @@ use app\systemsetting\model\EmployeeImportRecord;
 use app\systemsetting\model\EmployeeImportFail;
 use think\Db;
 use app\common\model\UserCorporation;
+use app\common\model\Structure as StructureModel;
+use app\common\model\Role as RoleModel;
+use app\common\model\StructureEmployee;
 
 class EmployeeImport extends Initialize{
+    var $default_password = 87654321;
     var $paginate_list_rows = 10;
     public function _initialize(){
         parent::_initialize();
@@ -130,9 +134,10 @@ class EmployeeImport extends Initialize{
             'E' => 'sex',
             'F' => 'worknum',
             'G' => 'is_leader',
-            'H' => 'role',
-            'I' => 'qqnum',
-            'J' => 'wechat',
+            'H' => 'struct',
+            'I' => 'role',
+            'J' => 'qqnum',
+            'K' => 'wechat',
         );
         $column_res = getHeadFormExcel($file_id);
         if ($column_res ['status'] == 0) {
@@ -147,9 +152,10 @@ class EmployeeImport extends Initialize{
             4 => '性别',
             5 => '工号',
             6 => '是领导',
-            7 => '角色',
-            8 => 'QQ号',
-            9 => '微信号',];
+            7 => '部门',
+            8 => '职位',
+            9 => 'QQ号',
+            10 => '微信号',];
         $length=count($column_default);
         for($i=0;$i<$length;$i++){
             if($column_res['data'][$i]!=$column_default[$i]){
@@ -182,6 +188,21 @@ class EmployeeImport extends Initialize{
         $telephones = array_filter($telephones);
         $telephones = array_unique($telephones);
 
+        $struM = new StructureModel();
+        $structs = $struM->getAllStructure();
+        $structs_arr = [];
+        foreach ($structs as $struct){
+            $structs_arr[$struct["struct_name"]] = $struct["id"];
+        }
+        //var_exp($structs_arr,'$structs_arr');
+        $rolM = new RoleModel();
+        $roles = $rolM->getAllRole();
+        $roles_arr = [];
+        foreach ($roles as $role){
+            $roles_arr[$role["role_name"]] = $role["id"];
+        }
+        //var_exp($roles_arr,'$roles_arr',1);
+
         //校验数据
         $success_num = 0;
         $fail_array = [];
@@ -196,14 +217,20 @@ class EmployeeImport extends Initialize{
                 $employee['telephone'] = $item['telephone'];
                 $employee['username'] = $item['telephone'];
                 $employee['truename'] = $item['username'];
-                $employee['struct_id'] = 0;
+                $employee["password"] = md5($this->default_password);
+                $employee['struct_id'] = $item['struct'];
                 $is_leader = (trim($item['is_leader']) == "是") ? 1 : 0;
                 $employee['is_leader'] = $is_leader;
                 $employee['worknum'] = $item['worknum'];
-                $employee['role'] = $item['role'];
+                if(!isset($roles_arr[$item['role']])){
+                    exception("未找到名称为 ".$item['role']." 的职位!");
+                }
+                $role = $roles_arr[$item['role']];
+                $employee['role'] = $role;
                 $sex = trim($item['sex']);
                 $gender = ($sex == "男") ? 1 : (($sex == "女") ? 0 : 2);
                 $employee['gender'] = $gender;
+                $employee["userpic"] = "/static/images/".($employee["gender"]?"default_head_man.jpg":"default_head_woman.jpg");
                 $employee['qqnum'] = $item['qqnum'];
                 $employee['wechat'] = $item['wechat'];
                 $employee['wired_phone'] = $item['wired_phone'];
@@ -223,16 +250,45 @@ class EmployeeImport extends Initialize{
                 }
                 $user_corporation = ["corp_name" => $this->corp_id, "telephone" => $item['telephone']];
                 $userCorpM = new UserCorporation($this->corp_id);
-                $user_corp_add_flg = $userCorpM->addMutipleUserCorp([$user_corporation]);
+                $user_corp_add_flg = $userCorpM->addSingleUserTel($user_corporation);
                 //var_exp($user_corp_add_flg, '$user_corp_add_flg');
                 if (!$user_corp_add_flg) {
                     exception('导入帐号时发生错误!');
                 }
+                $struct_empM = new StructureEmployee($this->corp_id);
+                //部门表增加信息
+                if ($employee['is_leader'] == 1) {
+                    $struct_str_arr = explode(",",$item['struct']);
+                    $struct_ids = [];
+                    foreach($struct_str_arr as $struct_str){
+                        if(!isset($structs_arr[$struct_str])){
+                            exception('未找到名称为 '.$struct_str.' 的部门!');
+                        }
+                        $struct_ids[] = $structs_arr[$struct_str];
+                    }
+                    $struct_data=[];
+                    foreach ($struct_ids as $k=>$v) {
+                        $struct_data[$k]['user_id'] =$add_flg;
+                        $struct_data[$k]['struct_id'] = $v;
+                    }
+                    $f = $struct_empM->addMultipleStructureEmployee($struct_data);
+                } else {
+                    if(!isset($structs_arr[$item['struct']])){
+                        exception('未找到名称为 '.$item['struct'].' 的部门!');
+                    }
+                    $struct_ids = $structs_arr[$item['struct']];
+                    $struct_data['user_id'] = $add_flg;
+                    $struct_data['struct_id'] = $struct_ids;
+                    $f = $struct_empM->addStructureEmployee($struct_data);
+                }
+                if($f<=0){
+                    exception('导入帐号部门发生错误!');
+                }
                 //$huanxin_array = ['username'=>$item['telephone'],'password'=>'123456','nickname'=>$item['username']];
                 //$huanxin_json = json_encode($huanxin_array);
                 $huanxin = new HuanxinApi();
-                //$reg_info = $huanxin->addFriend($item['telephone']);
-                $reg_info['status'] = 1;//TODO 测试 先关了
+                $reg_info = $huanxin->regUser($this->corp_id,$item['telephone'],$this->default_password,$item['username']);
+                //$reg_info['status'] = 1;//TODO 测试 先关了
                 if (!$reg_info['status']) {
                     exception('注册环信时发生错误!');
                 }
