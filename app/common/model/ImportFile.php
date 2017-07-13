@@ -69,7 +69,7 @@ class ImportFile extends Base{
             return false;
         }
         $info = $file->move($path);
-        if(!$info){
+        if($info===false){
             return false;
         }
         //var_exp($info,'$info');
