@@ -8,7 +8,6 @@ namespace app\common\model;
 use app\common\model\Base;
 
 class Employee extends Base{
-    protected $pk = 'id';
     protected $dbprefix;
     public function __construct($corp_id=null){
         $this->table = config('database.prefix').'employee';
@@ -418,7 +417,7 @@ class Employee extends Base{
         return $this->model
             ->table($this->table)
             ->where($where)
-            ->field('id,truename,telephone,wired_phone,part_phone,gender,worknum,is_leader,role,qqnum,wechat')
+            ->field('id,truename,telephone,wired_phone,part_phone,gender,worknum,is_leader,"" as struct,role,qqnum,wechat')
             ->select();
     }
 }
