@@ -9,10 +9,9 @@ use app\common\model\Base;
 
 class EmployeeDelete extends Base
 {
-    public function __construct()
-    {
+    public function __construct($corp_id=null){
         $this->table = config('database.prefix').'employee_delete';
-        parent::__construct();
+        parent::__construct($corp_id);
     }
 
     /**

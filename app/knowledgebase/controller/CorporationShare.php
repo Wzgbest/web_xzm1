@@ -11,6 +11,7 @@ namespace app\knowledgebase\controller;
 use app\common\controller\Initialize;
 use app\knowledgebase\model\CorporationShare as CorporationShareModel;
 use app\knowledgebase\model\CorporationShareComment as CorporationShareCommentModel;
+use app\knowledgebase\model\CorporationShareContent;
 use app\knowledgebase\model\CorporationSharePicture;
 
 class CorporationShare extends Initialize{
@@ -55,10 +56,22 @@ class CorporationShare extends Initialize{
         }
         //trace(var_exp($infos,'$infos','return'));
         $share["userid"] = $uid;
-        $share["content"] = $msg;
         $share["create_time"] = time();
+        $hash = md5($msg);
         $corporationShareModel = new CorporationShareModel($this->corp_id);
+        $corporationShareContentModel = new CorporationShareContent($this->corp_id);
         $corporationShareModel->link->startTrans();
+        $content = $corporationShareContentModel->getContentByHash($hash);
+        if(!$content["id"]){
+            $content["hash"] = $hash;
+            $content["content"] = $msg;
+            $content_id = $corporationShareContentModel->createCorporationShareContent($content);
+            $content["id"] = $content_id;
+        }
+        if(!$content["id"]){
+            exception("发布动态内容失败");
+        }
+        $share["content_id"] = $content["id"];
         $share_id = $corporationShareModel->createCorporationShare($share);
         //trace(var_exp($share_id,'$share_id','return'));
         if(!$share_id){
@@ -108,7 +121,16 @@ class CorporationShare extends Initialize{
     }
     public function shareInfo(){}
     public function relayShare(){
-
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $result = ['status'=>0 ,'info'=>"获取动态时发生错误！"];
+        $share_id = input('share_id',10,'int');
+        $corporationShareModel = new CorporationShareModel($this->corp_id);
+        $share_data = $corporationShareModel->relayCorporationShare($share_id,$uid);
+        $result['data'] = $share_data;
+        $result['status'] = 1;
+        $result['info'] = "获取成功！";
+        return json($result);
     }
     public function addComment(){
         $result = ['status'=>0 ,'info'=>"评论动态时发生错误！"];

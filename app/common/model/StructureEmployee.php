@@ -38,6 +38,22 @@ class StructureEmployee extends Base
     }
 
     /**
+     * 根据员工id获取部门ids
+     * @param $user_ids array 员工id列表
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by blu10ph
+     */
+    public function getStructIdsByEmployeeIds($user_ids)
+    {
+        $link_list = $this->model->table($this->table)->where('user_id',"in",$user_ids)->field('user_id,struct_id')->select();
+        $user_struct_ids = [];
+        foreach ($link_list as $link){
+            $user_struct_ids[$link["user_id"]][] = $link["struct_id"];
+        }
+        return $user_struct_ids;
+    }
+
+    /**
      * 更改单个员工的部门
      * @param $user_id 员工id
      * @param $struct_id 部门id
@@ -74,7 +90,7 @@ class StructureEmployee extends Base
      */
     public function addStructureEmployee($data)
     {
-        return $this->model->table($this->table)->insert($data);
+        return $this->model->table($this->table)->insertGetId($data);
     }
 
     /**
@@ -109,7 +125,7 @@ class StructureEmployee extends Base
     }
 
     /**
-     * 查询员工部门信息
+     * 查询员工所有部门信息
      * @param $user_id
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
@@ -127,7 +143,7 @@ class StructureEmployee extends Base
      * 查询员工部门信息
      * @param $user_id
      * @return false|\PDOStatement|string|\think\Collection
-     * created by messhair
+     * created by blu10ph
      */
     public function findEmployeeStructure($user_id)
     {
