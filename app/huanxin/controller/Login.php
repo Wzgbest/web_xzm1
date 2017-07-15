@@ -8,7 +8,7 @@ namespace app\huanxin\controller;
 use think\Controller;
 use app\common\model\Employee;
 use app\common\model\EmployeeScore;
-use app\common\model\Role;
+use app\common\model\RoleEmployee;
 use app\common\model\StructureEmployee;
 
 class Login extends Controller
@@ -81,8 +81,8 @@ class Login extends Controller
         $per=$scoreM->getScoreListPer($score['score']);
 
         //获取用户在公司职位
-        $roleM = new Role($corp_id);
-        $rolep = $roleM->getRoleInfo($user_arr['role']);
+        $roleEM = new RoleEmployee($corp_id);
+        $roleList = $roleEM->getRolebyEmployeeId($user_arr['id']);
 
 
         $structureEmployeeModel = new StructureEmployee($corp_id);
@@ -106,7 +106,7 @@ class Login extends Controller
         $req_reg['userpic'] = $user_arr['userpic'];
         $req_reg['userscore'] = $score['score'];
         $req_reg['title'] = $score['title'];
-        $req_reg['occupation'] = $rolep;
+        $req_reg['occupation'] = $roleList;
         $req_reg['percentage'] = $per;
         //$req_reg['totaluser'] = $data_all;
         $req_reg['structure'] = $structure;

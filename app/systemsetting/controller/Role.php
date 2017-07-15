@@ -11,6 +11,9 @@ use app\common\model\Role as RoleModel;
 use app\common\model\Rule as RuleModel;
 use think\Request;
 use app\systemsetting\controller\Employee as EmployeeController;
+use app\common\model\Employee as EmployeeModel;
+use app\common\model\Structure as StructureModel;
+use app\common\model\RoleEmployee;
 
 class Role extends Initialize{
     var $paginate_list_rows = 10;
@@ -83,6 +86,25 @@ class Role extends Initialize{
         $this->assign("truename",$truename);
         $this->assign("start_num",$employees_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$employees_count?$end_num:$employees_count);
+        return view();
+    }
+    public function employee_show(){
+        $id = input('id',0,'int');
+        if(!$id){
+            $this->error("参数错误！");
+        }
+        $this->assign("id",$id);
+        $employeeM = new EmployeeModel($this->corp_id);
+        $employee = $employeeM->getEmployeeByUserid($id);
+        $employee["role_id"] = explode(",",$employee["role_id"]);
+        //var_exp($employee,'$employee',1);
+        $this->assign("employee",$employee);
+        $struM = new StructureModel();
+        $structs = $struM->getAllStructure();
+        $this->assign("structs",$structs);
+        $rolM = new RoleModel();
+        $roles = $rolM->getAllRole();
+        $this->assign("roles",$roles);
         return view();
     }
 
@@ -284,21 +306,18 @@ class Role extends Initialize{
      */
     public function deleteRoleMember(Request $request)
     {
+        $result = ['status'=>0 ,'message'=>"删除角色成员失败！"];
         $input = $request->param();
-        $employeeM = new Employee();
-        $data = ['role'=>''];
-        $b = $employeeM->setSingleEmployeeInfobyId($input['user_id'], $data);
+        $role_empM = new RoleEmployee($this->corp_id);
+        $data = ['role'=>$input['role_id']];
+        $b = $role_empM->deleteMultipleRoleEmployee($input['user_id'], $data);
         if ($b > 0) {
-            return [
+            $result = [
                 'status'=>true,
                 'message'=>'删除角色成员成功'
             ];
-        } else {
-            return [
-                'status'=>false,
-                'message'=>'删除角色成员失败'
-            ];
         }
+        return $result;
     }
 
     /**

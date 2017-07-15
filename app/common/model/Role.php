@@ -26,8 +26,10 @@ class Role extends Base
      */
     public function getAllRole()
     {
-        return $this->model->table($this->table)
-            ->field('id,role_name,rules')
+        return $this->model->table($this->table)->alias('ro')
+            ->join(config('database.prefix').'role_rule rr','rr.role_id = ro.id','left')
+            ->group("ro.id")
+            ->field('ro.id,ro.role_name,GROUP_CONCAT( distinct rr.rule_id) as rules')
             ->select();
     }
 
@@ -39,9 +41,11 @@ class Role extends Base
      */
     public function getRoleInfo($role_id)
     {
-        return $this->model->table($this->table)
-            ->where('id',$role_id)
-            ->field('id,role_name,rules')
+        return $this->model->table($this->table)->alias('ro')
+            ->join(config('database.prefix').'role_rule rr','rr.role_id = ro.id','left')
+            ->where('ro.id',$role_id)
+            ->group("ro.id")
+            ->field('ro.id,ro.role_name,GROUP_CONCAT( distinct rr.rule_id) as rules')
             ->find();
     }
 

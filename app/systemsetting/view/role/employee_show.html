@@ -1,0 +1,108 @@
+<div class="top">
+    <ul class="firNav">
+        <li class="current"><div>职位管理</div></li>
+        <i class="fa fa-angle-right fa-2x"></i>
+        <span class="span-info">员工详情</span>
+    </ul>
+</div>
+<div id="content">
+    <div id="dv1">
+        <p>
+            <span class="left">姓名</span>
+            <span class="colon">:</span>
+            <span class="right">{$employee.truename}</span>
+
+        </p>
+        <p>
+            <span class="left">昵称</span>
+            <span class="colon">:</span>
+            <span class="right">{$employee.nickname}</span>
+
+        </p>
+        <p>
+            <span class="left">性别</span>
+            <span class="colon">:</span>
+            <span class="right">{eq name="employee.gender" value="1"}男{else/}女{/eq}</span>
+
+        </p>
+        <p>
+            <span class="left">手机号</span>
+            <span class="colon">:</span>
+            <span class="right green">{$employee.telephone}</span>
+            <img src="/systemsetting/images/call.jpg" />
+
+        </p>
+        <p>
+            <span class="left">座机号</span>
+            <span class="colon">:</span>
+            <span class="right green">{$employee.wired_phone}</span>
+            <img src="/systemsetting/images/call.jpg" />
+
+        </p>
+        <p>
+            <span class="left">分机号</span>
+            <span class="colon">:</span>
+            <span class="right green">{$employee.part_phone}</span>
+            <img src="/systemsetting/images/call.jpg" />
+
+        </p>
+
+        <p>
+            <span class="left">员工状态</span>
+            <span class="colon">:</span>
+            <span class="right">
+                {switch	name="employee.on_duty"}
+				{case value="1"}在职{/case}
+				{case value="2"}休假{/case}
+                {/switch}
+            </span>
+
+        </p>
+        <p>
+            <span class="left">员工职位</span>
+            <span class="colon">:</span>
+            <span class="right">{$employee.role_name}</span>
+        </p>
+    </div>
+    <div id="dv2">
+        <p>
+
+            <span class="left_1">直属部门</span>
+            <span class="colon">:</span>
+            <span class="right_2">{$employee.struct_name}</span>
+        </p>
+        <p>
+
+            <span class="left_1">工号</span>
+            <span class="colon">:</span>
+            <span class="right_2">{$employee.worknum}</span>
+        </p>
+        <p>
+
+            <span class="left_1">是否领导</span>
+            <span class="colon">:</span>
+            <span class="right_2">{eq name="employee.is_leader" value="1"}是{else/}否{/eq}</span>
+        </p>
+        <p>
+
+            <span class="left_1">邮箱</span>
+            <span class="colon">:</span>
+            <span class="right_2">{$employee.email}</span>
+
+        </p>
+        <p>
+
+            <span class="left_1">QQ号</span>
+            <span class="colon">:</span>
+            <span class="right_2">{$employee.qqnum}</span>
+        </p>
+        <p>
+
+            <span class="left_1">微信号</span>
+            <span class="colon">:</span>
+            <span class="right_2">{$employee.wechat}</span>
+        </p>
+
+    </div>
+</div>
+<link rel="stylesheet" href="/systemsetting/css/employeeshow.css" />
