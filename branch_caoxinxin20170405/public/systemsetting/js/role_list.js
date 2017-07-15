@@ -79,3 +79,37 @@ $(".systemsetting_role .content .dv1 .del").click(function(){
         }
     });
 });
+function role_list_employee_show(id){
+    var url = "/systemsetting/role/employee_show/id/"+id;
+    var panel = 'role-managementfr .systemsetting_role .content .dv2';
+    $.ajax({
+        url:url,
+        type:'get',
+        async:false,
+        success:function (data) {
+            $('#frames #'+employee_list_hide_panel).addClass("hide");
+            $('#frames #'+panel).html(data);
+            $('#frames #'+panel).removeClass("hide");
+        },
+        error:function(){
+            alert("获取员工信息失败!");
+        }
+    });
+}
+function role_list_employee_del(id){
+    var url = "/systemsetting/role/employee_show/id/"+id;
+    var panel = 'role-managementfr .systemsetting_role .content .dv2';
+    $.ajax({
+        url:url,
+        type:'get',
+        async:false,
+        success:function (data) {
+            $('#frames #'+employee_list_hide_panel).addClass("hide");
+            $('#frames #'+panel).html(data);
+            $('#frames #'+panel).removeClass("hide");
+        },
+        error:function(){
+            alert("获取员工信息失败!");
+        }
+    });
+}

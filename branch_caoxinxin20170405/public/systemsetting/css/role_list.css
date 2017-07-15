@@ -152,16 +152,22 @@
     width: 42px;
     height: 18px;
 }
-.systemsetting_role .dv1 .title{
-    width: 246px;
-    height: 42px;
-    border-bottom: 1px solid #eee;
-
+.systemsetting_role .dv1 .title {
+    height: 50px;
+    border-bottom: 1px solid #ebebeb;
 }
-.systemsetting_role .dv1 .title p{
-    font-size: 18px;
-    margin-left: 25px;
-    line-height: 42px;
+
+.systemsetting_role .dv1 .title span {
+    font-size: 16px;
+    line-height: 50px;
+    margin-left: 15px;
+}
+
+.systemsetting_role .dv1 .title i {
+    font-size: 20px;
+    line-height: 50px;
+    margin-left: 168px;
+    color: #b3b3b3;
 }
 .systemsetting_role .dv1 ul li{
     width: 244px;

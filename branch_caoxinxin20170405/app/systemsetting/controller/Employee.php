@@ -17,6 +17,7 @@ use app\common\model\EmployeeDelete;
 use app\common\model\UserCorporation;
 use app\common\model\Structure as StructureModel;
 use app\common\model\Role as RoleModel;
+use app\common\model\RoleEmployee;
 
 class Employee extends Initialize{
     var $default_password = 87654321;
@@ -46,9 +47,10 @@ class Employee extends Initialize{
         try{
             $employeeM = new EmployeeModel($this->corp_id);
             $listdata = $employeeM->getPageEmployeeList($start_num,$num,$filter);
+            //var_exp($listdata,'$listdata',1);
             $this->assign("listdata",$listdata);
             $count = $employeeM->countPageEmployeeList($filter);
-            $employees_count = empty($count)? 0:$count[0]['num'];
+            $employees_count = empty($count)? 0:$count;
             $this->assign("count",$employees_count);
             $struM = new StructureModel();
             $structs = $struM->getAllStructure();
@@ -151,26 +153,27 @@ class Employee extends Initialize{
     {
         $employeeM = new EmployeeModel($this->corp_id);
         $info = $employeeM->getEmployeeByUserid($user_id);
+        //var_exp($info,'$info',1);
         return $info;
     }
 
     /**
      * 分页展示员工列表
-     * @param int $page_now_num 当前页
+     * @param int $page 当前页
      * @param int $page_rows 行数
      * @return array
      * created by messhair
      */
-    public function showEmployeeList($page_now_num = 0, $page_rows = 10)
+    public function showEmployeeList($page = 0, $page_rows = 10)
     {
         $filter = $this->_getCustomerFilter(["structure","role","on_duty","worknum","truename"]);
         $employeeM = new EmployeeModel($this->corp_id);
-        $res = $employeeM->getPageEmployeeList($page_now_num,$page_rows,$filter);
+        $res = $employeeM->getPageEmployeeList($page,$page_rows,$filter);
         $count = $employeeM->countPageEmployeeList($filter);
-        $count = empty($count)? 0:$count[0]['num'];
+        $count = empty($count)? 0:$count;
         return [
             'data'=>$res,
-            'page_now_num'=>$page_now_num,
+            'page'=>$page,
             'page_row'=>$page_rows,
             'total_num'=>$count,
         ];
@@ -202,6 +205,14 @@ class Employee extends Initialize{
             return view();
         } elseif ($request->isPost()) {
             $input = $request->param();
+            $struct_ids = $input['struct_id'];
+            $role_ids = $input['role'];
+            if(!$struct_ids || !$role_ids){
+                return [
+                    'status' =>false,
+                    'message' =>'参数错误!',
+                ];
+            }
             $result = $this->validate($input,'Employee');
             //var_exp($result,'$result',1);
             $info['status'] = false;
@@ -218,12 +229,13 @@ class Employee extends Initialize{
                     ];
                 }
             }
-            $struct_ids = $input['struct_id'];
             unset($input['struct_id']);
+            unset($input['role']);
             if($input["on_duty"]==-1){
                 $input["on_duty"] = 1;
                 $input["status"] = -1;
             }
+            $input["create_time"] = time();
             $employeeM = new EmployeeModel($this->corp_id);
             $struct_empM = new StructureEmployee($this->corp_id);
             $huanxin = new HuanxinApi();
@@ -247,6 +259,7 @@ class Employee extends Initialize{
                 $b = UserCorporation::addSingleUserTel($user_tel);
                 //部门表增加信息
                 if ($input['is_leader'] == 1) {
+                    $struct_ids = explode(",",$struct_ids);
                     $struct_data=[];
                     foreach ($struct_ids as $k=>$v) {
                         $struct_data[$k]['user_id'] =$id;
@@ -258,7 +271,15 @@ class Employee extends Initialize{
                     $struct_data['struct_id'] = $struct_ids;
                     $f = $struct_empM->addStructureEmployee($struct_data);
                 }
-                if ($id > 0 && $f > 0 && $b > 0) {
+                $role_empM = new RoleEmployee($this->corp_id);
+                $role_ids = explode(",",$role_ids);
+                $role_data=[];
+                foreach ($role_ids as $k=>$v) {
+                    $role_data[$k]['user_id'] =$id;
+                    $role_data[$k]['role_id'] = $v;
+                }
+                $r = $role_empM->createMultipleRoleEmployee($role_data);
+                if ($id > 0 && $f > 0 && $b > 0 && $r > 0) {
                     //环信增加帐号
                     $d = $huanxin->regUser($this->corp_id,$input['telephone'],$this->default_password,$input['truename']);//TODO 测试注释掉
                     //$d['status'] = true;//TODO 测试开启
@@ -326,6 +347,8 @@ class Employee extends Initialize{
             $employee_info = $employeeM->getEmployeeByUserid($user_id);
             $struct_info = $structM->getEmployeeStructure($user_id);
             $employee_info['struct_info'] = $struct_info;
+            $role_info = $structM->getEmployeeStructure($user_id);
+            $employee_info['role_info'] = $role_info;
             return $employee_info;
         } elseif ($request->isPost()) {
             $input = $request->param();
@@ -347,6 +370,7 @@ class Employee extends Initialize{
                 }
             }
             $struct_ids = explode(",",$input['struct_id']);
+            $role_ids = explode(",",$input['role']);
             $user_id = $input['user_id'];
             if($input["on_duty"]==-1){
                 $input["on_duty"] = 1;
@@ -365,9 +389,11 @@ class Employee extends Initialize{
                 }
             }
             unset($input['struct_id']);
+            unset($input['role']);
             unset($input['user_id']);
             $employeeM = new EmployeeModel($this->corp_id);
             $struct_empM = new StructureEmployee($this->corp_id);
+            $role_empM = new RoleEmployee($this->corp_id);
             $huanxin = new HuanxinApi();
             $info['status'] = false;
             //取出旧设置的部门ids
@@ -421,7 +447,42 @@ class Employee extends Initialize{
                     }
                     $del_res = 1;
                 }
-                if ($em_res >= 0 && $res>0 && $del_res>0) {
+
+
+                $role_old = $role_empM->getRoleIdsByEmployee($user_id);
+                $role_old_arr = [];
+                foreach ($role_old as $val) {
+                    $role_old_arr[] .=$val['role_id'];
+                }
+                $role_insert = array_diff($role_ids,$role_old_arr);//新添加的
+                $role_delete = array_diff($role_old_arr,$role_ids);//需要删除的
+                //有需要添加的
+                if (!empty($role_insert)) {
+                    $role_insert_data = [];
+                    foreach ($role_insert as $k=>$v) {
+                        array_push($role_insert_data,['user_id'=>$user_id,'role_id'=>$v]);
+                    }
+                    if (count($role_insert_data) >1) {
+                        $role_res = $role_empM->createMultipleRoleEmployee($role_insert_data);
+                    } else {
+                        $role_res = $role_empM->createRoleEmployee($role_insert_data["0"]);
+                    }
+                } else {
+                    $role_res = 1;
+                }
+
+                //有需要删除的
+                if (!empty($role_delete)) {
+                    $role_delete_data = [];
+                    foreach ($role_delete as $k=>$v) {
+                        array_push($role_delete_data,$v);
+                    }
+                    $role_del_res = $role_empM->deleteMultipleRoleEmployee($user_id,$role_delete_data);
+                } else {
+                    $role_del_res = 1;
+                }
+
+                if ($em_res >= 0 && $res>0 && $del_res>0 && $role_res>0 && $role_del_res>0) {
                     $employeeM->link->commit();
                     return [
                         'status' => true,
@@ -477,6 +538,7 @@ class Employee extends Initialize{
             $names_str = implode(',',$names);
             $emp_delM = new EmployeeDelete($this->corp_id);
             $stru_empM = new StructureEmployee($this->corp_id);
+            $role_empM = new RoleEmployee($this->corp_id);
             $huanxin = new HuanxinApi();
             $emp_delM->link->startTrans();
             Corporation::startTrans();
@@ -485,6 +547,7 @@ class Employee extends Initialize{
             $f = 0;
             $g = 0;
             $h = false;
+            $r = false;
             try{
 //                删除员工
                 $b = $employeeM->deleteMultipleEmployee($user_ids);
@@ -494,6 +557,8 @@ class Employee extends Initialize{
                 $f = UserCorporation::deleteUserCorp($tel_str);
 //                    删除部门员工表信息
                 $g = $stru_empM->deleteMultipleStructureEmployee($user_ids);
+//                    删除部门员工表信息
+                $r = $role_empM->deleteMultipleRoleEmployee($user_ids);
                 //删除环信账户
                 $h = false;
                 if(count($tel_arr)==1){
@@ -513,7 +578,7 @@ class Employee extends Initialize{
                 $emp_delM->link->rollback();
                 UserCorporation::rollback();
             }
-            if ($b > 0 && $d > 0 && $f > 0 && $g > 0 && $h) {
+            if ($b > 0 && $d > 0 && $f > 0 && $g > 0 && $h && $r) {
                 $emp_delM->link->commit();
                 UserCorporation::commit();
                 $userinfo = get_userinfo();

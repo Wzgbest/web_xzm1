@@ -75,7 +75,7 @@ $(employee_list_nav_base+" .exportEmployee").click(function(){
 	if(ids==""){
 		return;
 	}
-	console.log(ids);
+	//console.log(ids);
 	$(employee_list_base+" .exportEmployeeUI").reveal("{data-animation:'fade'}");
 });
 $(employee_list_base+" .exportEmployeeUI .exportEmployeeUIOkBtn").click(function(){
@@ -84,7 +84,7 @@ $(employee_list_base+" .exportEmployeeUI .exportEmployeeUIOkBtn").click(function
 	if(ids==""){
 		return;
 	}
-	console.log(ids);
+	//console.log(ids);
 	window.open("/systemsetting/employee_import/exportEmployee/ids/"+ids);
 });
 $(employee_list_base+" .exportEmployeeUI .exportEmployeeUICancelBtn").click(function(){
@@ -175,7 +175,7 @@ function employee_list_edit(id,status){
 function employee_list_edit_update(id){
 	var employee_list_edit_from_data = $(".employee_list_edit_from").serialize();
 	employee_list_edit_from_data += "&user_id="+id;
-	console.log(employee_list_edit_from_data);
+	//console.log(employee_list_edit_from_data);
 	$.ajax({
 		url: '/systemsetting/employee/editemployee.html',
 		type: 'post',
@@ -247,11 +247,11 @@ function employee_list_add_employee(){
 	});
 }
 function employee_list_new_employee(){
-	console.log("new_start");
+	//console.log("new_start");
 	$("#employee_list_newClientForm :text").val("");
 	$("#employee_list_newClientForm textarea").val("");
 	$("#employee_list_newClientForm").removeClass("hide");
 	$("#employee_list_newClientForm select").find("option:first").removeAttr("selected",true);
 	$("#employee_list_newClientForm select").find("option:first").attr("selected",true);
-	console.log("new_end");
+	//console.log("new_end");
 }
