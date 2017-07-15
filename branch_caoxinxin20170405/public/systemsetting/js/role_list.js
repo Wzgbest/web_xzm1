@@ -81,7 +81,7 @@ $(".systemsetting_role .content .dv1 .del").click(function(){
 });
 function role_list_employee_show(id){
     var url = "/systemsetting/role/employee_show/id/"+id;
-    var panel = 'role-managementfr .systemsetting_role .content .dv2';
+    var panel = 'role-managementfr .systemsetting_role .employee_info';
     $.ajax({
         url:url,
         type:'get',
@@ -90,26 +90,31 @@ function role_list_employee_show(id){
             $('#frames #'+employee_list_hide_panel).addClass("hide");
             $('#frames #'+panel).html(data);
             $('#frames #'+panel).removeClass("hide");
+            $('#frames #'+panel+" .firNav .current").click(function(){
+                $('#frames #'+panel).addClass("hide");
+            });
         },
         error:function(){
             alert("获取员工信息失败!");
         }
     });
 }
-function role_list_employee_del(id){
-    var url = "/systemsetting/role/employee_show/id/"+id;
-    var panel = 'role-managementfr .systemsetting_role .content .dv2';
+function role_list_employee_del(role_id,user_id){
+    var url = "/systemsetting/role/deleteRoleMember/";
     $.ajax({
         url:url,
-        type:'get',
+        type:'post',
         async:false,
+        dataType:"json",
+        data:"role_id="+role_id+"&user_id="+user_id,
         success:function (data) {
-            $('#frames #'+employee_list_hide_panel).addClass("hide");
-            $('#frames #'+panel).html(data);
-            $('#frames #'+panel).removeClass("hide");
+            alert(data.message);
+            if(data.status){
+                loadEmployeeTable(role_id);
+            }
         },
         error:function(){
-            alert("获取员工信息失败!");
+            alert("移除员工职位失败!");
         }
     });
 }

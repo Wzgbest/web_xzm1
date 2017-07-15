@@ -26,7 +26,7 @@
                 <li class="u-tabOperation">
                     <span onclick="role_list_employee_show('{$vo.id}');">详情</span>
                     {if condition="strpos($vo.role,',')"}
-                        <span onclick="role_list_employee_del('{$vo.id}');">移除</span>
+                        <span onclick="role_list_employee_del('{$id}','{$vo.id}');">移除</span>
                     {/if}
                 </li>
                 <div class="clearfix"></div>

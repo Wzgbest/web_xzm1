@@ -26,7 +26,7 @@ $(employee_list_nav_base+" .employee_import").click(function(){
 			$('#frames #staff-managementfr .sys_employee_list .employee_import_record').removeClass("hide");
 		},
 		error:function(){
-			alert("获取员工信息失败!");
+			alert("获取导入员工信息失败!");
 		}
 	});
 });

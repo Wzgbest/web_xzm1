@@ -1,33 +1,37 @@
 <div class="systemsetting_role">
-    <div class="top">
-        <ul class="firNav">
-            <li class="current">
-                <div>职位管理</div>
-            </li>
-        </ul>
-        <div class="add">
-            <i class="fa fa-plus fa-2x"></i>
-            <p>新增</p>
+    <div class="role_list_panel role_list">
+        <div class="top">
+            <ul class="firNav">
+                <li class="current">
+                    <div>职位管理</div>
+                </li>
+            </ul>
+            <div class="add">
+                <i class="fa fa-plus fa-2x"></i>
+                <p>新增</p>
+            </div>
+        </div>
+        <div class="content">
+            <div class="dv1">
+                <div class="title">
+                    <span>职位</span>
+                    <i class="fa fa-plus"></i>
+                </div>
+                <ul>
+                    {volist name="roles" id="vo"}
+                        <li role_id="{$vo.id}">
+                            <span class="role_name">{$vo.role_name}</span>
+                            <img class="compile" src="/systemsetting/images/compile.png" />
+                            <img class="del" src="/systemsetting/images/del.png" />
+                        </li>
+                    {/volist}
+                </ul>
+            </div>
+            <div class="dv2">
+            </div>
         </div>
     </div>
-    <div class="content">
-        <div class="dv1">
-            <div class="title">
-                <span>职位</span>
-                <i class="fa fa-plus"></i>
-            </div>
-            <ul>
-                {volist name="roles" id="vo"}
-                    <li role_id="{$vo.id}">
-                        <span class="role_name">{$vo.role_name}</span>
-                        <img class="compile" src="/systemsetting/images/compile.png" />
-                        <img class="del" src="/systemsetting/images/del.png" />
-                    </li>
-                {/volist}
-            </ul>
-        </div>
-        <div class="dv2">
-        </div>
+    <div class="role_list_panel employee_info hide">
     </div>
 </div>
 <script src="/systemsetting/js/role_list.js"></script>
