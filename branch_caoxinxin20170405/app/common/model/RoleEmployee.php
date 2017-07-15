@@ -27,7 +27,7 @@ class RoleEmployee extends Base
      * @throws \think\Exception
      */
     public function createRoleEmployee($roleEmployees){
-        return $this->model->table($this->table)->insertGetId($roleEmployees);
+        return $this->model->table($this->table)->insert($roleEmployees);
     }
 
     /**
@@ -105,8 +105,7 @@ class RoleEmployee extends Base
             ->join(config('database.prefix').'role_rule rr','rr.role_id = r.id','left')
             ->field('GROUP_CONCAT( distinct re.role_id) as role_id')
             ->where('re.user_id',$userid)
-            ->group('re.user_id')
-            ->find();
+            ->select();
         return $role;
     }
 

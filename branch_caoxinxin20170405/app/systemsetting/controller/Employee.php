@@ -127,6 +127,8 @@ class Employee extends Initialize{
         $this->assign("id",$id);
         $this->assign("fr",input('fr'));
         $employee = $this->showSingleEmployeeInfo($id);
+        $employee["role_id"] = explode(",",$employee["role_id"]);
+        //var_exp($employee,'$employee',1);
         $this->assign("employee",$employee);
         $struM = new StructureModel();
         $structs = $struM->getAllStructure();

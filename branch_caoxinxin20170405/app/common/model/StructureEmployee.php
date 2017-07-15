@@ -90,7 +90,7 @@ class StructureEmployee extends Base
      */
     public function addStructureEmployee($data)
     {
-        return $this->model->table($this->table)->insertGetId($data);
+        return $this->model->table($this->table)->insert($data);
     }
 
     /**

@@ -80,7 +80,7 @@ class Employee extends Base{
             "tel_email"=>$user_tel_email
         ]);
         $field = '`e`.`id`,`e`.`truename`,GROUP_CONCAT( distinct `re`.`role_id`) as role,`e`.`telephone`,`e`.`is_leader`,`e`.`worknum`,`e`.`create_time`,GROUP_CONCAT( distinct `s`.`struct_name`) as `struct_name` ';
-        $employee_list = $this->model->table($this->table)->alias('a')
+        $employee_list = $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
             ->join($this->dbprefix.'role r','re.role_id = r.id')
             ->join($this->dbprefix.'structure_employee se','e.id = se.user_id')
@@ -90,6 +90,7 @@ class Employee extends Base{
             ->group("e.id")
             ->field($field)
             ->select();
+        //var_exp($employee_list,'$employee_list',1);
         return $employee_list;
     }
 
@@ -292,10 +293,11 @@ class Employee extends Base{
      */
     public function getEmployeeByRole($role_id, $page=0, $rows = 10)
     {
-        $field = '`e`.`id`,`e`.`truename`,GROUP_CONCAT( distinct `re`.`role_id`) as role,`e`.`telephone`,`e`.`is_leader`,`e`.`worknum`,`e`.`create_time`,GROUP_CONCAT( distinct `s`.`struct_name`) as `struct_name` ';
-        $employee_list = $this->model->table($this->table)->alias('a')
+        $field = '`e`.`id`,`e`.`truename`,GROUP_CONCAT( distinct `res`.`role_id`) as role,`e`.`telephone`,`e`.`is_leader`,`e`.`worknum`,`e`.`create_time`,GROUP_CONCAT( distinct `s`.`struct_name`) as `struct_name` ';
+        $employee_list = $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
             ->join($this->dbprefix.'role r','re.role_id = r.id')
+            ->join($this->dbprefix.'role_employee res','res.user_id = e.id')
             ->join($this->dbprefix.'structure_employee se','e.id = se.user_id')
             ->join($this->dbprefix.'structure s','se.struct_id = s.id')
             ->where("re.role_id",$role_id)
@@ -383,7 +385,7 @@ class Employee extends Base{
     public function getPageEmployeeList($page = 0,$rows = null,$where = null)
     {
         $map = $this->_getPageEmployeeListWhereSql($where);
-        $field = '`e`.`id`,`e`.`truename`,GROUP_CONCAT( distinct distinct `re`.`role_id`) as role,`e`.`telephone`,`e`.`is_leader`,case when `e`.`status` = -1 then `e`.`status` else `e`.`on_duty` end as on_duty,`e`.`worknum`,`e`.`email`,`e`.`qqnum`,`e`.`create_time`,GROUP_CONCAT( distinct distinct `r`.`role_name`) as role_name,GROUP_CONCAT( distinct distinct `s`.`struct_name`) as `struct_name` ';
+        $field = '`e`.`id`,`e`.`truename`,GROUP_CONCAT( distinct `re`.`role_id`) as role,`e`.`telephone`,`e`.`is_leader`,case when `e`.`status` = -1 then `e`.`status` else `e`.`on_duty` end as on_duty,`e`.`worknum`,`e`.`email`,`e`.`qqnum`,`e`.`create_time`,GROUP_CONCAT( distinct `r`.`role_name`) as role_name,GROUP_CONCAT( distinct `s`.`struct_name`) as `struct_name` ';
         $employee_list = $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
             ->join($this->dbprefix.'role r','re.role_id = r.id')
