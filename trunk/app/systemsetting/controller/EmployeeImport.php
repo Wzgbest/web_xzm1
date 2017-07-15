@@ -18,6 +18,7 @@ use think\Db;
 use app\common\model\UserCorporation;
 use app\common\model\Structure as StructureModel;
 use app\common\model\Role as RoleModel;
+use app\common\model\RoleEmployee;
 use app\common\model\StructureEmployee;
 
 class EmployeeImport extends Initialize{
@@ -222,11 +223,6 @@ class EmployeeImport extends Initialize{
                 $is_leader = (trim($item['is_leader']) == "是") ? 1 : 0;
                 $employee['is_leader'] = $is_leader;
                 $employee['worknum'] = $item['worknum'];
-                if(!isset($roles_arr[$item['role']])){
-                    exception("未找到名称为 ".$item['role']." 的职位!");
-                }
-                $role = $roles_arr[$item['role']];
-                $employee['role'] = $role;
                 $sex = trim($item['sex']);
                 $gender = ($sex == "男") ? 1 : (($sex == "女") ? 0 : 2);
                 $employee['gender'] = $gender;
@@ -255,10 +251,43 @@ class EmployeeImport extends Initialize{
                 if (!$user_corp_add_flg) {
                     exception('导入帐号时发生错误!');
                 }
+
+                // 添加职位
+                $role_empM = new RoleEmployee($this->corp_id);
+                $role_str_arr = explode(",",$item['role']);
+                if(!isset($role_str_arr)){
+                    exception("未找到职位!");
+                }
+                $role_ids = [];
+                foreach($role_str_arr as $role_str){
+                    if(!empty($role_str) && !isset($roles_arr[$role_str])){
+                        exception('未找到名称为 '.$role_str.' 的职位!');
+                    }
+                    $role_ids[] = $roles_arr[$role_str];
+                }
+                $role_data=[];
+                foreach ($role_ids as $k=>$v) {
+                    $role_data[$k]['user_id'] =$add_flg;
+                    $role_data[$k]['role_id'] = $v;
+                }
+                $r = $role_empM->createMultipleRoleEmployee($role_data);
+                if($r<=0){
+                    exception('导入帐号职位时发生错误!');
+                }
+                //if(!isset($roles_arr[$item['role']])){
+                //    exception("未找到名称为 ".$item['role']." 的职位!");
+                //}
+                //$role = $roles_arr[$item['role']];
+                //$employee['role'] = $role;
+
+                // 添加部门
                 $struct_empM = new StructureEmployee($this->corp_id);
                 //部门表增加信息
                 if ($employee['is_leader'] == 1) {
                     $struct_str_arr = explode(",",$item['struct']);
+                    if(!isset($struct_str_arr)){
+                        exception("未找到部门!");
+                    }
                     $struct_ids = [];
                     foreach($struct_str_arr as $struct_str){
                         if(!empty($struct_str) && !isset($structs_arr[$struct_str])){
@@ -282,7 +311,7 @@ class EmployeeImport extends Initialize{
                     $f = $struct_empM->addStructureEmployee($struct_data);
                 }
                 if($f<=0){
-                    exception('导入帐号部门发生错误!');
+                    exception('导入帐号部门时发生错误!');
                 }
                 //$huanxin_array = ['username'=>$item['telephone'],'password'=>'123456','nickname'=>$item['username']];
                 //$huanxin_json = json_encode($huanxin_array);
@@ -391,8 +420,18 @@ class EmployeeImport extends Initialize{
         //var_exp($roles_arr,'$roles_arr');
         $struct_empM = new StructureEmployee($this->corp_id);
         $user_struct_ids = $struct_empM->getStructIdsByEmployeeIds($ids_arr);
+        $RoleEmployeeM = new RoleEmployee($this->corp_id);
+        $RoleEmployeeList = $RoleEmployeeM->getRolesByEmployeeIds($ids_arr);
+        //var_exp($ids_arr,'$ids_arr');
+        //var_exp($RoleEmployeeList,'$RoleEmployeeList');
+        $RoleEmployeeArr = [];
+        foreach ($RoleEmployeeList as $RoleEmployee){
+            $RoleEmployeeArr[$RoleEmployee["user_id"]][] = $RoleEmployee;
+        }
+        //var_exp($RoleEmployeeArr,'$RoleEmployeeArr',1);
         foreach ($employees_data as $employee){
             //var_exp($employee,'$employee');
+            //部门
             $struct_arr = [];
             if(isset($user_struct_ids[$employee['id']])){
                 //var_exp($user_struct_ids[$employee['id']],'$user_struct_ids[$employee[\'id\']]');
@@ -404,7 +443,14 @@ class EmployeeImport extends Initialize{
             }
             //var_exp($roles_arr[$employee["role"]],'$roles_arr[$employee["role"]]',1);
             $employee['struct'] = implode(",",$struct_arr);
-            $employee['role'] = isset($roles_arr[$employee["role"]])?$roles_arr[$employee["role"]]:"";
+            //职位
+            $role_name_arr = [];
+            if(isset($RoleEmployeeArr[$employee['id']])){
+                foreach ($RoleEmployeeArr[$employee['id']] as $RoleEmployee){
+                    $role_name_arr[] = $RoleEmployee["role_name"];
+                }
+            }
+            $employee['role'] = implode(",",$role_name_arr);
             $employee['gender'] = $employee['gender']==1?"男":"女";
             $employee['is_leader'] = $employee['is_leader']==1?"是":"否";
             unset($employee['id']);

@@ -27,7 +27,7 @@ class Occupation extends Base
      */
     public function getOccupation($userid)
     {
-        return $this->model->table($this->table)->alias('a')->join('guguo_employee b','a.id = b.occupation')->where('b.id',$userid)->find();
+        return $this->model->table($this->table)->alias('a')->join(config('database.prefix').'employee b','a.id = b.occupation')->where('b.id',$userid)->find();
     }
 
     /**
