@@ -367,7 +367,9 @@ class Employee extends Base{
         //筛选
         $map = $this->_getPageEmployeeListWhereSql($filter);
         $in_role_employee_id_list = $this->getInRoleEmployeeIds($role_id);
-        $map["e.id"] = ["not in",$in_role_employee_id_list];
+        if($in_role_employee_id_list){
+            $map["e.id"] = ["not in",$in_role_employee_id_list];
+        }
 
         $employee_list = $employee_list = $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
@@ -396,7 +398,9 @@ class Employee extends Base{
     {
         $map = $this->_getPageEmployeeListWhereSql($filter);
         $in_role_employee_id_list = $this->getInRoleEmployeeIds($role_id);
-        $map["e.id"] = ["not in",$in_role_employee_id_list];
+        if($in_role_employee_id_list){
+            $map["e.id"] = ["not in",$in_role_employee_id_list];
+        }
 
         $count = $employee_list = $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
@@ -504,7 +508,9 @@ class Employee extends Base{
         //筛选
         $map = $this->_getPageEmployeeListWhereSql($filter);
         $in_struct_employee_id_list = $this->getInStructEmployeeIds($struct_id);
-        $map["e.id"] = ["not in",$in_struct_employee_id_list];
+        if($in_struct_employee_id_list){
+            $map["e.id"] = ["not in",$in_struct_employee_id_list];
+        }
 
         $employee_list = $employee_list = $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
@@ -532,7 +538,9 @@ class Employee extends Base{
     {
         $map = $this->_getPageEmployeeListWhereSql($filter);
         $in_struct_employee_id_list = $this->getInStructEmployeeIds($struct_id);
-        $map["e.id"] = ["not in",$in_struct_employee_id_list];
+        if($in_struct_employee_id_list){
+            $map["e.id"] = ["not in",$in_struct_employee_id_list];
+        }
         $count = $employee_list = $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
             ->join($this->dbprefix.'role_employee res','res.user_id = e.id')
