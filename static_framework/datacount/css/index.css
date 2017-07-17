@@ -345,7 +345,7 @@
 	/*display: inline-block;*/
 	float: left;
 }
-.data-outline .title{
+.title-content .title{
 	width: 90px;
 	height: 40px;
 	display: inline-block;

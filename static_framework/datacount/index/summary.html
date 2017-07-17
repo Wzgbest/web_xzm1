@@ -194,41 +194,9 @@
 							<option>年度</option>
 						</select>
 					</div>
-					<div id="echart">
-						
+					<div id="echart" style="width: 780px;height: 300px;">						
 					</div>
-				</div>
-				<script language="javascript">
-					debugger;
-					console.log(1);
-				</script>
-				<script src="/static/js/echarts.min.js"></script>
-				<script language="javascript">
-					var myChart = echarts.init(document.getElementById("echart"));
-					
-					var option = {
-						title:{"销售预估"},
-						tooltip:{},
-						legend:{data:["销量1","销量2","销量3"]},
-						xAxis:{data:["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]},
-						yAxis:{},
-						series:[{
-							name:"销量1",
-							type:"line",
-							data:[50,200,360,100,100,200]
-						},{
-							name:"销量2",
-							type:"bar",
-							data:[2,100,360,100,100,200]
-						},{
-							name:"销量3",
-							type:"line",
-							data:[8,10,36,180,130,280]
-						}]
-					};
-					
-					myChart.setOption(option);
-				</script>
+				</div>			
 			</div>
 		</div>
 	</div>
@@ -237,3 +205,33 @@
 <link rel="stylesheet" href="/datacount/css/table.css" />
 <link rel="stylesheet" href="/datacount/css/form.css" />
 <link rel="stylesheet" href="/datacount/css/divBlock.css" />
+<script src="/static/js/echarts.min.js"></script>
+<script language="javascript">
+	var echart = document.getElementById('echart');
+	var myChart = echarts.init(document.getElementById('echart'));
+	var option = {
+		title:{text:"销量预估"},
+		tooltip:{},
+		legend:{data:["有效通话","商机","拜访","成单"]},
+		xAxis:{data:["上上上月","上上月","上月","本月","下月"]},
+		yAxis:{},
+		series:[{
+			name:"有效通话",
+			type:"line",
+			data:[50,200,360,100,100]
+		},{
+			name:"商机",
+			type:"line",
+			data:[30,250,300,120,10]
+		},{
+			name:"拜访",
+			type:"line",
+			data:[60,20,360,10,100]
+		},{
+			name:"成单",
+			type:"line",
+			data:[600,260,160,310,400]
+		}]
+	};				
+	myChart.setOption(option);
+</script>
