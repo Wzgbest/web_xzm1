@@ -8,6 +8,9 @@
 .five_tree .node .node_item {
     height: 42px;
 }
+.five_tree .node .activity {
+    background-color: #e3e7ed;
+}
 .five_tree .is_leaf .node_item {
     padding-left: 0;
     background: none;
