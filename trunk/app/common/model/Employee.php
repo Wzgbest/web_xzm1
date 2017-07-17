@@ -293,11 +293,11 @@ class Employee extends Base{
      */
     public function getEmployeeByRole($role_id, $page=0, $rows = 10)
     {
-        $field = '`e`.`id`,`e`.`truename`,GROUP_CONCAT( distinct `res`.`role_id`) as role,`e`.`telephone`,`e`.`is_leader`,`e`.`worknum`,`e`.`create_time`,GROUP_CONCAT( distinct `s`.`struct_name`) as `struct_name` ';
+        $field = '`e`.`id`,`e`.`truename`,GROUP_CONCAT( distinct `re`.`role_id`) as role,GROUP_CONCAT( distinct `res`.`role_id`) as role_id,`e`.`telephone`,`e`.`is_leader`,`e`.`worknum`,`e`.`create_time`,GROUP_CONCAT( distinct `s`.`struct_name`) as `struct_name` ';
         $employee_list = $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
-            ->join($this->dbprefix.'role r','re.role_id = r.id')
             ->join($this->dbprefix.'role_employee res','res.user_id = e.id')
+            ->join($this->dbprefix.'role r','res.role_id = r.id')
             ->join($this->dbprefix.'structure_employee se','e.id = se.user_id')
             ->join($this->dbprefix.'structure s','se.struct_id = s.id')
             ->where("re.role_id",$role_id)
@@ -328,6 +328,88 @@ class Employee extends Base{
         return $count;
     }
 
+    public function getInRoleEmployeeIds($role_id){
+        $in_role_employee_id_list = $this->model->table($this->table)->alias('e')
+            ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
+            ->join($this->dbprefix.'role r','re.role_id = r.id')
+            ->join($this->dbprefix.'role_employee res','res.user_id = e.id')
+            ->join($this->dbprefix.'structure_employee se','e.id = se.user_id')
+            ->join($this->dbprefix.'structure s','se.struct_id = s.id')
+            ->where("re.role_id",$role_id)
+            ->order("e.worknum desc")
+            ->group("e.id")
+            ->column('`e`.`id`');
+        return $in_role_employee_id_list;
+    }
+
+    /**
+     * 根据角色id查询没有该角色员工信息
+     * @param $role_id int 员工id
+     * @param $page int 开始数量
+     * @param $rows int 获取数量
+     * @param $filter array 过滤条件
+     * @param $order string 排序字段
+     * @param $direction string 排序方向
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
+     */
+    public function getNotRoleEmployeeByRole($role_id, $page=0, $rows = 10,$filter=null,$order="worknum",$direction="desc")
+    {
+        //排序
+        if($direction!="desc" && $direction!="asc"){
+            $direction = "desc";
+        }
+        $order = "e.".$order." ".$direction;
+
+        //显示字段
+        $field = '`e`.`id`,`e`.`truename`,GROUP_CONCAT( distinct `res`.`role_id`) as role,`e`.`telephone`,`e`.`is_leader`,`e`.`worknum`,`e`.`create_time`,GROUP_CONCAT( distinct `s`.`struct_name`) as `struct_name` ';
+
+        //筛选
+        $map = $this->_getPageEmployeeListWhereSql($filter);
+        $in_role_employee_id_list = $this->getInRoleEmployeeIds($role_id);
+        $map["e.id"] = ["not in",$in_role_employee_id_list];
+
+        $employee_list = $employee_list = $this->model->table($this->table)->alias('e')
+            ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
+            ->join($this->dbprefix.'role_employee res','res.user_id = e.id')
+            ->join($this->dbprefix.'role r','res.role_id = r.id')
+            ->join($this->dbprefix.'structure_employee se','e.id = se.user_id')
+            ->join($this->dbprefix.'structure s','se.struct_id = s.id')
+            ->where($map)
+            ->order($order)
+            ->group("e.id")
+            ->limit($page,$rows)
+            ->field($field)
+            ->select();
+        //var_exp($employee_list,'$employee_list',1);
+        return $employee_list;
+    }
+
+    /**
+     * 根据角色id查询没有该角色员工数量
+     * @param $role_id int 员工id
+     * @param $filter array 过滤条件
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
+     */
+    public function getNotRoleEmployeeCountByRole($role_id,$filter=null)
+    {
+        $map = $this->_getPageEmployeeListWhereSql($filter);
+        $in_role_employee_id_list = $this->getInRoleEmployeeIds($role_id);
+        $map["e.id"] = ["not in",$in_role_employee_id_list];
+
+        $count = $employee_list = $this->model->table($this->table)->alias('e')
+            ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
+            ->join($this->dbprefix.'role_employee res','res.user_id = e.id')
+            ->join($this->dbprefix.'role r','res.role_id = r.id')
+            ->join($this->dbprefix.'structure_employee se','e.id = se.user_id')
+            ->join($this->dbprefix.'structure s','se.struct_id = s.id')
+            ->where($map)
+            ->group("e.id")
+            ->count();
+        return $count;
+    }
+
     /**
      * 根据部门id查询该部门所有员工
      * @param $struct_id 部门id
@@ -342,9 +424,11 @@ class Employee extends Base{
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
             ->join($this->dbprefix.'role r','re.role_id = r.id')
             ->join($this->dbprefix.'structure_employee se','e.id = se.user_id')
-            ->join($this->dbprefix.'structure s','se.struct_id = s.id')
-            ->field('e.id as user_id,e.truename,e.worknum,e.telephone,e.email,e.is_leader,GROUP_CONCAT( distinct re.role_id) as role,GROUP_CONCAT( distinct r.role_name) as role_name,GROUP_CONCAT( distinct se.struct_id) as struct_id,GROUP_CONCAT( distinct s.struct_name) as struct_name')
-            ->where('se.struct_id',$struct_id);
+            ->join($this->dbprefix.'structure_employee ses','e.id = ses.user_id')
+            ->join($this->dbprefix.'structure s','ses.struct_id = s.id')
+            ->field('e.id as user_id,e.truename,e.worknum,e.telephone,e.email,e.create_time,e.is_leader,GROUP_CONCAT( distinct re.role_id) as role,GROUP_CONCAT( distinct r.role_name) as role_name,GROUP_CONCAT( distinct se.struct_id) as struct,GROUP_CONCAT( distinct ses.struct_id) as struct_id,GROUP_CONCAT( distinct s.struct_name) as struct_name')
+            ->where('se.struct_id',$struct_id)
+            ->group("e.id");
         if (is_null($rows)) {
             $query = $query->limit($page,$rows);
         }
@@ -358,7 +442,7 @@ class Employee extends Base{
      * @return int|string
      * created by messhair
      */
-    public function countEmployeeByStructId($struct_id)
+    public function countEmployeeByStructId($struct_id,$filter=null)
     {
         return $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
@@ -368,6 +452,97 @@ class Employee extends Base{
             ->where('se.struct_id',$struct_id)
             ->group("e.id")
             ->count();
+    }
+
+    public function getInStructEmployeeIds($struct_id){
+        $in_struct_employee_id_list = $this->model->table($this->table)->alias('e')
+            ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
+            ->join($this->dbprefix.'role r','re.role_id = r.id')
+            ->join($this->dbprefix.'structure_employee se','e.id = se.user_id')
+            ->join($this->dbprefix.'structure_employee ses','e.id = ses.user_id')
+            ->join($this->dbprefix.'structure s','ses.struct_id = s.id')
+            ->field('e.id as user_id,e.truename,e.worknum,e.telephone,e.email,e.create_time,e.is_leader,GROUP_CONCAT( distinct re.role_id) as role,GROUP_CONCAT( distinct r.role_name) as role_name,GROUP_CONCAT( distinct se.struct_id) as struct,GROUP_CONCAT( distinct ses.struct_id) as struct_id,GROUP_CONCAT( distinct s.struct_name) as struct_name')
+            ->where('se.struct_id',$struct_id)
+            ->group("e.id")
+            ->column('`e`.`id`');
+        return $in_struct_employee_id_list;
+    }
+
+    public function getInStructEmployeenum($struct_id){
+        $in_struct_employee_num = $this->model->table($this->table)->alias('e')
+            ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
+            ->join($this->dbprefix.'role r','re.role_id = r.id')
+            ->join($this->dbprefix.'structure_employee se','e.id = se.user_id')
+            ->join($this->dbprefix.'structure_employee ses','e.id = ses.user_id')
+            ->join($this->dbprefix.'structure s','ses.struct_id = s.id')
+            ->field('e.id as user_id,e.truename,e.worknum,e.telephone,e.email,e.create_time,e.is_leader,GROUP_CONCAT( distinct re.role_id) as role,GROUP_CONCAT( distinct r.role_name) as role_name,GROUP_CONCAT( distinct se.struct_id) as struct,GROUP_CONCAT( distinct ses.struct_id) as struct_id,GROUP_CONCAT( distinct s.struct_name) as struct_name')
+            ->where('se.struct_id',$struct_id)
+            ->group("e.id")
+            ->count('`e`.`id`');
+        return $in_struct_employee_num;
+    }
+
+    /**
+     * 根据部门id查询没有该部门所有员工
+     * @param $struct_id 部门id
+     * @param int $page 当前页
+     * @param null $rows 查找的行数
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
+     */
+    public function getEmployeeByNotStructId($struct_id,$page=0,$rows=null,$filter=null,$order="worknum",$direction="desc")
+    {
+        //排序
+        if($direction!="desc" && $direction!="asc"){
+            $direction = "desc";
+        }
+        $order = "e.".$order." ".$direction;
+
+        //显示字段
+        $field = '`e`.`id`,`e`.`truename`,GROUP_CONCAT( distinct `res`.`role_id`) as role,`e`.`telephone`,`e`.`is_leader`,`e`.`worknum`,`e`.`create_time`,GROUP_CONCAT( distinct `s`.`struct_name`) as `struct_name` ';
+
+        //筛选
+        $map = $this->_getPageEmployeeListWhereSql($filter);
+        $in_struct_employee_id_list = $this->getInStructEmployeeIds($struct_id);
+        $map["e.id"] = ["not in",$in_struct_employee_id_list];
+
+        $employee_list = $employee_list = $this->model->table($this->table)->alias('e')
+            ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
+            ->join($this->dbprefix.'role_employee res','res.user_id = e.id')
+            ->join($this->dbprefix.'role r','res.role_id = r.id')
+            ->join($this->dbprefix.'structure_employee se','e.id = se.user_id')
+            ->join($this->dbprefix.'structure s','se.struct_id = s.id')
+            ->where($map)
+            ->order($order)
+            ->group("e.id")
+            ->limit($page,$rows)
+            ->field($field)
+            ->select();
+        //var_exp($employee_list,'$employee_list',1);
+        return $employee_list;
+    }
+
+    /**
+     * 根据部门id查询没有该部门所有员工数量
+     * @param $struct_id 部门id
+     * @return int|string
+     * created by messhair
+     */
+    public function countEmployeeByNotStructId($struct_id,$filter=null)
+    {
+        $map = $this->_getPageEmployeeListWhereSql($filter);
+        $in_struct_employee_id_list = $this->getInStructEmployeeIds($struct_id);
+        $map["e.id"] = ["not in",$in_struct_employee_id_list];
+        $count = $employee_list = $this->model->table($this->table)->alias('e')
+            ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
+            ->join($this->dbprefix.'role_employee res','res.user_id = e.id')
+            ->join($this->dbprefix.'role r','res.role_id = r.id')
+            ->join($this->dbprefix.'structure_employee se','e.id = se.user_id')
+            ->join($this->dbprefix.'structure s','se.struct_id = s.id')
+            ->where($map)
+            ->group("e.id")
+            ->count();
+        return $count;
     }
 
     /**
@@ -413,6 +588,8 @@ class Employee extends Base{
                  $map["e.telephone"] = $where['tel_email'];
              } elseif (preg_match('/^[\w\+-]+(\.[\w\+-]+)*@[a-z\d-]+(\.[a-z\d-]+)*\.([a-z]{2,4})$/',$where['tel_email'])) {
                  $map["e.email"] = $where['tel_email'];
+             }else{
+                 $map["e.truename"] = ["like","%".$where['tel_email']."%"];
              }
          }
          if (isset($where['on_duty']) && $where['on_duty']) {

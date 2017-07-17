@@ -6,7 +6,7 @@
                     <div>职位管理</div>
                 </li>
             </ul>
-            <div class="add">
+            <div class="add hide">
                 <i class="fa fa-plus fa-2x"></i>
                 <p>新增</p>
             </div>
@@ -17,9 +17,9 @@
                     <span>职位</span>
                     <i class="fa fa-plus"></i>
                 </div>
-                <ul>
+                <ul class="role_item_list">
                     {volist name="roles" id="vo"}
-                        <li role_id="{$vo.id}">
+                        <li class="role_item" role_id="{$vo.id}">
                             <span class="role_name">{$vo.role_name}</span>
                             <img class="compile" src="/systemsetting/images/compile.png" />
                             <img class="del" src="/systemsetting/images/del.png" />
@@ -28,6 +28,19 @@
                 </ul>
             </div>
             <div class="dv2">
+            </div>
+            <div class="reveal-modal myModal addEmployeeModal">
+                <p class="p1">新增职位成员</p>
+                <div class="add_employee_list">
+                </div>
+                <div class="add_employee_select_info">
+                    <p>已选中<span class="select_num">0</span>位员工</p>
+                </div>
+                <p class="p5">
+                    <input type="submit" class="add_employee_ok" value="确定" />
+                    <button class="add_employee_cancel">取消</button>
+                </p>
+                <a class="close-reveal-modal">&#215;</a>
             </div>
         </div>
     </div>

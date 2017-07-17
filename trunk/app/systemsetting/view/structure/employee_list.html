@@ -1,17 +1,13 @@
-<div class="one">
-    <p class="p1 role_manage ">权限管理</p>
-    <p class="p1 employee_manage activity">成员管理</p>
-</div>
 <div class="employee_list">
     <div class="m-tableBox">
         <div class="m-table table3">
             <ul class="u-tabTitle">
                 <li>工号<i class="fa fa-sort-desc"></i></li>
-                <li>姓名</li>
-                <li>直属部门</li>
-                <li>联系方式</li>
-                <li>是否领导<i class="fa fa-unsorted"></i></li>
-                <li>创建时间<i class="fa fa-unsorted"></i></li>
+                <li>姓名<i class="fa fa-unsorted"></i></li>
+                <li>角色</li>
+                <li>是否部门领导人</li>
+                <li>注册手机号</li>
+                <li>邮箱</li>
                 <li>操作</li>
                 <div class="clearfix"></div>
             </ul>
@@ -19,15 +15,15 @@
             <ul class="u-tabList">
                 <li>{$vo.worknum}</li>
                 <li>{$vo.truename}</li>
-                <li>{$vo.struct_name}</li>
+                <li>{$vo.role_name}</li>
                 <li>{$vo.telephone}</li>
-                <li>{eq name="vo.is_leader" value="1"}是{else/}否{/eq}</li>
+                <li>{$vo.email}</li>
                 <li>{$vo.create_time|time_format}</li>
                 <li class="u-tabOperation">
-                    <span onclick="role_list_employee_show('{$vo.id}');">详情</span>
-                    {if condition="strpos($vo.role_id,',')"}
-                        <span onclick="role_list_employee_del('{$id}','{$vo.id}');">移除</span>
+                    {if condition="strpos($vo.struct_id,',')"}
+                        <span onclick="struct_list_employee_del('{$id}','{$vo.user_id}');">删除</span>
                     {/if}
+                    <span onclick="struct_list_employee_move('{$id}','{$vo.user_id}');">移至</span>
                 </li>
                 <div class="clearfix"></div>
             </ul>
