@@ -17,17 +17,18 @@ function findActivityRoleId(){
 function findRoleId(target){
     return $(target).parent().attr("role_id");
 }
-function listenRuleManage(role_id){
-    $(panel+" .one .role_manage").click(function(){
-        loadRuleManage(role_id);
-    });
-}
-function listenEmployeeTable(role_id){
-    $(panel+" .one .employee_manage").click(function(){
-        loadRoleEmployeeTable(role_id);
-    });
-}
+$(panel).on('click',".one .role_manage",function(){
+    var role_id = findActivityRoleId();
+    loadRuleManage(role_id);
+});
+$(panel).on('click',".one .employee_manage",function(){
+    var role_id = findActivityRoleId();
+    loadRoleEmployeeTable(role_id);
+});
 function loadRuleManage(role_id){
+    if(!role_id>0){
+        role_id = findActivityRoleId();
+    }
     var url = "/systemsetting/role/role_manage/id/"+role_id;
     $.ajax({
         url:url,
@@ -35,7 +36,6 @@ function loadRuleManage(role_id){
         async:false,
         success:function (data) {
             $(panel).html(data);
-            listenEmployeeTable(role_id);
         },
         error:function(){
             alert("获取权限失败!");
@@ -43,6 +43,9 @@ function loadRuleManage(role_id){
     });
 }
 function loadRoleEmployeeTable(role_id){
+    if(!role_id>0){
+        role_id = findActivityRoleId();
+    }
     var url = "/systemsetting/role/employee_list/id/"+role_id;
     $.ajax({
         url:url,
@@ -50,7 +53,6 @@ function loadRoleEmployeeTable(role_id){
         async:false,
         success:function (data) {
             $(panel).html(data);
-            listenRuleManage(role_id);
         },
         error:function(){
             alert("获取成员失败!");
