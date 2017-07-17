@@ -21,14 +21,18 @@ $page_list[] = ["systemsetting","corporation","editcorpinfo",""];
 $page_list[] = ["systemsetting","customer","index",""];
 $page_list[] = ["systemsetting","customer","add_page",""];
 $page_list[] = ["systemsetting","customer","edit_page","id/7"];
-$page_list[] = ["systemsetting","structure","index",""];
-$page_list[] = ["systemsetting","role","index",""];
-$page_list[] = ["systemsetting","role","rule_manage","id/1"];
-$page_list[] = ["systemsetting","role","employee_list","id/1"];
 $page_list[] = ["systemsetting","employee","manage",""];
 $page_list[] = ["systemsetting","employee","show","id/4"];
 $page_list[] = ["systemsetting","employee","edit","id/4"];
 $page_list[] = ["systemsetting","employee_import","index",""];
+$page_list[] = ["systemsetting","role","index",""];
+$page_list[] = ["systemsetting","role","rule_manage","id/1"];
+$page_list[] = ["systemsetting","role","employee_list","id/1"];
+$page_list[] = ["systemsetting","role","employee_show","id/1"];
+$page_list[] = ["systemsetting","role","not_role_employee_list","id/1"];
+$page_list[] = ["systemsetting","structure","index",""];
+$page_list[] = ["systemsetting","structure","employee_list","id/1"];
+$page_list[] = ["systemsetting","structure","not_struct_employee_list","id/1"];
 
 login($server,$cookie_file);
 foreach($page_list as $page){

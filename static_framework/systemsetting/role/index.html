@@ -1,55 +1,73 @@
 <div class="systemsetting_role">
-    <div class="top">
-        <ul class="firNav">
-            <li class="current">
-                <div>职位管理</div>
-            </li>
-        </ul>
-        <div class="add">
-            <i class="fa fa-plus fa-2x"></i>
-            <p>新增</p>
+    <div class="role_list_panel role_list">
+        <div class="top">
+            <ul class="firNav">
+                <li class="current">
+                    <div>职位管理</div>
+                </li>
+            </ul>
+            <div class="add hide">
+                <i class="fa fa-plus fa-2x"></i>
+                <p>新增</p>
+            </div>
+        </div>
+        <div class="content">
+            <div class="dv1">
+                <div class="title">
+                    <span>职位</span>
+                    <i class="fa fa-plus"></i>
+                </div>
+                <ul class="role_item_list">
+                                            <li class="role_item" role_id="1">
+                            <span class="role_name">董事长</span>
+                            <img class="compile" src="/systemsetting/images/compile.png" />
+                            <img class="del" src="/systemsetting/images/del.png" />
+                        </li>
+                                            <li class="role_item" role_id="2">
+                            <span class="role_name">总裁</span>
+                            <img class="compile" src="/systemsetting/images/compile.png" />
+                            <img class="del" src="/systemsetting/images/del.png" />
+                        </li>
+                                            <li class="role_item" role_id="3">
+                            <span class="role_name">大区经理</span>
+                            <img class="compile" src="/systemsetting/images/compile.png" />
+                            <img class="del" src="/systemsetting/images/del.png" />
+                        </li>
+                                            <li class="role_item" role_id="4">
+                            <span class="role_name">分公司总经理</span>
+                            <img class="compile" src="/systemsetting/images/compile.png" />
+                            <img class="del" src="/systemsetting/images/del.png" />
+                        </li>
+                                            <li class="role_item" role_id="5">
+                            <span class="role_name">部门经理</span>
+                            <img class="compile" src="/systemsetting/images/compile.png" />
+                            <img class="del" src="/systemsetting/images/del.png" />
+                        </li>
+                                            <li class="role_item" role_id="6">
+                            <span class="role_name">职员</span>
+                            <img class="compile" src="/systemsetting/images/compile.png" />
+                            <img class="del" src="/systemsetting/images/del.png" />
+                        </li>
+                                    </ul>
+            </div>
+            <div class="dv2">
+            </div>
+            <div class="reveal-modal myModal addEmployeeModal">
+                <p class="p1">新增职位成员</p>
+                <div class="add_employee_list">
+                </div>
+                <div class="add_employee_select_info">
+                    <p>已选中<span class="select_num">0</span>位员工</p>
+                </div>
+                <p class="p5">
+                    <input type="submit" class="add_employee_ok" value="确定" />
+                    <button class="add_employee_cancel">取消</button>
+                </p>
+                <a class="close-reveal-modal">&#215;</a>
+            </div>
         </div>
     </div>
-    <div class="content">
-        <div class="dv1">
-            <div class="title">
-                <p>职位</p>
-            </div>
-            <ul>
-                                    <li role_id="1">
-                        <span class="role_name">董事长</span>
-                        <img class="compile" src="/systemsetting/images/compile.png" />
-                        <img class="del" src="/systemsetting/images/del.png" />
-                    </li>
-                                    <li role_id="2">
-                        <span class="role_name">总裁</span>
-                        <img class="compile" src="/systemsetting/images/compile.png" />
-                        <img class="del" src="/systemsetting/images/del.png" />
-                    </li>
-                                    <li role_id="3">
-                        <span class="role_name">大区经理</span>
-                        <img class="compile" src="/systemsetting/images/compile.png" />
-                        <img class="del" src="/systemsetting/images/del.png" />
-                    </li>
-                                    <li role_id="4">
-                        <span class="role_name">分公司总经理</span>
-                        <img class="compile" src="/systemsetting/images/compile.png" />
-                        <img class="del" src="/systemsetting/images/del.png" />
-                    </li>
-                                    <li role_id="5">
-                        <span class="role_name">部门经理</span>
-                        <img class="compile" src="/systemsetting/images/compile.png" />
-                        <img class="del" src="/systemsetting/images/del.png" />
-                    </li>
-                                    <li role_id="6">
-                        <span class="role_name">职员</span>
-                        <img class="compile" src="/systemsetting/images/compile.png" />
-                        <img class="del" src="/systemsetting/images/del.png" />
-                    </li>
-                            </ul>
-        </div>
-        <div class="dv2">
-        </div>
+    <div class="role_list_panel employee_info hide">
     </div>
 </div>
 <script src="/systemsetting/js/role_list.js"></script>

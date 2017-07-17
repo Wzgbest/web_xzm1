@@ -107,7 +107,7 @@
 
 .systemsetting_role .content .dv2 {
     width: 800px;
-    height: 800px;
+    height: 100%;
     float: left;
 }
 
@@ -152,16 +152,22 @@
     width: 42px;
     height: 18px;
 }
-.systemsetting_role .dv1 .title{
-    width: 246px;
-    height: 42px;
-    border-bottom: 1px solid #eee;
-
+.systemsetting_role .dv1 .title {
+    height: 50px;
+    border-bottom: 1px solid #ebebeb;
 }
-.systemsetting_role .dv1 .title p{
-    font-size: 18px;
-    margin-left: 25px;
-    line-height: 42px;
+
+.systemsetting_role .dv1 .title span {
+    font-size: 16px;
+    line-height: 50px;
+    margin-left: 15px;
+}
+
+.systemsetting_role .dv1 .title i {
+    font-size: 20px;
+    line-height: 50px;
+    margin-left: 168px;
+    color: #b3b3b3;
 }
 .systemsetting_role .dv1 ul li{
     width: 244px;
@@ -176,6 +182,9 @@
 .systemsetting_role .dv1 ul li:hover img{
     display: inline-block;
 }
+.systemsetting_role .dv1 ul .activity{
+    background-color: #e3e7ed;
+}
 .systemsetting_role .dv1 ul li span{
     display: inline-block;
     width: 160px;
@@ -189,9 +198,23 @@
     margin-right: 10px;
     display: none;
 }
+.systemsetting_role .dv1 .role_item_list .role_item .item_text{
+    display: inline-block;
+    width: 148px;
+    line-height: 40px;
+    margin-top: 10px;
+    margin-left: 15px;
+}
+.systemsetting_role .dv1 .role_item_list .role_item .item_btn{
+    vertical-align: middle;
+    margin-left: 10px;
+    font-size: 14px;
+    color: #77b8ff;
+}
 
 .systemsetting_role .content .table1 {
     margin-left: 21px;
+    font-size: 18px;
 }
 
 .systemsetting_role .content input {
@@ -313,3 +336,119 @@
     line-height: 40px;
     margin-right: 20px;
 }
+.systemsetting_role .role_list_panel{
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #f5f7fa;
+}
+
+.systemsetting_role .content .addEmployeeModal {
+    width: 666px;
+    height: 500px;
+    visibility: hidden;
+    top: 64px;
+    left: 50%;
+    margin-left: -300px;
+    position: absolute;
+    z-index: 101;
+    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    -box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+    background-color: #fff;
+}
+
+.systemsetting_role .content .addEmployeeModal .p1 {
+    width: 666px;
+    height: 50px;
+    background-color: #6b7a99;
+    font-size: 18px;
+    text-align: center;
+    line-height: 50px;
+    color: #fff;
+}
+
+.systemsetting_role .content .addEmployeeModal .add_employee_list {
+    height: 300px;
+    width: 666px;
+    overflow-x:hidden;
+    overflow-y:auto;
+}
+.systemsetting_role .content .addEmployeeModal .add_employee_list .m-filterNav {
+    height: 30px;
+}
+.systemsetting_role .content .addEmployeeModal .add_employee_list .m-filterNav .tip{
+    margin: 10px 128px 10px 20px;
+    font-size: 16px;
+}
+.systemsetting_role .content .addEmployeeModal .add_employee_list .m-filterNav select{
+    width: 110px;
+    height: 25px;
+    box-sizing: content-box;
+    margin-right: 8px;
+    border: 1px solid #dddddd;
+}
+.systemsetting_role .content .addEmployeeModal .add_employee_list .m-filterNav input[type="text"]{
+    width: 128px;
+    padding: 0 5px;
+    height: 25px;
+    box-sizing: content-box;
+    margin-right: 8px;
+    border: 1px solid #dddddd;
+    /*background-color: black;*/
+}
+.systemsetting_role .content .addEmployeeModal .add_employee_list .u-btnSearch{
+    width: 60px;
+    height: 25px;
+    border-radius: 12.5px;
+    line-height: 25px;
+    margin-left: 10px;
+    text-align: center;
+    color: white;
+    border: none;
+    background-color: #42a5f5;
+}
+.systemsetting_role .content .addEmployeeModal .add_employee_select_info {
+    height: 30px;
+    font-size: 16px;
+    padding: 5px 5px 5px 35px;
+}
+
+.systemsetting_role .content .addEmployeeModal .p5 {
+    width: 256px;
+    margin: 39px auto;
+}
+
+.systemsetting_role .content .addEmployeeModal .p5 .add_employee_ok {
+    /*clear: both;*/
+    width: 100px;
+    height: 41px;
+    border-radius: 10px;
+    background-color: #42a5f5;
+    color: #fff;
+    border: 1px solid #dcdcdc;
+}
+
+.systemsetting_role .content .addEmployeeModal .p5 .add_employee_cancel {
+    /*clear: both;*/
+    width: 100px;
+    height: 41px;
+    border-radius: 10px;
+    /*margin-right: 100px;*/
+    background-color: #fff;
+    border: 1px solid #dcdcdc;
+    margin-left: 50px;
+}
+.systemsetting_role .reveal-modal .close-reveal-modal {
+    font-size: 32px;
+    line-height: 0.5;
+    position: absolute;
+    top: 15px;
+    right: 18px;
+    color: #fff;
+    text-shadow: 0 -1px 1px rbga(0, 0, 0, .6);
+    font-weight: bold;
+    cursor: pointer;
+}
+

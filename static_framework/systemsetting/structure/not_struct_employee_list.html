@@ -1,0 +1,152 @@
+<!--员工列表-->
+<section>
+    <div class="m-filterNav">
+        <form class="search_form" onsubmit="return false;">
+            <span class="tip">请从以下员工中选择</span>
+            <select name="role">
+                <option value="">职位</option>
+                                <option value="1" >董事长</option>
+                                <option value="2" >总裁</option>
+                                <option value="3" >大区经理</option>
+                                <option value="4" >分公司总经理</option>
+                                <option value="5" >部门经理</option>
+                                <option value="6" >职员</option>
+                            </select>
+            <input type="text" name="tel_email" placeholder="输入姓名/手机/邮箱" value=""/>
+            <button class="u-btnSearch">查询</button>
+        </form>
+    </div>
+    <div class="m-tableBox">
+        <div class="m-table table3">
+            <ul class="u-tabTitle">
+                <li class="u-tabCheckbox"><input type="checkbox"/></li>
+                <li>工号<i class="fa fa-unsorted"></i></li>
+                <li>姓名</li>
+                <li>直属部门<i class="fa fa-unsorted"></i></li>
+                <li>联系方式</li>
+                <li>是否领导<i class="fa fa-unsorted"></i></li>
+                <li>创建时间<i class="fa fa-unsorted"></i></li>
+                <div class="clearfix"></div>
+            </ul>
+                        <ul class="u-tabList">
+                <li class="u-tabCheckbox"><input type="checkbox" value="90"/></li>
+                <li>no12315</li>
+                <li>员工乙</li>
+                <li>技术部</li>
+                <li>15655558888</li>
+                <li>否</li>
+                <li>2017-07-15 11:07</li>
+                <div class="clearfix"></div>
+            </ul>
+                        <ul class="u-tabList">
+                <li class="u-tabCheckbox"><input type="checkbox" value="85"/></li>
+                <li>NB74110</li>
+                <li>李华</li>
+                <li>研发部,产品组</li>
+                <li>15858585518</li>
+                <li>是</li>
+                <li></li>
+                <div class="clearfix"></div>
+            </ul>
+                        <ul class="u-tabList">
+                <li class="u-tabCheckbox"><input type="checkbox" value="11"/></li>
+                <li>NO000011</li>
+                <li>董倩</li>
+                <li>潍坊中迅</li>
+                <li>13311119999</li>
+                <li>否</li>
+                <li>2017-01-12 16:24</li>
+                <div class="clearfix"></div>
+            </ul>
+                        <ul class="u-tabList">
+                <li class="u-tabCheckbox"><input type="checkbox" value="10"/></li>
+                <li>NO000010</li>
+                <li>张雨</li>
+                <li>潍坊中迅</li>
+                <li>13311118888</li>
+                <li>否</li>
+                <li>2017-01-12 16:24</li>
+                <div class="clearfix"></div>
+            </ul>
+                        <ul class="u-tabList">
+                <li class="u-tabCheckbox"><input type="checkbox" value="8"/></li>
+                <li>NO000008</li>
+                <li>史学鹏</li>
+                <li>潍坊中迅</li>
+                <li>13311115555</li>
+                <li>否</li>
+                <li>2017-01-12 16:24</li>
+                <div class="clearfix"></div>
+            </ul>
+                        <ul class="u-tabList">
+                <li class="u-tabCheckbox"><input type="checkbox" value="7"/></li>
+                <li>NO000007</li>
+                <li>赵婧彤</li>
+                <li>潍坊中迅</li>
+                <li>13311113333</li>
+                <li>否</li>
+                <li>2017-01-12 16:24</li>
+                <div class="clearfix"></div>
+            </ul>
+                        <ul class="u-tabList">
+                <li class="u-tabCheckbox"><input type="checkbox" value="6"/></li>
+                <li>NO000006</li>
+                <li>肖文昌</li>
+                <li>潍坊中迅</li>
+                <li>13311111111</li>
+                <li>否</li>
+                <li>2017-01-12 16:24</li>
+                <div class="clearfix"></div>
+            </ul>
+                        <ul class="u-tabList">
+                <li class="u-tabCheckbox"><input type="checkbox" value="5"/></li>
+                <li>NO000005</li>
+                <li>张晓阳</li>
+                <li>华北大区</li>
+                <li>13322226666</li>
+                <li>否</li>
+                <li>2017-01-12 16:24</li>
+                <div class="clearfix"></div>
+            </ul>
+                        <ul class="u-tabList">
+                <li class="u-tabCheckbox"><input type="checkbox" value="4"/></li>
+                <li>NO000004</li>
+                <li>孙大鹏</li>
+                <li>华北大区</li>
+                <li>13322225555</li>
+                <li>否</li>
+                <li>2017-01-12 16:24</li>
+                <div class="clearfix"></div>
+            </ul>
+                        <ul class="u-tabList">
+                <li class="u-tabCheckbox"><input type="checkbox" value="3"/></li>
+                <li>NO000003</li>
+                <li>曹鑫鑫</li>
+                <li>潍坊中迅</li>
+                <li>13311112222</li>
+                <li>否</li>
+                <li>2017-01-12 16:24</li>
+                <div class="clearfix"></div>
+            </ul>
+                    </div>
+    </div>
+    <div class="u-tabControlRow">
+        <span>显示行数</span>
+        <select>
+            <option value="5" >5</option>
+            <option value="10"  selected="selected">10</option>
+            <option value="20" >20</option>
+        </select>
+        <span>1-10条/</span>
+        <span>共12条</span>
+        <button class="employee_list_previous_page previous_page  disabled">上一页</button>
+        <button class="employee_list_next_page next_page ">下一页</button>
+        <span>前往</span>
+        <input class="employee_list_jump_page jump_page" type="text" />
+        <span>页</span>
+    </div>
+</section>
+<script src="/static/js/list_manage.js"></script>
+<script language="javascript">
+    var employee_list_list_manage = new list_manage("structure_list","division-managementfr","/systemsetting/structure/not_struct_employee_list/id/1",'1','10','2','0'," .add_employee_list");
+</script>

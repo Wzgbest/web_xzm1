@@ -6,7 +6,7 @@
             </li>
         </ul>
 
-        <div class="add">
+        <div class="add hide">
             <i class="fa fa-plus fa-2x"></i>
             <p>新增</p>
         </div>
@@ -38,7 +38,7 @@
                 </p>
             </div>
         </div>
-        <div class="dv2">
+        <div class="dv2 hide">
             <div class="m-tableBox">
                 <div class="m-table table3">
                     <ul class="u-tabTitle" >
@@ -58,7 +58,10 @@
                         <li>否</li>
                         <li>13345021406</li>
                         <li>10123456789@qq.com</li>
-                        <li class="u-tabOperation"><span class="big-link" data-reveal-id="structure_del" data-animation="fade">删除</span><span class="big-link" data-reveal-id="structure_move" data-animation="fade">移至</span></li>
+                        <li class="u-tabOperation">
+                            <span class="big-link" data-reveal-id="structure_del" data-animation="fade">删除</span>
+                            <span class="big-link" data-reveal-id="structure_move" data-animation="fade">移至</span>
+                        </li>
                         <div class="clearfix"></div>
                     </ul>
                 </div>
@@ -81,31 +84,76 @@
 
         </div>
 
-        <!--<a href="#" class="big-link" data-reveal-id="structure_move" data-animation="fade">点我弹出</a>-->
-
-        <div id="structure_move" class="reveal-modal myModal">
+        <div class="reveal-modal myModal structure_move">
             <p class="p1">移动</p>
             <p class="p2">移动该员工至
-                <select>
-                    <option>销售一部</option>
-                    <option>销售二部</option>
-                    <option>销售三部</option>
-                </select>
+                <select class="to_struct_id">
+                                        <option value="1">总公司</option>
+                                        <option value="2">华北大区</option>
+                                        <option value="3">潍坊中迅</option>
+                                        <option value="4">销售部</option>
+                                        <option value="5">销售一部</option>
+                                        <option value="6">销售二部</option>
+                                        <option value="7">销售三部</option>
+                                        <option value="8">济宁中迅</option>
+                                        <option value="9">泰安中迅</option>
+                                        <option value="10">菏泽中迅</option>
+                                        <option value="11">莱芜中迅</option>
+                                        <option value="12">技术部</option>
+                                        <option value="13">研发部</option>
+                                        <option value="14">销售部</option>
+                                        <option value="15">销售部</option>
+                                        <option value="16">销售部</option>
+                                        <option value="17">销售部</option>
+                                        <option value="18">美工分部</option>
+                                        <option value="19">文书分部</option>
+                                        <option value="20">其他大区</option>
+                                        <option value="21">其他分公司</option>
+                                        <option value="22">其他部门1</option>
+                                        <option value="23">其他部门2</option>
+                                        <option value="24">审核分部</option>
+                                        <option value="25">UI组</option>
+                                        <option value="26">产品组</option>
+                                    </select>
             </p>
 
             <p class="p5">
-                <input type="submit" value="确定" />
-                <button>取消</button>
+                <input type="submit" class="structure_move_ok" value="确定" />
+                <button class="structure_move_cancel">取消</button>
             </p>
             <a class="close-reveal-modal">&#215;</a>
         </div>
 
-        <div id="structure_del" class="reveal-modal myModalone">
+        <div class="reveal-modal myModalone structure_del">
             <p class="p1">删除</p>
-            <p class="p2">该部门有1346名员工，是否删除</p>
+            <p class="p2">是否删除该部门?</p>
             <p class="p5">
-                <input type="submit" value="是，删除员工和部门" />
-                <button>不，仅删除部门<span>（员工移至待处理员工）</span></button>
+                <input type="submit" class="structure_del_ok" value="确定" />
+                <button class="structure_del_cancel">取消</span></button>
+            </p>
+            <a class="close-reveal-modal">&#215;</a>
+        </div>
+
+        <div class="reveal-modal myModalone structure_del_move">
+            <p class="p1">删除</p>
+            <p class="p2">该部门有<span class="employee_num">1346</span>名员工，是否删除</p>
+            <p class="p5">
+                <input type="submit" class="structure_del_move_ok" value="是，删除员工和部门" />
+                <button class="structure_del_move_cancel">不，仅删除部门<span>（员工移至待处理员工）</span></button>
+            </p>
+            <a class="close-reveal-modal">&#215;</a>
+        </div>
+
+        <div class="reveal-modal myModal addEmployeeModal">
+            <p class="p1">新增职位成员</p>
+            <div class="add_employee_list">
+            </div>
+            <div class="add_employee_select_info">
+                <p>已选中<span class="select_num">0</span>位员工</p>
+            </div>
+            <p class="p5">
+                <input type="submit" class="add_employee_ok" value="确定" />
+                <button class="add_employee_cancel">取消</button>
             </p>
             <a class="close-reveal-modal">&#215;</a>
         </div>

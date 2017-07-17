@@ -11,6 +11,6 @@ $(employee_import_base+" .u-tabList .u-tabOperation .fail_download").click(funct
     if(record_id==""){
         return;
     }
-    console.log(record_id);
+    //console.log(record_id);
     window.open("/systemsetting/employee_import/exportFailEmployee/record_id/"+record_id);
 });
