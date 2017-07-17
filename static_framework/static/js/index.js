@@ -205,4 +205,14 @@ function getElementByAttr(tag,attr,value)
             $(".content").mCustomScrollbar();
         });
     })(jQuery);*/
-
+var content;
+var request = new XMLHttpRequest();
+if(request){
+	request.open("GET","/datacount/index/summary.html",true)
+	request.onreadystatechange = function(){
+		if(request.readyState == 4){
+			document.getElementById("indexfr").innerHTML = request.responseText;
+		}
+	};
+	request.send(null);
+}

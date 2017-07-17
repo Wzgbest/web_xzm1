@@ -1,0 +1,9 @@
+<div class="datacount_index datacount_summary">
+	<div class="summary_panel summary">
+		<header>
+			<ul class="m-firNav">
+                <li in_column="0" class="in_column current"><div>简报</div></li>
+            </ul>
+		</header>
+	</div>
+</div>
