@@ -1,14 +1,24 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-<head>
+<html >
+  <head>
     <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-<form action="/login/index/verifylogin" method="post">
+    <title>Login Form</title>
+		<link rel="stylesheet" href="/login/index/css/style.css" />
+		<script src="/login/index/js/prefixfree.min.js"></script>   
+ </head>
+  <body>
+ <div class="login">
+	<h1>Login</h1>
+    <form action="/login/index/verifylogin" method="post">
+    	<input type="text" name="telephone" placeholder="手机号码" value=""/>
+        <input type="text" name="password" placeholder="密码" id="password" value=""/>
+        <button type="submit" class="btn btn-primary btn-block btn-large">登录</button>
+    </form>
+<!--    <form >
     <label for="telephone">手机号码</label><input type="text" name="telephone" id="telephone" value=""><br/>
     <label for="password">密码</label><input type="text" name="password" id="password" value=""><br/>
     <input type="submit" value="登录">
-</form>
+</form>-->
+</div>  
 </body>
 </html>
