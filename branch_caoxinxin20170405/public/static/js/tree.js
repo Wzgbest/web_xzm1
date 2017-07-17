@@ -22,10 +22,13 @@ function tree(config) {
         return null;
     }
     this.listen_arr = [];
+    this.listen_arr.plusFun = config.plusFun?config.plusFun:null;
+    this.listen_arr.subFun = config.subFun?config.subFun:null;
     this.listen_arr.selFun = config.selFun?config.selFun:null;
     this.listen_arr.addFun = config.addFun?config.addFun:null;
     this.listen_arr.editFun = config.editFun?config.editFun:null;
     this.listen_arr.delFun = config.delFun?config.delFun:null;
+    this.activity_id = 0;
     this.tree_index = new Array();
     this.tree_html = "";
     var self = this;
@@ -50,15 +53,15 @@ function tree(config) {
                 var is_last_head = j==level;
                 if(is_last_head){
                     if(is_last_node){
-                        plus_str+='<img class="node_branch_last" src="/static/images/none.png"/>';
+                        plus_str+='<img class="node_head node_branch_last" src="/static/images/none.png"/>';
                     }else{
-                        plus_str+='<img class="node_branch" src="/static/images/none.png"/>';
+                        plus_str+='<img class="node_head node_branch" src="/static/images/none.png"/>';
                     }
                 }else{
                     if(head[j]){
-                        plus_str+='<img class="node_none" src="/static/images/none.png"/>';
+                        plus_str+='<img class="node_head node_none" src="/static/images/none.png"/>';
                     }else{
-                        plus_str+='<img class="node_line" src="/static/images/none.png"/>';
+                        plus_str+='<img class="node_head node_line" src="/static/images/none.png"/>';
                     }
                 }
             }
@@ -68,12 +71,14 @@ function tree(config) {
                 head_sub.push(is_last_node);
                 child_str+=self.get_html(node_item["child"],head_sub);
                 child_str+='</div>';
-                plus_str+='<img class="node_plus" src="/static/images/none.png"/>';
+                plus_str+='<img class="node_head node_plus" src="/static/images/none.png"/>';
             }else{
                 class_str+=" is_leaf";
-                plus_str+='<img class="node_leaf" src="/static/images/none.png"/>';
+                child_str+='<div class="child_list child_list'+node_item["id"]+' hide">';
+                child_str+='</div>';
+                plus_str+='<img class="node_head node_leaf" src="/static/images/none.png"/>';
             }
-            html+='<div class="node node'+node_item["id"];
+            html+='<div node_id="'+node_item["id"]+'" class="node node'+node_item["id"];
             html+=class_str+'" node_id="'+node_item["id"]+'">';
             html+='<div class="node_item">';
             html+=plus_str;
@@ -107,20 +112,36 @@ function tree(config) {
     this.getId=function(sel_lab){
         return this.getItem(sel_lab).attr("node_id");
     };
+    this.getActivityId=function(){
+        return this.activity_id;
+    };
     $(this.target).on('click','.node_plus',function(){
         var is_plus = !$(this).hasClass("node_sub");
         if(is_plus){
             self.getItem(this).children(".child_list").removeClass('hide');
             $(this).addClass('node_sub');
+            if(self.listen_arr.subFun!=null){
+                var id = self.getId(this);
+                //console.log("sub",id);
+                self.listen_arr.subFun(id);
+            }
         }else{
             self.getItem(this).children(".child_list").addClass('hide');
             $(this).removeClass('node_sub');
+            if(self.listen_arr.plusFun!=null){
+                var id = self.getId(this);
+                //console.log("plus",id);
+                self.listen_arr.plusFun(id);
+            }
         }
     });
     $(this.target).on('click','.node_name',function(){
+        var id = self.getId(this);
+        //console.log("sel",id);
+        self.activity_id = id;
+        $(self.target).find(".node_item").removeClass("activity");
+        $(this).parent().addClass("activity");
         if(self.listen_arr.selFun!=null){
-            var id = self.getId(this);
-            //console.log("sel",id);
             self.listen_arr.selFun(id);
         }
     });
