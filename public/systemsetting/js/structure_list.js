@@ -17,7 +17,7 @@ function findActivityStructId(){
 function findStructId(target){
     return $(target).parent().parent().attr("node_id");
 }
-function loadEmployeeTable(id){
+function loadStructEmployeeTable(id){
     var url = "/systemsetting/structure/employee_list/id/"+id;
     $.ajax({
         url:url,
@@ -80,7 +80,7 @@ $(struct_add_employee_panel+" .add_employee_ok").click(function(){
                 alert(data.message);
                 if(data.status) {
                     $(struct_add_employee_panel).trigger('reveal:close');
-                    loadEmployeeTable(struct_id);
+                    loadStructEmployeeTable(struct_id);
                 }
             },
             error: function() {
@@ -112,7 +112,7 @@ structure_tree.listen("subFun",function(id){
 });
 structure_tree.listen("selFun",function(id){
     console.log("hlselFun",id);
-    loadEmployeeTable(id)
+    loadStructEmployeeTable(id)
 });
 var struct_add_item_pid = 0;
 function show_node_add(id){
@@ -298,7 +298,7 @@ function struct_list_employee_del(struct_id,employee_id){
         success:function (data) {
             alert(data.message);
             if(data.status){
-                loadEmployeeTable(struct_id);
+                loadStructEmployeeTable(struct_id);
             }
         },
         error:function(){
@@ -339,7 +339,7 @@ function struct_list_employee_move_to(struct_id,employee_id,to_struct_id){
         success:function (data) {
             alert(data.message);
             if(data.status){
-                loadEmployeeTable(struct_id);
+                loadStructEmployeeTable(struct_id);
                 $(struct_list_panel_base+" .structure_move").trigger('reveal:close');
             }
         },

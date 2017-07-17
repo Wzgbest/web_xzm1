@@ -24,7 +24,7 @@ function listenRuleManage(role_id){
 }
 function listenEmployeeTable(role_id){
     $(panel+" .one .employee_manage").click(function(){
-        loadEmployeeTable(role_id);
+        loadRoleEmployeeTable(role_id);
     });
 }
 function loadRuleManage(role_id){
@@ -42,7 +42,7 @@ function loadRuleManage(role_id){
         }
     });
 }
-function loadEmployeeTable(role_id){
+function loadRoleEmployeeTable(role_id){
     var url = "/systemsetting/role/employee_list/id/"+role_id;
     $.ajax({
         url:url,
@@ -105,7 +105,7 @@ $(role_add_employee_panel+" .add_employee_ok").click(function(){
                 alert(data.message);
                 if(data.status) {
                     $(role_add_employee_panel).trigger('reveal:close');
-                    loadEmployeeTable(role_id);
+                    loadRoleEmployeeTable(role_id);
                 }
             },
             error: function() {
@@ -267,7 +267,7 @@ function role_list_employee_del(role_id,user_id){
         success:function (data) {
             alert(data.message);
             if(data.status){
-                loadEmployeeTable(role_id);
+                loadRoleEmployeeTable(role_id);
             }
         },
         error:function(){

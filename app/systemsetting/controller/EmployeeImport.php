@@ -231,6 +231,7 @@ class EmployeeImport extends Initialize{
                 $employee['wechat'] = $item['wechat'];
                 $employee['wired_phone'] = $item['wired_phone'];
                 $employee['part_phone'] = $item['part_phone'];
+                $employee['create_time'] = time();
                 $validate_result = $this->validate($employee, 'Employee');
                 //验证字段
                 if (true !== $validate_result) {
