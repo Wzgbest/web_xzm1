@@ -433,7 +433,7 @@ class Employee extends Base{
             ->field('e.id as user_id,e.truename,e.worknum,e.telephone,e.email,e.create_time,e.is_leader,GROUP_CONCAT( distinct re.role_id) as role,GROUP_CONCAT( distinct r.role_name) as role_name,GROUP_CONCAT( distinct se.struct_id) as struct,GROUP_CONCAT( distinct ses.struct_id) as struct_id,GROUP_CONCAT( distinct s.struct_name) as struct_name')
             ->where('se.struct_id',$struct_id)
             ->group("e.id");
-        if (is_null($rows)) {
+        if (!is_null($rows)) {
             $query = $query->limit($page,$rows);
         }
         $employee_list = $query->select();
