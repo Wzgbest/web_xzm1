@@ -3,12 +3,10 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>合同设置</title>
-		
+		<script src="../../../js/jquery.min.js"></script>
 		<link rel="stylesheet" href="../css/reset.css" />
 		<!--<link rel="stylesheet" href="css/index.css" />-->
 		<link rel="stylesheet" href="../css/font-awesome.min.css" />
-		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-		<!--<script src="../../../js/jquery.min.js"></script>-->
 		<style>
 			body{
 	width: 100%;
@@ -144,27 +142,9 @@ ul.firNav li.current{
 
 #content .p6{
 	margin-top: 40px;
-	margin-left: 175px;
 }
 
 #content .p6 input{
-	width: 14px;
-	height: 14px;
-	margin: 0;
-	padding: 0;
-	margin-right: 5px;
-	vertical-align: middle;
-	margin-left: 25px;
-	
-}
-/*#content .p6:nth-child(3){
-	margin-left: 143px;
-}*/
-#content .add{
-	margin-top: 40px;
-}
-
-#content .add input{
 	width: 14px;
 	height: 14px;
 	margin: 0;
@@ -206,24 +186,7 @@ ul.firNav li.current{
 	margin-left: 30px;
 	margin-top: 22px;
 }
-.add span:not(.sp1){
-	width: 86px;
-	height: 26px;
-	display: inline-block;
-	text-align: center;
-	line-height: 26px;
-	margin-left: 20px;
-	margin-right: 50px;
-	background-color: #ebf3ff;
-}
-.add span{
-	position: relative;
-}
-.add span img{
-				position:absolute;
-				top:-5px;
-				left: 80px;
-			}
+
 		</style>
 	</head>
 	<body>
@@ -239,17 +202,13 @@ ul.firNav li.current{
 				<input type="text" placeholder="百度推广"/>
 				
 			</p>
-			<p class="add">
+			<p class="p6">
 				<span class="sp1">业务流程</span>
 				
-			</p>
-			<p class="p6">
-				<!--<span class="sp1">业务流程</span>-->
-				
-				<input type="checkbox" name="more" index="1"/><span class="sp3">有意向</span>
-				<input type="checkbox" name="more" index="2"/><span class="sp3">预约拜访</span>
-				<input type="checkbox" name="more" index="3" /><span class="sp3">上门拜访</span><span class="sp6">（App签到后自动更新）</span>
-				<input type="checkbox" name="more" index="4"/><span class="sp3">申请成单</span><span class="sp6">（申请成单流程在成交合同审核通过后）</span>
+				<input type="checkbox" name="more"/><span class="sp3">有意向</span>
+				<input type="checkbox" name="more"/><span class="sp3">预约拜访</span>
+				<input type="checkbox" name="more"/><span class="sp3">上门拜访</span><span class="sp6">（App签到后自动更新）</span>
+				<input type="checkbox" name="more"/><span class="sp3">申请成单</span><span class="sp6">（申请成单流程在成交合同审核通过后）</span>
 			</p>
 			<div></div>
 			<p class="p7">
@@ -265,46 +224,25 @@ ul.firNav li.current{
 			
 		</div>
 	</body>
-	
-	
-	
-	
-	<script type="text/javascript">
-		$('.p6 input').each(function(){
-			$(this).on('click',function(){
-				var index = $(this).attr("index")
-				if($(this).prop('checked')==true){
-					var main = $(this).next().html()
-					$('.add').append('<span index = '+index+'>'+main+'<img src='+"img/del.png"+' index = "'+index+'"/></span>')
-				}else{
-					$('span').each(function(){
-						if($(this).attr('index')==index){
-							$(this).remove()
-						}
-					})
-				}
-				
-				$('span img').each(function(){
-					$(this).on('click',function(){
-						var index1 = $(this).attr("index")
-						var This = $(this)
-						$('.p6 input').each(function(){
-							if($(this).attr('index')==index1){
-								$(this).prop('checked',false)
-								$(This).parent().remove()
-								
-							}
-						})
-					})
-				})
-				
-				
-						
-			})
-			
-		})
-		
-		
-	</script>
+	<!--<script>
+		$('#corp_submit').click(function(){
+			console.log($('.form_corp').serialize());
+			$.ajax({
+				url:'http://192.168.102.67/index.php/systemsetting/corporation/editcorpinfo',
+				type:'post',
+				data:$('.form_corp').serialize(),
+				success:function(data){
+					if(data.status) {
+						console.log(data.message);
+					} else{
+						console.log(data.message);
+					}
+				},
+				error:function(){
+					
+				},
+			});
+		});
+	</script>-->
 	
 </html>

@@ -1,0 +1,243 @@
+body{
+	background-color: #f5f7fa;
+}
+header{
+	height: 40px;
+	background-color: white;
+	margin-left: 5px;
+	margin-right: 5px;
+	border-right: 1px solid #ebedf0;
+}
+.nav{
+	height: 40px;
+	margin-left: 1px;
+	box-shadow: -1px 2px #ebedf0;
+}
+.nav li{
+	float: left;
+	color: #b2b2b2;
+	height: 20px;
+	padding: 10px 0;
+}
+.nav li:hover{
+	cursor: pointer;
+}
+.nav li div{
+	line-height: 20px;
+	padding: 0 5px;
+	font-size: 12px;
+	border-right:2px solid #b2b2b2 ;
+}
+.nav li:last-child div{
+	border: none;
+}
+.nav li.flow{
+	color: #333333;
+	border-bottom: 1px solid #42a5f5;
+}
+header .add{
+	width: 56px;
+	height: 38px;
+	position: absolute;
+	right: 35px;
+	top:0;
+	padding-top: 2px;
+}
+header .add p{
+	font-size: 12px;
+	text-align: center;
+}
+header .add i{
+	display: block;
+	color: #1f7ed0;
+	text-align: center;
+}
+			
+article{
+	margin-left: 10px;
+	margin-top: 10px;
+}
+article>div{
+	width: 367px;
+	height: 1100px;
+	margin-right: 10px;
+	float: left;
+	
+}
+article .dv1{
+	width: 100%;
+	height: 580px;
+	background-color: #fff;
+	margin-bottom: 10px;
+	border-radius: 15px;
+}
+article .dv1 .img1{
+	margin-left: -10px;
+	
+}
+article .dv1 .task_p{
+	font-size: 18px;
+	font-weight: 600;
+	margin-left: 38px;
+	width: 284px;
+	height: 42px;
+	border-bottom: 1px solid #e5e5e5;
+	text-align: left;
+	line-height: 40px;
+	margin-top: -15px;
+	padding-left: 10px;
+	}
+article .dv1 .details{
+	width: 284px;
+	height: 46px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	border-bottom: 1px solid #e5e5e5;
+	margin-left: 38px;
+	padding-left: 10px;
+}
+article .dv1 .details .det_p1{
+	width: 100px;
+	height: 20px;
+	margin-left: 10px;
+	text-align: left;
+	line-height: 20px;
+	border-left: 2px solid #ff5a00;
+	padding-left: 12px;
+	color: #a1a1a1;
+	/*font-size: 12px;*/
+}
+article .dv1 .details .det_p2{
+	font-size: 14px;
+	margin-left: 25px;
+	margin-top: 12px;
+	color: ##a9afb9;
+}
+article .dv1 .details .det_p2 span{
+	margin-right: 15px;
+}
+article .dv1 .details .det_p2 img{
+	margin-right: 10px;
+}
+article .dv1 .details .det_double{
+	height: 20px;
+	margin-left: 10px;
+
+}
+article .dv1 .details .det_double span{
+	display: inline-block;
+	width: 80px;
+	line-height: 20px;
+	border-left: 2px solid #ff5a00;
+	/*font-size: 12px;*/
+	text-align: left;
+	padding-left: 12px;
+	margin-right: 10px;
+	color: #a1a1a1;
+}
+article .dv1 .details .det_two span{
+	font-size: 14px;
+	display: inline-block;
+	width: 96px;
+	line-height: 20px;
+	margin-top: 8px;
+	/*font-size: 12px;*/
+	text-align: left;
+	/*margin-right: 17px;*/
+	margin-left: 22px;
+}
+article .dv1 .details .det_two .len{
+	width: 152px;
+	height: 20px;
+	margin: 0px;
+	margin-left: 10px;
+}
+article .dv1 .details .remark{
+	font-size: 14px;
+	color: #a9afb9;
+	margin-top: 8px;
+	margin-left: 20px;
+}
+article .dv1 .comment{
+	height: 24px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+article .dv1 .comment div{
+	width: 60px;
+	height: 24px;
+	float: left;
+}
+article .dv1 .comment div img{
+	vertical-align: middle;
+}
+article .dv1 .comment div span{
+	vertical-align: middle;
+	margin-left: 5px;
+}
+article .dv1 .grade{
+	height: 36px;
+	padding-top: 20px;
+	width: 230px;
+	margin-left: 65px;
+}
+article .dv1 .grade p{
+	font-size: 16px;
+	float: left;
+}
+article .dv1 .grade .p1{
+	color: #bfbfbf;
+	margin-right: 20px;
+	width: 100px;
+	height: 36px;
+	text-align: center;
+	line-height: 36px;
+}
+article .dv1 .grade .p2{
+	width: 100px;
+	height: 36px;
+	border: 1px solid #ffa928;
+	text-align: center;
+	line-height: 36px;
+	border-radius: 5px;
+	color: #ffa928;
+}
+article .dv1 .grade .p3{
+	color: #ff0808;
+	margin-right: 20px;
+	width: 100px;
+	height: 36px;
+	text-align: center;
+	line-height: 36px;
+}
+article .cover{
+	color: #acd1ff;
+	text-overflow:ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+
+
+article .dv1 .active{
+	height: 36px;
+	padding-top: 20px;
+	width: 340px;
+	margin-left: 20px;
+}
+article .dv1 .active p{
+	float: left;
+	font-size: 16px;
+	width: 95px;
+	height: 36px;
+	border: 1px solid #ffa928;
+	text-align: center;
+	line-height: 36px;
+	border-radius: 5px;
+	color: #ffa928;
+	margin-right: 15px;
+}
+article .dv1 .a{
+	color: #c6c6c6;
+}
+

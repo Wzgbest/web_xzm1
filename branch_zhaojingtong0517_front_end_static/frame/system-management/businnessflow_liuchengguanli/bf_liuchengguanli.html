@@ -3,28 +3,18 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>角色管理</title>
-
+		<title>业务流</title>
+		<!--<link rel="stylesheet" href="css/index.css" />-->
 		<link rel="stylesheet" href="../css/reset.css" />
 		<link rel="stylesheet" href="../css/font-awesome.min.css" />
 		<!--<link rel="stylesheet" href="../../../css/font-awesome.min.css" />
 		<link rel="stylesheet" href="css/index.css" />
 		<link rel="stylesheet" href="../../../css/reset.css" />-->
-		<link rel="stylesheet" href="../frame/crm/css/form.css" />
-		<link rel="stylesheet" href="../frame/crm/css/index.css" />
-		<link rel="stylesheet" href="../frame/crm/css/table.css" />
-	
 		<style>
-			/** {
-				margin: 0;
-				padding: 0;
-				font-size: 12px;
-				font-family: "微软雅黑";
-			}*/
-			
 			body {
 				width: 100%;
-				height: 770px;
+				/*height: 770px;*/
+				height: 100%;
 				background-color: #f5f7fa;
 			}
 			
@@ -34,7 +24,6 @@
 				height: 40px;
 				background-color: #fff;
 				margin: 0 10px;
-				position: relative;
 			}
 			
 			ul.firNav {
@@ -94,45 +83,21 @@
 				line-height: 40px;
 				color: #999999;
 			}
-			#top .add{
-				width: 26px;
-				height: 38px;
-				position: absolute;
-				right: 50px;
-				top:0;
-				padding-top: 2px;
-			}
-			#top .add p{
-				font-size: 12px;
-				text-align: center;
-			}
-			#top .add i{
-				display: block;
-				color: #1f7ed0;
-				text-align: center;
-			}
 			
 			#content {
 				/*width: 1090px;*/
 				width: 100%;
-				height: 646px;
+				height: 100%;
 				background-color: #fff;
 				margin: auto 10px;
 				margin-top: 6px;
 				margin-bottom: 12px;
 			}
 			
-			#content .dv1 {
-				width: 246px;
-				height: 100%;
-				background-color: #f5f5f5;
-		
-				float: left;                           
-			}
 			
 			#content .dv2 {
 				width: 870px;
-				height: 800px;
+				height: 580px;
 				float: left;
 			}
 			
@@ -164,22 +129,86 @@
 				margin-left: 25px;
 			}
 			
-			#content .table1 {
-				margin-left: 21px;
+			#content .flow input {
+				width: 14px;
+				height: 14px;
+				margin: 0;
+				padding: 0;
+				margin-right: 5px;
+				vertical-align: middle;
+				margin-left: 10px;
+				margin-right: 10px;
 			}
 			
-			#content input {
-				width: 42px;
-				height: 18px;
+			#content .flow .sp6 {
+				margin-left: 0px;
+				vertical-align: middle;
+				color: #bebebe;
+			}
+			
+			#content .flow .sp3 {
+				vertical-align: middle;
+			}
+			
+			#content select {
+				vertical-align: middle;
+				width: 236px;
+				height: 35px;
+				margin-left: 18px;
+				padding-left: 15px;
+			}
+			
+			#content p {
+				margin-bottom: 14px;
+			}
+			
+			#content div .img1 {
+				width: 2px;
+				height: 20px;
+				vertical-align: middle;
+				margin-left: 25px;
+			}
+			
+			#content .sp1 {
+				font-size: 16px;
+				font-weight: bold;
+				text-align: left;
+				vertical-align: middle;
+				width: 97px;
+				margin: 0px;
+			}
+			
+			#content .space {
+				margin-top: 35px;
+			}
+			
+			#content div .tip {
+				width: 120px;
+				height: 36px;
+				display: inline-block;
+				text-align: right;
+				line-height: 36px;
+				font-size: 14px;
+			}
+			#content .dv1 {
+				width: 246px;
+				height: 600px;
+				background-color: #f5f5f5;
+			
+				float: left;                           
 			}
 			.dv1 .role{
 				width: 246px;
 				height: 42px;
 				border-bottom: 1px solid #eee;
-				
+				/*position: relative;*/
+			}
+			.dv1 .role img{
+				/*position: absolute;*/
+				margin-left: 140px;
 			}
 			.dv1 .role p{
-				font-size: 14px;
+				font-size: 16px;
 				margin-left: 15px;
 				line-height: 42px;
 			}
@@ -217,78 +246,64 @@
 		<div id="top">
 			<ul class="firNav">
 				<li class="current">
-					<div>角色管理</div>
+					<div>业务流</div>
 				</li>
+
 			</ul>
-			<div class="add">
-				<i class="fa fa-plus fa-2x"></i>
-				<p>新增</p>
-			</div>
 		</div>
 		<div id="content">
 
 			<div class="dv1">
 				<div class="role">
-					<p>角色</p>
+					<p>业务名称<img src="img/add.png"/></p>
+					
 				</div>
 				<ul>
-						<li><span>CEO</span><img src="img/compile.png" /><img src="img/del.png" /> </li>
-						<li><span>销售部主管</span><img src="img/compile.png" /><img src="img/del.png" /></li>
+						<li><span>百度推广</span><img src="img/compile.png" /><img src="img/del.png" /> </li>
+						<!--<li><span>销售部主管</span><img src="img/compile.png" /><img src="img/del.png" /></li>
 						<li><span>销售部经理</span><img src="img/compile.png" /><img src="img/del.png" /></li>
-						<li><span>业务员</span><img src="img/compile.png" /><img src="img/del.png" /></li>
+						<li><span>业务员</span><img src="img/compile.png" /><img src="img/del.png" /></li>-->
 				</ul>
 			</div>
 			<div class="dv2">
 				<div class="one">
-					<p class="p1">权限管理</p>
-					<p class="p1">成员管理</p>
+					<p class="p1">流程管理</p>
+					<p class="p1">角色成员</p>
 				</div>
-				<div class="m-tableBox3">
-					<div class="m-table table3">
-						<ul class="u-tabTitle">
-							<li>工号<i class="fa fa-sort-desc"></i></li>
-							<li>姓名</li>
-							<li>直属部门</li>
-							<li>联系方式</li>
-							<li>是否领导<i class="fa fa-unsorted"></i></li>
-							<li>创建时间<i class="fa fa-unsorted"></i></li>
-							<li>操作</li>
-							<div class="clearfix"></div>
-						</ul>
-						<ul class="u-tabList" >
-							<li>001</li>
-							<li>李理</li>
-							<li>销售一部</li>
-							<li>13345021406</li>
-							<li>是</li>
-							<li>2017/07/01/15:10</li>
-							<li class="u-tabOperation"><span>详情</span><span>移除</span></li>
-							<div class="clearfix"></div>
-						</ul>
-					</div>
-				</div>
-				<div class="u-tabControlRow">
-					<span>显示行数</span>
-					<select onchange="listNumChange()">
-						<option value="5">5</option>
-						<option value="10">10</option>
-						<option value="20">20</option>
-					</select>
-					<span>1-10条/</span>
-					<span>共50条</span>
-					<button>上一页</button>
-					<button>下一页</button>
-					<span>前往</span>
-					<input type="text" />
-					<span>页</span>
-				</div>
+				<div class="two">
+					<p class="flow">
 
+						<input type="checkbox" name="more" /><span class="sp3">有意向</span>
+						<input type="checkbox" name="more" /><span class="sp3">预约拜访</span>
+						<input type="checkbox" name="more" /><span class="sp3">上门拜访</span><span class="sp6">（App签到后自动更新）</span>
+						<input type="checkbox" name="more" /><span class="sp3">申请成单</span><span class="sp6">（申请成单流程在成交合同审核通过后）</span>
+					</p>
+				</div>
+				<p class="space">
+					<img src="img/02.jpg" class="img1" />
+					<span class="sp1">成单审核</span>
+				</p>
+				<p>
+					<span class="tip">成单审核人1</span>
+					<select>
+						<option value="1">王建国</option>
+						<option value="2">张三</option>
+						<option value="3">李四</option>
+					</select>
+				</p>
+				<p>
+					<span class="tip">成单审核人2</span>
+					<select>
+						<option value="1">王伟芬</option>
+						<option value="2">张三</option>
+						<option value="3">李四</option>
+					</select>
+					<img src="img/01.jpg" class="img2" />
+
+				</p>
 			</div>
+		</div>
 
 	</body>
-	<script type="text/javascript" src="../js/jquery.min.js"></script>
-	<script type="text/javascript" src="../frame/crm/js/index.js"></script>
 
-	
-	
 </html>
