@@ -253,7 +253,7 @@ return [
 //        'database'    => '',
 //        'username'    => 'zxwz',
 //        'password'    => '123456',
-//        'hostport'    => '3307',
+//        'hostport'    => '3306',
 //        'charset'     => 'utf8',
 //        'prefix'      => 'guguo_',
 //        'params'      => ['PDO::MYSQL_ATTR_INIT_COMMAND' =>'set names utf8;'],

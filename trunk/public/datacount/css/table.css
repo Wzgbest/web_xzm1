@@ -1,0 +1,85 @@
+/******************************/
+/*table*/
+.m-tableBox{
+	width: 100%;
+	margin-top: 20px;
+	margin-left: 4px;
+	overflow-x: auto;
+}
+.table1{
+	width: 2096px;
+}
+.table2{
+	width: 1685px;
+}
+.table3{
+	width: 1000px;
+}
+.m-table ul{
+	border-bottom: 1px solid #eeeeee;
+}
+.m-table ul:nth-child(2n+1){
+	background-color: #f8f9fa;
+}
+.tab-list li{
+	border-right: 1px solid #f2f2f2;
+}
+.m-table li{
+	float: left;
+	height: 40px;
+	width: 116px;
+	padding: 0 10px;
+	line-height: 40px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-align: left;
+}
+.m-table i{
+	margin-left: 10px;
+}
+.u-tabTitle{
+	border-bottom: 2px solid #eeeeee !important;
+}
+.u-tabTitle li{
+	color: #333333;
+	border-right: 1px solid white;
+	background-color: #f7f7f7;
+}
+.u-tabList li{
+	/*color: #666666;*/
+	border-right: 1px solid white;
+}
+.u-tabCheckbox{
+	text-align: center !important;
+	width: 40px !important;
+	padding: 0 !important;
+}
+.u-tabCilentName{
+	color: #77b8ff;
+}
+.u-tabLinkWay{
+	color: #13ae6b;
+}
+.u-tabOperation span{
+	margin-right: 10px;
+	color: #77b8ff;
+	cursor: pointer;
+}
+.u-tabControlRow{
+	margin-left: 20px;
+	height: 30px;
+	margin-top: 20px;
+	font-size: 14px;
+}
+.u-tabControlRow select,.u-tabControlRow button{
+	width: 60px;
+	height: 25px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background-color: transparent;
+}
+.u-tabControlRow input{
+	width: 40px;
+	border-radius: 4px;
+}
