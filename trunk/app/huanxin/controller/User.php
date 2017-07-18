@@ -77,6 +77,9 @@ class User extends Controller{
         $structureModel = new Structure($chk_info['corp_id']);
         $structure = $structureModel->getAllStructure();
         $friendsInfo = $this->employM->getAllUsers();
+        foreach($friendsInfo as &$friend_info){
+            $friend_info["struct"] = explode(",",$friend_info["struct_id"]);
+        }
         $info['message'] = 'SUCCESS';
         $info['status'] = true;
         $info['friendsInfo'] = $friendsInfo;
