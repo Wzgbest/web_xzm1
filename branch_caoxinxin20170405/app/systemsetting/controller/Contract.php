@@ -6,21 +6,18 @@
 namespace app\systemsetting\controller;
 
 use app\common\controller\Initialize;
-use app\systemsetting\model\Contract as ContractModel;
+use app\systemsetting\model\ContractSetting as ContractModel;
 use think\Request;
 
-class Contract extends Initialize
-{
-    public function index()
-    {
+class Contract extends Initialize{
+    public function index(){
         $conM = new ContractModel();
         $res = $conM->getAllContract();
         $this->assign('contracts',$res);
         return view();
     }
 
-    public function editContract(Request $request)
-    {
+    public function editContract(Request $request){
         $input = $request->param();
         $conM = new ContractModel();
         if ($request->isGet()) {
