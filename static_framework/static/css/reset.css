@@ -100,12 +100,7 @@ textarea {
 .tr {
   text-align: right;
 }
-.mr0{
-	margin-right: 0 !important;
-}
-.bdn{
-	border: none !important;
-}
+
 .ellipse {
   overflow: hidden;
   text-overflow: ellipsis;

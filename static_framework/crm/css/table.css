@@ -64,22 +64,10 @@
 .u-tabOperation span{
 	margin-right: 10px;
 	color: #77b8ff;
-	cursor: pointer;
 }
 .u-tabControlRow{
 	margin-left: 20px;
 	height: 30px;
 	margin-top: 20px;
 	font-size: 14px;
-}
-.u-tabControlRow select,.u-tabControlRow button{
-	width: 60px;
-	height: 25px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	background-color: transparent;
-}
-.u-tabControlRow input{
-	width: 40px;
-	border-radius: 4px;
 }
