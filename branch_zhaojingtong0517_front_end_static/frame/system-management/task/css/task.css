@@ -1,81 +1,93 @@
-body{
+body {
 	background-color: #f5f7fa;
 }
-header{
+
+header {
 	height: 40px;
 	background-color: white;
 	margin-left: 5px;
 	margin-right: 5px;
 	border-right: 1px solid #ebedf0;
 }
-.nav{
+
+.nav {
 	height: 40px;
 	margin-left: 1px;
 	box-shadow: -1px 2px #ebedf0;
 }
-.nav li{
+
+.nav li {
 	float: left;
 	color: #b2b2b2;
 	height: 20px;
 	padding: 10px 0;
 }
-.nav li:hover{
+
+.nav li:hover {
 	cursor: pointer;
 }
-.nav li div{
+
+.nav li div {
 	line-height: 20px;
 	padding: 0 5px;
 	font-size: 12px;
-	border-right:2px solid #b2b2b2 ;
+	border-right: 2px solid #b2b2b2;
 }
-.nav li:last-child div{
+
+.nav li:last-child div {
 	border: none;
 }
-.nav li.flow{
+
+.nav li.flow {
 	color: #333333;
 	border-bottom: 1px solid #42a5f5;
 }
-header .add{
+
+header .add {
 	width: 56px;
 	height: 38px;
 	position: absolute;
 	right: 35px;
-	top:0;
+	top: 0;
 	padding-top: 2px;
 }
-header .add p{
+
+header .add p {
 	font-size: 12px;
 	text-align: center;
 }
-header .add i{
+
+header .add i {
 	display: block;
 	color: #1f7ed0;
 	text-align: center;
 }
-			
-article{
+
+article {
 	margin-left: 10px;
 	margin-top: 10px;
 }
-article>div{
+
+article>div {
 	width: 367px;
 	height: 1100px;
 	margin-right: 10px;
 	float: left;
-	
 }
-article .dv1{
+
+article .dv1 {
 	width: 100%;
 	height: 580px;
 	background-color: #fff;
 	margin-bottom: 10px;
 	border-radius: 15px;
 }
-article .dv1 .img1{
+
+article .dv1 .img1 {
 	margin-left: -10px;
-	
 }
-article .dv1 .task_p{
+
+article .dv1 .task_p {
 	font-size: 18px;
 	font-weight: 600;
 	margin-left: 38px;
@@ -86,8 +98,9 @@ article .dv1 .task_p{
 	line-height: 40px;
 	margin-top: -15px;
 	padding-left: 10px;
-	}
-article .dv1 .details{
+}
+
+article .dv1 .details {
 	width: 284px;
 	height: 46px;
 	padding-top: 20px;
@@ -96,7 +109,8 @@ article .dv1 .details{
 	margin-left: 38px;
 	padding-left: 10px;
 }
-article .dv1 .details .det_p1{
+
+article .dv1 .details .det_p1 {
 	width: 100px;
 	height: 20px;
 	margin-left: 10px;
@@ -107,24 +121,28 @@ article .dv1 .details .det_p1{
 	color: #a1a1a1;
 	/*font-size: 12px;*/
 }
-article .dv1 .details .det_p2{
+
+article .dv1 .details .det_p2 {
 	font-size: 14px;
 	margin-left: 25px;
 	margin-top: 12px;
 	color: ##a9afb9;
 }
-article .dv1 .details .det_p2 span{
+
+article .dv1 .details .det_p2 span {
 	margin-right: 15px;
 }
-article .dv1 .details .det_p2 img{
+
+article .dv1 .details .det_p2 img {
 	margin-right: 10px;
 }
-article .dv1 .details .det_double{
+
+article .dv1 .details .det_double {
 	height: 20px;
 	margin-left: 10px;
-
 }
-article .dv1 .details .det_double span{
+
+article .dv1 .details .det_double span {
 	display: inline-block;
 	width: 80px;
 	line-height: 20px;
@@ -135,7 +153,8 @@ article .dv1 .details .det_double span{
 	margin-right: 10px;
 	color: #a1a1a1;
 }
-article .dv1 .details .det_two span{
+
+article .dv1 .details .det_two span {
 	font-size: 14px;
 	display: inline-block;
 	width: 96px;
@@ -146,46 +165,55 @@ article .dv1 .details .det_two span{
 	/*margin-right: 17px;*/
 	margin-left: 22px;
 }
-article .dv1 .details .det_two .len{
+
+article .dv1 .details .det_two .len {
 	width: 152px;
 	height: 20px;
 	margin: 0px;
 	margin-left: 10px;
 }
-article .dv1 .details .remark{
+
+article .dv1 .details .remark {
 	font-size: 14px;
 	color: #a9afb9;
 	margin-top: 8px;
 	margin-left: 20px;
 }
-article .dv1 .comment{
+
+article .dv1 .comment {
 	height: 24px;
 	padding-top: 10px;
 	padding-bottom: 10px;
 }
-article .dv1 .comment div{
+
+article .dv1 .comment div {
 	width: 60px;
 	height: 24px;
 	float: left;
 }
-article .dv1 .comment div img{
+
+article .dv1 .comment div img {
 	vertical-align: middle;
 }
-article .dv1 .comment div span{
+
+article .dv1 .comment div span {
 	vertical-align: middle;
 	margin-left: 5px;
 }
-article .dv1 .grade{
+
+article .dv1 .grade {
 	height: 36px;
 	padding-top: 20px;
 	width: 230px;
 	margin-left: 65px;
 }
-article .dv1 .grade p{
+
+article .dv1 .grade p {
 	font-size: 16px;
 	float: left;
 }
-article .dv1 .grade .p1{
+
+article .dv1 .grade .p1 {
 	color: #bfbfbf;
 	margin-right: 20px;
 	width: 100px;
@@ -193,7 +221,8 @@ article .dv1 .grade .p1{
 	text-align: center;
 	line-height: 36px;
 }
-article .dv1 .grade .p2{
+
+article .dv1 .grade .p2 {
 	width: 100px;
 	height: 36px;
 	border: 1px solid #ffa928;
@@ -202,7 +231,8 @@ article .dv1 .grade .p2{
 	border-radius: 5px;
 	color: #ffa928;
 }
-article .dv1 .grade .p3{
+
+article .dv1 .grade .p3 {
 	color: #ff0808;
 	margin-right: 20px;
 	width: 100px;
@@ -210,22 +240,22 @@ article .dv1 .grade .p3{
 	text-align: center;
 	line-height: 36px;
 }
-article .cover{
+
+article .cover {
 	color: #acd1ff;
-	text-overflow:ellipsis;
+	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
 }
 
-
-
-article .dv1 .active{
+article .dv1 .active {
 	height: 36px;
 	padding-top: 20px;
 	width: 340px;
 	margin-left: 20px;
 }
-article .dv1 .active p{
+
+article .dv1 .active p {
 	float: left;
 	font-size: 16px;
 	width: 95px;
@@ -237,7 +267,177 @@ article .dv1 .active p{
 	color: #ffa928;
 	margin-right: 15px;
 }
-article .dv1 .a{
+
+article .dv1 .a {
 	color: #c6c6c6;
 }
 
+
+/*弹出框样式*/
+
+.reveal-modal-bg {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	z-index: 100;
+	display: none;
+	top: 0;
+	left: 0;
+	background: rgba(00, 00, 00, 0.4)
+}
+
+.reveal-modal {
+	width: 885px;
+	height: 660px;
+	visibility: hidden;
+	top: 150px;
+	left: 40%;
+	margin-left: -300px;
+	position: absolute;
+	z-index: 101;
+	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+	-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+	background-color: #fff;
+}
+
+.reveal-modal .p1 {
+	width: 885px !important;
+	height: 50px !important;
+	background-color: #6b7a99;
+	font-size: 18px !important;
+	text-align: center;
+	line-height: 50px !important;
+	color: #fff;
+}
+
+.reveal-modal .p2 {
+	width: 590px;
+	font-size: 18px;
+	text-align: center;
+	line-height: 140px;
+	color: #666666;
+	display: inline-block;
+}
+
+.reveal-modal select {
+	width: 200px;
+	height: 30px;
+	margin-left: 10px;
+}
+
+.reveal-modal .close-reveal-modal {
+	font-size: 32px;
+	line-height: 0.5;
+	position: absolute;
+	top: 15px;
+	right: 18px;
+	color: #fff;
+	text-shadow: 0 -1px 1px rbga(0, 0, 0, .6);
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.reveal-modal p:not(.p1) {
+	height: 35px;
+	margin-left: 30px;
+	margin-top: 15px;
+}
+
+.reveal-modal p input {
+	width: 300px;
+	padding-left: 15px;
+	height: 32px;
+}
+
+.reveal-modal p select {
+	width: 320px;
+	padding-left: 15px;
+	height: 35px;
+}
+
+.reveal-modal p img {
+	vertical-align: middle;
+}
+
+.reveal-modal p img span {
+	vertical-align: middle;
+}
+
+.reveal-modal .sp1 span {
+	margin-right: 33px;
+}
+
+.reveal-modal .sp2 span {
+	margin-right: 24px;
+}
+
+.reveal-modal .sp3 span {
+	margin-right: 38px;
+	margin-left: 18px;
+}
+
+.reveal-modal .sp4 span {
+	margin-right: 30px;
+	margin-left: 18px;
+}
+
+.reveal-modal .left {
+	margin-left: 18px;
+	margin-right: 35px;
+}
+
+.reveal-modal .sp4 input {
+	width: 235px;
+}
+
+.reveal-modal .right {
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.reveal-modal .sp6 span {
+	margin-left: 18px;
+	margin-right: 35px;
+}
+.reveal-modal .one{
+	position: relative;
+	left: 120px;
+	top:20px;
+	font-size: 12px;
+	color: #b3b3b3;
+}
+.reveal-modal .sp6 textarea {
+	padding-left: 15px;
+	width: 700px;
+	height: 50px;
+	vertical-align: top;
+}
+
+.reveal-modal .p5 {
+	width: 320px;
+	margin: 0 auto;
+	margin-top: 50px;
+}
+
+.reveal-modal .p5 input {
+	width: 100px;
+	height: 40px;
+	border-radius: 10px;
+	/*	margin-right: 60px;*/
+	background-color: #42a5f5;
+	color: #fff;
+	border: 1px solid #dcdcdc;
+	margin-right: 100px;
+	
+}
+
+.reveal-modal .p5 button {
+	width: 100px;
+	height: 41px;
+	border-radius: 10px;
+	/*margin-right: 100px;*/
+	background-color: #fff;
+	border: 1px solid #dcdcdc;
+
+}

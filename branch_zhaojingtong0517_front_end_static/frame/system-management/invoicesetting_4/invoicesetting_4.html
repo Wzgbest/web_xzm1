@@ -269,6 +269,44 @@
 				color: #77b8ff;
 				text-align: left
 			}
+			#content .later .redact {
+				display: inline-block;
+				width: 221px;
+				padding-left: 15px;
+				height: 36px;
+				background-color: #f2f2f2;
+				margin-left: 18px;
+				padding-right: 15px;
+				text-align: left;
+			}
+			
+			#content .redact {
+				position: relative;
+			}
+			
+			#content .later .redact img:nth-child(1) {
+				position: absolute;
+				left: 190px;
+				top: 10px
+			}
+			
+			#content .later .redact img:nth-child(2) {
+				position: absolute;
+				left: 215px;
+				top: 10px
+			}
+			
+			#content .later .redact img {
+				display: none;
+			}
+			#content .later .redact:hover img{
+				display: inline-block;
+				
+			}
+			#content .later .redact:hover{
+				background-color: #f2f6fd;
+			}
+			
 		</style>
 	</head>
 
@@ -291,15 +329,23 @@
 				<input type="radio" name="a" />是
 				<input type="radio" name="a" class="ipt" />否
 			</p>
-			<p>
+			<p class="later">
 				<span>产品类型</span>
-				<input type="text" placeholder="百度类" />
-				<span class="add">添加分类</span>
+				<span class="redact">
+						默认类型
+				    	<img src="img/compile.png" />
+				    	<img src="img/del.png" />
+				    </span>
+				    <img src="img/01.jpg" class="img2" />
 			</p>
-			<p>
+			<p class="later">
 				<span>打款银行类型</span>
-				<input type="text" placeholder="百度类" />
-				<span class="add">添加分类</span>
+				<span class="redact">
+						招商银行
+				    	<img src="img/compile.png" />
+				    	<img src="img/del.png" />
+				    </span>
+				    <img src="img/01.jpg" class="img2" />
 			</p>
 			<p>
 				<span>最大发票额度</span>
