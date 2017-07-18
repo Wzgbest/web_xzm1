@@ -239,13 +239,16 @@ return [
     ],
     'db_config1'    =>  [
         'type'        => 'mysql',
-        'hostname'    => '192.168.102.200',
+        'hostname'    => '127.0.0.1',
         'database'    => '',
         'username'    => 'zxwz',
         'password'    => '123456',
         'hostport'    => '3307',
         'charset'     => 'utf8',
         'prefix'      => 'guguo_',
+        'params'      => [
+    		PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
+    	],
     ],
 //    'db_config1'    =>  [
 //        'type'        => 'mysql',
