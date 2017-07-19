@@ -1,0 +1,110 @@
+<div class="crm_sale_chance crm_sale_chance_index">
+    <div class="index_panel index">
+		 <header>
+            <ul class="m-firNav">
+                <li in_column="0" class="in_column current"><div>正常跟进（<span>10</span>）</div></li>
+                <li in_column="1" class="in_column "><div>停滞（<span>0</span>）</div></li>
+                <li in_column="2" class="in_column "><div>已成单（<span>0</span>）</div></li>
+                <li in_column="3" class="in_column "><div>已输单（<span>0</span>）</div></li>
+                <li in_column="4" class="in_column "><div>已作废（<span>0</span>）</div></li>
+                <li in_column="5" class="in_column "><div>所有销售机会（<span>0</span>）</div></li>
+            </ul>
+        </header>
+    </div>
+    <!--销售机会列表-->
+    <section id="myAllSaleChancePage">
+    	<div class="m-divBlock m-divBlock2">
+    		<div class="m-filterNav">
+                <form class="search_form" onsubmit="return false;">
+                    <select name="take_type">
+                        <option value="">对应业务</option>
+                        <option value="1" >转介绍</option>
+                        <option value="2" >搜索</option>
+                        <option value="3" >购买</option>
+                    </select>
+                    <select name="grade">
+                        <option value="">业务状态</option>
+                        <option value="A" >A</option>
+                        <option value="B" >B</option>
+                        <option value="C" >C</option>
+                        <option value="D" >D</option>
+                    </select>
+                    <input type="text" name="sale_chance_name" placeholder="输入商机名称" value=""/>
+                    <input type="text" name="customer_name" placeholder="输入对应客户" value=""/>
+                    <button class="u-btnSearch">查询</button>
+                </form>
+            </div>
+            <div class="m-tableBox">
+            	<!--sale-chance-all为正常跟进、停滞、已输单、已作废、所有销售机会表格（表格结构相同） table5定义宽度-->
+            	<div class="m-table table5 sale-chance-all">
+            		<ul class="u-tabTitle">
+                        <li>最后变更时间<i class="fa fa-caret-down"></i></li>
+                        <li>销售机会<i class="fa fa-unsorted"></i></li>
+                        <li>对应客户</li>
+                        <li>对应业务</li>
+                        <li>业务状态</li>
+                        <li>预计金额<i class="fa fa-unsorted"></i></li>
+                        <li>成单金额<i class="fa fa-unsorted"></i></li>
+                        <li>已交金额<i class="fa fa-unsorted"></i></li>
+                        <div class="clearfix"></div>
+                    </ul>
+                    <ul class="u-tabList">
+                        <li>2017/07/18/17:36</li>
+                        <li class="color-blue">网站建设</li>
+                        <li class="color-blue">山东中迅网络传媒</li>
+                        <li>百度推广</li>
+                        <li>成单申请</li>
+                        <li>5600元</li>
+                        <li>5400元</li>
+                        <li>5200元</li>
+                    <div class="clearfix"></div>
+            	</div>
+            	<!--sale-chance-complete为已成单销售机会表格 table6定义宽度-->
+            	<div class="m-table table6 sale-chance-complete hide">
+            		<ul class="u-tabTitle">
+                        <li>最后变更时间<i class="fa fa-caret-down"></i></li>
+                        <li>销售机会<i class="fa fa-unsorted"></i></li>
+                        <li>对应客户</li>
+                        <li>对应业务</li>
+                        <li>业务状态</li>
+                        <li>预计金额<i class="fa fa-unsorted"></i></li>
+                        <li>成单金额<i class="fa fa-unsorted"></i></li>
+                        <li>已交金额<i class="fa fa-unsorted"></i></li>
+                        <li>预计合同到期时间<i class="fa fa-unsorted"></i></li>
+                        <div class="clearfix"></div>
+                    </ul>
+                    <ul class="u-tabList">
+                        <li>2017/07/18/17:36</li>
+                        <li class="color-blue">网站建设</li>
+                        <li class="color-blue">山东中迅网络传媒</li>
+                        <li>百度推广</li>
+                        <li>成单申请</li>
+                        <li>5600元</li>
+                        <li>5400元</li>
+                        <li>5200元</li>
+                        <li>2017/07/18/17:36</li>
+                    <div class="clearfix"></div>
+            	</div>
+            </div>
+            <div class="u-tabControlRow">
+                <span>显示行数</span>
+                <select>
+                    <option value="5" >5</option>
+                    <option value="10"  selected="selected">10</option>
+                    <option value="20" >20</option>
+                </select>
+                <span>1-10条/</span>
+                <span>共10条</span>
+                <button class="index_previous_page previous_page  disabled">上一页</button>
+                <button class="index_next_page next_page  disabled">下一页</button>
+                <span>前往</span>
+                <input class="index_jump_page jump_page" type="text" />
+                <span>页</span>
+            </div>
+    	</div>
+    </section>
+</div>
+<link rel="stylesheet" href="/crm/css/index.css"/>
+<link rel="stylesheet" href="/crm/css/table.css" />
+<link rel="stylesheet" href="/crm/css/form.css" />
+<link rel="stylesheet" href="/crm/css/divBlock.css" />

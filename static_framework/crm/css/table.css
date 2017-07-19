@@ -15,6 +15,18 @@
 .table3{
 	width: 1000px;
 }
+/*导入记录的表单*/
+.table4{
+	width: 959px;
+}
+/*销售机会表单-all*/
+.table5{
+	width: 1096px;
+}
+/*销售机会表单-已成单*/
+.table6{
+	width: 1233px;
+}
 .m-table ul{
 	border-bottom: 1px solid #eeeeee;
 }
@@ -30,6 +42,7 @@
 	width: 116px;
 	padding: 0 10px;
 	line-height: 40px;
+	font-size: 12px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -64,10 +77,22 @@
 .u-tabOperation span{
 	margin-right: 10px;
 	color: #77b8ff;
+	cursor: pointer;
 }
 .u-tabControlRow{
 	margin-left: 20px;
 	height: 30px;
 	margin-top: 20px;
 	font-size: 14px;
+}
+.u-tabControlRow select,.u-tabControlRow button{
+	width: 60px;
+	height: 25px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background-color: transparent;
+}
+.u-tabControlRow input{
+	width: 40px;
+	border-radius: 4px;
 }

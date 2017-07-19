@@ -10,6 +10,13 @@
 	background-color: white;
 	box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.04),inset 0px -1px 0px 0px rgba(0, 0, 0, 0.17);
 }
+.m-divBlock2{
+	margin-left: 0;
+	padding:0 0 10px 10px;
+}
+.m-divBlock2 .m-filterNav{
+	margin-top: 10px;
+}
 .m-divBlock span{
 	line-height: 30px;
 }
