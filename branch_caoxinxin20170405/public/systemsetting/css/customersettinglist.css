@@ -22,7 +22,7 @@ ol {
     text-decoration: none;
 }
 
-.customer_setting_list #content {
+.customer_setting_list .content {
     /*width: 1090px;*/
     width: 100%;
     height: 812px;
@@ -34,7 +34,7 @@ ol {
     padding-left: 30px;
 }
 
-.customer_setting_list #content div {
+.customer_setting_list .content .content_item {
     position: relative;
     width: 210px;
     height: 200px;
@@ -44,26 +44,26 @@ ol {
     border-radius: 6px;
 }
 
-.customer_setting_list #content div h4 {
+.customer_setting_list .content .content_item h4 {
     font-size: 18px;
     text-align: center;
     line-height: 60px;
 }
 
-.customer_setting_list #content div h2 {
+.customer_setting_list .content .content_item h2 {
     font-size: 56px;
     text-align: center;
     line-height: 140px;
     color: #95c8ff;
 }
 
-.customer_setting_list #content div p {
+.customer_setting_list .content .content_item p {
     font-size: 12px;
     text-align: center;
     line-height: 20px;
 }
 
-.customer_setting_list #content div a {
+.customer_setting_list .content .content_item a {
     position: absolute;
     font-size: 16px;
     text-align: center;
@@ -74,7 +74,7 @@ ol {
     left: 74px;
 }
 
-.customer_setting_list #content div .a1 {
+.customer_setting_list .content .content_item .a1 {
     position: absolute;
     font-size: 16px;
     text-align: center;

@@ -1,0 +1,64 @@
+.systemsetting_content {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    font-family: "微软雅黑";
+    width: 100%;
+    height: 770px;
+    background-color: #f5f7fa;
+}
+.systemsetting_content
+ul,
+li,
+ol {
+    list-style: none
+}
+
+.systemsetting_content a {
+    color: #333;
+}
+
+.systemsetting_content .content {
+    /*width: 1090px;*/
+    width: 100%;
+    height: 812px;
+    background-color: #fff;
+    margin: auto 10px;
+    margin-top: 6px;
+    margin-bottom: 12px;
+    padding-top: 30px;
+    padding-left: 30px;
+}
+
+.systemsetting_content .content .content_item {
+    width: 210px;
+    height: 120px;
+    background-color: #ebf3ff;
+    float: left;
+    margin-top: 10px;
+    margin-right: 10px;
+    border-radius: 6px;
+}
+
+.systemsetting_content .content .content_item .content_title {
+    font-size: 18px;
+    text-align: center;
+    line-height: 60px;
+}
+
+.systemsetting_content .content .content_item .content_info {
+    font-size: 48px;
+    text-align: center;
+    line-height: 60px;
+}
+
+.systemsetting_content .content .content_item .content_link {
+    font-size: 14px;
+    text-align: center;
+    display: block;
+    line-height: 60px;
+    color: #77b8ff;
+}
+.systemsetting_content .content .add{
+    color: #77b8ff;
+}
