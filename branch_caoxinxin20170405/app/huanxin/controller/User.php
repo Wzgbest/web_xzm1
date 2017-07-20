@@ -399,13 +399,14 @@ class User extends Controller{
         ],true);
         $b = \think\Hook::listen('check_over_time_red',$params);
         if (!$b[0]) {
-            return json(['status'=>false,'errnum'=>1,'message'=>'账户交易查询请求失败，联系管理员']);
+            return json(['status'=>0,'info'=>'账户交易查询请求失败，联系管理员']);
         }
         $last_id = input('last_id',0,"int");
+        $num = input('mun',10,"int");
         $corp_id = get_corpid($userid);
         $takeCashM = new TakeCashModel($corp_id);
         $bill_list = $takeCashM->getOrderList($chk_info['userinfo']['id'],10,$last_id);
-        return json(['status'=>true,'message'=>'SUCCESS','errnum'=>0,'bill_list'=>$bill_list]);
+        return json(['status'=>1,'info'=>'账户交易查询成功!','data'=>$bill_list]);
     }
 
     /**
