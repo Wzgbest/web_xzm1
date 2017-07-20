@@ -101,8 +101,10 @@ class CorporationShare extends Initialize{
         $result = ['status'=>0 ,'info'=>"获取动态时发生错误！"];
         $num = input('num',10,'int');
         $last_id = input("last_id",0,"int");
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $corporationShareModel = new CorporationShareModel($this->corp_id);
-        $share_data = $corporationShareModel->getCorporationShare($num,$last_id);
+        $share_data = $corporationShareModel->getCorporationShare($uid,$num,$last_id);
         $share_ids = array_column($share_data,"id");
         $corporationShareCommentModel = new CorporationShareCommentModel($this->corp_id);
         $share_comment_data = $corporationShareCommentModel->getCorporationShareComment($share_ids,$num,$last_id);
@@ -186,6 +188,16 @@ class CorporationShare extends Initialize{
         return json($result);
     }
     public function tip(){
+        $result = ['status'=>0 ,'info'=>"打赏动态时发生错误！"];
+        $share_id = input('share_id',0,"int");
+        $money = input('money',0,"int");
+        $money = input('pay_',0,"int");
+        if(empty($share_id)||empty($money)||empty($share_id)){
+            exception("参数错误!");
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $save_money = intval($money*100);
 
     }
 }
