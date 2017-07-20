@@ -116,6 +116,69 @@ class RedEnvelope
         }
         return json($info);
     }
+    /**
+     * 红包领取情况
+     * @param userid
+     * @param access_token
+     * @param redid 红包标识
+     * @param \app\huanxin\controller\User $user
+     * @return string
+     */
+    public function getFetchedRedEnvelope(User $user)
+    {
+        $userid = input('param.userid');
+        $access_token = input('param.access_token');
+        $red_id = input('param.redid');
+
+        $r = $user->checkUserAccess($userid,$access_token);
+        if (!$r['status']) {
+            return json($r);
+        }
+        $info['status'] = false;
+        if (!preg_match('/[0-9a-fA-F]{32}/',$red_id)) {
+            $info['message'] = '红包id错误';
+            $info['errnum'] = 1;
+            $info['overtime'] = false;
+            return json($info);
+        }
+
+        $redM = new RedB($r['corp_id']);
+        $red_num_total = $redM->getRedCount($red_id);
+        if (empty($red_num_total)) {
+            $info['message'] = '红包id错误';
+            $info['errnum'] = 2;
+            $info['overtime'] = false;
+            return json($info);
+        }
+
+        $pre_red = $redM->getRedInfoByRedId($red_id);
+        if (empty($pre_red)) {
+            $info['overtime'] = true;
+            $info['errnum'] = 3;
+            $info['message'] = '红包已过期';
+        } elseif (time()>($pre_red[0]['create_time']+config('red_envelope.overtime'))) {
+            $params = json_encode([
+                'userid'=>$r['userinfo']['id'],
+                'corp_id'=>$r['corp_id'],
+                'red_data'=>$pre_red[0]
+            ],true);
+            Hook::listen('check_over_time_red',$params);
+            $info['message'] = '红包已经过期';
+            $info['errnum'] = 3;
+            $info['overtime'] = true;
+        }else{
+            $info['overtime'] = false;
+            $info['message'] = 'SUCCESS';
+            $info['errnum'] = 0;
+        }
+        $red_data = $redM->getFetchedRedList($red_id);
+        $info['status'] = true;
+        $info['left_num'] = $red_num_total - count($red_data);
+        $info['total_num'] = $red_num_total;
+        $info['red_info'] = $red_data;
+
+        return json($info);
+    }
 
     /**
      * 领取红包
@@ -141,7 +204,7 @@ class RedEnvelope
 
         $info['status'] =true;
         $redM = new RedB($r['corp_id']);
-
+/*      //方法1:缓存记录红包信息,速度快
         //红包全部
         $red_arr = cache('red_info_all'.$red_id);
         if (empty($red_arr)) {
@@ -192,7 +255,11 @@ class RedEnvelope
         }
         cache('red_info_all'.$red_id,$red_arr);
         if ( $time > ($red_data['create_time'] + config('red_envelope.overtime')) ) {
-            $params = json_encode(['userid'=>$r['userinfo']['id'],'corp_id'=>$r['corp_id'],'red_data'=>$red_data],true);
+            $params = json_encode([
+                'userid'=>$r['userinfo']['id'],
+                'corp_id'=>$r['corp_id'],
+                'red_data'=>$red_data
+            ],true);
             Hook::listen('check_over_time_red',$params);
             $info['status'] = false;
             $info['message'] = '红包已经过期';
@@ -228,6 +295,37 @@ class RedEnvelope
         //更新缓存
         cache('red_info_all'.$red_id,$red_arr);
 //        file_put_contents('e:/desktop/red.txt',json_encode($red_arr,true)."\r\n",FILE_APPEND);
+*/
+
+
+        //方法2:直接记录到数据库
+        $myCount = $redM->getUserRedCount($r['userinfo']['id'],$red_id);
+        if($myCount>0){
+            $info['message'] = '您已领取红包';
+            $info['errnum'] = 2;
+            $info['status'] = false;
+            return json($info);
+        }
+        $getCount = $redM->fetchedRedEnvelope($r['userinfo']['id'],$red_id);
+        if(!$getCount>0){
+            $info['status'] = false;
+            $info['message'] = '红包已被抢光了';
+            $info['errnum'] = 3;
+            return json($info);
+        }
+        $red_arr = $redM->getRedInfoByRedId($red_id);
+        $already_arr=[];
+        $red_data = [];
+        foreach ($red_arr as $key => $val) {
+            if ($val['took_user'] == $r['userinfo']['id']) {
+                $red_data = $val;
+            }
+            if ($val['is_token'] ==1 ) {
+                $already_arr[] = $val;
+            }
+        }
+
+
         $info['message'] = '恭喜领取成功';
         $info['money'] = $red_data['money'];
         $info['errnum'] = 0;
@@ -235,66 +333,7 @@ class RedEnvelope
         return json($info);
     }
     /**
-     * 红包领取情况
-     * @param userid
-     * @param access_token
-     * @param redid 红包标识
-     * @param \app\huanxin\controller\User $user
-     * @return string
-     */
-    public function getFetchedRedEnvelope(User $user)
-    {
-        $userid = input('param.userid');
-        $access_token = input('param.access_token');
-        $red_id = input('param.redid');
-
-        $r = $user->checkUserAccess($userid,$access_token);
-        if (!$r['status']) {
-            return json($r);
-        }
-        $info['status'] = false;
-        if (!preg_match('/[0-9a-fA-F]{32}/',$red_id)) {
-            $info['message'] = '红包id错误';
-            $info['errnum'] = 1;
-            $info['overtime'] = false;
-            return json($info);
-        }
-
-        $redM = new RedB($r['corp_id']);
-        $red_num_total = $redM->getRedCount($red_id);
-        if (empty($red_num_total)) {
-            $info['message'] = '红包id错误';
-            $info['errnum'] = 2;
-            $info['overtime'] = false;
-            return json($info);
-        }
-
-        $pre_red = $redM->getRedInfoByRedId($red_id);
-        if (empty($pre_red)) {
-            $info['overtime'] = true;
-            $info['errnum'] = 3;
-            $info['message'] = '红包已过期';
-        } elseif (time()>($pre_red[0]['create_time']+config('red_envelope.overtime'))) {
-            $params = json_encode(['userid'=>$r['userinfo']['id'],'corp_id'=>$r['corp_id'],'red_data'=>$pre_red[0]],true);
-            Hook::listen('check_over_time_red',$params);
-            $info['message'] = '红包已经过期';
-            $info['errnum'] = 3;
-            $info['overtime'] = true;
-        }else{
-            $info['overtime'] = false;
-            $info['message'] = 'SUCCESS';
-            $info['errnum'] = 0;
-        }
-        $red_data = $redM->getFetchedRedList($red_id);
-        $info['status'] = true;
-        $info['left_num'] = $red_num_total - count($red_data);
-        $info['total_num'] = $red_num_total;
-        $info['red_info'] = $red_data;
-
-        return json($info);
-    }
-    /**
-     * 红包领取情况
+     * 红包领取明细
      * @param userid
      * @param access_token
      * @param \app\huanxin\controller\User $user
@@ -313,6 +352,16 @@ class RedEnvelope
         $p = input("p",1,"int");
 
         try{
+            $params = json_encode([
+                'userid'=>$chk_info['userinfo']['id'],
+                'corp_id'=>$chk_info['corp_id'],
+                "red_data"=>[]
+            ],true);
+            $b = \think\Hook::listen('check_over_time_red',$params);
+            if (!$b[0]) {
+                return json(['status'=>false,'errnum'=>1,'message'=>'红包明细查询请求失败，联系管理员']);
+            }
+
             $redM = new RedB($chk_info['corp_id']);
             $myRedEnvelopeList = $redM->getMyRedEnvelope($num,$p,$chk_info["userinfo"]["id"]);
             $result['data'] = $myRedEnvelopeList;

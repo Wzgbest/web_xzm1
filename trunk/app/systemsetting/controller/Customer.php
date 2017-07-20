@@ -53,7 +53,7 @@ class Customer extends Initialize{
 
     public function add_page(){
         $customerSetting = [
-            "id"=>"",
+            "id"=>"0",
             "setting_name"=>"",
             "protect_customer_day"=>"",
             "take_times_employee"=>"",
