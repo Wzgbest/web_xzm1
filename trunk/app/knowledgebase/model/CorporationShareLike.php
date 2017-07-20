@@ -20,6 +20,14 @@ class CorporationShareLike extends Base{
         parent::__construct($corp_id);
     }
 
+    public function getlike($user_id,$share_id){
+        $like_info = $this->model->table($this->table)
+            ->where("user_id",$user_id)
+            ->where("share_id",$share_id)
+            ->find();
+        return $like_info;
+    }
+
     public function like($user_id,$share_id){
         $flg = false;
         $data['user_id'] = $user_id;

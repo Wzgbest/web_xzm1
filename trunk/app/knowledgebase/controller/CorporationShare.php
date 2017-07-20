@@ -174,11 +174,26 @@ class CorporationShare extends Initialize{
         $uid = $userinfo["userid"];
 
         $LikeModel = new CorporationShareLike($this->corp_id);
+        $old_flg = false;
         $flg = false;
+        $like_info = $LikeModel->getlike($uid,$share_id);
         if($not_like==0){
+            if(!empty($like_info)){
+                $old_flg = true;
+            }
             $flg = $LikeModel->like($uid,$share_id);
         }else{
+            if(empty($like_info)){
+                $old_flg = true;
+            }
             $flg = $LikeModel->not_like($uid,$share_id);
+        }
+        if($old_flg){
+            $result['status'] = 1;
+            $result['info'] = "已经";
+            $result['info'] .= ($not_like?"不":"");
+            $result['info'] .= "喜欢这条动态了！";
+            return json($result);
         }
         if($flg){
             $result['status'] = 1;
