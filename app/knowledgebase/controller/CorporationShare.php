@@ -13,6 +13,7 @@ use app\knowledgebase\model\CorporationShare as CorporationShareModel;
 use app\knowledgebase\model\CorporationShareComment as CorporationShareCommentModel;
 use app\knowledgebase\model\CorporationShareContent;
 use app\knowledgebase\model\CorporationSharePicture;
+use app\knowledgebase\model\CorporationShareLike;
 
 class CorporationShare extends Initialize{
     var $paginate_list_rows = 10;
@@ -160,6 +161,31 @@ class CorporationShare extends Initialize{
         $result['info'] = "评论成功！";
         return json($result);
     }
-    public function like(){}
-    public function tip(){}
+    public function like(){
+        $result = ['status'=>0 ,'info'=>"喜欢动态时发生错误！"];
+        $share_id = input('share_id',0,"int");
+        $not_like = input('not_like',0,"int");
+        if(empty($share_id)){
+            exception("参数错误!");
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+
+        $LikeModel = new CorporationShareLike($this->corp_id);
+        $flg = false;
+        if($not_like==0){
+            $flg = $LikeModel->like($uid,$share_id);
+        }else{
+            $flg = $LikeModel->not_like($uid,$share_id);
+        }
+        if($flg){
+            $result['status'] = 1;
+            $result['info'] = "喜欢动态成功！";
+        }
+        $result['info'] = ($not_like?"不":"").$result['info'];
+        return json($result);
+    }
+    public function tip(){
+
+    }
 }

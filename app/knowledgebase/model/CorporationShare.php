@@ -10,6 +10,7 @@ namespace app\knowledgebase\model;
 
 use app\common\model\Base;
 use think\Db;
+use think\Exception;
 
 class CorporationShare extends Base{
     protected $dbprefix;
@@ -27,9 +28,9 @@ class CorporationShare extends Base{
      * @return array
      * @throws \think\Exception
      */
-    public function getAllCorporationShare($uid,$map=null,$order="id desc"){
-        $map["create_user"] = $uid;
-        $map["status"]=1;
+    public function getAllCorporationShare($uid,$map=null,$order="cs.id desc"){
+        $map["cs.create_user"] = $uid;
+        $map["e.status"]=1;
         $corporationShareList = $this->model->table($this->table)->alias('cs')
             ->join($this->dbprefix.'corporation_share_content csco','cs.content_id = csco.id',"LEFT")
             ->join($this->dbprefix.'corporation_share_picture csp','csp.content_id = cs.id',"LEFT")
@@ -99,13 +100,31 @@ class CorporationShare extends Base{
         if(empty($userid)){
             return ['res'=>0 ,'error'=>"1" ,'msg'=>"参数错误！"];
         }
+        $flg = false;
         $from_share = $this->model->table($this->table)->where("id",$share_id)->find();
         $share["pid"] = $from_share["id"];
         $share["userid"] = $userid;
         $share["content_id"] = $from_share["content_id"];
         $share["business_id"] = $from_share["business_id"];
         $share["create_time"] = time();
-        return $this->model->table($this->table)->insertGetId($share);
+
+        try{
+            $this->link->startTrans();
+            $flg = $this->model->table($this->table)
+                ->where("id",$share_id)
+                ->setInc("return_count");
+            if(!$flg){
+                exception("转发动态失败");
+            }
+            $flg = $this->model->table($this->table)->insertGetId($share);
+            if(!$flg){
+                exception("转发动态失败");
+            }
+            $this->link->commit();
+        }catch (Exception $ex){
+            $this->link->rollback();
+        }
+        return $flg;
     }
 
     /**
