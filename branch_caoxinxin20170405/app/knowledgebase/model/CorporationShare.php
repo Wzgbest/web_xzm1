@@ -45,13 +45,14 @@ class CorporationShare extends Base{
 
     /**
      * 获取动态
+     * @param $uid int 用户
      * @param $num int 数量
      * @param $last_id int 最后一条动态的id
      * @param $map array 动态筛选条件
      * @return array
      * @throws \think\Exception
      */
-    public function getCorporationShare($num=10,$last_id=0,$map=[]){
+    public function getCorporationShare($uid,$num=10,$last_id=0,$map=[]){
         $order="cs.id desc";
         if($last_id){
             $map["cs.id"] = ["lt",$last_id];
@@ -60,11 +61,12 @@ class CorporationShare extends Base{
             ->join($this->dbprefix.'corporation_share_content csco','cs.content_id = csco.id',"LEFT")
             ->join($this->dbprefix.'corporation_share_picture csp','csp.content_id = cs.id',"LEFT")
             ->join($this->dbprefix.'employee e','e.id = cs.userid',"LEFT")
+            ->join($this->dbprefix.'corporation_share_like csl','cs.id = csl.share_id and csl.user_id='.$uid,"LEFT")
             ->where($map)
             ->order($order)
             ->limit($num)
             ->group("cs.id")
-            ->field("cs.*,csco.content,GROUP_CONCAT(csp.path) as img,e.telephone,e.truename,e.userpic")//TODO
+            ->field("cs.*,case when csl.user_id>0 then 1 else 0 end as is_like,csco.content,GROUP_CONCAT(csp.path) as img,e.telephone,e.truename,e.userpic")//TODO
             ->select();
         foreach ($corporationShareList as &$corporationShare){
             if($corporationShare["img"]){
