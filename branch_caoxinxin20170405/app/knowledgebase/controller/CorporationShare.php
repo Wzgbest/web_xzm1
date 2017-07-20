@@ -180,13 +180,15 @@ class CorporationShare extends Initialize{
         if($not_like==0){
             if(!empty($like_info)){
                 $old_flg = true;
+            }else{
+                $flg = $LikeModel->like($uid,$share_id);
             }
-            $flg = $LikeModel->like($uid,$share_id);
         }else{
             if(empty($like_info)){
                 $old_flg = true;
+            }else{
+                $flg = $LikeModel->not_like($uid,$share_id);
             }
-            $flg = $LikeModel->not_like($uid,$share_id);
         }
         if($old_flg){
             $result['status'] = 1;
