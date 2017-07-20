@@ -297,7 +297,6 @@ class User extends Controller{
             return json($info);
         }
         $data = ['pay_password'=>md5($newpass)];
-        $corp_id = get_corpid($userid);
         $employee = new Employee($corp_id);
         $r_userid = $employee->getEmployeeByTel($userid);
         $r = $employee->setEmployeeSingleInfo($userid,$data);
@@ -363,7 +362,11 @@ class User extends Controller{
             return json($chk_info);
         }
 
-        $params = json_encode(['userid'=>$chk_info['userinfo']['id'],'corp_id'=>$chk_info['corp_id']],true);
+        $params = json_encode([
+            'userid'=>$chk_info['userinfo']['id'],
+            'corp_id'=>$chk_info['corp_id'],
+            "red_data"=>[]
+        ],true);
         $b = \think\Hook::listen('check_over_time_red',$params);
         if (!$b[0]) {
             return json(['status'=>false,'errnum'=>1,'message'=>'账户余额查询请求失败，联系管理员']);
@@ -372,6 +375,37 @@ class User extends Controller{
         $left_money = $res['left_money'];
         $left_money = number_format($left_money/100, 2, '.', '');
         return json(['status'=>true,'message'=>'SUCCESS','errnum'=>0,'left_money'=>$left_money]);
+    }
+
+    /**
+     * 查询交易记录
+     * @param userid
+     * @param access_token
+     * @return array|string
+     */
+    public function showMoneyBill()
+    {
+        $userid = input('param.userid');
+        $access_token = input('param.access_token');
+        $chk_info = $this->checkUserAccess($userid, $access_token);
+        if (!$chk_info['status']) {
+            return json($chk_info);
+        }
+
+        $params = json_encode([
+            'userid'=>$chk_info['userinfo']['id'],
+            'corp_id'=>$chk_info['corp_id'],
+            "red_data"=>[]
+        ],true);
+        $b = \think\Hook::listen('check_over_time_red',$params);
+        if (!$b[0]) {
+            return json(['status'=>false,'errnum'=>1,'message'=>'账户交易查询请求失败，联系管理员']);
+        }
+        $last_id = input('last_id',0,"int");
+        $corp_id = get_corpid($userid);
+        $takeCashM = new TakeCashModel($corp_id);
+        $bill_list = $takeCashM->getOrderList($chk_info['userinfo']['id'],10,$last_id);
+        return json(['status'=>true,'message'=>'SUCCESS','errnum'=>0,'bill_list'=>$bill_list]);
     }
 
     /**

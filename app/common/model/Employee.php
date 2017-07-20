@@ -117,7 +117,7 @@ class Employee extends Base{
     }
 
     /**
-     * 记录用户登陆信息
+     * 设置用户信息
      * @param $telephone 电话号码
      * @param $data
      * @return int|string

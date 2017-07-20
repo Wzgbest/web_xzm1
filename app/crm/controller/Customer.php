@@ -723,6 +723,9 @@ class Customer extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        //TODO 读取权限验证
         try{
             $customerM = new CustomerModel($this->corp_id);
             $customerData = $customerM->getCustomer($id);
@@ -775,6 +778,9 @@ class Customer extends Initialize{
     }
     public function add(){
         $result = ['status'=>0 ,'info'=>"新建客户时发生错误！"];
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        //TODO 添加权限验证
         $customer = $this->_getCustomerForInput("all");
         if(!in_array($customer['belongs_to'],[2,3])){
             $result['info'] = "参数错误！";
@@ -812,6 +818,9 @@ class Customer extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        //TODO 更新权限验证
         $customer = $this->_getCustomerForInput(0);
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
         $customerM = new CustomerModel($this->corp_id);
@@ -867,6 +876,9 @@ class Customer extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        //TODO 删除权限验证
         try{
             $customerDeleteM = new CustomerDelete($this->corp_id);
             $customersDeleteFlg = $customerDeleteM->moveInDelMultipleCustomer($ids);
