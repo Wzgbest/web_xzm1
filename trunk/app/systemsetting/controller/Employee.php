@@ -605,4 +605,57 @@ class Employee extends Initialize{
             ];
         }
     }
+
+    /**
+     * 修改密码
+     * @return array
+     * created by blu10ph
+     */
+    public function reset_password(){
+        //TODO权限验证
+        $result = ['status'=>0 ,'info'=>"重设密码时发生错误！"];
+        return json($result);
+    }
+
+    /**
+     * 修改密码
+     * @return array
+     * created by blu10ph
+     */
+    public function change_my_password(){
+        $result = ['status'=>0 ,'info'=>"修改我的密码时发生错误！"];
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+
+        $old_password = input('old_password');
+        $new_password = input('new_password');
+        $re_password = input('re_password');
+        if(empty($old_password)||empty($new_password)||empty($re_password)){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        if($old_password!=$new_password){
+            $result['info'] = "输入的新密码和不能和原密码相同！";
+            return json($result);
+        }
+        if($new_password!=$re_password){
+            $result['info'] = "两次输入的密码不一致！";
+            return json($result);
+        }
+        if (md5($old_password) != $userinfo['userinfo']['password']) {
+            $result['info'] = '原密码错误';
+            $result['status'] = 6;
+            return json($result);
+        }
+
+        $employeeM = new EmployeeModel($this->corp_id);
+        $flg = $employeeM->reSetPass($userinfo["telephone"],$new_password);
+        if(!$flg){
+            return json($result);
+        }
+
+        $result['status'] = 1;
+        $result['info'] = "修改我的密码成功！";
+        return json($result);
+    }
 }
