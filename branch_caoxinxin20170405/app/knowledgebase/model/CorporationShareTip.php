@@ -50,7 +50,7 @@ class CorporationShareTip extends Base{
         $map["e.status"]=1;
         $order="cst.share_id desc";
         $employeeList = $this->model->table($this->table)->alias('cst')
-            ->join($this->dbprefix.'employee e','e.id = cs.user_id',"LEFT")
+            ->join($this->dbprefix.'employee e','e.id = cst.user_id',"LEFT")
             ->where($map)
             ->order($order)
             ->group("cst.id")
@@ -61,20 +61,21 @@ class CorporationShareTip extends Base{
 
     public function getMyTip($user_id,$share_id){
         if($share_id){
-            $map["cs.create_user"] = $user_id;
+            $map["cst.share_id"] = $share_id;
         }
-        $map["cs.create_user"] = $user_id;
+        $map["cst.user_id"] = $user_id;
         $map["e.status"]=1;
         $order="cs.id desc";
         $corporationShareList = $this->model->table($this->table)->alias('cst')
-            ->join($this->dbprefix.'corporation_share cs','csl.user_id = cs.userid',"LEFT")
+            ->join($this->dbprefix.'corporation_share cs','cs.id = cst.share_id',"LEFT")
             ->join($this->dbprefix.'corporation_share_content csco','cs.content_id = csco.id',"LEFT")
             ->join($this->dbprefix.'corporation_share_picture csp','csp.content_id = cs.id',"LEFT")
+            ->join($this->dbprefix.'corporation_share_like csl','cs.id = csl.share_id',"LEFT")
             ->join($this->dbprefix.'employee e','e.id = cs.userid',"LEFT")
             ->where($map)
             ->order($order)
             ->group("cs.id")
-            ->field("cs.*,csco.content,GROUP_CONCAT(csp.path) as img,cst.money,cst.tip_time")//TODO
+            ->field("cs.*,case when csl.user_id>0 then 1 else 0 end as is_like,csco.content,GROUP_CONCAT(csp.path) as img,e.telephone,e.truename,e.userpic,cst.money,cst.tip_time")//TODO
             ->select();
         return $corporationShareList;
     }

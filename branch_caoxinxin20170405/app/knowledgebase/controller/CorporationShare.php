@@ -214,16 +214,16 @@ class CorporationShare extends Initialize{
         $money = 0+input('money');
         $paypassword = input('paypassword');
         if(empty($share_id)||empty($money)||empty($paypassword)){
-            $info['info'] = '参数错误';
-            return json($info);
+            $result['info'] = '参数错误';
+            return json($result);
         }
         $userinfo = get_userinfo();
-        if (md5($paypassword) != $userinfo['userinfo']['pay_password']) {
-            $info['info'] = '支付密码错误';
-            $info['status'] = 6;
-            return json($info);
-        }
         $uid = $userinfo["userid"];
+        if (md5($paypassword) != $userinfo['userinfo']['pay_password']) {
+            $result['info'] = '支付密码错误';
+            $result['status'] = 6;
+            return json($result);
+        }
         $save_money = intval($money*100);
         $time = time();
 
@@ -233,8 +233,8 @@ class CorporationShare extends Initialize{
         $employM = new Employee($this->corp_id);
         $share_data = $corporationShareModel->getCorporationShareById($share_id);
         if(empty($share_data)){
-            $info['info'] = '未找到动态';
-            return json($info);
+            $result['info'] = '未找到动态';
+            return json($result);
         }
         $flg = false;
         $TipModel->link->startTrans();
@@ -277,15 +277,39 @@ class CorporationShare extends Initialize{
             $TipModel->link->commit();
         }catch(\Exception $ex){
             $TipModel->link->rollback();
-            $info['info'] = '打赏失败';
-            return json($info);
+            $result['info'] = '打赏失败';
+            return json($result);
         }
-        $info['info'] = '打赏成功';
-        $info['status'] = 1;
-        return json($info);
+        $share_data = $corporationShareModel->getCorporationShareById($share_id);
+        $result['info'] = '打赏成功';
+        $result['status'] = 1;
+        $result['data'] = $share_data["rewards"];
+        return json($result);
     }
     public function tip_list(){
+        $result = ['status'=>0 ,'info'=>"获取动态打赏列表时发生错误！"];
+        $share_id = input('share_id',0,"int");
+        if(empty($share_id)){
+            $result['info'] = '参数错误';
+            return json($result);
+        }
+        $TipModel = new CorporationShareTip($this->corp_id);
+        $tipEmployeeList = $TipModel->getTipEmployee($share_id);
+        $result['data'] = $tipEmployeeList;
+        $result['info'] = '获取动态打赏列表成功';
+        $result['status'] = 1;
+        return json($result);
     }
     public function my_tip(){
+        $result = ['status'=>0 ,'info'=>"获取动态打赏列表时发生错误！"];
+        $share_id = input('share_id',0,"int");
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $TipModel = new CorporationShareTip($this->corp_id);
+        $tipEmployeeList = $TipModel->getMyTip($uid,$share_id);
+        $result['data'] = $tipEmployeeList;
+        $result['info'] = '获取我的动态打赏列表成功';
+        $result['status'] = 1;
+        return json($result);
     }
 }
