@@ -34,6 +34,7 @@ class RedEnvelope
         $total_money = input('param.totalmoney');
         $redtype = input('param.redtype');
         $num = intval(input('param.num'));
+        $pay_pass = input('param.paypassword');
 
         $red_money = intval($total_money*100);
         $info['status'] = false;
@@ -60,6 +61,12 @@ class RedEnvelope
         $r = $user->checkUserAccess($userid,$access_token);
         if (!$r['status']) {
             return json($r);
+        }
+
+        if (md5($pay_pass) != $r['userinfo']['pay_password']) {
+            $info['message'] = '支付密码错误';
+            $info['errnum'] = 6;
+            return json($info);
         }
 
         if ($r['userinfo']['left_money'] < $red_money) {
@@ -306,25 +313,55 @@ class RedEnvelope
             $info['status'] = false;
             return json($info);
         }
-        $getCount = $redM->fetchedRedEnvelope($r['userinfo']['id'],$red_id);
-        if(!$getCount>0){
-            $info['status'] = false;
-            $info['message'] = '红包已被抢光了';
-            $info['errnum'] = 3;
+
+        $redM->link->startTrans();
+        try{
+            $getCount = $redM->fetchedRedEnvelope($r['userinfo']['id'],$red_id);
+            if(!$getCount>0){
+                $redM->link->rollback();
+                $info['status'] = false;
+                $info['message'] = '红包已被抢光了';
+                $info['errnum'] = 3;
+                return json($info);
+            }
+            $red_arr = $redM->getRedInfoByRedId($red_id);
+            $already_arr=[];
+            $red_data = [];
+            foreach ($red_arr as $key => $val) {
+                if ($val['took_user'] == $r['userinfo']['id']) {
+                    $red_data = $val;
+                }
+                if ($val['is_token'] ==1 ) {
+                    $already_arr[] = $val;
+                }
+            }
+
+            $cashM = new TakeCash($r['corp_id']);
+            $time = time();
+            $get_money = $red_data['money']*100;
+            //take_cash表记录
+            $order_data = [
+                'userid'=>$r['userinfo']['id'],
+                'take_money'=> $get_money,
+                'status'=>1,
+                'took_time'=>$time,
+                'remark' => '领取红包'
+            ];
+            $de = $user->employM->setEmployeeSingleInfo($userid,['left_money'=>['exp',"left_money + ".$get_money]]);
+            if(!$de){
+                exception("更新余额发生错误!");
+            }
+            $cash_rec = $cashM->addOrderNumber($order_data);
+            if(!$cash_rec){
+                exception("添加交易记录发生错误!");
+            }
+            $redM->link->commit();
+        }catch(\Exception $e){
+            $redM->link->rollback();
+            $info['message'] = '红包领取失败';
+            $info['errnum'] = 1;
             return json($info);
         }
-        $red_arr = $redM->getRedInfoByRedId($red_id);
-        $already_arr=[];
-        $red_data = [];
-        foreach ($red_arr as $key => $val) {
-            if ($val['took_user'] == $r['userinfo']['id']) {
-                $red_data = $val;
-            }
-            if ($val['is_token'] ==1 ) {
-                $already_arr[] = $val;
-            }
-        }
-
 
         $info['message'] = '恭喜领取成功';
         $info['money'] = $red_data['money'];

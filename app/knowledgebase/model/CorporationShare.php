@@ -79,6 +79,33 @@ class CorporationShare extends Base{
     }
 
     /**
+     * 获取动态
+     * @param $share_id int 动态ID
+     * @return array
+     * @throws \think\Exception
+     */
+    public function getCorporationShareById($share_id){
+        $order="cs.id desc";
+        $map["cs.id"] = $share_id;
+        $corporationShare = $this->model->table($this->table)->alias('cs')
+            ->join($this->dbprefix.'corporation_share_content csco','cs.content_id = csco.id',"LEFT")
+            ->join($this->dbprefix.'corporation_share_picture csp','csp.content_id = cs.id',"LEFT")
+            ->join($this->dbprefix.'employee e','e.id = cs.userid',"LEFT")
+            ->join($this->dbprefix.'corporation_share_like csl','cs.id = csl.share_id',"LEFT")
+            ->where($map)
+            ->order($order)
+            ->group("cs.id")
+            ->field("cs.*,case when csl.user_id>0 then 1 else 0 end as is_like,csco.content,GROUP_CONCAT(csp.path) as img,e.telephone,e.truename,e.userpic")//TODO
+            ->find();
+        if($corporationShare["img"]){
+            $corporationShare["img"] = explode(",",$corporationShare["img"]);
+        }else{
+            $corporationShare["img"] = null;
+        }
+        return $corporationShare;
+    }
+
+    /**
      * 创建动态,并返回结果
      * @param $share array 动态信息
      * @return array

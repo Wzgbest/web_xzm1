@@ -14,6 +14,9 @@ use app\knowledgebase\model\CorporationShareComment as CorporationShareCommentMo
 use app\knowledgebase\model\CorporationShareContent;
 use app\knowledgebase\model\CorporationSharePicture;
 use app\knowledgebase\model\CorporationShareLike;
+use app\huanxin\model\TakeCash;
+use app\knowledgebase\model\CorporationShareTip;
+use app\common\model\Employee;
 
 class CorporationShare extends Initialize{
     var $paginate_list_rows = 10;
@@ -180,39 +183,133 @@ class CorporationShare extends Initialize{
         if($not_like==0){
             if(!empty($like_info)){
                 $old_flg = true;
+            }else{
+                $flg = $LikeModel->like($uid,$share_id);
             }
-            $flg = $LikeModel->like($uid,$share_id);
         }else{
             if(empty($like_info)){
                 $old_flg = true;
+            }else{
+                $flg = $LikeModel->not_like($uid,$share_id);
             }
-            $flg = $LikeModel->not_like($uid,$share_id);
         }
         if($old_flg){
             $result['status'] = 1;
             $result['info'] = "已经";
             $result['info'] .= ($not_like?"不":"");
             $result['info'] .= "喜欢这条动态了！";
-            return json($result);
-        }
-        if($flg){
+        }elseif($flg){
             $result['status'] = 1;
             $result['info'] = "喜欢动态成功！";
+            $result['info'] = ($not_like?"不":"").$result['info'];
         }
-        $result['info'] = ($not_like?"不":"").$result['info'];
+        $corporationShareModel = new CorporationShareModel($this->corp_id);
+        $share_data = $corporationShareModel->getCorporationShareById($share_id);
+        $result['data'] = $share_data["good_count"];
         return json($result);
     }
     public function tip(){
         $result = ['status'=>0 ,'info'=>"打赏动态时发生错误！"];
         $share_id = input('share_id',0,"int");
-        $money = input('money',0,"int");
-        $money = input('pay_',0,"int");
-        if(empty($share_id)||empty($money)||empty($share_id)){
-            exception("参数错误!");
+        $money = 0+input('money');
+        $paypassword = input('paypassword');
+        if(empty($share_id)||empty($money)||empty($paypassword)){
+            $result['info'] = '参数错误';
+            return json($result);
         }
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
+        if (md5($paypassword) != $userinfo['userinfo']['pay_password']) {
+            $result['info'] = '支付密码错误';
+            $result['status'] = 6;
+            return json($result);
+        }
         $save_money = intval($money*100);
+        $time = time();
 
+        $corporationShareModel = new CorporationShareModel($this->corp_id);
+        $cashM = new TakeCash($this->corp_id);
+        $TipModel = new CorporationShareTip($this->corp_id);
+        $employM = new Employee($this->corp_id);
+        $share_data = $corporationShareModel->getCorporationShareById($share_id);
+        if(empty($share_data)){
+            $result['info'] = '未找到动态';
+            return json($result);
+        }
+        $flg = false;
+        $TipModel->link->startTrans();
+        try{
+            $flg = $TipModel->tip($uid,$share_id,$money);
+            if (!$flg) {
+                exception("添加打赏记录发生错误!");
+            }
+            $tip_from_user = $employM->setEmployeeSingleInfo($userinfo["telephone"],['left_money'=>['exp',"left_money - $save_money"]]);
+            if (!$tip_from_user) {
+                exception("更新打赏用户余额发生错误!");
+            }
+            $order_data = [
+                'userid'=>$userinfo['userinfo']['id'],
+                'take_money'=> -$save_money,
+                'status'=>1,
+                'took_time'=>$time,
+                'remark' => '打赏用户'
+            ];
+            $tip_from_cash_rec = $cashM->addOrderNumber($order_data);
+            if (!$tip_from_cash_rec) {
+                exception("添加打赏交易记录发生错误!");
+            }
+
+            $tip_to_user = $employM->setEmployeeSingleInfo($share_data["telephone"],['left_money'=>['exp',"left_money + $save_money"]]);
+            if (!$tip_to_user) {
+                exception("更新被打赏用户余额发生错误!");
+            }
+            $order_data = [
+                'userid'=>$share_data["userid"],
+                'take_money'=> $save_money,
+                'status'=>1,
+                'took_time'=>$time,
+                'remark' => '收到打赏'
+            ];
+            $tip_to_cash_rec = $cashM->addOrderNumber($order_data);
+            if (!$tip_to_cash_rec) {
+                exception("添加被打赏交易记录发生错误!");
+            }
+            $TipModel->link->commit();
+        }catch(\Exception $ex){
+            $TipModel->link->rollback();
+            $result['info'] = '打赏失败';
+            return json($result);
+        }
+        $share_data = $corporationShareModel->getCorporationShareById($share_id);
+        $result['info'] = '打赏成功';
+        $result['status'] = 1;
+        $result['data'] = $share_data["rewards"];
+        return json($result);
+    }
+    public function tip_list(){
+        $result = ['status'=>0 ,'info'=>"获取动态打赏列表时发生错误！"];
+        $share_id = input('share_id',0,"int");
+        if(empty($share_id)){
+            $result['info'] = '参数错误';
+            return json($result);
+        }
+        $TipModel = new CorporationShareTip($this->corp_id);
+        $tipEmployeeList = $TipModel->getTipEmployee($share_id);
+        $result['data'] = $tipEmployeeList;
+        $result['info'] = '获取动态打赏列表成功';
+        $result['status'] = 1;
+        return json($result);
+    }
+    public function my_tip(){
+        $result = ['status'=>0 ,'info'=>"获取动态打赏列表时发生错误！"];
+        $share_id = input('share_id',0,"int");
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $TipModel = new CorporationShareTip($this->corp_id);
+        $tipEmployeeList = $TipModel->getMyTip($uid,$share_id);
+        $result['data'] = $tipEmployeeList;
+        $result['info'] = '获取我的动态打赏列表成功';
+        $result['status'] = 1;
+        return json($result);
     }
 }
