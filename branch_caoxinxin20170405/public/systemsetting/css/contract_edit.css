@@ -137,7 +137,7 @@ ol {
 
 .systemsetting_content_edit .content select {
     vertical-align: middle;
-    width: 251px;
+    width: 200px;
     padding-left: 15px;
     height: 35px;
     margin-left: 18px;
@@ -190,13 +190,6 @@ ol {
     text-align: left;
     vertical-align: bottom;
 }
-/*.systemsetting_content_edit .content .dv1{
-background-color: red;
-}
-.systemsetting_content_edit .content .dv2{
-background-color: blue;
-}*/
-
 .systemsetting_content_edit .content .ps1 {
     margin-top: 64px;
 }
@@ -233,4 +226,29 @@ background-color: blue;
 }
 .systemsetting_content_edit .content .full {
     width: 100%;
+}
+.systemsetting_content_edit .content .apply_role .create_contract_num {
+    display: inline-block;
+    width: 16px;
+    padding:0;
+    height: 16px;
+    margin: 0;
+}
+.systemsetting_content_edit .content .apply_role .contract_num_tip {
+    width: 70px;
+}
+.systemsetting_content_edit .content .apply_role .add{
+    display: none;
+}
+.systemsetting_content_edit .content .apply_role:nth-last-child(3) .add{
+    display: inline-block;
+}
+.systemsetting_content_edit .content .apply_role .del{
+    display: none;
+}
+.systemsetting_content_edit .content .apply_role:hover .del{
+    display: inline-block;
+}
+.systemsetting_content_edit .content .apply_role:nth-child(2) .del{
+    display: inline-block;
 }

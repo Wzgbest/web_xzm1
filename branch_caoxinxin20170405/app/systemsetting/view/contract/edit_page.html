@@ -14,123 +14,84 @@
         </ul>
     </div>
     <div class="content">
-        <div class="dv1">
-            <p>
-                <span>合同类型</span>
-                <input type="text" name="contract_name" placeholder="请输入合同类型,如:百度类" value="{$contractSetting.contract_name}" />
+        <form name="form_contract_setting" class="form_contract_setting" onsubmit="return false;" method="post">
+            <div class="dv1">
+                <p>
+                    <span>合同类型</span>
+                    <input type="text" name="contract_name" placeholder="请输入合同类型,如:百度类" value="{$contractSetting.contract_name}" />
+                </p>
+            </div>
+            <div class="dv2">
+                <p>
+                    <span>合同前缀编号</span>
+                    <input type="text" name="contract_prefix" placeholder="不填写默认无前缀" value="{$contractSetting.contract_prefix}" />
+                </p>
+            </div>
+            <div class="dv1">
+                <p>
+                    <span>合同编号</span>
+                    <input type="text" name="start_num" class="ipt1" placeholder="请输入" value="{$contractSetting.start_num}" /> 到
+                    <input type="text" name="end_num" class="ipt2" placeholder="请输入" value="{$contractSetting.end_num}" />
+                </p>
+            </div>
+            <div class="dv2">
+                <p>
+                    <span>当前合同号</span>
+                    <input type="text" name="current_contract" placeholder="请输入当前合同号" value="{$contractSetting.current_contract}" />
+                </p>
+            </div>
+            <div class="dv1">
+                <p>
+                    <img src="/systemsetting/images/line_green.jpg" class="img1" />
+                    <span class="sp1">合同审核</span>
+                </p>
+            </div>
+            <div class="dv2 apply_role_split"><p><span></span></p></div>
+            <div class="dv1 apply_role apply_role_first" apply_num="1">
+                <p>
+                    <span>合同审核角色1</span>
+                    <select class="apply" name="apply_1">
+                        {volist name="roles" id="vo"}
+                            <option {eq name='contractSetting.apply_1' value='$vo.id'} selected="selected"{/eq} value="{$vo.id}">{$vo.role_name}</option>
+                        {/volist}
+                    </select>
+                    <img src="/systemsetting/images/plus.jpg" class="img2 add" />
+                    <input type="checkbox" class="create_contract_num create_contract_num_1" name="create_contract_num_1" {eq name='contractSetting.create_contract_num_1' value='1'} checked="checked"{/eq} value="1"/><span class="contract_num_tip">填写发票号</span>
+                </p>
+            </div>
+            <div class="full">
+                <p class="p1">每一次代表一次审批流程，当前审核需要三个审批环节</p>
+            </div>
+            <p class="p5">
+                <input class="contract_setting_submit" type="submit" value="保存" />
+                <button onclick="loadPage('{:url('index')}','contract-settingfr');">取消</button>
             </p>
-        </div>
-        <div class="dv2">
-            <p>
-                <span>合同前缀编号</span>
-                <input type="text" name="contract_prefix" placeholder="不填写默认无前缀" value="{$contractSetting.contract_prefix}" />
-            </p>
-        </div>
-        <div class="dv1">
-            <p>
-                <span>合同编号</span>
-                <input type="text" name="start_num" class="ipt1" placeholder="请输入" value="{$contractSetting.start_num}" /> 到
-                <input type="text" name="end_num" class="ipt2" placeholder="请输入" value="{$contractSetting.end_num}" />
-            </p>
-        </div>
-        <div class="dv2">
-            <p>
-                <span>当前合同号</span>
-                <input type="text" name="current_contract" placeholder="请输入当前合同号" value="{$contractSetting.current_contract}" />
-            </p>
-        </div>
-        <div class="dv1">
-            <p>
-                <img src="/systemsetting/images/line_green.jpg" class="img1" />
-                <span class="sp1">合同审核</span>
-            </p>
-        </div>
-        <div class="dv2"><p><span></span></p></div>
-        <div class="dv1">
-            <p>
-                <span>合同审核角色1</span>
-                <select name="apply_1">
-                    <option value="1">王伟芬</option>
-                    <option value="2">张三</option>
-                    <option value="3">李四</option>
-                </select>
-                <img src="/systemsetting/images/delelet.png" class="img2" />
-            </p>
-        </div>
-        {gt name="contractSetting.apply_2" value="0"}
-        <div class="dv2">
-            <p>
-                <span>合同审核角色2</span>
-                <select name="apply_2">
-                    <option value="1">郑和奇</option>
-                    <option value="2">张三</option>
-                    <option value="3">李四</option>
-                </select>
-                <img src="/systemsetting/images/delelet.png" class="img2" />
-            </p>
-        </div>
-        {/gt}
-        {gt name="contractSetting.apply_3" value="0"}
-        <div class="dv1">
-            <p>
-                <span>合同审核角色3</span>
-                <select name="apply_3">
-                    <option value="1">王伟芬</option>
-                    <option value="2">张三</option>
-                    <option value="3">李四</option>
-                </select>
-                <img src="/systemsetting/images/plus.jpg" class="img2" />
-
-            </p>
-        </div>
-        {/gt}
-        {gt name="contractSetting.apply_4" value="0"}
-        <div class="dv2">
-            <p>
-                <span>合同审核角色4</span>
-                <select name="apply_4">
-                    <option value="1">郑和奇</option>
-                    <option value="2">张三</option>
-                    <option value="3">李四</option>
-                </select>
-                <img src="/systemsetting/images/delelet.png" class="img2" />
-            </p>
-        </div>
-        {/gt}
-        {gt name="contractSetting.apply_5" value="0"}
-        <div class="dv1">
-            <p>
-                <span>合同审核角色5</span>
-                <select name="apply_5">
-                    <option value="1">王伟芬</option>
-                    <option value="2">张三</option>
-                    <option value="3">李四</option>
-                </select>
-                <img src="/systemsetting/images/plus.jpg" class="img2" />
-
-            </p>
-        </div>
-        {/gt}
-        {gt name="contractSetting.apply_6" value="0"}
-        <div class="dv2">
-            <p>
-                <span>合同审核角色6</span>
-                <select name="apply_6">
-                    <option value="1">郑和奇</option>
-                    <option value="2">张三</option>
-                    <option value="3">李四</option>
-                </select>
-                <img src="/systemsetting/images/delelet.png" class="img2" />
-            </p>
-        </div>
-        {/gt}
-        <div class="full">
-            <p class="p1">每一次代表一次审批流程，当前审核需要三个审批环节</p>
-        </div>
-        <p class="p5">
-            <input type="submit" value="保存" />
-            <button onclick="loadPage('{:url('index')}','contract-settingfr');">取消</button>
-        </p>
+        </form>
     </div>
 </div>
 <link rel="stylesheet" href="/systemsetting/css/contract_edit.css" />
+<script language="JavaScript">
+    var contract_setting_roles = '{$roles_json}';
+    var contract_setting_applys = '{$applys}';
+    var contract_setting_apply_max = '{$apply_max}';
+    $('.systemsetting_content_edit .contract_setting_submit').click(function() {
+        console.log($(".form_contract_setting").serialize());
+        $.ajax({
+            url: '{$url}',
+            type: 'post',
+            data: $(".form_contract_setting").serialize(),
+            dataType: 'json',
+            success: function(data) {
+                //console.log(data);
+                alert(data.info);
+                if(data.status) {
+                    loadPage("/systemsetting/contract/index","contract-settingfr");
+                }
+            },
+            error: function() {
+
+            },
+        });
+    });
+</script>
+<script src="/systemsetting/js/contract_edit.js"></script>

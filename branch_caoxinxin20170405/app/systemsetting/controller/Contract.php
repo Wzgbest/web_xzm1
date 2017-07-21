@@ -8,9 +8,11 @@ namespace app\systemsetting\controller;
 use app\common\controller\Initialize;
 use app\systemsetting\model\ContractSetting as ContractModel;
 use think\Request;
+use app\common\model\Role as RoleModel;
 
 class Contract extends Initialize{
     protected $_contractSettingModel = null;
+    protected $apply_max = 6;
     public function __construct(){
         parent::__construct();
         $corp_id = get_corpid();
@@ -45,6 +47,12 @@ class Contract extends Initialize{
             "create_contract_num_6"=>"",
         ];
         $this->assign("contractSetting",$contractSetting);
+        $roleM = new RoleModel();
+        $roles = $roleM->getAllRole();
+        $this->assign('roles',$roles);
+        $this->assign('roles_json',json_encode($roles));
+        $this->assign('applys',json_encode([]));
+        $this->assign('apply_max',$this->apply_max);
         $this->assign("url",url("add"));
         return view("edit_page");
     }
@@ -55,13 +63,55 @@ class Contract extends Initialize{
             $this->error("参数错误!");
         }
         $map["id"] = $id;
+        $contractSetting = [];
         try{
             $contractSetting = $this->_contractSettingModel->getContractSetting(1,0,$map,"");
             $this->assign("contractSetting",$contractSetting);
         }catch (\Exception $ex){
             $this->error($ex->getMessage());
         }
-        $this->assign("url",url("update"));
+        $applys = [];
+        $applys[0] = [
+            "apply"=>$contractSetting["apply_1"],
+            "create_contract_num"=>$contractSetting["create_contract_num_1"]
+        ];
+        if($contractSetting["apply_2"]>0){
+            $applys[1] = [
+                "apply"=>$contractSetting["apply_2"],
+                "create_contract_num"=>$contractSetting["create_contract_num_2"]
+            ];
+        }
+        if($contractSetting["apply_3"]>0){
+            $applys[2] = [
+                "apply"=>$contractSetting["apply_3"],
+                "create_contract_num"=>$contractSetting["create_contract_num_3"]
+            ];
+        }
+        if($contractSetting["apply_4"]>0){
+            $applys[3] = [
+                "apply"=>$contractSetting["apply_4"],
+                "create_contract_num"=>$contractSetting["create_contract_num_4"]
+            ];
+        }
+        if($contractSetting["apply_5"]>0){
+            $applys[4] = [
+                "apply"=>$contractSetting["apply_5"],
+                "create_contract_num"=>$contractSetting["create_contract_num_5"]
+            ];
+        }
+        if($contractSetting["apply_6"]>0){
+            $applys[5] = [
+                "apply"=>$contractSetting["apply_6"],
+                "create_contract_num"=>$contractSetting["create_contract_num_6"]
+            ];
+        }
+        $roleM = new RoleModel();
+        $roles = $roleM->getAllRole();
+        $this->assign('roles',$roles);
+        $this->assign('roles_json',json_encode($roles));
+        $this->assign('applys',json_encode($applys));
+        $this->assign('apply_max',$this->apply_max);
+        $this->assign("url",url("update",["id"=>$id]));
         return view("edit_page");
     }
 
