@@ -81,6 +81,7 @@ function set_userinfo($corp_id,$telephone,$user_arr){
         'partphone'=>$user_arr['part_phone'],
         'truename'=>$user_arr['truename'],
         'role'=>$user_arr['role_name'],
+        'userinfo'=>$user_arr,
     ];
     session('userinfo',$userinfo);
     return $userinfo;
