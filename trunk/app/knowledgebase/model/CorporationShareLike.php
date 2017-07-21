@@ -32,6 +32,7 @@ class CorporationShareLike extends Base{
         $flg = false;
         $data['user_id'] = $user_id;
         $data['share_id'] = $share_id;
+        $data['like_time'] = time();
         try{
             $this->link->startTrans();
             $flg = $this->model->table($this->table)->insert($data);
@@ -41,6 +42,9 @@ class CorporationShareLike extends Base{
             $flg = $this->model->table($this->dbprefix.'corporation_share')
                 ->where("id",$share_id)
                 ->setInc("good_count");
+            if(!$flg){
+                exception("更新喜欢动态数失败");
+            }
             $this->link->commit();
         }catch (Exception $ex){
             $this->link->rollback();
@@ -69,11 +73,11 @@ class CorporationShareLike extends Base{
     }
 
     public function getLikeEmployee($share_id){
-        $map["cs.id"] = $share_id;
+        $map["csl.share_id"] = $share_id;
         $map["e.status"]=1;
-        $order="cs.id desc";
-        $employeeList = $this->model->table($this->table)->alias('cs')
-            ->join($this->dbprefix.'employee e','e.id = cs.userid',"LEFT")
+        $order="csl.id desc";
+        $employeeList = $this->model->table($this->table)->alias('csl')
+            ->join($this->dbprefix.'employee e','e.id = csl.user_id',"LEFT")
             ->where($map)
             ->order($order)
             ->group("e.id")
@@ -83,10 +87,11 @@ class CorporationShareLike extends Base{
     }
 
     public function getLikeShare($user_id){
-        $map["cs.create_user"] = $user_id;
+        $map["csl.user_id"] = $user_id;
         $map["e.status"]=1;
-        $order="cs.id desc";
-        $corporationShareList = $this->model->table($this->table)->alias('cs')
+        $order="csl.id desc";
+        $corporationShareList = $this->model->table($this->table)->alias('csl')
+            ->join($this->dbprefix.'corporation_share cs','csl.share_id = cs.id',"LEFT")
             ->join($this->dbprefix.'corporation_share_content csco','cs.content_id = csco.id',"LEFT")
             ->join($this->dbprefix.'corporation_share_picture csp','csp.content_id = cs.id',"LEFT")
             ->join($this->dbprefix.'employee e','e.id = cs.userid',"LEFT")
