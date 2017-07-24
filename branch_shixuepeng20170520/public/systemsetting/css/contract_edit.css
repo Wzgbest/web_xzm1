@@ -226,6 +226,7 @@ ol {
 }
 .systemsetting_contract_edit .content .full {
     width: 100%;
+    height: 5px;
 }
 .systemsetting_contract_edit .content .apply_role .create_contract_num {
     display: inline-block;
