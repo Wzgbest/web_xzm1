@@ -310,6 +310,7 @@ ol {
 }
 .systemsetting_bill_edit .content .full {
     width: 100%;
+    height:5px;
 }
 .systemsetting_bill_edit .content .handle_role .create_bill_num {
     display: inline-block;

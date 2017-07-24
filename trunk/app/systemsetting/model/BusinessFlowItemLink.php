@@ -77,6 +77,15 @@ class BusinessFlowItemLink extends Base{
     }
 
     /**
+     * 添加多个业务流项目
+     * @param $datas
+     * @return int|string
+     */
+    public function addMultipleItemLink($datas){
+        return $this->model->table($this->table)->insertAll($datas);
+    }
+
+    /**
      * 根据业务流项目id修改业务流项目
      * @param $id
      * @param $data
