@@ -86,6 +86,14 @@ function business_flow_item_list_update_html(html){
     $(".systemsetting_business_flow_edit .item_add_panel .item").remove();
     $(".systemsetting_business_flow_edit .item_add_panel").append(html);
 }
+function business_flow_item_list_update_check(){
+    var arr = business_flow_item_list_get_arr();
+    //console.log(arr);
+    for(var item in arr){
+        var id = arr[item]['item_id'];
+        $(".systemsetting_business_flow_edit .business_flow_item_list input[index="+id+"]").prop('checked',true);
+    }
+}
 function business_flow_item_list_add(id){
     var arr = business_flow_item_list_get_arr();
     var flg = false;
@@ -157,6 +165,8 @@ $(".systemsetting_business_flow_edit .business_flow_item_list").on('click','inpu
         flg = business_flow_item_list_add(id);
     }else{
         flg = business_flow_item_list_del(id);
+        business_flow_now_role_item_id = 0;
+        business_flow_role_list_update_html('');
     }
     if(!flg){
         return;
@@ -175,9 +185,11 @@ $('.systemsetting_business_flow_edit .business_flow_item_selected').on('click','
     if(!flg){
         return;
     }
-    $(".systemsetting_business_flow_edit .business_flow_item_list input[index="+id+"]").prop('checked',false)
+    $(".systemsetting_business_flow_edit .business_flow_item_list input[index="+id+"]").prop('checked',false);
     var html = business_flow_item_list_get_html();
     business_flow_item_list_update_html(html);
+    business_flow_now_role_item_id = 0;
+    business_flow_role_list_update_html('');
 });
 
 $('.systemsetting_business_flow_edit .business_flow_item_selected').on('click','.item .item_name',function(){
@@ -193,6 +205,7 @@ $('.systemsetting_business_flow_edit .business_flow_item_selected').on('click','
 });
 var business_flow_item_load_html = business_flow_item_list_get_html();
 business_flow_item_list_update_html(business_flow_item_load_html);
+business_flow_item_list_update_check();
 
 
 //审核权限
