@@ -262,9 +262,10 @@ function del_business_flow_item_handle(index) {
                 if (!role_item['have_verification'] > 0) {
                     return;//...
                 }
-                for (var j = index; j <= business_flow_setting_handle_max; j++) {
-                    arr[i]["handle_" + j] = 0;
+                for (var j = index; j < business_flow_setting_handle_max; j++) {
+                    arr[i]["handle_" + j] = arr[i]["handle_" + (j*1+1)];
                 }
+                arr[i]["handle_" + business_flow_setting_handle_max] = 0;
             }
         }
     }
