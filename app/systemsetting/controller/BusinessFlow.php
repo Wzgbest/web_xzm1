@@ -108,23 +108,51 @@ class BusinessFlow extends Initialize{
         return $businessFlowSetting;
     }
 
+    protected function _getBusinessFlowItemLinkForInput($link_arr,$id){
+        $link_data=[];
+        foreach($link_arr as $link){
+            unset($link["id"]);
+            unset($link["item_name"]);
+            unset($link["have_verification"]);
+            unset($link["verification_name"]);
+            $link["setting_id"] = $id;
+            $link_data[] = $link;
+        }
+        return $link_data;
+    }
+
     public function add(){
         $result = ['status'=>0 ,'info'=>"添加工作流设置时发生错误！"];
         $businessFlowSetting = $this->_getBusinessFlowSettingForInput();
         $link_json = input('link_json');
         $link_arr = json_decode($link_json,true);
-        var_exp($businessFlowSetting,'$businessFlowSetting');
-        var_exp($link_arr,'$link_arr',1);
+        //var_exp($businessFlowSetting,'$businessFlowSetting');
+        //var_exp($link_arr,'$link_arr');
+        if(empty($link_arr)){
+            $result['info'] = "没有具体的业务流程！";
+            return json($result);
+        }
+        $validate_result = $this->validate($businessFlowSetting,'BusinessFlowSetting');
+        //验证字段
+        if(true !== $validate_result){
+            $result['info'] = $validate_result;
+            return json($result);
+        }
+        $this->_businessFlowModel->link->startTrans();
         try{
-            $validate_result = $this->validate($businessFlowSetting,'BusinessFlowSetting');
-            //验证字段
-            if(true !== $validate_result){
-                $result['info'] = $validate_result;
-                return json($result);
-            }
             $businessFlowSettingAddFlg = $this->_businessFlowModel->addBusinessFlowSetting($businessFlowSetting);
             $result['data'] = $businessFlowSettingAddFlg;
+            $businessFlowItemLinkM = new BusinessFlowItemLink($this->corp_id);
+            $link_data = $this->_getBusinessFlowItemLinkForInput($link_arr,$businessFlowSettingAddFlg);
+            //var_exp($link_data,'$link_data',1);
+            $itemLinksAddFlg = $businessFlowItemLinkM->addMultipleItemLink($link_data);
+            if(!$itemLinksAddFlg){
+                exception("添加业务流程失败！");
+            }
+            $this->_businessFlowModel->link->commit();
         }catch (\Exception $ex){
+            $this->_businessFlowModel->link->rollback();
+            $result['info'] = '添加业务流失败!';
             return json($result);
         }
         $result['status'] = 1;
@@ -142,17 +170,39 @@ class BusinessFlow extends Initialize{
         $businessFlowSetting = $this->_getBusinessFlowSettingForInput();
         $link_json = input('link_json');
         $link_arr = json_decode($link_json,true);
-        var_exp($businessFlowSetting,'$businessFlowSetting');
-        var_exp($link_arr,'$link_arr',1);
+        //var_exp($businessFlowSetting,'$businessFlowSetting');
+        //var_exp($link_arr,'$link_arr',1);
+        if(empty($link_arr)){
+            $result['info'] = "没有具体的业务流程！";
+            return json($result);
+        }
+        $validate_result = $this->validate($businessFlowSetting,'BusinessFlowSetting');
+        //验证字段
+        if(true !== $validate_result){
+            $result['info'] = $validate_result;
+            return json($result);
+        }
+        $this->_businessFlowModel->link->startTrans();
         try{
-            $validate_result = $this->validate($businessFlowSetting,'BusinessFlowSetting');
-            //验证字段
-            if(true !== $validate_result){
-                $result['info'] = $validate_result;
-                return json($result);
-            }
             $businessFlowSettingUpdateFlg = $this->_businessFlowModel->setBusinessFlowSetting($id,$businessFlowSetting);
+            $businessFlowItemLinkM = new BusinessFlowItemLink($this->corp_id);
+            $link_data = $this->_getBusinessFlowItemLinkForInput($link_arr,$id);
+            //var_exp($link_data,'$link_data',1);
+            //$old_links = $businessFlowItemLinkM->getItemLinkById($id);
+            //var_exp($old_links,'$old_links',1);
+            $itemLinksDelFlg = $businessFlowItemLinkM->delBusinessFlowItemLink(["setting_id"=>$id]);
+            if(!$itemLinksDelFlg){
+                exception("更新业务流程条目失败！");
+            }
+            $itemLinksAddFlg = $businessFlowItemLinkM->addMultipleItemLink($link_data);
+            if(!$itemLinksAddFlg){
+                exception("更新业务流程项目失败！");
+            }
+            $this->_businessFlowModel->link->commit();
         }catch (\Exception $ex){
+            $this->_businessFlowModel->link->rollback();
+            $result['info'] = '更新业务流失败!';
+            //$result['info'] = $ex->getMessage();
             return json($result);
         }
         $result['status'] = 1;

@@ -294,7 +294,7 @@ function business_flow_role_list_get_html(){
             all_html += '<div class="dv1 role_list"><p>'+
                 '<img src="/systemsetting/images/line_purple.jpg" class="img1">'+
                 '<span class="sp1">'+role_item['item_name']+'</span></p></div>'+
-                '<div class="dv2 role_list"><p><span></span></p></div>';
+                '<div class="dv2 role_list full"><p><span></span></p></div>';
             var add_html = business_flow_role_list_item_html(role_item["handle_1"],role_item['item_name'],0);
             for(var j=1;j<6;j++){
                 if(role_item["handle_"+(j+1)]==0){
