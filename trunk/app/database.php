@@ -15,17 +15,15 @@ return [
     // 数据库名
     'database'        => 'guguocrm',
     // 服务器地址
-    'hostname'        => '127.0.0.1',
-    //'hostname'        => '192.168.33.1',
-    //'hostname'        => '112.253.21.74',
-    // 用户名
-    'username'        => 'zxwz',
-    'password'        => '123456',
-    'hostport'        => '3307',
-//    'hostname'        => 'localhost',
-//    'username'        => 'root',
-//    'password'        => '',
-//    'hostport'        => '3306',
+//    'hostname'        => '192.168.102.200',
+//    // 用户名
+//    'username'        => 'zxwz',
+//    'password'        => '123456',
+//    'hostport'        => '3307',
+    'hostname'        => 'localhost',
+    'username'        => 'root',
+    'password'        => '',
+    'hostport'        => '3306',
     // 连接dsn
     'dsn'             => '',
     // 数据库连接参数

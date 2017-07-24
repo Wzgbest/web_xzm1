@@ -39,7 +39,7 @@ class Structure extends Base
     }
 
     /**
-     * 获取单个部门信息
+     * 根据部门id列表获取部门名称
      * @param $struct_ids array 部门id
      * @return array|false|\PDOStatement|string|\think\Model
      * created by blu10ph

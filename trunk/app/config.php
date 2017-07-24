@@ -241,28 +241,22 @@ return [
     ],
     'db_config1'    =>  [
         'type'        => 'mysql',
-        'hostname'    => '127.0.0.1',
+//        'hostname'    => '192.168.102.200',
+//        'database'    => '',
+//        'username'    => 'zxwz',
+//        'password'    => '123456',
+//        'hostport'    => '3307',
+        'hostname'    => 'localhost',
         'database'    => '',
         'username'    => 'zxwz',
         'password'    => '123456',
-        'hostport'    => '3307',
+        'hostport'    => '3306',
         'charset'     => 'utf8',
         'prefix'      => 'guguo_',
         'params'      => [
     		PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
     	],
     ],
-//    'db_config1'    =>  [
-//        'type'        => 'mysql',
-//        'hostname'    => 'localhost',
-//        'database'    => '',
-//        'username'    => 'zxwz',
-//        'password'    => '123456',
-//        'hostport'    => '3306',
-//        'charset'     => 'utf8',
-//        'prefix'      => 'guguo_',
-//        'params'      => ['PDO::MYSQL_ATTR_INIT_COMMAND' =>'set names utf8;'],
-//    ],
     'db_common_prefix'=>'guguo_',//分库前缀
     //sms短信账号
     'sms_workid'    => '',
