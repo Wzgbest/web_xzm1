@@ -1,0 +1,78 @@
+<div class="systemsetting_business_flow systemsetting_business_flow_edit">
+    <div class="top">
+        <ul class="firNav">
+            <li class="current" onclick="loadPage('/systemsetting/business_flow/index.html','business-flowfr');">
+                <div>业务流</div>
+            </li>
+            <i class="fa fa-angle-right fa-2x"></i>
+            <span class="span-info">
+                                    添加业务流设置
+                            </span>
+        </ul>
+    </div>
+    <div class="content">
+        <form name="form_business_flow_setting" class="form_business_flow_setting" onsubmit="return false;" method="post">
+            <p>
+                <span class="sp1">业务名称</span>
+                <input type="text" placeholder="百度推广" name="business_flow_name" value="" />
+            </p>
+            <p class="p7">
+                <span class="sp1">拥有此业务角色</span>
+                                        <input type="checkbox" name="set_to_role[]" value="1"/><span class="sp3">董事长</span>
+                                            <input type="checkbox" name="set_to_role[]" value="2"/><span class="sp3">总裁</span>
+                                            <input type="checkbox" name="set_to_role[]" value="3"/><span class="sp3">大区经理</span>
+                                            <input type="checkbox" name="set_to_role[]" value="4"/><span class="sp3">分公司总经理</span>
+                                            <input type="checkbox" name="set_to_role[]" value="5"/><span class="sp3">部门经理</span>
+                                            <input type="checkbox" name="set_to_role[]" value="6"/><span class="sp3">职员</span>
+                                            <input type="checkbox" name="set_to_role[]" value="7"/><span class="sp3">临时工</span>
+                                            <input type="checkbox" name="set_to_role[]" value="8"/><span class="sp3">实习生</span>
+                                </p>
+            <p class="item_add_panel business_flow_item_selected">
+                <span class="sp1">业务流程</span>
+            </p>
+            <p class="p6 business_flow_item_list">
+                                <input type="checkbox" class="more" index="1" /><span class="sp3">有意向</span><span class="sp6"></span>
+                                <input type="checkbox" class="more" index="2" /><span class="sp3">预约拜访</span><span class="sp6"></span>
+                                <input type="checkbox" class="more" index="3" /><span class="sp3">上门拜访</span><span class="sp6">（App签到后自动更新）</span>
+                                <input type="checkbox" class="more" index="4" /><span class="sp3">申请成单</span><span class="sp6">（申请成单流程在成交合同审核通过后）</span>
+                            </p>
+            <div class="full role_list_splice"></div>
+            <p class="p5">
+                <input class="business_flow_setting_submit" type="submit" value="保存" />
+                <button onclick="loadPage('/systemsetting/business_flow/index.html','business-flowfr');">取消</button>
+            </p>
+        </form>
+    </div>
+</div>
+<link rel="stylesheet" href="/systemsetting/css/business_flow_edit.css" />
+<script language="JavaScript">
+    var business_flow_items = '[{"id":1,"item_name":"\u6709\u610f\u5411","have_verification":0,"verification_name":"","verification_remark":null},{"id":2,"item_name":"\u9884\u7ea6\u62dc\u8bbf","have_verification":0,"verification_name":"","verification_remark":null},{"id":3,"item_name":"\u4e0a\u95e8\u62dc\u8bbf","have_verification":0,"verification_name":"","verification_remark":"\uff08App\u7b7e\u5230\u540e\u81ea\u52a8\u66f4\u65b0\uff09"},{"id":4,"item_name":"\u7533\u8bf7\u6210\u5355","have_verification":1,"verification_name":"\u6210\u5355\u5ba1\u6838","verification_remark":"\uff08\u7533\u8bf7\u6210\u5355\u6d41\u7a0b\u5728\u6210\u4ea4\u5408\u540c\u5ba1\u6838\u901a\u8fc7\u540e\uff09"}]';
+    var business_flow_item_links = '[]';
+    var business_flow_setting_roles = '[{"id":1,"role_name":"\u8463\u4e8b\u957f","rules":"1,2,3,4"},{"id":2,"role_name":"\u603b\u88c1","rules":null},{"id":3,"role_name":"\u5927\u533a\u7ecf\u7406","rules":null},{"id":4,"role_name":"\u5206\u516c\u53f8\u603b\u7ecf\u7406","rules":null},{"id":5,"role_name":"\u90e8\u95e8\u7ecf\u7406","rules":null},{"id":6,"role_name":"\u804c\u5458","rules":null},{"id":7,"role_name":"\u4e34\u65f6\u5de5","rules":null},{"id":8,"role_name":"\u5b9e\u4e60\u751f","rules":null}]';
+    var business_flow_setting_handle_max = '6';
+    $('.systemsetting_business_flow_edit .business_flow_setting_submit').click(function() {
+        var form_business_flow_setting_data = $(".form_business_flow_setting").serialize();
+        console.log(form_business_flow_setting_data);
+        var link_json = get_business_flow_item_link_json();
+        console.log(link_json);
+        form_business_flow_setting_data+="&link_json="+link_json;
+        console.log(form_business_flow_setting_data);
+        $.ajax({
+            url: '/systemsetting/business_flow/add.html',
+            type: 'post',
+            data: form_business_flow_setting_data,
+            dataType: 'json',
+            success: function(data) {
+                //console.log(data);
+                alert(data.info);
+                if(data.status) {
+                    loadPage("/systemsetting/business_flow/index","business-flowfr");
+                }
+            },
+            error: function() {
+
+            }
+        });
+    });
+</script>
+<script type="text/javascript" src="/systemsetting/js/business_flow_edit.js"></script>

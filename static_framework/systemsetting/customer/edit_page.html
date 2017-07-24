@@ -4,7 +4,9 @@
             <li class="current" onclick="loadPage('/systemsetting/customer/index.html','customer-settingfr');">
                 <div>客户设置</div>
             </li>
-            <i class="fa fa-angle-right fa-2x"></i><span class="span-info">添加客户设置</span>
+            <i class="fa fa-angle-right fa-2x"></i>
+            <span class="span-info">
+                                    客户设置测试            </span>
         </ul>
 
     </div>
@@ -80,16 +82,13 @@
                                     <input type="checkbox" name="set_to_structure[]" value="20"/><span class="sp3">其他大区</span>
                                     <input type="checkbox" name="set_to_structure[]" value="21"/><span class="sp3">其他分公司</span>
                                     <input type="checkbox" name="set_to_structure[]" value="22"/><span class="sp3">其他部门</span>
-                                    <input type="checkbox" name="set_to_structure[]" value="23"/><span class="sp3">其他相关部门</span>
+                                    <input type="checkbox" name="set_to_structure[]" value="23"/><span class="sp3">其他有关部门</span>
                                     <input type="checkbox" name="set_to_structure[]" value="24"/><span class="sp3">审核分部</span>
                                     <input type="checkbox" name="set_to_structure[]" value="25"/><span class="sp3">UI组</span>
                                     <input type="checkbox" name="set_to_structure[]" value="26"/><span class="sp3">产品组</span>
-                                    <input type="checkbox" name="set_to_structure[]" value="27"/><span class="sp3">其他有关部门</span>
-                                    <input type="checkbox" name="set_to_structure[]" value="28"/><span class="sp3">其他某些部门</span>
-                                    <input type="checkbox" name="set_to_structure[]" value="29"/><span class="sp3">其他无关部门</span>
-                                    <input type="checkbox" name="set_to_structure[]" value="30"/><span class="sp3">技术部</span>
-                                    <input type="checkbox" name="set_to_structure[]" value="31"/><span class="sp3">海外大区</span>
-                                    <input type="checkbox" name="set_to_structure[]" value="32"/><span class="sp3">北美分部</span>
+                                    <input type="checkbox" name="set_to_structure[]" value="27"/><span class="sp3">海外大区</span>
+                                    <input type="checkbox" name="set_to_structure[]" value="28"/><span class="sp3">北美分公司</span>
+                                    <input type="checkbox" name="set_to_structure[]" value="29"/><span class="sp3">山景城分部</span>
                         </p>
 
         <p class="p5">
@@ -101,7 +100,7 @@
     </div>
 </div>
 <link rel="stylesheet" href="/systemsetting/css/customersetting.css" />
-<script>
+<script language="JavaScript">
     $('#customer_setting_submit').click(function() {
         console.log($(".form_customer_setting").serialize());
         $.ajax({

@@ -1,0 +1,152 @@
+<div class="systemsetting_bill_edit">
+    <div class="top">
+        <ul class="firNav">
+            <li class="current" onclick="loadPage('/systemsetting/bill/index.html','bill-settingfr');">
+                <div>发票设置</div>
+            </li>
+            <i class="fa fa-angle-right fa-2x"></i>
+            <span class="span-info">
+                                    建站类            </span>
+        </ul>
+    </div>
+    <div class="content">
+        <form name="form_bill_setting" class="form_bill_setting" onsubmit="return false;" method="post">
+            <p>
+                <span>发票类型</span>
+                <input type="text" placeholder="百度类" name="bill_type" value="建站类" />
+            </p>
+            <p class="p">
+                <span>是否需要公司税号</span>
+                <input type="radio" name="need_tax_id"  checked="checked" value="1" />是
+                <input type="radio" name="need_tax_id"  value="0" class="ipt" />否
+            </p>
+            <p class="later">
+                <span>产品类型</span>
+                                        <span class="redact">
+                                <span class="item_name">pc</span>
+                                <img class="compile" src="/systemsetting/images/compile.png" />
+                                <img class="del" src="/systemsetting/images/del.png" />
+                        </span>
+                                            <span class="redact">
+                                <span class="item_name">mobi</span>
+                                <img class="compile" src="/systemsetting/images/compile.png" />
+                                <img class="del" src="/systemsetting/images/del.png" />
+                        </span>
+                                            <span class="redact">
+                                <span class="item_name">wx</span>
+                                <img class="compile" src="/systemsetting/images/compile.png" />
+                                <img class="del" src="/systemsetting/images/del.png" />
+                        </span>
+                                    <img src="/systemsetting/images/plus.jpg" class="img2 add" />
+                <input type="hidden" name="product_type" value="pc,mobi,wx"/>
+            </p>
+            <p class="later">
+                <span>打款银行类型</span>
+                                        <span class="redact">
+                                <span class="item_name">阿斯顿</span>
+                                <img class="compile" src="/systemsetting/images/compile.png" />
+                                <img class="del" src="/systemsetting/images/del.png" />
+                        </span>
+                                            <span class="redact">
+                                <span class="item_name">的撒</span>
+                                <img class="compile" src="/systemsetting/images/compile.png" />
+                                <img class="del" src="/systemsetting/images/del.png" />
+                        </span>
+                                    <img src="/systemsetting/images/plus.jpg" class="img2 add" />
+                <input type="hidden" name="bank_type" value="阿斯顿,的撒"/>
+            </p>
+            <p>
+                <span>最大发票额度</span>
+                <input type="text" placeholder="请输入金额" name="max_bill" value="123.00" />
+                <span class="sp">元</span>
+            </p>
+            <p class="p1">申请发票额度超过最大额度时，申请自动拆分为两条申请</p>
+            <div class="dv1">
+                <p>
+                    <img src="/systemsetting/images/line_purple.jpg" class="img1" />
+                    <span class="sp1">发票审核</span>
+
+                </p>
+            </div>
+            <div class="dv2 handle_role_split"><p><span></span></p></div>
+            <div class="dv1 handle_role handle_role_first" handle_num="1">
+                <p>
+                    <span>发票审核角色1</span>
+                    <select class="handle" name="handle_1">
+                                                <option  value="1">董事长</option>
+                                                <option  value="2">总裁</option>
+                                                <option  value="3">大区经理</option>
+                                                <option  value="4">分公司总经理</option>
+                                                <option  value="5">部门经理</option>
+                                                <option  selected="selected" value="6">职员</option>
+                                                <option  value="7">临时工</option>
+                                                <option  value="8">实习生</option>
+                                            </select>
+                    <input type="checkbox" class="create_bill_num create_bill_num_1" name="create_bill_num_1"  checked="checked" value="1"/><span class="bill_num_tip">填写发票号</span>
+                    <img src="/systemsetting/images/plus.jpg" class="img2 add" />
+                </p>
+            </div>
+            <div class="dv1 full">
+                <p class="p1">每一次代表一次审批流程，当前审核需要三个审批环节</p>
+            </div>
+            <p class="p5">
+                <input class="bill_setting_submit" type="submit" value="保存" />
+                <button onclick="loadPage('/systemsetting/bill/index.html','bill-settingfr');">取消</button>
+            </p>
+        </form>
+    </div>
+</div>
+<link rel="stylesheet" href="/systemsetting/css/bill_edit.css" />
+<script language="JavaScript">
+    var bill_setting_roles = '[{"id":1,"role_name":"\u8463\u4e8b\u957f","rules":"1,2,3,4"},{"id":2,"role_name":"\u603b\u88c1","rules":null},{"id":3,"role_name":"\u5927\u533a\u7ecf\u7406","rules":null},{"id":4,"role_name":"\u5206\u516c\u53f8\u603b\u7ecf\u7406","rules":null},{"id":5,"role_name":"\u90e8\u95e8\u7ecf\u7406","rules":null},{"id":6,"role_name":"\u804c\u5458","rules":null},{"id":7,"role_name":"\u4e34\u65f6\u5de5","rules":null},{"id":8,"role_name":"\u5b9e\u4e60\u751f","rules":null}]';
+    var bill_setting_handles = '[{"handle":6,"create_bill_num":1},{"handle":5,"create_bill_num":0},{"handle":4,"create_bill_num":0}]';
+    var bill_setting_handle_max = '6';
+    $('.systemsetting_bill_edit .bill_setting_submit').click(function() {
+        var bill_item_list_panel = '.systemsetting_bill_edit .content .later';
+        var edit_item = $(bill_item_list_panel+" .edit_item_text");
+        if(edit_item.length>0){
+            edit_item.focus();
+            return;
+        }
+        var add_item = $(bill_item_list_panel+" .add_item");
+        if(add_item.length>0){
+            //console.log(add_item.children(".add_item_text"));
+            add_item.children(".add_item_text").focus();
+            return;
+        }
+        var bill_type = $(bill_item_list_panel+" input[name=bill_type]").val();
+        if(bill_type==""){
+            alert("未填写发票类型!");
+            return;
+        }
+        var product_type = $(bill_item_list_panel+" input[name=product_type]").val();
+        if(product_type==""){
+            alert("未填写产品类型!");
+            return;
+        }
+        var bank_type = $(bill_item_list_panel+" input[name=bank_type]").val();
+        if(bank_type==""){
+            alert("未填写打款银行类型!");
+            return;
+        }
+        var form_bill_setting_data = $(".form_bill_setting").serialize();
+        console.log(form_bill_setting_data);
+        $.ajax({
+            url: '/systemsetting/bill/update/id/1.html',
+            type: 'post',
+            data: form_bill_setting_data,
+            dataType: 'json',
+            success: function(data) {
+                //console.log(data);
+                alert(data.info);
+                if(data.status) {
+                    loadPage("/systemsetting/bill/index","bill-settingfr");
+                }
+            },
+            error: function() {
+
+            }
+        });
+    });
+</script>
+<script src="/systemsetting/js/bill_edit.js"></script>

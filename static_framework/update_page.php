@@ -18,9 +18,6 @@ $page_list[] = ["crm","customer","customer_pool",""];
 $page_list[] = ["crm","customer_import","index","type/3"];
 $page_list[] = ["systemsetting","corporation","showcorpinfo",""];
 $page_list[] = ["systemsetting","corporation","editcorpinfo",""];
-$page_list[] = ["systemsetting","customer","index",""];
-$page_list[] = ["systemsetting","customer","add_page",""];
-$page_list[] = ["systemsetting","customer","edit_page","id/7"];
 $page_list[] = ["systemsetting","employee","manage",""];
 $page_list[] = ["systemsetting","employee","show","id/4"];
 $page_list[] = ["systemsetting","employee","edit","id/4"];
@@ -33,6 +30,18 @@ $page_list[] = ["systemsetting","role","not_role_employee_list","id/1"];
 $page_list[] = ["systemsetting","structure","index",""];
 $page_list[] = ["systemsetting","structure","employee_list","id/1"];
 $page_list[] = ["systemsetting","structure","not_struct_employee_list","id/1"];
+$page_list[] = ["systemsetting","business_flow","index",""];
+$page_list[] = ["systemsetting","business_flow","add_page",""];
+$page_list[] = ["systemsetting","business_flow","edit_page","id/1"];
+$page_list[] = ["systemsetting","bill","index",""];
+$page_list[] = ["systemsetting","bill","add_page",""];
+$page_list[] = ["systemsetting","bill","edit_page","id/1"];
+$page_list[] = ["systemsetting","contract","index",""];
+$page_list[] = ["systemsetting","contract","add_page",""];
+$page_list[] = ["systemsetting","contract","edit_page","id/1"];
+$page_list[] = ["systemsetting","customer","index",""];
+$page_list[] = ["systemsetting","customer","add_page",""];
+$page_list[] = ["systemsetting","customer","edit_page","id/7"];
 
 login($server,$cookie_file);
 foreach($page_list as $page){
