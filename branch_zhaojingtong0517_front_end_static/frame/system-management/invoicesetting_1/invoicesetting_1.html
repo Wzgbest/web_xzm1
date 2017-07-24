@@ -304,14 +304,91 @@
 			#content .later .redact img {
 				display: none;
 			}
-			#content .later .redact:hover img{
+			
+			#content .later .redact:hover img {
 				display: inline-block;
-				
 			}
-			#content .later .redact:hover{
+			
+			#content .later .redact:hover {
 				background-color: #f2f6fd;
 			}
 			
+			#switch1 {
+				width: 40px !important;
+				height: 20px !important;
+				border-radius: 50px;
+				position: relative;
+				left: 440px;
+				top:-50px
+			}
+			
+			#switch2 {
+				width: 15px !important;
+				height: 15px !important;
+				border-radius: 48px;
+				position: absolute;
+				background: white;
+				
+			}
+			#kaiguan1 {
+				width: 40px !important;
+				height: 20px !important;
+				border-radius: 50px;
+				position: relative;
+				left: 440px;
+				top:-50px
+			}
+			
+			#kaiguan2 {
+				width: 15px !important;
+				height: 15px !important;
+				border-radius: 48px;
+				position: absolute;
+				background: white;
+				
+			}
+			
+			#on_off1 {
+				width: 40px !important;
+				height: 20px !important;
+				border-radius: 50px;
+				position: relative;
+				left: 440px;
+				top:-50px
+			}
+			
+			#on_off2 {
+				width: 15px !important;
+				height: 15px !important;
+				border-radius: 48px;
+				position: absolute;
+				background: white;
+				
+			}
+			
+			.open1 {
+				background: rgba(0, 0, 0, 0.8);
+			}
+			
+			.open2 {
+				top: 2px;
+				right: 1px;
+			}
+			
+			.close1 {
+				background: rgba(255, 255, 255, 0.4);
+				border: 1px solid rgba(0, 0, 0, 0.15);
+				border-left: transparent;
+			}
+			
+			.close2 {
+				left: 0px;
+				top: 0px;
+				border: 2px solid rgba(0, 0, 0, 0.1);
+			}
+			.or{
+				font-size: 12px;position: relative;left: 330px;top:-40px
+			}
 		</style>
 	</head>
 
@@ -340,8 +417,10 @@
 						默认类型
 				    	<img src="img/compile.png" />
 				    	<img src="img/del.png" />
-				    </span>
-				    <img src="img/01.jpg" class="img2" />
+				</span>
+
+				<img src="img/01.jpg" class="img2" />
+
 			</p>
 			<p class="later">
 				<span>打款银行类型</span>
@@ -349,8 +428,8 @@
 						招商银行
 				    	<img src="img/compile.png" />
 				    	<img src="img/del.png" />
-				    </span>
-				    <img src="img/01.jpg" class="img2" />
+			    </span>
+				<img src="img/01.jpg" class="img2" />
 			</p>
 			<p>
 				<span>最大发票额度</span>
@@ -373,6 +452,10 @@
 						<option value="3">李四</option>
 					</select>
 					<img src="img/delelet.png" class="img2" />
+					<div id="switch1" class="open1" >
+						<div id="switch2" class="open2"></div>
+					</div>
+					<span class="or" >填写发票号</span>
 				</p>
 				<p>
 					<span>发票审核角色3</span>
@@ -382,7 +465,10 @@
 						<option value="3">李四</option>
 					</select>
 					<img src="img/01.jpg" class="img2" />
-
+					<div id="on_off1" class="open1">
+						<div id="on_off2" class="open2"></div>
+					</div>
+					<span class="or" >填写发票号</span>
 				</p>
 				<p class="p1">每一次代表一次审批流程，当前审核需要三个审批环节</p>
 			</div>
@@ -395,6 +481,10 @@
 						<option value="3">李四</option>
 					</select>
 					<img src="img/delelet.png" class="img2" />
+					<div id="kaiguan1" class="open1">
+						<div id="kaiguan2" class="open2"></div>
+					</div>
+					<span class="or" >填写发票号</span>
 				</p>
 			</div>
 			<p class="p5">
@@ -403,5 +493,30 @@
 			</p>
 		</div>
 	</body>
+
+	<script>
+		window.onload = function() {
+			var switch2 = document.getElementById("switch2");
+			var switch1 = document.getElementById("switch1");
+			switch2.onclick = function() {
+				switch1.className = (switch1.className == "close1") ? "open1" : "close1";
+				switch2.className = (switch2.className == "close2") ? "open2" : "close2";
+			}
+			
+			var kaiguan2 = document.getElementById("kaiguan2");
+			var kaiguan1 = document.getElementById("kaiguan1");
+			kaiguan2.onclick = function() {
+				kaiguan1.className = (kaiguan1.className == "close1") ? "open1" : "close1";
+				kaiguan2.className = (kaiguan2.className == "close2") ? "open2" : "close2";
+			}
+			
+			var on_off2 = document.getElementById("on_off2");
+			var on_off1 = document.getElementById("on_off1");
+			on_off2.onclick = function() {
+				on_off1.className = (on_off1.className == "close1") ? "open1" : "close1";
+				on_off2.className = (on_off2.className == "close2") ? "open2" : "close2";
+			}
+		}
+	</script>
 
 </html>

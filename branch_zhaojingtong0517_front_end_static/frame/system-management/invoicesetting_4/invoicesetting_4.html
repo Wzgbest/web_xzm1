@@ -307,6 +307,48 @@
 				background-color: #f2f6fd;
 			}
 			
+			#switch3 {
+				width: 40px !important;
+				height: 20px !important;
+				border-radius: 50px;
+				position: relative;
+				left: 440px;
+				top:-50px
+			}
+			
+			#switch4 {
+				width: 15px !important;
+				height: 15px !important;
+				border-radius: 48px;
+				position: absolute;
+				background: white;
+				
+			}
+			
+			.open1 {
+				background: rgba(0, 0, 0, 0.8);
+			}
+			
+			.open2 {
+				top: 2px;
+				right: 1px;
+			}
+			
+			.close1 {
+				background: rgba(255, 255, 255, 0.4);
+				border: 1px solid rgba(0, 0, 0, 0.15);
+				border-left: transparent;
+			}
+			
+			.close2 {
+				left: 0px;
+				top: 0px;
+				border: 2px solid rgba(0, 0, 0, 0.1);
+			}
+			.or{
+				font-size: 12px;position: relative;left: 330px;top:-40px
+			}
+			
 		</style>
 	</head>
 
@@ -369,7 +411,10 @@
 						<option value="3">李四</option>
 					</select>
 					<img src="img/01.jpg" class="img2" />
-
+					<div id="switch3" class="open1" >
+						<div id="switch4" class="open2"></div>
+					</div>
+					<span class="or" >填写发票号</span>
 				</p>
 				<p class="p1">每一次代表一次审批流程，当前审核需要一个审批环节</p>
 			</div>
@@ -380,5 +425,17 @@
 			</p>
 		</div>
 	</body>
+	<script>
+		window.onload = function() {
+			var switch4 = document.getElementById("switch4");
+			var switch3 = document.getElementById("switch3");
+			switch4.onclick = function() {
+				switch3.className = (switch3.className == "close1") ? "open1" : "close1";
+				switch4.className = (switch4.className == "close2") ? "open2" : "close2";
+			}
+			
+			
+		}
+	</script>
 
 </html>
