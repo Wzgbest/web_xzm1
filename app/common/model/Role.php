@@ -50,6 +50,17 @@ class Role extends Base
     }
 
     /**
+     * 根据职位id列表获取部门名称
+     * @param $role_ids array 职位id
+     * @return array|false|\PDOStatement|string|\think\Model
+     * created by blu10ph
+     */
+    public function getRoleName($role_ids)
+    {
+        return $this->model->table($this->table)->where('id',"in",$role_ids)->column("role_name","id");
+    }
+
+    /**
      * 添加角色
      * @param $data
      * @return int|string
