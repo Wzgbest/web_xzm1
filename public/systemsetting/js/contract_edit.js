@@ -94,12 +94,15 @@ function get_contract_setting_apply_html(){
             add_html += ' value="'+contract_setting_role.id+'">'+contract_setting_role.role_name+'</option>';
         }
         add_html += '</select>';
-        add_html += ' <input type="checkbox" class="create_contract_num create_contract_num_'+(i+1)+'" name="create_contract_num_'+(i+1)+'"';
-        if(contract_setting_apply.create_contract_num==1){
-            add_html += checked_html;
+        add_html += '<div class="switch_panel';
+        if(contract_setting_apply.create_contract_num!=1){
+            add_html += ' close';
         }
-        add_html += ' value="1"/>';
-        add_html += '<span class="contract_num_tip">生成合同号</span>';
+        add_html += '" ><div class="switch_btn"></div>'+
+            '<input type="hidden" name="create_contract_num_'+(i+1)+'" value="' +
+            contract_setting_apply.create_contract_num+
+            '"/></div>';
+        add_html += '<span class="num_tip">生成合同号</span>';
         add_html += '<img src="/systemsetting/images/delelet.png" class="img2 del" />';
         if(contract_setting_apply_max>(i+1)){
             add_html += '<img src="/systemsetting/images/plus.jpg" class="img2 add" />';
@@ -119,6 +122,11 @@ function update_contract_setting_apply_html(){
 
 function get_contract_setting_apply_index(target){
     var index = $(target).parent().parent().attr("apply_num");
+    return index;
+}
+
+function get_contract_setting_apply_tools_index(target){
+    var index = $(target).parent().attr("apply_num");
     return index;
 }
 
@@ -147,8 +155,23 @@ $(".systemsetting_contract_edit .content").on("click",".apply_role .create_contr
     update_contract_setting_apply(index,2,value?1:0);
     update_contract_setting_apply_html();
 });
+$(".systemsetting_contract_edit .content").on("click",".apply_role .switch_panel",function(){
+    var index = get_contract_setting_apply_tools_index(this);
+    console.log(index);
+    var value = $(this).hasClass("close")?1:0;
+    console.log(value);
+    if(value){
+        $(this).removeClass("close");
+    }else{
+        $(this).addClass("close");
+    }
+    $(this).children("input").val(value);
+    update_contract_setting_apply(index,2,value?1:0);
+    update_contract_setting_apply_html();
+});
 $(".systemsetting_contract_edit .content").on("click",".apply_role .del",function(){
-    var index = get_contract_setting_apply_index(this);
+    var index = get_contract_setting_apply_tools_index(this);
+    console.log(index);
     del_contract_setting_apply(index);
     update_contract_setting_apply_html();
 });

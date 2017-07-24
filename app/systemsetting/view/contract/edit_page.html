@@ -57,9 +57,13 @@
                             <option {eq name='contractSetting.apply_1' value='$vo.id'} selected="selected"{/eq} value="{$vo.id}">{$vo.role_name}</option>
                         {/volist}
                     </select>
-                    <input type="checkbox" class="create_contract_num create_contract_num_1" name="create_contract_num_1" {eq name='contractSetting.create_contract_num_1' value='1'} checked="checked"{/eq} value="1"/><span class="contract_num_tip">生成合同号</span>
-                    <img src="/systemsetting/images/plus.jpg" class="img2 add" />
                 </p>
+                <div class="switch_panel {neq name='contractSetting.create_contract_num_1' value='1'} close{/neq}" >
+                    <div class="switch_btn"></div>
+                    <input type="hidden" name="create_contract_num_1" value="{$contractSetting.create_contract_num_1}"/>
+                </div>
+                <span class="num_tip" >填写发票号</span>
+                <img src="/systemsetting/images/plus.jpg" class="img2 add" />
             </div>
             <div class="full">
                 <p class="p1">每一次代表一次审批流程，当前审核需要三个审批环节</p>
