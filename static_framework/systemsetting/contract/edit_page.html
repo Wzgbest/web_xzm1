@@ -11,7 +11,7 @@
     </div>
     <div class="content">
         <form name="form_contract_setting" class="form_contract_setting" onsubmit="return false;" method="post">
-            <div class="dv1">
+            <div class="dv1 ">
                 <p>
                     <span>合同类型</span>
                     <input type="text" name="contract_name" placeholder="请输入合同类型,如:百度类" value="百度大搜类合同" />
@@ -36,13 +36,14 @@
                     <input type="text" name="current_contract" placeholder="请输入当前合同号" value="10000" />
                 </p>
             </div>
+            <div class="dv2 apply_role_split full"><p><span></span></p></div>
             <div class="dv1">
                 <p>
                     <img src="/systemsetting/images/line_green.jpg" class="img1" />
                     <span class="sp1">合同审核</span>
                 </p>
             </div>
-            <div class="dv2 apply_role_split"><p><span></span></p></div>
+            <div class="dv2 apply_role_split full"><p><span></span></p></div>
             <div class="dv1 apply_role apply_role_first" apply_num="1">
                 <p>
                     <span>合同审核角色1</span>
@@ -56,9 +57,13 @@
                                                     <option  value="7">临时工</option>
                                                     <option  value="8">实习生</option>
                                             </select>
-                    <input type="checkbox" class="create_contract_num create_contract_num_1" name="create_contract_num_1"  checked="checked" value="1"/><span class="contract_num_tip">生成合同号</span>
-                    <img src="/systemsetting/images/plus.jpg" class="img2 add" />
                 </p>
+                <div class="switch_panel " >
+                    <div class="switch_btn"></div>
+                    <input type="hidden" name="create_contract_num_1" value="1"/>
+                </div>
+                <span class="num_tip" >填写发票号</span>
+                <img src="/systemsetting/images/plus.jpg" class="img2 add" />
             </div>
             <div class="full">
                 <p class="p1">每一次代表一次审批流程，当前审核需要三个审批环节</p>
@@ -73,7 +78,7 @@
 <link rel="stylesheet" href="/systemsetting/css/contract_edit.css" />
 <script language="JavaScript">
     var contract_setting_roles = '[{"id":1,"role_name":"\u8463\u4e8b\u957f","rules":"1,2,3,4"},{"id":2,"role_name":"\u603b\u88c1","rules":null},{"id":3,"role_name":"\u5927\u533a\u7ecf\u7406","rules":null},{"id":4,"role_name":"\u5206\u516c\u53f8\u603b\u7ecf\u7406","rules":null},{"id":5,"role_name":"\u90e8\u95e8\u7ecf\u7406","rules":null},{"id":6,"role_name":"\u804c\u5458","rules":null},{"id":7,"role_name":"\u4e34\u65f6\u5de5","rules":null},{"id":8,"role_name":"\u5b9e\u4e60\u751f","rules":null}]';
-    var contract_setting_applys = '[{"apply":6,"create_contract_num":1},{"apply":5,"create_contract_num":0},{"apply":4,"create_contract_num":0},{"apply":3,"create_contract_num":0}]';
+    var contract_setting_applys = '[{"apply":6,"create_contract_num":1},{"apply":5,"create_contract_num":0},{"apply":4,"create_contract_num":0},{"apply":2,"create_contract_num":0},{"apply":1,"create_contract_num":0}]';
     var contract_setting_apply_max = '6';
     $('.systemsetting_contract_edit .contract_setting_submit').click(function() {
         console.log($(".form_contract_setting").serialize());

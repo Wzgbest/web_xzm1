@@ -41,6 +41,11 @@ function get_bill_setting_handle_index(target){
     return index;
 }
 
+function get_bill_setting_handle_tools_index(target){
+    var index = $(target).parent().attr("handle_num");
+    return index;
+}
+
 function add_bill_setting_handle(){
     var last_index = get_last_bill_setting_index();
     //console.log(last_index);
@@ -99,12 +104,15 @@ function get_bill_setting_handle_html(){
             add_html += ' value="'+bill_setting_item.id+'">'+bill_setting_item.role_name+'</option>';
         }
         add_html += '</select>';
-        add_html += ' <input type="checkbox" class="create_bill_num create_bill_num_'+(i+1)+'" name="create_bill_num_'+(i+1)+'"';
-        if(bill_setting_handle.create_bill_num==1){
-            add_html += checked_html;
+        add_html += '<div class="switch_panel';
+        if(bill_setting_handle.create_bill_num!=1){
+            add_html += ' close';
         }
-        add_html += ' value="1"/>';
-        add_html += '<span class="bill_num_tip">填写发票号</span>';
+        add_html += '" ><div class="switch_btn"></div>'+
+            '<input type="hidden" name="create_bill_num_'+(i+1)+'" value="' +
+            bill_setting_handle.create_bill_num+
+            '"/></div>';
+        add_html += '<span class="num_tip">填写发票号</span>';
         add_html += '<img src="/systemsetting/images/delelet.png" class="img2 del" />';
         if(bill_setting_handle_max>(i+1)){
             add_html += '<img src="/systemsetting/images/plus.jpg" class="img2 add" />';
@@ -134,7 +142,7 @@ $(".systemsetting_bill_edit .content").on("change",".handle_role .handle",functi
     update_bill_setting_handle_html();
 });
 $(".systemsetting_bill_edit .content").on("click",".handle_role .create_bill_num",function(){
-    var index = get_bill_setting_handle_index(this);
+    var index = get_bill_setting_handle_tools_index(this);
     var target_check = ".systemsetting_bill_edit .content .handle_role .create_bill_num_"+index;
     //console.log($(target_check).attr("checked")!="checked");
     var value = $(target_check).attr("checked")!="checked";
@@ -147,8 +155,22 @@ $(".systemsetting_bill_edit .content").on("click",".handle_role .create_bill_num
     update_bill_setting_handle(index,2,value?1:0);
     update_bill_setting_handle_html();
 });
+$(".systemsetting_bill_edit .content").on("click",".handle_role .switch_panel",function(){
+    var index = get_bill_setting_handle_tools_index(this);
+    console.log(index);
+    var value = $(this).hasClass("close")?1:0;
+    console.log(value);
+    if(value){
+        $(this).removeClass("close");
+    }else{
+        $(this).addClass("close");
+    }
+    $(this).children("input").val(value);
+    update_bill_setting_handle(index,2,value?1:0);
+    update_bill_setting_handle_html();
+});
 $(".systemsetting_bill_edit .content").on("click",".handle_role .del",function(){
-    var index = get_bill_setting_handle_index(this);
+    var index = get_bill_setting_handle_tools_index(this);
     del_bill_setting_handle(index);
     update_bill_setting_handle_html();
 });

@@ -107,6 +107,7 @@ ol {
 
 .systemsetting_contract_edit .content div {
     width: 496px;
+    height: 54px;
     float: left;
 }
 
@@ -202,7 +203,7 @@ ol {
     clear: both;
     width: 500px;
     height: 42px;
-    margin-top: 92px;
+    padding-top: 32px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -226,6 +227,7 @@ ol {
 }
 .systemsetting_contract_edit .content .full {
     width: 100%;
+    height: 5px;
 }
 .systemsetting_contract_edit .content .apply_role .create_contract_num {
     display: inline-block;
@@ -239,16 +241,63 @@ ol {
 }
 .systemsetting_contract_edit .content .apply_role .add{
     display: none;
+    position: relative;
+    left: 340px;
+    top:-40px
 }
 .systemsetting_contract_edit .content .apply_role:nth-last-child(3) .add{
     display: inline-block;
 }
 .systemsetting_contract_edit .content .apply_role .del{
     display: none;
+    position: relative;
+    left: 330px;
+    top:-40px
 }
 .systemsetting_contract_edit .content .apply_role:hover .del{
     display: inline-block;
 }
 .systemsetting_contract_edit .content .apply_role:nth-child(2) .del{
     display: inline-block;
+}
+
+.systemsetting_contract_edit .content .apply_role .switch_panel {
+    display:inline-block;
+    width: 40px;
+    height: 20px;
+    border-radius: 50px;
+    position: relative;
+    left: 370px;
+    top:-50px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.systemsetting_contract_edit .content .apply_role .switch_panel .switch_btn {
+    width: 15px;
+    height: 15px;
+    border-radius: 48px;
+    position: absolute;
+    background: white;
+    top: 2px;
+    right: 1px;
+}
+
+.systemsetting_contract_edit .content .apply_role .close {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.systemsetting_contract_edit .content .apply_role .close .switch_btn {
+    top: 0px;
+    left: 0px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+}
+.systemsetting_contract_edit .content .apply_role .num_tip{
+    font-size: 12px;
+    position: relative;
+    left: 320px;
+    top:-24px;
+    width:60px;
+    height:16px;
+    line-height:16px;
 }

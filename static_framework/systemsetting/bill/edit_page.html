@@ -68,7 +68,7 @@
 
                 </p>
             </div>
-            <div class="dv2 handle_role_split"><p><span></span></p></div>
+            <div class="dv2 handle_role_split full"><p><span></span></p></div>
             <div class="dv1 handle_role handle_role_first" handle_num="1">
                 <p>
                     <span>发票审核角色1</span>
@@ -82,9 +82,13 @@
                                                 <option  value="7">临时工</option>
                                                 <option  value="8">实习生</option>
                                             </select>
-                    <input type="checkbox" class="create_bill_num create_bill_num_1" name="create_bill_num_1"  checked="checked" value="1"/><span class="bill_num_tip">填写发票号</span>
-                    <img src="/systemsetting/images/plus.jpg" class="img2 add" />
                 </p>
+                <div class="switch_panel " >
+                    <div class="switch_btn"></div>
+                    <input type="hidden" name="create_bill_num_1" value="1"/>
+                </div>
+                <span class="num_tip" >填写发票号</span>
+                <img src="/systemsetting/images/plus.jpg" class="img2 add" />
             </div>
             <div class="dv1 full">
                 <p class="p1">每一次代表一次审批流程，当前审核需要三个审批环节</p>
