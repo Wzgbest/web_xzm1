@@ -1,0 +1,103 @@
+<div class="crm_contract crm_contract_index" style="overflow-x: hidden;">
+	<div class="index_panel index">
+		<header>
+            <ul class="m-firNav">
+                <li in_column="0" class="in_column current"><div>合同审核中（<span>10</span>）</div></li>
+                <li in_column="1" class="in_column "><div>已通过合同（<span>0</span>）</div></li>
+                <li in_column="2" class="in_column "><div>已驳回合同（<span>0</span>）</div></li>
+                <li in_column="3" class="in_column "><div>已撤回合同（<span>0</span>）</div></li>
+                <li in_column="4" class="in_column "><div>已作废合同（<span>0</span>）</div></li>
+                <li in_column="5" class="in_column "><div>成单审核中合同（<span>0</span>）</div></li>
+                <li in_column="6" class="in_column "><div>已成单合同（<span>0</span>）</div></li>
+                <li in_column="7" class="in_column "><div>所有合同（<span>0</span>）</div></li>
+            </ul>
+        </header>
+        
+        <!--我的合同  列表-->
+        <section id="myAllContractPage">
+        	<div class="m-divBlock m-divBlock2">
+        		<div class="m-filterNav">
+                	<form class="search_form" onsubmit="return false;">
+                    	<select name="">
+                	        <option value="">合同类型</option>
+                	        <option value="A" >A</option>
+                	        <option value="B" >B</option>
+                 	       <option value="C" >C</option>
+                 	       <option value="D" >D</option>
+                	    </select>
+                    	<select name="">
+                     	    <option value="">对应业务</option>
+                    	    <option value="1" >转介绍</option>
+                   	   		<option value="2" >搜索</option>
+                  	    	<option value="3" >购买</option>
+                 	    </select>
+                	    
+                	    <input type="text" name="" placeholder="输入合同编码" value=""/>
+                	    <input type="text" name="customer_name" placeholder="输入客户名称" value=""/>
+               	    	<button class="u-btnSearch">查询</button>
+              	  	</form>
+           	 	</div>
+           	 	<div class="m-tableBox">
+           	 		<div class="m-table table-contract">
+                    	<ul class="u-tabTitle">                        
+                        	<li class="creat-time">申请时间<i class="fa fa-unsorted"></i></li>
+                        	<li class="update-time">状态变更时间<i class="fa fa-unsorted"></i></li>
+                        	<li class="contract-number">合同编码</li>
+                        	<li class="contract-type">合同类型</li>
+                        	<li class="contract-status">合同状态</li>
+                        	<li class="assessor">审核人</li>
+                        	<li class="sale-id">销售机会</li>
+                        	<li class="customer-id">对应客户</li>
+                        	<li class="service">对应业务</li>
+                        	<li class="order-status">订单状态</li>
+                        	<li class="status">对应状态</li>
+                        	<li class="reject-reson">驳回理由</li>
+                        	<li class="operate">操作</li>
+                        	<div class="clearfix"></div>
+                    	</ul>
+                    	<ul class="u-tabList">
+                        	<li class="creat-time">2017/07/24/09:24</li>
+                        	<li class="update-time">2017/07/24/09:25</li>
+                        	<li class="contract-number">12138</li>
+                        	<li class="contract-type">网站建设合同</li>
+                        	<li class="contract-status">已领取</li>
+                        	<li class="assessor">李白白</li>
+                        	<li class="sale-id">网站建设</li>
+                        	<li class="customer-id color-blue">山东中迅网络传媒</li>
+                        	<li class="service">网站建设</li>
+                        	<li class="order-status">定金</li>
+                        	<li class="status">已通过合同</li>
+                        	<li class="reject-reson">太丑</li>
+                        	<li class="operate color-blue">撤回</li>
+                        	<div class="clearfix"></div>
+                    	</ul>
+           	 		</div>
+           	 	</div>
+           	 	<div class="u-tabControlRow">
+                	<span>显示行数</span>
+                		<select>
+                  		    <option value="5" >5</option>
+                    		<option value="10"  selected="selected">10</option>
+                    		<option value="20" >20</option>
+                	</select>
+                	<span>1-10条/</span>
+                	<span>共10条</span>
+                	<button class="index_previous_page previous_page  disabled">上一页</button>
+                	<button class="index_next_page next_page  disabled">下一页</button>
+                	<span>前往</span>
+                	<input class="index_jump_page jump_page" type="text" />
+                	<span>页</span>
+            	</div>
+        	</div>
+        </section>
+	</div>
+</div>
+<link rel="stylesheet" href="/crm/css/table.css" />
+<link rel="stylesheet" href="/crm/css/form.css" />
+<link rel="stylesheet" href="/crm/css/divBlock.css" />
+<script src="/crm/js/contract_index.js"></script>
+<script>
+	var i = '<i class="fa fa-unsorted"></i>';
+	var arr = [[0,3,5,12],[[1,"通过时间",i],2,3,4,5],[[1,"驳回时间",i],3,5,11],[[1,"撤回时间",i],3,5],[[1,"作废时间",i],2,3,5],[[1,"提交审核时间",i],2,3,5,7,8,12],[[1,"成单时间",i],2,3,5,6,7,8,9],[[1,"状态变更时间",i],2,3,5,6,7,8,9,10]];
+	var contract_index_list_manage = new list_manage("crm_contract_index","table-contract",arr);
+</script>

@@ -5,6 +5,7 @@
 	margin-top: 20px;
 	margin-left: 4px;
 	overflow-x: auto;
+	font-size: 12px;
 }
 .table1{
 	width: 2096px;
@@ -15,6 +16,22 @@
 .table3{
 	width: 1000px;
 }
+/*导入记录的表单*/
+.table4{
+	width: 959px;
+}
+/*销售机会表单-all*/
+.table5{
+	width: 1096px;
+}
+/*销售机会表单-已成单*/
+.table6{
+	width: 1233px;
+}
+/*我的合同 列表*/
+.table-contract{
+	width: 1781px;
+} 
 .m-table ul{
 	border-bottom: 1px solid #eeeeee;
 }
