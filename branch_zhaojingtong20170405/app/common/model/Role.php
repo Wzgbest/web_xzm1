@@ -26,18 +26,38 @@ class Role extends Base
      */
     public function getAllRole()
     {
-        return $this->model->table($this->table)->field('id,role_name,rules')->select();
+        return $this->model->table($this->table)->alias('ro')
+            ->join(config('database.prefix').'role_rule rr','rr.role_id = ro.id','left')
+            ->group("ro.id")
+            ->field('ro.id,ro.role_name,GROUP_CONCAT( distinct rr.rule_id) as rules')
+            ->select();
     }
 
     /**
      * 根据角色id查询
-     * @param $role_id 角色id
+     * @param $role_id int 角色id
      * @return mixed
      * created by messhair
      */
     public function getRoleInfo($role_id)
     {
-        return $this->model->table($this->table)->where('id',$role_id)->field('id,role_name,rules')->find();
+        return $this->model->table($this->table)->alias('ro')
+            ->join(config('database.prefix').'role_rule rr','rr.role_id = ro.id','left')
+            ->where('ro.id',$role_id)
+            ->group("ro.id")
+            ->field('ro.id,ro.role_name,GROUP_CONCAT( distinct rr.rule_id) as rules')
+            ->find();
+    }
+
+    /**
+     * 根据职位id列表获取部门名称
+     * @param $role_ids array 职位id
+     * @return array|false|\PDOStatement|string|\think\Model
+     * created by blu10ph
+     */
+    public function getRoleName($role_ids)
+    {
+        return $this->model->table($this->table)->where('id',"in",$role_ids)->column("role_name","id");
     }
 
     /**
@@ -48,7 +68,7 @@ class Role extends Base
      */
     public function addRole($data)
     {
-        return $this->model->table($this->table)->insert($data);
+        return $this->model->table($this->table)->insertGetId($data);
     }
 
     /**

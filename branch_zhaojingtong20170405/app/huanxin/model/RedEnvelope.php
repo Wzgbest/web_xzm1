@@ -82,7 +82,8 @@ class RedEnvelope extends Base
         return $this->model->table($this->table)->alias('a')
             ->join(config('database.prefix').'employee b','a.took_user = b.id')
             ->field('a.redid,a.money,a.total_money,a.took_time,b.telephone,b.truename as took_user')
-            ->where('a.redid',$red_id)->where('a.is_token',1)->select();
+            ->where('a.redid',$red_id)->where('a.is_token',1)
+            ->select();
     }
 
     /**
@@ -93,6 +94,39 @@ class RedEnvelope extends Base
     public function getRedCount($red_id)
     {
         return $this->model->table($this->table)->where('redid',$red_id)->count('id');
+    }
+
+    /**
+     * 取出已被领取的红包
+     * @param $user
+     * @param $red_id
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public function fetchedRedEnvelope($user,$red_id)
+    {
+        $map["redid"] = $red_id;
+        $map["is_token"] = 0;
+        $data["is_token"] = 1;
+        $data["took_user"] = $user;
+        return $this->model->table($this->table)
+            ->where($map)
+            ->limit(1)
+            ->data($data)
+            ->update();
+    }
+
+    /**
+     * 红包数量
+     * @param $user
+     * @param $red_id
+     * @return int|string
+     */
+    public function getUserRedCount($user,$red_id)
+    {
+        $map["redid"] = $red_id;
+        $map["is_token"] = 1;
+        $map["took_user"] = $user;
+        return $this->model->table($this->table)->where($map)->count('id');
     }
 
     /**

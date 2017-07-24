@@ -1,0 +1,61 @@
+<div class="m-tableBox">
+    <div class="m-filterNav" style="margin-bottom: 20px;">
+        <form class="search_form" onsubmit="return false;">
+            <input type="date" name="start_time" /> --
+            <input type="date" name="end_time" style="margin-right: 10px;"/>
+            <input type="text" name="batch" placeholder="请输入批次"/>
+            <input type="text" name="operator" placeholder="请输入导入人"/>
+            <button class="u-btnSearch">查询</button>
+        </form>
+    </div>
+    <div class="m-table m-table2 table4">
+        <ul class="u-tabTitle">
+            <li>导入批次<i class="fa fa-caret-down"></i></li>
+            <li>导入时间<i class="fa fa-unsorted"></i></li>
+            <li>导入人</li>
+            <li>导入结果</li>
+            <li>成功<i class="fa fa-unsorted"></i></li>
+            <li>失败<i class="fa fa-unsorted"></i></li>
+            <li>操作</li>
+            <div class="clearfix"></div>
+        </ul>
+        {volist name="listdata" id="vo"}
+        <ul class="u-tabList">
+            <li>{$vo.batch}</li>
+            <li>{$vo.create_time|time_format}</li>
+            <li>{$vo.truename}</li>
+            <li>{$vo.import_result|getImportResultName}</li>
+            <li>{$vo.success_num}</li>
+            <li>{$vo.fail_num}</li>
+            <li class="u-tabOperation">
+                <input type="hidden" value="{$vo.id}"/>
+                {neq name="vo.import_result" value="2"}
+                <span class="fail_download">失败列表下载</span>
+                {/neq}
+            </li>
+            <div class="clearfix"></div>
+        </ul>
+        {/volist}
+    </div>
+    <div class="u-tabControlRow">
+        <span>显示行数</span>
+        <select>
+            <option value="5" {eq name="num" value="5"} selected="selected"{/eq}>5</option>
+            <option value="10" {eq name="num" value="10"} selected="selected"{/eq}>10</option>
+            <option value="20" {eq name="num" value="20"} selected="selected"{/eq}>20</option>
+        </select>
+        <span>{$start_num}-{$end_num}条/</span>
+        <span>共{$count}条</span>
+        <button class="previous_page {eq name='p' value='1'} disabled{/eq}">上一页</button>
+        <button class="next_page {eq name='p' value='$max_page'} disabled{/eq}">下一页</button>
+        <span>前往</span>
+        <input class="jump_page" type="text" />
+        <span>页</span>
+    </div>
+</div>
+<script src="/static/js/list_manage.js"></script>
+<script language="javascript">
+    var employee_import_list_list_manage = new list_manage("sys_employee_list","staff-managementfr","/systemsetting/employee_import/index",'{$p}','{$num}','{$max_page}','0'," .employee_import_record_list");
+</script>
+<script src="/systemsetting/js/employee_import.js"></script>
+<link rel="stylesheet" href="/systemsetting/css/employee_import.css" />

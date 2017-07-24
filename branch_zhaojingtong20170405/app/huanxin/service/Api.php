@@ -118,6 +118,15 @@ class Api
         return $result;
     }
 
+    public function deleteMultiHuanxinUser($users){
+        $result = [];
+        foreach ($users as $user){
+            $result[] = $this->deleteSingleHuanxinUser($user);
+            usleep(100000);
+        }
+        return $result;
+    }
+
     /**
      * 由【后台单个注册】的用户，添加环信好友
      * @param $owner string|array 用户tel或含tel的数组
@@ -244,6 +253,39 @@ class Api
 
     /**
      * 在环信中批量注册employee表中账号
+     * @param $corp_id string 公司代号
+     * @param $username string 手机号
+     * @param $password string 密码
+     * @param $nickname string 昵称
+     * @return array ['message'=>'','status'=>true/false]
+     */
+    public function regUser($corp_id, $username, $password="87654321",$nickname=""){
+        $info = ['status'=>false,'message'=>'注册环信用户失败'];
+        $user_info["username"] = $username;
+        $user_info["password"] = $password;
+        if($nickname){
+            $user_info["nickname"] = $nickname;
+        }
+        //注册环信
+        $user_json = json_encode($user_info, true);
+        $user_reg = $this->getMessage($this->user_uri, $user_json, $this->header, 'post');
+        $user_info = json_decode($user_reg, true);
+        if (isset($user_info['error'])) {
+            $info['message'] = $this->getError($user_info['error']);
+        } else {
+            $user_arr = $user_info['entities'];//注册成功的用户
+            //TODO 不应该在这里更新数据库,改为调用这个接口前开启数据库事务,先更新数据库,再请求这个接口,接口返回成功提交事务,失败回滚事务,保持一致性
+            $b = $this->updateImRegInfoToDataBase($corp_id,$user_arr);
+            if ($b >0) {
+                $info['status'] = true;
+                $info['message'] = '注册环信用户成功';
+            }
+        }
+        return $info;
+    }
+
+    /**
+     * 在环信中批量注册employee表中账号
      * @param $corp_id 公司代号
      * @param $users [
      * ['username'=>'13311112222','password'=>'123456','nickname'=>'张三'],
@@ -261,16 +303,7 @@ class Api
             $info['message'] = $this->getError($user_info['error']);
         } else {
             $user_arr = $user_info['entities'];//所有注册成功的用户
-//            更改employee表注册成功
-            $user_up = array();
-            foreach ($user_arr as $key => $val) {
-                foreach ($val as $k => $v) {
-                    if ($k == 'username') {
-                        $user_up[] .= $v;
-                    }
-                }
-            }
-            $b = $employee->saveIm($user_up);
+            $b = $this->updateImRegInfoToDataBase($corp_id,$user_arr);
             if ($b >0) {
                 $info['status'] = true;
                 $info['message'] = '批量注册环信用户成功';
@@ -280,6 +313,20 @@ class Api
             }
         }
         return $info;
+    }
+
+    private function updateImRegInfoToDataBase($corp_id,$user_arr){
+//            更改employee表注册成功
+        $user_up = array();
+        foreach ($user_arr as $key => $val) {
+            foreach ($val as $k => $v) {
+                if ($k == 'username') {
+                    $user_up[] .= $v;
+                }
+            }
+        }
+        $employee = new Employee($corp_id);
+        return $employee->saveIm($user_up);
     }
 
     /**

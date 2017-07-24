@@ -38,7 +38,7 @@ class Customer extends Base
         }
 
         //筛选
-        $map = $this->_getMapByFilter($filter,["belongs_to","resource_from","comm_status","take_type","tracer","guardian","add_man"]);
+        $map = $this->_getMapByFilter($filter,["grade","resource_from","comm_status","take_type","tracer","guardian","add_man"]);
         //$map['belongs_to'] = 1;
 
         //排序
@@ -496,8 +496,13 @@ class Customer extends Base
 
         //分页
         $offset = 0;
-        if($page){
-            $offset = ($page-1)*$num;
+        $all_flg = 0;
+        if($num==0&&$page==0){
+            $all_flg = 1;
+        }else{
+            if($page){
+                $offset = ($page-1)*$num;
+            }
         }
 
         //筛选
@@ -577,6 +582,7 @@ class Customer extends Base
                 $listOrder = [$order=>"all_guess_money"];
                 break;
         }
+        $subOrder["cr.id"] = "desc";//电话
         $subOrder["sc.id"] = "desc";//商机
         $subOrder["cn.id"] = "desc";//沟通状态
         $subOrder["ct.id"] = "desc";//客户跟踪
@@ -601,6 +607,7 @@ class Customer extends Base
             "cc.contact_name",
             "IFNULL(cc.phone_first,c.telephone) as phone_first",
             "ct.create_time as last_trace_time",
+            "cr.begin_time as last_call_time",
             "c.take_time",//领取时间
             "ca.due_time as contract_due_time",
             "cn.wait_alarm_time as remind_time",
@@ -626,6 +633,7 @@ class Customer extends Base
             "contact_name",
             "phone_first",
             "last_trace_time",
+            "last_call_time",
             "take_time",
             "contract_due_time",
             "remind_time",
@@ -649,6 +657,7 @@ class Customer extends Base
         $subQuery = $this->model->table($this->table)->alias('c')
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'call_record cr','cr.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")//sc.employee_id = c.handle_man
             ->join($this->dbprefix.'business scb','scb.id = sc.business_id',"LEFT")
             ->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
@@ -658,12 +667,16 @@ class Customer extends Base
             ->field($subField)
             ->buildSql();
         //var_exp($subQuery,'$subQuery',1);
-        $customerList = $this->model
+        $customerQuery = $this->model
             ->table($subQuery." l")
             ->group("id")
             ->order($listOrder)
-            ->having($having)
-            ->limit($offset,$num)
+            ->having($having);
+        if(!$all_flg){
+            $customerQuery = $customerQuery
+                ->limit($offset,$num);
+        }
+        $customerList = $customerQuery
             ->field($listField)
             ->select();
         //var_exp($customerList,'$customerList',1);
@@ -694,8 +707,9 @@ class Customer extends Base
         }
         return $customerList;
     }
+
     /**
-     * 获取我的客户
+     * 获取我的客户数量
      * @param $uid int 员工id
      * @param $filter array 客户筛选条件
      * @param $order string 排序
@@ -1260,16 +1274,26 @@ class Customer extends Base
             "ct_id",*/
             "(case when phone_correct = 0 and profile_correct = 0 then 8 when tend_to = 0 then 6 when is_wait = 0 then 5 when sale_status = 0 then 7 when ct_id = '' or ct_id is null then 2 when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >".$to_halt_day_max." then 4 when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >3 then 4 else 3 end ) as in_column",
         ];
+        $getCountField = [
+            "(case when in_column = 1 then 1 else 0 end) as `1`",
+            "(case when in_column = 2 then 1 else 0 end) as `2`",
+            "(case when in_column = 3 then 1 else 0 end) as `3`",
+            "(case when in_column = 4 then 1 else 0 end) as `4`",
+            "(case when in_column = 5 then 1 else 0 end) as `5`",
+            "(case when in_column = 6 then 1 else 0 end) as `6`",
+            "(case when in_column = 7 then 1 else 0 end) as `7`",
+            "(case when in_column = 8 then 1 else 0 end) as `8`",
+        ];
         $countField = [
-            "count(*) as column_all",
-            "(case when in_column = 1 then 1 else 0 end) as column_1",
-            "(case when in_column = 2 then 1 else 0 end) as column_2",
-            "(case when in_column = 3 then 1 else 0 end) as column_3",
-            "(case when in_column = 4 then 1 else 0 end) as column_4",
-            "(case when in_column = 5 then 1 else 0 end) as column_5",
-            "(case when in_column = 6 then 1 else 0 end) as column_6",
-            "(case when in_column = 7 then 1 else 0 end) as column_7",
-            "(case when in_column = 8 then 1 else 0 end) as column_8",
+            "count(*) as `0`",
+            "sum(`1`) as `1`",
+            "sum(`2`) as `2`",
+            "sum(`3`) as `3`",
+            "sum(`4`) as `4`",
+            "sum(`5`) as `5`",
+            "sum(`6`) as `6`",
+            "sum(`7`) as `7`",
+            "sum(`8`) as `8`",
         ];
         $subQuery = $this->model->table($this->table)->alias('c')
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
@@ -1287,8 +1311,13 @@ class Customer extends Base
             ->field($listField)
             ->buildSql();
         //var_exp($customerQuery,'$customerQuery',1);
+        $getListCount = $this->model
+            ->table($customerQuery." glc")
+            ->field($getCountField)
+            ->buildSql();
+        //var_exp($getListCount,'$listCount');
         $listCount = $this->model
-            ->table($customerQuery." lc")
+            ->table($getListCount." lc")
             ->field($countField)
             ->find();
         //var_exp($listCount,'$listCount',1);
@@ -1326,24 +1355,35 @@ class Customer extends Base
     }
 
     /**
-     * 获取所有客户信息
+     * 获取导出客户信息
      * @param $uid int|array 员工id
      * @param $scale int|array 客户类型
      * @param $self int 是否只查询自己的客户
+     * @param $ids int|array 客户id
      * @return false|\PDOStatement|string|\think\Collection
      * created by blu10ph
      */
-    public function getExportCustomers($uid,$scale,$self){
+    public function getExportCustomers($uid,$scale,$self,$ids){
+        $map = null;
         if($self){
             $map['c.handle_man'] = $uid;
-        }else{
-            $map['c.handle_man'] = ["in",[0,$uid]];
         }
-        $map['c.belongs_to'] = $scale;
+        if($ids){
+            $map['c.id'] = ["in",$ids];
+        }
+        if($scale){
+            $map['c.belongs_to'] = $scale;
+        }
         return $this->model->table($this->table)->alias('c')
             //->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id')
             ->where($map)
-            ->field("c.customer_name,c.telephone,c.address,CONCAT(c.lat,',',c.lng),c.field,c.website")
+            ->field([
+                "c.customer_name",
+                "c.telephone",
+                "c.address","
+                CONCAT(c.lat,',',c.lng) as location",
+                "c.field,c.website"
+            ])
             ->select();
     }
 

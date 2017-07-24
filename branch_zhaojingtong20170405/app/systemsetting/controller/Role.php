@@ -8,11 +8,189 @@ namespace app\systemsetting\controller;
 use app\common\controller\Initialize;
 use app\common\model\Employee;
 use app\common\model\Role as RoleModel;
+use app\common\model\Rule as RuleModel;
 use think\Request;
 use app\systemsetting\controller\Employee as EmployeeController;
+use app\common\model\Employee as EmployeeModel;
+use app\common\model\Structure as StructureModel;
+use app\common\model\RoleEmployee;
 
-class Role extends Initialize
-{
+class Role extends Initialize{
+    var $paginate_list_rows = 10;
+    public function _initialize(){
+        parent::_initialize();
+        $this->paginate_list_rows = config("paginate.list_rows");
+    }
+    /**
+     * 首页显示
+     * @return \think\response\View
+     * created by messhair
+     */
+    public function index()
+    {
+        $roleM = new RoleModel();
+        $roles = $roleM->getAllRole();
+        $this->assign('roles',$roles);
+        return view();
+    }
+
+    public function role_manage(){
+        /*$roles_str_arr = array_column($roles,"roles");
+        $role_ids = [];
+        foreach ($roles_str_arr as $roles_str){
+            $role_ids = array_merge($role_ids,explode(",",$roles_str));
+        }
+        $roleM = new RuleModel();
+        $roles = $roleM->getRulesColumnByIds($role_ids);
+        //var_exp($roles,'$roles',1);
+        foreach ($roles as &$role){
+            $roles_arr = [];
+            $roles_id_arr = explode(",",$role["roles"]);
+            foreach ($roles_id_arr as $roles_id){
+                $roles_arr[] = ["id"=>$roles_id,"role_name"=>$roles[$roles_id]["role_name"],"role_title"=>$roles[$roles_id]["role_title"]];
+            }
+            $role["roles"] = $roles_arr;
+        }
+        $this->assign('roles',$roles);*/
+        return view();
+    }
+
+    public function employee_list(){
+        $role_id = input("id",0,"int");
+        if(!$role_id){
+            $this->error("参数错误!");
+        }
+        $num = input('num',$this->paginate_list_rows,'int');
+        $p = input("p",1,"int");
+        $employees_count=0;
+        $start_num = ($p-1)*$num;
+        $end_num = $start_num+$num;
+        try{
+            $employeeM = new Employee();
+            $employee_list = $employeeM->getEmployeeByRole($role_id,$start_num,$num);
+            //var_exp($employee_list,'$employee_list',1);
+            $this->assign('listdata',$employee_list);
+            $employees_count = $employeeM->getEmployeeCountByRole($role_id);
+            //var_exp($employees_count,'$employees_count',1);
+            $this->assign("count",$employees_count);
+        }catch (\Exception $ex){
+            $this->error($ex->getMessage());
+        }
+        $max_page = ceil($employees_count/$num);
+        $userinfo = get_userinfo();
+        $truename = $userinfo["truename"];
+        $this->assign("p",$p);
+        $this->assign("num",$num);
+        $this->assign("id",$role_id);
+        $this->assign("max_page",$max_page);
+        $this->assign("truename",$truename);
+        $this->assign("start_num",$employees_count?$start_num+1:0);
+        $this->assign("end_num",$end_num<$employees_count?$end_num:$employees_count);
+        return view();
+    }
+    public function employee_show(){
+        $id = input('id',0,'int');
+        if(!$id){
+            $this->error("参数错误！");
+        }
+        $this->assign("id",$id);
+        $employeeM = new EmployeeModel($this->corp_id);
+        $employee = $employeeM->getEmployeeByUserid($id);
+        $employee["role_id"] = explode(",",$employee["role_id"]);
+        //var_exp($employee,'$employee',1);
+        $this->assign("employee",$employee);
+        $struM = new StructureModel();
+        $structs = $struM->getAllStructure();
+        $this->assign("structs",$structs);
+        $rolM = new RoleModel();
+        $roles = $rolM->getAllRole();
+        $this->assign("roles",$roles);
+        return view();
+    }
+
+    public function not_role_employee_list(){
+        $role_id = input("id",0,"int");
+        if(!$role_id){
+            $this->error("参数错误!");
+        }
+        $num = input('num',$this->paginate_list_rows,'int');
+        $p = input("p",1,"int");
+        $employees_count=0;
+        $start_num = ($p-1)*$num;
+        $end_num = $start_num+$num;
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
+        $filter = $this->_getCustomerFilter(["structure","tel_email"]);
+        //var_exp($filter,'$filter');
+        try{
+            $employeeM = new Employee();
+            $employee_list = $employeeM->getNotRoleEmployeeByRole($role_id,$start_num,$num,$filter,$order,$direction);
+            //var_exp($employee_list,'$employee_list',1);
+            $this->assign('listdata',$employee_list);
+            $employees_count = $employeeM->getNotRoleEmployeeCountByRole($role_id,$filter);
+            //var_exp($employees_count,'$employees_count',1);
+            $this->assign("count",$employees_count);
+            $struM = new StructureModel();
+            $structs = $struM->getAllStructure();
+            $this->assign("structs",$structs);
+        }catch (\Exception $ex){
+            $this->error($ex->getMessage());
+        }
+        $max_page = ceil($employees_count/$num);
+        $userinfo = get_userinfo();
+        $truename = $userinfo["truename"];
+        $this->assign("p",$p);
+        $this->assign("num",$num);
+        $this->assign("id",$role_id);
+        $this->assign("filter",$filter);
+        $this->assign("max_page",$max_page);
+        $this->assign("truename",$truename);
+        $this->assign("start_num",$employees_count?$start_num+1:0);
+        $this->assign("end_num",$end_num<$employees_count?$end_num:$employees_count);
+        return view();
+    }
+
+    protected function _getCustomerFilter($filter_column){
+        $filter = [];
+        if(in_array("structure", $filter_column)){//直属部门
+            $structure = input("structure",0,"int");
+            if($structure){
+                $filter["structure"] = $structure;
+            }
+        }
+        if(in_array("role", $filter_column)){//角色
+            $role = input("role",0,"int");
+            if($role){
+                $filter["role"] = $role;
+            }
+        }
+        if(in_array("on_duty", $filter_column)){//状态
+            $on_duty = input("on_duty",0,"int");
+            if($on_duty){
+                $filter["on_duty"] = $on_duty;
+            }
+        }
+        if(in_array("worknum", $filter_column)){//工号
+            $worknum = input("worknum");
+            if($worknum){
+                $filter["worknum"] = $worknum;
+            }
+        }
+        if(in_array("truename", $filter_column)){//姓名
+            $truename = input("truename");
+            if($truename){
+                $filter["truename"] = $truename;
+            }
+        }
+        if(in_array("tel_email", $filter_column)){//邮箱或电话或姓名
+            $truename = input("tel_email");
+            if($truename){
+                $filter["tel_email"] = $truename;
+            }
+        }
+        return $filter;
+    }
+
     /**
      * 角色列表
      * @return false|\PDOStatement|string|\think\Collection
@@ -28,22 +206,23 @@ class Role extends Initialize
     /**
      * 显示角色对应的权限
      * @param $role_id
+     * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
     public function showRules($role_id)
     {
         $rol = new RoleModel();
-        $rules = $rol->getRoleInfo($role_id);
-        $this->assign('role',$rules);
-        return view();
+        $roles = $rol->getRoleInfo($role_id);
+        return $roles;
     }
 
     /**
      * 添加角色
-     * @return array
+     * @param $role_name string 职位名称
+     * @return array created by messhair
      * created by messhair
      */
-    public function addRole()
+    public function addRole($role_name)
     {
         $rol = new RoleModel();
         $data = [
@@ -93,7 +272,7 @@ class Role extends Initialize
 
     /**
      * 修改角色---权限
-     * @param Request $request  ['role_id','rules']
+     * @param Request $request  ['role_id','roles']
      * @return array|\think\response\View
      * created by messhair
      */
@@ -102,13 +281,13 @@ class Role extends Initialize
         $input = $request->param();
         if ($request->isGet()) {
             $rolRulM = new RoleModel();
-            $rules = $rolRulM->getRoleInfo($input['role_id']);
-            $this->assign('rules',$rules);
+            $roles = $rolRulM->getRoleInfo($input['role_id']);
+            $this->assign('roles',$roles);
             return view();
         } elseif ($request->isPost()) {
             $rolRulM = new RoleModel();
             $data = [
-                'rules'=>$input['rules']
+                'roles'=>$input['roles']
             ];
             $b = $rolRulM->setRole($input['role_id'],$data);
             if ($b > 0) {
@@ -154,8 +333,23 @@ class Role extends Initialize
             $this->assign('data',$data);
             return view();
         } elseif ($request->isPost()) {
-            $data = ['role'=>$input['role_id']];
-            $b = $employeeM->setMultipleEmployeeInfoByIds($input['user_ids'],$data);
+            $role_id = $input['role_id'];
+            $user_ids = $input['user_ids'];
+            if(!$role_id && !$user_ids){
+                return [
+                    'status'=>false,
+                    'message'=>'参数错误'
+                ];
+            }
+            $user_ids_arr = explode(",",$user_ids);
+            $item_data = ['role_id'=>$role_id];
+            $roleEmployees = [];
+            foreach ($user_ids_arr as $user_id){
+                $item_data["user_id"] = $user_id;
+                $roleEmployees[] = $item_data;
+            }
+            $role_empM = new RoleEmployee($this->corp_id);
+            $b = $role_empM->createMultipleRoleEmployee($roleEmployees);
             if ($b > 0) {
                 return [
                     'status'=>true,
@@ -210,21 +404,18 @@ class Role extends Initialize
      */
     public function deleteRoleMember(Request $request)
     {
+        $result = ['status'=>0 ,'message'=>"删除角色成员失败！"];
         $input = $request->param();
-        $employeeM = new Employee();
-        $data = ['role'=>''];
-        $b = $employeeM->setSingleEmployeeInfobyId($input['user_id'], $data);
+        $role_empM = new RoleEmployee($this->corp_id);
+        $data = ['role'=>$input['role_id']];
+        $b = $role_empM->deleteMultipleRoleEmployee($input['user_id'], $data);
         if ($b > 0) {
-            return [
+            $result = [
                 'status'=>true,
                 'message'=>'删除角色成员成功'
             ];
-        } else {
-            return [
-                'status'=>false,
-                'message'=>'删除角色成员失败'
-            ];
         }
+        return $result;
     }
 
     /**

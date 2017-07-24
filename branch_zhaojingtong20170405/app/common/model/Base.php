@@ -13,6 +13,7 @@ class Base
     public $link;
     protected $corp_id;
     public $table;
+    protected $dbprefix;
 
     /**
      * 数据库分库访问基类
@@ -29,5 +30,6 @@ class Base
         config('db_config1.database',config('db_common_prefix').$this->corp_id);
         $this->model = Db::connect(config('db_config1'));
         $this->link =$this->model->getConnection();
+        $this->dbprefix = config('database.prefix');
     }
 }

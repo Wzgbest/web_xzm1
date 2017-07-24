@@ -12,22 +12,24 @@
 return [
     // 数据库类型
     'type'            => 'mysql',
-    // 服务器地址
-//    'hostname'        => 'localhost',
-    'hostname'        => '192.168.102.200',
     // 数据库名
     'database'        => 'guguocrm',
-    // 用户名
-    //'username'        => 'root',
-    'username'        => 'zxwz',
-    //'password'        => 'root',
-    'password'        => '123456',
-//    'hostport'        => '3306',
-    'hostport'        => '3307',
+    // 服务器地址
+//    'hostname'        => '192.168.102.200',
+//    // 用户名
+//    'username'        => 'zxwz',
+//    'password'        => '123456',
+//    'hostport'        => '3307',
+    'hostname'        => 'localhost',
+    'username'        => 'root',
+    'password'        => '',
+    'hostport'        => '3306',
     // 连接dsn
     'dsn'             => '',
     // 数据库连接参数
-    'params'          => ['PDO::MYSQL_ATTR_INIT_COMMAND' =>'set names utf8;'],
+    'params'          => [
+    	PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
+    ],
     // 数据库编码默认采用utf8
     'charset'         => 'utf8',
     // 数据库表前缀

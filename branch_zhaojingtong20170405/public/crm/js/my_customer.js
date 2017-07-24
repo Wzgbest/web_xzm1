@@ -17,7 +17,14 @@ $("#frames #myclietsfr .crm_my_customer .my_customer .u-tabList .u-tabOperation 
 	});
 });
 
-var my_customer_nav_base = "#frames #myclietsfr .crm_my_customer .my_customer .m-secNav";
+var my_customer_base = "#frames #myclietsfr .crm_my_customer";
+var my_customer_nav_base = my_customer_base+" .my_customer .m-secNav";
+$(my_customer_base+" .customer_import_record .m-firNav .current").click(function(){
+	$(my_customer_base+" .customer_import_record").addClass("hide");
+});
+$(my_customer_nav_base+" .customer_import").click(function(){
+	my_customer_import.load_list();
+});
 my_customer_list_manage.listenSelect("exportCustomer");
 $(my_customer_nav_base+" .exportCustomer").click(function(){
 	var ids = my_customer_list_manage.getAllSelectVal();
@@ -37,7 +44,7 @@ $(my_customer_nav_base+" .exportCustomer").click(function(){
 			}
 		},
 		error: function() {
-			alert("导出短信时发生错误!");
+			alert("导出客户时发生错误!");
 		}
 	});
 });
