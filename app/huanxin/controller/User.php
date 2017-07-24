@@ -320,30 +320,20 @@ class User extends Controller{
      * @param paypassword
      * @return array|string
      */
-    public function checkPayPassword()
-    {
+    public function checkPayPassword(){
         $userid = input('param.userid');
-        $password = input('param.paypassword');
         $access_token = input('param.access_token');
         $chk_info = $this->checkUserAccess($userid, $access_token);
+        $info = ['status'=>0,'info'=>'用户支付密码'];
         if (!$chk_info['status']) {
             return json($chk_info);
         }
-
-        $info['status'] = false;
-        if (empty($chk_info['userinfo']['pay_password'])) {
-            $info['message'] = '用户支付密码未设置';
-            $info['errnum'] = 1;
-            return json($info);
+        $info['data'] = 0;
+        if (!empty($chk_info['userinfo']['pay_password'])) {
+            $info['data'] = 1;
         }
-        if ($chk_info['userinfo']['pay_password'] !=md5($password)) {
-            $info['message'] = '用户支付密码错误';
-            $info['errnum'] = 2;
-            return json($info);
-        }
-        $info['status'] = true;
-        $info['message'] = '验证用户支付密码成功';
-        $info['errnum'] = 0;
+        $info['status'] = 1;
+        $info['info'] = '用户支付密码'.($info['data']?"已":"未")."设置!";
         return json($info);
     }
 
