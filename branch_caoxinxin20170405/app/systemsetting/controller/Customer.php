@@ -17,8 +17,7 @@ class Customer extends Initialize{
     protected $_customerSettingModel = null;
     public function __construct(){
         parent::__construct();
-        $corp_id = get_corpid();
-        $this->_customerSettingModel = new CustomerSetting($corp_id);
+        $this->_customerSettingModel = new CustomerSetting($this->corp_id);
     }
     public function _initialize(){
         parent::_initialize();
@@ -31,6 +30,7 @@ class Customer extends Initialize{
                 $map = "find_in_set('$structure', set_to_structure)";
             }
             $customerSettings = $this->_customerSettingModel->getAllCustomerSetting($map);
+            $this->assign("listdata",$customerSettings);
             $structure_ids = [];
             $structure_ids_arr = array_column($customerSettings, 'set_to_structure');
             foreach ($structure_ids_arr as $id_str){
@@ -43,7 +43,6 @@ class Customer extends Initialize{
             $structure_ids = array_unique($structure_ids);
             $structure = new Structure($this->corp_id);
             $structureName = $structure->getStructureName($structure_ids);
-            $this->assign("listdata",$customerSettings);
             $this->assign("structure_name",$structureName);
         }catch (\Exception $ex){
             $this->error($ex->getMessage());

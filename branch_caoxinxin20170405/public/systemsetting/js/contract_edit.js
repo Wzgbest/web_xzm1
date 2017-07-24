@@ -61,10 +61,13 @@ function update_contract_setting_apply(index,type,value){
 function del_contract_setting_apply(index){
     //console.log(contract_setting_apply_arr);
     if(index>0){
+        contract_setting_apply_arr.splice(index-1,1);
+        /*
         for(var i=index;i<contract_setting_apply_arr.length;i++){
             contract_setting_apply_arr[i-1] = contract_setting_apply_arr[i];
         }
         contract_setting_apply_arr.pop();
+        */
     }
     //console.log(contract_setting_apply_arr);
 }
@@ -91,16 +94,17 @@ function get_contract_setting_apply_html(){
             add_html += ' value="'+contract_setting_role.id+'">'+contract_setting_role.role_name+'</option>';
         }
         add_html += '</select>';
-        if(contract_setting_apply_max>(i+1)){
-            add_html += '<img src="/systemsetting/images/plus.jpg" class="img2 add" />';
-        }
         add_html += ' <input type="checkbox" class="create_contract_num create_contract_num_'+(i+1)+'" name="create_contract_num_'+(i+1)+'"';
         if(contract_setting_apply.create_contract_num==1){
             add_html += checked_html;
         }
         add_html += ' value="1"/>';
-        add_html += '<span class="contract_num_tip">填写发票号</span>';
-        add_html += '<img src="/systemsetting/images/delelet.png" class="img2 del" /></p></div>';
+        add_html += '<span class="contract_num_tip">生成合同号</span>';
+        add_html += '<img src="/systemsetting/images/delelet.png" class="img2 del" />';
+        if(contract_setting_apply_max>(i+1)){
+            add_html += '<img src="/systemsetting/images/plus.jpg" class="img2 add" />';
+        }
+        add_html += '</p></div>';
         html+=add_html;
     }
     //console.log(html);
@@ -109,8 +113,8 @@ function get_contract_setting_apply_html(){
 
 function update_contract_setting_apply_html(){
     var html = get_contract_setting_apply_html();
-    $(".systemsetting_content_edit .content .apply_role_other").remove();
-    $(".systemsetting_content_edit .content .apply_role_first").after(html);
+    $(".systemsetting_contract_edit .content .apply_role_other").remove();
+    $(".systemsetting_contract_edit .content .apply_role_first").after(html);
 }
 
 function get_contract_setting_apply_index(target){
@@ -118,20 +122,20 @@ function get_contract_setting_apply_index(target){
     return index;
 }
 
-$(".systemsetting_content_edit .content").on("click",".apply_role .add",function(){
+$(".systemsetting_contract_edit .content").on("click",".apply_role .add",function(){
     add_contract_setting_apply();
     update_contract_setting_apply_html();
 });
-$(".systemsetting_content_edit .content").on("change",".apply_role .apply",function(){
+$(".systemsetting_contract_edit .content").on("change",".apply_role .apply",function(){
     var index = get_contract_setting_apply_index(this);
     //console.log(index);
     var value = $(this).val();
     update_contract_setting_apply(index,1,value);
     update_contract_setting_apply_html();
 });
-$(".systemsetting_content_edit .content").on("click",".apply_role .create_contract_num",function(){
+$(".systemsetting_contract_edit .content").on("click",".apply_role .create_contract_num",function(){
     var index = get_contract_setting_apply_index(this);
-    var target_check = ".systemsetting_content_edit .content .apply_role .create_contract_num_"+index;
+    var target_check = ".systemsetting_contract_edit .content .apply_role .create_contract_num_"+index;
     //console.log($(target_check).attr("checked")!="checked");
     var value = $(target_check).attr("checked")!="checked";
     if(value){
@@ -143,7 +147,7 @@ $(".systemsetting_content_edit .content").on("click",".apply_role .create_contra
     update_contract_setting_apply(index,2,value?1:0);
     update_contract_setting_apply_html();
 });
-$(".systemsetting_content_edit .content").on("click",".apply_role .del",function(){
+$(".systemsetting_contract_edit .content").on("click",".apply_role .del",function(){
     var index = get_contract_setting_apply_index(this);
     del_contract_setting_apply(index);
     update_contract_setting_apply_html();

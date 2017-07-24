@@ -1,4 +1,4 @@
-.systemsetting_content_edit {
+.systemsetting_contract_edit {
     margin: 0;
     padding: 0;
     font-size: 12px;
@@ -7,19 +7,19 @@
     height: 770px;
     background-color: #f5f7fa;
 }
-.systemsetting_content_edit
+.systemsetting_contract_edit
 ul,
 li,
 ol {
     list-style: none
 }
 
-.systemsetting_content_edit a {
+.systemsetting_contract_edit a {
     color: #333;
     text-decoration: none;
 }
 
-.systemsetting_content_edit .top {
+.systemsetting_contract_edit .top {
     /*width: 1120px;*/
     width: 100%;
     height: 41px;
@@ -27,7 +27,7 @@ ol {
     margin: 0 10px;
 }
 
-.systemsetting_content_edit .top {
+.systemsetting_contract_edit .top {
     /*width: 1120px;*/
     width: 100%;
     height: 40px;
@@ -35,14 +35,14 @@ ol {
     margin: 0 10px;
 }
 
-.systemsetting_content_edit ul.firNav {
+.systemsetting_contract_edit ul.firNav {
     height: 40px;
     margin-left: 1px;
     /*padding: 10px 0;*/
     box-shadow: -1px 2px #ebedf0;
 }
 
-.systemsetting_content_edit ul.firNav li {
+.systemsetting_contract_edit ul.firNav li {
     float: left;
     color: #b2b2b2;
     height: 20px;
@@ -53,27 +53,27 @@ ol {
     /*border-right:2px solid #b2b2b2 ;*/
 }
 
-.systemsetting_content_edit ul.firNav li:hover {
+.systemsetting_contract_edit ul.firNav li:hover {
     cursor: pointer;
 }
 
-.systemsetting_content_edit ul.firNav li div {
+.systemsetting_contract_edit ul.firNav li div {
     line-height: 20px;
     padding: 0 5px;
     font-size: 12px;
     /*border-right:2px solid #b2b2b2 ;*/
 }
 
-.systemsetting_content_edit ul.firNav li:last-child div {
+.systemsetting_contract_edit ul.firNav li:last-child div {
     border: none;
 }
 
-.systemsetting_content_edit ul.firNav li.current {
+.systemsetting_contract_edit ul.firNav li.current {
     color: #333333;
     border-bottom: 1px solid #42a5f5;
 }
 
-.systemsetting_content_edit .top ul i {
+.systemsetting_contract_edit .top ul i {
     height: 20px;
     display: inline-block;
     padding-left: 3px;
@@ -83,7 +83,7 @@ ol {
     vertical-align: middle;
 }
 
-.systemsetting_content_edit .top ul span {
+.systemsetting_contract_edit .top ul span {
     display: inline-block;
     height: 20px;
     vertical-align: middle;
@@ -93,7 +93,7 @@ ol {
     color: #999999;
 }
 
-.systemsetting_content_edit .content {
+.systemsetting_contract_edit .content {
     /*width: 1090px;*/
     width: 100%;
     height: 812px;
@@ -105,12 +105,12 @@ ol {
     padding-left: 30px;
 }
 
-.systemsetting_content_edit .content div {
+.systemsetting_contract_edit .content div {
     width: 496px;
     float: left;
 }
 
-.systemsetting_content_edit .content div span {
+.systemsetting_contract_edit .content div span {
     width: 126px;
     height: 36px;
     display: inline-block;
@@ -119,14 +119,14 @@ ol {
     font-size: 14px;
 }
 
-.systemsetting_content_edit .content div .img1 {
+.systemsetting_contract_edit .content div .img1 {
     width: 2px;
     height: 20px;
     vertical-align: middle;
     margin-left: 70px;
 }
 
-.systemsetting_content_edit .content .sp1 {
+.systemsetting_contract_edit .content .sp1 {
     font-size: 16px;
     font-weight: bold;
     text-align: left;
@@ -135,7 +135,7 @@ ol {
     margin: 0px;
 }
 
-.systemsetting_content_edit .content select {
+.systemsetting_contract_edit .content select {
     vertical-align: middle;
     width: 200px;
     padding-left: 15px;
@@ -143,7 +143,7 @@ ol {
     margin-left: 18px;
 }
 
-.systemsetting_content_edit .content div input {
+.systemsetting_contract_edit .content div input {
     width: 221px;
     padding-left: 15px;
     padding-right: 15px;
@@ -151,18 +151,18 @@ ol {
     margin-left: 18px;
 }
 
-.systemsetting_content_edit .content p {
+.systemsetting_contract_edit .content p {
     margin-bottom: 14px;
 }
 
-.systemsetting_content_edit .content .ipt1 {
+.systemsetting_contract_edit .content .ipt1 {
     width: 85px;
     padding-left: 15px;
     padding-right: 15px;
     height: 36px;
 }
 
-.systemsetting_content_edit .content .ipt2 {
+.systemsetting_contract_edit .content .ipt2 {
     width: 82px;
     padding-left: 15px;
     padding-right: 15px;
@@ -170,19 +170,19 @@ ol {
     margin-left: 5px;
 }
 
-.systemsetting_content_edit .content p .img2 {
+.systemsetting_contract_edit .content p .img2 {
     vertical-align: middle;
     margin-left: 5px;
 }
 
-.systemsetting_content_edit .content .p1 {
+.systemsetting_contract_edit .content .p1 {
     font-size: 12px;
     color: #b3b3b3;
     margin-left: 146px;
     margin-bottom: 25px;
 }
 
-.systemsetting_content_edit .content .sp2 {
+.systemsetting_contract_edit .content .sp2 {
     font-size: 12px;
     color: #b3b3b3;
     width: 240px;
@@ -190,15 +190,15 @@ ol {
     text-align: left;
     vertical-align: bottom;
 }
-.systemsetting_content_edit .content .ps1 {
+.systemsetting_contract_edit .content .ps1 {
     margin-top: 64px;
 }
 
-.systemsetting_content_edit .content .ps2 {
+.systemsetting_contract_edit .content .ps2 {
     margin-top: 157px;
 }
 
-.systemsetting_content_edit .content .p5 {
+.systemsetting_contract_edit .content .p5 {
     clear: both;
     width: 500px;
     height: 42px;
@@ -207,7 +207,7 @@ ol {
     margin-right: auto;
 }
 
-.systemsetting_content_edit .content .p5 input {
+.systemsetting_contract_edit .content .p5 input {
     width: 100px;
     height: 41px;
     border-radius: 10px;
@@ -217,38 +217,38 @@ ol {
     border: 1px solid #dcdcdc;
 }
 
-.systemsetting_content_edit .content .p5 button {
+.systemsetting_contract_edit .content .p5 button {
     width: 100px;
     height: 41px;
     border-radius: 10px;
     background-color: #fff;
     border: 1px solid #dcdcdc;
 }
-.systemsetting_content_edit .content .full {
+.systemsetting_contract_edit .content .full {
     width: 100%;
 }
-.systemsetting_content_edit .content .apply_role .create_contract_num {
+.systemsetting_contract_edit .content .apply_role .create_contract_num {
     display: inline-block;
     width: 16px;
     padding:0;
     height: 16px;
     margin: 0;
 }
-.systemsetting_content_edit .content .apply_role .contract_num_tip {
+.systemsetting_contract_edit .content .apply_role .contract_num_tip {
     width: 70px;
 }
-.systemsetting_content_edit .content .apply_role .add{
+.systemsetting_contract_edit .content .apply_role .add{
     display: none;
 }
-.systemsetting_content_edit .content .apply_role:nth-last-child(3) .add{
+.systemsetting_contract_edit .content .apply_role:nth-last-child(3) .add{
     display: inline-block;
 }
-.systemsetting_content_edit .content .apply_role .del{
+.systemsetting_contract_edit .content .apply_role .del{
     display: none;
 }
-.systemsetting_content_edit .content .apply_role:hover .del{
+.systemsetting_contract_edit .content .apply_role:hover .del{
     display: inline-block;
 }
-.systemsetting_content_edit .content .apply_role:nth-child(2) .del{
+.systemsetting_contract_edit .content .apply_role:nth-child(2) .del{
     display: inline-block;
 }

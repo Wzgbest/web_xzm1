@@ -1,1 +1,145 @@
-发票设置功能开发中...
+<div class="systemsetting_bill_edit">
+    <div class="top">
+        <ul class="firNav">
+            <li class="current" onclick="loadPage('{:url('index')}','bill-settingfr');">
+                <div>发票设置</div>
+            </li>
+            <i class="fa fa-angle-right fa-2x"></i>
+            <span class="span-info">
+                {gt name="billSetting.id" value="0"}
+                    {$billSetting.bill_type}
+                {else/}
+                    添加合同设置
+                {/gt}
+            </span>
+        </ul>
+    </div>
+    <div class="content">
+        <form name="form_bill_setting" class="form_bill_setting" onsubmit="return false;" method="post">
+            <p>
+                <span>发票类型</span>
+                <input type="text" placeholder="百度类" name="bill_type" value="{$billSetting.bill_type}" />
+            </p>
+            <p class="p">
+                <span>是否需要公司税号</span>
+                <input type="radio" name="need_tax_id" {eq name='billSetting.need_tax_id' value='1'} checked="checked"{/eq} value="1" />是
+                <input type="radio" name="need_tax_id" {eq name='billSetting.need_tax_id' value='0'} checked="checked"{/eq} value="0" class="ipt" />否
+            </p>
+            <p class="later">
+                <span>产品类型</span>
+                {volist name="billSetting.product_type_arr" id="vo"}
+                    {notempty name="vo"}
+                        <span class="redact">
+                                <span class="item_name">{$vo}</span>
+                                <img class="compile" src="/systemsetting/images/compile.png" />
+                                <img class="del" src="/systemsetting/images/del.png" />
+                        </span>
+                    {/notempty}
+                {/volist}
+                <img src="/systemsetting/images/plus.jpg" class="img2 add" />
+                <input type="hidden" name="product_type" value="{$billSetting.product_type}"/>
+            </p>
+            <p class="later">
+                <span>打款银行类型</span>
+                {volist name="billSetting.bank_type_arr" id="vo"}
+                    {notempty name="vo"}
+                        <span class="redact">
+                                <span class="item_name">{$vo}</span>
+                                <img class="compile" src="/systemsetting/images/compile.png" />
+                                <img class="del" src="/systemsetting/images/del.png" />
+                        </span>
+                    {/notempty}
+                {/volist}
+                <img src="/systemsetting/images/plus.jpg" class="img2 add" />
+                <input type="hidden" name="bank_type" value="{$billSetting.bank_type}"/>
+            </p>
+            <p>
+                <span>最大发票额度</span>
+                <input type="text" placeholder="请输入金额" name="max_bill" value="{$billSetting.max_bill}" />
+                <span class="sp">元</span>
+            </p>
+            <p class="p1">申请发票额度超过最大额度时，申请自动拆分为两条申请</p>
+            <div class="dv1">
+                <p>
+                    <img src="/systemsetting/images/line_purple.jpg" class="img1" />
+                    <span class="sp1">发票审核</span>
+
+                </p>
+            </div>
+            <div class="dv2 handle_role_split"><p><span></span></p></div>
+            <div class="dv1 handle_role handle_role_first" handle_num="1">
+                <p>
+                    <span>发票审核角色1</span>
+                    <select class="handle" name="handle_1">
+                        {volist name="roles" id="vo"}
+                        <option {eq name='billSetting.handle_1' value='$vo.id'} selected="selected"{/eq} value="{$vo.id}">{$vo.role_name}</option>
+                        {/volist}
+                    </select>
+                    <input type="checkbox" class="create_bill_num create_bill_num_1" name="create_bill_num_1" {eq name='billSetting.create_bill_num_1' value='1'} checked="checked"{/eq} value="1"/><span class="bill_num_tip">填写发票号</span>
+                    <img src="/systemsetting/images/plus.jpg" class="img2 add" />
+                </p>
+            </div>
+            <div class="dv1 full">
+                <p class="p1">每一次代表一次审批流程，当前审核需要三个审批环节</p>
+            </div>
+            <p class="p5">
+                <input class="bill_setting_submit" type="submit" value="保存" />
+                <button onclick="loadPage('{:url('index')}','bill-settingfr');">取消</button>
+            </p>
+        </form>
+    </div>
+</div>
+<link rel="stylesheet" href="/systemsetting/css/bill_edit.css" />
+<script language="JavaScript">
+    var bill_setting_roles = '{$roles_json}';
+    var bill_setting_handles = '{$handles}';
+    var bill_setting_handle_max = '{$handle_max}';
+    $('.systemsetting_bill_edit .bill_setting_submit').click(function() {
+        var bill_item_list_panel = '.systemsetting_bill_edit .content .later';
+        var edit_item = $(bill_item_list_panel+" .edit_item_text");
+        if(edit_item.length>0){
+            edit_item.focus();
+            return;
+        }
+        var add_item = $(bill_item_list_panel+" .add_item");
+        if(add_item.length>0){
+            //console.log(add_item.children(".add_item_text"));
+            add_item.children(".add_item_text").focus();
+            return;
+        }
+        var bill_type = $(bill_item_list_panel+" input[name=bill_type]").val();
+        if(bill_type==""){
+            alert("未填写发票类型!");
+            return;
+        }
+        var product_type = $(bill_item_list_panel+" input[name=product_type]").val();
+        if(product_type==""){
+            alert("未填写产品类型!");
+            return;
+        }
+        var bank_type = $(bill_item_list_panel+" input[name=bank_type]").val();
+        if(bank_type==""){
+            alert("未填写打款银行类型!");
+            return;
+        }
+        var form_bill_setting_data = $(".form_bill_setting").serialize();
+        console.log(form_bill_setting_data);
+        $.ajax({
+            url: '{$url}',
+            type: 'post',
+            data: form_bill_setting_data,
+            dataType: 'json',
+            success: function(data) {
+                //console.log(data);
+                alert(data.info);
+                if(data.status) {
+                    loadPage("/systemsetting/bill/index","bill-settingfr");
+                }
+            },
+            error: function() {
+
+            }
+        });
+    });
+</script>
+<script src="/systemsetting/js/bill_edit.js"></script>

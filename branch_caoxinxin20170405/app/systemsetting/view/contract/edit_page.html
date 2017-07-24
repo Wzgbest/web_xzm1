@@ -1,4 +1,4 @@
-<div class="systemsetting_content_edit">
+<div class="systemsetting_contract_edit">
     <div class="top">
         <ul class="firNav">
             <li class="current" onclick="loadPage('{:url('index')}','contract-settingfr');">
@@ -10,7 +10,8 @@
                     {$contractSetting.contract_name}
                 {else/}
                     添加合同设置
-                {/gt}</span>
+                {/gt}
+            </span>
         </ul>
     </div>
     <div class="content">
@@ -55,8 +56,8 @@
                             <option {eq name='contractSetting.apply_1' value='$vo.id'} selected="selected"{/eq} value="{$vo.id}">{$vo.role_name}</option>
                         {/volist}
                     </select>
+                    <input type="checkbox" class="create_contract_num create_contract_num_1" name="create_contract_num_1" {eq name='contractSetting.create_contract_num_1' value='1'} checked="checked"{/eq} value="1"/><span class="contract_num_tip">生成合同号</span>
                     <img src="/systemsetting/images/plus.jpg" class="img2 add" />
-                    <input type="checkbox" class="create_contract_num create_contract_num_1" name="create_contract_num_1" {eq name='contractSetting.create_contract_num_1' value='1'} checked="checked"{/eq} value="1"/><span class="contract_num_tip">填写发票号</span>
                 </p>
             </div>
             <div class="full">
@@ -74,7 +75,7 @@
     var contract_setting_roles = '{$roles_json}';
     var contract_setting_applys = '{$applys}';
     var contract_setting_apply_max = '{$apply_max}';
-    $('.systemsetting_content_edit .contract_setting_submit').click(function() {
+    $('.systemsetting_contract_edit .contract_setting_submit').click(function() {
         console.log($(".form_contract_setting").serialize());
         $.ajax({
             url: '{$url}',
