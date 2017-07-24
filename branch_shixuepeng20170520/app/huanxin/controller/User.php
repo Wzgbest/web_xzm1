@@ -77,6 +77,9 @@ class User extends Controller{
         $structureModel = new Structure($chk_info['corp_id']);
         $structure = $structureModel->getAllStructure();
         $friendsInfo = $this->employM->getAllUsers();
+        foreach($friendsInfo as &$friend_info){
+            $friend_info["struct"] = explode(",",$friend_info["struct_id"]);
+        }
         $info['message'] = 'SUCCESS';
         $info['status'] = true;
         $info['friendsInfo'] = $friendsInfo;
@@ -161,7 +164,7 @@ class User extends Controller{
             $info['errnum'] = 3;
             return json($info);
         }
-        $ini_code = session('reset_code' . $userid);
+        $ini_code = get_reset_code($userid);
         if ($ini_code != $code) {
             $info['message'] = '手机验证码不正确';
             $info['errnum'] = 4;
@@ -181,7 +184,7 @@ class User extends Controller{
             $info['status'] = true;
             $info['message'] = '修改成功，请重新登陆';
             $info['errnum'] = 0;
-            session('reset_code'.$userid, null);
+            set_reset_code($userid,null);
         } else {
             $info['message'] = '修改环信密码失败，联系管理员';
             $info['errnum'] = 5;
@@ -287,19 +290,18 @@ class User extends Controller{
             $info['errnum'] = 4;
             return json($info);
         }
-        $ini_code = session('reset_code' . $userid);
+        $ini_code = get_reset_code($userid);;
         if ($ini_code != $code) {
             $info['message'] = '手机验证码不正确';
             $info['errnum'] = 5;
             return json($info);
         }
         $data = ['pay_password'=>md5($newpass)];
-        $corp_id = get_corpid($userid);
         $employee = new Employee($corp_id);
         $r_userid = $employee->getEmployeeByTel($userid);
         $r = $employee->setEmployeeSingleInfo($userid,$data);
         if ($r >= 0) {
-            session('reset_code'.$userid,null);
+            set_reset_code($userid,null);
             write_log($r_userid['id'],1,'用户修改支付密码',$corp_id);
             $info['status'] = true;
             $info['errnum'] = 0;
@@ -360,7 +362,11 @@ class User extends Controller{
             return json($chk_info);
         }
 
-        $params = json_encode(['userid'=>$chk_info['userinfo']['id'],'corp_id'=>$chk_info['corp_id']],true);
+        $params = json_encode([
+            'userid'=>$chk_info['userinfo']['id'],
+            'corp_id'=>$chk_info['corp_id'],
+            "red_data"=>[]
+        ],true);
         $b = \think\Hook::listen('check_over_time_red',$params);
         if (!$b[0]) {
             return json(['status'=>false,'errnum'=>1,'message'=>'账户余额查询请求失败，联系管理员']);
@@ -369,6 +375,38 @@ class User extends Controller{
         $left_money = $res['left_money'];
         $left_money = number_format($left_money/100, 2, '.', '');
         return json(['status'=>true,'message'=>'SUCCESS','errnum'=>0,'left_money'=>$left_money]);
+    }
+
+    /**
+     * 查询交易记录
+     * @param userid
+     * @param access_token
+     * @return array|string
+     */
+    public function showMoneyBill()
+    {
+        $userid = input('param.userid');
+        $access_token = input('param.access_token');
+        $chk_info = $this->checkUserAccess($userid, $access_token);
+        if (!$chk_info['status']) {
+            return json($chk_info);
+        }
+
+        $params = json_encode([
+            'userid'=>$chk_info['userinfo']['id'],
+            'corp_id'=>$chk_info['corp_id'],
+            "red_data"=>[]
+        ],true);
+        $b = \think\Hook::listen('check_over_time_red',$params);
+        if (!$b[0]) {
+            return json(['status'=>0,'info'=>'账户交易查询请求失败，联系管理员']);
+        }
+        $last_id = input('last_id',0,"int");
+        $num = input('mun',10,"int");
+        $corp_id = get_corpid($userid);
+        $takeCashM = new TakeCashModel($corp_id);
+        $bill_list = $takeCashM->getOrderList($chk_info['userinfo']['id'],10,$last_id);
+        return json(['status'=>1,'info'=>'账户交易查询成功!','data'=>$bill_list]);
     }
 
     /**

@@ -1,4 +1,4 @@
-.sys_employee_list .employee_info {
+.employee_info {
 	margin:0;padding:0;
 	font-size:12px;
 	font-family:"微软雅黑";
@@ -7,13 +7,13 @@
 	height: 100%;
 	background-color: #f5f7fa;
 }
-.sys_employee_list .employee_info ul,li,ol{list-style:none}
-.sys_employee_list .employee_info a{
+.employee_info ul,li,ol{list-style:none}
+.employee_info a{
 	color:#333;
 	text-decoration:none;
 }
 
-.sys_employee_list .employee_info #top{
+.employee_info #top{
 	/*width: 1120px;*/
 	width: 100%;
 	height: 41px;
@@ -21,7 +21,7 @@
 	margin: 0 10px;
 }
 
-.sys_employee_list .employee_info #top {
+.employee_info #top {
 	/*width: 1120px;*/
 	width: 100%;
 	height: 40px;
@@ -30,13 +30,13 @@
 }
 
 
-.sys_employee_list .employee_info ul.firNav{
+.employee_info ul.firNav{
 	height: 40px;
 	margin-left: 1px;
 	/*padding: 10px 0;*/
 	box-shadow: -1px 2px #ebedf0;
 }
-.sys_employee_list .employee_info ul.firNav li{
+.employee_info ul.firNav li{
 	float: left;
 	color: #b2b2b2;
 	height: 20px;
@@ -46,23 +46,23 @@
 	/*padding: 0 10px;*/
 	/*border-right:2px solid #b2b2b2 ;*/
 }
-.sys_employee_list .employee_info ul.firNav li:hover{
+.employee_info ul.firNav li:hover{
 	cursor: pointer;
 }
-.sys_employee_list .employee_info ul.firNav li div{
+.employee_info ul.firNav li div{
 	line-height: 20px;
 	padding: 0 5px;
 	font-size: 12px;
 	/*border-right:2px solid #b2b2b2 ;*/
 }
-.sys_employee_list .employee_info ul.firNav li:last-child div{
+.employee_info ul.firNav li:last-child div{
 	border: none;
 }
-.sys_employee_list .employee_info ul.firNav li.current{
+.employee_info ul.firNav li.current{
 	color: #333333;
 	border-bottom: 1px solid #42a5f5;
 }
-.sys_employee_list .employee_info #top ul i{
+.employee_info #top ul i{
 	height: 20px;
 	display: inline-block;
 	padding-left: 3px;
@@ -71,7 +71,7 @@
 	color: #999999;
 	vertical-align: middle;
 }
-.sys_employee_list .employee_info #top ul span{
+.employee_info #top ul span{
 	display: inline-block;
 	height: 20px;
 	vertical-align: middle;
@@ -80,7 +80,7 @@
 	line-height: 40px;
 	color: #999999;
 }
-.sys_employee_list .employee_info #content{
+.employee_info #content{
 	width: 100%;
 	/*width: 1120px;*/
 	height: 800px;
@@ -91,78 +91,78 @@
 	padding-top: 10px;
 
 }
-.sys_employee_list .employee_info #content #dv1{
+.employee_info #content #dv1{
 	width: 380px;
 	float: left;
 }
-.sys_employee_list .employee_info #content #dv2{
+.employee_info #content #dv2{
 	width: 600px;
 	float: left;
 }
-.sys_employee_list .employee_info #content p{
+.employee_info #content p{
 	margin-bottom: 20px;
 	margin-left: 34px;
 	/*background-color: red;*/
 }
-.sys_employee_list .employee_info #content p:nth-child(1){
+.employee_info #content p:nth-child(1){
 	margin-top: 30px;
 }
-.sys_employee_list .employee_info #content img{
+.employee_info #content img{
 	vertical-align: middle;
 	/*margin-left: 120px;*/
 
 }
-.sys_employee_list .employee_info #content span{
+.employee_info #content span{
 	vertical-align: middle;
 	font-size: 14px;
 	margin-left: 10px;
 }
-.sys_employee_list .employee_info #content .left{
+.employee_info #content .left{
 	width: 80px;
 	display: inline-block;
 	text-align: right;
 
 }
-.sys_employee_list .employee_info #content .right{
+.employee_info #content .right{
 	/*width: 100px;*/
 	/*background-color: red;*/
 	display: inline-block;
 	text-align: left;
 
 }
-.sys_employee_list .employee_info #content .left_1{
+.employee_info #content .left_1{
 	width: 80px;
 	display: inline-block;
 	text-align: right;
 	/*margin-left: 80px;*/
 }
-.sys_employee_list .employee_info #content .right_2{
+.employee_info #content .right_2{
 	width: 200px;
 	/*background-color: red;*/
 	display: inline-block;
 	text-align: left;
 
 }
-.sys_employee_list .employee_info #compile{
+.employee_info #compile{
 	width: 50px;
 	height: 50px;
 	position: absolute;
 	right:30px;
 	top:60px;
 }
-.sys_employee_list .employee_info #compile i{
+.employee_info #compile i{
 	font-size: 26px;
 	display: block;
 	text-align: center;
 	color: #b3b3b3;
 }
-.sys_employee_list .employee_info #compile p{
+.employee_info #compile p{
 	font-size: 10px;
 	color: #b3b3b3;
 	text-align: left;
 	margin-left: 0;
 	text-align: center;
 }
-.sys_employee_list .employee_info .green{
+.employee_info .green{
 	color: #13ae6b;
 }

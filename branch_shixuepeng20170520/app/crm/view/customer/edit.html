@@ -23,12 +23,19 @@
                 <span class="cont"><span class="u-required">＊</span>客户名称</span>
                 <input type="text" name="customer_name" required="required" placeholder="请输入客户名称" pattern="[\S]{1,40}" title="请输入1-40个字符" value="{$customer.customer_name}"/>
 
-                <span class="cont">客户编码</span>
-                <input type="text" required="required" placeholder="请输入客户编码" pattern="[\S]{1,40}" title="请输入1-40个字符" value="{$customer.id}"/>
+                <span class="cont">沟通状态</span>
+                <select name="comm_status">
+                    <option value="1" {eq name='customer.comm_status' value='1'} selected="selected"{/eq}>无意向</option>
+                    <option value="2" {eq name='customer.comm_status' value='2'} selected="selected"{/eq}>号码无效</option>
+                    <option value="3" {eq name='customer.comm_status' value='3'} selected="selected"{/eq}>资料有误</option>
+                    <option value="4" {eq name='customer.comm_status' value='4'} selected="selected"{/eq}>未接通</option>
+                    <option value="5" {eq name='customer.comm_status' value='5'} selected="selected"{/eq}>待定</option>
+                    <option value="6" {eq name='customer.comm_status' value='6'} selected="selected"{/eq}>有意向</option>
+                </select>
             </div>
             <div>
-                <span class="cont">联系人</span>
-                <input type="text" pattern="[\S]{0,10}"  placeholder="请输入联系人名称" title="只可填写10位以内字符" value=""/>
+                <span class="cont">客户编码</span>
+                <span class="cont-x">{$customer.id}</span>
 
                 <span class="cont">客户级别</span>
                 <select name="grade">

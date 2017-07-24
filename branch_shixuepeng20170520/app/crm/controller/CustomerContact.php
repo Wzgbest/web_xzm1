@@ -61,6 +61,25 @@ class CustomerContact extends Initialize{
         $this->assign("customer_id",input('customer_id',0,"int"));
         return view();
     }
+    public function table(){
+        $result = ['status'=>0 ,'info'=>"获取联系人时发生错误！"];
+        $customer_id = input('customer_id',0,'int');
+        if(!$customer_id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        try{
+            $customerContactM = new CustomerContactModel($this->corp_id);
+            $customerContactData = $customerContactM->getAllCustomerContactsByCustomerId($customer_id);
+            $result['data'] = $customerContactData;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "获取联系人成功！";
+        return json($result);
+    }
     public function get(){
         $result = ['status'=>0 ,'info'=>"获取联系人时发生错误！"];
         $id = input('id',0,'int');
@@ -82,7 +101,8 @@ class CustomerContact extends Initialize{
     }
     protected function _getCustomerContactForInput($mode){
         if($mode){
-            $uid = session('userinfo.userid');
+            $userinfo = get_userinfo();
+            $uid = $userinfo["userid"];
             $customerContact['create_time'] = time();
             $customerContact['create_user'] = $uid;
             $customerContact['customer_id'] = input('customer_id',0,'int');

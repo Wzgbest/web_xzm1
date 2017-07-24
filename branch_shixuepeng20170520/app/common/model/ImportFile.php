@@ -22,61 +22,87 @@ class ImportFile extends Base{
      */
     public function upload($type){
         $files = request()->file('files');
-        if(!$files){
-            return false;
-        }
         $infos = [];
-        $files_hash = array_map([__CLASS__,'getHash'],$files);
-        $fileData = $this
+        $files_hash = [];
+        if(is_array($files)){
+            $files_hash = array_map([__CLASS__,'getHash'],$files);
+        }else{
+            $files_hash[] = $this->getHash($files);
+        }
+        $fileHashData = $this
             ->model
             ->table($this->table)
             ->where(["md5"=>["in",$files_hash]])
             ->column('md5,id');
-        foreach($files as $key=>$file){
-            $value = [];
-            $path = ROOT_PATH . 'public' . DS . 'webroot' . DS . $this->corp_id . DS . 'import_file';
-            $checkFlg = $file->check(config('upload_import_file'));
-            if(!$checkFlg){
-                return false;
+
+        if(is_array($files)) {
+            foreach ($files as $key => $file) {
+                $value = $this->getUploadFileInfo($file,$type,$fileHashData);
+                $infos[] = $value;
             }
-            $info = $file->move($path);
-            //var_exp($info,'$info');
-            $savename = $info->getSaveName();
-            $original_info = $info->getInfo();
-            $value['type'] = $type;
-            $value['name'] = $original_info['name'];
-            $value['savename'] = basename($savename);
-            $value['savepath'] = $path.DS.dirname($savename);
-            $value['ext'] = pathinfo($value['name'], PATHINFO_EXTENSION);
-            $value['mime'] = $info->getMime();
-            $value['size'] = $info->getSize();
-            $value['md5'] = $info->hash("md5");
-            $value['sha1'] = $info->hash("sha1");
-            $value['location'] = 0;
-            $value['create_time'] = time();
-            if(isset($fileData[$value['md5']]) && is_numeric($fileData[$value['md5']])){
-                $save_flg = $this
-                    ->model
-                    ->table($this->table)
-                    ->where(array('id'=>$fileData[$value['md5']]))
-                    ->update($value);
-                $value['id'] = $fileData[$value['md5']];
-            }else{
-                $add_flg = $this
-                    ->model
-                    ->table($this->table)
-                    ->insertGetId($value);
-                if($add_flg){
-                    $value['id'] = $add_flg;
-                }
-            }
+        }else{
+            $value = $this->getUploadFileInfo($files,$type,$fileHashData);
             $infos[] = $value;
         }
+        //var_exp($infos,'$infos',1);
         if($infos){
             return $infos;
         }else{
             return false;
         }
+    }
+    /**
+     * 处理文件
+     * @param $file Object File类对象
+     * @param $type int 文件分类
+     * @param $fileHashData array 已上传文件hash
+     * @return array 文件信息
+     */
+    protected function getUploadFileInfo($file,$type,$fileHashData){
+        $value = [];
+        $path = ROOT_PATH . 'public' . DS . 'webroot' . DS . $this->corp_id . DS . 'import_file';
+        $upload_import_file_rule = config('upload_import_file');
+        $rule["type"] = $upload_import_file_rule["type"];
+        $rule["ext"] = $upload_import_file_rule["ext"];
+        $checkFlg = $file->check($rule);
+        if (!$checkFlg) {
+            return false;
+        }
+        $info = $file->move($path);
+        if($info===false){
+            return false;
+        }
+        //var_exp($info,'$info');
+        $savename = $info->getSaveName();
+        $original_info = $info->getInfo();
+        $value['type'] = $type;
+        $value['name'] = $original_info['name'];
+        $value['savename'] = basename($savename);
+        $value['savepath'] = $path . DS . dirname($savename);
+        $value['ext'] = pathinfo($value['name'], PATHINFO_EXTENSION);
+        $value['mime'] = $info->getMime();
+        $value['size'] = $info->getSize();
+        $value['md5'] = $info->hash("md5");
+        $value['sha1'] = $info->hash("sha1");
+        $value['location'] = 0;
+        $value['create_time'] = time();
+        if (isset($fileHashData[$value['md5']]) && is_numeric($fileHashData[$value['md5']])) {
+            $save_flg = $this
+                ->model
+                ->table($this->table)
+                ->where(array('id' => $fileHashData[$value['md5']]))
+                ->update($value);
+            $value['id'] = $fileHashData[$value['md5']];
+        } else {
+            $add_flg = $this
+                ->model
+                ->table($this->table)
+                ->insertGetId($value);
+            if ($add_flg) {
+                $value['id'] = $add_flg;
+            }
+        }
+        return $value;
     }
     /**
      * 获取文件

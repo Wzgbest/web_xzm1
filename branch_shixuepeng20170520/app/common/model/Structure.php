@@ -9,8 +9,10 @@ use app\common\model\Base;
 
 class Structure extends Base
 {
+    protected $dbprefix;
     public function __construct($corp_id =null)
     {
+        $this->dbprefix = config('database.prefix');
         $this->table = config('database.prefix').'structure';
         parent::__construct($corp_id);
     }
@@ -37,7 +39,7 @@ class Structure extends Base
     }
 
     /**
-     * 获取单个部门信息
+     * 根据部门id列表获取部门名称
      * @param $struct_ids array 部门id
      * @return array|false|\PDOStatement|string|\think\Model
      * created by blu10ph
@@ -48,6 +50,32 @@ class Structure extends Base
     }
 
     /**
+     *监察部门层级深度
+     * @param $struct_pid int 部门id
+     * @param $level_deep int 层级深度
+     * @return array|false|\PDOStatement|string|\think\Model
+     * created by blu10ph
+     */
+    public function checkStructureLevelDeep($struct_pid,$level_deep)
+    {
+        $query = $this->model->table($this->table)->alias('dl1');
+        $field = ["dl1.id as id1"];
+        for($i=2;$i<=$level_deep;$i++){
+            $query = $query->join($this->dbprefix.'structure dl'.$i,'dl'.$i.'.id = dl'.($i-1).'.struct_pid');
+            $field[]="dl".$i.".id as id".$i;
+        }
+        $level_info = $query
+            ->where('dl1.id',$struct_pid)
+            ->field($field)
+            ->find();
+        //var_exp($level_info,'$level_info',1);
+        if($level_info && $level_info["id".$level_deep]){
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * 添加部门信息
      * @param $data
      * @return int|string
@@ -55,7 +83,7 @@ class Structure extends Base
      */
     public function addStructure($data)
     {
-        return $this->model->table($this->table)->insert($data);
+        return $this->model->table($this->table)->insertGetId($data);
     }
 
     /**

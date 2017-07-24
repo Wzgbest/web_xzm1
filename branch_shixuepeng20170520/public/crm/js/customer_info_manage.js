@@ -1,4 +1,4 @@
-function customer_info_manage(from,target,list_manage){
+function customer_info_manage(from,target,list_manage,in_column,in_column_name,list_count){
 	//当前列表变量
 	this.id = 0;
 	this.last = 0;
@@ -6,6 +6,9 @@ function customer_info_manage(from,target,list_manage){
 	this.reload_flg = 0;
 	this.target = target;
 	this.list_manage = list_manage;
+	this.in_column = parseInt(in_column);
+	this.in_column_name = in_column_name;
+	this.list_count = parseInt(list_count);
 	this.panel_base = '#frames #'+this.target+' .crm_'+this.from;
 	var self = this;
 
@@ -34,9 +37,13 @@ function customer_info_manage(from,target,list_manage){
 		$(panel).html(data);
 		$(panel).height(window.innerHeight);
 		this.listen_nav_click(panel);
+		$(this.panel_base+" .customer_info_panel").addClass("hide");
 		$(panel).removeClass("hide");
 	};
 	this.listen_nav_click=function(panel){
+		$(panel+" .page-info .m-firNav .back div").html(
+			self.in_column_name+"（<span>"+self.list_count+"</span>）"
+		);
 		$(panel+" .page-info .m-firNav .back").click(function(){
 			self.close();
 		});
@@ -132,6 +139,7 @@ function customer_info_manage(from,target,list_manage){
 			url: '/crm/customer/update',
 			type: 'post',
 			data: edit_from_data,
+			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
 				alert(data.info);
@@ -200,6 +208,7 @@ function customer_info_manage(from,target,list_manage){
 			url: '/crm/customer_contact/add',
 			type: 'post',
 			data: contact_add_from,
+			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
 				alert(data.info);
@@ -250,6 +259,7 @@ function customer_info_manage(from,target,list_manage){
 			url: '/crm/customer_contact/update',
 			type: 'post',
 			data: contact_edit_from,
+			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
 				alert(data.info);

@@ -188,11 +188,13 @@ return [
         //'type'   => 'File',
         'type'   => 'Redis',
         // 缓存保存目录
-        'path'   => CACHE_PATH,
+        //'path'   => CACHE_PATH,
         // 缓存前缀
         'prefix' => '',
         // 缓存有效期 0表示永久缓存
         'expire' => 0,
+        'host'=>'192.168.102.200',
+        'password'=>'zxcms_guguo_xzm',
     ],
 
     // +----------------------------------------------------------------------
@@ -239,25 +241,22 @@ return [
     ],
     'db_config1'    =>  [
         'type'        => 'mysql',
-        'hostname'    => '192.168.102.200',
-        'database'    => '',
-        'username'    => 'zxwz',
-        'password'    => '123456',
-        'hostport'    => '3307',
-        'charset'     => 'utf8',
-        'prefix'      => 'guguo_',
-    ],
-//    'db_config1'    =>  [
-//        'type'        => 'mysql',
-//        'hostname'    => 'localhost',
+//        'hostname'    => '192.168.102.200',
 //        'database'    => '',
 //        'username'    => 'zxwz',
 //        'password'    => '123456',
 //        'hostport'    => '3307',
-//        'charset'     => 'utf8',
-//        'prefix'      => 'guguo_',
-//        'params'      => ['PDO::MYSQL_ATTR_INIT_COMMAND' =>'set names utf8;'],
-//    ],
+        'hostname'    => 'localhost',
+        'database'    => '',
+        'username'    => 'zxwz',
+        'password'    => '123456',
+        'hostport'    => '3306',
+        'charset'     => 'utf8',
+        'prefix'      => 'guguo_',
+        'params'      => [
+    		PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
+    	],
+    ],
     'db_common_prefix'=>'guguo_',//分库前缀
     //sms短信账号
     'sms_workid'    => '',
@@ -276,7 +275,7 @@ return [
     ],
     //上传导入文件设置
     'upload_import_file'  =>[
-        'type'    => 'application/vnd.ms-excel,application/x-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/octet-stream',
+        'type'    => 'application/vnd.ms-excel,application/x-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/zip,application/octet-stream',
         'size' => '',
         'ext'    => 'xls,xlsx',
     ],

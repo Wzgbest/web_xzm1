@@ -1,0 +1,16 @@
+<div class="systemsetting_content block_list">
+    <div class="content">
+        {volist name="listdata" id="vo"}
+        <div class="content_item">
+            <h4 class="content_title">{$vo.contract_name}</h4>
+            <a class="content_link" href="javascript:loadPage('{:url('edit_page',['id'=>$vo.id])}','contract-settingfr');">查看编辑</a>
+        </div>
+        {/volist}
+        <div class="content_item">
+            <h2 class="content_sub_title">+</h2>
+            <a class="content_link add" href="javascript:loadPage('{:url('add_page')}','contract-settingfr');">添加更多类合同</a>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="/static/css/block_list.css" />
+<link rel="stylesheet" href="/systemsetting/css/contract_list.css" />

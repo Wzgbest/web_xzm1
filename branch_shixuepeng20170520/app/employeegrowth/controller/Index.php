@@ -5,6 +5,6 @@ class Index
 {
     public function index()
     {
-        return 'Index/index';
+        return 'employeegrowth/index/index';
     }
 }

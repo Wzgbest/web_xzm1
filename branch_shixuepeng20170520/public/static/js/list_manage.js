@@ -1,4 +1,4 @@
-function list_manage(from,target,url,p,num,max,in_column){
+function list_manage(from,target,url,p,num,max,in_column,sub){
     //当前列表变量
     this.from = from;
     this.target = target;
@@ -7,15 +7,16 @@ function list_manage(from,target,url,p,num,max,in_column){
     this.num = parseInt(num);
     this.max = parseInt(max);
     this.in_column = parseInt(in_column);
+    this.sub = sub;
     this.activity_buttons = new Array();
 
     //事件绑定
     var self = this;
-    $("."+this.from+" .m-firNav li").click(function(){
+    $("."+this.from+" .m-firNav .in_column").click(function(){
         var in_column = $(this).attr("in_column");
         self.columnChange(in_column);
     });
-    $("."+this.from+" .m-filterNav .u-btnSearch").click(function(){
+    $("."+this.from+this.sub+" .m-filterNav .u-btnSearch").click(function(){
         self.search();
     });
     $("."+this.from+" .u-tabTitle input[type='checkbox']").click(function(){
@@ -50,7 +51,9 @@ function list_manage(from,target,url,p,num,max,in_column){
         this.load_list(1,this.num,in_column);
     };
     this.search=function(){
-        var search_form_data = $("#"+this.target+" ."+this.from+" .search_form").serialize();
+        //console.log($("#"+this.target+" ."+this.from+this.sub+" .search_form"));
+        var search_form_data = $("#"+this.target+" ."+this.from+this.sub+" .search_form").serialize();
+        //console.log(search_form_data);
         var url = this.get_url(1,this.num,this.in_column);
         $.ajax({
             url: url,
@@ -58,7 +61,8 @@ function list_manage(from,target,url,p,num,max,in_column){
             data: search_form_data,
             success: function(data) {
                 //console.log(data);
-                $('#frames #'+self.target).html(data);
+                //console.log('#frames #'+self.target+" ."+self.from+self.sub);
+                $('#frames #'+self.target+" ."+self.from+self.sub).html(data);
             },
             error: function() {
                 alert("搜索时发生错误!");
@@ -163,7 +167,7 @@ function list_manage(from,target,url,p,num,max,in_column){
 
     //公共方法
     this.load_list=function(p,num,in_column){
-        loadPage(this.get_url(p,num,in_column),this.target);
+        loadPage(this.get_url(p,num,in_column),this.target+this.sub);
     };
     this.get_url=function(p,num,in_column){
         return this.url+"/p/"+p+"/num/"+num+"/in_column/"+in_column;

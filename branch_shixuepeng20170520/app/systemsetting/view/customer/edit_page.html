@@ -4,7 +4,14 @@
             <li class="current" onclick="loadPage('{:url('index')}','customer-settingfr');">
                 <div>客户设置</div>
             </li>
-            <i class="fa fa-angle-right fa-2x"></i><span class="span-info">添加客户设置</span>
+            <i class="fa fa-angle-right fa-2x"></i>
+            <span class="span-info">
+                {gt name="customerSetting.id" value="0"}
+                    {$customerSetting.setting_name}
+                {else/}
+                    添加客户设置
+                {/gt}
+            </span>
         </ul>
 
     </div>
@@ -78,7 +85,7 @@
     </div>
 </div>
 <link rel="stylesheet" href="/systemsetting/css/customersetting.css" />
-<script>
+<script language="JavaScript">
     $('#customer_setting_submit').click(function() {
         console.log($(".form_customer_setting").serialize());
         $.ajax({

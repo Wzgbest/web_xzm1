@@ -35,8 +35,9 @@ class Customer extends Initialize{
         $end_num = $start_num+$num;
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
-        $uid = session('userinfo.userid');
-        $filter = $this->_getCustomerFilter(["belongs_to","resource_from","comm_status","take_type","tracer","guardian","add_man"]);
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $filter = $this->_getCustomerFilter(["grade","resource_from","comm_status","take_type","tracer","guardian","add_man"]);
         $field = $this->_getCustomerField([]);
         try{
             $customerM = new CustomerModel($this->corp_id);
@@ -52,12 +53,14 @@ class Customer extends Initialize{
             $this->error($ex->getMessage());
         }
         $max_page = ceil($customers_count/$num);
+        $userinfo = get_userinfo();
+        $truename = $userinfo["truename"];
         $this->assign("p",$p);
         $this->assign("num",$num);
         $this->assign("filter",$filter);
         $this->assign("max_page",$max_page);
-        $this->assign("start_num",$start_num+1);
-        $this->assign("truename",session('userinfo.truename'));
+        $this->assign("truename",$truename);
+        $this->assign("start_num",$customers_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view();
     }
@@ -69,7 +72,8 @@ class Customer extends Initialize{
         $end_num = $start_num+$num;
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
-        $uid = session('userinfo.userid');
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $filter = $this->_getCustomerFilter(["take_type","grade","sale_chance","comm_status","customer_name","contact_name","in_column"]);
         $field = $this->_getCustomerField(["take_type","grade"]);
         try{
@@ -94,11 +98,14 @@ class Customer extends Initialize{
         $this->assign("filter",$filter);
         $this->assign("max_page",$max_page);
         $this->assign("in_column",$in_column);
-        $this->assign("start_num",$start_num+1);
+        $this->assign("start_num",$customers_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view();
     }
-    public function public_customer_pool(){
+    public function customer_pool(){
+        return $this->public_customer_pool(1);
+    }
+    public function public_customer_pool($fff=0){
         $num = input('num',$this->paginate_list_rows,'int');
         $p = input("p",1,"int");
         $customers_count=0;
@@ -106,7 +113,8 @@ class Customer extends Initialize{
         $end_num = $start_num+$num;
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
-        $uid = session('userinfo.userid');
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
 
         //获取客户配置
         $view_name="";
@@ -119,6 +127,9 @@ class Customer extends Initialize{
                 $public_flg = true;
                 break;
             }
+        }
+        if($fff){
+            $public_flg = !$public_flg;
         }
         if($public_flg){
             $view_name="public_pool";
@@ -162,7 +173,7 @@ class Customer extends Initialize{
         $this->assign("num",$num);
         $this->assign("filter",$filter);
         $this->assign("max_page",$max_page);
-        $this->assign("start_num",$start_num+1);
+        $this->assign("start_num",$customers_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view($view_name);
     }
@@ -194,7 +205,9 @@ class Customer extends Initialize{
         $business = new Business($this->corp_id);
         $business_list = $business->getAllBusiness();
         $this->assign("business_list",$business_list);
-        $this->assign("truename",session('userinfo.truename'));
+        $userinfo = get_userinfo();
+        $truename = $userinfo["truename"];
+        $this->assign("truename",$truename);
         return view();
     }
     public function general(){
@@ -214,8 +227,7 @@ class Customer extends Initialize{
         //TODO 管理员权限验证?
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
         $num = input('num',$this->paginate_list_rows,'int');
-        $p = input("p",0,"int");
-        $p = $p?:1;
+        $p = input("p",1,"int");
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
         $filter = $this->_getCustomerFilter(["belongs_to","resource_from","comm_status","take_type","tracer","guardian","add_man"]);
@@ -234,7 +246,8 @@ class Customer extends Initialize{
     }
     public function pool(){
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
-        $uid = session('userinfo.userid');
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         //获取客户配置
         $struct_ids = getStructureIds($uid);
         $customerSettingModel = new CustomerSetting();
@@ -256,11 +269,11 @@ class Customer extends Initialize{
     protected function public_pool(){
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
         $num = input('num',$this->paginate_list_rows,'int');
-        $p = input("p",0,"int");
-        $p = $p?:1;
+        $p = input("p",1,"int");
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
-        $uid = session('userinfo.userid');
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $filter = $this->_getCustomerFilter(["resource_from","grade","customer_name"]);
         $field = $this->_getCustomerField([]);
         try{
@@ -273,16 +286,16 @@ class Customer extends Initialize{
         }
         $result['status'] = 1;
         $result['info'] = "查询成功！";
-        return $result;
+        return json($result);
     }
     protected function anonymous_pool(){
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
         $num = input('num',$this->paginate_list_rows,'int');
-        $p = input("p",0,"int");
-        $p = $p?:1;
+        $p = input("p",1,"int");
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
-        $uid = session('userinfo.userid');
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $filter = $this->_getCustomerFilter(["resource_from","is_public","customer_name"]);
         $field = $this->_getCustomerField([]);
         try{
@@ -295,16 +308,21 @@ class Customer extends Initialize{
         }
         $result['status'] = 1;
         $result['info'] = "查询成功！";
-        return $result;
+        return json($result);
     }
     public function self(){
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
-        $num = input('num',$this->paginate_list_rows,'int');
-        $p = input("p",0,"int");
-        $p = $p?:1;
+        $num=0;
+        $p=0;
+        $get_all = input("get_all",0,"int");
+        if(!$get_all){
+            $num = input('num',$this->paginate_list_rows,'int');
+            $p = input("p",1,"int");
+        }
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
-        $uid = session('userinfo.userid');
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $filter = $this->_getCustomerFilter(["take_type","grade","sale_chance","comm_status","customer_name","tracer","contact_name","in_column"]);
         $field = $this->_getCustomerField(["take_type","grade"]);
         try{
@@ -323,11 +341,11 @@ class Customer extends Initialize{
         //TODO 权限验证?
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
         $num = input('num',$this->paginate_list_rows,'int');
-        $p = input("p",0,"int");
-        $p = $p?:1;
+        $p = input("p",1,"int");
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
-        $uid = session('userinfo.userid');
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $filter = $this->_getCustomerFilter(["take_type","grade","sale_chance","belongs_to","comm_status","customer_name","tracer","contact_name","in_column"]);
         $field = $this->_getCustomerField([]);
         try{
@@ -345,8 +363,7 @@ class Customer extends Initialize{
     public function pending(){//TODO
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
         $num = input('num',$this->paginate_list_rows,'int');
-        $p = input("p",0,"int");
-        $p = $p?:1;
+        $p = input("p",1,"int");
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
         $filter = $this->_getCustomerFilter([]);
@@ -499,7 +516,8 @@ class Customer extends Initialize{
     }
     public function get_column_num(){
         $result = ['status'=>0 ,'info'=>"查询客户列信息时发生错误！"];
-        $uid = session('userinfo.userid');
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $filter = $this->_getCustomerFilter(["take_type","grade","customer_name","contact_name","comm_status","sale_chance"]);
         try{
             $customerM = new CustomerModel($this->corp_id);
@@ -521,7 +539,8 @@ class Customer extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
-        $uid = session('userinfo.userid');
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         try{
             $customerM = new CustomerModel($this->corp_id);
             $releaseFlg = $customerM->takeCustomers($ids,$uid);
@@ -543,7 +562,8 @@ class Customer extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
-        $uid = session('userinfo.userid');
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         try{
             //TODO 检查申领次数
             $ids = [];
@@ -567,7 +587,8 @@ class Customer extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
-        $uid = session('userinfo.userid');
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         try{
             $customerM = new CustomerModel($this->corp_id);
             $releaseFlg = $customerM->releaseCustomers($ids,$uid);
@@ -702,6 +723,9 @@ class Customer extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        //TODO 读取权限验证
         try{
             $customerM = new CustomerModel($this->corp_id);
             $customerData = $customerM->getCustomer($id);
@@ -718,7 +742,8 @@ class Customer extends Initialize{
     protected function _getCustomerForInput($mode){
         // add customer page
         if($mode){
-            $uid = session('userinfo.userid');
+            $userinfo = get_userinfo();
+            $uid = $userinfo["userid"];
             $customer['belongs_to'] = input('belongs_to',0,'int');
             $customer['add_man'] = $uid;
             $customer['add_time'] = time();
@@ -753,6 +778,9 @@ class Customer extends Initialize{
     }
     public function add(){
         $result = ['status'=>0 ,'info'=>"新建客户时发生错误！"];
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        //TODO 添加权限验证
         $customer = $this->_getCustomerForInput("all");
         if(!in_array($customer['belongs_to'],[2,3])){
             $result['info'] = "参数错误！";
@@ -790,6 +818,9 @@ class Customer extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        //TODO 更新权限验证
         $customer = $this->_getCustomerForInput(0);
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
         $customerM = new CustomerModel($this->corp_id);
@@ -845,6 +876,9 @@ class Customer extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        //TODO 删除权限验证
         try{
             $customerDeleteM = new CustomerDelete($this->corp_id);
             $customersDeleteFlg = $customerDeleteM->moveInDelMultipleCustomer($ids);

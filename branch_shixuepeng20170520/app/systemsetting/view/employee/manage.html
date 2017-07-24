@@ -4,39 +4,40 @@
         <section id="myAllClientsPage" >
             <ul class="m-secNav">
                 <li class="active" onclick="employee_list_newClient();">新建员工</li>
-                <li class="active">批量导入</li>
-                <li class="active">导入记录</li>
+                <li class="active"><span class="big-link" data-reveal-id="employee_list_import" data-animation="fade">批量导入</span></li>
+                <li class="active employee_import">导入记录</li>
                 <li class="vertical"></li>
-                <li class="exportCustomer">导出</li>
-                <li class="delete">删除</li>
+                <li class="exportEmployee"><span>导出</span></li>
+                <li class="delete"><span>删除</span></li>
                 <div class="clearfix"></div>
             </ul>
             <div class="m-filterNav">
                 <form class="search_form" onsubmit="return false;">
-                    <select id="employee_list_search_structure">
+                    <select name="structure">
                         <option value="">直属部门</option>
-                        <option value="1" {present name='filter.structure'}{eq name='filter.structure' value='1'} selected="selected"{/eq}{/present}>员工添加</option>
-                        <option value="2" {present name='filter.structure'}{eq name='filter.structure' value='2'} selected="selected"{/eq}{/present}>批量导入</option>
-                        <option value="3" {present name='filter.structure'}{eq name='filter.structure' value='3'} selected="selected"{/eq}{/present}>员工搜集</option>
+                        {volist name="structs" id="vo"}
+                        <option value="{$vo.id}" {present name='filter.structure'}{eq name='filter.structure' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.struct_name}</option>
+                        {/volist}
                     </select>
-                    <select id="employee_list_search_role">
-                        <option value="">角色</option>
-                        <option value="1" {present name='filter.role'}{eq name='filter.role' value='1'} selected="selected"{/eq}{/present}>转介绍</option>
-                        <option value="2" {present name='filter.role'}{eq name='filter.role' value='2'} selected="selected"{/eq}{/present}>指定人</option>
-                        <option value="3" {present name='filter.role'}{eq name='filter.role' value='3'} selected="selected"{/eq}{/present}>指定部门</option>
+                    <select name="role">
+                        <option value="">职位</option>
+                        {volist name="roles" id="vo"}
+                        <option value="{$vo.id}" {present name='filter.role'}{eq name='filter.role' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.role_name}</option>
+                        {/volist}
                     </select>
-                    <select id="employee_list_search_on_duty">
+                    <select name="on_duty">
                         <option value="">状态</option>
                         <option value="1" {present name='filter.on_duty'}{eq name='filter.on_duty' value='1'} selected="selected"{/eq}{/present}>在职</option>
                         <option value="2" {present name='filter.on_duty'}{eq name='filter.on_duty' value='2'} selected="selected"{/eq}{/present}>休假</option>
+                        <option value="-1" {present name='filter.on_duty'}{eq name='filter.on_duty' value='-1'} selected="selected"{/eq}{/present}>离职</option>
                     </select>
-                    <input type="text" id="employee_list_search_worknum" placeholder="输入工号" value="{present name='filter.worknum'}{$filter.worknum}{/present}"/>
-                    <input type="text" id="employee_list_search_truename" placeholder="输入姓名" value="{present name='filter.truename'}{$filter.truename}{/present}"/>
+                    <input type="text" name="worknum" placeholder="输入工号" value="{present name='filter.worknum'}{$filter.worknum}{/present}"/>
+                    <input type="text" name="truename" placeholder="输入姓名" value="{present name='filter.truename'}{$filter.truename}{/present}"/>
                     <button class="u-btnSearch">查询</button>
                 </form>
             </div>
             <div class="m-tableBox">
-                <div class="m-table table2">
+                <div class="m-table table6">
                     <ul class="u-tabTitle">
                         <li class="u-tabCheckbox"><input type="checkbox"/></li>
                         <li>工号<i class="fa fa-unsorted"></i></li>
@@ -44,7 +45,7 @@
                         <li>直属部门<i class="fa fa-unsorted"></i></li>
                         <li>联系方式</li>
                         <li>是否领导<i class="fa fa-unsorted"></i></li>
-                        <li>角色<i class="fa fa-unsorted"></i></li>
+                        <li>职位<i class="fa fa-unsorted"></i></li>
                         <li>状态</li>
                         <li>创建时间<i class="fa fa-unsorted"></i></li>
                         <li>操作</li>
@@ -80,31 +81,57 @@
                 </select>
                 <span>{$start_num}-{$end_num}条/</span>
                 <span>共{$count}条</span>
-                <button class="my_customer_previous_page previous_page {eq name='p' value='1'} disabled{/eq}">上一页</button>
-                <button class="my_customer_next_page next_page {eq name='p' value='$max_page'} disabled{/eq}">下一页</button>
+                <button class="employee_list_previous_page previous_page {eq name='p' value='1'} disabled{/eq}">上一页</button>
+                <button class="employee_list_next_page next_page {eq name='p' value='$max_page'} disabled{/eq}">下一页</button>
                 <span>前往</span>
-                <input class="my_customer_jump_page jump_page" type="text" />
+                <input class="employee_list_jump_page jump_page" type="text" />
                 <span>页</span>
             </div>
         </section>
         <script src="/static/js/list_manage.js"></script>
         <script language="javascript">
-            var employee_list_list_manage = new list_manage("employee_list","staff-managementfr","/systemsetting/employee/manage",'{$p}','{$num}','{$max_page}','0');
+            var employee_list_list_manage = new list_manage("employee_list","staff-managementfr","/systemsetting/employee/manage",'{$p}','{$num}','{$max_page}','0',"");
         </script>
         <script src="/systemsetting/js/employee_list.js"></script>
 
-        <div id="myModal" class="reveal-modal">
+        <div class="reveal-modal exportEmployeeUI">
             <p class="p1">导出</p>
             <p class="p2">你已选中1~34位员工是否导出</p>
             <p class="p5">
-                <input type="submit" value="确定" />
-                <button>取消</button>
+                <input type="submit" class="exportEmployeeUIOkBtn" value="确定" />
+                <button class="exportEmployeeUICancelBtn">取消</button>
+            </p>
+            <a class="close-reveal-modal">&#215;</a>
+        </div>
+        <div id="employee_list_import" class="reveal-modal employee_import_ui">
+            <form class="employee_import_from" action="/index/import_file/upload/" method="post" enctype="multipart/form-data" target="employee_import_iframe">
+                <p class="p1">批量导入</p>
+                <p class="p2">
+                    <img class="employee_import_templet_download" src="/static/images/file.jpg" />
+                    <span class="employee_import_templet_download" style="font-size: 12px;">导入模板下载</span>
+                    <input type="file" name="files" required="required" placeholder="请选择文件" style="width: 256px;height: 26px;border-radius: 6px;background-color: #efefef;" title="选择文件"/>
+                </p>
+                <input type="hidden" name="type" value="1"/>
+                <p class="p5">
+                    <input type="submit" value="确定" />
+                    <button class="employee_import_cancel_btn">取消</button>
+                </p>
+                <a class="close-reveal-modal">&#215;</a>
+            </form>
+            <iframe id="employee_import_iframe" name="employee_import_iframe" style="display: none;" />
+        </div>
+        <div id="employee_list_delete" class="reveal-modal employee_delete_ui">
+            <p class="p1">删除</p>
+            <p class="p2">是否要删除这些员工</p>
+            <p class="p5">
+                <input type="submit" class="employee_delete_ok_btn" value="确定" />
+                <button class="employee_delete_cancel_btn">取消</button>
             </p>
             <a class="close-reveal-modal">&#215;</a>
         </div>
 
         <!--黑色遮罩-->
-        <section id="employee_list_blackBg" class="hide page-client"></section>
+        <section id="employee_list_blackBg" class="hide blackBg page-client"></section>
 
         <!--新建员工-->
         <section id="employee_list_newClient" class="newClient hide page-client">
@@ -119,8 +146,11 @@
                             <input type="text" name="truename" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入联系人姓名" />
 
                             <span class="cont">直属部门</span>
-                            <input type="text" name="struct_id" pattern="[\d\D]{0,16}" title="最多填写16位字符" placeholder="请输入所属部门" />
-
+                            <select name="struct_id">
+                                {volist name="structs" id="vo"}
+                                <option value="{$vo.id}">{$vo.struct_name}</option>
+                                {/volist}
+                            </select>
                         </div>
                         <div>
                             <span class="cont">昵称</span>
@@ -169,9 +199,11 @@
                                 <option value="1">在职</option>
                                 <option value="2">休假</option>
                             </select>
-                            <span class="cont">职位</span>
+                            <span class="cont">员工职位</span>
                             <select name="role">
-                                <option value="1">请选择</option>
+                                {volist name="roles" id="vo"}
+                                <option value="{$vo.id}">{$vo.role_name}</option>
+                                {/volist}
                             </select>
                         </div>
                         <p class="p5">
@@ -186,9 +218,20 @@
     </div>
     <div class="employee_list_panel employee_info hide">
     </div>
+    <div class="employee_list_panel employee_import_record hide">
+        <header>
+            <ul class="m-firNav">
+                <li class="current"><div style="border: none;">员工管理</div></li>
+                <i class="fa fa-angle-right fa-2x" style="line-height: 40px;margin-left: 5px;"></i><span class="u-spanInfo">导入记录</span>
+            </ul>
+        </header>
+        <div class="employee_import_record_list">
+
+        </div>
+    </div>
 </div>
-<link rel="stylesheet" href="/crm/css/index.css"/>
-<link rel="stylesheet" href="/crm/css/table.css" />
-<link rel="stylesheet" href="/crm/css/form.css" />
-<link rel="stylesheet" href="/crm/css/divBlock.css" />
+<link rel="stylesheet" href="/static/css/index.css"/>
+<link rel="stylesheet" href="/static/css/table.css" />
+<link rel="stylesheet" href="/static/css/form.css" />
+<link rel="stylesheet" href="/static/css/divBlock.css" />
 <link rel="stylesheet" href="/systemsetting/css/employeelist.css" />

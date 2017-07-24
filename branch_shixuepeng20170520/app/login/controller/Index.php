@@ -67,17 +67,7 @@ class Index extends Controller
             $reg_reg['errnum'] = 7;
             return $reg_reg;
         }
-
-        $userinfo = [
-            'corp_id'=>$corp_id,
-            'telephone'=>$telephone,
-            'userid'=>$user_arr['id'],
-            'wiredphone'=>$user_arr['wired_phone'],
-            'partphone'=>$user_arr['part_phone'],
-            'truename'=>$user_arr['truename'],
-            'role'=>$user_arr['role_name'],
-        ];
-        session('userinfo',$userinfo);
+        set_userinfo($corp_id,$telephone,$user_arr);
         $this->redirect('index/index/index');
     }
 }

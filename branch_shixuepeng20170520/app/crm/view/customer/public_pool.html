@@ -5,7 +5,7 @@
             <ul class="m-secNav">
                 <li class="active showNewClient">新建</li>
                 <li class="active">导入</li>
-                <li class="active">导入记录</li>
+                <li class="active customer_import">导入记录</li>
                 <li class="active">批量申领</li>
                 <li class="vertical"></li>
                 <li class="delete">删除</li>
@@ -14,20 +14,20 @@
             </ul>
             <div class="m-filterNav">
                 <form class="search_form" onsubmit="return false;">
-                    <select id="public_pool_search_take_type">
+                    <select name="take_type">
                         <option value="">获取途径</option>
                         <option value="1" {present name='filter.take_type'}{eq name='filter.take_type' value='1'} selected="selected"{/eq}{/present}>转介绍</option>
                         <option value="2" {present name='filter.take_type'}{eq name='filter.take_type' value='2'} selected="selected"{/eq}{/present}>搜索</option>
                         <option value="3" {present name='filter.take_type'}{eq name='filter.take_type' value='3'} selected="selected"{/eq}{/present}>购买</option>
                     </select>
-                    <select id="public_pool_search_belongs_to">
+                    <select name="grade">
                         <option value="">客户级别</option>
-                        <option value="A" {present name='filter.belongs_to'}{eq name='filter.belongs_to' value='A'} selected="selected"{/eq}{/present}>A</option>
-                        <option value="B" {present name='filter.belongs_to'}{eq name='filter.belongs_to' value='B'} selected="selected"{/eq}{/present}>B</option>
-                        <option value="C" {present name='filter.belongs_to'}{eq name='filter.belongs_to' value='C'} selected="selected"{/eq}{/present}>C</option>
-                        <option value="D" {present name='filter.belongs_to'}{eq name='filter.belongs_to' value='D'} selected="selected"{/eq}{/present}>D</option>
+                        <option value="A" {present name='filter.grade'}{eq name='filter.grade' value='A'} selected="selected"{/eq}{/present}>A</option>
+                        <option value="B" {present name='filter.grade'}{eq name='filter.grade' value='B'} selected="selected"{/eq}{/present}>B</option>
+                        <option value="C" {present name='filter.grade'}{eq name='filter.grade' value='C'} selected="selected"{/eq}{/present}>C</option>
+                        <option value="D" {present name='filter.grade'}{eq name='filter.grade' value='D'} selected="selected"{/eq}{/present}>D</option>
                     </select>
-                    <input type="text" id="public_pool_search_customer_name" placeholder="输入客户名称" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
+                    <input type="text" name="customer_name" placeholder="输入客户名称" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
                     <button class="u-btnSearch">查询</button>
                 </form>
             </div>
@@ -79,15 +79,19 @@
         </section>
         <script src="/static/js/list_manage.js"></script>
         <script language="javascript">
-            var public_pool_list_manage = new list_manage("public_pool","high-seafr","/crm/customer/public_customer_pool",'{$p}','{$num}','{$max_page}','0');
+            var public_pool_list_manage = new list_manage("public_pool","high-seafr","/crm/customer/public_customer_pool",'{$p}','{$num}','{$max_page}','0',"");
         </script>
         <script src="/crm/js/customer_info_manage.js"></script>
         <script language="javascript">
-            var public_pool_info_manage = new customer_info_manage("public_pool","high-seafr",public_pool_list_manage);
+            var public_pool_info_manage = new customer_info_manage("public_pool","high-seafr",public_pool_list_manage,"0","公海池","{$count}");
         </script>
         <script src="/crm/js/customer_add.js"></script>
         <script language="javascript">
             var public_pool_info_add = new customer_add("public_pool","high-seafr",public_pool_list_manage);
+        </script>
+        <script src="/crm/js/customer_import.js"></script>
+        <script language="javascript">
+            var public_pool_customer_import = new customer_import("#frames #high-seafr .crm_public_pool .customer_import_record",2);
         </script>
         <script src="/crm/js/public_pool.js"></script>
     </div>
@@ -102,6 +106,17 @@
     <div class="public_pool_panel customer_info_panel customer_sale_chance hide">
     </div>
     <div class="public_pool_panel customer_info_panel customer_trace hide">
+    </div>
+    <div class="public_pool_panel customer_info_panel customer_import_record hide">
+        <header>
+            <ul class="m-firNav">
+                <li class="current"><div style="border: none;">公海池</div></li>
+                <i class="fa fa-angle-right fa-2x" style="line-height: 40px;margin-left: 5px;"></i><span class="u-spanInfo">导入记录</span>
+            </ul>
+        </header>
+        <div class="customer_import_record_list">
+
+        </div>
     </div>
 </div>
 <link rel="stylesheet" href="/crm/css/index.css"/>
