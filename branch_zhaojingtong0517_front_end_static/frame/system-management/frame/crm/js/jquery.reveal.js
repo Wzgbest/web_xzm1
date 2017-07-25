@@ -18,6 +18,7 @@
 /*---------------------------
  Extend and Execute
 ----------------------------*/
+	
 
     $.fn.reveal = function(options) {
         
@@ -55,6 +56,10 @@
 ----------------------------*/
 			//Entrance Animations
 			modal.bind('reveal:open', function () {
+				
+				$(".motai").addClass("motai1")   //添加小模态框
+	
+			
 			  modalBG.unbind('click.modalEvent');
 				$('.' + options.dismissmodalclass).unbind('click.modalEvent');
 				if(!locked) {
@@ -85,6 +90,7 @@
 
 			//Closing Animation
 			modal.bind('reveal:close', function () {
+				$(".motai").removeClass("motai1")//移除小黑色模态框
 			  if(!locked) {
 					lockModal();
 					if(options.animation == "fadeAndPop") {

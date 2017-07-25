@@ -221,7 +221,15 @@ article .dv1 .grade .p1 {
 	text-align: center;
 	line-height: 36px;
 }
-
+article .dv1 .grade .p4 {
+	color: #bfbfbf;
+	margin-right: 20px;
+	width: 100px;
+	height: 36px;
+	text-align: center;
+	line-height: 36px;
+	color: #ffa928;
+}
 article .dv1 .grade .p2 {
 	width: 100px;
 	height: 36px;
@@ -240,7 +248,14 @@ article .dv1 .grade .p3 {
 	text-align: center;
 	line-height: 36px;
 }
-
+article .dv1 .grade .p5 {
+	color: #bfbfbf;
+	margin-left: 70px;
+	width: 100px;
+	height: 36px;
+	text-align: center;
+	line-height: 36px;
+}
 article .cover {
 	color: #acd1ff;
 	text-overflow: ellipsis;
@@ -440,4 +455,84 @@ article .dv1 .a {
 	background-color: #fff;
 	border: 1px solid #dcdcdc;
 
+}
+.reveal-modal .choice{
+	height: 20px !important;
+	margin-left: 170px;
+}
+.reveal-modal .choice input{
+	width: 18px;
+	height: 18px;
+	/*margin-left: 36px;*/
+	vertical-align: middle;
+	/*margin-right: 15px;*/
+}
+.reveal-modal .choice input:nth-child(1){
+	margin-left: 100px;
+	margin-right: 10px;
+}
+.reveal-modal .choice input:nth-child(3){
+	margin-left: 60px;
+	margin-right: 10px;
+}
+.reveal-modal p.summarize{
+	font-size: 18px;
+	margin-left: 60px;
+	margin-top: 35px;
+}
+.reveal-modal .summarize span{
+	color: #ff803b;
+}
+.reveal-modal .table{
+	width: 760px;
+	height: 365px;
+	border: 1px solid #eeeeee;
+	margin-left: 60px;
+	overflow: auto;
+	overflow-x: hidden;
+}
+.reveal-modal .table ul:nth-child(2n+1){
+	background-color: #f6f0f0;
+}
+.reveal-modal .table ul:nth-child(2n){
+	background-color: #fff;
+}
+.reveal-modal .table ul.number1{
+	width: 760px;
+	height: 42px;
+	background-color: #F7F7F7;
+	border-bottom: 1px solid #eeeeee;
+}
+.reveal-modal .table .number1 li{
+	width: 131px;
+	padding-left: 20px;
+	height: 42px;
+	float: left;
+	font-size: 14px;
+	line-height: 42px;
+	border-right: 1px solid #eeeeee;
+}
+.reveal-modal .table .number1 li:nth-last-of-type(1){
+	border-right: none;
+}
+.reveal-modal .table ul.number2{
+	width: 760px;
+	height: 42px;
+	border-bottom: 1px solid #eeeeee;
+}
+.reveal-modal .table .number2 li{
+	width: 131px;
+	padding-left: 20px;
+	height: 42px;
+	float: left;
+	font-size: 14px;
+	line-height: 42px;
+	border-right: 1px solid #eeeeee;
+}
+.reveal-modal .table .number2 li:nth-last-of-type(1){
+	border-right: none;
+}
+.motai1{
+	background-color: #cccccc;
+	border-radius: 10px;
 }
