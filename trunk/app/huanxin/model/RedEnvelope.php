@@ -82,7 +82,7 @@ class RedEnvelope extends Base
     {
         return $this->model->table($this->table)->alias('re')
             ->join(config('database.prefix').'employee e','re.took_user = e.id')
-            ->field('re.redid,re.money,re.total_money,re.took_time,e.telephone took_telephone,e.truename as took_user')
+            ->field('re.redid,re.money,re.total_money,re.took_user,re.took_time,e.telephone took_telephone,e.truename as took_user_name')
             ->where('re.redid',$red_id)
             ->where('re.is_token',1)
             ->select();
