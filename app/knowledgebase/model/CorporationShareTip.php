@@ -96,8 +96,10 @@ class CorporationShareTip extends Base{
             ->where($map)
             ->field("sum(cst.money) money")
             ->find();
-        if(isset($myTipMoney["money"])){
+        if($myTipMoney&&isset($myTipMoney["money"])){
             $myTipMoney = $myTipMoney["money"];
+        }else{
+            $myTipMoney = 0;
         }
         return $myTipMoney;
     }
