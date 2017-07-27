@@ -36,7 +36,7 @@ class RedEnvelope extends Base
     {
         return $this->model->table($this->table)->alias('re')
             ->join(config('database.prefix').'employee e','re.took_user = e.id','left')
-            ->field('re.id,re.redid,re.fromuser,re.money,re.total_money,re.is_token,re.create_time,re.took_time,re.took_user,re.took_time,e.telephone took_telephone,e.truename as took_user')
+            ->field('re.id,re.redid,re.fromuser,re.money,re.total_money,re.is_token,re.create_time,re.took_time,re.took_user,re.took_time,e.telephone took_telephone,e.truename as took_user_name')
             ->where('re.redid',$red_id)
             ->where('re.is_token','<>',2)
             ->select();
@@ -110,8 +110,8 @@ class RedEnvelope extends Base
         $map["is_token"] = 0;
         $data["is_token"] = 1;
         $data["took_user"] = $user_id;
-        $data["took_telphone"] = $user_phone;
-        $data["took_user"] = $time;
+        $data["took_telephone"] = $user_phone;
+        $data["took_time"] = $time;
         return $this->model->table($this->table)
             ->where($map)
             ->limit(1)
