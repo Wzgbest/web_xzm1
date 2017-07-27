@@ -104,7 +104,7 @@ class RedEnvelope
             $res = $redM->createRedId($indata);
             $de = $user->employM->setEmployeeSingleInfo($userid,['left_money'=>['exp',"left_money - $de_money"]]);
             $cash_rec = $cashM->addOrderNumber($order_data);
-        }catch(\Exception $e){
+        }catch(\Exception $ex){
             $redM->link->rollback();
             $info['message'] = '生成红包失败';
         }
@@ -356,7 +356,7 @@ class RedEnvelope
                 exception("添加交易记录发生错误!");
             }
             $redM->link->commit();
-        }catch(\Exception $e){
+        }catch(\Exception $ex){
             $redM->link->rollback();
             $info['message'] = '红包领取失败';
             $info['errnum'] = 1;
