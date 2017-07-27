@@ -13,7 +13,7 @@
 		<link rel="stylesheet" href="../frame/crm/css/form.css" />
 		<link rel="stylesheet" href="../frame/crm/css/index.css" />
 		<link rel="stylesheet" href="../frame/crm/css/table.css" />
-	
+
 		<style>
 			/** {
 				margin: 0;
@@ -27,7 +27,8 @@
 				/*height: 770px;*/
 				height: 100%;
 				background-color: #f5f7fa;
-			}	
+			}
+			
 			#top {
 				/*width: 1120px;*/
 				width: 100%;
@@ -36,23 +37,27 @@
 				margin: 0 10px;
 				position: relative;
 			}
-			#top .add{
+			
+			#top .add {
 				width: 26px;
 				height: 38px;
 				position: absolute;
 				right: 50px;
-				top:0;
+				top: 0;
 				padding-top: 2px;
 			}
-			#top .add p{
+			
+			#top .add p {
 				font-size: 12px;
 				text-align: center;
 			}
-			#top .add i{
+			
+			#top .add i {
 				display: block;
 				color: #1f7ed0;
 				text-align: center;
 			}
+			
 			ul.firNav {
 				height: 40px;
 				margin-left: 1px;
@@ -122,7 +127,6 @@
 				margin-bottom: 12px;
 			}
 			
-			
 			#content .dv2 {
 				width: 870px;
 				/*height: 580px;*/
@@ -166,42 +170,48 @@
 				width: 42px;
 				height: 18px;
 			}
+			
 			#content .dv1 {
 				width: 246px;
 				height: 600px;
 				background-color: #f5f5f5;
-			
-				float: left;                           
+				float: left;
 			}
-			.dv1 .role{
+			
+			.dv1 .role {
 				width: 246px;
 				height: 42px;
 				border-bottom: 1px solid #eee;
-				
 			}
-			.dv1 .role p{
+			
+			.dv1 .role p {
 				font-size: 16px;
 				margin-left: 15px;
 				line-height: 42px;
 			}
-			.dv1 .role img{
+			
+			.dv1 .role img {
 				/*position: absolute;*/
 				margin-left: 140px;
 			}
-			.dv1 ul li{
+			
+			.dv1 ul li {
 				width: 244px;
 				height: 40px;
 				border: 1px solid #eee;
 				background-color: #f5f5f5;
 			}
-			.dv1 ul li:hover{
+			
+			.dv1 ul li:hover {
 				background-color: #e6e6e6;
 				color: #77b8ff;
 			}
-			.dv1 ul li:hover img{
+			
+			.dv1 ul li:hover img {
 				display: inline-block;
 			}
-			.dv1 ul li span{
+			
+			.dv1 ul li span {
 				display: inline-block;
 				width: 160px;
 				line-height: 40px;
@@ -209,12 +219,89 @@
 				font-size: 14px;
 				vertical-align: middle;
 			}
-			.dv1 ul li img{
+			
+			.dv1 ul li img {
 				vertical-align: middle;
 				margin-right: 10px;
 				display: none;
 			}
 			
+			/*弹出框*/
+			
+			.reveal-modal-bg {
+				position: fixed;
+				height: 100%;
+				width: 100%;
+				z-index: 100;
+				display: none;
+				top: 0;
+				left: 0;
+				background: rgba(00, 00, 00, 0.4)
+			}
+			
+			.reveal-modal {
+				width: 663px;
+				height: 407px;
+				visibility: hidden;
+				top: 150px;
+				left: 50%;
+				margin-left: -300px;
+				position: absolute;
+				z-index: 101;
+				-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+				-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+				-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+				background-color: #fff;
+			}
+			
+			.reveal-modal .p1 {
+				width: 661px !important;
+				height: 50px !important;
+				background-color: #6b7a99;
+				font-size: 18px !important;
+				text-align: center;
+				line-height: 50px !important;
+				color: #fff;
+			}
+			.reveal-modal .tc_table{
+				width: 595px;
+				height: 270px;
+				border: 1px solid #eeeeee;
+				margin: 3px auto;
+				overflow-y: auto;
+				overflow-x: hidden;
+			}
+			.reveal-modal ul{
+				width: 595px;
+				height: 42px;
+				margin: 3px auto;
+			}
+			.reveal-modal ul:nth-child(2n+1){
+				background-color: #f7f7f7;
+			}
+			.reveal-modal ul li{
+				width: 118px;
+				height: 42px;
+				border-right: 1px solid #eeeeee;
+				border-bottom: 1px solid #eeeeee;
+				float: left;
+				text-align: center;
+				line-height: 42px;
+			}
+			.reveal-modal ul li:nth-last-of-type(1){
+				border-right: none;
+			}
+			.reveal-modal .close-reveal-modal {
+				font-size: 32px;
+				line-height: 0.5;
+				position: absolute;
+				top: 15px;
+				right: 18px;
+				color: #fff;
+				text-shadow: 0 -1px 1px rbga(0, 0, 0, .6);
+				font-weight: bold;
+				cursor: pointer;
+			}
 		</style>
 	</head>
 
@@ -234,11 +321,11 @@
 		<div id="content">
 			<div class="dv1">
 				<div class="role">
-					<p>业务名称<img src="img/add.png"/></p>
+					<p>业务名称<img src="img/add.png" /></p>
 				</div>
 				<ul>
-						<li><span>百度推广</span><img src="img/compile.png" /><img src="img/del.png" /> </li>
-						<!--<li><span>销售部主管</span><img src="img/compile.png" /><img src="img/del.png" /></li>
+					<li><span>百度推广</span><img src="img/compile.png" /><img src="img/del.png" /> </li>
+					<!--<li><span>销售部主管</span><img src="img/compile.png" /><img src="img/del.png" /></li>
 						<li><span>销售部经理</span><img src="img/compile.png" /><img src="img/del.png" /></li>
 						<li><span>业务员</span><img src="img/compile.png" /><img src="img/del.png" /></li>-->
 				</ul>
@@ -248,9 +335,9 @@
 					<p class="p1">流程管理</p>
 					<p class="p1">角色成员</p>
 				</div>
-				<div class="m-tableBox1" >
+				<div class="m-tableBox1">
 					<div class="m-table table1 ">
-						<ul class="u-tabTitle" >
+						<ul class="u-tabTitle">
 							<li>角色</li>
 							<li>添加时间<i class="fa fa-unsorted"></i></li>
 							<li>操作</li>
@@ -259,7 +346,7 @@
 						<ul class="u-tabList">
 							<li>销售经理</li>
 							<li>2017/06/19/15:09</li>
-							<li class="u-tabOperation"><span>查看员工</span><span>移除权限</span></li>
+							<li class="u-tabOperation"><span class="big-link" data-reveal-id="myModalone" data-animation="fade">查看员工</span><span>移除权限</span></li>
 							<div class="clearfix"></div>
 						</ul>
 					</div>
@@ -282,8 +369,54 @@
 
 			</div>
 
+			<div id="myModalone" class="reveal-modal">
+				<p class="p1">查看员工</p>
+					<div class="tc_table">
+						<ul >
+							<li>工号<i class="fa fa-caret-down"></i></li>
+							<li>姓名</li>
+							<li>直属部门</li>
+							<li>联系方式</li>
+							<li>是否部门领导<i class="fa fa-unsorted"></i></li>
+							<div class="clearfix"></div>
+						</ul>
+						<ul class="u-tabList">
+							<li>001</li>
+							<li>李丽</li>
+							<li>销售一部</li>
+							<li>13809890021</li>
+							<li>是</li>
+							<div class="clearfix"></div>
+						</ul>
+					</div>
+				<a class="close-reveal-modal">&#215;</a>
+				<div class="u-tabControlRow">
+					<span>显示行数</span>
+					<select onchange="listNumChange()">
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+					</select>
+					<span>1-10条/</span>
+					<span>共50条</span>
+					<button>上一页</button>
+					<button>下一页</button>
+					<span>前往</span>
+					<input type="text" />
+					<span>页</span>
+				</div>
+			</div>
+
 	</body>
 	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../frame/crm/js/jquery-1.4.4.min.js"></script>
 	<script type="text/javascript" src="../frame/crm/js/index.js"></script>
-
+	<script type="text/javascript" src="../frame/crm/js/jquery.reveal.js"></script>
+	
+	<script>
+		var content="<ul><li></li><li></li><li></li><li></li><li></li></ul>"
+		for(var i=0;i<5;i++){
+			$(".tc_table").append(content)
+		}
+	</script>
 </html>

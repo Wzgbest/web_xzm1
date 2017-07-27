@@ -10,6 +10,7 @@
 ----------------------------*/
 
 	$('span[data-reveal-id]').live('click', function(e) {
+		$(this).parents().addClass("change")
 		e.preventDefault();
 		var modalLocation = $(this).attr('data-reveal-id');
 		$('#'+modalLocation).reveal($(this).data());
@@ -58,7 +59,7 @@
 			modal.bind('reveal:open', function () {
 				
 				$(".motai").addClass("motai1")   //添加小模态框
-	
+				
 			
 			  modalBG.unbind('click.modalEvent');
 				$('.' + options.dismissmodalclass).unbind('click.modalEvent');
@@ -91,7 +92,9 @@
 			//Closing Animation
 			modal.bind('reveal:close', function () {
 				$(".motai").removeClass("motai1")//移除小黑色模态框
+				
 			  if(!locked) {
+			  		$('.dv1 .active p').removeClass("change")
 					lockModal();
 					if(options.animation == "fadeAndPop") {
 						modalBG.delay(options.animationspeed).fadeOut(options.animationspeed);
@@ -118,6 +121,8 @@
 					}		
 				}
 				modal.unbind('reveal:close');
+//				$('.dv1 .active p').removeClass("change")
+				
 			});     
    	
 /*---------------------------
@@ -125,19 +130,23 @@
 ----------------------------*/
         	//Open Modal Immediately
     	modal.trigger('reveal:open')
-			
+		
 			//Close Modal Listeners
 			var closeButton = $('.' + options.dismissmodalclass).bind('click.modalEvent', function () {
+
 			  modal.trigger('reveal:close')
+			 
 			});
 			
 			if(options.closeonbackgroundclick) {
 				modalBG.css({"cursor":"pointer"})
 				modalBG.bind('click.modalEvent', function () {
 				  modal.trigger('reveal:close')
+				  
 				});
 			}
 			$('body').keyup(function(e) {
+				
         		if(e.which===27){ modal.trigger('reveal:close'); } // 27 is the keycode for the Escape key
 			});
 			
