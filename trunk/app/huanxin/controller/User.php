@@ -260,7 +260,71 @@ class User extends Controller{
     }
 
     /**
-     * 修改环信app支付密码
+     * 修改支付密码
+     * @return string
+     */
+    public function changePayPassword()
+    {
+        $userid = input('param.userid');
+        $paypassword = input('paypassword');
+        $newpass = input('param.newpaypassword');
+        $info['status'] = false;
+        if (empty($paypassword)) {
+            $info['message'] = '支付密码不能为空';
+            $info['errnum'] = 2;
+            return json($info);
+        }
+        if (empty($newpass)) {
+            $info['message'] = '新支付密码不能为空';
+            $info['errnum'] = 2;
+            return json($info);
+        }
+        if ($newpass == $paypassword) {
+            $info['message'] = '新支付密码不能和旧的相同';
+            $info['errnum'] = 2;
+            return json($info);
+        }
+        if (!check_tel($userid)) {
+            $info['message'] = '手机号码格式不正确';
+            $info['errnum'] = 3;
+            return json($info);
+        }
+        $corp_id = get_corpid($userid);
+        if (!$corp_id) {
+            $info['message'] = '非系统用户';
+            $info['errnum'] = 4;
+            return json($info);
+        }
+        $userinfo = get_userinfo();
+        if (md5($paypassword) != $userinfo['userinfo']['pay_password']) {
+            $result['info'] = '支付密码错误';
+            $result['status'] = 6;
+            return json($result);
+        }
+        if (md5($newpass) == $userinfo['userinfo']['pay_password']) {
+            $info['message'] = '新支付密码不能和旧的相同';
+            $info['errnum'] = 2;
+            return json($info);
+        }
+        $data = ['pay_password'=>md5($newpass)];
+        $employee = new Employee($corp_id);
+        $r_userid = $employee->getEmployeeByTel($userid);
+        $r = $employee->setEmployeeSingleInfo($userid,$data);
+        if ($r >= 0) {
+            set_reset_code($userid,null);
+            write_log($r_userid['id'],1,'用户修改支付密码',$corp_id);
+            $info['status'] = true;
+            $info['errnum'] = 0;
+            $info['message'] = '修改支付密码成功';
+        } else {
+            $info['message'] = '修改支付密码失败';
+            $info['errnum'] = 6;
+        }
+        return json($info);
+    }
+
+    /**
+     * 重设支付密码
      * @return string
      */
     public function resetPayPassword()
@@ -296,18 +360,25 @@ class User extends Controller{
             $info['errnum'] = 5;
             return json($info);
         }
-        $data = ['pay_password'=>md5($newpass)];
+        $userinfo = get_userinfo();
+        $newpass_hash = md5($newpass);
+        if ($newpass_hash == $userinfo['userinfo']['pay_password']) {
+            $info['message'] = '新支付密码不能和旧的相同';
+            $info['errnum'] = 2;
+            return json($info);
+        }
+        $data = ['pay_password'=>$newpass_hash];
         $employee = new Employee($corp_id);
         $r_userid = $employee->getEmployeeByTel($userid);
         $r = $employee->setEmployeeSingleInfo($userid,$data);
         if ($r >= 0) {
             set_reset_code($userid,null);
-            write_log($r_userid['id'],1,'用户修改支付密码',$corp_id);
+            write_log($r_userid['id'],1,'用户重设支付密码',$corp_id);
             $info['status'] = true;
             $info['errnum'] = 0;
-            $info['message'] = '修改支付密码成功';
+            $info['message'] = '重设支付密码成功';
         } else {
-            $info['message'] = '修改支付密码失败';
+            $info['message'] = '重设支付密码失败';
             $info['errnum'] = 6;
         }
         return json($info);

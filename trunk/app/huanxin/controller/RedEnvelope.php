@@ -209,6 +209,7 @@ class RedEnvelope
             return json(['status'=>false,'errnum'=>1,'message'=>'红包id错误'],true);
         }
 
+        $time = time();
         $info['status'] =true;
         $redM = new RedB($r['corp_id']);
 /*      //方法1:缓存记录红包信息,速度快
@@ -242,7 +243,6 @@ class RedEnvelope
             return json($info);
         }
 
-        $time = time();
         foreach ($red_arr as $k => $v) {
             if ($v['is_token'] == 0) {
                 $red_data = $v;
@@ -316,7 +316,7 @@ class RedEnvelope
 
         $redM->link->startTrans();
         try{
-            $getCount = $redM->fetchedRedEnvelope($r['userinfo']['id'],$red_id);
+            $getCount = $redM->fetchedRedEnvelope($red_id,$r['userinfo']['id'],$userid,$time);
             if(!$getCount>0){
                 $redM->link->rollback();
                 $info['status'] = false;
