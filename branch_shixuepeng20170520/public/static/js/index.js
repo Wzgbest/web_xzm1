@@ -119,6 +119,19 @@ function loadPage(url, panel) {
         }
     });
 }
+function loadPagebypost(url, data, panel) {
+    $.ajax({
+        url: url,
+        type: 'post',
+        data: data,
+        success: function(data) {
+            $('#frames #' + panel).html(data);
+        },
+        error: function() {
+            $('#frames #' + panel).html("页面加载时发生错误!");
+        }
+    });
+}
 //副标题栏的点击事件
 //切换当前的效果
 $(document).on('click', '#subtitle>div', function() {
