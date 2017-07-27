@@ -144,8 +144,9 @@ class Customer extends Base
     public function getManageCustomerCount($filter=null,$order="id",$direction="desc"){
 
         //筛选
-        $map = $this->_getMapByFilter($filter,["belongs_to","resource_from","comm_status","take_type","tracer","guardian","add_man"]);
+        $map = $this->_getMapByFilter($filter,["grade","resource_from","comm_status","take_type","tracer","guardian","add_man"]);
         //$map['belongs_to'] = 1;
+        //var_exp($map,'$map',1);
 
         //排序
         if($direction!="desc" && $direction!="asc"){
@@ -201,6 +202,7 @@ class Customer extends Base
             ->table($subQuery." l")
             ->group("id")
             ->count();
+        //var_exp($customerCount,'$customerCount',1);
         return $customerCount;
     }
 
