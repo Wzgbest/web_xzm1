@@ -34,10 +34,11 @@ class RedEnvelope extends Base
      */
     public function getRedInfoByRedId($red_id)
     {
-        return $this->model->table($this->table)
-            ->field('id,redid,fromuser,money,took_time,is_token,create_time,took_user,total_money,took_telephone')
-            ->where('redid',$red_id)
-            ->where('is_token','<>',2)
+        return $this->model->table($this->table)->alias('re')
+            ->join(config('database.prefix').'employee e','re.took_user = e.id')
+            ->field('re.id,re.redid,re.fromuser,re.money,re.total_money,re.is_token,re.create_time,re.took_time,re.took_user,re.took_time,e.telephone took_telephone,e.truename as took_user')
+            ->where('re.redid',$red_id)
+            ->where('re.is_token','<>',2)
             ->select();
     }
     /**
@@ -79,10 +80,11 @@ class RedEnvelope extends Base
      */
     public function getFetchedRedList($red_id)
     {
-        return $this->model->table($this->table)->alias('a')
-            ->join(config('database.prefix').'employee b','a.took_user = b.id')
-            ->field('a.redid,a.money,a.total_money,a.took_time,b.telephone,b.truename as took_user')
-            ->where('a.redid',$red_id)->where('a.is_token',1)
+        return $this->model->table($this->table)->alias('re')
+            ->join(config('database.prefix').'employee e','re.took_user = e.id')
+            ->field('re.redid,re.money,re.total_money,re.took_time,e.telephone took_telephone,e.truename as took_user')
+            ->where('re.redid',$red_id)
+            ->where('re.is_token',1)
             ->select();
     }
 
@@ -98,16 +100,18 @@ class RedEnvelope extends Base
 
     /**
      * 取出已被领取的红包
-     * @param $user
      * @param $red_id
+     * @param $user
      * @return false|\PDOStatement|string|\think\Collection
      */
-    public function fetchedRedEnvelope($user,$red_id)
+    public function fetchedRedEnvelope($red_id,$user_id,$user_phone,$time)
     {
         $map["redid"] = $red_id;
         $map["is_token"] = 0;
         $data["is_token"] = 1;
-        $data["took_user"] = $user;
+        $data["took_user"] = $user_id;
+        $data["took_telphone"] = $user_phone;
+        $data["took_user"] = $time;
         return $this->model->table($this->table)
             ->where($map)
             ->limit(1)
