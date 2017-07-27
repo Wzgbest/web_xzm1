@@ -35,7 +35,7 @@ class RedEnvelope extends Base
     public function getRedInfoByRedId($red_id)
     {
         return $this->model->table($this->table)->alias('re')
-            ->join(config('database.prefix').'employee e','re.took_user = e.id')
+            ->join(config('database.prefix').'employee e','re.took_user = e.id','left')
             ->field('re.id,re.redid,re.fromuser,re.money,re.total_money,re.is_token,re.create_time,re.took_time,re.took_user,re.took_time,e.telephone took_telephone,e.truename as took_user')
             ->where('re.redid',$red_id)
             ->where('re.is_token','<>',2)
