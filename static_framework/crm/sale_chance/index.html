@@ -36,7 +36,7 @@
             </div>
             <div class="m-tableBox">
             	<!--sale-chance-all为正常跟进、停滞、已输单、已作废、所有销售机会表格（表格结构相同） table5定义宽度-->
-            	<div class="m-table table5 sale-chance-all">
+<!--            	<div class="m-table table5 sale-chance-all">
             		<ul class="u-tabTitle">
                         <li>最后变更时间<i class="fa fa-caret-down"></i></li>
                         <li>销售机会<i class="fa fa-unsorted"></i></li>
@@ -58,9 +58,9 @@
                         <li>5400元</li>
                         <li>5200元</li>
                     <div class="clearfix"></div>
-            	</div>
+            	</div>-->
             	<!--sale-chance-complete为已成单销售机会表格 table6定义宽度-->
-            	<div class="m-table table6 sale-chance-complete hide">
+            	<div class="m-table table6 table-sale-chance">
             		<ul class="u-tabTitle">
                         <li>最后变更时间<i class="fa fa-caret-down"></i></li>
                         <li>销售机会<i class="fa fa-unsorted"></i></li>
@@ -106,3 +106,9 @@
     </div>
 </div>    
 <link rel="stylesheet" href="/crm/css/index.css"/>
+<script src="/crm/js/contract_index.js"></script>
+<script>
+	var i = '<i class="fa fa-unsorted"></i>';
+	var arr = [[0,1,2,3,4,5,6,7],[0,1,2,3,4,5,6,7],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7],[0,1,2,3,4,5,6,7],[0,1,2,3,4,5,6,7]];
+	var sale_chance_index_list_manage = new list_manage("crm_sale_chance_index","table-sale-chance",arr);
+</script>
