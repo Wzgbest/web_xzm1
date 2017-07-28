@@ -25,6 +25,9 @@
 	width: 49%;
 	margin-right: 2%;
 }
+.m-divBlock4{
+	margin-top: 0;
+}
 .m-divBlock span{
 	line-height: 30px;
 }
@@ -45,6 +48,12 @@
 .color-blue{
 	color: #77b8ff !important;
 }
+.color-green{
+	color: #13ae6b;
+}
+.color-yellow{
+	color: #ffa31c;
+}
 .margin-left70{
 	margin-left: 70px;
 }
@@ -57,6 +66,7 @@
 	line-height: 25px;
 	color: white;
 	margin-right: 25px;
+	cursor: pointer;
 }
 .buttons i{
 	width: 25px;

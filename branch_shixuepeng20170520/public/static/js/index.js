@@ -1,14 +1,24 @@
-//根据窗口变化获得屏幕可用尺寸
-//var con_wid = window.innerWidth-220;
-//console.log(con_wid);
-$("#side").height(window.innerHeight);
-$("header").width(window.innerWidth - 220);
-$("section#subt").width(window.innerWidth - 220);
-$("#subtitle").width(window.innerWidth - 220);
-$("#frames").width(window.innerWidth - 220);
-$("#frames").height(window.innerHeight - 80);
-$("#frames .once").width(window.innerWidth - 220);
-$("#frames .once").height(window.innerHeight - 80);
+var phoneWidth = 0;
+//初始化
+function init(){
+	//根据窗口变化获得屏幕可用尺寸
+	$("#side").height(window.innerHeight);
+	$("header").width(window.innerWidth - 220);
+	$("section#subt").width(window.innerWidth - 220);
+	$("#subtitle").width(window.innerWidth - 220);
+	$("#frames").width(window.innerWidth - 220);
+	$("#frames").height(window.innerHeight - 80);
+	$("#frames .once").width(window.innerWidth - 220);
+	$("#frames .once").height(window.innerHeight - 80);
+	$(".phone-box").height(window.innerHeight - 80);
+	//隐藏副标题
+	$("aside dl dd").addClass("hide");
+	//默认事件
+	$("aside dl").eq(0).addClass("dlcurrent").children().children("i").eq(1).removeClass("fa-angle-right").addClass("fa-angle-down");
+	$("aside dl").eq(0).children("dd").removeClass("hide");
+	$("aside dl").eq(0).children("dt").addClass("dtcurrent").siblings("dd").eq(0).addClass("ddcurrent");
+}
+init();
 
 //根据屏幕尺寸，设置侧边栏的可用高度
 window.onresize = function() {
@@ -28,30 +38,19 @@ function subResize() {
 }
 
 function changeFramesSize() {
-    //console.log(window.innerHeight);
-    //	var wid = window.innerWidth-220;
     $("#side").height(window.innerHeight);
     $(".header").width(window.innerWidth - 220);
     $("section#subt").width(window.innerWidth - 220);
     $("#subtitle").width(window.innerWidth - 220);
     $("body").width(window.innerWidth);
     $("body").height(window.innerHeight);
-    $("#frames").width(window.innerWidth - 220);
+    $("#frames").width(window.innerWidth - 220 -phoneWidth);
     $("#frames").height(window.innerHeight - 80);
-    $("#frames .once").width(window.innerWidth - 220);
+    $("#frames .once").width(window.innerWidth - 220-phoneWidth);
     $("#frames .once").height(window.innerHeight - 80);
+    $(".phone-box").height(window.innerHeight - 80);
     subResize();
 };
-
-
-//初始化
-//隐藏副标题
-$("aside dl dd").addClass("hide");
-//默认事件
-$("aside dl").eq(0).addClass("dlcurrent").children().children("i").eq(1).removeClass("fa-angle-right").addClass("fa-angle-down");
-$("aside dl").eq(0).children("dd").removeClass("hide");
-$("aside dl").eq(0).children("dt").addClass("dtcurrent").siblings("dd").eq(0).addClass("ddcurrent");
-
 
 //主标题单机事件
 $("aside dl dt").click(function() {
@@ -65,29 +64,30 @@ $("aside dl dt").click(function() {
 var subtitleGroup = ["index"];
 //侧边栏点击
 $("aside dl dd").click(function() {
-    $("aside dl dd").removeClass("ddcurrent");
-    $("aside dl dt").removeClass("dtcurrent");
-    $(this).addClass("ddcurrent");
-    $(this).siblings("dt").addClass("dtcurrent");
-    //在子标题栏增加新窗口,判断是否已经存在
-    var t = $(this).text();
-    var v = $(this).data().subid;
-    var f = v + "fr";
-    var x = subtitleGroup.indexOf(v);
-    //console.log(t,v,x,f,subtitleGroup);
+	clicker($(this));
+    asideChange();//侧边栏当前显示
+    changeFramesSize()
+});
+
+function clicker(e){
+	//在子标题栏增加新窗口,判断是否已经存在
+    var t = e.text();//获取到文字内容
+    var v = e.data().subid;//获取到data-subid
+    var f = v + "fr";//创建对应frame的id
+    var x = subtitleGroup.indexOf(v);//判断data-subid是否已经存在，即是否已经打开
     //当前点击
-    if (x == -1) {
-        subtitleGroup.push(v);
-        $("#subtitle>div").removeClass("active");
+    if (x == -1) {//不存在
+        subtitleGroup.push(v);//数组中添加当前项
+        $("#subtitle>div").removeClass("active");//子标题删除当前状态
+        //创建新的子标题块div
         var tv = "<div id='" + v + "'class='active' ><span>" + t + "</span><i class='fa fa-close'></i></div>";
         $("#subtitle").append(tv);
-        //frame
+        //frame模块隐藏
         $("#frames .once").addClass("hid");
-        //var fr = "<div src='"+$(this).attr("_src")+"' id='"+f+"' class='once'></div>";
-        //$("#frames").append(fr);
+        //创建新的frame块
         var html = '<div id="' + f + '" class="once"></div>';
-        $('#frames').append(html);
-        var url = $(this).attr('_src');
+        $('#frames').append(html); //添加frame块到页面
+        var url = e.attr('_src');
         loadPage(url, f);
         $("#frames").width(window.innerWidth - 220);
         $("#frames").height(window.innerHeight - 80);
@@ -95,16 +95,13 @@ $("aside dl dd").click(function() {
         $("#frames .once").height(window.innerHeight - 80);
         //子标题栏长度增加
         subResize();
-    } else {
+    } else {//已存在
         //非当前点击
-        /*$("#frames .once").addClass("hid");
-        document.getElementById(f).classList.remove("hid");*/
         $("#subtitle>div").removeClass("active");
-        //document.getElementById(v).setAttribute("class","active");
-        document.getElementById(v).classList.add("active");
+        $("#"+v).addClass("active");
         frameShow();
     }
-});
+}
 //侧边栏在当前被删除后的切换
 function loadPage(url, panel) {
     $.ajax({
@@ -136,9 +133,6 @@ function loadPagebypost(url, data, panel) {
 //切换当前的效果
 $(document).on('click', '#subtitle>div', function() {
     $(this).addClass("active").siblings().removeClass("active");
-    //console.log($(this).attr("id"));
-    //	$("#frames .once").addClass("hid");
-    //	document.getElementById($(this).attr("id")+"fr").classList.remove("hid");
     frameShow();
     asideChange();
 });
@@ -147,14 +141,12 @@ $(document).on('click', '#subtitle>div i.fa-close', function() {
     //当前删除和非当前删除
     //是否是当前项
     var cla = $(this).parent().attr("class");
-    //console.log(cla);
     //获取位置
     var id = $(this).parent().attr("id");
     var t = subtitleGroup.indexOf(id);
     //判断位置,添加删除后的active项
     //如果是当前删除，需要判断删除后显示那一个页面
     if (cla == "active") {
-        //console.log(22222);
         var len = subtitleGroup.length;
         //如果是最后一个位置
         if (t == len - 1) {
@@ -165,9 +157,7 @@ $(document).on('click', '#subtitle>div i.fa-close', function() {
     }
     //删除选中项！
     subtitleGroup.splice(t, 1);
-    //console.log(subtitleGroup);
     $(this).parent().remove();
-    //console.log($(this).parent().attr("id"));
     $("#" + $(this).parent().attr("id") + "fr").remove();
     subResize();
     frameShow();
@@ -177,7 +167,7 @@ $(document).on('click', '#subtitle>div i.fa-close', function() {
 function frameShow() {
     //隐藏所有
     $("#frames .once").addClass("hid");
-    //判断当前项是谁显示
+    //根据子标题的当前当前项是谁，判断当前项是谁显示
     document.getElementById($("#subtitle>div.active").attr("id") + "fr").classList.remove("hid");
 }
 //侧边栏在当前被删除后的切换
@@ -187,20 +177,11 @@ function asideChange() {
     $("aside dl dd").removeClass("ddcurrent");
     //判断当前显示
     var a = getElementByAttr('dd', 'data-subid', $("#subtitle>div.active").attr("id"))[0];
-    //console.log(a);
-    /*	a.addClass("ddcurrent");
-    	a.sibling("dt").addClass("dtcurrent");*/
-    a.classList.add("ddcurrent");
-    var ap = a.parentNode;
-    //console.log(ap.getElementsByTagName("dt")[0]);
-    ap.getElementsByTagName("dt")[0].classList.add("dtcurrent");
-
-    /*var apc = ap.firstChild;
-    //console.log(a);
-    //console.log(ap);*/
-    //console.log(apc);
-    //a.parentNode().firstChild().classList.add("dtcurrent");
-
+    if(a){
+    	a.classList.add("ddcurrent");
+   		var ap = a.parentNode;
+    	ap.getElementsByTagName("dt")[0].classList.add("dtcurrent");	
+    }   
 }
 //根据自定义属性 获取元素
 function getElementByAttr(tag, attr, value) {
@@ -212,23 +193,6 @@ function getElementByAttr(tag, attr, value) {
     }
     return aEle;
 }
-/*
-    (function($){
-        $(window).load(function(){
-            $(".content").mCustomScrollbar();
-        });
-    })(jQuery);*/
-var content;
-// var request = new XMLHttpRequest();
-// if(request){
-// 	request.open("GET","/datacount/index/summary.html",true)
-// 	request.onreadystatechange = function(){
-// 		if(request.readyState == 4){
-// 			document.getElementById("indexfr").innerHTML = request.responseText;
-// 		}
-// 	};
-// 	request.send(null);
-// }
 $(document).ready(function() {
     var url = "/datacount/index/summary/";
     $.ajax({

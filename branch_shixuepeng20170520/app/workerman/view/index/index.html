@@ -1,89 +1,35 @@
-<!doctype html>
-<html>
-<head>
-    <script src="/static/js/jquery-1.11.1.min.js"></script>
-    <script src="/static/js/socket.io.js"></script>
-</head>
-<body>
-<script>
-//    // 连接服务端，workerman.net:2120换成实际部署web-msg-sender服务的域名或者ip
-////    var socket = io('ws://webcall.app:8001');
-//    var socket = io('http://webcall.app:8001');
-//    // uid可以是自己网站的用户id，以便针对uid推送以及统计在线人数
-//    uid = 123;
-//    // socket连接后以uid登录
-//    socket.on('connect', function(err,data){
-////        socket.emit('login', uid);
-//        if (err) {
-//            console.log(err);
-//        }
-//        console.log('connect ok');
-//    });
-//    socket.on('message',function (e) {
-//        console.log(e);
-////        socket.send();
-//    });
-//    setTimeout(function () {
-//        socket.send('{"user":"phper","pass":123456}');
-//    },1000);
-////    // 后端推送来消息时
-////    socket.on('new_msg', function(msg){
-////        console.log("收到消息："+msg);
-////    });
-////    // 后端推送来在线数据时
-////    socket.on('update_online_count', function(online_stat){
-////        console.log(online_stat);
-////    });
-</script>
-<script>
-//    html5 websocket implement
-    var ws;
-//    处理消息
-    function handleMessage (mes) {
-        if (mes != undefined) {
-            mes = JSON.parse(mes);
-            if (typeof(mes) == 'string') {
-                mes = JSON.parse(mes);
-            }
-            console.log(mes);
-            if (mes.status != undefined) {
-                if (mes.status ==1) {
-                    console.log('calling...');
-                } else if (mes.status == 2) {
-                    console.log('hang off...');
-                }
-            }
-        }
-    }
-//    获取连接
-    function getWs () {
-        var socket = new WebSocket("ws://webcall.app:8001");
-        return socket;
-    }
-   ws = getWs();
-
-//    ws = new WebSocket("ws://webcall.app:8001");
-//    接收消息
-    ws.onmessage = function(e){
-        console.log('reveive rawdata from server');
-//        var data = eval("("+e.data+")");
-//        console.log(e.data);
-        handleMessage(e.data);
-    };
-//    服务端关闭
-    ws.onclose = function (e) {
-        console.log('connect closed');
-    };
-//    连接建立
-    ws.onopen = function (e) {
-        console.log('connect established');
-        ws.send('{"user":"phper","pass":123456,"status":1}');
-    };
-
-//    var interval = window.setInterval(function () {
-//        var time = new Date();
-//        ws.send('{"user":"phper","pass":"123456'+time+'"}');
-//    },2000);
-</script>
-</body>
-</html>
+<div class="crm_phone_call phone_call_call">
+    <div class="call_panel call">
+        <header>
+            <ul class="m-firNav">
+                <li in_column="0" class="in_column current"><div>正在通话</div></li>
+            </ul>
+        </header>
+        <section id="phone-call">
+            <div class="calling m-divBlock m-divBlock2">
+                <ul class="info">
+                    <li>
+                        <span>最后通话时间</span><br />
+                        <span>2017/07/28/08:56</span>
+                    </li>
+                    <li>
+                        <span>来电次数</span><br />
+                        <span>8</span>次
+                    </li>
+                    <li>
+                        <span>去电次数</span><br />
+                        <span>30</span>次
+                    </li>
+                </ul>
+                <div class="warming">
+                    <h2>该号码对应客户已被<span>20</span>位员工搜集</h2>
+                    <div class="u-submitButton">
+                        <button>继续</button>
+                        <button>挂断</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<link rel="stylesheet" href="/crm/css/phonecall.css" />

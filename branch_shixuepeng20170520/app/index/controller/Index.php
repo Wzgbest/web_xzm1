@@ -17,6 +17,7 @@ class Index extends Controller
         if (empty($userinfo)) {
             $this->redirect('/login/index/index');
         }
+        $this->assign("userinfo",$userinfo);
         return view();
     }
 

@@ -1462,7 +1462,7 @@ class Customer extends Base
             "cn.phone_correct",
             "cn.profile_correct",
             "cn.call_through",
-            "cn.is_wait"
+            "cn.is_wait",
         ];
         $customer = $this->model->table($this->table)->alias('c')
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
