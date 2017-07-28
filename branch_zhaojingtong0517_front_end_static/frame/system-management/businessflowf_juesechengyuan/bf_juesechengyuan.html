@@ -253,7 +253,14 @@
 				-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
 				background-color: #fff;
 			}
-			
+			.reveal-modal .reveal_two{
+				width: 765px;
+				height: 400px;
+			}
+			.reveal-modal .reveal_two .p1{
+				width: 765px !important;
+				height: 50px;
+			}
 			.reveal-modal .p1 {
 				width: 661px !important;
 				height: 50px !important;
@@ -302,6 +309,51 @@
 				font-weight: bold;
 				cursor: pointer;
 			}
+			
+			.reveal-modal select {
+				width: 200px;
+				height: 30px;
+				margin-left: 10px;
+			}
+			
+			.reveal_two .p2{
+				width: 600px;
+				height: 200px;
+				margin-left: 30px;
+				margin-top: 80px;
+			}
+			.reveal_two .p2 input{
+			
+				font-size: 12px;
+				vertical-align: middle;
+			
+			}
+			.reveal_two .p2 span{
+				font-size: 12px;
+				vertical-align: middle;
+				margin-right: 50px;
+			}
+			.reveal_two .p2 span:nth-last-of-type(1){
+				margin-right: 0;
+			}
+			.reveal_two .p5{
+				width: 265px;
+				height: 40px;
+				margin: 0 auto;
+			}
+			.reveal_two .p5 input{
+				width: 100px !important;
+				height: 40px !important;
+				background-color: #42a5f5;
+				border-radius: 10px;
+				margin-right: 60px;
+			}
+			.reveal_two .p5 button{
+				width: 100px;
+				height: 40px;
+				border-radius: 10px;
+				
+			}
 		</style>
 	</head>
 
@@ -311,11 +363,16 @@
 				<li class="current">
 					<div>业务流</div>
 				</li>
-
 			</ul>
 			<div class="add">
-				<i class="fa fa-plus fa-2x"></i>
-				<p>新增</p>
+				<span class="big-link" data-reveal-id="myModaltwo" data-animation="fade">
+					<i class="fa fa-plus fa-2x"></i>
+				</span>
+				<p>
+					<span class="big-link" data-reveal-id="myModaltwo" data-animation="fade">新增
+					
+					</span>
+				</p>
 			</div>
 		</div>
 		<div id="content">
@@ -406,6 +463,26 @@
 					<span>页</span>
 				</div>
 			</div>
+			
+			<div id="myModaltwo" class="reveal-modal reveal_two">
+			<p class="p1">新增角色成员</p>
+			<p class="p2">
+				<input type="checkbox" /><span>市场经理</span>
+				<input type="checkbox" /><span>后勤部长</span>
+				<input type="checkbox" /><span>销售员工</span>
+				<input type="checkbox" /><span>人力资源部长</span>
+				<input type="checkbox" /><span>销售部长</span>
+				<input type="checkbox" /><span>后勤经理</span>
+				<input type="checkbox" /><span>销售员工</span>
+				<input type="checkbox" /><span>人力资源部长</span>
+				<input type="checkbox" /><span>销售部长</span>
+			</p>
+			<p class="p5">
+				<input type="submit" value="确定" />
+				<button>取消</button>
+			</p>
+			<a class="close-reveal-modal">&#215;</a>
+		</div>
 
 	</body>
 	<script type="text/javascript" src="../js/jquery.min.js"></script>

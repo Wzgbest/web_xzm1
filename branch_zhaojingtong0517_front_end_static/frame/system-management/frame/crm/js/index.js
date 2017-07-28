@@ -2,7 +2,7 @@ $(".m-firNav li").click(function(){
 	$(".m-firNav li").removeClass("current");
 	$(this).addClass("current");
 });
-var content1 = "<ul class='u-tabList'><li ></li><li ></li><li class='u-tabOperation'><span>查看员工</span><span>移除权限</span></li><div class='clearfix'></div></ul>";
+var content1 = "<ul class='u-tabList'><li ></li><li ></li><li class='u-tabOperation'><span class='big-link' data-reveal-id='myModalone' data-animation='fade'>查看员工</span><span>移除权限</span></li><div class='clearfix'></div></ul>";
 var content2 = "<ul class='u-tabList'><li class='u-tabCheckbox'><input type='checkbox'/></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li class='u-tabOperation'><span>详情</span><span>编辑</span><span>删除</span></li><div class='clearfix'></div></ul>";
 var content3 = "<ul class='u-tabList'><li></li><li></li><li></li><li></li><li></li><li></li><li class='u-tabOperation'><span class='big-link' data-reveal-id='myModalone' data-animation='fade'>删除</span><span class='big-link' data-reveal-id='myModal' data-animation='fade'>移至</span></li><div class='clearfix'></div></ul>";
 
