@@ -25,7 +25,16 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 		var id = $(this).parent().siblings().children(":checkbox").val();
 		self.edit(id);
 	});
-
+	//打电话事件
+	$(this.panel_base+" ."+this.from+" .u-tabList .u-tabLinkWay").click(function(){
+		var id = $(this).siblings().children(":checkbox").val();
+		var num = $(this).text();
+		self.general(id);
+		$("#phone-number").val(num);
+		$(".phone-box").removeClass("hide");
+		phoneWidth = $(".phone-box").width()+10;
+		changeFramesSize();
+	});
 	//弹出框方法
 	this.close=function(){
 		$(this.panel_base+" .customer_info_panel").addClass("hide");

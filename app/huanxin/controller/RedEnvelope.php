@@ -392,7 +392,7 @@ class RedEnvelope
             $params = json_encode([
                 'userid'=>$chk_info['userinfo']['id'],
                 'corp_id'=>$chk_info['corp_id'],
-                "red_data"=>[]
+                "red_data"=>''
             ],true);
             $b = \think\Hook::listen('check_over_time_red',$params);
             if (!$b[0]) {
