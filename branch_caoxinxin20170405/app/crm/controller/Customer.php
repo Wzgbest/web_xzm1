@@ -17,6 +17,9 @@ use app\crm\model\CustomerDelete as CustomerDelete;
 use app\crm\model\CustomerNegotiate;
 use app\systemsetting\model\CustomerSetting;
 use app\common\model\Business;
+use app\common\model\Employee as EmployeeModel;
+use app\crm\model\SaleChance as SaleChanceModel;
+use app\crm\model\CustomerContact as CustomerContactModel;
 
 class Customer extends Initialize{
     var $paginate_list_rows = 10;
@@ -105,7 +108,7 @@ class Customer extends Initialize{
     public function customer_pool(){
         return $this->public_customer_pool(1);
     }
-    public function public_customer_pool($fff=0){
+    public function public_customer_pool($fff=0){//TODO fff是生成用开关
         $num = input('num',$this->paginate_list_rows,'int');
         $p = input("p",1,"int");
         $customers_count=0;
@@ -177,28 +180,39 @@ class Customer extends Initialize{
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view($view_name);
     }
+    public function customer_pending(){
+        return "crm/customer/customer_pending";
+    }
+    public function customer_subordinate(){
+        return "crm/customer/customer_subordinate";
+    }
     protected function _showCustomer(){
         $id = input('id',0,'int');
         if(!$id){
             $this->error("参数错误！");
         }
-        $this->assign("id",$id);
+        $info_array = [];
+        $info_array["id"] = $id;
         $this->assign("fr",input('fr'));
         $customerM = new CustomerModel($this->corp_id);
         $customerData = $customerM->getCustomer($id);
-        $this->assign("customer",$customerData);
+        $customerData["website_arr"] = explode(",",$customerData["website"]);
+        $info_array["customer"] = $customerData;
         $customerM = new CustomerContact($this->corp_id);
-        $customerData = $customerM->getCustomerContactCount($id);
-        $this->assign("customer_contact_num",$customerData);
+        $customer_contact_num = $customerM->getCustomerContactCount($id);
+        $info_array["customer_contact_num"] = $customer_contact_num;
         $customerM = new SaleChance($this->corp_id);
-        $customerData = $customerM->getSaleChanceCount($id);
-        $this->assign("sale_chance_num",$customerData);
+        $sale_chance_num = $customerM->getSaleChanceCount($id);
+        $info_array["sale_chance_num"] = $sale_chance_num;
         $customerM = new CustomerTrace($this->corp_id);
-        $customerData = $customerM->getCustomerTraceCount($id);
-        $this->assign("customer_trace_num",$customerData);
+        $customer_trace_num = $customerM->getCustomerTraceCount($id);
+        $info_array["customer_trace_num"] = $customer_trace_num;
         $business = new Business($this->corp_id);
         $business_list = $business->getBusinessArray();
-        $this->assign("business_array",$business_list);
+        $info_array["business_array"] = $business_list;
+
+        $this->assign($info_array);
+        return $info_array;
     }
     public function add_page(){
         $this->assign("fr",input('fr'));
@@ -211,7 +225,18 @@ class Customer extends Initialize{
         return view();
     }
     public function general(){
-        $this->_showCustomer();
+        $info_array = $this->_showCustomer();
+        $employeeM = new EmployeeModel($this->corp_id);
+        $handle_employee = $employeeM->getEmployeeByUserid($info_array["customer"]["handle_man"]);
+        $this->assign("handle_employee",$handle_employee);
+        $add_employee = $employeeM->getEmployeeByUserid($info_array["customer"]["add_man"]);
+        $this->assign("add_employee",$add_employee);
+        $customerM = new SaleChanceModel($this->corp_id);
+        $SaleChancesData = $customerM->getAllSaleChancesByCustomerId($info_array["id"]);
+        $this->assign("sale_chance",$SaleChancesData);
+        $customerM = new CustomerContactModel($this->corp_id);
+        $customerContactData = $customerM->getAllCustomerContactsByCustomerId($info_array["id"]);
+        $this->assign("customer_contact",$customerContactData);
         return view();
     }
     public function show(){
@@ -769,6 +794,7 @@ class Customer extends Initialize{
         $customer['website'] = input('website');
         $customer['remark'] = input('remark');
 
+        $customer["last_edit_time"] = time();
         return $customer;
     }
     protected function _getCustomerNegotiateForInput(){
