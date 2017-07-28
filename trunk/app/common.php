@@ -77,9 +77,11 @@ function set_userinfo($corp_id,$telephone,$user_arr){
         'corp_id'=>$corp_id,
         'telephone'=>$telephone,
         'userid'=>$user_arr['id'],
+        'userpic'=>$user_arr['userpic'],
         'wiredphone'=>$user_arr['wired_phone'],
         'partphone'=>$user_arr['part_phone'],
         'truename'=>$user_arr['truename'],
+        'nickname'=>$user_arr['nickname'],
         'role'=>$user_arr['role_name'],
         'userinfo'=>$user_arr,
     ];

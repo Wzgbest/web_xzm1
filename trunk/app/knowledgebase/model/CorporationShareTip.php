@@ -45,16 +45,30 @@ class CorporationShareTip extends Base{
         return $flg;
     }
 
-    public function getTipEmployee($share_id){
+    public function getTipList($share_id){
         $map["cst.share_id"] = $share_id;
         $map["e.status"]=1;
-        $order="cst.share_id desc";
+        $order="cst.id desc";
         $employeeList = $this->model->table($this->table)->alias('cst')
             ->join($this->dbprefix.'employee e','e.id = cst.user_id',"LEFT")
             ->where($map)
             ->order($order)
             ->group("cst.id")
             ->field("cst.*,e.truename,e.telephone,e.userpic")
+            ->select();
+        return $employeeList;
+    }
+
+    public function getTipEmployee($share_id){
+        $map["cst.share_id"] = $share_id;
+        $map["e.status"]=1;
+        $order="cst.id desc";
+        $employeeList = $this->model->table($this->table)->alias('cst')
+            ->join($this->dbprefix.'employee e','e.id = cst.user_id',"LEFT")
+            ->where($map)
+            ->order($order)
+            ->group("cst.user_id")
+            ->field("sum(cst.money) money,count(cst.id) count,e.truename,e.telephone,e.userpic")
             ->select();
         return $employeeList;
     }

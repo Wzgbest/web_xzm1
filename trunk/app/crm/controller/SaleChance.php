@@ -15,7 +15,10 @@ use app\crm\model\CustomerTrace;
 
 class SaleChance extends Initialize{
     public function index(){
-        echo "crm/sale_chance/index";
+        return view();
+    }
+    public function sale_chance_subordinate(){
+        return "crm/sale_chance/sale_chance_subordinate";
     }
     protected function _showSaleChance(){
         $customer_id = input('customer_id',0,'int');

@@ -8,4 +8,8 @@ class Index
     {
         return view();
     }
+    public function assistant()
+    {
+        return view();
+    }
 }
