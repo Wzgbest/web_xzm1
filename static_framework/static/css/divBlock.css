@@ -66,6 +66,7 @@
 	line-height: 25px;
 	color: white;
 	margin-right: 25px;
+	cursor: pointer;
 }
 .buttons i{
 	width: 25px;

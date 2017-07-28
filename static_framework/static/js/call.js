@@ -67,7 +67,7 @@ $(".dial .on").click(function(){
     }
 //    获取连接
     function getWs () {
-        var socket = new WebSocket("ws://webcall.app:8001");
+        var socket = new WebSocket("ws://192.168.102.50:9002");
         return socket;
     }
    ws = getWs();
@@ -86,7 +86,9 @@ $(".dial .on").click(function(){
 //    连接建立
     ws.onopen = function (e) {
         console.log('connect established');
-        ws.send(number)
+        console.log("makecall:"+number);
+        ws.send("makecall:"+number);
+        
 //      ws.send('{"user":"phper","pass":123456,"status":1}');
     };
 
