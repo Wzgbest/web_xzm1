@@ -15,7 +15,7 @@ use app\crm\model\CustomerTrace;
 
 class CustomerContact extends Initialize{
     public function index(){
-        echo "crm/customer_contact/index";
+        return view();
     }
     protected function _showCustomerContact(){
         $customer_id = input('customer_id',0,'int');
