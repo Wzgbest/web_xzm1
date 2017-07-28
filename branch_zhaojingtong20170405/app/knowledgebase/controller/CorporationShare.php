@@ -283,7 +283,7 @@ class CorporationShare extends Initialize{
             return json($result);
         }
         $share_data = $corporationShareModel->getCorporationShareById($share_id);
-        $tipEmployeeList = $TipModel->getTipEmployee($share_id);
+        $tipEmployeeList = $TipModel->getTipList($share_id);
         $myTipMoney = $TipModel->getMyTipMoney($uid,$share_id);
         $result['info'] = '打赏成功';
         $result['status'] = 1;
@@ -302,7 +302,7 @@ class CorporationShare extends Initialize{
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
         $TipModel = new CorporationShareTip($this->corp_id);
-        $tipEmployeeList = $TipModel->getTipEmployee($share_id);
+        $tipEmployeeList = $TipModel->getTipList($share_id);
         $myTipMoney = $TipModel->getMyTipMoney($uid,$share_id);
         $result['data']["my_tip"] = $myTipMoney;
         $result['data']["tip_list"] = $tipEmployeeList;
