@@ -16,8 +16,8 @@
         <li class="customer_trace_show">跟踪记录（{$customer_trace_num}）</li>
         <div class="clearfix"></div>
     </ul>
-    <section  id="clientInfoOutline">
-        <div id="outlineCharge"  class="m-divBlock">
+    <section class="clientInfoOutline">
+        <div class="m-divBlock outlineCharge">
             <div>
                 <div class="set-remind buttons"><i class="fa fa-clock-o "></i><span>设置提醒</span></div>
                 <div class="order-visit buttons"><i class="fa fa-users"></i><span>预约拜访</span></div>
@@ -50,7 +50,7 @@
                 <span>次</span>
             </div>
         </div>
-        <div id="outlineInfo"  class="m-divBlock">
+        <div class="m-divBlock outlineInfo">
             <div>
                 <span>客户名称：</span><span class="color-blue">{$customer.customer_name}</span>
             </div>
@@ -103,13 +103,13 @@
                 <div class="buttons active"><i class="fa fa-spinner"></i><span>待定</span></div>
                 <div class="buttons active"><i class="fa fa-heart"></i><span>有意向</span></div>
             </div>
-            <div class="edit active customer_info_edit">
+            <div class="edit active customer_info_edit_show">
                 <i class="fa fa-file-text fa-2x"></i>
                 <span>编辑</span>
             </div>
         </div>
         {volist name="sale_chance" id="vo"}
-        <div id="outlineChance" class="m-divBlock">
+        <div class="m-divBlock outlineChance">
             <div>
                 <span>销售机会：</span><span>{$vo.sale_name}</span>
                 <span class="margin-left70">客户状态：</span><span>{$vo.sale_status|getSaleStatusName}<i class="fa fa-caret-right color-blue" style="margin-left: 5px;"></i></span>
@@ -124,7 +124,7 @@
             </div>
         </div>
         {/volist}
-        <div id="outlineKeyman" class="m-divBlock">
+        <div class="m-divBlock ">
             {volist name="customer_contact" id="vo"}
             <div class="keyman-link">
                 <span>{$vo.contact_name}<span> {eq name="vo.key_decide" value="1"}关键决策人{/eq}</span></span>
@@ -141,7 +141,7 @@
             {/volist}
             <div class="clearfix"></div>
         </div>
-        <div id="outlineLable" class="m-divBlock">
+        <div class="m-divBlock outlineLable">
             <div>
                 <span>最近沟通标签：</span>
             </div>
@@ -150,7 +150,7 @@
                 <span class="remark">网站建设意向</span>
             </div>
         </div>
-        <div id="outlineCreatPerson" class="m-divBlock">
+        <div class="m-divBlock outlineCreatPerson">
             <div>
                 <span>创建人：</span><span>{$add_employee.truename}</span>
             </div>

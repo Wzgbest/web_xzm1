@@ -277,24 +277,6 @@ function getCommStatusName($comm_status){
     return $comm_status_name;
 }
 
-function getResourceFromName($resource_from){
-    $resource_from_name = null;
-    switch ($resource_from){
-        case 1:
-            $resource_from_name = "转介绍";
-            break;
-        case 2:
-            $resource_from_name = "搜索";
-            break;
-        case 3:
-            $resource_from_name = "购买";
-            break;
-        default:
-            $resource_from_name = "无";
-    }
-    return $resource_from_name;
-}
-
 function getBelongsToManageName($resource_from){
     $resource_from_name = null;
     switch ($resource_from){
@@ -307,6 +289,24 @@ function getBelongsToManageName($resource_from){
             break;
         case 4:
             $resource_from_name = "待处理";
+            break;
+        default:
+            $resource_from_name = "无";
+    }
+    return $resource_from_name;
+}
+
+function getResourceFromName($resource_from){
+    $resource_from_name = null;
+    switch ($resource_from){
+        case 1:
+            $resource_from_name = "批量导入";
+            break;
+        case 2:
+            $resource_from_name = "员工添加";
+            break;
+        case 3:
+            $resource_from_name = "员工搜集";
             break;
         default:
             $resource_from_name = "无";

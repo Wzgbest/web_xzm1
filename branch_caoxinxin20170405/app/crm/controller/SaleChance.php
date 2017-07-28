@@ -44,6 +44,15 @@ class SaleChance extends Initialize{
         $this->_showSaleChance();
         return view();
     }
+    public function add_page(){
+        $this->assign("fr",input('fr'));
+        $this->assign("customer_id",input('customer_id',0,"int"));
+        return view();
+    }
+    public function edit_page(){
+        $this->_showCustomer();
+        return view();
+    }
     public function get(){
         $result = ['status'=>0 ,'info'=>"获取销售机会时发生错误！"];
         $id = input('id',0,'int');
