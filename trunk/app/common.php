@@ -526,12 +526,12 @@ function get_app_img ($data) {
     try{
         $img_path = $img_path.DS.date('Ymd',time());//相对路径
         $corp_id = get_corpid();
-        $save_path = PUBLIC_PATH.DS."webroot".DS.$corp_id.DS;//物理路径
+        $save_path = PUBLIC_PATH.DS."webroot".DS.$corp_id.DS.$img_path.DS;//物理路径
         if (!is_dir($save_path)) {
             mkdirs($save_path);
         }
-        $img_path = $img_path.DS.time().rand(10000,99999).'.tmp';//相对路径文件
-        $save_path = $save_path.$img_path;//物理路径文件
+        $img_path = DS."webroot".DS.$corp_id.DS.$img_path.DS.time().rand(10000,99999).'.tmp';//相对路径文件
+        $save_path = PUBLIC_PATH.$img_path;//物理路径文件
         //var_exp($img_path,'$img_path');
         //var_exp($save_path,'$save_path');
         file_put_contents($save_path,$data);
@@ -550,9 +550,10 @@ function get_app_img ($data) {
         if ($img_ext == '') {
           $res['message'] = '未能识别上传图像格式，联系管理员';
         } else {
+            $img_path = substr($img_path,0,-3).$img_ext;
             $new_save_path = substr($save_path,0,-3).$img_ext;
             rename($save_path,$new_save_path);
-            $res = ['imgurl' => $new_save_path,'message' =>'SUCCESS','status'=>true];
+            $res = ['imgurl' => $img_path,'message' =>'SUCCESS','status'=>true];
         }
     } catch(\Exception $ex){
         $res['message'] = '存储头像失败，联系管理员';
