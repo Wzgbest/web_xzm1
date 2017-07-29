@@ -118,6 +118,7 @@ class BusinessFlow extends Initialize{
             $link["setting_id"] = $id;
             $link_data[] = $link;
         }
+        //var_exp($link_data,'$link_data');
         return $link_data;
     }
 
@@ -128,23 +129,21 @@ class BusinessFlow extends Initialize{
             $this->error("参数错误!");
         }
         $map["id"] = $id;
-        $business_flow_setting = [];
+        $business_flow_info = [];
         try{
             $business_flow_setting = $this->_businessFlowModel->getBusinessFlowSetting(1,0,$map,"");
-            $business_flow_setting["set_to_role_arr"] = explode(",",$business_flow_setting["set_to_role"]);
             //var_exp($business_flow_setting,'$business_flow_setting',1);
-            $businessFlowItemM = new BusinessFlowItem($this->corp_id);
-            $businessFlowItems = $businessFlowItemM->getAllBusinessFlowItem("id asc");
-            $business_flow_setting['business_flow_items']=$businessFlowItems;
+            $business_flow_info["id"] = $id;
+            $business_flow_info["name"] = $business_flow_setting["business_flow_name"];
             $businessFlowItemLinkM = new BusinessFlowItemLink($this->corp_id);
             $businessFlowItemLinks = $businessFlowItemLinkM->getItemLinkById($id);
-            $business_flow_setting['business_flow_item_links']=$businessFlowItemLinks;
+            $business_flow_info['business_flow_item_links']=$businessFlowItemLinks;
         }catch (\Exception $ex){
             $this->error($ex->getMessage());
         }
         $result["status"] = 1;
         $result["info"] = "获取工作流设置成功!";
-        $result["data"] = $business_flow_setting;
+        $result["data"] = $business_flow_info;
         return json($result);
     }
 

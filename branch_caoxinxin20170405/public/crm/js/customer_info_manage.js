@@ -321,18 +321,6 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			async:false,
 			success:function (data) {
 				$(sale_chance_panel+" .new-sale-chance").after(data);
-				$(new_sale_chance_panel+" .sale-chance-status_selecter").change(function(){
-					var status = $(new_sale_chance_panel+" .sale-chance-status_selecter").val();
-					console.log(status);
-					$(new_sale_chance_panel+" .sale-chance").addClass("hide");
-					if(status==1){
-						$(new_sale_chance_panel+" .sale-chance-intentional").removeClass("hide");
-					}else if(status==2){
-						$(new_sale_chance_panel+" .sale-chance-visit").removeClass("hide");
-					}else if(status==3){
-						$(new_sale_chance_panel+" .sale-chance-finish").removeClass("hide");
-					}
-				});
 				$(new_sale_chance_panel+" .sale_chance_add_save").click(function(){
 					self.sale_chance_add_send(self.id);
 				});
@@ -391,7 +379,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 						$(edit_sale_chance_panel+" .sale-chance-intentional").removeClass("hide");
 					}else if(status==2){
 						$(edit_sale_chance_panel+" .sale-chance-visit").removeClass("hide");
-					}else if(status==3){
+					}else if(status==4){
 						$(edit_sale_chance_panel+" .sale-chance-finish").removeClass("hide");
 					}
 				});

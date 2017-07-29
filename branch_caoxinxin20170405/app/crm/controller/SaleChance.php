@@ -17,7 +17,7 @@ use app\systemsetting\model\BusinessFlowItem;
 use app\systemsetting\model\BusinessFlowItemLink;
 
 class SaleChance extends Initialize{
-    protected $_activityBusinessFlowItem = [1,2,3];
+    protected $_activityBusinessFlowItem = [1,2,4];
     public function __construct(){
         parent::__construct();
     }
@@ -32,6 +32,8 @@ class SaleChance extends Initialize{
         if(!$customer_id){
             $this->error("参数错误！");
         }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $this->assign("customer_id",$customer_id);
         $this->assign("fr",input('fr'));
         $saleChanceM = new SaleChanceModel($this->corp_id);
@@ -45,16 +47,20 @@ class SaleChance extends Initialize{
         $customerTraceM = new CustomerTrace($this->corp_id);
         $customer_trace_num = $customerTraceM->getCustomerTraceCount($customer_id);
         $this->assign("customer_trace_num",$customer_trace_num);
+        $businessFlowModel = new BusinessFlowModel($this->corp_id);
+        $business_flow_names = $businessFlowModel->getAllBusinessFlowName();
+        //var_exp($business_flow_names,'$business_flow_names',1);
+        $this->assign('business_flow_names',$business_flow_names);
     }
     protected function _showSaleChanceEdit(){
         $id = input('id',0,'int');
         if(!$id){
             $this->error("参数错误！");
         }
-        $userinfo = get_userinfo();
-        $uid = $userinfo["userid"];
         $this->assign("id",$id);
         $this->assign("fr",input('fr'));
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $saleChanceM = new SaleChanceModel($this->corp_id);
         $SaleChancesData = $saleChanceM->getSaleChance($id);
         $this->assign("sale_chance",$SaleChancesData);
@@ -68,19 +74,36 @@ class SaleChance extends Initialize{
         $this->assign('business_flow_item_links',$businessFlowItemLinks);
         $businessFlowItemLinkIndex = array_column($businessFlowItemLinks,"id");
         $this->assign('business_flow_item_link_index',$businessFlowItemLinkIndex);
+        $now_and_next_item = [];
+        $now_and_next_item[]=$SaleChancesData["sale_status"];
+        for($i=0;$i<count($businessFlowItemLinks);$i++){
+            if($businessFlowItemLinks[$i]["item_id"] == $SaleChancesData["sale_status"]){
+                if($i+1<count($businessFlowItemLinks)){
+                    $now_and_next_item[]=$businessFlowItemLinks[$i+1]["item_id"];
+                }
+                break;
+            }
+        }
+        //var_exp($now_and_next_item,'$now_and_next_item');
+        $this->assign('now_and_next_item',$now_and_next_item);
+        //var_exp($this->_activityBusinessFlowItem,'$activity_business_flow_item_index');
         $this->assign('activity_business_flow_item_index',$this->_activityBusinessFlowItem);
-        $businessFlowItemM = new BusinessFlowItem($this->corp_id);
-        $businessFlowItems = $businessFlowItemM->getAllBusinessFlowItem("id asc");
-        //var_exp($businessFlowItems,'$businessFlowItems');
-        $this->assign('business_flow_items',$businessFlowItems);
     }
     public function show(){
         $this->_showSaleChance();
         return view();
     }
     public function add_page(){
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $this->assign("fr",input('fr'));
         $this->assign("customer_id",input('customer_id',0,"int"));
+        $businessFlowModel = new BusinessFlowModel($this->corp_id);
+        $business_flows = $businessFlowModel->getAllBusinessFlowByuserId($uid);
+        //var_exp($business_flows,'$business_flows',1);
+        $this->assign('business_flows',$business_flows);
+        $sale_chance["prepay_time"]=time();
+        $this->assign('sale_chance',$sale_chance);
         return view();
     }
     public function edit_page(){
@@ -116,7 +139,7 @@ class SaleChance extends Initialize{
         $saleChance['business_id'] = input('business_id',0,'int');
 
         $saleChance['sale_name'] = input('sale_name');
-        $saleChance['sale_status'] = input('sale_status',0,'int');;
+        $saleChance['sale_status'] = input('sale_status',1,'int');;
 
         $saleChance['guess_money'] = input('guess_money',0,'double');
         $saleChance['need_money'] = input('need_money',0,'double');//必填?
@@ -162,6 +185,8 @@ class SaleChance extends Initialize{
         $result['status'] = 1;
         $result['info'] = "保存销售机会成功！";
         return json($result);
+    }
+    protected function _update(){
     }
     public function invalid(){
         $result = ['status'=>0 ,'info'=>"作废销售机会时发生错误！"];

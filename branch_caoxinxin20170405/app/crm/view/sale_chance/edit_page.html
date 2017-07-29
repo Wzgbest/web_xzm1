@@ -5,9 +5,9 @@
             <span class="cont">销售机会</span>
             <input type="text" name="sale_name" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入销售机会" value="{$sale_chance.sale_name}" />
             <span class="cont">对应业务</span>
-            <select name="business_id" class="business_flow_selecter">
+            <select name="business_id" class="business_flow_selecter" disabled="disabled">
                 {volist name="business_flows" id="vo"}
-                <option value="{$vo.id}">{$vo.business_flow_name}</option>
+                    <option value="{$vo.id}" {eq name='sale_chance.business_id' value='$vo.id'} selected="selected"{/eq}>{$vo.business_flow_name}</option>
                 {/volist}
             </select>
         </div>
@@ -19,19 +19,24 @@
         </div>
         <div>
             <span class="cont">负责人</span>
-            <input type="text" name="employee_id" placeholder="请输入负责人姓名" value="{$sale_chance.sale_name}" />
+            <input type="text" placeholder="请输入负责人姓名" value="" />
             <span class="cont">协助人</span>
-            <select name="associator_id">
+            <select>
                 <option></option>
             </select>
         </div>
         <div>
             <span class="cont">业务状态</span>
             <select name="sale_status" class="sale-chance-status_selecter">
-                <option value="0" {eq name='sale_chance.sale_status' value='0'} selected="selected"{/eq}>无意向</option>
-                <option value="1" {eq name='sale_chance.sale_status' value='1'} selected="selected"{/eq}>有意向</option>
-                <option value="2" {eq name='sale_chance.sale_status' value='2'} selected="selected"{/eq}>预约拜访</option>
-                <option value="3" {eq name='sale_chance.sale_status' value='3'} selected="selected"{/eq}>成单申请</option>
+                {volist name="business_flow_item_links" id="vo"}
+                    {in name="vo.item_id" value="$activity_business_flow_item_index"}
+                        {in name="vo.item_id" value="$now_and_next_item"}
+                            <option value="{$vo.item_id}" {eq name='sale_chance.sale_status' value='$vo.item_id'} selected="selected"{/eq}>{$vo.item_name}</option>
+                        {else/}
+                            <optgroup label="{$vo.item_name}"></optgroup>
+                        {/in}
+                    {/in}
+                {/volist}
             </select>
         </div>
 
@@ -83,7 +88,7 @@
             </div>
         </div>
 
-        <div class="sale-chance sale-chance-finish {neq name='sale_chance.sale_status' value='5'}hide{/neq}">
+        <div class="sale-chance sale-chance-finish {neq name='sale_chance.sale_status' value='4'}hide{/neq}">
             <div>
                 <span class="cont">合同编号</span>
                 <select>
