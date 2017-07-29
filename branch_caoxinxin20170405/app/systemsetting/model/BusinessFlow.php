@@ -29,6 +29,18 @@ class BusinessFlow extends Base{
         }
         return $businessFlowSettingList;
     }
+
+    public function getAllBusinessFlowByuserId($user_id){
+        $businessFlowSettingList = $this->model
+            ->table($this->table)
+            ->order("id desc")
+            ->field("*")
+            ->select();
+        foreach ($businessFlowSettingList as &$businessFlowSetting){
+            $businessFlowSetting["set_to_role_arr"] = explode(",",$businessFlowSetting["set_to_role"]);
+        }
+        return $businessFlowSettingList;
+    }
     /**
      * 查询业务流设置
      * @param $num int 数量

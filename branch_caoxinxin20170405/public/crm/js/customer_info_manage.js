@@ -296,6 +296,14 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				$(sale_chance_panel+" .new-sale-chance").click(function(){
 					self.sale_chance_add();
 				});
+				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_edit").click(function(){
+					var edit_id = $(this).siblings(":input").val();
+					self.sale_chance_edit(edit_id);
+				});
+				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_invalid").click(function(){
+					var edit_id = $(this).siblings(":input").val();
+					self.sale_chance_invalid(edit_id);
+				});
 			},
 			error:function(){
 				alert("获取销售机会失败!");
@@ -316,14 +324,12 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				$(new_sale_chance_panel+" .sale-chance-status_selecter").change(function(){
 					var status = $(new_sale_chance_panel+" .sale-chance-status_selecter").val();
 					console.log(status);
+					$(new_sale_chance_panel+" .sale-chance").addClass("hide");
 					if(status==1){
-						$(new_sale_chance_panel+" .sale-chance").addClass("hide");
 						$(new_sale_chance_panel+" .sale-chance-intentional").removeClass("hide");
 					}else if(status==2){
-						$(new_sale_chance_panel+" .sale-chance").addClass("hide");
 						$(new_sale_chance_panel+" .sale-chance-visit").removeClass("hide");
 					}else if(status==3){
-						$(new_sale_chance_panel+" .sale-chance").addClass("hide");
 						$(new_sale_chance_panel+" .sale-chance-finish").removeClass("hide");
 					}
 				});
@@ -361,6 +367,73 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			},
 			error: function() {
 				alert("保存销售机会时发生错误!");
+			}
+		});
+	};
+	this.sale_chance_edit=function(id){
+		console.log(id);
+		var url = "/crm/sale_chance/edit_page/id/"+id+"/fr/"+this.from;
+		var panel = this.panel_base+' .customer_sale_chance';
+		var sale_chance_panel = panel+" .clientInfoSaleChance";
+		var edit_sale_chance_panel = sale_chance_panel+" .edit-sale-chance-"+id;
+		$.ajax({
+			url:url,
+			type:'get',
+			async:false,
+			success:function (data) {
+				$(sale_chance_panel+" .sale-chance-record-"+id).addClass("hide");
+				$(sale_chance_panel+" .sale-chance-record-"+id).before(data);
+				$(edit_sale_chance_panel+" .sale-chance-status_selecter").change(function(){
+					var status = $(edit_sale_chance_panel+" .sale-chance-status_selecter").val();
+					console.log(status);
+					$(edit_sale_chance_panel+" .sale-chance").addClass("hide");
+					if(status==1){
+						$(edit_sale_chance_panel+" .sale-chance-intentional").removeClass("hide");
+					}else if(status==2){
+						$(edit_sale_chance_panel+" .sale-chance-visit").removeClass("hide");
+					}else if(status==3){
+						$(edit_sale_chance_panel+" .sale-chance-finish").removeClass("hide");
+					}
+				});
+				$(edit_sale_chance_panel+" .sale_chance_edit_save").click(function(){
+					self.sale_chance_edit_send(id,self.id);
+				});
+				$(edit_sale_chance_panel+" .sale_chance_edit_cancel").click(function(){
+					$(sale_chance_panel+" .sale-chance-record-"+id).removeClass("hide");
+					$(edit_sale_chance_panel).remove();
+				});
+			},
+			error:function(){
+				alert("获取销售机会编辑失败!");
+			}
+		});
+	};
+	this.sale_chance_edit_send=function(id,customer_id){
+		console.log(id);
+		console.log(customer_id);
+	};
+	this.sale_chance_invalid=function(id,customer_id){
+		console.log(id);
+		if(!window.confirm("确认作废这个商机吗?")){
+			return false;
+		}
+		var sale_chance_invalid_data = "id="+id+"&fr="+this.from;
+		this.reload_flg = 1;
+		//console.log(sale_chance_invalid_data);
+		$.ajax({
+			url: '/crm/customer_contact/invalid',
+			type: 'post',
+			data: sale_chance_invalid_data,
+			dataType: 'json',
+			success: function(data) {
+				//console.log(data);
+				alert(data.info);
+				if(data.status) {
+					self.contact_show(customer_id);
+				}
+			},
+			error: function() {
+				alert("作废商机时发生错误!");
 			}
 		});
 	};

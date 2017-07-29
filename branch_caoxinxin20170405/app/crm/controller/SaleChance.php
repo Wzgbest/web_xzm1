@@ -12,8 +12,15 @@ use app\common\controller\Initialize;
 use app\crm\model\CustomerContact;
 use app\crm\model\SaleChance as SaleChanceModel;
 use app\crm\model\CustomerTrace;
+use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
+use app\systemsetting\model\BusinessFlowItem;
+use app\systemsetting\model\BusinessFlowItemLink;
 
 class SaleChance extends Initialize{
+    protected $_activityBusinessFlowItem = [1,2,3];
+    public function __construct(){
+        parent::__construct();
+    }
     public function index(){
         return view();
     }
@@ -27,18 +34,45 @@ class SaleChance extends Initialize{
         }
         $this->assign("customer_id",$customer_id);
         $this->assign("fr",input('fr'));
-        $customerM = new SaleChanceModel($this->corp_id);
-        $SaleChancesData = $customerM->getAllSaleChancesByCustomerId($customer_id);
+        $saleChanceM = new SaleChanceModel($this->corp_id);
+        $SaleChancesData = $saleChanceM->getAllSaleChancesByCustomerId($customer_id);
         $this->assign("sale_chance",$SaleChancesData);
-        $customerM = new CustomerContact($this->corp_id);
-        $customerData = $customerM->getCustomerContactCount($customer_id);
-        $this->assign("customer_contact_num",$customerData);
-        $customerM = new SaleChanceModel($this->corp_id);
-        $customerData = $customerM->getSaleChanceCount($customer_id);
-        $this->assign("sale_chance_num",$customerData);
-        $customerM = new CustomerTrace($this->corp_id);
-        $customerData = $customerM->getCustomerTraceCount($customer_id);
-        $this->assign("customer_trace_num",$customerData);
+        $customerContactM = new CustomerContact($this->corp_id);
+        $customer_contact_num = $customerContactM->getCustomerContactCount($customer_id);
+        $this->assign("customer_contact_num",$customer_contact_num);
+        $sale_chance_num = $saleChanceM->getSaleChanceCount($customer_id);
+        $this->assign("sale_chance_num",$sale_chance_num);
+        $customerTraceM = new CustomerTrace($this->corp_id);
+        $customer_trace_num = $customerTraceM->getCustomerTraceCount($customer_id);
+        $this->assign("customer_trace_num",$customer_trace_num);
+    }
+    protected function _showSaleChanceEdit(){
+        $id = input('id',0,'int');
+        if(!$id){
+            $this->error("参数错误！");
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $this->assign("id",$id);
+        $this->assign("fr",input('fr'));
+        $saleChanceM = new SaleChanceModel($this->corp_id);
+        $SaleChancesData = $saleChanceM->getSaleChance($id);
+        $this->assign("sale_chance",$SaleChancesData);
+        $businessFlowModel = new BusinessFlowModel($this->corp_id);
+        $business_flows = $businessFlowModel->getAllBusinessFlowByuserId($uid);
+        //var_exp($business_flows,'$business_flows',1);
+        $this->assign('business_flows',$business_flows);
+        $businessFlowItemLinkM = new BusinessFlowItemLink($this->corp_id);
+        $businessFlowItemLinks = $businessFlowItemLinkM->getItemLinkById($SaleChancesData["business_id"]);
+        //var_exp($businessFlowItemLinks,'$businessFlowItemLinks');
+        $this->assign('business_flow_item_links',$businessFlowItemLinks);
+        $businessFlowItemLinkIndex = array_column($businessFlowItemLinks,"id");
+        $this->assign('business_flow_item_link_index',$businessFlowItemLinkIndex);
+        $this->assign('activity_business_flow_item_index',$this->_activityBusinessFlowItem);
+        $businessFlowItemM = new BusinessFlowItem($this->corp_id);
+        $businessFlowItems = $businessFlowItemM->getAllBusinessFlowItem("id asc");
+        //var_exp($businessFlowItems,'$businessFlowItems');
+        $this->assign('business_flow_items',$businessFlowItems);
     }
     public function show(){
         $this->_showSaleChance();
@@ -50,7 +84,7 @@ class SaleChance extends Initialize{
         return view();
     }
     public function edit_page(){
-        $this->_showCustomer();
+        $this->_showSaleChanceEdit();
         return view();
     }
     public function get(){
@@ -127,6 +161,25 @@ class SaleChance extends Initialize{
         }
         $result['status'] = 1;
         $result['info'] = "保存销售机会成功！";
+        return json($result);
+    }
+    public function invalid(){
+        $result = ['status'=>0 ,'info'=>"作废销售机会时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        try{
+            $saleChanceM = new SaleChanceModel($this->corp_id);
+            $saleChanceflg = $saleChanceM->invalidSaleChance($id);
+            $result['data'] = $saleChanceflg;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "作废销售机会成功！";
         return json($result);
     }
 }

@@ -121,6 +121,33 @@ class BusinessFlow extends Initialize{
         return $link_data;
     }
 
+    public function get(){
+        $result = ['status'=>0 ,'info'=>"获取工作流设置时发生错误！"];
+        $id = input("id");
+        if(!$id){
+            $this->error("参数错误!");
+        }
+        $map["id"] = $id;
+        $business_flow_setting = [];
+        try{
+            $business_flow_setting = $this->_businessFlowModel->getBusinessFlowSetting(1,0,$map,"");
+            $business_flow_setting["set_to_role_arr"] = explode(",",$business_flow_setting["set_to_role"]);
+            //var_exp($business_flow_setting,'$business_flow_setting',1);
+            $businessFlowItemM = new BusinessFlowItem($this->corp_id);
+            $businessFlowItems = $businessFlowItemM->getAllBusinessFlowItem("id asc");
+            $business_flow_setting['business_flow_items']=$businessFlowItems;
+            $businessFlowItemLinkM = new BusinessFlowItemLink($this->corp_id);
+            $businessFlowItemLinks = $businessFlowItemLinkM->getItemLinkById($id);
+            $business_flow_setting['business_flow_item_links']=$businessFlowItemLinks;
+        }catch (\Exception $ex){
+            $this->error($ex->getMessage());
+        }
+        $result["status"] = 1;
+        $result["info"] = "获取工作流设置成功!";
+        $result["data"] = $business_flow_setting;
+        return json($result);
+    }
+
     public function add(){
         $result = ['status'=>0 ,'info'=>"添加工作流设置时发生错误！"];
         $businessFlowSetting = $this->_getBusinessFlowSettingForInput();

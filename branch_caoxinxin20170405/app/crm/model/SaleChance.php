@@ -84,6 +84,17 @@ class SaleChance extends Base
         return $this->model->table($this->table)->where('id',$id)->update($data);
     }
 
+    /**作废
+     * @param $id int 客户商机id
+     * @return false|\PDOStatement|int|\think\Collection
+     * created by blu10ph
+     */
+    public function invalidSaleChance($id)
+    {
+        $data["sale_status"] = 7;
+        return $this->model->table($this->table)->where('id',$id)->update($data);
+    }
+
     /**获取对应客户的正在进行的商机预计成单金额总额
      * @param $customer_ids array 客户ID列表
      * @return false|\PDOStatement|string|\think\Collection
