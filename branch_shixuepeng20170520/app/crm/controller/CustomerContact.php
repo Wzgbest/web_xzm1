@@ -15,7 +15,7 @@ use app\crm\model\CustomerTrace;
 
 class CustomerContact extends Initialize{
     public function index(){
-        return view();
+        return "/crm/customer_contact/index";
     }
     protected function _showCustomerContact(){
         $customer_id = input('customer_id',0,'int');
@@ -52,13 +52,13 @@ class CustomerContact extends Initialize{
         $customer_contactData = $customerM->getCustomerContact($id);
         $this->assign("customer_contact",$customer_contactData);
     }
-    public function edit_page(){
-        $this->_showCustomer();
-        return view();
-    }
     public function add_page(){
         $this->assign("fr",input('fr'));
         $this->assign("customer_id",input('customer_id',0,"int"));
+        return view();
+    }
+    public function edit_page(){
+        $this->_showCustomer();
         return view();
     }
     public function table(){
