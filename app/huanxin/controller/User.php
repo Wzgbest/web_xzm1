@@ -226,6 +226,11 @@ class User extends Controller{
         }
         $data = ['userpic'=>$img_path['imgurl']];
         $res = $this->employM->setEmployeeSingleInfo($userid,$data);
+        if(!$res){
+            $info['message'] = '设置头像失败';
+            $info['errnum'] = 1;
+            return json($info);
+        }
         return json($img_path);
     }
 

@@ -11,178 +11,20 @@
         <div class="clearfix"></div>
         <li class="customer_general_show">概要</li>
         <li class="customer_info_show">客户信息</li>
-        <li class="customer_contact_show">联系人（2）</li>
-        <li class="current">销售机会（2）</li>
-        <li class="customer_trace_show">跟踪记录（1）</li>
+        <li class="customer_contact_show">联系人（{$customer_contact_num}）</li>
+        <li class="current">销售机会（{$sale_chance_num}）</li>
+        <li class="customer_trace_show">跟踪记录（{$customer_trace_num}）</li>
         <div class="clearfix"></div>
     </ul>
     <!--新建销售机会-->
-    <section  id="clientInfoSaleChance" >
-        <div id="new-sale-chance">
+    <section class="clientInfoSaleChance" >
+        <div class="new-sale-chance">
             <i class="fa fa-plus fa-2x"></i>
             新建销售机会
         </div>
-        <div id="creat-sale-chance" class="m-divBlock  m-form hide">
-            <h1><i class="fa fa-tag"></i>新建联系人</h1>
-            <div>
-                <span class="cont">销售机会</span>
-                <input type="text"  pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入销售机会" />
-                <span class="cont">对应业务</span>
-                <select>
-                    <option></option>
-                </select>
-            </div>
-            <div>
-                <span class="cont-max">预计成单金额</span>
-                <input type="text" placeholder="请输入金额" />
-                <span class="cont-max">预计成单时间</span>
-                <input type="date" />
-            </div>
-            <div>
-                <span class="cont">负责人</span>
-                <input type="text" placeholder="请输入负责人姓名" />
-                <span class="cont">协助人</span>
-                <select>
-                    <option></option>
-                </select>
-            </div>
-            <div>
-                <span class="cont">业务状态</span>
-                <select onchange="fun1()" id="fff">
-                    <option value="0"></option>
-                    <option value="1">有意向</option>
-                    <option value="2">预约拜访</option>
-                    <option value="3">成单申请</option>
-                </select>
-            </div>
-            <div class="sale-chance sale-chance-intentional hide">
-                <div>
-                    <span class="cont">备注</span>
-                    <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                    <span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                    <span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                    <span class="u-addRemark"><i class="fa fa-plus"></i></span>
-                    <div class="clearfix"></div>
-                    <span class="cont"></span>
-                    <textarea id="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
-                </div>
-                <div class="u-submitButton">
-                    <button>保存</button>
-                    <button>取消</button>
-                </div>
-            </div>
-            <div class="sale-chance sale-chance-visit hide">
-                <div>
-                    <span class="cont">拜访时间</span>
-                    <input type="date" />
-                </div>
-                <div>
-                    <span class="cont">拜访地点</span>
-                    <input type="text" placeholder="请输入地址" />
-                </div>
-                <div>
-                    <span class="cont">结伴提醒</span>
-                    <div class="u-inlineRadio">
-                        <input type="radio" name="hascompanied" value="true"/>是
-                        <input type="radio" name="hascompanied" value="false"/>否
-                    </div>
-                </div>
-                <div>
-                    <span class="cont">添加备忘录</span>
-                    <div class="u-inlineRadio">
-                        <input type="radio" name="addnote" value="true"/>是
-                        <input type="radio" name="addnote" value="false"/>否
-                    </div>
-                </div>
-                <div>
-                    <span class="cont">备注</span>
-                    <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                    <span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                    <span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                    <span class="u-addRemark"><i class="fa fa-plus"></i></span>
-                    <div class="clearfix"></div>
-                    <span class="cont"></span>
-                    <textarea id="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
-                </div>
-                <div class="u-submitButton">
-                    <button>保存</button>
-                    <button>取消</button>
-                </div>
-            </div>
-            <div class="sale-chance sale-chance-finish hide">
-                <div>
-                    <span class="cont">合同编号</span>
-                    <select>
-                        <option></option>
-                    </select>
-                    <span class="cont">合同类型</span>
-                    <input type="text" placeholder="请输入合同类型" />
-                </div>
-                <div>
-                    <span class="cont">成单金额</span>
-                    <input type="text" placeholder="请输入成单" />
-                    <span class="cont">打款类型</span>
-                    <input type="text" placeholder="请输入打款金额" />
-                </div>
-                <div>
-                    <span class="cont">打款方式</span>
-                    <div class="u-inlineRadio">
-                        <input type="radio" name="payWay" value="true"/>现金
-                        <input type="radio" name="payWay" value="false"/>银行转账
-                    </div>
-                    <span class="cont">打款名称</span>
-                    <input type="text" placeholder="请输入打款名称"/>
-                </div>
-                <div>
-                    <span class="cont-max-max">预计合同到期时间</span>
-                    <input type="date" />
-                    <span class="cont">发票</span>
-                    <div class="u-inlineRadio">
-                        <input type="radio" name="invoice" value="true"/>是
-                        <input type="radio" name="invoice" value="false"/>否
-                    </div>
-                </div>
-                <div>
-                    <span class="cont u-area">产品详情</span>
-                    <textarea placeholder="请输入"></textarea>
-                </div>
-                <div>
-                    <span class="cont">到账审核</span>
-                    <span class="cont-min1">一审人</span>
-                    <select>
-                        <option></option>
-                    </select>
-                    <span class="cont-min2">二审人</span>
-                    <select>
-                        <option></option>
-                    </select>
-                </div>
-                <div>
-                    <span class="cont-max">成单合同审核</span>
-                    <span class="cont-min1">审核人</span>
-                    <select>
-                        <option></option>
-                    </select>
-                </div>
-                <div>
-                    <span class="cont">备注</span>
-                    <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                    <span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                    <span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                    <span class="u-addRemark"><i class="fa fa-plus"></i></span>
-                    <div class="clearfix"></div>
-                    <span class="cont"></span>
-                    <textarea id="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
-                </div>
-                <div class="u-submitButton">
-                    <button>申请</button>
-                    <button>取消</button>
-                </div>
-            </div>
-        </div>
 
         <!--销售机会-->
-                <div class="m-divBlock m-form sale-chance-record">
+        <div class="m-divBlock m-form sale-chance-record">
             <div class="z-recordState">
                 <div class="z-modify">
                     <div class="edit2">
@@ -202,7 +44,7 @@
                         <i class="fa fa-2x fa-refresh" style="margin-left: 13px;"></i></br><span>重新申请</span>
                     </div>
                 </div>
-                <div class="z-win hide">
+                <div class="z-win">
                     <img src="/crm/img/win.png" />
                 </div>
                 <div class="z-lose hide">
@@ -216,33 +58,33 @@
                 <span class="cont">销售机会：</span>
                 <span class="cont-x">网站建设</span>
                 <span class="cont">对应业务：</span>
-                <span class="cont-x">IT行业</span>
+                <span class="cont-x">网站建设</span>
             </div>
             <div>
                 <span class="cont-max-max">预计成单金额：</span>
-                <span class="cont-x"><span class="number">321.00</span> 元</span>
+                <span class="cont-x"><span class="number">8,000</span> 元</span>
                 <span class="cont-max-max">预计成单时间：</span>
-                <span class="cont-x"></span>
+                <span class="cont-x">2017/06/09</span>
             </div>
             <div>
                 <span class="cont">负责人：</span>
-                <span class="cont-x">曹鑫鑫</span>
+                <span class="cont-x">梦娜</span>
                 <span class="cont">协助人：</span>
-                <span class="cont-x telephone"><i class="fa fa-phone"></i></span>
+                <span class="cont-x telephone">乏味<i class="fa fa-phone"></i></span>
             </div>
             <div>
                 <span class="cont">客户状态：</span>
-                <span class="cont-x">无意向</span>
+                <span class="cont-x">上门拜访</span>
             </div>
 
             <!--有意向：应该显示的部分-->
-            <div class="sale-chance-intentional-record  hide">
+            <div class="sale-chance-intentional-record hide">
                 <span class="cont">备注：</span>
-                <span class="remark"></span>
+                <span class="remark">网站建设意向</span>
             </div>
 
             <!--拜访：应该显示的部分-->
-            <div class="sale-chance-visit-record  hide">
+            <div class="sale-chance-visit-record">
                 <div>
                     <span class="cont">拜访时间：</span>
                     <span class="cont-x">2017/07/06</span>
@@ -262,7 +104,7 @@
             </div>
 
             <!--成单：应该显示的部分-->
-            <div class="sale-chance-finish-record  hide">
+            <div class="sale-chance-finish-record hide">
                 <div>
                     <span class="cont">合同类型：</span>
                     <span class="cont-x">技术合同 <span class="cont-in">收据类型：<span class="cont-in-x">普通收据</span></span></span>
@@ -291,7 +133,116 @@
                 </div>
             </div>
         </div>
-                <div class="m-divBlock m-form sale-chance-record">
+        <div class="m-divBlock m-form sale-chance-record">
+            <div class="z-recordState">
+                <div class="z-modify">
+                    <div class="edit2">
+                        <i class="fa fa-file-text-o fa-2x"></i></br><span>编辑</span>
+                    </div>
+                    <div class="edit2">
+                        <i class="fa fa-2x fa-file-excel-o"></i></br><span>作废</span>
+                    </div>
+                </div>
+                <div class="z-backspace hide">
+                    <div class="edit2">
+                        <i class="fa fa-2x fa-reply"></i></br><span>撤回</span>
+                    </div>
+                </div>
+                <div class="z-reapply hide">
+                    <div class="edit2">
+                        <i class="fa fa-2x fa-refresh" style="margin-left: 13px;"></i></br><span>重新申请</span>
+                    </div>
+                </div>
+                <div class="z-win hide">
+                    <img src="/crm/img/win.png" />
+                </div>
+                <div class="z-lose">
+                    <img src="/crm/img/lose.png" />
+                </div>
+                <div class="z-invalid hide">
+                    <img src="/crm/img/invalid.png" />
+                </div>
+            </div>
+            <div>
+                <span class="cont">销售机会：</span>
+                <span class="cont-x">网站建设</span>
+                <span class="cont">对应业务：</span>
+                <span class="cont-x">IT行业</span>
+            </div>
+            <div>
+                <span class="cont-max-max">预计成单金额：</span>
+                <span class="cont-x"><span class="number">321.00</span> 元</span>
+                <span class="cont-max-max">预计成单时间：</span>
+                <span class="cont-x"></span>
+            </div>
+            <div>
+                <span class="cont">负责人：</span>
+                <span class="cont-x">曹鑫鑫</span>
+                <span class="cont">协助人：</span>
+                <span class="cont-x telephone"><i class="fa fa-phone"></i></span>
+            </div>
+            <div>
+                <span class="cont">客户状态：</span>
+                <span class="cont-x">有意向</span>
+            </div>
+
+            <!--有意向：应该显示的部分-->
+            <div class="sale-chance-intentional-record">
+                <span class="cont">备注：</span>
+                <span class="remark"></span>
+            </div>
+
+            <!--拜访：应该显示的部分-->
+            <div class="sale-chance-visit-record hide">
+                <div>
+                    <span class="cont">拜访时间：</span>
+                    <span class="cont-x">2017/07/06</span>
+                    <span class="cont">拜访地点：</span>
+                    <span class="cont-x">潍城区金艺大厦7层</span>
+                </div>
+                <div>
+                    <span class="cont">结伴提醒：</span>
+                    <span class="cont-x">是</span>
+                    <span class="cont-max-max">添加到备忘录：</span>
+                    <span class="cont-x">是</span>
+                </div>
+                <div>
+                    <span class="cont">备注：</span>
+                    <span class="remark">网站建设意向</span>
+                </div>
+            </div>
+
+            <!--成单：应该显示的部分-->
+            <div class="sale-chance-finish-record hide">
+                <div>
+                    <span class="cont">合同类型：</span>
+                    <span class="cont-x">技术合同 <span class="cont-in">收据类型：<span class="cont-in-x">普通收据</span></span></span>
+                    <span class="cont-max-max">合同/收据编号：</span>
+                    <span class="cont-x">4651782</span>
+                </div>
+                <div>
+                    <span class="cont">发票类型：</span>
+                    <span class="cont-x"><span class="number">7,000</span> 元<span class="cont-in">发票带领取</span></span>
+                </div>
+                <div>
+                    <span class="cont">定金：</span>
+                    <span class="cont-x"><span class="number">6,000</span> 元</span>
+                </div>
+                <div>
+                    <span class="cont">尾中款：</span>
+                    <span class="cont-x"><span class="number">500</span> 元<span class="cont-in color-blue">申请发票</span></span>
+                </div>
+                <div>
+                    <span class="cont">共缴纳：</span>
+                    <span class="cont-x"><span class="number">6,500</span> 元</span>
+                </div>
+                <div>
+                    <span class="cont">剩余尾款：</span>
+                    <span class="cont-x"><span class="number">500</span> 元<span class="cont-in color-blue">尾款缴纳申请</span></span>
+                </div>
+            </div>
+        </div>
+        <div class="m-divBlock m-form sale-chance-record">
             <div class="z-recordState">
                 <div class="z-modify">
                     <div class="edit2">
@@ -317,7 +268,7 @@
                 <div class="z-lose hide">
                     <img src="/crm/img/lose.png" />
                 </div>
-                <div class="z-invalid hide">
+                <div class="z-invalid">
                     <img src="/crm/img/invalid.png" />
                 </div>
             </div>
@@ -345,13 +296,13 @@
             </div>
 
             <!--有意向：应该显示的部分-->
-            <div class="sale-chance-intentional-record  hide">
+            <div class="sale-chance-intentional-record hide">
                 <span class="cont">备注：</span>
                 <span class="remark"></span>
             </div>
 
             <!--拜访：应该显示的部分-->
-            <div class="sale-chance-visit-record  hide">
+            <div class="sale-chance-visit-record hide">
                 <div>
                     <span class="cont">拜访时间：</span>
                     <span class="cont-x">2017/07/06</span>
@@ -371,7 +322,7 @@
             </div>
 
             <!--成单：应该显示的部分-->
-            <div class="sale-chance-finish-record  hide">
+            <div class="sale-chance-finish-record">
                 <div>
                     <span class="cont">合同类型：</span>
                     <span class="cont-x">技术合同 <span class="cont-in">收据类型：<span class="cont-in-x">普通收据</span></span></span>
@@ -400,5 +351,5 @@
                 </div>
             </div>
         </div>
-            </section>
+    </section>
 </section>
