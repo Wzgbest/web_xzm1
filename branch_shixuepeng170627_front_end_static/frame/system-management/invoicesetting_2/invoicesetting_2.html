@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>发票设置</title>
+		<!--<link rel="stylesheet" href="css/index.css" />-->
+		<link rel="stylesheet" href="../css/reset.css" />
+		<link rel="stylesheet" href="../css/font-awesome.min.css" />
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				font-size: 12px;
+				font-family: "微软雅黑";
+			}
+			
+			ul,
+			li,
+			ol {
+				list-style: none
+			}
+			
+			a {
+				color: #333;
+			}
+			
+			a {
+				text-decoration: none;
+			}
+			
+			body {
+				width: 100%;
+				height: 770px;
+				background-color: #f5f7fa;
+			}
+			
+			#top {
+				/*width: 1120px;*/
+				width: 100%;
+				height: 41px;
+				background-color: #fff;
+				margin: 0 10px;
+			}
+			
+			#top {
+				/*width: 1120px;*/
+				width: 100%;
+				height: 40px;
+				background-color: #fff;
+				margin: 0 10px;
+			}
+			
+			ul.firNav {
+				height: 40px;
+				margin-left: 1px;
+				/*padding: 10px 0;*/
+				box-shadow: -1px 2px #ebedf0;
+			}
+			
+			ul.firNav li {
+				float: left;
+				color: #b2b2b2;
+				height: 20px;
+				/*width: 130px;*/
+				padding: 10px 0;
+				/*line-height: 20px;*/
+				/*padding: 0 10px;*/
+				/*border-right:2px solid #b2b2b2 ;*/
+			}
+			
+			ul.firNav li:hover {
+				cursor: pointer;
+			}
+			
+			ul.firNav li div {
+				line-height: 20px;
+				padding: 0 5px;
+				font-size: 12px;
+				/*border-right:2px solid #b2b2b2 ;*/
+			}
+			
+			ul.firNav li:last-child div {
+				border: none;
+			}
+			
+			ul.firNav li.current {
+				color: #333333;
+				border-bottom: 1px solid #42a5f5;
+			}
+			
+			#top ul i {
+				height: 20px;
+				display: inline-block;
+				padding-left: 3px;
+				font-size: 16px;
+				line-height: 40px;
+				color: #999999;
+				vertical-align: middle;
+			}
+			
+			#top ul span {
+				display: inline-block;
+				height: 20px;
+				vertical-align: middle;
+				padding-left: 5px;
+				font-size: 12px;
+				line-height: 40px;
+				color: #999999;
+			}
+			
+			#content {
+				/*width: 1090px;*/
+				width: 100%;
+				height: 812px;
+				background-color: #fff;
+				margin: auto 10px;
+				/*margin-top: 6px;*/
+				margin-bottom: 12px;
+				padding-top: 30px;
+				padding-left: 30px;
+			}
+			
+			#content div {
+				width: 496px;
+				height: 260px;
+				float: left;
+			}
+			
+			#content span {
+				width: 126px;
+				height: 36px;
+				display: inline-block;
+				text-align: right;
+				line-height: 36px;
+				font-size: 14px;
+			}
+			
+			#content .sp {
+				width: 26px;
+				height: 36px;
+				display: inline-block;
+				text-align: right;
+				line-height: 36px;
+				font-size: 14px;
+			}
+			
+			#content div .img1 {
+				width: 2px;
+				height: 20px;
+				vertical-align: middle;
+				margin-left: 70px;
+			}
+			
+			#content .sp1 {
+				font-size: 16px;
+				font-weight: bold;
+				text-align: left;
+				vertical-align: middle;
+				width: 97px;
+				margin: 0px;
+			}
+			
+			#content select {
+				vertical-align: middle;
+				width: 251px;
+				padding-left: 15px;
+				height: 35px;
+				margin-left: 18px;
+			}
+			
+			#content input {
+				width: 221px;
+				padding-left: 15px;
+				padding-right: 15px;
+				height: 36px;
+				margin-left: 18px;
+			}
+			
+			#content p {
+				margin-bottom: 14px;
+			}
+			
+			#content .ipt1 {
+				width: 116px;
+				height: 36px;
+			}
+			
+			#content .ipt2 {
+				width: 111px;
+				height: 36px;
+				margin-left: 5px;
+			}
+			
+			#content p .img2 {
+				vertical-align: middle;
+				margin-left: 5px;
+			}
+			
+			#content .p1 {
+				font-size: 12px;
+				color: #b3b3b3;
+				margin-left: 146px;
+				margin-bottom: 25px;
+			}
+			
+			#content .sp2 {
+				font-size: 12px;
+				color: #b3b3b3;
+				width: 240px;
+				margin: 0px;
+				text-align: left;
+				vertical-align: bottom;
+			}
+			
+			#content .ps1 {
+				margin-top: 64px;
+			}
+			
+			#content .ps2 {
+				margin-top: 50px;
+			}
+			
+			#content .p5 {
+				clear: both;
+				width: 500px;
+				height: 42px;
+				margin-top: 92px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			
+			#content .p5 input {
+				width: 100px;
+				height: 41px;
+				border-radius: 10px;
+				margin-right: 100px;
+				background-color: #42a5f5;
+				color: #fff;
+				border: 1px solid #dcdcdc;
+			}
+			
+			#content .p5 button {
+				width: 100px;
+				height: 41px;
+				border-radius: 10px;
+				background-color: #fff;
+				border: 1px solid #dcdcdc;
+			}
+			
+			#content .p input {
+				width: 18px;
+				height: 18px;
+				margin-left: 36px;
+				vertical-align: middle;
+				margin-right: 25px;
+			}
+			
+			#content p .add {
+				margin-left: 10px;
+				font-size: 12px;
+				color: #77b8ff;
+				text-align: left
+			}
+			
+			#content .later .redact {
+				display: inline-block;
+				width: 221px;
+				padding-left: 15px;
+				height: 36px;
+				background-color: #f2f2f2;
+				margin-left: 18px;
+				padding-right: 15px;
+				text-align: left;
+			}
+			
+			#content .redact {
+				position: relative;
+			}
+			
+			#content .later .redact img:nth-child(1) {
+				position: absolute;
+				left: 190px;
+				top: 10px
+			}
+			
+			#content .later .redact img:nth-child(2) {
+				position: absolute;
+				left: 215px;
+				top: 10px
+			}
+			
+			#content .later .redact img {
+				display: none;
+			}
+			
+			#content .later .redact:hover img {
+				display: inline-block;
+			}
+			
+			#content .later .redact:hover {
+				background-color: #f2f6fd;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="top">
+			<ul class="firNav">
+				<li class="current">
+					<div>发票设置</div>
+				</li>
+				<i class="fa fa-angle-right fa-2x"></i><span class="span-info">百度类发票设置</span>
+			</ul>
+		</div>
+		<div id="content">
+			<p>
+				<span>发票类型</span>
+				<input type="text" placeholder="百度类" />
+			</p>
+			<p class="p">
+				<span>是否需要公司税号</span>
+				<input type="radio" name="a" />是
+				<input type="radio" name="a" class="ipt" />否
+			</p>
+			<p class="later">
+				<span>产品类型</span>
+				
+				<span class="redact">
+						默认类型
+				    	<img src="img/compile.png" />
+				    	<img src="img/del.png" />
+				</span>
+				<span class="redact">
+						默认类型
+				    	<img src="img/compile.png" />
+				    	<img src="img/del.png" />
+				</span>
+				<img src="img/01.jpg" class="img2" />
+			</p>
+			<p class="later">
+				<span>打款银行类型</span>
+				<span class="redact">
+						招商银行
+				    	<img src="img/compile.png" />
+				    	<img src="img/del.png" />
+				</span>
+				<span class="redact">
+						招商银行
+				    	<img src="img/compile.png" />
+				    	<img src="img/del.png" />
+				</span>
+				<img src="img/01.jpg" class="img2" />
+			</p>
+			<p>
+				<span>最大发票额度</span>
+				<input type="text" placeholder="请输入金额" />
+				<span class="sp">元</span>
+				<p class="p1">申请发票额度超过最大额度时，申请自动拆分为两条申请</p>
+			</p>
+			<div class="dv1">
+
+				<p>
+					<img src="img/03.jpg" class="img1" />
+					<span class="sp1">发票审核</span>
+
+				</p>
+				<p>
+					<span>发票审核角色1</span>
+					<select>
+						<option value="1">王建国</option>
+						<option value="2">张三</option>
+						<option value="3">李四</option>
+					</select>
+
+					<img src="img/delelet.png" class="img2" />
+				</p>
+				<p>
+					<span>发票审核角色3</span>
+					<select>
+						<option value="1">王伟芬</option>
+						<option value="2">张三</option>
+						<option value="3">李四</option>
+					</select>
+					<img src="img/01.jpg" class="img2" />
+
+				</p>
+				<p class="p1">每一次代表一次审批流程，当前审核需要三个审批环节</p>
+			</div>
+			<div class="dv2">
+				<p class="ps2">
+					<span>发票审核角色2</span>
+					<select>
+						<option value="1">沈梦</option>
+						<option value="2">张三</option>
+						<option value="3">李四</option>
+					</select>
+					<img src="img/delelet.png" class="img2" />
+
+				</p>
+			</div>
+			<p class="p5">
+				<input type="submit" value="保存" />
+				<button>取消</button>
+			</p>
+		</div>
+	</body>
+
+</html>

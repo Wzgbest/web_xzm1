@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>业务流</title>
+		<!--<link rel="stylesheet" href="css/index.css" />-->
+		<link rel="stylesheet" href="../css/reset.css" />
+		<link rel="stylesheet" href="../css/font-awesome.min.css" />
+		<!--<link rel="stylesheet" href="../../../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="css/index.css" />
+		<link rel="stylesheet" href="../../../css/reset.css" />-->
+		<style>
+			body {
+				width: 100%;
+				/*height: 770px;*/
+				height: 100%;
+				background-color: #f5f7fa;
+			}
+			
+			#top {
+				/*width: 1120px;*/
+				width: 100%;
+				height: 40px;
+				background-color: #fff;
+				margin: 0 10px;
+			}
+			
+			ul.firNav {
+				height: 40px;
+				margin-left: 1px;
+				/*padding: 10px 0;*/
+				box-shadow: -1px 2px #ebedf0;
+			}
+			
+			ul.firNav li {
+				float: left;
+				color: #b2b2b2;
+				height: 20px;
+				/*width: 130px;*/
+				padding: 10px 0;
+				/*line-height: 20px;*/
+				/*padding: 0 10px;*/
+				/*border-right:2px solid #b2b2b2 ;*/
+			}
+			
+			ul.firNav li:hover {
+				cursor: pointer;
+			}
+			
+			ul.firNav li div {
+				line-height: 20px;
+				padding: 0 5px;
+				font-size: 12px;
+				/*border-right:2px solid #b2b2b2 ;*/
+			}
+			
+			ul.firNav li:last-child div {
+				border: none;
+			}
+			
+			ul.firNav li.current {
+				color: #333333;
+				border-bottom: 1px solid #42a5f5;
+			}
+			
+			#top ul i {
+				height: 20px;
+				display: inline-block;
+				padding-left: 3px;
+				font-size: 16px;
+				line-height: 40px;
+				color: #999999;
+				vertical-align: middle;
+			}
+			
+			#top ul span {
+				display: inline-block;
+				height: 20px;
+				vertical-align: middle;
+				padding-left: 5px;
+				font-size: 12px;
+				line-height: 40px;
+				color: #999999;
+			}
+			
+			#content {
+				/*width: 1090px;*/
+				width: 100%;
+				height: 100%;
+				background-color: #fff;
+				margin: auto 10px;
+				margin-top: 6px;
+				margin-bottom: 12px;
+			}
+			
+			#content .dv1 {
+				width: 246px;
+				height: 560px;
+				background-color: green;
+				float: left;
+			}
+			
+			#content .dv2 {
+				width: 870px;
+				height: 580px;
+				float: left;
+			}
+			
+			#content .one {
+				clear: both;
+				margin-left: 25px;
+				margin-top: 10px;
+				margin-bottom: 30px;
+			}
+			
+			#content .p1 {
+				font-size: 12px;
+				float: left;
+				width: 67px;
+				height: 30px;
+				text-align: center;
+				line-height: 30px;
+				border: 1px solid #e5e5e5;
+				padding: 0px;
+			}
+			
+			#content .two {
+				margin-top: 30px;
+				clear: both;
+				width: 875px;
+				height: 60px;
+				line-height: 60px;
+				border-bottom: 1px solid #E5E5E5;
+				margin-left: 25px;
+			}
+			
+			#content .flow input {
+				width: 14px;
+				height: 14px;
+				margin: 0;
+				padding: 0;
+				margin-right: 5px;
+				vertical-align: middle;
+				margin-left: 10px;
+				margin-right: 10px;
+			}
+			
+			#content .flow .sp6 {
+				margin-left: 0px;
+				vertical-align: middle;
+				color: #bebebe;
+			}
+			
+			#content .flow .sp3 {
+				vertical-align: middle;
+			}
+			
+			#content select {
+				vertical-align: middle;
+				width: 236px;
+				height: 35px;
+				margin-left: 18px;
+				padding-left: 15px;
+			}
+			
+			#content p {
+				margin-bottom: 14px;
+			}
+			
+			#content div .img1 {
+				width: 2px;
+				height: 20px;
+				vertical-align: middle;
+				margin-left: 25px;
+			}
+			
+			#content .sp1 {
+				font-size: 16px;
+				font-weight: bold;
+				text-align: left;
+				vertical-align: middle;
+				width: 97px;
+				margin: 0px;
+			}
+			
+			#content .space {
+				margin-top: 35px;
+			}
+			
+			#content div .tip {
+				width: 120px;
+				height: 36px;
+				display: inline-block;
+				text-align: right;
+				line-height: 36px;
+				font-size: 14px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="top">
+			<ul class="firNav">
+				<li class="current">
+					<div>业务流</div>
+				</li>
+
+			</ul>
+		</div>
+		<div id="content">
+
+			<div class="dv1"></div>
+			<div class="dv2">
+				<div class="one">
+					<p class="p1">流程管理</p>
+					<p class="p1">角色成员</p>
+				</div>
+				<div class="two">
+					<p class="flow">
+
+						<input type="checkbox" name="more" /><span class="sp3">有意向</span>
+						<input type="checkbox" name="more" /><span class="sp3">预约拜访</span>
+						<input type="checkbox" name="more" /><span class="sp3">上门拜访</span><span class="sp6">（App签到后自动更新）</span>
+						<input type="checkbox" name="more" /><span class="sp3">申请成单</span><span class="sp6">（申请成单流程在成交合同审核通过后）</span>
+					</p>
+				</div>
+				<p class="space">
+					<img src="img/02.jpg" class="img1" />
+					<span class="sp1">成单审核</span>
+				</p>
+				<p>
+					<span class="tip">成单审核人1</span>
+					<select>
+						<option value="1">王建国</option>
+						<option value="2">张三</option>
+						<option value="3">李四</option>
+					</select>
+				</p>
+				<p>
+					<span class="tip">成单审核人2</span>
+					<select>
+						<option value="1">王伟芬</option>
+						<option value="2">张三</option>
+						<option value="3">李四</option>
+					</select>
+					<img src="img/01.jpg" class="img2" />
+
+				</p>
+			</div>
+		</div>
+
+	</body>
+
+</html>

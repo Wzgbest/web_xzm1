@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>客户设置</title>
+		<script src="../../../js/jquery.min.js"></script>
+		<link rel="stylesheet" href="css/index.css" />
+		<link rel="stylesheet" href="../css/reset.css" />
+		<link rel="stylesheet" href="../css/font-awesome.min.css" />
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				font-size: 12px;
+				font-family: "微软雅黑";
+			}
+			
+			
+			body {
+				width: 100%;
+				/*height: 810px;*/
+				height: 100%;
+				background-color: #f5f7fa;
+			}
+			
+			
+			#top {
+				/*width: 1120px;*/
+				width: 100%;
+				height: 40px;
+				background-color: #fff;
+				margin: 0 10px;
+				
+			}
+			
+			ul.firNav {
+				height: 40px;
+				margin-left: 1px;
+				/*padding: 10px 0;*/
+				box-shadow: -1px 2px #ebedf0;
+			}
+			
+			ul.firNav li {
+				float: left;
+				color: #b2b2b2;
+				height: 20px;
+				/*width: 130px;*/
+				padding: 10px 0;
+				/*line-height: 20px;*/
+				/*padding: 0 10px;*/
+				/*border-right:2px solid #b2b2b2 ;*/
+			}
+			
+			ul.firNav li:hover {
+				cursor: pointer;
+			}
+			
+			ul.firNav li div {
+				line-height: 20px;
+				padding: 0 5px;
+				font-size: 12px;
+				/*border-right:2px solid #b2b2b2 ;*/
+			}
+			
+			ul.firNav li:last-child div {
+				border: none;
+			}
+			
+			ul.firNav li.current {
+				color: #333333;
+				border-bottom: 1px solid #42a5f5;
+			}
+			
+			#top ul i {
+				height: 20px;
+				display: inline-block;
+				padding-left: 3px;
+				font-size: 16px;
+				line-height: 40px;
+				color: #999999;
+				vertical-align: middle;
+			}
+			
+			#top ul span {
+				display: inline-block;
+				height: 20px;
+				vertical-align: middle;
+				padding-left: 5px;
+				font-size: 12px;
+				line-height: 40px;
+				color: #999999;
+			}
+			
+			#content {
+				width: 100%;
+				/*width: 1120px;*/
+				height: 800px;
+				background-color: #fff;
+				margin: auto 10px;
+				margin-top: 6px;
+				margin-bottom: 12px;
+				padding-top: 21px;
+			}
+			
+			#content p {
+				margin-bottom: 14px;
+				margin-left: 34px;
+				/*background-color: red;*/
+			}
+			
+			#content .p5 {
+				clear: both;
+				width: 500px;
+				height: 42px;
+				margin-top: 92px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			
+			#content .p5 input {
+				width: 100px;
+				height: 41px;
+				border-radius: 10px;
+				margin-right: 100px;
+				background-color: #42a5f5;
+				color: #fff;
+				border: 1px solid #dcdcdc;
+			}
+			
+			#content .p5 button {
+				width: 100px;
+				height: 41px;
+				border-radius: 10px;
+				background-color: #fff;
+				border: 1px solid #dcdcdc;
+			}
+			
+			#content .sp1 {
+				display: inline-block;
+				width: 180px;
+				text-align: right;
+				margin-right: 16px;
+				font-size: 14px;
+			}
+			
+			#content input {
+				width: 100px;
+				padding-left: 10px;
+				padding-right: 10px;
+				height: 36px;
+				margin-right: 16px;
+			}
+			
+			#content .p6 {
+				margin-top: 20px;
+			}
+			
+			#content .p6 input {
+				width: 14px;
+				height: 14px;
+				margin: 0;
+				padding: 0;
+				margin-right: 5px;
+				vertical-align: middle;
+			}
+			
+			#content .sp2 {
+				display: inline-block;
+				width: 350px;
+				text-align: right;
+				font-size: 12px;
+				color: #B3B3B3;
+				text-align: left;
+			}
+			
+			#content .sp {
+				font-size: 14px;
+			}
+			
+			#content .sp3 {
+				margin-right: 20px;
+				vertical-align: middle;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<div id="top">
+			<ul class="firNav">
+				<li class="current">
+					<div>客户设置</div>
+				</li>
+				<i class="fa fa-angle-right fa-2x"></i><span class="span-info">添加客户设置</span>
+			</ul>
+			
+		</div>
+		<div id="content">
+			<!--<form name="form_corp" action="http://192.168.102.67/index.php/systemsetting/corporation/editcorpinfo
+" method="post">-->
+			<p>
+
+				<span class="sp1">客户保护时间</span>
+				<input type="text" placeholder="请输入" />
+				<span class="sp">天</span>
+				<span class="sp2">（员工拥有客户时间）</span>
+			</p>
+			<p>
+
+				<span class="sp1">员工可领取单个顾客次数</span>
+				<input type="text" placeholder="请输入" />
+				<span class="sp">次</span>
+				<span class="sp2">（公海池内员工可持续领取次数）</span>
+			</p>
+			<p>
+				<span class="sp1">部门可领取单个客户次数</span>
+				<input type="text" placeholder="请输入" />
+				<span class="sp">次</span>
+				<span class="sp2">（公海池内员工可持续领取次数）</span>
+			</p>
+			<p>
+				<span class="sp1">停滞客户（销售机会）时间</span>
+				<input type="text" placeholder="请输入" />
+				<span class="sp">天</span>
+				<span class="sp2">（多长时间不维护客户变更为停滞状态，根据公司业务情况设置）</span>
+			</p>
+			<p>
+				<span class="sp1">有效通话</span>
+				<input type="text" placeholder="请输入" />
+				<span class="sp">秒</span>
+				<span class="sp2">（超过此时间为有效通话）</span>
+			</p>
+			<p>
+				<span class="sp1">客户保护个数</span>
+				<input type="text" class="ipt1" placeholder="请输入" />
+				<span class="sp">个</span>
+				<span class="sp2">（当前用户最多保护客户个数）</span>
+			</p>
+			<p class="p6">
+				<span class="sp1">公海池客户名称</span>
+				<input type="radio" name="like" class="sp3" /><span class="sp3">隐藏</span>
+				<input type="radio" name="like" class="sp3" /><span class="sp3">显示</span>
+			</p>
+			<p class="p6">
+				<span class="sp1">该设置对应部门</span>
+				<input type="checkbox" name="more" /><span class="sp3">销售一部</span>
+				<input type="checkbox" name="more" /><span class="sp3">销售二部</span>
+				<input type="checkbox" name="more" /><span class="sp3">市场五部</span>
+				<input type="checkbox" name="more" /><span class="sp3">售后三部</span>
+			</p>
+
+			<p class="p5">
+				<input id="corp_submit" type="submit" value="保存" />
+				<button>取消</button>
+			</p>
+			<!--</form>-->
+		</div>
+	</body>
+	<script>
+		$('#corp_submit').click(function() {
+			console.log($('.form_corp').serialize());
+			$.ajax({
+				url: 'http://192.168.102.67/index.php/systemsetting/corporation/editcorpinfo',
+				type: 'post',
+				data: $('.form_corp').serialize(),
+				success: function(data) {
+					if(data.status) {
+						console.log(data.message);
+					} else {
+						console.log(data.message);
+					}
+				},
+				error: function() {
+
+				},
+			});
+		});
+	</script>
+
+</html>

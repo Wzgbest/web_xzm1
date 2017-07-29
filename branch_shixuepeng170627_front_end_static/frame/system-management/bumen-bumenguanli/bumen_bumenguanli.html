@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>部门管理</title>
+
+		<link rel="stylesheet" href="../css/reset.css" />
+		<link rel="stylesheet" href="../css/font-awesome.min.css" />
+		<!--<link rel="stylesheet" href="../../../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="css/index.css" />
+		<link rel="stylesheet" href="../../../css/reset.css" />-->
+		<link rel="stylesheet" href="../frame/crm/css/form.css" />
+		<link rel="stylesheet" href="../frame/crm/css/index.css" />
+		<link rel="stylesheet" href="../frame/crm/css/table.css" />
+
+		<style>
+			/*折叠面板*/
+			
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			.fold {
+				width: 250px;
+				height: 550px;
+				background-color: #f5f5f5;
+				float: left;
+			}
+			
+			.fold .top {
+				height: 50px;
+				border-bottom: 1px solid #ebebeb;
+			}
+			
+			.fold .top span {
+				font-size: 16px;
+				line-height: 50px;
+				margin-left: 15px;
+			}
+			
+			.fold .top i {
+				font-size: 20px;
+				line-height: 50px;
+				margin-left: 136px;
+				color: #b3b3b3;
+			}
+			
+			.fold ul li {
+				padding-left: 20px;
+				background: url(img/ul_li.png) no-repeat 20px center;
+				list-style: none;
+				height: 42px;
+				border-bottom: 1px solid #eeeeee;
+				line-height: 42px;
+				padding-left: 50px;
+			}
+			
+			.fold p {
+				padding-left: 30px;
+				background: url(img/部门管理_03.png) no-repeat 15px center;
+				height: 42px;
+				border-bottom: 1px solid #eeeeee;
+				line-height: 42px;
+			}
+			
+			.fold p span {
+				margin-left: 18px;
+			}
+			
+			.fold p .sp1 {
+				margin-left: 8px;
+			}
+			
+			.fold .zk_k {
+				background: url(img/zk_xiaoshou.png) no-repeat 15px center;
+			}
+			
+			.fold .zk_shichang {
+				background: url(img/06.png) no-repeat 15px top;
+			}
+			
+			.fold .zk {
+				display: none;
+			}
+			
+			.fold .last_ul {
+				background: url(img/last.png) no-repeat 15px top;
+			}
+			.fold .zk_change{
+				
+				background: url(img/1.png) no-repeat 19px center;
+			}
+			.fold .zk_change1{
+				
+				background: url(img/05.png) no-repeat 15px bottom;
+			}
+			/** {
+				margin: 0;
+				padding: 0;
+				font-size: 12px;
+				font-family: "微软雅黑";
+			}*/
+			
+			body {
+				width: 100%;
+				height: 580px;
+				background-color: #f5f7fa;
+			}
+			
+			#top {
+				/*width: 1120px;*/
+				width: 100%;
+				height: 40px;
+				background-color: #fff;
+				margin: 0 10px;
+				position: relative;
+			}
+			
+			ul.firNav {
+				height: 40px;
+				margin-left: 1px;
+				/*padding: 10px 0;*/
+				box-shadow: -1px 2px #ebedf0;
+			}
+			
+			ul.firNav li {
+				float: left;
+				color: #b2b2b2;
+				height: 20px;
+				/*width: 130px;*/
+				padding: 10px 0;
+				/*line-height: 20px;*/
+				/*padding: 0 10px;*/
+				/*border-right:2px solid #b2b2b2 ;*/
+			}
+			
+			ul.firNav li:hover {
+				cursor: pointer;
+			}
+			
+			ul.firNav li div {
+				line-height: 20px;
+				padding: 0 5px;
+				font-size: 12px;
+				/*border-right:2px solid #b2b2b2 ;*/
+			}
+			
+			ul.firNav li:last-child div {
+				border: none;
+			}
+			
+			ul.firNav li.current {
+				color: #333333;
+				border-bottom: 1px solid #42a5f5;
+			}
+			
+			#top ul i {
+				height: 20px;
+				display: inline-block;
+				padding-left: 3px;
+				font-size: 16px;
+				line-height: 40px;
+				color: #999999;
+				vertical-align: middle;
+			}
+			
+			#top ul span {
+				display: inline-block;
+				height: 20px;
+				vertical-align: middle;
+				padding-left: 5px;
+				font-size: 12px;
+				line-height: 40px;
+				color: #999999;
+			}
+			
+			#top .add {
+				width: 26px;
+				height: 38px;
+				position: absolute;
+				right: 50px;
+				top: 0;
+				padding-top: 2px;
+			}
+			
+			#top .add p {
+				font-size: 12px;
+				text-align: center;
+			}
+			
+			#top .add i {
+				display: block;
+				color: #1f7ed0;
+				text-align: center;
+			}
+			
+			#content {
+				/*width: 1090px;*/
+				width: 100%;
+				height: 580px;
+				background-color: #fff;
+				margin: auto 10px;
+				margin-top: 6px;
+				margin-bottom: 12px;
+			}
+			
+			/*#content .dv1 {
+				width: 250px;
+				height: 800px;
+				float: left;
+			}*/
+			
+			#content .dv2 {
+				width: 870px;
+				height: 550px;
+				float: left;
+			}
+			
+			#content .p1 {
+				font-size: 12px;
+				float: left;
+				width: 67px;
+				height: 30px;
+				text-align: center;
+				line-height: 30px;
+				border: 1px solid #e5e5e5;
+				padding: 0px;
+			}
+			
+			#content .two {
+				margin-top: 30px;
+				clear: both;
+				width: 875px;
+				height: 60px;
+				line-height: 60px;
+				border-bottom: 1px solid #E5E5E5;
+				margin-left: 25px;
+			}
+			
+			#content .table1 {
+				margin-left: 21px;
+			}
+			
+			#content input {
+				width: 42px;
+				height: 18px;
+			}
+			/*弹出框*/
+			
+			.reveal-modal-bg {
+				position: fixed;
+				height: 100%;
+				width: 100%;
+				z-index: 100;
+				display: none;
+				top: 0;
+				left: 0;
+				background: rgba(00, 00, 00, 0.4)
+			}
+			
+			.reveal-modal {
+				width: 590px;
+				height: 280px;
+				visibility: hidden;
+				top: 150px;
+				left: 50%;
+				margin-left: -300px;
+				position: absolute;
+				z-index: 101;
+				-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+				-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+				-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+				background-color: #fff;
+			}
+			
+			.reveal-modal .p1 {
+				width: 589px !important;
+				height: 50px !important;
+				background-color: #6b7a99;
+				font-size: 18px !important;
+				text-align: center;
+				line-height: 50px !important;
+				color: #fff;
+			}
+			
+			.reveal-modal .p2 {
+				width: 590px;
+				font-size: 18px;
+				text-align: center;
+				line-height: 140px;
+				color: #666666;
+				display: inline-block;
+			}
+			
+			.reveal-modal select {
+				width: 200px;
+				height: 30px;
+				margin-left: 10px;
+			}
+			
+			#myModal .p5 {
+				margin-left: 165px;
+			}
+			#myModalone .p5 {
+				margin-left: 50px;
+			}
+			#myModal .p5 input {
+				width: 100px;
+				height: 41px;
+				border-radius: 10px;
+				margin-right: 60px;
+				background-color: #42a5f5;
+				color: #fff;
+				border: 1px solid #dcdcdc;
+			}
+			#myModalone .p5 input {
+				width: 160px;
+				height: 41px;
+				border-radius: 10px;
+				margin-right: 60px;
+				background-color: #42a5f5;
+				color: #fff;
+				border: 1px solid #dcdcdc;
+			}
+			#myModal .p5 button {
+				width: 100px;
+				height: 41px;
+				border-radius: 10px;
+				margin-right: 100px;
+				background-color: #fff;
+				border: 1px solid #dcdcdc;
+			}
+			#myModalone .p5 button {
+				width: 270px;
+				height: 41px;
+				border-radius: 10px;
+				
+				background-color: #fff;
+				border: 1px solid #dcdcdc;
+			}
+			.reveal-modal .close-reveal-modal {
+				font-size: 32px;
+				line-height: 0.5;
+				position: absolute;
+				top: 15px;
+				right: 18px;
+				color: #fff;
+				text-shadow: 0 -1px 1px rbga(0, 0, 0, .6);
+				font-weight: bold;
+				cursor: pointer;
+			}
+			
+			.fold .onepng{
+				margin-left: 60px;
+			}
+			
+			.fold img{
+				margin-right: 10px;
+				display: none;
+			}
+			.fold ul li:hover{
+				background-color: #e6e6e6;
+			}
+			.fold .zk_1{
+				width: 220px;
+			}
+			.fold .zk_1:hover{
+			    
+				background-color: #e6e6e6;
+			}
+			.fold .zk_2:hover{
+				background-color: #e6e6e6;
+			}
+			.fold ul li:hover img{
+				display: inline-block;
+			}
+			.fold .zk_1:hover img{
+				display: inline-block;
+			}
+			.fold .zk_2:hover img{
+				display: inline-block;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="top">
+			<ul class="firNav">
+				<li class="current">
+					<div>部门管理</div>
+				</li>
+			</ul>
+
+			<div class="add">
+				<i class="fa fa-plus fa-2x"></i>
+				<p>新增</p>
+			</div>
+		</div>
+		<div id="content">
+				<div class="fold">
+					<div class="top">
+						<span>组织架构</span>
+						<i class="fa fa-plus"></i>
+					</div>
+					<p class="zk_1 ">
+						<span class="sp1">CEO</span>
+						<img src="img/add.png" class="onepng"/><img src="img/pen.png" /><img src="img/delete.png" />
+					</p>
+					<p class="zk_2 zk zk_k">
+						<span>销售部</span>
+						<img src="img/add.png" class="onepng"/><img src="img/pen.png" /><img src="img/delete.png" />
+					</p>
+					<ul class="zk_3 zk">
+
+						<li>销售一部<img src="img/add.png" class="onepng"/><img src="img/pen.png" /><img src="img/delete.png" /> </li>
+						<li>销售二部<img src="img/add.png" class="onepng"/><img src="img/pen.png" /><img src="img/delete.png" /></li>
+						<li>销售三部<img src="img/add.png" class="onepng"/><img src="img/pen.png" /><img src="img/delete.png" /></li>
+						<li class="last_ul">销售四部<img src="img/add.png" class="onepng"/><img src="img/pen.png" /><img src="img/delete.png" /></li>
+
+					</ul>
+					<p class="zk_2 zk zk_shichang">
+						<span>市场部</span>
+						<img src="img/add.png" class="onepng"/><img src="img/pen.png" /><img src="img/delete.png" />
+					</p>
+				
+				</div>
+			<div class="dv2">
+
+				<div class="m-tableBox3">
+					<div class="m-table table3">
+						<ul class="u-tabTitle" >
+							<li>工号<i class="fa fa-sort-desc"></i></li>
+							<li>姓名<i class="fa fa-unsorted"></i></li>
+							<li>角色</li>
+							<li>是否部门领导人</li>
+							<li>注册手机号</li>
+							<li>邮箱</li>
+							<li>操作</li>
+							<div class="clearfix"></div>
+						</ul>
+						<ul class="u-tabList">
+							<li>00001</li>
+							<li>李华</li>
+							<li>员工</li>
+							<li>否</li>
+							<li>13345021406</li>
+							<li>10123456789@qq.com</li>
+							<li class="u-tabOperation"><span class="big-link" data-reveal-id="myModalone" data-animation="fade">删除</span><span class="big-link" data-reveal-id="myModal" data-animation="fade">移至</span></li>
+							<div class="clearfix"></div>
+						</ul>
+					</div>
+				</div>
+				<div class="u-tabControlRow">
+					<span>显示行数</span>
+					<select onchange="listNumChange()">
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+					</select>
+					<span>1-10条/</span>
+					<span>共50条</span>
+					<button>上一页</button>
+					<button>下一页</button>
+					<span>前往</span>
+					<input type="text" />
+					<span>页</span>
+				</div>
+
+			</div>
+
+			<!--<a href="#" class="big-link" data-reveal-id="myModal" data-animation="fade">点我弹出</a>-->
+
+			<div id="myModal" class="reveal-modal">
+				<p class="p1">移动</p>
+				<p class="p2">移动该员工至
+					<select>
+						<option>销售一部</option>
+						<option>销售二部</option>
+						<option>销售三部</option>
+					</select>
+				</p>
+
+				<p class="p5">
+					<input type="submit" value="确定" />
+					<button>取消</button>
+				</p>
+				<a class="close-reveal-modal">&#215;</a>
+			</div>
+			
+			<div id="myModalone" class="reveal-modal">
+				<p class="p1">删除</p>
+				<p class="p2">该部门有1346名员工，是否删除</p>
+				<p class="p5">
+					<input type="submit" value="是，删除员工和部门" />
+					<button>不，仅删除部门<span>（员工移至待处理员工）</span></button>
+				</p>
+				<a class="close-reveal-modal">&#215;</a>
+			</div>
+		</div>
+	</body>
+
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../frame/crm/js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="../frame/crm/js/index.js"></script>
+	<script type="text/javascript" src="../frame/crm/js/jquery.reveal.js"></script>
+
+	<script>
+		$("").ready(function() {
+			$(".zk_1").click(function() {
+				$(".zk_3").addClass('zk');
+				$(".zk_1").toggleClass('zk_change1')
+				$(".zk_2").toggleClass('zk');	
+				$(".zk_k").click(function(){
+					$(this).toggleClass('zk_change');
+//					$(this).css('background','url(img/1.jpg) no-repeat 19px center');
+					$(".zk_3").toggleClass('zk');
+				});	
+				
+			})			
+		})
+	</script>
+
+</html>

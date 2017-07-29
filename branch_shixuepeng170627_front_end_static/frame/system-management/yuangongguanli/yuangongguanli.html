@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>员工管理</title>
+		<!--<link rel="stylesheet" href="../../css/reset.css" />
+		<link rel="stylesheet" href="css/index.css"/>
+		<link rel="stylesheet" href="css/table.css" />
+		<link rel="stylesheet" href="css/form.css" />
+		<link rel="stylesheet" href="../../css/font-awesome.min.css" />-->
+		<link rel="stylesheet" href="../frame/crm/css/form.css" />
+		<link rel="stylesheet" href="../frame/crm/css/index.css" />
+		<link rel="stylesheet" href="../frame/crm/css/table.css" />
+		<link rel="stylesheet" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/reset.css" />
+
+		<style>
+			.p5 input {
+				width: 100px;
+				height: 41px;
+				border-radius: 10px;
+				/*	margin-right: 60px;*/
+				background-color: #42a5f5;
+				color: #fff;
+				border: 1px solid #dcdcdc;
+				margin-top: 10px;
+				margin-left: 180px;
+			}
+			
+			.p5 button {
+				width: 100px;
+				height: 41px;
+				border-radius: 10px;
+				/*margin-right: 100px;*/
+				background-color: #fff;
+				border: 1px solid #dcdcdc;
+				margin-left: 50px;
+			}
+			/*弹出框*/
+			
+			.reveal-modal-bg {
+				position: fixed;
+				height: 100%;
+				width: 100%;
+				z-index: 100;
+				display: none;
+				top: 0;
+				left: 0;
+				background: rgba(00, 00, 00, 0.4)
+			}
+			
+			.reveal-modal {
+				width: 590px;
+				height: 280px;
+				visibility: hidden;
+				top: 150px;
+				left: 50%;
+				margin-left: -300px;
+				position: absolute;
+				z-index: 101;
+				-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+				-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+				-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+				background-color: #fff;
+			}
+			
+			.reveal-modal .p1 {
+				width: 589px !important;
+				height: 50px !important;
+				background-color: #6b7a99;
+				font-size: 18px !important;
+				text-align: center;
+				line-height: 50px !important;
+				color: #fff;
+			}
+			
+			.reveal-modal .p2 {
+				width: 590px;
+				font-size: 18px;
+				text-align: center;
+				line-height: 140px;
+				color: #666666;
+				display: inline-block;
+			}
+			
+			.reveal-modal select {
+				width: 200px;
+				height: 30px;
+				margin-left: 10px;
+			}
+			
+			#myModal .p5 {
+				/*clear: both;*/
+				width: 50px;
+				height: 42px;
+			}
+			
+			.reveal-modal .close-reveal-modal {
+				font-size: 32px;
+				line-height: 0.5;
+				position: absolute;
+				top: 15px;
+				right: 18px;
+				color: #fff;
+				text-shadow: 0 -1px 1px rbga(0, 0, 0, .6);
+				font-weight: bold;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--header-->
+		<header>
+			<ul class="m-firNav">
+				<li id="myAllClients" class="current">
+					<div>员工管理</div>
+				</li>
+				<!--<li id="awaitComClients"><div>待沟通客户（<span>160</span>）</div></li>
+				<li id="notFllowClients"><div>未跟进客户（<span>160</span>）</div></li>
+				<li id="followClients"><div>正常跟进客户（<span>160</span>）</div></li>
+				<li id="stagnantClients"><div>停滞客户（<span>160</span>）</div></li>
+				<li id="undeterminedClients"><div>待定客户（<span>160</span>）</div></li>
+				<li id="noIntentionClients"><div>无意向客户（<span>160</span>）</div></li>
+				<li id="overClients"><div>已成单客户（<span>160</span>）</div></li>
+				<li id="uselessClients"><div>无效客户（<span>160</span>）</div></li>-->
+			</ul>
+		</header>
+
+		<!--客户列表-->
+		<section id="myAllClientsPage">
+			<ul class="m-secNav">
+				<li class="active" onclick="newClient()">新建员工</li>
+				<li class="active"><span class="big-link" data-reveal-id="myModaltwo" data-animation="fade">批量导入</span></li>
+				<li class="active">导入记录</li>
+				<li class="vertical"></li>
+				<li><span class="big-link" data-reveal-id="myModalone" data-animation="fade">导出</span></li>
+				<li><span class="big-link" data-reveal-id="myModalthree" data-animation="fade">删除</span></li>
+				<!--<li>批量释放</li>-->
+				<div class="clearfix"></div>
+			</ul>
+			<div class="m-filterNav">
+				<select>
+					<option>直属部门</option>
+				</select>
+				<select>
+					<option>角色</option>
+				</select>
+				<select>
+					<option>状态</option>
+				</select>
+				<!--<select>
+				<option>沟通状态</option>
+			</select>-->
+				<input type="text" placeholder="输入工号" />
+				<input type="text" placeholder="输入姓名" />
+				<button class="u-btnSearch">查询</button>
+			</div>
+			<div class="m-tableBox2">
+				<div class="m-table table2">
+					<ul class="u-tabTitle">
+						<li class="u-tabCheckbox"><input type="checkbox" /></li>
+						<li>工号<i class="fa fa-unsorted"></i></li>
+						<li>姓名</li>
+						<li>直属部门<i class="fa fa-unsorted"></i></li>
+						<li>联系方式</li>
+						<li>是否领导<i class="fa fa-unsorted"></i></li>
+						<li>角色<i class="fa fa-unsorted"></i></li>
+						<li>状态</li>
+						<li>创建时间<i class="fa fa-unsorted"></i></li>
+						<li>操作</li>
+						<div class="clearfix"></div>
+					</ul>
+					<ul class="u-tabList">
+						<li class="u-tabCheckbox"><input type="checkbox" /></li>
+						<li>001</li>
+						<li>李华</li>
+						<li>销售一部</li>
+						<li>13345021406</li>
+						<li>是</li>
+						<li>销售</li>
+						<li>在职</li>
+						<li>2017/01/22/15:09</li>
+						<li class="u-tabOperation"><span>详情</span><span>编辑</span><span>删除</span></li>
+						<div class="clearfix"></div>
+					</ul>
+				</div>
+
+			</div>
+			<div class="u-tabControlRow">
+				<span>显示行数</span>
+				<select onchange="listNumChange()">
+					<option value="5">5</option>
+					<option value="10">10</option>
+					<option value="20">20</option>
+				</select>
+				<span>1-10条/</span>
+				<span>共50条</span>
+				<button>上一页</button>
+				<button>下一页</button>
+				<span>前往</span>
+				<input type="text" />
+				<span>页</span>
+			</div>
+		</section>
+
+		<div id="myModalone" class="reveal-modal">
+			<p class="p1">导出</p>
+			<p class="p2">你已选中1~34位员工是否导出</p>
+			<p class="p5">
+				<input type="submit" value="确定" style="margin-left:180px" />
+				<button>取消</button>
+			</p>
+			<a class="close-reveal-modal">&#215;</a>
+		</div>
+		<div id="myModaltwo" class="reveal-modal">
+			<p class="p1">批量导入</p>
+			<p class="p2">
+
+				<img src="img/file.jpg" />
+				<span style="font-size: 12px;">导入模板下载</span>
+
+				<input type="text" style="width: 102px;height: 30px;border-radius: 6px;background-color: #efefef;" />
+				<span style="font-size: 12px;">未选择任何文件</span>
+			</p>
+			<p class="p5">
+				<input type="submit" value="确定" />
+				<button>取消</button>
+			</p>
+			<a class="close-reveal-modal">&#215;</a>
+		</div>
+		<div id="myModalthree" class="reveal-modal">
+			<p class="p1">删除</p>
+			<p class="p2">是否要删除这些员工</p>
+			<p class="p5">
+				<input type="submit" value="确定" />
+				<button>取消</button>
+			</p>
+			<a class="close-reveal-modal">&#215;</a>
+		</div>
+		<!--黑色遮罩-->
+		<section id="blackBg" class="hide page-client"></section>
+
+		<!--新建客户-->
+		<section id="newClient" class="hide page-client">
+			<header>
+				<h1>新建员工<i class="fa fa-close fa-2x" onclick="removeNewClient()"></i></h1>
+			</header>
+			<div class="m-formBox m-form">
+				<form id="newClientForm">
+					<div id="form2" class="">
+						<div>
+							<span class="cont">姓名</span>
+							<input type="text" id="linkmanName" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入联系人姓名" />
+
+							<span class="cont">直属部门</span>
+							<input type="text" id="department" pattern="[\d\D]{0,16}" title="最多填写16位字符" placeholder="请输入所属部门" />
+
+						</div>
+						<div>
+							<span class="cont">昵称</span>
+							<input type="text" id="linkmanName" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入昵称" />
+
+							<span class="cont">工号</span>
+							<input type="text" id="department" pattern="[\d\D]{0,10}" title="最多填写10位字符" placeholder="请输入工号" />
+
+						</div>
+						<div style="height: 30px;">
+							<span class="cont">性别</span>
+							<input type="radio" name="sex" value="male" />男
+							<input type="radio" name="sex" value="famale" />女
+
+							<span class="cont" style="margin-left: 216px;">是否领导</span>
+							<div class="u-inlineRadio">
+								<input type="radio" name="isKeyDecisionMaker" value="true" />是
+								<input type="radio" name="isKeyDecisionMaker" value="false" />否
+							</div>
+
+						</div>
+
+						<div>
+							<span class="cont">手机号</span>
+							<input type="text" id="contactWay3" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码" />
+							<span class="cont">邮箱</span>
+							<input type="email" id="mail" placeholder="请输入邮箱" />
+						</div>
+						<div>
+							<span class="cont">座机号</span>
+							<input type="text" id="contactWay3" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码" />
+							<span class="cont">QQ号</span>
+							<input type="text" id="qqNumber" pattern="[\d]{0,10}" title="请写正确格式" placeholder="请输入QQ号" />
+
+						</div>
+						<div>
+							<span class="cont">分机号</span>
+							<input type="text" id="contactWay3" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码" />
+
+							<span class="cont">微信号</span>
+							<input type="text" id="wechatNumber" pattern="[\d\D]{0,40}" title="最多填写40位字符" placeholder="请输入微信号" />
+						</div>
+
+						<div>
+							<span class="cont">员工状态</span>
+							<select>
+								<option>请选择</option>
+								<option>普通人</option>
+								<option>决策人</option>
+								<option>分项决策人</option>
+								<option>商务决策人</option>
+								<option>技术决策人</option>
+								<option>财务决策人</option>
+								<option>使用人</option>
+								<option>意见影响人</option>
+							</select>
+							<span class="cont">职位</span>
+							<select>
+								<option>请选择</option>
+								<option>普通人</option>
+								<option>决策人</option>
+								<option>分项决策人</option>
+								<option>商务决策人</option>
+								<option>技术决策人</option>
+								<option>财务决策人</option>
+								<option>使用人</option>
+								<option>意见影响人</option>
+							</select>
+						</div>
+						<p class="p5">
+							<input type="submit" value="确定" />
+							<button>取消</button>
+						</p>
+
+					</div>
+				</form>
+			</div>
+		</section>
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<script type="text/javascript" src="../frame/crm/js/jquery-1.4.4.min.js"></script>
+		<script type="text/javascript" src="../frame/crm/js/index.js"></script>
+		<script type="text/javascript" src="../frame/crm/js/jquery.reveal.js"></script>
+	</body>
+
+</html>

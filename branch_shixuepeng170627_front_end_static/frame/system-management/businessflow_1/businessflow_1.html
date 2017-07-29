@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>合同设置</title>
+		
+		<link rel="stylesheet" href="../css/reset.css" />
+		<!--<link rel="stylesheet" href="css/index.css" />-->
+		<link rel="stylesheet" href="../css/font-awesome.min.css" />
+		<script type="text/javascript" src="jquery.min.js" ></script>
+		<!--<script src="../../../js/jquery.min.js"></script>-->
+		<style>
+			body{
+	width: 100%;
+	/*height: 810px;*/
+	height: 100%;
+	background-color: #f5f7fa;
+}
+
+#top {
+	/*width: 1120px;*/
+	width: 100%;
+	height: 41px;
+	background-color: #fff;
+	margin: 0 10px;
+}
+
+#top {
+	/*width: 1120px;*/
+	width: 100%;
+	height: 40px;
+	background-color: #fff;
+	margin: 0 10px;
+}
+
+
+ul.firNav{
+	height: 40px;
+	margin-left: 1px;
+	/*padding: 10px 0;*/ 
+	box-shadow: -1px 2px #ebedf0;
+}
+ul.firNav li{
+	float: left;
+	color: #b2b2b2;
+	height: 20px;
+	/*width: 130px;*/
+	padding: 10px 0;
+	/*line-height: 20px;*/
+	/*padding: 0 10px;*/
+	/*border-right:2px solid #b2b2b2 ;*/
+}
+ul.firNav li:hover{
+	cursor: pointer;
+}
+ul.firNav li div{
+	line-height: 20px;
+	padding: 0 5px;
+	font-size: 12px;
+	/*border-right:2px solid #b2b2b2 ;*/
+}
+ul.firNav li:last-child div{
+	border: none;
+}
+ul.firNav li.current{
+	color: #333333;
+	border-bottom: 1px solid #42a5f5;
+}
+#top ul i{
+	height: 20px;
+	display: inline-block;
+	padding-left: 3px;
+	font-size: 16px;
+	line-height: 40px;
+	color: #999999;
+	vertical-align: middle;
+}
+#top ul span{
+	display: inline-block;
+	height: 20px;
+	vertical-align: middle;
+	padding-left: 5px;
+	font-size: 12px;
+	line-height: 40px;
+	color: #999999;
+}
+#content{
+	width: 100%;
+	/*width: 1120px;*/
+	height: 800px;
+	background-color: #fff;
+	margin: auto 10px;
+	margin-top: 6px;
+	margin-bottom: 12px;
+	padding-top: 21px;
+
+}
+
+#content p{
+	margin-bottom: 14px;
+	margin-left: 34px;
+	/*background-color: red;*/
+}
+
+#content input{
+	padding-left: 15px;
+	padding-right: 15px;
+	width: 222px;
+	height: 36px;
+	margin-left:25px ;
+}
+#content .sp1{
+	display: inline-block;
+	width: 120px;
+	text-align: right;
+	margin-right:16px ;
+	font-size: 14px;
+}
+#content .p5{
+	width: 350px;
+	height: 42px;
+	margin-top: 180px;
+	margin-left: auto;
+	margin-right: auto;
+}
+#content .p5 input{
+	width: 100px;
+	height: 41px;
+	border-radius: 10px;
+	margin-right: 100px;
+	background-color: #42a5f5;
+	color: #fff;
+	border: 1px solid #dcdcdc;
+}
+#content .p5 button{
+	width: 100px;
+	height: 41px;
+	border-radius: 10px;
+	/*margin-right: 100px;*/
+	background-color: #fff;
+	border: 1px solid #dcdcdc;
+}
+
+
+#content .p6{
+	margin-top: 40px;
+	margin-left: 175px;
+}
+
+#content .p6 input{
+	width: 14px;
+	height: 14px;
+	margin: 0;
+	padding: 0;
+	margin-right: 5px;
+	vertical-align: middle;
+	margin-left: 25px;
+	
+}
+/*#content .p6:nth-child(3){
+	margin-left: 143px;
+}*/
+#content .add{
+	margin-top: 40px;
+}
+
+#content .add input{
+	width: 14px;
+	height: 14px;
+	margin: 0;
+	padding: 0;
+	margin-right: 5px;
+	vertical-align: middle;
+	margin-left: 25px;
+	
+}
+
+
+#content .p7{
+	margin-top: 30px;
+}
+
+#content .p7 input{
+	width: 14px;
+	height: 14px;
+	margin: 0;
+	padding: 0;
+	margin-right: 5px;
+	vertical-align: middle;
+	margin-left: 25px;
+	
+}
+#content .sp3{
+	/*margin-right: 20px;*/
+	vertical-align: middle;
+}
+#content .sp6{
+	margin-left: 0px;
+	vertical-align: middle;
+	color: #bebebe;
+}
+#content div{
+	width: 1076px;
+	height: 1px;
+	background-color: #f2f2f2;
+	margin-left: 30px;
+	margin-top: 22px;
+}
+.add span:not(.sp1){
+	width: 86px;
+	height: 26px;
+	display: inline-block;
+	text-align: center;
+	line-height: 26px;
+	margin-left: 20px;
+	margin-right: 50px;
+	background-color: #ebf3ff;
+}
+.add span{
+	position: relative;
+}
+.add span img{
+				position:absolute;
+				top:-5px;
+				left: 80px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="top">
+			<ul class="firNav">
+				<li class="current"><div>业务流</div></li>
+				<i class="fa fa-angle-right fa-2x"></i><span class="span-info">百度推广</span>
+			</ul>
+		</div>
+		<div id="content">
+			<p >
+				<span class="sp1">业务名称</span>
+				<input type="text" placeholder="百度推广"/>
+				
+			</p>
+			<p class="add">
+				<span class="sp1">业务流程</span>
+				
+			</p>
+			<p class="p6">
+				<!--<span class="sp1">业务流程</span>-->
+				
+				<input type="checkbox" name="more" index="1"/><span class="sp3">有意向</span>
+				<input type="checkbox" name="more" index="2"/><span class="sp3">预约拜访</span>
+				<input type="checkbox" name="more" index="3" /><span class="sp3">上门拜访</span><span class="sp6">（App签到后自动更新）</span>
+				<input type="checkbox" name="more" index="4"/><span class="sp3">申请成单</span><span class="sp6">（申请成单流程在成交合同审核通过后）</span>
+			</p>
+			<div></div>
+			<p class="p7">
+				<span class="sp1">拥有此业务角色</span>
+				<input type="checkbox" name="ipt"/><span class="sp3">角色1</span>
+				<input type="checkbox" name="ipt"/><span class="sp3">角色2</span>
+				
+			</p >
+			<p class="p5">
+				<input id="corp_submit" type="submit" value="保存"/>
+				<button>取消</button>
+			</p>
+			
+		</div>
+	</body>
+	
+	
+	
+	
+	<script type="text/javascript">
+		$('.p6 input').each(function(){
+			$(this).on('click',function(){
+				var index = $(this).attr("index")
+				if($(this).prop('checked')==true){
+					var main = $(this).next().html()
+					$('.add').append('<span index = '+index+'>'+main+'<img src='+"img/del.png"+' index = "'+index+'"/></span>')
+				}else{
+					$('span').each(function(){
+						if($(this).attr('index')==index){
+							$(this).remove()
+						}
+					})
+				}
+				
+				$('span img').each(function(){
+					$(this).on('click',function(){
+						var index1 = $(this).attr("index")
+						var This = $(this)
+						$('.p6 input').each(function(){
+							if($(this).attr('index')==index1){
+								$(this).prop('checked',false)
+								$(This).parent().remove()
+								
+							}
+						})
+					})
+				})
+				
+				
+						
+			})
+			
+		})
+		
+		
+	</script>
+	
+</html>
