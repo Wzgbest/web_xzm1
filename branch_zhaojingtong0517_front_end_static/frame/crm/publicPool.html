@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>公海池</title>
+		<link rel="stylesheet" href="../../css/reset.css" />
+		<link rel="stylesheet" href="css/index.css"/>
+		<link rel="stylesheet" href="css/table.css" />
+		<link rel="stylesheet" href="css/form.css" />
+		<link rel="stylesheet" href="../../css/font-awesome.min.css" />
+	</head>
+	<body>
+		<header>
+			<ul class="m-firNav">
+				<li id="publicPool" class="current"><div>公海池</div></li>
+			</ul>
+		</header>
+		<ul class="m-secNav">
+			<li class="active">新建</li>
+			<li class="active">导入</li>
+			<li class="active">导入记录</li>
+			<li class="active" onclick="newPopup()">批量申领</li>
+			<li class="vertical"></li>
+			<li>删除</li>
+			<li style="width: 90px;">更改可见范围</li>
+			<div class="clearfix"></div>
+		</ul>
+		<div class="m-filterNav">
+			<select>
+				<option>客户来源</option>
+			</select>
+			<select>
+				<option>可见范围</option>
+			</select>
+			<input type="text" placeholder="输入客户名称"/>
+			<button class="u-btnSearch">查询</button>
+		</div>
+		<div class="m-tableBox">
+			<div class="m-table table3">
+				<ul class="u-tabTitle">
+					<li class="u-tabCheckbox"><input type="checkbox"/></li>
+					<li>客户名称<i class="fa fa-caret-up"></i></li>
+					<li>客户来源<i class="fa fa-unsorted"></i></li>
+					<li>添加批次<i class="fa fa-unsorted"></i></li>
+					<li>添加人</li>
+					<li>展示范围</li>
+					<li>创建时间<i class="fa fa-unsorted"></i></li>
+					<li>操作</li>
+					<div class="clearfix"></div>
+				</ul>
+				<ul class="u-tabList">
+					<li class="u-tabCheckbox"><input type="checkbox"/></li>
+					<li class="u-tabCilentName">山东中讯网络传媒有限公司</li>
+					<li>批量导入</li>
+					<li>20170628</li>
+					<li>大使</li>
+					<li>全公司</li>
+					<li>2017/02/12</li>
+					<li class="u-tabOperation"><span>申领</span><span>删除</span></li>
+					<div class="clearfix"></div>
+				</ul>
+			</div>
+		</div>
+		<div class="u-tabControlRow">
+			<span>显示行数</span>
+			<select>
+				<option>5</option>
+				<option>10</option>
+				<option>20</option>
+			</select>
+			<span>1-10条/</span>
+			<span>共50条</span>
+			<button>上一页</button>
+			<button>下一页</button>
+			<span>前往</span>
+			<input type="text" />
+			<span>页</span>
+		</div>
+		<!--黑色遮罩-->
+		<section id="blackBg" class="hide page-client"></section>
+		
+		<section class="m-popup m-form hide" id="newPopup">
+			<header>
+				<h1>申领<i class="fa fa-close fa-2x" onclick="removePopup()"></i></h1>
+			</header>
+			<h2>输入申领个数，系统将为你随机分配客户</h2>
+			<input type="text" placeholder="请输入申领个数"/>
+			<h3>当前可申领<span style="color: #ffa31c;">355</span>个</h3>
+			<div class="u-submitButton">
+				<button>确定</button>
+				<button>取消</button>
+			</div>
+			
+		</section>
+		<script src="../../js/jquery.min.js"></script>
+		<script src="js/index.js"></script>
+	</body>
+</html>

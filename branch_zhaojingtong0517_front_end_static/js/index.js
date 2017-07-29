@@ -124,6 +124,7 @@ $(document).on('click','#subtitle>div i.fa-close',function(){
 	subtitleGroup.splice(t,1);
 	console.log(subtitleGroup);
 	$(this).parent().remove();
+	document.getElementById(id+"fr").remove();
 	subResize();
 	frameShow();
 	asideChange();

@@ -426,3 +426,53 @@ header{
 	margin-top:20px !important ;
 	margin-left: 200px !important;
 }
+/*弹窗*/
+.m-popup{
+	width: 600px;
+    height: 360px;
+    position: absolute;
+    left: 66px;
+    top: 96px;
+    background-color: #fff;
+}
+.m-popup header {
+    width: 100%;
+    height: 50px;
+    background-color: #6b7a99;
+}
+.m-popup header h1{
+	position: relative;
+    color: white;
+    line-height: 50px;
+    text-align: center;
+}
+.m-popup header .fa-close {
+    position: absolute;
+    color: #939aab;
+    right: 10px;
+    top: 10px;
+}
+.m-popup h2{
+	text-align: center;
+	font-weight: normal;
+	font-size: 20px;
+	margin-top: 50px;
+	margin-bottom: 30px;
+	color: #666;
+}
+.m-popup input[type="text"]{
+	display: block;
+	margin: 0 auto !important;	
+}
+.m-popup h3{
+	text-align: center;
+	font-weight: normal;
+	font-size: 16px;
+	margin-top: 10px;
+	margin-bottom: 30px;
+	color: #666;
+}
+.m-form .u-submitButton {
+    /*margin: 60px auto;*/
+    padding-left: 200px !important;
+}

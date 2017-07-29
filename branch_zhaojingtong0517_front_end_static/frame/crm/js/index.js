@@ -1,15 +1,25 @@
 $(".m-firNav li").click(function(){
 	$(".m-firNav li").removeClass("current");
 	$(this).addClass("current");
+	var index = $(this).index();
+	if(index){
+		$(".table2").removeClass("hide");
+		$(".table1").addClass("hide");
+	}else{
+		$(".table1").removeClass("hide");
+		$(".table2").addClass("hide");
+	}
 });
 var content1 = "<ul class='u-tabList'><li class='u-tabCheckbox'><input type='checkbox'/></li><li class='u-tabCilentName'></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li class='u-tabLinkWay'></li><li></li><li></li><li></li><li></li><li></li><li class='u-tabOperation'><span>详情</span><span>编辑</span><span>释放</span></li><div class='clearfix'></div></ul>";
 var content2 = "<ul class='u-tabList'><li class='u-tabCheckbox'><input type='checkbox'/></li><li class='u-tabCilentName'></li><li></li><li></li><li></li><li></li><li></li><li></li><li class='u-tabLinkWay'></li><li></li><li></li><li></li><li class='u-tabOperation'><span>详情</span><span>编辑</span><span>释放</span></li><div class='clearfix'></div></ul>";
-
+/*公海池*/
+var content3 = '<ul class="u-tabList"><li class="u-tabCheckbox"><input type="checkbox"/></li><li class="u-tabCilentName"></li><li></li><li></li><li></li><li></li><li></li><li class="u-tabOperation"><span>申领</span><span>删除</span></li><div class="clearfix"></div></ul>';
 var t;
 t=5;
 for(var i=0;i<t;i++){
 	$(".table1").append(content1);
 	$(".table2").append(content2);
+	$(".table3").append(content3);
 }
 function listNumChange(){
 	console.log($(".u-tabControlRow select").val());
@@ -18,6 +28,7 @@ function listNumChange(){
 	for(var i=0;i<t;i++){
 		$(".table1").append(content1);
 		$(".table2").append(content2);
+		$(".table3").append(content3);
 //		#myAllClientsPage
 	}
 //		var height = $("#myAllClientsPage").height();
@@ -36,7 +47,14 @@ function removeNewClient(){
 	document.getElementById("newClient").classList.add("hide");
 	document.getElementById("blackBg").classList.add("hide");
 }
-
+function newPopup(){
+	document.getElementById("newPopup").classList.remove("hide");
+	document.getElementById("blackBg").classList.remove("hide");
+}
+function removePopup(){
+	document.getElementById("newPopup").classList.add("hide");
+	document.getElementById("blackBg").classList.add("hide");
+}
 /**********************************/
 //详情
 //$(".page-client").hide();
@@ -111,3 +129,26 @@ function pre2(){
 	$("#form3").addClass("hide");
 	$("#form2").removeClass("hide");
 }
+/*checkbox全选*/
+$(".u-tabTitle input[type='checkbox']").click(function(){
+	if($(this).attr("checked")=="checked"){
+//		console.log($(this).attr("checked"));
+		$(this).removeAttr("checked");
+		$('.u-tabList input[type="checkbox"]').prop("checked",false);
+//		console.log($(this).attr("checked"));
+	}else{
+//		console.log($(this).attr("checked"));
+		$(this).attr("checked","checked");
+		$('.u-tabList input[type="checkbox"]').prop("checked",true);
+//		console.log($(this).attr("checked"));
+//		$(this).attr("checked");
+	}
+
+
+//.setAttribute("checked","checked");
+//$("#aaa").attr("checked","checked");
+
+// $(this).attr("checked")
+// $(".u-tabList input[typt='checkbox']").attr("checked","true");
+//	console.log($(this).attr("checked"));
+});
