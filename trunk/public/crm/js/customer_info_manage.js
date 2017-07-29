@@ -292,9 +292,75 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			async:false,
 			success:function (data) {
 				self.show_panel(panel,data);
+				var sale_chance_panel = panel+" .clientInfoSaleChance";
+				$(sale_chance_panel+" .new-sale-chance").click(function(){
+					self.sale_chance_add();
+				});
 			},
 			error:function(){
 				alert("获取销售机会失败!");
+			}
+		});
+	};
+	this.sale_chance_add=function(customer_id){
+		var url = "/crm/sale_chance/add_page/customer_id/"+customer_id+"/fr/"+this.from;
+		var panel = this.panel_base+' .customer_sale_chance';
+		var sale_chance_panel = panel+" .clientInfoSaleChance";
+		var new_sale_chance_panel = sale_chance_panel+" .create-sale-chance";
+		$.ajax({
+			url:url,
+			type:'get',
+			async:false,
+			success:function (data) {
+				$(sale_chance_panel+" .new-sale-chance").after(data);
+				$(new_sale_chance_panel+" .sale-chance-status_selecter").change(function(){
+					var status = $(new_sale_chance_panel+" .sale-chance-status_selecter").val();
+					console.log(status);
+					if(status==1){
+						$(new_sale_chance_panel+" .sale-chance").addClass("hide");
+						$(new_sale_chance_panel+" .sale-chance-intentional").removeClass("hide");
+					}else if(status==2){
+						$(new_sale_chance_panel+" .sale-chance").addClass("hide");
+						$(new_sale_chance_panel+" .sale-chance-visit").removeClass("hide");
+					}else if(status==3){
+						$(new_sale_chance_panel+" .sale-chance").addClass("hide");
+						$(new_sale_chance_panel+" .sale-chance-finish").removeClass("hide");
+					}
+				});
+				$(new_sale_chance_panel+" .sale_chance_add_save").click(function(){
+					self.sale_chance_add_send(self.id);
+				});
+				$(new_sale_chance_panel+" .sale_chance_add_cancel").click(function(){
+					$(new_sale_chance_panel).remove();
+				});
+			},
+			error:function(){
+				alert("获取销售机会添加失败!");
+			}
+		});
+	};
+	this.sale_chance_add_send=function(customer_id){
+		var panel = this.panel_base+' .customer_sale_chance';
+		var sale_chance_panel = panel+" .clientInfoSaleChance";
+		var new_sale_chance_panel = sale_chance_panel+" .create-sale-chance";
+		var sale_chance_add_from = $(new_sale_chance_panel+" .newSaleChanceForm").serialize();
+		sale_chance_add_from += "&customer_id="+customer_id+"&fr="+this.from;
+		this.reload_flg = 1;
+		//console.log(sale_chance_add_from);
+		$.ajax({
+			url: '/crm/sale_chance/add',
+			type: 'post',
+			data: sale_chance_add_from,
+			dataType: 'json',
+			success: function(data) {
+				//console.log(data);
+				alert(data.info);
+				if(data.status) {
+					self.sale_chance_show(customer_id);
+				}
+			},
+			error: function() {
+				alert("保存销售机会时发生错误!");
 			}
 		});
 	};

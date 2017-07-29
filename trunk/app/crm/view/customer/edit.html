@@ -16,8 +16,8 @@
         <li class="customer_trace_show">跟踪记录（{$customer_trace_num}）</li>
         <div class="clearfix"></div>
     </ul>
-    <form id="newClientForm" class="{$fr}_edit" onsubmit="return false;">
-        <section id="clientInformationEdit" class="m-form m-divBlock">
+    <form class="newClientForm {$fr}_edit" onsubmit="return false;">
+        <section class="m-form m-divBlock clientInformationEdit">
             <div class="clearfix"></div>
             <div >
                 <span class="cont"><span class="u-required">＊</span>客户名称</span>
@@ -88,15 +88,15 @@
             </div>
             <div>
                 <span class="cont u-area">详细地址</span>
-                <textarea name="address" id="address" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入详细地址">{$customer.address}</textarea>
+                <textarea name="address" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入详细地址">{$customer.address}</textarea>
             </div>
             <div>
                 <span class="cont">详细定位</span>
-                <input type="text" name="location" id="location" placeholder="请输入写字楼、街道、公司名称" value="{$customer.location}"/>
+                <input type="text" name="location" placeholder="请输入写字楼、街道、公司名称" value="{$customer.location}"/>
             </div>
             <div>
                 <span class="cont">公司官网</span>
-                <input type="text" name="website" id="website" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入公司官网" value="{$customer.website}"/>
+                <input type="text" name="website" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入公司官网" value="{$customer.website}"/>
             </div>
             <div>
                 <span class="cont">备注</span>
@@ -106,7 +106,7 @@
                 <span class="u-addRemark"><i class="fa fa-plus"></i></span>
                 <div class="clearfix"></div>
                 <span class="cont"></span>
-                <textarea name="remark" id="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注">{$customer.remark}</textarea>
+                <textarea name="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注">{$customer.remark}</textarea>
             </div>
             <div class="u-submitButton">
                 <button class="save customer_edit_save">保存</button>
