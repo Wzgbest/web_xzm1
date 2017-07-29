@@ -56,6 +56,7 @@ class User extends Controller{
         $info['status'] = true;
         $info['corp_id'] = $corp_id;
         $info['userinfo'] = $userinfo;
+        $userinfo = set_userinfo($corp_id,$userid,$userinfo);
         return $info;
     }
     /**
