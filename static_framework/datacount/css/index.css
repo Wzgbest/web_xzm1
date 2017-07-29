@@ -1,6 +1,7 @@
  header{
 	height: 40px;
 	background-color: white;
+	position: relative;
 }
  .m-firNav{
 	height: 40px;
