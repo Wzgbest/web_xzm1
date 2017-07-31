@@ -7,7 +7,9 @@
 		<div>
 			<span class="cont">合同类型</span>
 			<select>
-				<option></option>
+				{volist name="contract_type_list" id="vo"}
+					<option value="{$vo.id}">{$vo.contract_name}</option>
+				{/volist}
 			</select>
 			<span class="cont">合同数量</span>
 			<input type="text" />
@@ -34,6 +36,7 @@
 </div>
 <link rel="stylesheet" href="/crm/css/popUp.css" />
 <script>
+	var role_employee_index = '{$role_employee_index}';
 	$("#create-contract .add").click(function(){
 	var t = $("#create-contract .main-content").html();
 	var div = document.createElement("div");

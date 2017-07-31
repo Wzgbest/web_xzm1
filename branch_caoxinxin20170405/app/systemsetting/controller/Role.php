@@ -66,7 +66,7 @@ class Role extends Initialize{
         $start_num = ($p-1)*$num;
         $end_num = $start_num+$num;
         try{
-            $employeeM = new Employee();
+            $employeeM = new Employee($this->corp_id);
             $employee_list = $employeeM->getEmployeeByRole($role_id,$start_num,$num);
             //var_exp($employee_list,'$employee_list',1);
             $this->assign('listdata',$employee_list);
