@@ -117,9 +117,9 @@ class CorporationShare extends Initialize{
         }
         foreach ($share_data as &$share){
             if(isset($share_comment_Index[$share["id"]])){
-                $share["comments"] = $share_comment_Index[$share["id"]];
+                $share["comment_list"] = $share_comment_Index[$share["id"]];
             }else{
-                $share["comments"] = [];
+                $share["comment_list"] = [];
             }
         }
         $result['data'] = $share_data;

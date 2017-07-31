@@ -1,23 +1,25 @@
-<div class="m-divBlock m-form edit-sale-chance">
-    <h1><i class="fa fa-tag"></i>新建销售机会</h1>
+<div class="m-divBlock m-form edit-sale-chance edit-sale-chance-{$id}">
+    <h1><i class="fa fa-tag"></i>编辑销售机会</h1>
     <form class="editSaleChanceForm {$fr}editSaleChanceForm" onsubmit="return false;">
         <div>
             <span class="cont">销售机会</span>
-            <input type="text"  pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入销售机会" />
+            <input type="text" name="sale_name" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入销售机会" value="{$sale_chance.sale_name}" />
             <span class="cont">对应业务</span>
-            <select>
-                <option></option>
+            <select name="business_id" class="business_flow_selecter" disabled="disabled">
+                {volist name="business_flows" id="vo"}
+                    <option value="{$vo.id}" {eq name='sale_chance.business_id' value='$vo.id'} selected="selected"{/eq}>{$vo.business_flow_name}</option>
+                {/volist}
             </select>
         </div>
         <div>
             <span class="cont-max">预计成单金额</span>
-            <input type="text" placeholder="请输入金额" />
+            <input type="text" name="guess_money" placeholder="请输入金额" value="{$sale_chance.guess_money}" />
             <span class="cont-max">预计成单时间</span>
-            <input type="date" />
+            <input type="date" name="prepay_time" value="{$sale_chance.prepay_time|day_format}" />
         </div>
         <div>
             <span class="cont">负责人</span>
-            <input type="text" placeholder="请输入负责人姓名" />
+            <input type="text" placeholder="请输入负责人姓名" value="" />
             <span class="cont">协助人</span>
             <select>
                 <option></option>
@@ -25,68 +27,53 @@
         </div>
         <div>
             <span class="cont">业务状态</span>
-            <select class="sale-chance-status_selecter">
-                <option value="0"></option>
-                <option value="1">有意向</option>
-                <option value="2">预约拜访</option>
-                <option value="3">成单申请</option>
+            <select name="sale_status" class="sale-chance-status_selecter">
+                {volist name="business_flow_item_links" id="vo"}
+                    {in name="vo.item_id" value="$activity_business_flow_item_index"}
+                        {in name="vo.item_id" value="$now_and_next_item"}
+                            <option value="{$vo.item_id}" {eq name='sale_chance.sale_status' value='$vo.item_id'} selected="selected"{/eq}>{$vo.item_name}</option>
+                        {else/}
+                            <optgroup label="{$vo.item_name}"></optgroup>
+                        {/in}
+                    {/in}
+                {/volist}
             </select>
         </div>
-        <div class="sale-chance sale-chance-intentional hide">
-            <div>
-                <span class="cont">备注</span>
-                <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="u-addRemark"><i class="fa fa-plus"></i></span>
-                <div class="clearfix"></div>
-                <span class="cont"></span>
-                <textarea name="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
-            </div>
-            <div class="u-submitButton">
-                <button>保存</button>
-                <button>取消</button>
-            </div>
-        </div>
-        <div class="sale-chance sale-chance-visit hide">
+
+        {eq name='show_visit' value='1'}
+        <div class="sale-chance sale-chance-visit">
             <div>
                 <span class="cont">拜访时间</span>
-                <input type="date" />
+                <input type="date" name="visit_time" value="{$saleChancesVisitData.visit_time|day_format}" />
             </div>
             <div>
                 <span class="cont">拜访地点</span>
-                <input type="text" placeholder="请输入地址" />
+                <input type="text" name="visit_place" placeholder="请输入地址" value="{$saleChancesVisitData.visit_place}" />
+            </div>
+            <div>
+                <span class="cont">&nbsp;</span>
+                <img src="/systemsetting/images/map.jpg" />
+                <input type="hidden" value="36,119" />
             </div>
             <div>
                 <span class="cont">结伴提醒</span>
                 <div class="u-inlineRadio">
-                    <input type="radio" name="hascompanied" value="true"/>是
-                    <input type="radio" name="hascompanied" value="false"/>否
+                    <input type="radio" name="partner_notice" {eq name='saleChancesVisitData.partner_notice' value='1'} checked="checked"{/eq} value="1"/>是
+                    <input type="radio" name="partner_notice" {neq name='saleChancesVisitData.partner_notice' value='1'} checked="checked"{/neq} value="0"/>否
                 </div>
             </div>
             <div>
                 <span class="cont">添加备忘录</span>
                 <div class="u-inlineRadio">
-                    <input type="radio" name="addnote" value="true"/>是
-                    <input type="radio" name="addnote" value="false"/>否
+                    <input type="radio" name="add_note" {eq name='saleChancesVisitData.add_note' value='1'} checked="checked"{/eq} value="1"/>是
+                    <input type="radio" name="add_note" {neq name='saleChancesVisitData.add_note' value='1'} checked="checked"{/neq} value="0"/>否
                 </div>
             </div>
-            <div>
-                <span class="cont">备注</span>
-                <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="u-addRemark"><i class="fa fa-plus"></i></span>
-                <div class="clearfix"></div>
-                <span class="cont"></span>
-                <textarea class="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
-            </div>
-            <div class="u-submitButton">
-                <button>保存</button>
-                <button>取消</button>
-            </div>
         </div>
-        <div class="sale-chance sale-chance-finish hide">
+        {/eq}
+
+        {eq name='show_fine' value='1'}
+        <div class="sale-chance sale-chance-finish">
             <div>
                 <span class="cont">合同编号</span>
                 <select>
@@ -141,6 +128,10 @@
                     <option></option>
                 </select>
             </div>
+        </div>
+        {/eq}
+
+        <div class="sale-chance-intentional">
             <div>
                 <span class="cont">备注</span>
                 <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
@@ -149,12 +140,13 @@
                 <span class="u-addRemark"><i class="fa fa-plus"></i></span>
                 <div class="clearfix"></div>
                 <span class="cont"></span>
-                <textarea class="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
+                <textarea name="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注">{$sale_chance.remark}</textarea>
             </div>
-            <div class="u-submitButton">
-                <button>申请</button>
-                <button>取消</button>
-            </div>
+        </div>
+
+        <div class="u-submitButton">
+            <button class="sale_chance_edit_save">{gt name='sale_chance.sale_status' value='3'}申请{else/}提交{/gt}</button>
+            <button class="sale_chance_edit_cancel">取消</button>
         </div>
     </form>
 </div>

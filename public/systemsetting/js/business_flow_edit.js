@@ -104,6 +104,7 @@ function business_flow_item_list_add(id){
     }
     var item_link = {
         "id":"0",
+        'setting_id':0,
         'item_id':item['id'],
         'order_num':arr.length,
         'item_name':item['item_name'],
