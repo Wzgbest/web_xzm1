@@ -1,0 +1,44 @@
+<header>
+	<h1>合同申请<i class="fa fa-close fa-2x"></i></h1>
+</header>
+<div class="pop_content m-form">
+	<div class="main" id="create-apply-container">
+		<div class="main-content">
+		<div>
+			<span class="cont">合同类型</span>
+			<select>
+				<option></option>
+			</select>
+			<span class="cont">合同数量</span>
+			<input type="text" />
+		</div>
+		<div>
+			<span class="cont">一审人</span>
+			<select>
+				<option></option>
+			</select>
+			<span class="cont">二审人</span>
+			<select>
+				<option></option>
+			</select>
+		</div>
+		</div>
+	</div>
+	<div class="add">
+		<i class="fa fa-plus fa-2x color-blue"></i>
+	</div>
+	<div class="u-submitButton">
+		<button>申请</button>
+		<button>取消</button>
+	</div>
+</div>
+<link rel="stylesheet" href="/crm/css/popUp.css" />
+<script>
+	$("#create-contract .add").click(function(){
+	var t = $("#create-contract .main-content").html();
+	var div = document.createElement("div");
+	div.setAttribute("class","main-content");
+	div.innerHTML = t;
+	document.getElementById("create-apply-container").appendChild(div);
+	});
+</script>
