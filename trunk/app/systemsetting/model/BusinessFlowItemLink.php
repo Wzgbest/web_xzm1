@@ -82,7 +82,9 @@ class BusinessFlowItemLink extends Base{
      * @return int|string
      */
     public function addMultipleItemLink($datas){
-        return $this->model->table($this->table)->insertAll($datas);
+        return $this->model->table($this->table)
+            ->field("setting_id,item_id,order_num,handle_1,handle_2,handle_3,handle_4,handle_5,handle_6")
+            ->insertAll($datas);
     }
 
     /**
