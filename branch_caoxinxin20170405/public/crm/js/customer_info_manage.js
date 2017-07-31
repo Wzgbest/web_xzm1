@@ -399,6 +399,29 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 	this.sale_chance_edit_send=function(id,customer_id){
 		console.log(id);
 		console.log(customer_id);
+		var panel = this.panel_base+' .customer_sale_chance';
+		var sale_chance_panel = panel+" .clientInfoSaleChance";
+		var edit_sale_chance_panel = sale_chance_panel+" .edit-sale-chance-"+id;
+		var sale_chance_edit_from = $(edit_sale_chance_panel+" .editSaleChanceForm").serialize();
+		sale_chance_edit_from += "&id="+id+"&customer_id="+customer_id+"&fr="+this.from;
+		this.reload_flg = 1;
+		//console.log(sale_chance_add_from);
+		$.ajax({
+			url: '/crm/sale_chance/update',
+			type: 'post',
+			data: sale_chance_edit_from,
+			dataType: 'json',
+			success: function(data) {
+				//console.log(data);
+				alert(data.info);
+				if(data.status) {
+					self.sale_chance_show(customer_id);
+				}
+			},
+			error: function() {
+				alert("保存销售机会时发生错误!");
+			}
+		});
 	};
 	this.sale_chance_invalid=function(id,customer_id){
 		console.log(id);

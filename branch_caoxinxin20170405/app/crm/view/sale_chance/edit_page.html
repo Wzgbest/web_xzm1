@@ -40,55 +40,40 @@
             </select>
         </div>
 
-        <div class="sale-chance sale-chance-intentional {neq name='sale_chance.sale_status' value='1'}hide{/neq}">
-            <div>
-                <span class="cont">备注</span>
-                <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="u-addRemark"><i class="fa fa-plus"></i></span>
-                <div class="clearfix"></div>
-                <span class="cont"></span>
-                <textarea name="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注">{$sale_chance.remark}</textarea>
-            </div>
-        </div>
-
-        <div class="sale-chance sale-chance-visit {neq name='sale_chance.sale_status' value='2'}hide{/neq}">
+        {eq name='show_visit' value='1'}
+        <div class="sale-chance sale-chance-visit">
             <div>
                 <span class="cont">拜访时间</span>
-                <input type="date" />
+                <input type="date" name="visit_time" value="{$saleChancesVisitData.visit_time|day_format}" />
             </div>
             <div>
                 <span class="cont">拜访地点</span>
-                <input type="text" placeholder="请输入地址" />
+                <input type="text" name="visit_place" placeholder="请输入地址" value="{$saleChancesVisitData.visit_place}" />
+            </div>
+            <div>
+                <span class="cont">&nbsp;</span>
+                <img src="/systemsetting/images/map.jpg" />
+                <input type="hidden" value="36,119" />
             </div>
             <div>
                 <span class="cont">结伴提醒</span>
                 <div class="u-inlineRadio">
-                    <input type="radio" name="hascompanied" value="true"/>是
-                    <input type="radio" name="hascompanied" value="false"/>否
+                    <input type="radio" name="partner_notice" {eq name='saleChancesVisitData.partner_notice' value='1'} checked="checked"{/eq} value="1"/>是
+                    <input type="radio" name="partner_notice" {neq name='saleChancesVisitData.partner_notice' value='1'} checked="checked"{/neq} value="0"/>否
                 </div>
             </div>
             <div>
                 <span class="cont">添加备忘录</span>
                 <div class="u-inlineRadio">
-                    <input type="radio" name="addnote" value="true"/>是
-                    <input type="radio" name="addnote" value="false"/>否
+                    <input type="radio" name="add_note" {eq name='saleChancesVisitData.add_note' value='1'} checked="checked"{/eq} value="1"/>是
+                    <input type="radio" name="add_note" {neq name='saleChancesVisitData.add_note' value='1'} checked="checked"{/neq} value="0"/>否
                 </div>
             </div>
-            <div>
-                <span class="cont">备注</span>
-                <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="u-addRemark"><i class="fa fa-plus"></i></span>
-                <div class="clearfix"></div>
-                <span class="cont"></span>
-                <textarea class="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
-            </div>
         </div>
+        {/eq}
 
-        <div class="sale-chance sale-chance-finish {neq name='sale_chance.sale_status' value='4'}hide{/neq}">
+        {eq name='show_fine' value='1'}
+        <div class="sale-chance sale-chance-finish">
             <div>
                 <span class="cont">合同编号</span>
                 <select>
@@ -143,6 +128,10 @@
                     <option></option>
                 </select>
             </div>
+        </div>
+        {/eq}
+
+        <div class="sale-chance-intentional">
             <div>
                 <span class="cont">备注</span>
                 <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
@@ -151,12 +140,12 @@
                 <span class="u-addRemark"><i class="fa fa-plus"></i></span>
                 <div class="clearfix"></div>
                 <span class="cont"></span>
-                <textarea class="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
+                <textarea name="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注">{$sale_chance.remark}</textarea>
             </div>
         </div>
 
         <div class="u-submitButton">
-            <button class="sale_chance_edit_save">提交</button>
+            <button class="sale_chance_edit_save">{gt name='sale_chance.sale_status' value='3'}申请{else/}提交{/gt}</button>
             <button class="sale_chance_edit_cancel">取消</button>
         </div>
     </form>

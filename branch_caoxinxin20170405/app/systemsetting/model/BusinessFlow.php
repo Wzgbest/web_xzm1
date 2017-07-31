@@ -38,8 +38,21 @@ class BusinessFlow extends Base{
         return $businessFlowSettingNameList;
     }
 
-    public function getAllBusinessFlowByuserId($user_id){
+    public function getAllBusinessFlowByUserId($user_id){
         //TODO 根据用户和所属部门来查询业务流
+        $businessFlowSettingList = $this->model
+            ->table($this->table)
+            ->order("id desc")
+            ->field("*")
+            ->select();
+        foreach ($businessFlowSettingList as &$businessFlowSetting){
+            $businessFlowSetting["set_to_role_arr"] = explode(",",$businessFlowSetting["set_to_role"]);
+        }
+        return $businessFlowSettingList;
+    }
+
+    public function getAllBusinessFlowByRoleIds($role_ids){
+        //TODO 根据职位来查询业务流
         $businessFlowSettingList = $this->model
             ->table($this->table)
             ->order("id desc")
