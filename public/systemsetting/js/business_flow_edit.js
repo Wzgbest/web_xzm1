@@ -13,7 +13,7 @@ try{
     console.log(ex);
 }
 if(business_flow_setting_role_arr==null){
-    console.log("role data not found");
+    //console.log("role data not found");
     business_flow_setting_role_arr = [];
 }
 console.log(business_flow_setting_role_arr);
@@ -25,7 +25,7 @@ try{
     console.log(ex);
 }
 if(business_flow_item_arr==null){
-    console.log("item data not found");
+    //console.log("item data not found");
     business_flow_item_arr = [];
 }
 console.log(business_flow_item_arr);
@@ -37,7 +37,7 @@ try{
     console.log(ex);
 }
 if(business_flow_item_link_arr==null){
-    console.log("item data not found");
+    //console.log("item data not found");
     business_flow_item_link_arr = [];
 }
 console.log(business_flow_item_link_arr);
@@ -61,7 +61,7 @@ function business_flow_item_list_get_arr(){
     return business_flow_item_link_arr;
 }
 function business_flow_item_list_set_arr(arr){
-    console.log(arr);
+    //console.log(arr);
     business_flow_item_link_arr = arr;
 }
 function business_flow_item_link_sort(a,b){
@@ -119,7 +119,7 @@ function business_flow_item_list_add(id){
     };
     for(var i in arr){
         if(arr[i]['item_id'] == id){
-            console.log("find",arr[i]['item_id'],id);
+            //console.log("find",arr[i]['item_id'],id);
             flg = true;
             break;
         }
@@ -158,7 +158,7 @@ function get_business_flow_item_link_json(){
 
 $(".systemsetting_business_flow_edit .business_flow_item_list").on('click','input',function(){
     var id = $(this).attr("index");
-    console.log(id);
+    //console.log(id);
     if(!id>0){
         return;
     }
@@ -179,7 +179,7 @@ $(".systemsetting_business_flow_edit .business_flow_item_list").on('click','inpu
 
 $('.systemsetting_business_flow_edit .business_flow_item_selected').on('click','.item .del',function(){
     var id = $(this).attr("index");
-    console.log(id);
+    //console.log(id);
     if(!id>0){
         return;
     }
@@ -196,7 +196,7 @@ $('.systemsetting_business_flow_edit .business_flow_item_selected').on('click','
 
 $('.systemsetting_business_flow_edit .business_flow_item_selected').on('click','.item .item_name',function(){
     var id = $(this).attr("index");
-    console.log(id);
+    //console.log(id);
     if(!id>0){
         return;
     }
@@ -239,10 +239,11 @@ function add_business_flow_item_handle(index) {
 function update_business_flow_item_handle(index,value) {
     var arr = business_flow_item_list_get_arr();
     //console.log(arr);
-    if (index > 0 && index < business_flow_setting_handle_max) {
+    if (index > 0 && index <= business_flow_setting_handle_max) {
         for (var i = 0; i < arr.length; i++) {
             if (arr[i]['item_id'] == business_flow_now_role_item_id) {
                 var role_item = arr[i];
+                //console.log('role_item',role_item);
                 if (!role_item['have_verification'] > 0) {
                     return;//...
                 }
@@ -339,9 +340,9 @@ $(".systemsetting_business_flow_edit .content").on("click",".handle_role .add",f
 });
 $(".systemsetting_business_flow_edit .content").on("change",".handle_role .handle",function(){
     var index = get_business_flow_item_handle_index(this);
-    console.log(index);
+    //console.log(index);
     var value = $(this).val();
-    console.log(value);
+    //console.log(value);
     update_business_flow_item_handle(index,value);
     var html = business_flow_role_list_get_html();
     business_flow_role_list_update_html(html);
