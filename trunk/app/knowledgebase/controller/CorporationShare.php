@@ -84,7 +84,7 @@ class CorporationShare extends Initialize{
         }
         if($infos){
             $share_pictures = [];
-            $share_picture["share_id"] = $share_id;
+            $share_picture["content_id"] = $share_id;
             $url_path = DS . 'webroot' . DS . $this->corp_id . DS . 'images' . DS;
             foreach ($infos as $info){
                 $share_picture["path"] = $url_path . $info;
