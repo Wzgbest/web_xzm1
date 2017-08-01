@@ -21,6 +21,17 @@ class Contract extends Initialize{
         $contracts = $contractSettingModel->getAllContract();
         //var_exp($contracts,'$contracts',1);
         $this->assign('contract_type_list',$contracts);
+        $contract_json_arr = [];
+        foreach($contracts as $contract){
+            $contract_json["apply_1"] = $contract["apply_1"];
+            $contract_json["apply_2"] = $contract["apply_2"];
+            $contract_json["apply_3"] = $contract["apply_3"];
+            $contract_json["apply_4"] = $contract["apply_4"];
+            $contract_json["apply_5"] = $contract["apply_5"];
+            $contract_json["apply_6"] = $contract["apply_6"];
+            $contract_json_arr[$contract["id"]] = $contract_json;
+        }
+        $this->assign('contract_type_list_json',json_encode($contract_json_arr,true));
         $role_ids = [];
         $role_ids = array_merge($role_ids,array_column($contracts,"apply_1"));
         $role_ids = array_merge($role_ids,array_column($contracts,"apply_2"));
