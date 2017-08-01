@@ -31,42 +31,19 @@
                     <button>取消</button>
                 </div>
             </div>
-            <div class="u-traceRecord">
-                <div class="circle"></div>
-                <div class="date">
-                    <span>12月23日 19:45</span>
+            {volist name="customer_trace" id="vo" key="key"}
+                <div class="u-traceRecord">
+                    <div class="circle"></div>
+                    <div class="date">
+                        <span>{$key|time_format}</span>
+                    </div>
+                    {volist name="vo" id="voi"}
+                        <div class="detail">
+                            <span>{$voi.operator_user_name} {$voi.option_name} <span class="underline">{$voi.item_name} </span> {$voi.from_name} {$voi.link_name} <span class="underline">{$voi.to_name}</span></span>
+                        </div>
+                    {/volist}
                 </div>
-                <div class="detail">
-                    <span>张三变更阶段 <span class="underline">拜访 </span>改为 <span class="underline">意向沟通</span></span>
-                </div>
-            </div>
-            <div class="u-traceRecord">
-                <div class="circle"></div>
-                <div class="date">
-                    <span>12月23日 19:45</span>
-                </div>
-                <div class="detail">
-                    <span>张三变更阶段 <span class="underline">拜访 </span>改为 <span class="underline">意向沟通</span></span>
-                </div>
-            </div>
-            <div class="u-traceRecord">
-                <div class="circle"></div>
-                <div class="date">
-                    <span>12月23日 19:45</span>
-                </div>
-                <div class="detail">
-                    <span>张三变更阶段 <span class="underline">拜访 </span>改为 <span class="underline">意向沟通</span></span>
-                </div>
-            </div>
-            <div class="u-traceRecord">
-                <div class="circle"></div>
-                <div class="date">
-                    <span>12月23日 19:45</span>
-                </div>
-                <div class="detail">
-                    <span>张三变更阶段 <span class="underline">拜访 </span>改为 <span class="underline">意向沟通</span></span>
-                </div>
-            </div>
+            {/volist}
         </div>
     </section>
 </section>

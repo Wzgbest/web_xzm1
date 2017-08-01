@@ -3,17 +3,19 @@
     <form class="newSaleChanceForm {$fr}newSaleChanceForm" onsubmit="return false;">
         <div>
             <span class="cont">销售机会</span>
-            <input type="text"  pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入销售机会" />
+            <input type="text" name="sale_name" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入销售机会" />
             <span class="cont">对应业务</span>
-            <select>
-                <option></option>
+            <select name="business_id" class="business_flow_selecter">
+                {volist name="business_flows" id="vo"}
+                    <option value="{$vo.id}">{$vo.business_flow_name}</option>
+                {/volist}
             </select>
         </div>
         <div>
             <span class="cont-max">预计成单金额</span>
-            <input type="text" placeholder="请输入金额" />
+            <input type="text" name="guess_money" placeholder="请输入金额" />
             <span class="cont-max">预计成单时间</span>
-            <input type="date" />
+            <input type="date" name="prepay_time" value="{$sale_chance.prepay_time|day_format}"/>
         </div>
         <div>
             <span class="cont">负责人</span>
@@ -26,113 +28,12 @@
         <div>
             <span class="cont">业务状态</span>
             <select class="sale-chance-status_selecter">
-                <option value="0"></option>
                 <option value="1">有意向</option>
-                <option value="2">预约拜访</option>
-                <option value="3">成单申请</option>
+                <optgroup label="预约拜访"></optgroup>
+                <optgroup label="成单申请"></optgroup>
             </select>
         </div>
-        <div class="sale-chance sale-chance-intentional hide">
-            <div>
-                <span class="cont">备注</span>
-                <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="u-addRemark"><i class="fa fa-plus"></i></span>
-                <div class="clearfix"></div>
-                <span class="cont"></span>
-                <textarea name="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
-            </div>
-        </div>
-        <div class="sale-chance sale-chance-visit hide">
-            <div>
-                <span class="cont">拜访时间</span>
-                <input type="date" />
-            </div>
-            <div>
-                <span class="cont">拜访地点</span>
-                <input type="text" placeholder="请输入地址" />
-            </div>
-            <div>
-                <span class="cont">结伴提醒</span>
-                <div class="u-inlineRadio">
-                    <input type="radio" name="hascompanied" value="true"/>是
-                    <input type="radio" name="hascompanied" value="false"/>否
-                </div>
-            </div>
-            <div>
-                <span class="cont">添加备忘录</span>
-                <div class="u-inlineRadio">
-                    <input type="radio" name="addnote" value="true"/>是
-                    <input type="radio" name="addnote" value="false"/>否
-                </div>
-            </div>
-            <div>
-                <span class="cont">备注</span>
-                <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="u-addRemark"><i class="fa fa-plus"></i></span>
-                <div class="clearfix"></div>
-                <span class="cont"></span>
-                <textarea name="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
-            </div>
-        </div>
-        <div class="sale-chance sale-chance-finish hide">
-            <div>
-                <span class="cont">合同编号</span>
-                <select>
-                    <option></option>
-                </select>
-                <span class="cont">合同类型</span>
-                <input type="text" placeholder="请输入合同类型" />
-            </div>
-            <div>
-                <span class="cont">成单金额</span>
-                <input type="text" placeholder="请输入成单" />
-                <span class="cont">打款类型</span>
-                <input type="text" placeholder="请输入打款金额" />
-            </div>
-            <div>
-                <span class="cont">打款方式</span>
-                <div class="u-inlineRadio">
-                    <input type="radio" name="payWay" value="true"/>现金
-                    <input type="radio" name="payWay" value="false"/>银行转账
-                </div>
-                <span class="cont">打款名称</span>
-                <input type="text" placeholder="请输入打款名称"/>
-            </div>
-            <div>
-                <span class="cont-max-max">预计合同到期时间</span>
-                <input type="date" />
-                <span class="cont">发票</span>
-                <div class="u-inlineRadio">
-                    <input type="radio" name="invoice" value="true"/>是
-                    <input type="radio" name="invoice" value="false"/>否
-                </div>
-            </div>
-            <div>
-                <span class="cont u-area">产品详情</span>
-                <textarea placeholder="请输入"></textarea>
-            </div>
-            <div>
-                <span class="cont">到账审核</span>
-                <span class="cont-min1">一审人</span>
-                <select>
-                    <option></option>
-                </select>
-                <span class="cont-min2">二审人</span>
-                <select>
-                    <option></option>
-                </select>
-            </div>
-            <div>
-                <span class="cont-max">成单合同审核</span>
-                <span class="cont-min1">审核人</span>
-                <select>
-                    <option></option>
-                </select>
-            </div>
+        <div class="sale-chance sale-chance-intentional">
             <div>
                 <span class="cont">备注</span>
                 <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
@@ -145,7 +46,7 @@
             </div>
         </div>
         <div class="u-submitButton">
-            <button class="sale_chance_add_save">申请</button>
+            <button class="sale_chance_add_save">提交</button>
             <button class="sale_chance_add_cancel">取消</button>
         </div>
     </form>

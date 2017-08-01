@@ -124,6 +124,21 @@ class RoleEmployee extends Base
     }
 
     /**
+     * 根据角色id列表查找员工列表
+     * @param $role_ids array 角色id列表
+     * @return array ['user_id'=>(int)3]
+     * created by messhair
+     */
+    public function getEmployeeNameListbyRole($role_ids)
+    {
+        return $this->model->table($this->table)->alias('re')
+            ->join(config('database.prefix').'employee e','re.user_id = e.id')
+            ->field('re.user_id,re.role_id,e.truename')
+            ->where('re.role_id','in',$role_ids)
+            ->select();
+    }
+
+    /**
      * 根据角色id查询所有角色成员
      * @param $role_id 角色id
      * @return false|\PDOStatement|string|\think\Collection

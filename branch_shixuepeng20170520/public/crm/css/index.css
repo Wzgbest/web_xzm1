@@ -399,10 +399,11 @@
 	padding-left: 50px ;
 }
 .crm_customer .u-traceRecord{
-	height: 120px;
+	/*height: 120px;*/
 	/*padding-top: 20px;*/
 	position: relative;
 	border-left: 2px solid #42A5F5;
+	padding-bottom: 8px;
 }
 .crm_customer .creat-traceRecord{
 	height: 250px;

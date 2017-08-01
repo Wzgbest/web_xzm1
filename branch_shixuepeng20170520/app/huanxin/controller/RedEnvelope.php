@@ -306,6 +306,13 @@ class RedEnvelope
 
 
         //方法2:直接记录到数据库
+        $params = json_encode([
+            'userid'=>$r['userinfo']['id'],
+            'corp_id'=>$r['corp_id'],
+            'red_data'=>''
+        ],true);
+        Hook::listen('check_over_time_red',$params);
+
         $myCount = $redM->getUserRedCount($r['userinfo']['id'],$red_id);
         if($myCount>0){
             $info['message'] = '您已领取红包';
