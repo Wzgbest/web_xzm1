@@ -310,7 +310,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				self.show_panel(panel,data);
 				var sale_chance_panel = panel+" .clientInfoSaleChance";
 				$(sale_chance_panel+" .new-sale-chance").click(function(){
-					self.sale_chance_add();
+					self.sale_chance_add(self.id);
 				});
 				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_edit").click(function(){
 					var edit_id = $(this).siblings(":input").val();

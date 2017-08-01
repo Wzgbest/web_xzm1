@@ -33,7 +33,7 @@ class CorporationShare extends Base{
         $map["e.status"]=1;
         $corporationShareList = $this->model->table($this->table)->alias('cs')
             ->join($this->dbprefix.'corporation_share_content csco','cs.content_id = csco.id',"LEFT")
-            ->join($this->dbprefix.'corporation_share_picture csp','csp.content_id = cs.id',"LEFT")
+            ->join($this->dbprefix.'corporation_share_picture csp','csp.content_id = csco.id',"LEFT")
             ->join($this->dbprefix.'employee e','e.id = cs.userid',"LEFT")
             ->where($map)
             ->order($order)
@@ -59,7 +59,7 @@ class CorporationShare extends Base{
         }
         $corporationShareList = $this->model->table($this->table)->alias('cs')
             ->join($this->dbprefix.'corporation_share_content csco','cs.content_id = csco.id',"LEFT")
-            ->join($this->dbprefix.'corporation_share_picture csp','csp.content_id = cs.id',"LEFT")
+            ->join($this->dbprefix.'corporation_share_picture csp','csp.content_id = csco.id',"LEFT")
             ->join($this->dbprefix.'employee e','e.id = cs.userid',"LEFT")
             ->join($this->dbprefix.'corporation_share_like csl','cs.id = csl.share_id and csl.user_id='.$uid,"LEFT")
             ->where($map)
@@ -89,7 +89,7 @@ class CorporationShare extends Base{
         $map["cs.id"] = $share_id;
         $corporationShare = $this->model->table($this->table)->alias('cs')
             ->join($this->dbprefix.'corporation_share_content csco','cs.content_id = csco.id',"LEFT")
-            ->join($this->dbprefix.'corporation_share_picture csp','csp.content_id = cs.id',"LEFT")
+            ->join($this->dbprefix.'corporation_share_picture csp','csp.content_id = csco.id',"LEFT")
             ->join($this->dbprefix.'employee e','e.id = cs.userid',"LEFT")
             ->join($this->dbprefix.'corporation_share_like csl','cs.id = csl.share_id',"LEFT")
             ->where($map)
