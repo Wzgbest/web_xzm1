@@ -41,6 +41,7 @@ class SaleChance extends Base
             ->join($this->dbprefix.'sale_chance_visit scv','scv.sale_id = sc.id',"LEFT")
             ->where('customer_id',$customer_id)
             ->field($field)
+            ->order("sc.id desc")
             ->select();
     }
 
