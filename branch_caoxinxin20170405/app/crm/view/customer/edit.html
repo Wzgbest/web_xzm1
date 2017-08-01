@@ -60,7 +60,7 @@
                 <span class="cont">客户行业</span>
                 <select name="field1" class="u-3select">
                     {volist name="business_array" id="vo" key="key"}
-                    <option value="{$key}" {eq name='customer.field1' value='$key'} selected="selected"{/eq}>{$vo}</option>
+                    <option value="{$key-1}" {eq name='customer.field1' value='$key'} selected="selected"{/eq}>{$vo}</option>
                     {/volist}
                 </select>
                 <select name="field2" class="u-3select">

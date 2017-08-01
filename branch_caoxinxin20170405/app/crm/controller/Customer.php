@@ -20,6 +20,7 @@ use app\common\model\Business;
 use app\common\model\Employee as EmployeeModel;
 use app\crm\model\SaleChance as SaleChanceModel;
 use app\crm\model\CustomerContact as CustomerContactModel;
+use app\crm\model\CustomerTrace as CustomerTraceModel;
 
 class Customer extends Initialize{
     var $paginate_list_rows = 10;
@@ -209,6 +210,7 @@ class Customer extends Initialize{
         $info_array["customer_trace_num"] = $customer_trace_num;
         $business = new Business($this->corp_id);
         $business_list = $business->getBusinessArray();
+        //var_exp($business_list,'$business_list',1);
         $info_array["business_array"] = $business_list;
 
         $this->assign($info_array);
@@ -837,6 +839,25 @@ class Customer extends Initialize{
         $result['info'] = "新建客户信息成功！";
         return json($result);
     }
+    public function getUpdateItemNameAndType(){
+        $itemName["customer_name"] = ["客户名称"];
+        $itemName["telephone"] = ["联系电话"];
+        $itemName["resource_from"] = ["客户来源"];
+        $itemName["grade"] = ["客户级别"];
+        $itemName["field1"] = ["客户行业[1]"];
+        $itemName["field2"] = ["客户行业[2]"];
+        $itemName["field"] = ["客户行业[3]"];
+        $itemName["prov"] = ["省份"];
+        $itemName["city"] = ["城市"];
+        $itemName["dist"] = ["区县"];
+        $itemName["address"] = ["详细地址"];
+        $itemName["location"] = ["详细定位"];
+        $itemName["lat"] = ["坐标纬度"];
+        $itemName["lng"] = ["坐标经度"];
+        $itemName["website"] = ["公司官网"];
+        $itemName["remark"] = ["备注"];
+        return $itemName;
+    }
     public function update(){
         $result = ['status'=>0 ,'info'=>"保存客户时发生错误！"];
         $id = input("id",0,"int");
@@ -846,12 +867,41 @@ class Customer extends Initialize{
         }
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
+        $now_time = time();
         //TODO 更新权限验证
         $customer = $this->_getCustomerForInput(0);
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
         $customerM = new CustomerModel($this->corp_id);
+        $customerOldData = $customerM->getCustomer($id);
+
+        $customerIntersertData = array_intersect_key($customerOldData,$customer);
+        unset($customerIntersertData["last_edit_time"]);
+        //var_exp($customerIntersertData,'$customerIntersertData');
+        //var_exp($customer,'$customer');
+        $customerDiffData = array_diff_assoc($customerIntersertData,$customer);
+        //var_exp($customerDiffData,'$customerDiffData',1);
+        $customersTraces = [];
+        $updateItemName = $this->getUpdateItemNameAndType();
+        foreach ($customerDiffData as $key=>$customerDiff){
+            $customersTrace["operator_id"] = $uid;
+            $customersTrace["create_time"] = $now_time;
+            $customersTrace["customer_id"] = $id;
+            $customersTrace["db_table_name"] = 'customer';
+            $customersTrace["db_field_name"] = $key;
+            $customersTrace["old_value"] = $customerOldData[$key];
+            $customersTrace["new_value"] = $customer[$key];
+            $customersTrace["value_type"] = isset($updateItemName[$key][1])?$updateItemName[$key][1]:"";
+            $customersTrace["option_name"] = '更改了';
+            $customersTrace["item_name"] = isset($updateItemName[$key][0])?$updateItemName[$key][0]:"";
+            $customersTrace["from_name"] = $customerOldData[$key];
+            $customersTrace["link_name"] = '更改为';
+            $customersTrace["to_name"] = $customer[$key];
+            $customersTrace["status_name"] = '';
+            $customersTrace["remark"] = '';
+            $customersTraces[] = $customersTrace;
+        }
         try{
-            //$customerM->link->startTrans();
+            $customerM->link->startTrans();
             $customersFlg = $customerM->setCustomer($id,$customer);
             /*if(!$customersFlg){
                 exception('添加客户失败!');
@@ -861,10 +911,16 @@ class Customer extends Initialize{
             /*if(!$customersNegotiateFlg){
                 exception('更新客户沟通状态失败!');
             }*/
-            //TODO add trace
-            //$customerM->link->commit();
+            if(!empty($customersTraces)){
+                $customerM = new CustomerTraceModel($this->corp_id);
+                $customerTraceflg = $customerM->addMultipleCustomerMessage($customersTraces);
+                if(!$customerTraceflg){
+                    exception('提交客户跟踪数据失败!');
+                }
+            }
+            $customerM->link->commit();
         }catch (\Exception $ex){
-            //$customerM->link->rollback();
+            $customerM->link->rollback();
             $result['info'] = $ex->getMessage();
             return json($result);
         }

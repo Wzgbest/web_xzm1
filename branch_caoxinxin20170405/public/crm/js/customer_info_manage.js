@@ -143,7 +143,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 	};
 	this.edit_update=function(id){
 		var panel = this.panel_base+' .customer_edit';
-		var edit_from_data = $(panel+" .edit").serialize();
+		var edit_from_data = $(panel+" ."+this.from+"_edit").serialize();
 		edit_from_data += "&id="+id+"&fr="+this.from;
 		this.reload_flg = 1;
 		//console.log(edit_from_data);
