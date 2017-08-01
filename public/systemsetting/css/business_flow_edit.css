@@ -297,6 +297,12 @@
     background-color: #ebf3ff;
     position: relative;
 }
+.systemsetting_business_flow_edit .content .item_add_panel .item .arrows{
+    position:absolute;
+    top:8px;
+    left: -49px;
+}
+
 .systemsetting_business_flow_edit .content .item_add_panel .item .item_name{
     width: 86px;
     height: 26px;
