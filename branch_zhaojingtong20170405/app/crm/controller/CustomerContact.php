@@ -41,6 +41,11 @@ class CustomerContact extends Initialize{
         $this->_showCustomerContact();
         return view();
     }
+    public function add_page(){
+        $this->assign("fr",input('fr'));
+        $this->assign("customer_id",input('customer_id',0,"int"));
+        return view();
+    }
     protected function _showCustomer(){
         $id = input('id',0,'int');
         if(!$id){
@@ -51,11 +56,6 @@ class CustomerContact extends Initialize{
         $customerM = new CustomerContactModel($this->corp_id);
         $customer_contactData = $customerM->getCustomerContact($id);
         $this->assign("customer_contact",$customer_contactData);
-    }
-    public function add_page(){
-        $this->assign("fr",input('fr'));
-        $this->assign("customer_id",input('customer_id',0,"int"));
-        return view();
     }
     public function edit_page(){
         $this->_showCustomer();

@@ -25,7 +25,12 @@ class CustomerTrace extends Initialize{
         $this->assign("customer_id",$customer_id);
         $this->assign("fr",input('fr'));
         $customerM = new CustomerTraceModel($this->corp_id);
-        $customerTraceData = $customerM->getAllCustomerTraceByCustomerId($customer_id);
+        $customerTraceList = $customerM->getAllCustomerTraceByCustomerId($customer_id);
+        $customerTraceData = [];
+        foreach($customerTraceList as $customerTrace){
+            $customerTraceData[$customerTrace["create_time"]][] = $customerTrace;
+        }
+        $customerTraceData = array_filter($customerTraceData);
         $this->assign("customer_trace",$customerTraceData);
         $customerM = new CustomerContact($this->corp_id);
         $customerData = $customerM->getCustomerContactCount($customer_id);

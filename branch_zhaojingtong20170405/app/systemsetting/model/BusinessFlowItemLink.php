@@ -39,6 +39,17 @@ class BusinessFlowItemLink extends Base{
             ->select();
         return $businessFlowItemLinkList;
     }
+
+    public function findItemLinkByItemId($businessFlowId,$businessFlowItemId){
+        $map['bfil.setting_id'] = $businessFlowId;
+        $map['bfil.item_id'] = $businessFlowItemId;
+        $businessFlowItemLink = $this->model->table($this->table)->alias('bfil')
+            ->join($this->dbprefix.'business_flow_item bfi','bfi.id = bfil.item_id',"LEFT")
+            ->where($map)
+            ->field("bfil.*,bfi.item_name,bfi.have_verification,bfi.verification_name")
+            ->find();
+        return $businessFlowItemLink;
+    }
     /**
      * 查询业务流项目
      * @param $num int 数量
@@ -82,7 +93,9 @@ class BusinessFlowItemLink extends Base{
      * @return int|string
      */
     public function addMultipleItemLink($datas){
-        return $this->model->table($this->table)->insertAll($datas);
+        return $this->model->table($this->table)
+            ->field("setting_id,item_id,order_num,handle_1,handle_2,handle_3,handle_4,handle_5,handle_6")
+            ->insertAll($datas);
     }
 
     /**

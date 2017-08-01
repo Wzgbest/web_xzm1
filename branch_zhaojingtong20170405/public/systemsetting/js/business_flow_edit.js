@@ -72,12 +72,13 @@ function business_flow_item_list_get_html(){
     //console.log(arr);
     var arr_html = "";
     for(var item=0;item<arr.length;item++){
-        arr_html+='<span index = '+arr[item]['item_id']+' class="item">'+
-            '<span index = '+arr[item]['item_id']+' class="item_name">'+arr[item]['item_name']+'</span>'+
-            '<img src='+"/systemsetting/images/delelet.png"+' index = "'+arr[item]['item_id']+'" class="del"/></span>';
-        if(item<arr.length-1){
-            arr_html+='';
+        arr_html+='<span index = '+arr[item]['item_id']+' class="item">';
+        if(item!=0){
+            arr_html+='<img src=' + "/systemsetting/images/arrows.png" + '  class="arrows tupian'+arr[item]['item_id']+'"/>';
         }
+        arr_html+='<span index = '+arr[item]['item_id']+' class="item_name">'+arr[item]['item_name']+'</span>'+
+            '<img src='+"/systemsetting/images/delelet.png"+' index = "'+arr[item]['item_id']+'" class="del"/></span>';
+
     }
     return arr_html;
 }
@@ -104,6 +105,7 @@ function business_flow_item_list_add(id){
     }
     var item_link = {
         "id":"0",
+        'setting_id':0,
         'item_id':item['id'],
         'order_num':arr.length,
         'item_name':item['item_name'],

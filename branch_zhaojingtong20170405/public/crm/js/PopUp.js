@@ -49,3 +49,23 @@ function removePop(){
 	document.getElementById("popUpContent").remove();
 	blackBghide();
 }
+function pop(id,url,clicker){
+    $(clicker).click(function(){
+    	$(id).removeClass("hide");
+    });
+    $(document).on('click', id + " header h1 i", function() {
+	   $(id).addClass("hide");
+	});
+    $.ajax({
+        url: url,
+        type: 'get',
+        async: false,
+        success: function(data) {
+            $(id).html(data);
+        },
+        error: function() {
+            alert("页面加载失败!");
+        }
+    });
+}
+

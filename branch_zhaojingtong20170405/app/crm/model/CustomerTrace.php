@@ -44,7 +44,12 @@ class CustomerTrace extends Base
      */
     public function getAllCustomerTraceByCustomerId($customer_id)
     {
-        return $this->model->table($this->table)->where('customer_id',$customer_id)->select();
+        return $this->model->table($this->table)->alias('ct')
+            ->join($this->dbprefix.'employee e','ct.operator_id = e.id',"LEFT")
+            ->where('customer_id',$customer_id)
+            ->field("ct.*,e.truename operator_user_name")
+            ->order("ct.id desc")
+            ->select();
     }
 
     /**获取

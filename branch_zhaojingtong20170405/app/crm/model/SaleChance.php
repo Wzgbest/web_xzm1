@@ -31,15 +31,16 @@ class SaleChance extends Base
      * @return false|\PDOStatement|int|\think\Collection
      * created by blu10ph
      */
-    public function getAllSaleChancesByCustomerId($customer_id)
-    {
+    public function getAllSaleChancesByCustomerId($customer_id){
+        $field = "sc.*,scb.business_name,e.truename as employee,ae.truename as associator,scv.visit_time,scv.create_time,scv.visit_place,scv.location,scv.partner_notice,scv.add_note,scv.visit_ok";
         return $this->model->table($this->table)->alias('sc')
             ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'business scb','scb.id = sc.business_id',"LEFT")
             ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
             ->join($this->dbprefix.'employee ae','sc.associator_id = ae.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance_visit scv','scv.sale_id = sc.id',"LEFT")
             ->where('customer_id',$customer_id)
-            ->field("sc.*,scb.business_name,e.truename as employee,ae.truename as associator,c.remark")
+            ->field($field)
             ->select();
     }
 
@@ -81,6 +82,17 @@ class SaleChance extends Base
      */
     public function setSaleChance($id,$data)
     {
+        return $this->model->table($this->table)->where('id',$id)->update($data);
+    }
+
+    /**作废
+     * @param $id int 客户商机id
+     * @return false|\PDOStatement|int|\think\Collection
+     * created by blu10ph
+     */
+    public function invalidSaleChance($id)
+    {
+        $data["sale_status"] = 7;
         return $this->model->table($this->table)->where('id',$id)->update($data);
     }
 
