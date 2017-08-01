@@ -92,23 +92,25 @@ class SaleChance extends Initialize{
         $this->assign('business_flow_item_links',$businessFlowItemLinks);
         $businessFlowItemLinkIndex = array_column($businessFlowItemLinks,"id");
         $this->assign('business_flow_item_link_index',$businessFlowItemLinkIndex);
-        $now_and_next_item = [];
-        $now_and_next_item[]=$SaleChancesData["sale_status"];
+        $now_item = $SaleChancesData["sale_status"];
+        $next_item = 0;
         for($i=0;$i<count($businessFlowItemLinks);$i++){
-            if($businessFlowItemLinks[$i]["item_id"] == $SaleChancesData["sale_status"]){
+            if($businessFlowItemLinks[$i]["item_id"] == $now_item){
                 if($i+1<count($businessFlowItemLinks)){
-                    $now_and_next_item[]=$businessFlowItemLinks[$i+1]["item_id"];
+                    $next_item = $businessFlowItemLinks[$i+1]["item_id"];
+                    break;
                 }
-                break;
             }
         }
         //var_exp($now_and_next_item,'$now_and_next_item',1);
-        $this->assign('now_and_next_item',$now_and_next_item);
+        $this->assign('now_item',$now_item);
+        $this->assign('next_item',$next_item);
+        $this->assign('now_and_next_item',[$now_item,$next_item]);
 
         $show_visit = false;
         if(
-            in_array($now_and_next_item[0],[2,3])
-            ||(isset($now_and_next_item[1])&&in_array($now_and_next_item[1],[2,3]))
+            in_array($now_item,[2,3])
+            ||in_array($next_item,[2,3])
         ){
             $saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
             $SaleChancesVisitData = $saleChanceVisitM->getSaleChancesBySaleId($id);
@@ -125,8 +127,8 @@ class SaleChance extends Initialize{
 
         $show_fine = false;
         if(
-            in_array($now_and_next_item[0],[4,5,6,8])
-            ||(isset($now_and_next_item[1])&&in_array($now_and_next_item[1],[4,5,6,8]))
+            in_array($now_item,[4,5,6,8])
+            ||in_array($next_item,[4,5,6,8])
         ){
             $show_fine = true;
         }

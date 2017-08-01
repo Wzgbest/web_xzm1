@@ -41,7 +41,7 @@
         </div>
 
         {eq name='show_visit' value='1'}
-        <div class="sale-chance sale-chance-visit">
+        <div class="sale-chance sale-chance-visit {neq name='now_item' value='2'} hide{/neq}">
             <div>
                 <span class="cont">拜访时间</span>
                 <input type="date" name="visit_time" value="{$saleChancesVisitData.visit_time|day_format}" />
@@ -73,7 +73,7 @@
         {/eq}
 
         {eq name='show_fine' value='1'}
-        <div class="sale-chance sale-chance-finish">
+        <div class="sale-chance sale-chance-finish {notin name='now_item' value='3,4'} hide{/notin}">
             <div>
                 <span class="cont">合同编号</span>
                 <select>
@@ -85,7 +85,7 @@
             <div>
                 <span class="cont">成单金额</span>
                 <input type="text" placeholder="请输入成单" />
-                <span class="cont">打款类型</span>
+                <span class="cont">打款金额</span>
                 <input type="text" placeholder="请输入打款金额" />
             </div>
             <div>
