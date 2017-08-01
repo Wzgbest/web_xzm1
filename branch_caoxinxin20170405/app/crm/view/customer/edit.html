@@ -60,30 +60,30 @@
                 <span class="cont">客户行业</span>
                 <select name="field1" class="u-3select">
                     {volist name="business_array" id="vo" key="key"}
-                    <option value="{$key-1}" {eq name='customer.field1' value='$key'} selected="selected"{/eq}>{$vo}</option>
+                    <option value="{$key-1}" {eq name='customer.field1' value='$key-1'} selected="selected"{/eq}>{$vo}</option>
                     {/volist}
                 </select>
                 <select name="field2" class="u-3select">
                     {volist name="business_array" id="vo" key="key"}
-                    <option value="{$key}" {eq name='customer.field2' value='$key'} selected="selected"{/eq}>{$vo}</option>
+                    <option value="{$key-1}" {eq name='customer.field2' value='$key-1'} selected="selected"{/eq}>{$vo}</option>
                     {/volist}
                 </select>
                 <select name="field" class="u-3select">
                     {volist name="business_array" id="vo" key="key"}
-                    <option value="{$key}" {eq name='customer.field' value='$key'} selected="selected"{/eq}>{$vo}</option>
+                    <option value="{$key-1}" {eq name='customer.field' value='$key-1'} selected="selected"{/eq}>{$vo}</option>
                     {/volist}
                 </select>
             </div>
             <div>
                 <span class="cont">公司地址</span>
                 <select name="prov" class="u-3select">
-                    <option value="1" {eq name='customer.prov' value='1'} selected="selected"{/eq}>山东省</option>
+                    <option value="山东省" {eq name='customer.prov' value='山东省'} selected="selected"{/eq}>山东省</option>
                 </select>
                 <select name="city" class="u-3select">
-                    <option value="1" {eq name='customer.city' value='1'} selected="selected"{/eq}>潍坊市</option>
+                    <option value="潍坊市" {eq name='customer.city' value='1'} selected="selected"{/eq}>潍坊市</option>
                 </select>
                 <select name="dist" class="u-3select">
-                    <option value="1" {eq name='customer.dist' value='1'} selected="selected"{/eq}>潍城区</option>
+                    <option value="潍城区" {eq name='customer.dist' value='潍城区'} selected="selected"{/eq}>潍城区</option>
                 </select>
             </div>
             <div>
