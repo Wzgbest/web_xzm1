@@ -144,9 +144,22 @@ class SaleChance extends Initialize{
                 $saleOrderContractData["due_time"] = time();
                 $saleOrderContractData["need_bill"] = 0;
                 $saleOrderContractData["prod_desc"] = '';
+                $saleOrderContractData["handle_1"] = '';
+                $saleOrderContractData["handle_2"] = '';
+                $saleOrderContractData["handle_3"] = '';
+                $saleOrderContractData["handle_4"] = '';
+                $saleOrderContractData["handle_5"] = '';
+                $saleOrderContractData["handle_6"] = '';
+                $saleOrderContractData["contract_handle_1"] = '';
+                $saleOrderContractData["contract_handle_2"] = '';
+                $saleOrderContractData["contract_handle_3"] = '';
+                $saleOrderContractData["contract_handle_4"] = '';
+                $saleOrderContractData["contract_handle_5"] = '';
+                $saleOrderContractData["contract_handle_6"] = '';
             }
             $this->assign('saleOrderContractData',$saleOrderContractData);
             $businessFlowItemLink = $businessFlowItemLinkM->findItemLinkByItemId($SaleChancesData["business_id"],4);
+            //var_exp($businessFlowItemLink,'$businessFlowItemLink',1);
             $this->assign('business_flow_item_link',$businessFlowItemLink);
             $role_ids = [];
             $role_ids[] = $businessFlowItemLink["handle_1"];
@@ -178,7 +191,6 @@ class SaleChance extends Initialize{
             }
             $this->assign('contract_type_list',$contract_json_arr);
             $this->assign('contract_type_list_json',json_encode($contract_json_arr,true));
-            $role_ids = [];
             $role_ids = array_merge($role_ids,array_column($contracts,"apply_1"));
             $role_ids = array_merge($role_ids,array_column($contracts,"apply_2"));
             $role_ids = array_merge($role_ids,array_column($contracts,"apply_3"));
@@ -197,6 +209,11 @@ class SaleChance extends Initialize{
                 $role_id = $employeeinfo["role_id"];
                 unset($employeeinfo["role_id"]);
                 $role_employee_index[$role_id][] = $employeeinfo;
+            }
+            foreach($role_ids as $role_id){
+                if(!isset($role_employee_index[$role_id])){
+                    $role_employee_index[$role_id] = [];
+                }
             }
             //var_exp($role_employee_index,'$role_employee_index',1);
             $this->assign('role_employee_index',$role_employee_index);

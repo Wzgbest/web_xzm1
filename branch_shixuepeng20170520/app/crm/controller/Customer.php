@@ -890,13 +890,13 @@ class Customer extends Initialize{
             $customersTrace["db_field_name"] = $key;
             $customersTrace["old_value"] = $customerOldData[$key];
             $customersTrace["new_value"] = $customer[$key];
-            $func_name = $updateItemName[$key][1];
-            $customersTrace["value_type"] = isset($updateItemName[$key][1])?$func_name:"";
+            $customersTrace["value_type"] = isset($updateItemName[$key][1])?$updateItemName[$key][1]:"";
+            $func_name = $customersTrace["value_type"];
             $customersTrace["option_name"] = '更改了';
             $customersTrace["item_name"] = isset($updateItemName[$key][0])?$updateItemName[$key][0]:"";
-            $customersTrace["from_name"] = isset($customersTrace["value_type"])?$func_name($customersTrace["old_value"]):$customersTrace["old_value"];
+            $customersTrace["from_name"] = isset($updateItemName[$key][1])?$func_name($customersTrace["old_value"]):$customersTrace["old_value"];
             $customersTrace["link_name"] = '更改为';
-            $customersTrace["to_name"] = isset($customersTrace["value_type"])?$func_name($customersTrace["new_value"]):$customersTrace["new_value"];
+            $customersTrace["to_name"] = isset($updateItemName[$key][1])?$func_name($customersTrace["new_value"]):$customersTrace["new_value"];
             $customersTrace["status_name"] = '';
             $customersTrace["remark"] = '';
             $customersTraces[] = $customersTrace;
