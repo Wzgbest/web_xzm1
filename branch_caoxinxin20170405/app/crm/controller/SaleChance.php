@@ -12,9 +12,12 @@ use app\common\controller\Initialize;
 use app\crm\model\CustomerContact;
 use app\crm\model\SaleChance as SaleChanceModel;
 use app\crm\model\SaleChanceVisit as SaleChanceVisitModel;
+use app\crm\model\SaleOrderContract as SaleOrderContractModel;
 use app\crm\model\CustomerTrace;
 use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
 use app\systemsetting\model\BusinessFlowItemLink;
+use app\common\model\RoleEmployee as RoleEmployeeModel;
+use app\systemsetting\model\ContractSetting as ContractSettingModel;
 
 class SaleChance extends Initialize{
     protected $_activityBusinessFlowItem = [1,2,4];
@@ -113,7 +116,7 @@ class SaleChance extends Initialize{
             ||in_array($next_item,[2,3])
         ){
             $saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
-            $SaleChancesVisitData = $saleChanceVisitM->getSaleChancesBySaleId($id);
+            $SaleChancesVisitData = $saleChanceVisitM->getSaleChanceVisitBySaleId($id);
             if(empty($SaleChancesVisitData)){
                 $SaleChancesVisitData["visit_time"] = time();
                 $SaleChancesVisitData["visit_place"] = "";
@@ -130,6 +133,74 @@ class SaleChance extends Initialize{
             in_array($now_item,[4,5,6,8])
             ||in_array($next_item,[4,5,6,8])
         ){
+            $saleOrderContractM = new SaleOrderContractModel($this->corp_id);
+            $saleOrderContractData = $saleOrderContractM->getSaleOrderContractBySaleId($id);
+            if(empty($saleOrderContractData)){
+                $saleOrderContractData["contract_num"] = 0;
+                $saleOrderContractData["order_money"] = 0.00;
+                $saleOrderContractData["pay_money"] = 0.00;
+                $saleOrderContractData["pay_type"] = 0;
+                $saleOrderContractData["pay_name"] = '';
+                $saleOrderContractData["due_time"] = time();
+                $saleOrderContractData["need_bill"] = 0;
+                $saleOrderContractData["prod_desc"] = '';
+            }
+            $this->assign('saleOrderContractData',$saleOrderContractData);
+            $businessFlowItemLink = $businessFlowItemLinkM->findItemLinkByItemId($SaleChancesData["business_id"],4);
+            $this->assign('business_flow_item_link',$businessFlowItemLink);
+            $role_ids = [];
+            $role_ids[] = $businessFlowItemLink["handle_1"];
+            $role_ids[] = $businessFlowItemLink["handle_2"];
+            $role_ids[] = $businessFlowItemLink["handle_3"];
+            $role_ids[] = $businessFlowItemLink["handle_4"];
+            $role_ids[] = $businessFlowItemLink["handle_5"];
+            $role_ids[] = $businessFlowItemLink["handle_6"];
+
+            $contractSettingModel = new ContractSettingModel($this->corp_id);
+            $contracts = $contractSettingModel->getAllContract();
+            //var_exp($contracts,'$contracts',1);
+            //$this->assign('contract_type_list',$contracts);
+            $contract_type_name = [];
+            foreach($contracts as $contract){
+                $contract_type_name[$contract["id"]] = $contract["contract_name"];
+            }
+            $this->assign('contract_type_name',$contract_type_name);
+            $this->assign('contract_type_name_json',json_encode($contract_type_name,true));
+            $contract_json_arr = [];
+            foreach($contracts as $contract){
+                $contract_json["apply_1"] = $contract["apply_1"];
+                $contract_json["apply_2"] = $contract["apply_2"];
+                $contract_json["apply_3"] = $contract["apply_3"];
+                $contract_json["apply_4"] = $contract["apply_4"];
+                $contract_json["apply_5"] = $contract["apply_5"];
+                $contract_json["apply_6"] = $contract["apply_6"];
+                $contract_json_arr[$contract["id"]] = $contract_json;
+            }
+            $this->assign('contract_type_list',$contract_json_arr);
+            $this->assign('contract_type_list_json',json_encode($contract_json_arr,true));
+            $role_ids = [];
+            $role_ids = array_merge($role_ids,array_column($contracts,"apply_1"));
+            $role_ids = array_merge($role_ids,array_column($contracts,"apply_2"));
+            $role_ids = array_merge($role_ids,array_column($contracts,"apply_3"));
+            $role_ids = array_merge($role_ids,array_column($contracts,"apply_4"));
+            $role_ids = array_merge($role_ids,array_column($contracts,"apply_5"));
+            $role_ids = array_merge($role_ids,array_column($contracts,"apply_6"));
+            $role_ids = array_filter($role_ids);
+            $role_ids = array_unique($role_ids);
+            $role_ids = array_merge($role_ids);
+            //var_exp($role_ids,'$role_ids',1);
+            $role_empM = new RoleEmployeeModel($this->corp_id);
+            $employeeNameList = $role_empM->getEmployeeNameListbyRole($role_ids);
+            //var_exp($employeeNameList,'$employeeNameList',1);
+            $role_employee_index = [];
+            foreach($employeeNameList as $employeeinfo){
+                $role_id = $employeeinfo["role_id"];
+                unset($employeeinfo["role_id"]);
+                $role_employee_index[$role_id][] = $employeeinfo;
+            }
+            //var_exp($role_employee_index,'$role_employee_index',1);
+            $this->assign('role_employee_index',$role_employee_index);
+            $this->assign('role_employee_index_json',json_encode($role_employee_index,true));
             $show_fine = true;
         }
         $this->assign('show_fine',$show_fine);
@@ -174,10 +245,10 @@ class SaleChance extends Initialize{
         $saleChance['sale_name'] = input('sale_name');
         $saleChance['sale_status'] = input('sale_status',1,'int');;
 
-        $saleChance['guess_money'] = input('guess_money',0,'double');
-        $saleChance['need_money'] = input('need_money',0,'double');//必填?
-        $saleChance['payed_money'] = input('payed_money',0,'double');
-        $saleChance['final_money'] = input('final_money',0,'double');
+        $saleChance['guess_money'] = input('guess_money',0,'float');
+        $saleChance['need_money'] = input('need_money',0,'float');//必填?
+        $saleChance['payed_money'] = input('payed_money',0,'float');
+        $saleChance['final_money'] = input('final_money',0,'float');
 
         $saleChance['update_time'] = time();
         $saleChance['prepay_time'] = input('prepay_time',0,'int');
@@ -238,24 +309,26 @@ class SaleChance extends Initialize{
         $result['info'] = "保存销售机会成功！";
         return json($result);
     }
-    protected function _getSaleChanceVisitForInput($sale_id,$add_mode){
+    protected function _getSaleChanceVisitForInput($sale_id,$add_flg){
         // add sale chance visit page
-        if($add_mode){
-            $saleChance['create_time'] = time();
-            $saleChance['visit_ok'] = 0;
+        $saleChanceVisit = [];
+        if($add_flg){
+            $saleChanceVisit['sale_id'] = $sale_id;
+            $saleChanceVisit['create_time'] = time();
+            $saleChanceVisit['visit_ok'] = 0;
         }
 
-        $saleChance['visit_time'] = input('visit_time',0,'strtotime');
-        $saleChance['visit_place'] = input('visit_place');
-        $saleChance['location'] = input('location','','string');
+        $saleChanceVisit['visit_time'] = input('visit_time',0,'strtotime');
+        $saleChanceVisit['visit_place'] = input('visit_place');
+        $saleChanceVisit['location'] = input('location','','string');
 
-        $saleChance['partner_notice'] = input('partner_notice',0,'int');
-        $saleChance['add_note'] = input('add_note',0,'int');
-        return $saleChance;
+        $saleChanceVisit['partner_notice'] = input('partner_notice',0,'int');
+        $saleChanceVisit['add_note'] = input('add_note',0,'int');
+        return $saleChanceVisit;
     }
     protected function _update_visit($sale_id){
         $saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
-        $SaleChancesVisitOldData = $saleChanceVisitM->getSaleChancesBySaleId($sale_id);
+        $SaleChancesVisitOldData = $saleChanceVisitM->getSaleChanceVisitBySaleId($sale_id);
         $add_flg = false;
         if(empty($SaleChancesVisitOldData)){
             $add_flg = true;
@@ -263,37 +336,64 @@ class SaleChance extends Initialize{
         $SaleChancesVisitData = $this->_getSaleChanceVisitForInput($sale_id,$add_flg);
         $save_flg = false;
         if($add_flg){
-            $SaleChancesVisitData["sale_id"] = $sale_id;
             $save_flg = $saleChanceVisitM->addSaleChanceVisit($SaleChancesVisitData);
         }else{
-            $save_flg = $saleChanceVisitM->setSaleChanceVisit($sale_id,$SaleChancesVisitData);
+            $save_flg = $saleChanceVisitM->setSaleChanceVisitBySaleId($sale_id,$SaleChancesVisitData);
         }
         return $save_flg;
     }
     protected function _getSaleChanceFineForInput($sale_id,$add_flg){
         // add sale chance page
-        $saleChance['customer_id'] = input('customer_id',0,'int');
-        $userinfo = get_userinfo();
-        $uid = $userinfo["userid"];
-        $saleChance['employee_id'] = $uid;
-        $saleChance['associator_id'] = input('associator_id',0,'int');
-        $saleChance['business_id'] = input('business_id',0,'int');
+        $saleOrderFine = [];
+        if($add_flg){
+            $saleOrderFine["sale_id"] = $sale_id;
+            $saleOrderFine["create_time"] = time();
+            $saleOrderFine["status"] = 0;
+            $saleOrderFine["handle_status"] = 0;
+            $saleOrderFine["contract_handle_status"] = 0;
+        }
+        $saleOrderFine['contract_num'] = input('contract_num',0,'int');
+        $saleOrderFine['order_money'] = input('order_money',0,'float');
+        $saleOrderFine['pay_money'] = input('pay_money',0,'float');
+        $saleOrderFine['pay_type'] = input('pay_type',0,'int');
+        $saleOrderFine['pay_name'] = input('pay_name');
+        $saleOrderFine['due_time'] = input('due_time',0,'strtotime');
+        $saleOrderFine['need_bill'] = input('need_bill',0,'int');
+        $saleOrderFine['prod_desc'] = input('prod_desc');
 
-        $saleChance['sale_name'] = input('sale_name');
-        $saleChance['sale_status'] = input('sale_status',1,'int');;
+        $saleOrderFine['handle_1'] = input('handle_1',0,'int');
+        $saleOrderFine['handle_2'] = input('handle_2',0,'int');
+        $saleOrderFine['handle_3'] = input('handle_3',0,'int');
+        $saleOrderFine['handle_4'] = input('handle_4',0,'int');
+        $saleOrderFine['handle_5'] = input('handle_5',0,'int');
+        $saleOrderFine['handle_6'] = input('handle_6',0,'int');
 
-        $saleChance['guess_money'] = input('guess_money',0,'double');
-        $saleChance['need_money'] = input('need_money',0,'double');//必填?
-        $saleChance['payed_money'] = input('payed_money',0,'double');
-        $saleChance['final_money'] = input('final_money',0,'double');
+        $saleOrderFine['contract_handle_1'] = input('contract_handle_1',0,'int');
+        $saleOrderFine['contract_handle_2'] = input('contract_handle_2',0,'int');
+        $saleOrderFine['contract_handle_3'] = input('contract_handle_3',0,'int');
+        $saleOrderFine['contract_handle_4'] = input('contract_handle_4',0,'int');
+        $saleOrderFine['contract_handle_5'] = input('contract_handle_5',0,'int');
+        $saleOrderFine['contract_handle_6'] = input('contract_handle_6',0,'int');
 
-        $saleChance['create_time'] = input('create_time',0,'int');
-        $saleChance['update_time'] = input('update_time',0,'int');
-        $saleChance['prepay_time'] = input('prepay_time',0,'int');
-        return $saleChance;
+        $saleOrderFine["update_time"] = time();
+        return $saleOrderFine;
     }
     protected function _update_fine($sale_id){
-        return $sale_id;
+        $saleOrderContractM = new SaleOrderContractModel($this->corp_id);
+        $saleOrderContractOldData = $saleOrderContractM->getSaleOrderContractBySaleId($sale_id);
+        $add_flg = false;
+        if(empty($saleOrderContractOldData)){
+            $add_flg = true;
+        }
+        $saleOrderContractData = $this->_getSaleChanceFineForInput($sale_id,$add_flg);
+        //var_exp($saleOrderContractData,'$saleOrderContractData',1);
+        $save_flg = false;
+        if($add_flg){
+            $save_flg = $saleOrderContractM->addSaleOrderContract($saleOrderContractData);
+        }else{
+            $save_flg = $saleOrderContractM->setSaleChanceVisitBySaleId($sale_id,$saleOrderContractData);
+        }
+        return $save_flg;
     }
     public function invalid(){
         $result = ['status'=>0 ,'info'=>"作废销售机会时发生错误！"];

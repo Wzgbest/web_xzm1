@@ -789,8 +789,8 @@ class Customer extends Initialize{
         $customer['dist'] = input('dist');
         $customer['address'] = input('address');
         $customer['location'] = input('location');
-        $customer['lat'] = input('lat',0,'double');
-        $customer['lng'] = input('lng',0,'double');
+        $customer['lat'] = input('lat',0,'float');
+        $customer['lng'] = input('lng',0,'float');
         $customer['website'] = input('website');
         $customer['remark'] = input('remark');
 
