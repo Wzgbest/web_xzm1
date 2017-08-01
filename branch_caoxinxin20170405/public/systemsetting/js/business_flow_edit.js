@@ -239,10 +239,11 @@ function add_business_flow_item_handle(index) {
 function update_business_flow_item_handle(index,value) {
     var arr = business_flow_item_list_get_arr();
     //console.log(arr);
-    if (index > 0 && index < business_flow_setting_handle_max) {
+    if (index > 0 && index <= business_flow_setting_handle_max) {
         for (var i = 0; i < arr.length; i++) {
             if (arr[i]['item_id'] == business_flow_now_role_item_id) {
                 var role_item = arr[i];
+                //console.log('role_item',role_item);
                 if (!role_item['have_verification'] > 0) {
                     return;//...
                 }
@@ -339,9 +340,9 @@ $(".systemsetting_business_flow_edit .content").on("click",".handle_role .add",f
 });
 $(".systemsetting_business_flow_edit .content").on("change",".handle_role .handle",function(){
     var index = get_business_flow_item_handle_index(this);
-    console.log(index);
+    //console.log(index);
     var value = $(this).val();
-    console.log(value);
+    //console.log(value);
     update_business_flow_item_handle(index,value);
     var html = business_flow_role_list_get_html();
     business_flow_role_list_update_html(html);
