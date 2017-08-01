@@ -41,7 +41,7 @@
         </div>
 
         {eq name='show_visit' value='1'}
-        <div class="sale-chance sale-chance-visit">
+        <div class="sale-chance sale-chance-visit {neq name='now_item' value='2'} hide{/neq}">
             <div>
                 <span class="cont">拜访时间</span>
                 <input type="date" name="visit_time" value="{$saleChancesVisitData.visit_time|day_format}" />
@@ -73,58 +73,103 @@
         {/eq}
 
         {eq name='show_fine' value='1'}
-        <div class="sale-chance sale-chance-finish">
+        <div class="sale-chance sale-chance-finish {notin name='now_item' value='3,4'} hide{/notin}">
             <div>
                 <span class="cont">合同编号</span>
-                <select>
-                    <option></option>
+                <select name="contract_num">
+                    <option value="1" {eq name="saleOrderContractData.contract_num" value="1"} selected="selected"{/eq}>测试1</option>
+                    <option value="2" {eq name="saleOrderContractData.contract_num" value="2"} selected="selected"{/eq}>测试2</option>
                 </select>
                 <span class="cont">合同类型</span>
-                <input type="text" placeholder="请输入合同类型" />
+                <span class="cont-x">------</span>
             </div>
             <div>
                 <span class="cont">成单金额</span>
-                <input type="text" placeholder="请输入成单" />
-                <span class="cont">打款类型</span>
-                <input type="text" placeholder="请输入打款金额" />
+                <input type="text" placeholder="请输入成单" name="order_money" value="{$saleOrderContractData.order_money}" />
+                <span class="cont">打款金额</span>
+                <input type="text" placeholder="请输入打款金额" name="pay_money" value="{$saleOrderContractData.pay_money}" />
             </div>
             <div>
                 <span class="cont">打款方式</span>
                 <div class="u-inlineRadio">
-                    <input type="radio" name="payWay" value="true"/>现金
-                    <input type="radio" name="payWay" value="false"/>银行转账
+                    <input type="radio" name="pay_type" {eq name='saleOrderContractData.pay_type' value='1'} checked="checked"{/eq} value="1"/>现金
+                    <input type="radio" name="pay_type" {neq name='saleOrderContractData.pay_type' value='1'} checked="checked"{/neq} value="0"/>银行转账
                 </div>
                 <span class="cont">打款名称</span>
-                <input type="text" placeholder="请输入打款名称"/>
+                <input type="text" placeholder="请输入打款名称" name="pay_name" value="{$saleOrderContractData.pay_name}" />
             </div>
             <div>
                 <span class="cont-max-max">预计合同到期时间</span>
-                <input type="date" />
+                <input type="date" name="due_time" value="{$saleOrderContractData.due_time|day_format}" />
                 <span class="cont">发票</span>
                 <div class="u-inlineRadio">
-                    <input type="radio" name="invoice" value="true"/>是
-                    <input type="radio" name="invoice" value="false"/>否
+                    <input type="radio" name="need_bill" {eq name='saleOrderContractData.need_bill' value='1'} checked="checked"{/eq} value="1"/>是
+                    <input type="radio" name="need_bill" {neq name='saleOrderContractData.need_bill' value='1'} checked="checked"{/neq} value="0"/>否
                 </div>
             </div>
             <div>
                 <span class="cont u-area">产品详情</span>
-                <textarea placeholder="请输入"></textarea>
+                <textarea placeholder="请输入" name="prod_desc">{$saleOrderContractData.prod_desc}</textarea>
             </div>
             <div>
                 <span class="cont">到账审核</span>
                 <span class="cont-min1">一审人</span>
-                <select>
-                    <option></option>
+                <select name="handle_1" class="handle_1">
+                    {volist name="role_employee_index[$business_flow_item_link['handle_1']]" id="vo"}
+                        <option value="{$vo.user_id}" {eq name="saleOrderContractData.handle_1" value="$vo.user_id"} selected="selected"{/eq}>{$vo.truename}</option>
+                    {/volist}
                 </select>
+                {notempty name="business_flow_item_link.handle_2"}
                 <span class="cont-min2">二审人</span>
-                <select>
-                    <option></option>
+                <select name="handle_2" class="handle_2">
+                    {volist name="role_employee_index[$business_flow_item_link['handle_2']]" id="vo"}
+                    <option value="{$vo.user_id}" {eq name="saleOrderContractData.handle_2" value="$vo.user_id"} selected="selected"{/eq}>{$vo.truename}</option>
+                    {/volist}
                 </select>
+                {/notempty}
+            </div>
+            <div>
+                <span class="cont"></span>
+                {notempty name="business_flow_item_link.handle_3"}
+                <span class="cont-min1">三审人</span>
+                <select name="handle_3" class="handle_3">
+                    {volist name="role_employee_index[$business_flow_item_link['handle_3']]" id="vo"}
+                    <option value="{$vo.user_id}" {eq name="saleOrderContractData.handle_3" value="$vo.user_id"} selected="selected"{/eq}>{$vo.truename}</option>
+                    {/volist}
+                </select>
+                {/notempty}
+                {notempty name="business_flow_item_link.handle_4"}
+                <span class="cont-min2">四审人</span>
+                <select name="handle_4" class="handle_4">
+                    {volist name="role_employee_index[$business_flow_item_link['handle_4']]" id="vo"}
+                    <option value="{$vo.user_id}" {eq name="saleOrderContractData.handle_4" value="$vo.user_id"} selected="selected"{/eq}>{$vo.truename}</option>
+                    {/volist}
+                </select>
+                {/notempty}
+            </div>
+            <div>
+                <span class="cont"></span>
+                {notempty name="business_flow_item_link.handle_5"}
+                <span class="cont-min1">五审人</span>
+                <select name="handle_5" class="handle_5">
+                    {volist name="role_employee_index[$business_flow_item_link['handle_5']]" id="vo"}
+                    <option value="{$vo.user_id}" {eq name="saleOrderContractData.handle_5" value="$vo.user_id"} selected="selected"{/eq}>{$vo.truename}</option>
+                    {/volist}
+                </select>
+                {/notempty}
+                {notempty name="business_flow_item_link.handle_6"}
+                <span class="cont-min2">六审人</span>
+                <select name="handle_6" class="handle_6">
+                    {volist name="role_employee_index[$business_flow_item_link['handle_6']]" id="vo"}
+                    <option value="{$vo.user_id}" {eq name="saleOrderContractData.handle_6" value="$vo.user_id"} selected="selected"{/eq}>{$vo.truename}</option>
+                    {/volist}
+                </select>
+                {/notempty}
             </div>
             <div>
                 <span class="cont-max">成单合同审核</span>
                 <span class="cont-min1">审核人</span>
-                <select>
+                <select class="contract_handle_1">
                     <option></option>
                 </select>
             </div>

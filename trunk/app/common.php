@@ -439,6 +439,20 @@ function getImportResultName($import_result){
     return $import_result_name;
 }
 
+function getBusinessName($business){
+    $corp_id = get_corpid();
+    $business_index = cache("user_cache_".$corp_id."_business");
+    if(empty($business_index)){
+        $businessModel = new \app\common\model\Business();
+        $business_index = $businessModel->getBusinessArray();
+        cache("user_cache_".$corp_id."_business",$business_index);
+    }
+    if(!isset($business_index[$business])){
+        return false;
+    }
+    return $business_index[$business];
+}
+
 /**
  * 时间戳格式化
  *
