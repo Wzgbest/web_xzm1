@@ -10,6 +10,10 @@
 ----------------------------*/
 
 	$('span[data-reveal-id]').live('click', function(e) {
+			
+		$(this).parent().parent().siblings('.motai').addClass('motai1');
+		
+		
 		$(this).parents().addClass("change")
 		e.preventDefault();
 		var modalLocation = $(this).attr('data-reveal-id');
@@ -58,9 +62,10 @@
 			//Entrance Animations
 			modal.bind('reveal:open', function () {
 				
-				$(".motai").addClass("motai1")   //添加小模态框
+//				$(".motai").addClass("motai1")   //添加小模态框
+				//$(this).parents('body').children('.motai').addClass("motai1")
 				
-			
+				
 			  modalBG.unbind('click.modalEvent');
 				$('.' + options.dismissmodalclass).unbind('click.modalEvent');
 				if(!locked) {

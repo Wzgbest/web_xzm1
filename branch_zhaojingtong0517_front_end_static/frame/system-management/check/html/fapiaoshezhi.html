@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>发票审核</title>
+		<link rel="stylesheet" href="../../css/font-awesome.min.css" />
+		
+		<link rel="stylesheet" href="../../css/reset.css" />
+		<style>
+			
+			
+			.top {
+				
+				width: 100%;
+				height: 40px;
+				background-color: #fff;
+				margin: 0 10px;
+				border-bottom: 5px solid #ebedf0;
+			}
+			
+			ul.firNav {
+				height: 40px;
+				margin-left: 1px;
+				/*padding: 10px 0;*/
+				box-shadow: -1px 2px #ebedf0;
+			}
+			
+			ul.firNav li {
+				float: left;
+				color: #b2b2b2;
+				height: 20px;
+				/*width: 130px;*/
+				padding: 10px 0;
+				/*line-height: 20px;*/
+				/*padding: 0 10px;*/
+				/*border-right:2px solid #b2b2b2 ;*/
+			}
+			
+			ul.firNav li:hover {
+				cursor: pointer;
+			}
+			
+			ul.firNav li div {
+				line-height: 20px;
+				padding: 0 5px;
+				font-size: 12px;
+				/*border-right:2px solid #b2b2b2 ;*/
+			}
+			
+			ul.firNav li:last-child div {
+				border: none;
+			}
+			
+			ul.firNav li.current {
+				color: #333333;
+				border-bottom: 1px solid #42a5f5;
+			}
+			
+			.top ul i {
+				height: 20px;
+				display: inline-block;
+				padding-left: 3px;
+				font-size: 16px;
+				line-height: 40px;
+				color: #999999;
+				vertical-align: middle;
+			}
+			
+			.top ul span {
+				display: inline-block;
+				height: 20px;
+				vertical-align: middle;
+				padding-left: 5px;
+				font-size: 12px;
+				line-height: 40px;
+				color: #999999;
+			}
+			
+			.content {
+				/*width: 1090px;*/
+				width: 100%;
+				height: 812px;
+				background-color: #fff;
+				margin: auto 10px;
+				/*margin-top: 6px;*/
+				margin-bottom: 12px;
+				padding-top: 30px;
+				padding-left: 30px;
+			}
+			
+			.content div {
+				width: 496px;
+				height: 190px;
+				float: left;
+			}
+			
+			.content span {
+				width: 126px;
+				height: 36px;
+				display: inline-block;
+				text-align: right;
+				line-height: 36px;
+				font-size: 14px;
+			}
+			
+			
+			
+			.content select {
+				vertical-align: middle;
+				width: 251px;
+				padding-left: 15px;
+				height: 35px;
+				margin-left: 18px;
+			}
+			
+		
+			.content p {
+				margin-bottom: 14px;
+			}
+			
+			.content .p5 {
+				clear: both;
+				width: 500px;
+				height: 42px;
+				margin-top: 202px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			
+			.content .p5 input {
+				width: 100px;
+				height: 41px;
+				border-radius: 10px;
+				margin-right: 100px;
+				background-color: #42a5f5;
+				color: #fff;
+				border: 1px solid #dcdcdc;
+			}
+			
+			.content .p5 button {
+				width: 100px;
+				height: 41px;
+				border-radius: 10px;
+				background-color: #fff;
+				border: 1px solid #dcdcdc;
+			}
+			
+			.content .add{
+				width: 56px;
+				color: #77b8ff;
+				font-size: 12px;
+				margin-left: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="top">
+			<ul class="firNav">
+				<li class="current">
+					<div>待审核<span style="line-height: 18px;">（16）</span></div>
+				</li>
+				<i class="fa fa-angle-right fa-2x"></i><span class="span-info">发票设置</span>
+			</ul>
+		</div>
+		<div class="content">
+			<p>
+				<span>发票类型</span>
+				<select>
+					<option>百度类</option>
+				</select>
+				<span class="add">添加分类</span>
+			</p>
+			
+			<p>
+				<span>对应业务</span>
+				<select>
+					<option>百度直通车</option>
+				</select>
+				<span class="add">添加分类</span>
+			</p>
+			<p class="p5">
+				<input type="submit" value="保存" />
+				<button>取消</button>
+			</p>
+		</div>
+	</body>
+	
+
+</html>
