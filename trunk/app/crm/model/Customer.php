@@ -1476,6 +1476,8 @@ class Customer extends Base
             "call_through"=>$customer['call_through'],
             "is_wait"=> $customer['is_wait'],
         ]);
+        $customer['lat'] = "".number_format($customer['lat'],6);
+        $customer['lng'] = "".number_format($customer['lng'],6);
         return $customer;
     }
 
