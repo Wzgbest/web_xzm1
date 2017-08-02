@@ -791,8 +791,8 @@ class Customer extends Initialize{
         $customer['dist'] = input('dist','','string');
         $customer['address'] = input('address');
         $customer['location'] = input('location');
-        $customer['lat'] = input('lat',0,'float');
-        $customer['lng'] = input('lng',0,'float');
+        $customer['lat'] = "".number_format(input('lat',0,'float'),6);
+        $customer['lng'] = "".number_format(input('lng',0,'float'),6);
         $customer['website'] = input('website','','string');
         $customer['remark'] = input('remark','','string');
 
@@ -874,12 +874,13 @@ class Customer extends Initialize{
         $customerM = new CustomerModel($this->corp_id);
         $customerOldData = $customerM->getCustomer($id);
 
+        var_exp($customerOldData,'$customerOldData');
         $customerIntersertData = array_intersect_key($customerOldData,$customer);
         unset($customerIntersertData["last_edit_time"]);
         //var_exp($customerIntersertData,'$customerIntersertData');
-        //var_exp($customer,'$customer');
+        var_exp($customer,'$customer');
         $customerDiffData = array_diff_assoc($customerIntersertData,$customer);
-        //var_exp($customerDiffData,'$customerDiffData',1);
+        var_exp($customerDiffData,'$customerDiffData',1);
         $customersTraces = [];
         $updateItemName = $this->getUpdateItemNameAndType();
         foreach ($customerDiffData as $key=>$customerDiff){
@@ -888,8 +889,8 @@ class Customer extends Initialize{
             $customersTrace["customer_id"] = $id;
             $customersTrace["db_table_name"] = 'customer';
             $customersTrace["db_field_name"] = $key;
-            $customersTrace["old_value"] = $customerOldData[$key]?:"";
-            $customersTrace["new_value"] = $customer[$key]?:"";
+            $customersTrace["old_value"] = isset($customerOldData[$key])?$customerOldData[$key]:"";
+            $customersTrace["new_value"] = isset($customer[$key])?$customer[$key]:"";
             $customersTrace["value_type"] = isset($updateItemName[$key][1])?$updateItemName[$key][1]:"";
             $func_name = $customersTrace["value_type"];
             $customersTrace["option_name"] = '更改了';
