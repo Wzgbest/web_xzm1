@@ -1469,6 +1469,9 @@ class Customer extends Base
             ->where('c.id',$cid)
             ->field($field)
             ->find();
+        if(empty($customer)){
+            return null;
+        }
         $customer['comm_status'] = getCommStatusByArr([
             "tend_to"=>$customer['tend_to'],
             "phone_correct"=>$customer['phone_correct'],

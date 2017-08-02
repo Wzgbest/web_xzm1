@@ -52,6 +52,48 @@ class CustomerTrace extends Base
             ->select();
     }
 
+    /**根据客户ID获取所有
+     * @param $customer_id int 客户id
+     * @return false|\PDOStatement|int|\think\Collection
+     * created by blu10ph
+     */
+    public function getCustomerTraceByLastId($customer_id,$last_operator_id,$last_time=null,$num=10){
+        $last_record_map["customer_id"] = $customer_id;
+        $last_record_map["create_time"] = $last_time;
+        $last_record_map["operator_id"] = $last_operator_id;
+        $last_record = $this->model->table($this->table)
+            ->where($last_record_map)
+            ->field("id")
+            ->order("id asc")
+            ->find();
+        if(empty($last_record)){
+            return [];
+        }
+
+        $time_map["customer_id"] = $customer_id;
+        $time_map["id"] = ["lt",$last_record['id']];
+        $id_list = $this->model->table($this->table)
+            ->where($time_map)
+            ->field("id")
+            ->order("id asc")
+            ->group("create_time,operator_id")
+            ->limit($num)
+            ->select();
+        if(empty($id_list)){
+            return [];
+        }
+        //var_exp($id_list,'$id_list',1);
+        $map["ct.customer_id"] = $customer_id;
+        $map["ct.id"][] = ["lt",$last_record['id']];
+        $map["ct.id"][] = ["egt",$id_list[0]['id']];
+        return $this->model->table($this->table)->alias('ct')
+            ->join($this->dbprefix.'employee e','ct.operator_id = e.id',"LEFT")
+            ->where($map)
+            ->field("ct.*,e.truename operator_user_name")
+            ->order("ct.id desc")
+            ->select();
+    }
+
     /**获取
      * @param $id int 客户id
      * @return false|\PDOStatement|int|\think\Collection
@@ -69,7 +111,10 @@ class CustomerTrace extends Base
      */
     public function getCustomerTraceCount($customer_id)
     {
-        return $this->model->table($this->table)->where('customer_id',$customer_id)->group("create_time,operator_id")->count();
+        return $this->model->table($this->table)
+            ->where('customer_id',$customer_id)
+            ->group("create_time,operator_id")
+            ->count();
     }
 
     /**获取数量

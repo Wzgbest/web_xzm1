@@ -212,8 +212,6 @@ class Customer extends Initialize{
         $business_list = $business->getBusinessArray();
         //var_exp($business_list,'$business_list',1);
         $info_array["business_array"] = $business_list;
-
-        $this->assign($info_array);
         return $info_array;
     }
     public function add_page(){
@@ -228,6 +226,7 @@ class Customer extends Initialize{
     }
     public function general(){
         $info_array = $this->_showCustomer();
+        $this->assign($info_array);
         $employeeM = new EmployeeModel($this->corp_id);
         $handle_employee = $employeeM->getEmployeeByUserid($info_array["customer"]["handle_man"]);
         $this->assign("handle_employee",$handle_employee);
@@ -242,11 +241,13 @@ class Customer extends Initialize{
         return view();
     }
     public function show(){
-        $this->_showCustomer();
+        $info_array = $this->_showCustomer();
+        $this->assign($info_array);
         return view();
     }
     public function edit(){
-        $this->_showCustomer();
+        $info_array = $this->_showCustomer();
+        $this->assign($info_array);
         return view();
     }
     
@@ -733,7 +734,20 @@ class Customer extends Initialize{
         try{
             $customerM = new CustomerModel($this->corp_id);
             $customerData = $customerM->getCustomer($id);
-            //TODO 获取其他表内容
+            if(empty($customerData)){
+                exception("未找到客户!");
+            }
+            $employeeM = new EmployeeModel($this->corp_id);
+            $handle_employee = $employeeM->getEmployeeByUserid($customerData["handle_man"]);
+            $customerData["handle_employee"] = $handle_employee;
+            $add_employee = $employeeM->getEmployeeByUserid($customerData["add_man"]);
+            $customerData["add_employee"] = $add_employee;
+            $customerM = new SaleChanceModel($this->corp_id);
+            $SaleChancesData = $customerM->getAllSaleChancesByCustomerId($id);
+            $customerData["sale_chance"] = $SaleChancesData;
+            $customerM = new CustomerContactModel($this->corp_id);
+            $customerContactData = $customerM->getAllCustomerContactsByCustomerId($id);
+            $customerData["customer_contact"] = $customerContactData;
             $result['data'] = $customerData;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();

@@ -209,6 +209,22 @@ class SaleChance extends Initialize{
         $this->_showSaleChanceEdit();
         return view();
     }
+    public function get_list(){
+        $result = ['status'=>0 ,'info'=>"获取销售机会时发生错误！"];
+        $customer_id = input('customer_id',0,'int');
+        if(!$customer_id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $last_id = input('last_id',0,'int');
+        $num = input('num',10,'int');
+        $saleChanceM = new SaleChanceModel($this->corp_id);
+        $SaleChancesData = $saleChanceM->getSaleChancesByLastId($customer_id,$last_id,$num);
+        $result['data'] = $SaleChancesData;
+        $result['status'] = 1;
+        $result['info'] = "获取销售机会成功！";
+        return json($result);
+    }
     public function get(){
         $result = ['status'=>0 ,'info'=>"获取销售机会时发生错误！"];
         $id = input('id',0,'int');
@@ -392,6 +408,34 @@ class SaleChance extends Initialize{
             $save_flg = $saleOrderContractM->setSaleChanceVisitBySaleId($sale_id,$saleOrderContractData);
         }
         return $save_flg;
+    }
+    public function sign_in(){
+        $result = ['status'=>0 ,'info'=>"签到时发生错误！"];
+        $customer_id = input('customer_id',0,'int');
+        $lat = "".number_format(input('lat',0,'float'),6);
+        $lng = "".number_format(input('lng',0,'float'),6);
+        if(!$customer_id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
+        try{
+            $saleChanceVisitM->link->startTrans();
+            $saleChanceflg = $saleChanceVisitM->sign_in($customer_id,$lat,$lng);
+            if(!$saleChanceflg){
+                exception("签到失败!");
+            }
+            $saleChanceVisitM->link->commit();
+            $result['data'] = $saleChanceflg;
+        }catch (\Exception $ex){
+            $saleChanceVisitM->link->rollback();
+            $result['info'] = $ex->getMessage();
+            //$result['info'] = "保存销售机会失败！";
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "签到成功！";
+        return json($result);
     }
     public function invalid(){
         $result = ['status'=>0 ,'info'=>"作废销售机会时发生错误！"];

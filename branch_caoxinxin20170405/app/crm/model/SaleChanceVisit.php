@@ -71,4 +71,22 @@ class SaleChanceVisit extends Base{
     {
         return $this->model->table($this->table)->where('sale_id',$sale_id)->update($data);
     }
+
+    /**更新签到数据
+     * @param $customer_id int 客户id
+     * @param $lat double 经度
+     * @param $lng double 纬度
+     * @return false|\PDOStatement|int|\think\Collection
+     * created by blu10ph
+     */
+    public function sign_in($customer_id,$lat,$lng){
+        $data["scv.sign_in_location"] = $lat.",".$lng;
+        $data["sc.sale_status"] = 3;
+        $map["sc.customer_id"] = $customer_id;
+        $map["sc.sale_status"] = 2;
+        return $this->model->table($this->table)->alias('scv')
+            ->join($this->dbprefix.'sale_chance sc','sc.id = scv.sale_id',"LEFT")
+            ->where($map)
+            ->update($data);
+    }
 }
