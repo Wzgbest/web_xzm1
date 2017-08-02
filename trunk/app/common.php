@@ -439,6 +439,45 @@ function getImportResultName($import_result){
     return $import_result_name;
 }
 
+function getContractAppliedStatusName($applied_status){
+    $applied_status_name = null;
+    switch ($applied_status){
+        case 0:
+            $applied_status_name = "审核中";
+            break;
+        case 1:
+            $applied_status_name = "已通过";
+            break;
+        case 2:
+            $applied_status_name = "已驳回";
+            break;
+        case 3:
+            $applied_status_name = "已撤回";
+            break;
+        case 4:
+            $applied_status_name = "待领取";
+            break;
+        case 5:
+            $applied_status_name = "已领取";
+            break;
+        case 6:
+            $applied_status_name = "已作废";
+            break;
+        case 7:
+            $applied_status_name = "已收回";
+            break;
+        case 8:
+            $applied_status_name = "已提醒";
+            break;
+        case 9:
+            $applied_status_name = "已已退款";
+            break;
+        default:
+            $applied_status_name = "无";
+    }
+    return $applied_status_name;
+}
+
 function getBusinessName($business){
     $corp_id = get_corpid();
     $business_index = cache("user_cache_".$corp_id."_business");
