@@ -15,7 +15,7 @@
 					<option value="1">百度大搜类合同</option>
 				</select>
 				<span class="cont">合同数量</span>
-				<input type="text" />
+				<input type="text" class="contract-number"/>
 			</div>
 			<div>
 				<span class="cont exam-man hide">一审人</span>
@@ -53,12 +53,15 @@
 		<i class="fa fa-plus fa-2x color-blue"></i>
 	</div>
 	<div class="u-submitButton">
-		<button>申请</button>
+		<button class="pop-submit-btn">申请</button>
 		<button class="pop-close-btn">取消</button>
 	</div>
 </div>
 <link rel="stylesheet" href="/crm/css/popUp.css" />
 <script>
+	var exm = document.getElementsByClassName("exam-man");
+	var m_c = document.getElementsByClassName("main-content");
+	var len1 = exm.length;
 	var contract_type_list_json = {
 		"5":{"apply_1":6,"apply_2":null,"apply_3":null,"apply_4":null,"apply_5":null,"apply_6":null},
 		"4":{"apply_1":6,"apply_2":null,"apply_3":null,"apply_4":null,"apply_5":null,"apply_6":null},
@@ -73,17 +76,14 @@
 		"5":[{"user_id":5,"truename":"\u5f20\u6653\u9633"},{"user_id":10,"truename":"\u5f20\u96e8"},{"user_id":85,"truename":"\u674e\u534e"},{"user_id":90,"truename":"\u5458\u5de5\u4e59"}],
 		"6":[{"user_id":72,"truename":"\u5458\u5de5\u7532"},{"user_id":85,"truename":"\u674e\u534e"}]
 		};
-	
+	//合同类型选择事件
 	$(document).on("change","#create-apply-container .type-class",function(){
 		//点击的是哪一行的select
 		var row = $(this).parents(".main-content").index();
-		console.log(row);
 		//改变后的合同类型的value
 		var a = $(this).val()
-		console.log(a);
 		//value在contract_type_list_json里面对应的类
 		var b = contract_type_list_json[a];
-		console.log(b);
 		//一个简单变量
 		var c ;
 		//计数器d
@@ -97,33 +97,67 @@
 				//当前属性值在role_employee_index里对应的数组
 				var arr = role_employee_index[b[c]];
 				$(".main-content").eq(row).find(".exam-man-s").eq(d).html("<option></option>");
-				for(var i=0;i<arr.length;i++){
-					
-					$(".main-content").eq(row).find(".exam-man-s").eq(d).append("<option>"+arr[i].truename+"</option>");
-//					arr[i].truename;
+				for(var i=0;i<arr.length;i++){					
+					$(".main-content").eq(row).find(".exam-man-s").eq(d).append("<option value="+arr[i].user_id+">"+arr[i].truename+"</option>");
 				}
-				console.log(d);
 				d++;
 			}else{
 				break;
 			}			
 		};
-		for(d;d<6;d++){
-				console.log(d);
+		for(d;d<len1;d++){
 				$(".main-content").eq(row).find(".exam-man").eq(d).addClass("hide");
 				$(".main-content").eq(row).find(".exam-man-s").eq(d).addClass("hide");
-			}
-//				console.log(d);
-		
-		
+		}	
 	});
-//	console.log(contract_type_list_json,role_employee_index );
-	
+
+//add按钮事件	
 	var t = $("#create-contract .main-content").html();
 	$("#create-contract .add").click(function(){
-		var div = document.createElement("div");
-		div.setAttribute("class","main-content");
-		div.innerHTML = t;
-		document.getElementById("create-apply-container").appendChild(div);
+		//小于合同类型的数量
+		if(m_c.length<5){
+			var div = document.createElement("div");
+			div.setAttribute("class","main-content");
+			div.innerHTML = t;
+			document.getElementById("create-apply-container").appendChild(div);
+		}else{
+			alert("不能再添加了");
+		}		
+	});
+	function Contract(type,num,apply_num){
+		this.type = type,
+		this.num = num
+	}
+	$(document).on("click",".pop-submit-btn",function(){
+		var arry = new Array(m_c.length);
+		console.log(arry);
+		for(var i=0;i<m_c.length;i++){
+			var m = $(".main-content").eq(i);
+			var val1 = m.find(".type-class").val();
+			var val2 = m.find(".contract-number").val();
+			var exms = m.find(".exam-man-s").not(".hide");
+			
+			console.log(val1,val2,exms.length);
+			var contract = new Contract(val1,val2,exms.length)
+			arry[i] = "";
+			for(var j=1;j<=exms.length;j++){
+				contract["apply_"+j] = exms.eq(j-1).val();
+			}
+			arry[i] = contract;
+		}
+		console.log(arry);
+		$.ajax({
+	        url: '/crm/contract/apply',
+	        type: 'post',
+	        data: JSON.stringify(arry),
+	        success: function(data) {
+	            alert("申请成功");
+	            $("#create-contract").addClass("hide");
+	        },
+	        error: function() {
+	            alert("申请时发生错误!");
+	        }
+	    });
+
 	});
 </script>
