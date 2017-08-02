@@ -65,7 +65,7 @@ function pop(id,url,clicker){
     	});   	
     });
     $(document).on('click', id+" .pop-close-btn", function() {
-	   $(id).addClass("hide");
+	   $(id).children().remove();
 	}); 
 }
 

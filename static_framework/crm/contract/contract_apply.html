@@ -62,26 +62,17 @@
 	var exm = document.getElementsByClassName("exam-man");
 	var m_c = document.getElementsByClassName("main-content");
 	var len1 = exm.length;
-	var contract_type_list_json = {
-		"5":{"apply_1":6,"apply_2":null,"apply_3":null,"apply_4":null,"apply_5":null,"apply_6":null},
-		"4":{"apply_1":6,"apply_2":null,"apply_3":null,"apply_4":null,"apply_5":null,"apply_6":null},
-		"3":{"apply_1":6,"apply_2":null,"apply_3":null,"apply_4":null,"apply_5":null,"apply_6":null},
-		"2":{"apply_1":6,"apply_2":null,"apply_3":null,"apply_4":null,"apply_5":null,"apply_6":null},
-		"1":{"apply_1":6,"apply_2":5,"apply_3":4,"apply_4":2,"apply_5":1,"apply_6":null}
-		};
-	var role_employee_index = {
-		"1":[{"user_id":1,"truename":"\u674e\u6d2a\u91d1"},{"user_id":6,"truename":"\u8096\u6587\u660c"},{"user_id":9,"truename":"\u674e\u534e\u5b9d"},{"user_id":11,"truename":"\u8463\u5029"}],
-		"2":[{"user_id":1,"truename":"\u674e\u6d2a\u91d1"},{"user_id":2,"truename":"\u738b\u542f\u6587"},{"user_id":3,"truename":"\u66f9\u946b\u946b"},{"user_id":4,"truename":"\u5b59\u5927\u9e4f"},{"user_id":5,"truename":"\u5f20\u6653\u9633"},{"user_id":6,"truename":"\u8096\u6587\u660c"},{"user_id":7,"truename":"\u8d75\u5a67\u5f64"},{"user_id":8,"truename":"\u53f2\u5b66\u9e4f"},{"user_id":9,"truename":"\u674e\u534e\u5b9d"},{"user_id":10,"truename":"\u5f20\u96e8"},{"user_id":11,"truename":"\u8463\u5029"},{"user_id":72,"truename":"\u5458\u5de5\u7532"},{"user_id":85,"truename":"\u674e\u534e"},{"user_id":90,"truename":"\u5458\u5de5\u4e59"}],
-		"4":[{"user_id":4,"truename":"\u5b59\u5927\u9e4f"}],
-		"5":[{"user_id":5,"truename":"\u5f20\u6653\u9633"},{"user_id":10,"truename":"\u5f20\u96e8"},{"user_id":85,"truename":"\u674e\u534e"},{"user_id":90,"truename":"\u5458\u5de5\u4e59"}],
-		"6":[{"user_id":72,"truename":"\u5458\u5de5\u7532"},{"user_id":85,"truename":"\u674e\u534e"}]
-		};
+	var contract_type_list_json ='{"5":{"apply_1":6,"apply_2":null,"apply_3":null,"apply_4":null,"apply_5":null,"apply_6":null},"4":{"apply_1":6,"apply_2":null,"apply_3":null,"apply_4":null,"apply_5":null,"apply_6":null},"3":{"apply_1":6,"apply_2":null,"apply_3":null,"apply_4":null,"apply_5":null,"apply_6":null},"2":{"apply_1":6,"apply_2":null,"apply_3":null,"apply_4":null,"apply_5":null,"apply_6":null},"1":{"apply_1":6,"apply_2":5,"apply_3":4,"apply_4":2,"apply_5":1,"apply_6":0}}';
+	var role_employee_index = '{"1":[{"user_id":1,"truename":"\u674e\u6d2a\u91d1"},{"user_id":6,"truename":"\u8096\u6587\u660c"},{"user_id":9,"truename":"\u674e\u534e\u5b9d"},{"user_id":11,"truename":"\u8463\u5029"}],"2":[{"user_id":1,"truename":"\u674e\u6d2a\u91d1"},{"user_id":2,"truename":"\u738b\u542f\u6587"},{"user_id":3,"truename":"\u66f9\u946b\u946b"},{"user_id":4,"truename":"\u5b59\u5927\u9e4f"},{"user_id":5,"truename":"\u5f20\u6653\u9633"},{"user_id":6,"truename":"\u8096\u6587\u660c"},{"user_id":7,"truename":"\u8d75\u5a67\u5f64"},{"user_id":8,"truename":"\u53f2\u5b66\u9e4f"},{"user_id":9,"truename":"\u674e\u534e\u5b9d"},{"user_id":10,"truename":"\u5f20\u96e8"},{"user_id":11,"truename":"\u8463\u5029"},{"user_id":72,"truename":"\u5458\u5de5\u7532"},{"user_id":85,"truename":"\u674e\u534e"},{"user_id":90,"truename":"\u5458\u5de5\u4e59"}],"4":[{"user_id":4,"truename":"\u5b59\u5927\u9e4f"}],"5":[{"user_id":5,"truename":"\u5f20\u6653\u9633"},{"user_id":10,"truename":"\u5f20\u96e8"},{"user_id":85,"truename":"\u674e\u534e"},{"user_id":90,"truename":"\u5458\u5de5\u4e59"}],"6":[{"user_id":72,"truename":"\u5458\u5de5\u7532"},{"user_id":85,"truename":"\u674e\u534e"}]}';
+
+	contract_type_list_json = JSON.parse(contract_type_list_json);
+	role_employee_index = JSON.parse(role_employee_index);
 	//合同类型选择事件
 	$(document).on("change","#create-apply-container .type-class",function(){
 		//点击的是哪一行的select
 		var row = $(this).parents(".main-content").index();
 		//改变后的合同类型的value
-		var a = $(this).val()
+		var a = $(this).val();
 		//value在contract_type_list_json里面对应的类
 		var b = contract_type_list_json[a];
 		//一个简单变量
@@ -152,12 +143,11 @@
 	        data: "contract_apply="+JSON.stringify(arry),
 	        success: function(data) {
 	            alert("申请成功");
-	            $("#create-contract").addClass("hide");
+	            $("#create-contract").children().remove();
 	        },
 	        error: function() {
 	            alert("申请时发生错误!");
 	        }
-	    });
-
+	   });
 	});
 </script>
