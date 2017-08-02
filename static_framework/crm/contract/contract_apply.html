@@ -149,7 +149,7 @@
 		$.ajax({
 	        url: '/crm/contract/apply',
 	        type: 'post',
-	        data: JSON.stringify(arry),
+	        data: "contract_apply="+JSON.stringify(arry),
 	        success: function(data) {
 	            alert("申请成功");
 	            $("#create-contract").addClass("hide");
