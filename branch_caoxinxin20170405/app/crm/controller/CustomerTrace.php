@@ -46,4 +46,7 @@ class CustomerTrace extends Initialize{
         $this->_showCustomerTrace();
         return view();
     }
+    public function add(){
+        echo "crm/customer_trace/add";
+    }
 }
