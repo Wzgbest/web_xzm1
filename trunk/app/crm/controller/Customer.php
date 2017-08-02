@@ -777,24 +777,24 @@ class Customer extends Initialize{
             $customer['handle_man'] = ($customer['belongs_to']==2)?0:$uid;
         }
 
-        $customer['customer_name'] = input('customer_name');
-        $customer['telephone'] = input('telephone');
+        $customer['customer_name'] = input('customer_name','','string');
+        $customer['telephone'] = input('telephone','','string');
 
         $customer['resource_from'] = input('resource_from',0,'int');
-        $customer['grade'] = input('grade');
+        $customer['grade'] = input('grade','','string');
 
         $customer['field1'] = input('field1',0,'int');
         $customer['field2'] = input('field2',0,'int');
         $customer['field'] = input('field',0,'int');
-        $customer['prov'] = input('prov');
-        $customer['city'] = input('city');
-        $customer['dist'] = input('dist');
+        $customer['prov'] = input('prov','','string');
+        $customer['city'] = input('city','','string');
+        $customer['dist'] = input('dist','','string');
         $customer['address'] = input('address');
         $customer['location'] = input('location');
         $customer['lat'] = input('lat',0,'float');
         $customer['lng'] = input('lng',0,'float');
-        $customer['website'] = input('website');
-        $customer['remark'] = input('remark');
+        $customer['website'] = input('website','','string');
+        $customer['remark'] = input('remark','','string');
 
         $customer["last_edit_time"] = time();
         return $customer;
@@ -888,8 +888,8 @@ class Customer extends Initialize{
             $customersTrace["customer_id"] = $id;
             $customersTrace["db_table_name"] = 'customer';
             $customersTrace["db_field_name"] = $key;
-            $customersTrace["old_value"] = $customerOldData[$key];
-            $customersTrace["new_value"] = $customer[$key];
+            $customersTrace["old_value"] = $customerOldData[$key]?:"";
+            $customersTrace["new_value"] = $customer[$key]?:"";
             $customersTrace["value_type"] = isset($updateItemName[$key][1])?$updateItemName[$key][1]:"";
             $func_name = $customersTrace["value_type"];
             $customersTrace["option_name"] = '更改了';
