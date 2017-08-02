@@ -6,6 +6,6 @@ class Contract
 
     public function index()
     {
-        return '/verification/contract/index';
+        return view();
     }
 }
