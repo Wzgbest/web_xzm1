@@ -43,7 +43,7 @@
 
 /************************************************************************/
 /*客户列表*/
-.crm_customer #myAllClientsPage{
+.crm_customer .myAllClientsPage{
 	
 }
 .crm_customer .m-secNav{
@@ -233,11 +233,73 @@
 	border-bottom: 2px solid #42a5f5;
 }
 /*************************************************/
+/*客户详情----概要*/
 
+/*some*/
+
+.customer_info_panel{
+	background-color: #f5f7fa;
+}
+
+.crm_customer .outlineCharge .set-remind{
+	background-color: #38a0f4;
+}
+.crm_customer .outlineCharge .order-visit{
+	/*margin-left: 20px;*/
+	background-color: #ffa31c;
+}
+.crm_customer .outlineCharge .fa-clock-o{
+	background-color: #3390dc;
+}
+.crm_customer .outlineCharge .fa-users{
+	background-color: #e69319;
+}
+
+.crm_customer .outlineCharge .detail{
+	height: 24px;
+	line-height: 24px;
+	font-size: 14px;
+	color: #afb9c3;
+	vertical-align: middle;
+}
+
+
+.crm_customer .outlineInfo div>span{
+	line-height: 32px;
+	/*vertical-align: top;*/
+}
+.crm_customer .outlineInfo .buttons{
+	background-color: #b3b3b3;
+}
+.crm_customer .outlineInfo .buttons i{
+	background-color: #999;
+}
+.crm_customer .outlineInfo .buttons.active{
+	background-color: #e60012;
+}
+.crm_customer .outlineInfo .buttons.active i{
+	background-color: #ff0b39;
+}
+.crm_customer .outlineInfo .buttons.active span{
+	background-color: white;
+	color: #333;
+}
+
+.crm_customer .outlineChance div>span {
+    line-height: 32px;
+    /* vertical-align: top; */
+}
 .crm_customer .keyman-link:nth-child(3n){
 	border: none !important;
 }
-
+.crm_customer .keyman-link{
+	width: 33%;
+	box-sizing: border-box;
+	float: left;
+	height: 150px;
+	padding-left: 27px;
+	border-right: 1px solid #eee;
+}
 .crm_customer .keyman-link>span{
 	font-size: 18px;
 	border-bottom: 1px solid #6da4a5;
@@ -250,11 +312,24 @@
 	margin-left: 13px;
 	margin-top: 10px;
 }
+
+.crm_customer .outlineCreatPerson{
+	margin: 20px 0;
+	background-color: transparent !important;
+	border: none !important;
+	box-shadow: none !important;
+	color: #939aab;
+}
+.crm_customer .outlineCreatPerson div{
+	text-align: right;
+	padding-right: 10px;
+	line-height: 24px;
+}
 /*客户详情-联系人*/
-.crm_customer #clientInfoLinkman{
+.crm_customer .clientInfoLinkman{
 	position: relative;
 }
-.crm_customer #new-linkman,#new-sale-chance,#new-trace{
+.crm_customer .new-linkman, .new-sale-chance, .new-trace{
 	position: fixed;
 	right: 0;
 	top: 50%;
@@ -316,20 +391,21 @@
 	top: 20px;
 }
 /*跟踪记录*/
-.crm_customer #clientInfoTrace{
+.crm_customer .clientInfoTrace{
 	/*padding-top: 20px;*/
 }
-.crm_customer #clientInfoTrace .m-divBlock{
+.crm_customer .clientInfoTrace .m-divBlock{
 	padding-top: 50px ;
 	padding-left: 50px ;
 }
 .crm_customer .u-traceRecord{
-	height: 120px;
+	/*height: 120px;*/
 	/*padding-top: 20px;*/
 	position: relative;
 	border-left: 2px solid #42A5F5;
+	padding-bottom: 8px;
 }
-.crm_customer #creat-traceRecord{
+.crm_customer .creat-traceRecord{
 	height: 250px;
 }
 .crm_customer .u-traceRecord .circle{
