@@ -168,6 +168,26 @@ class SaleChance extends Initialize{
             $role_ids[] = $businessFlowItemLink["handle_4"];
             $role_ids[] = $businessFlowItemLink["handle_5"];
             $role_ids[] = $businessFlowItemLink["handle_6"];
+            $role_ids = array_filter($role_ids);
+            $role_ids = array_unique($role_ids);
+            $role_ids = array_merge($role_ids);
+            //var_exp($role_ids,'$role_ids',1);
+            $role_empM = new RoleEmployeeModel($this->corp_id);
+            $employeeNameList = $role_empM->getEmployeeNameListbyRole($role_ids);
+            //var_exp($employeeNameList,'$employeeNameList',1);
+            $role_employee_index = [];
+            foreach($employeeNameList as $employee_info){
+                $role_id = $employee_info["role_id"];
+                unset($employee_info["role_id"]);
+                $role_employee_index[$role_id][] = $employee_info;
+            }
+            foreach($role_ids as $role_id){
+                if(!isset($role_employee_index[$role_id])){
+                    $role_employee_index[$role_id] = [];
+                }
+            }
+            //var_exp($role_employee_index,'$role_employee_index',1);
+            $this->assign('role_employee_index',$role_employee_index);
 
             $contractSettingModel = new ContractSettingModel($this->corp_id);
             $contracts = $contractSettingModel->getAllContract();
@@ -177,47 +197,8 @@ class SaleChance extends Initialize{
             foreach($contracts as $contract){
                 $contract_type_name[$contract["id"]] = $contract["contract_name"];
             }
-            $this->assign('contract_type_name',$contract_type_name);
+            //$this->assign('contract_type_name',$contract_type_name);
             $this->assign('contract_type_name_json',json_encode($contract_type_name,true));
-            $contract_json_arr = [];
-            foreach($contracts as $contract){
-                $contract_json["apply_1"] = $contract["apply_1"];
-                $contract_json["apply_2"] = $contract["apply_2"];
-                $contract_json["apply_3"] = $contract["apply_3"];
-                $contract_json["apply_4"] = $contract["apply_4"];
-                $contract_json["apply_5"] = $contract["apply_5"];
-                $contract_json["apply_6"] = $contract["apply_6"];
-                $contract_json_arr[$contract["id"]] = $contract_json;
-            }
-            $this->assign('contract_type_list',$contract_json_arr);
-            $this->assign('contract_type_list_json',json_encode($contract_json_arr,true));
-            $role_ids = array_merge($role_ids,array_column($contracts,"apply_1"));
-            $role_ids = array_merge($role_ids,array_column($contracts,"apply_2"));
-            $role_ids = array_merge($role_ids,array_column($contracts,"apply_3"));
-            $role_ids = array_merge($role_ids,array_column($contracts,"apply_4"));
-            $role_ids = array_merge($role_ids,array_column($contracts,"apply_5"));
-            $role_ids = array_merge($role_ids,array_column($contracts,"apply_6"));
-            $role_ids = array_filter($role_ids);
-            $role_ids = array_unique($role_ids);
-            $role_ids = array_merge($role_ids);
-            //var_exp($role_ids,'$role_ids',1);
-            $role_empM = new RoleEmployeeModel($this->corp_id);
-            $employeeNameList = $role_empM->getEmployeeNameListbyRole($role_ids);
-            //var_exp($employeeNameList,'$employeeNameList',1);
-            $role_employee_index = [];
-            foreach($employeeNameList as $employeeinfo){
-                $role_id = $employeeinfo["role_id"];
-                unset($employeeinfo["role_id"]);
-                $role_employee_index[$role_id][] = $employeeinfo;
-            }
-            foreach($role_ids as $role_id){
-                if(!isset($role_employee_index[$role_id])){
-                    $role_employee_index[$role_id] = [];
-                }
-            }
-            //var_exp($role_employee_index,'$role_employee_index',1);
-            $this->assign('role_employee_index',$role_employee_index);
-            $this->assign('role_employee_index_json',json_encode($role_employee_index,true));
             $show_fine = true;
         }
         $this->assign('show_fine',$show_fine);
@@ -227,6 +208,22 @@ class SaleChance extends Initialize{
     public function edit_page(){
         $this->_showSaleChanceEdit();
         return view();
+    }
+    public function get_list(){
+        $result = ['status'=>0 ,'info'=>"获取销售机会时发生错误！"];
+        $customer_id = input('customer_id',0,'int');
+        if(!$customer_id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $last_id = input('last_id',0,'int');
+        $num = input('num',10,'int');
+        $saleChanceM = new SaleChanceModel($this->corp_id);
+        $SaleChancesData = $saleChanceM->getSaleChancesByLastId($customer_id,$last_id,$num);
+        $result['data'] = $SaleChancesData;
+        $result['status'] = 1;
+        $result['info'] = "获取销售机会成功！";
+        return json($result);
     }
     public function get(){
         $result = ['status'=>0 ,'info'=>"获取销售机会时发生错误！"];
@@ -411,6 +408,34 @@ class SaleChance extends Initialize{
             $save_flg = $saleOrderContractM->setSaleChanceVisitBySaleId($sale_id,$saleOrderContractData);
         }
         return $save_flg;
+    }
+    public function sign_in(){
+        $result = ['status'=>0 ,'info'=>"签到时发生错误！"];
+        $customer_id = input('customer_id',0,'int');
+        $lat = "".number_format(input('lat',0,'float'),6);
+        $lng = "".number_format(input('lng',0,'float'),6);
+        if(!$customer_id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
+        try{
+            $saleChanceVisitM->link->startTrans();
+            $saleChanceflg = $saleChanceVisitM->sign_in($customer_id,$lat,$lng);
+            if(!$saleChanceflg){
+                exception("签到失败!");
+            }
+            $saleChanceVisitM->link->commit();
+            $result['data'] = $saleChanceflg;
+        }catch (\Exception $ex){
+            $saleChanceVisitM->link->rollback();
+            $result['info'] = $ex->getMessage();
+            //$result['info'] = "保存销售机会失败！";
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "签到成功！";
+        return json($result);
     }
     public function invalid(){
         $result = ['status'=>0 ,'info'=>"作废销售机会时发生错误！"];

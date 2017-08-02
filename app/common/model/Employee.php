@@ -67,6 +67,19 @@ class Employee extends Base{
     }
 
     /**
+     * 按员工ids查询员工姓名
+     * @param $user_ids
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
+     */
+    public function getEmployeeNameByUserids($user_ids)
+    {
+        return $this->model->table($this->table)
+            ->where('id','in',$user_ids)
+            ->column("truename","id");
+    }
+
+    /**
      * 查询非当前角色
      * @param $role_id
      * @return false|\PDOStatement|string|\think\Collection

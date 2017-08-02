@@ -611,7 +611,7 @@ class Customer extends Base
             "ct.create_time as last_trace_time",
             "cr.begin_time as last_call_time",
             "c.take_time",//领取时间
-            "ca.due_time as contract_due_time",
+            "'' as contract_due_time",
             "cn.wait_alarm_time as remind_time",
             //"'所在列' as in_column",
             "sc.sale_status",
@@ -662,7 +662,7 @@ class Customer extends Base
             ->join($this->dbprefix.'call_record cr','cr.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")//sc.employee_id = c.handle_man
             ->join($this->dbprefix.'business scb','scb.id = sc.business_id',"LEFT")
-            ->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
+            //->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")//ct.operator_id = c.handle_man
             ->where($map)
             ->order($subOrder)
@@ -826,7 +826,7 @@ class Customer extends Base
             "cc.phone_first",
             "ct.create_time as last_trace_time",
             "c.take_time",//领取时间
-            "ca.due_time as contract_due_time",
+            "'' as contract_due_time",
             "cn.wait_alarm_time as remind_time",
             //"'所在列' as in_column",
             "sc.sale_status",
@@ -864,7 +864,7 @@ class Customer extends Base
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")//sc.employee_id = c.handle_man
             ->join($this->dbprefix.'business scb','scb.id = sc.business_id',"LEFT")
-            ->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
+            //->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")//ct.operator_id = c.handle_man
             ->where($map)
             ->order($subOrder)
@@ -1036,7 +1036,7 @@ class Customer extends Base
             "cc.phone_first",
             "ct.create_time as last_trace_time",
             "c.take_time",//领取时间
-            "ca.due_time as contract_due_time",
+            "'' as contract_due_time",
             "cn.wait_alarm_time as remind_time",
             //"'所在列' as in_column",
             "sc.sale_status",
@@ -1084,7 +1084,7 @@ class Customer extends Base
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")//sc.employee_id = c.handle_man
             ->join($this->dbprefix.'business scb','scb.id = sc.business_id',"LEFT")
-            ->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
+            //->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")//ct.operator_id = c.handle_man
             ->where($map)
             ->where($map_str)
@@ -1469,6 +1469,9 @@ class Customer extends Base
             ->where('c.id',$cid)
             ->field($field)
             ->find();
+        if(empty($customer)){
+            return null;
+        }
         $customer['comm_status'] = getCommStatusByArr([
             "tend_to"=>$customer['tend_to'],
             "phone_correct"=>$customer['phone_correct'],

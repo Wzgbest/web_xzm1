@@ -5,6 +5,6 @@ class Index
 {
     public function index()
     {
-        return '/verification/index/index';
+        return view();
     }
 }
