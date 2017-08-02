@@ -874,13 +874,13 @@ class Customer extends Initialize{
         $customerM = new CustomerModel($this->corp_id);
         $customerOldData = $customerM->getCustomer($id);
 
-        var_exp($customerOldData,'$customerOldData');
+        //var_exp($customerOldData,'$customerOldData');
         $customerIntersertData = array_intersect_key($customerOldData,$customer);
         unset($customerIntersertData["last_edit_time"]);
         //var_exp($customerIntersertData,'$customerIntersertData');
-        var_exp($customer,'$customer');
+        //var_exp($customer,'$customer');
         $customerDiffData = array_diff_assoc($customerIntersertData,$customer);
-        var_exp($customerDiffData,'$customerDiffData',1);
+        //var_exp($customerDiffData,'$customerDiffData',1);
         $customersTraces = [];
         $updateItemName = $this->getUpdateItemNameAndType();
         foreach ($customerDiffData as $key=>$customerDiff){
