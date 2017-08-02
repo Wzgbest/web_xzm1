@@ -12,12 +12,12 @@
         <li class="customer_general_show">概要</li>
         <li class="current">客户信息</li>
         <li class="customer_contact_show">联系人（2）</li>
-        <li class="customer_sale_chance_show">销售机会（2）</li>
-        <li class="customer_trace_show">跟踪记录（1）</li>
+        <li class="customer_sale_chance_show">销售机会（3）</li>
+        <li class="customer_trace_show">跟踪记录（11）</li>
         <div class="clearfix"></div>
     </ul>
-    <form id="newClientForm" class="my_customer_edit" onsubmit="return false;">
-        <section id="clientInformationEdit" class="m-form m-divBlock">
+    <form class="newClientForm my_customer_edit" onsubmit="return false;">
+        <section class="m-form m-divBlock clientInformationEdit">
             <div class="clearfix"></div>
             <div >
                 <span class="cont"><span class="u-required">＊</span>客户名称</span>
@@ -47,7 +47,7 @@
             </div>
             <div>
                 <span class="cont"><span class="u-required">＊</span>联系电话</span>
-                <input type="text" name="telephone" required="required" pattern="[\d]{7,12}" placeholder="请输入电话号码" title="请输入正确的联系方式" value="010-58585518"/>
+                <input type="text" name="telephone" required="required" pattern="[\d]{7,12}" placeholder="请输入电话号码" title="请输入正确的联系方式" value="010-58585519"/>
 
                 <span class="cont">获取途径</span>
                 <select name="resource_from">
@@ -59,44 +59,44 @@
             <div>
                 <span class="cont">客户行业</span>
                 <select name="field1" class="u-3select">
-                                        <option value="2" >IT行业</option>
-                                        <option value="3"  selected="selected">金融行业</option>
-                                        <option value="4" >制造业</option>
+                                        <option value="1"  selected="selected">IT行业</option>
+                                        <option value="2" >金融行业</option>
+                                        <option value="3" >制造业</option>
                                     </select>
                 <select name="field2" class="u-3select">
-                                        <option value="2"  selected="selected">IT行业</option>
-                                        <option value="3" >金融行业</option>
-                                        <option value="4" >制造业</option>
+                                        <option value="1" >IT行业</option>
+                                        <option value="2"  selected="selected">金融行业</option>
+                                        <option value="3" >制造业</option>
                                     </select>
                 <select name="field" class="u-3select">
-                                        <option value="2" >IT行业</option>
-                                        <option value="3" >金融行业</option>
-                                        <option value="4" >制造业</option>
+                                        <option value="1" >IT行业</option>
+                                        <option value="2" >金融行业</option>
+                                        <option value="3"  selected="selected">制造业</option>
                                     </select>
             </div>
             <div>
                 <span class="cont">公司地址</span>
                 <select name="prov" class="u-3select">
-                    <option value="1" >山东省</option>
+                    <option value="山东省"  selected="selected">山东省</option>
                 </select>
                 <select name="city" class="u-3select">
-                    <option value="1" >潍坊市</option>
+                    <option value="潍坊市" >潍坊市</option>
                 </select>
                 <select name="dist" class="u-3select">
-                    <option value="1" >潍城区</option>
+                    <option value="潍城区"  selected="selected">潍城区</option>
                 </select>
             </div>
             <div>
                 <span class="cont u-area">详细地址</span>
-                <textarea name="address" id="address" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入详细地址">潍坊市</textarea>
+                <textarea name="address" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入详细地址">潍坊市潍城区和平路胜利西街</textarea>
             </div>
             <div>
                 <span class="cont">详细定位</span>
-                <input type="text" name="location" id="location" placeholder="请输入写字楼、街道、公司名称" value=""/>
+                <input type="text" name="location" placeholder="请输入写字楼、街道、公司名称" value="金艺大厦"/>
             </div>
             <div>
                 <span class="cont">公司官网</span>
-                <input type="text" name="website" id="website" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入公司官网" value="0"/>
+                <input type="text" name="website" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入公司官网" value="http://www.baidusd.com/,http://www.winbywin.com/"/>
             </div>
             <div>
                 <span class="cont">备注</span>
@@ -106,7 +106,7 @@
                 <span class="u-addRemark"><i class="fa fa-plus"></i></span>
                 <div class="clearfix"></div>
                 <span class="cont"></span>
-                <textarea name="remark" id="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
+                <textarea name="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
             </div>
             <div class="u-submitButton">
                 <button class="save customer_edit_save">保存</button>
