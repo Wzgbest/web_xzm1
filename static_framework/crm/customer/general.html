@@ -20,7 +20,7 @@
         <div id="outlineCharge"  class="m-divBlock">
             <div>
                 <!--<div class="clearfix"></div>-->
-                <div class="set-remind buttons"><i class="fa fa-clock-o "></i><span>设置提醒</span></div>
+                <div class="set-remind buttons" id="setRemind"><i class="fa fa-clock-o "></i><span>设置提醒</span></div>
                 <div class="order-visit buttons"><i class="fa fa-users"></i><span>预约拜访</span></div>
                 <div class="clearfix"></div>
             </div>
@@ -139,16 +139,13 @@
                 <span>最后编辑日期：</span><span>2017/05/31</span>
             </div>
         </div>
-    	<div class="calendar-box hide">
-    		<div id="remind-calendar">
-    			
-    		</div>
+    	<div id="calendar-box" class="hide">
+    		
     	</div>
     </section>
 </section>
 <link rel="stylesheet" href="/crm/css/general.css" />
-<link rel="stylesheet" href="/crm/css/simple-calendar.css" />
-<script src="/crm/js/simple-calendar.js"></script>
+<script src="/crm/js/PopUp.js"></script>
 <script>
-	var myCalendar = new SimpleCalendar('#remind-calendar');
+	var pop = new pop("#calendar-box","/crm/customer/calendar-box/","#setRemind");
 </script>

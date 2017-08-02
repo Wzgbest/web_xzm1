@@ -51,21 +51,21 @@ function removePop(){
 }
 function pop(id,url,clicker){
     $(clicker).click(function(){
-    	$(id).removeClass("hide");
+    	$.ajax({
+        	url: url,
+        	type: 'get',
+        	async: false,
+        	success: function(data) {
+            	$(id).html(data);
+            	$(id).removeClass("hide");
+        	},
+        	error: function() {
+            	alert("加载失败!");
+        	}
+    	});   	
     });
-    $(document).on('click', id + " header h1 i", function() {
+    $(document).on('click', id+" .pop-close-btn", function() {
 	   $(id).addClass("hide");
-	});
-    $.ajax({
-        url: url,
-        type: 'get',
-        async: false,
-        success: function(data) {
-            $(id).html(data);
-        },
-        error: function() {
-            alert("简报加载失败!");
-        }
-    });
+	}); 
 }
 
