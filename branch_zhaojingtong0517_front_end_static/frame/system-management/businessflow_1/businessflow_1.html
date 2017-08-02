@@ -237,6 +237,100 @@
 				top: -5px;
 				left: 80px;
 			}
+			#content .fuxuan{
+				width: 160px;
+				height: 35px;
+				background-color: #eaf2fe;
+				color: #42a5f5;
+				text-align: center;
+				line-height: 35px;
+				margin-top: 20px;
+				margin-bottom: 0px;
+				float: left;
+			}
+			#content .yixuan{
+				width: 450px;
+				height: 35px;
+				/*background-color: #eaf2fe;*/
+				color: #42a5f5;
+				text-align: left;
+				line-height: 35px;
+				margin-top: 20px;
+				margin-bottom: 0px;
+				float: left;
+			}
+			#content p.yixuan span{
+				
+				color: #000;
+				margin-right: 30px;
+			}
+			#content .fuxuan i{
+				margin-left: 20px;
+			}
+			#content div.xuanze{
+				display: none;
+				width: 160px;
+				height: 320px;
+				border: 1px solid #C0C0C0;
+				float: left;
+				margin-top: 0px;
+				background-color: #fff;
+				margin-left: 3px;
+			}
+			#content div.xuanzhong{
+				display: none;
+				width: 160px;
+				height: 320px;
+				border: 1px solid #C0C0C0;
+				float: left;
+				margin-top: 0px;
+				background-color: #fff;
+				margin-left: 0px;
+			}
+			#content .xuanze ul{
+				
+			}
+			#content .xuanze ul li{
+				width: 160px;
+				height: 32px;
+				/*border-bottom: 1px solid red;*/
+				line-height: 32px;
+			}
+			#content .xuanze ul li input{
+				width: 14px;
+				height: 14px;
+				vertical-align: middle;
+			}
+			#content .xuanzhong p{
+				width: 160px;
+				height: 35px;
+				background-color: #f2f2f2;
+				color: #a3a3a3;
+				text-align: center;
+				line-height: 35px;
+				margin-left: 0;
+				margin-bottom: 0px;
+			}
+			#content .xuanzhong li{
+				width: 160px;
+				height: 32px;
+				/*border-bottom: 1px solid red;*/
+				margin-left: 20px;
+				line-height: 32px;
+			}
+			#content .xuanzhong li img{
+				margin-left: 30px;
+			}
+			#content .xuanzhong .wancheng{
+				width: 90px;
+				height: 30px;
+				background-color: #42a5f5;
+				color: #fff;
+				text-align: center;
+				line-height: 30px;
+				border-radius: 10px;
+				margin: 40px auto 10px;
+			}
 		</style>
 	</head>
 
@@ -268,21 +362,54 @@
 				<input type="checkbox" name="more" index="3" /><span class="sp3">申请成单</span><span class="sp6">（申请成单流程在成交合同审核通过后）</span>
 			</p>
 			<div></div>
-			<p class="p7">
+			<!--<p class="p7">
 				<span class="sp1">拥有此业务角色</span>
 				<input type="checkbox" name="ipt" /><span class="sp3">角色1</span>
 				<input type="checkbox" name="ipt" /><span class="sp3">角色2</span>
 
-			</p>
+			</p>-->
+			
+			<p class="fuxuan" >应有此业务角色<i class="fa fa-sort-desc"></i></p>
+			<p class="yixuan" ></p>
+			
+			<div style="clear: both"  >
+				<div class="xuanze" >
+				<ul>
+					<li><input type="checkbox" name="like" index="1" /><span class="sp3">角色一</span></li>
+					<li><input type="checkbox" name="like" index="2" /><span class="sp3">角色二</span></li>
+					<li><input type="checkbox" name="like" index="3" /><span class="sp3">角色三</span></li>
+					<li><input type="checkbox" name="like" index="4" /><span class="sp3">角色四</span></li>
+					<li><input type="checkbox" name="like" index="5" /><span class="sp3">角色五</span></li>
+					<li><input type="checkbox" name="like" index="6" /><span class="sp3">角色六</span></li>
+				</ul>
+			</div>
+			
+			
+			<div class="xuanzhong">
+				<p>已选择4个对象</p>
+				<ul>
+					<!--<li><span class="sp3">角色一</span></li>
+					<li><span class="sp3">角色二</span></li>
+					<li><span class="sp3">角色三</span></li>
+					<li><span class="sp3">角色四</span></li>
+					<li><span class="sp3">角色五</span></li>
+					<li><span class="sp3">角色六</span></li>-->
+				</ul>
+				<p class="wancheng">完成</p>
+			</div>
+			</div>
+			
 			<p class="p5">
 				<input id="corp_submit" type="submit" value="保存" />
 				<button>取消</button>
 			</p>
-
+			
+				
+			
 		</div>
 	</body>
 
-	<script type="text/javascript">
+	<!--<script type="text/javascript">
 		$('.p6 input').each(function() {
 			$(this).on('click', function() {
 				var index = $(this).attr("index")
@@ -326,6 +453,91 @@
 			})
 
 		})
-	</script>
+	</script>-->
+	
+	<script type="text/javascript">
+//  $('.xuanze input').each(function() {
+//      $(this).on('click', function() {
+//          var index = $(this).attr("index")        //index为input的自定义index
+//          if ($(this).prop('checked') == true) {
+//              var main = $(this).next().html()
+//              $('.xuanzhong ul').append('<li index = ' + index + '>' + main + '<img src=' + "img/del.png" + ' index = "' + index + '"/></li>')
+//          } else {
+//              $('.xuanzhong ul li').each(function() {
+//                  if ($(this).attr('index') == index) {
+//                      $(this).remove()
+//                  }
+//              })
+//          }
+//
+//          $('.xuanzhong ul li img').each(function() {
+//              $(this).on('click', function() {
+//                  var index1 = $(this).attr("index")  
+//					var T= $(this)
+//                  $('.xuanze input').each(function() {
+//                      if ($(this).attr('index') == index1) {
+//                          $(this).prop('checked', false)
+//                          $(T).parent().remove()
+//
+//                      }
+//                  })
+//              })
+//          })
+//
+//
+//
+//      })
+//
+//  })
+    
+    
+    $('.xuanze').on('click',"input", function() {
+	    var index = $(this).attr("index")        //index为input的自定义index
+	    if ($(this).prop('checked') == true) {
+	        var main = $(this).next().html()
+	        $('.xuanzhong ul').append('<li index = ' + index + '>' + main + '<img src=' + "img/del.png" + ' index = "' + index + '"/></li>')
+	    } else {
+	        $('.xuanzhong ul li').each(function() {
+	            if ($(this).attr('index') == index) {
+	                $(this).remove()
+	            }
+	        })
+	    }
+    });
+    $('.xuanzhong').on('click',"ul li img", function() {
+        var index1 = $(this).attr("index")  
+//      var This = $(this)
+		var T= $(this)
+        $('.xuanze input').each(function() {
+            if ($(this).attr('index') == index1) {
+                $(this).prop('checked', false)
+                $(T).parent().remove()
+            }
+        })
+    });
+    
+    $('.fuxuan').click(function(){
+//  	$('.fuxuan i').toggleClass()
+    	$('.xuanze').toggle();
+    	$('.xuanzhong').toggle()
+    })
+    $(".wancheng").click(function(){
+//  	console.log($(this).siblings())
+//  	var content=$(this).siblings().text();
+//  	
+//  	$('.yixuan').add(content)
+		$(".yixuan").empty()
+		$(".xuanzhong ul li").each(function(){
+			var content=$(this).text();
+//			$('.yixuan').append(content)
+     		$('.yixuan').append('<span >' + content+ '</span>')
+		})
+    	
+    	$('.xuanze').css('display','none');
+    	$('.xuanzhong').css('display','none')
+    })
+    
+</script>
+
 
 </html>
