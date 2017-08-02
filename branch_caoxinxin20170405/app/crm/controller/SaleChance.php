@@ -168,6 +168,26 @@ class SaleChance extends Initialize{
             $role_ids[] = $businessFlowItemLink["handle_4"];
             $role_ids[] = $businessFlowItemLink["handle_5"];
             $role_ids[] = $businessFlowItemLink["handle_6"];
+            $role_ids = array_filter($role_ids);
+            $role_ids = array_unique($role_ids);
+            $role_ids = array_merge($role_ids);
+            //var_exp($role_ids,'$role_ids',1);
+            $role_empM = new RoleEmployeeModel($this->corp_id);
+            $employeeNameList = $role_empM->getEmployeeNameListbyRole($role_ids);
+            //var_exp($employeeNameList,'$employeeNameList',1);
+            $role_employee_index = [];
+            foreach($employeeNameList as $employee_info){
+                $role_id = $employee_info["role_id"];
+                unset($employee_info["role_id"]);
+                $role_employee_index[$role_id][] = $employee_info;
+            }
+            foreach($role_ids as $role_id){
+                if(!isset($role_employee_index[$role_id])){
+                    $role_employee_index[$role_id] = [];
+                }
+            }
+            //var_exp($role_employee_index,'$role_employee_index',1);
+            $this->assign('role_employee_index',$role_employee_index);
 
             $contractSettingModel = new ContractSettingModel($this->corp_id);
             $contracts = $contractSettingModel->getAllContract();
@@ -177,47 +197,8 @@ class SaleChance extends Initialize{
             foreach($contracts as $contract){
                 $contract_type_name[$contract["id"]] = $contract["contract_name"];
             }
-            $this->assign('contract_type_name',$contract_type_name);
+            //$this->assign('contract_type_name',$contract_type_name);
             $this->assign('contract_type_name_json',json_encode($contract_type_name,true));
-            $contract_json_arr = [];
-            foreach($contracts as $contract){
-                $contract_json["apply_1"] = $contract["apply_1"];
-                $contract_json["apply_2"] = $contract["apply_2"];
-                $contract_json["apply_3"] = $contract["apply_3"];
-                $contract_json["apply_4"] = $contract["apply_4"];
-                $contract_json["apply_5"] = $contract["apply_5"];
-                $contract_json["apply_6"] = $contract["apply_6"];
-                $contract_json_arr[$contract["id"]] = $contract_json;
-            }
-            $this->assign('contract_type_list',$contract_json_arr);
-            $this->assign('contract_type_list_json',json_encode($contract_json_arr,true));
-            $role_ids = array_merge($role_ids,array_column($contracts,"apply_1"));
-            $role_ids = array_merge($role_ids,array_column($contracts,"apply_2"));
-            $role_ids = array_merge($role_ids,array_column($contracts,"apply_3"));
-            $role_ids = array_merge($role_ids,array_column($contracts,"apply_4"));
-            $role_ids = array_merge($role_ids,array_column($contracts,"apply_5"));
-            $role_ids = array_merge($role_ids,array_column($contracts,"apply_6"));
-            $role_ids = array_filter($role_ids);
-            $role_ids = array_unique($role_ids);
-            $role_ids = array_merge($role_ids);
-            //var_exp($role_ids,'$role_ids',1);
-            $role_empM = new RoleEmployeeModel($this->corp_id);
-            $employeeNameList = $role_empM->getEmployeeNameListbyRole($role_ids);
-            //var_exp($employeeNameList,'$employeeNameList',1);
-            $role_employee_index = [];
-            foreach($employeeNameList as $employeeinfo){
-                $role_id = $employeeinfo["role_id"];
-                unset($employeeinfo["role_id"]);
-                $role_employee_index[$role_id][] = $employeeinfo;
-            }
-            foreach($role_ids as $role_id){
-                if(!isset($role_employee_index[$role_id])){
-                    $role_employee_index[$role_id] = [];
-                }
-            }
-            //var_exp($role_employee_index,'$role_employee_index',1);
-            $this->assign('role_employee_index',$role_employee_index);
-            $this->assign('role_employee_index_json',json_encode($role_employee_index,true));
             $show_fine = true;
         }
         $this->assign('show_fine',$show_fine);

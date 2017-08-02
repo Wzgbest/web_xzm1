@@ -32,13 +32,27 @@ class SaleChance extends Base
      * created by blu10ph
      */
     public function getAllSaleChancesByCustomerId($customer_id){
-        $field = "sc.*,scb.business_name,e.truename as employee,ae.truename as associator,scv.visit_time,scv.create_time,scv.visit_place,scv.location,scv.partner_notice,scv.add_note,scv.visit_ok";
+        $field = [
+            "sc.*",
+            "scb.business_name",
+            "e.truename as employee",
+            "ae.truename as associator",
+            "scv.visit_time",
+            "scv.create_time",
+            "scv.visit_place",
+            "scv.location",
+            "scv.partner_notice",
+            "scv.add_note",
+            "scv.visit_ok",
+            "soc.status as order_status",
+        ];
         return $this->model->table($this->table)->alias('sc')
             ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'business scb','scb.id = sc.business_id',"LEFT")
             ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
             ->join($this->dbprefix.'employee ae','sc.associator_id = ae.id',"LEFT")
             ->join($this->dbprefix.'sale_chance_visit scv','scv.sale_id = sc.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract soc','soc.sale_id = sc.id',"LEFT")
             ->where('customer_id',$customer_id)
             ->field($field)
             ->order("sc.id desc")
