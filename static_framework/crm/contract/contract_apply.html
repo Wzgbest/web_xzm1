@@ -119,7 +119,7 @@
 		this.type = type,
 		this.num = num
 	}
-	$(document).on("click",".pop-submit-btn",function(){
+	$(".pop-submit-btn").click(function(){
 		var arry = new Array(m_c.length);
 		console.log(arry);
 		for(var i=0;i<m_c.length;i++){
@@ -142,7 +142,7 @@
 	        type: 'post',
 	        data: "contract_apply="+JSON.stringify(arry),
 	        success: function(data) {
-	            alert("申请成功");
+	            alert(data.info);
 	            $("#create-contract").children().remove();
 	        },
 	        error: function() {
