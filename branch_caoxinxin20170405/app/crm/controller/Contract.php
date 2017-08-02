@@ -4,6 +4,7 @@ namespace app\crm\controller;
 use app\common\controller\Initialize;
 use app\systemsetting\model\ContractSetting as ContractModel;
 use app\common\model\RoleEmployee as RoleEmployeeModel;
+use app\crm\model\Contract as ContractAppliedModel;
 
 class Contract extends Initialize{
     public function __construct(){
@@ -61,8 +62,73 @@ class Contract extends Initialize{
     }
     public function apply(){
         $result = ['status'=>0 ,'info'=>"申请合同时发生错误！"];
+        $contract_apply_str = input('contract_apply');
+        $contract_apply = json_decode($contract_apply_str,true);
+        if(empty($contract_apply_str)||empty($contract_apply)){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        //var_exp($contract_apply,'$contract_apply',1);
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $contract_applied = [];
+        $contract_applied_item["employee_id"] = $uid;
+        $contract_applied_item["update_time"] = time();
+        $contract_applied_item["create_time"] = $contract_applied_item["update_time"];
+        $contract_applied_item["status"] = 0;
+        $contract_applied_item["contract_apply_status"] = 1;
+        foreach ($contract_apply as $apply){
+            if(empty($apply["type"])){
+                $result['info'] = "合同类型不能为空！";
+                return json($result);
+            }
+            $contract_applied_item["contract_type"] = $apply["type"];
+            $contract_applied_item["contract_num"] = $apply["num"];
+            if(empty($apply["num"])){
+                $result['info'] = "合同数量不能为空！";
+                return json($result);
+            }
+            $contract_applied_item["contract_apply_1"] = $apply["apply_1"];
+            if(empty($apply["num"])){
+                $result['info'] = "合同一审人不能为空！";
+                return json($result);
+            }
+            if(isset($apply["apply_2"])){
+                $contract_applied_item["contract_apply_2"] = $apply["apply_2"];
+            }else{
+                $contract_applied_item["contract_apply_2"] = 0;
+            }
+            if(isset($apply["apply_3"])){
+                $contract_applied_item["contract_apply_3"] = $apply["apply_3"];
+            }else{
+                $contract_applied_item["contract_apply_3"] = 0;
+            }
+            if(isset($apply["apply_4"])){
+                $contract_applied_item["contract_apply_4"] = $apply["apply_4"];
+            }else{
+                $contract_applied_item["contract_apply_4"] = 0;
+            }
+            if(isset($apply["apply_5"])){
+                $contract_applied_item["contract_apply_5"] = $apply["apply_5"];
+            }else{
+                $contract_applied_item["contract_apply_5"] = 0;
+            }
+            if(isset($apply["apply_6"])){
+                $contract_applied_item["contract_apply_6"] = $apply["apply_6"];
+            }else{
+                $contract_applied_item["contract_apply_6"] = 0;
+            }
+            $contract_applied[] = $contract_applied_item;
+        }
+        //var_exp($contract_applied,'$contract_applied',1);
+        $contractAppliedM = new ContractAppliedModel($this->corp_id);
+        $add_flg = $contractAppliedM->addAllContract($contract_applied);
+        if(!$add_flg){
+            $result['info']='申请合同失败!';
+            return json($result);
+        }
         $result['status']=1;
-        $result['info']='申请合同开发中!';
+        $result['info']='申请合同成功!';
         return $result;
     }
     public function retract(){
