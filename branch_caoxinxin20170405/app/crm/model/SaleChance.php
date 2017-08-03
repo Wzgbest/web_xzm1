@@ -19,11 +19,76 @@ class SaleChance extends Base
 
     /**
      * @return false|\PDOStatement|string|\think\Collection
-     * created by messhair
+     * created by blu10ph
      */
-    public function getAllSaleChances()
-    {
-        return $this->model->table($this->table)->select();
+    public function getAllSaleChances(){
+        $field = [
+            "sc.*",
+            "c.customer_name",
+        ];
+        return $this->model->table($this->table)->alias('sc')
+            ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
+            ->field($field)
+            ->select();
+    }
+
+    /**
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $filter array 合同筛选条件
+     * @param $field array 合同列筛选条件
+     * @param $order string 排序字段
+     * @param $direction string 排序顺序
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by blu10ph
+     */
+    public function getAllSaleChancesByPage($num=10,$page=0,$filter=null,$field=null,$order="ca.id",$direction="desc"){
+        //分页
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+
+        //筛选
+        $map = $this->_getMapByFilter($filter,[]);
+
+        //排序
+        if($direction!="desc" && $direction!="asc"){
+            $direction = "desc";
+        }
+        $order = $order." ".$direction;
+
+        $field = [
+            "sc.*",
+            "c.customer_name",
+        ];
+        return $this->model->table($this->table)->alias('sc')
+            ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
+            ->where($map)
+            ->order($order)
+            ->limit($offset,$num)
+            ->field($field)
+            ->select();
+    }
+
+    /**
+     * @param $filter array 合同筛选条件
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by blu10ph
+     */
+    public function getAllSaleChanceCount($filter=null){
+        //筛选
+        $map = $this->_getMapByFilter($filter,[]);
+        
+        return $this->model->table($this->table)->alias('sc')
+            ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
+            ->where($map)
+            ->count();
+    }
+
+    protected function _getMapByFilter($filter,$filter_column){
+        $map = [];
+        return $map;
     }
 
     /**根据客户ID获取所有
