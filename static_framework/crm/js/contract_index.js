@@ -1,4 +1,4 @@
-function list_manage(page,form,array){
+function list_manager(page,form,array){
 	//初始状态
 	list_show(form,array[0]);
 	//分页切换
@@ -18,12 +18,21 @@ function list_show(form,arr){
 	for(var i=0;i<arr.length;i++){
 		if(typeof arr[i]=="number"){
 			$("."+form+" .u-tabTitle li").eq(arr[i]).removeClass("hide");
-			$("."+form+" .u-tabList li").eq(arr[i]).removeClass("hide");
+			var len = $("."+form+" .u-tabList").length;
+			for(var j=0;j<len;j++){
+				$("."+form+" .u-tabList").eq(j).children("li").eq(arr[i]).removeClass("hide");
+			}
+//			$("."+form).children("u-tabList").children("li").eq(arr[i]).removeClass("hide");
+//			$("."+form+" .u-tabList li").eq(arr[i]).removeClass("hide");
 		}else{
 			//列表名字变更，字段不变
 			$("."+form+" .u-tabTitle li").eq(arr[i][0]).html(arr[i][1]+arr[i][2]);
 			$("."+form+" .u-tabTitle li").eq(arr[i][0]).removeClass("hide");
-			$("."+form+" .u-tabList li").eq(arr[i][0]).removeClass("hide");
+//			$("."+form+" .u-tabList li").eq(arr[i][0]).removeClass("hide");
+			var len = $("."+form+" .u-tabList").length;
+			for(var j=0;j<len;j++){
+				$("."+form+" .u-tabList").eq(j).children("li").eq(arr[i][0]).removeClass("hide");
+			}
 		}		
 	}
 }

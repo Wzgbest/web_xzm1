@@ -24,9 +24,9 @@
         </div>
 
         <!--销售机会-->
-                <div class="m-divBlock m-form sale-chance-record sale-chance-record-9">
+        <div class="m-divBlock m-form sale-chance-record sale-chance-record-9">
             <div class="z-recordState">
-                                <div class="z-modify">
+                <div class="z-modify">
                     <div class="edit2 sale_chance_edit">
                         <i class="fa fa-file-text-o fa-2x"></i></br><span>编辑</span>
                     </div>
@@ -45,7 +45,7 @@
                         <i class="fa fa-2x fa-refresh" style="margin-left: 13px;"></i></br><span>重新申请</span>
                     </div>
                 </div>
-                            </div>
+            </div>
             <div>
                 <span class="cont">销售机会：</span>
                 <span class="cont-x">完全呃曹</span>
@@ -69,7 +69,7 @@
                 <span class="cont-x">成单申请</span>
             </div>
 
-                        <!--成单：应该显示的部分-->
+            <!--成单：应该显示的部分-->
             <div class="sale-chance-finish-record">
                 <div>
                     <span class="cont">合同类型：</span>
@@ -87,7 +87,7 @@
                 </div>
                 <div>
                     <span class="cont">尾中款：</span>
-                    <span class="cont-x"><span class="number">500</span> 元<span class="cont-in color-blue">申请发票</span></span>
+                    <span class="cont-x"><span class="number">500</span> 元<span class="cont-in color-blue bill-apply">申请发票</span></span>
                 </div>
                 <div>
                     <span class="cont">共缴纳：</span>
@@ -98,15 +98,16 @@
                     <span class="cont-x"><span class="number">500</span> 元<span class="cont-in color-blue">尾款缴纳申请</span></span>
                 </div>
             </div>
-                        <!--有意向：应该显示的部分-->
+            <!--有意向：应该显示的部分-->
             <div class="sale-chance-intentional-record">
                 <span class="cont">备注：</span>
                 <span class="remark"></span>
             </div>
-                    </div>
-                <div class="m-divBlock m-form sale-chance-record sale-chance-record-2">
+        </div>
+        
+        <div class="m-divBlock m-form sale-chance-record sale-chance-record-2">
             <div class="z-recordState">
-                                <div class="z-modify">
+                <div class="z-modify">
                     <div class="edit2 sale_chance_edit">
                         <i class="fa fa-file-text-o fa-2x"></i></br><span>编辑</span>
                     </div>
@@ -125,7 +126,7 @@
                         <i class="fa fa-2x fa-refresh" style="margin-left: 13px;"></i></br><span>重新申请</span>
                     </div>
                 </div>
-                            </div>
+            </div>
             <div>
                 <span class="cont">销售机会：</span>
                 <span class="cont-x">网站建设</span>
@@ -149,7 +150,7 @@
                 <span class="cont-x">成单申请</span>
             </div>
 
-                        <!--成单：应该显示的部分-->
+            <!--成单：应该显示的部分-->
             <div class="sale-chance-finish-record">
                 <div>
                     <span class="cont">合同类型：</span>
@@ -167,7 +168,7 @@
                 </div>
                 <div>
                     <span class="cont">尾中款：</span>
-                    <span class="cont-x"><span class="number">500</span> 元<span class="cont-in color-blue">申请发票</span></span>
+                    <span class="cont-x"><span class="number">500</span> 元<span class="cont-in color-blue bill-apply">申请发票</span></span>
                 </div>
                 <div>
                     <span class="cont">共缴纳：</span>
@@ -178,15 +179,16 @@
                     <span class="cont-x"><span class="number">500</span> 元<span class="cont-in color-blue">尾款缴纳申请</span></span>
                 </div>
             </div>
-                        <!--有意向：应该显示的部分-->
+            <!--有意向：应该显示的部分-->
             <div class="sale-chance-intentional-record">
                 <span class="cont">备注：</span>
                 <span class="remark"></span>
             </div>
-                    </div>
-                <div class="m-divBlock m-form sale-chance-record sale-chance-record-1">
+        </div>
+        
+        <div class="m-divBlock m-form sale-chance-record sale-chance-record-1">
             <div class="z-recordState">
-                                <div class="z-modify">
+                <div class="z-modify">
                     <div class="edit2 sale_chance_edit">
                         <i class="fa fa-file-text-o fa-2x"></i></br><span>编辑</span>
                     </div>
@@ -205,7 +207,7 @@
                         <i class="fa fa-2x fa-refresh" style="margin-left: 13px;"></i></br><span>重新申请</span>
                     </div>
                 </div>
-                            </div>
+            </div>
             <div>
                 <span class="cont">销售机会：</span>
                 <span class="cont-x">网站建设</span>
@@ -229,7 +231,7 @@
                 <span class="cont-x">预约拜访</span>
             </div>
 
-                        <!--拜访：应该显示的部分-->
+            <!--拜访：应该显示的部分-->
             <div class="sale-chance-visit-record">
                 <div>
                     <span class="cont">拜访时间：</span>
@@ -248,11 +250,18 @@
                     <span class="cont-x">是</span>
                 </div>
             </div>
-                        <!--有意向：应该显示的部分-->
+            <!--有意向：应该显示的部分-->
             <div class="sale-chance-intentional-record">
                 <span class="cont">备注：</span>
                 <span class="remark"></span>
             </div>
-                    </div>
-            </section>
+        </div>
+        <div id="create-bill"  class="popUp hide">
+        	
+        </div>
+    </section>
 </section>
+<script src="/crm/js/PopUp.js"></script>
+<script>
+	var pop = new pop("#create-bill","/crm/bill/bill_apply/",".bill-apply");
+</script>

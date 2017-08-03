@@ -1,3 +1,22 @@
+function pop(id,url,clicker){
+    $(clicker).click(function(){
+    	$.ajax({
+        	url: url,
+        	type: 'get',
+        	async: false,
+        	success: function(data) {
+            	$(id).html(data);
+            	$(id).removeClass("hide");
+        	},
+        	error: function() {
+            	alert("加载失败!");
+        	}
+    	});   	
+    });
+    $(document).on('click', id+" .pop-close-btn", function() {
+	   $(id).children().remove();
+	}); 
+}
 function popUp(e){
 	console.log(e.innerHTML);
 	blackBgshow();
@@ -49,23 +68,3 @@ function removePop(){
 	document.getElementById("popUpContent").remove();
 	blackBghide();
 }
-function pop(id,url,clicker){
-    $(clicker).click(function(){
-    	$.ajax({
-        	url: url,
-        	type: 'get',
-        	async: false,
-        	success: function(data) {
-            	$(id).html(data);
-            	$(id).removeClass("hide");
-        	},
-        	error: function() {
-            	alert("加载失败!");
-        	}
-    	});   	
-    });
-    $(document).on('click', id+" .pop-close-btn", function() {
-	   $(id).children().remove();
-	}); 
-}
-
