@@ -480,10 +480,42 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			async:false,
 			success:function (data) {
 				self.show_panel(panel,data);
+				$(panel+" .clientInfoTrace .new-trace").click(function(){
+					$(panel+" .creat-traceRecord").removeClass("hide");
+				});
+				$(panel+" .creat-traceRecord .new-trace-save").click(function(){
+					self.trace_add(self.id);
+				});
+				$(panel+" .creat-traceRecord .new-trace-cancel").click(function(){
+					$(panel+" .creat-traceRecord").addClass("hide");
+				});
 			},
 			error:function(){
 				alert("获取客户跟踪信息失败!");
 			}
 		});
-	}
+	};
+	this.trace_add=function(customer_id){
+		var panel = this.panel_base+' .customer_sale_chance';
+		var customer_trace_remark = $(panel+" .new-trace-remark").val();
+		customer_trace_remark = "remark="+customer_trace_remark+"&customer_id="+customer_id+"&fr="+this.from;
+		this.reload_flg = 1;
+		//console.log(sale_chance_add_from);
+		$.ajax({
+			url: '/crm/customer_trace/add',
+			type: 'post',
+			data: customer_trace_remark,
+			dataType: 'json',
+			success: function(data) {
+				//console.log(data);
+				alert(data.info);
+				if(data.status) {
+					self.trace_show(customer_id);
+				}
+			},
+			error: function() {
+				alert("保存客户跟踪信息时发生错误!");
+			}
+		});
+	};
 }

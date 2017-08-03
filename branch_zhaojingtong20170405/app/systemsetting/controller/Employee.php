@@ -52,10 +52,10 @@ class Employee extends Initialize{
             $count = $employeeM->countPageEmployeeList($filter);
             $employees_count = empty($count)? 0:$count;
             $this->assign("count",$employees_count);
-            $struM = new StructureModel();
+            $struM = new StructureModel($this->corp_id);
             $structs = $struM->getAllStructure();
             $this->assign("structs",$structs);
-            $rolM = new RoleModel();
+            $rolM = new RoleModel($this->corp_id);
             $roles = $rolM->getAllRole();
             $this->assign("roles",$roles);
         }catch (\Exception $ex){
@@ -130,10 +130,10 @@ class Employee extends Initialize{
         $employee["role_id"] = explode(",",$employee["role_id"]);
         //var_exp($employee,'$employee',1);
         $this->assign("employee",$employee);
-        $struM = new StructureModel();
+        $struM = new StructureModel($this->corp_id);
         $structs = $struM->getAllStructure();
         $this->assign("structs",$structs);
-        $rolM = new RoleModel();
+        $rolM = new RoleModel($this->corp_id);
         $roles = $rolM->getAllRole();
         $this->assign("roles",$roles);
     }
@@ -379,7 +379,7 @@ class Employee extends Initialize{
                 $input["status"] = -1;
             }
             if(isset($input["status"]) && $input["status"] == -1){
-                $customerM = new CustomerModel();
+                $customerM = new CustomerModel($this->corp_id);
                 //检测有无保护客户
                 $res = $customerM->getCustomersByUserIds($user_id);
                 //$res =null;

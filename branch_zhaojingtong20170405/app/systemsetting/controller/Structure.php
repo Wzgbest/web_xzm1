@@ -25,7 +25,7 @@ class Structure extends Initialize
      */
     public function index(){
         $root_id = 0;
-        $struM = new StructureModel();
+        $struM = new StructureModel($this->corp_id);
         $structs = $struM->getAllStructure();
         $tree = new \myvendor\Tree($structs,['id','struct_pid']);
         $res = $tree->leaf($root_id);
@@ -47,7 +47,7 @@ class Structure extends Initialize
         $start_num = ($p-1)*$num;
         $end_num = $start_num+$num;
         try{
-            $employeeM = new EmployeeModel();
+            $employeeM = new EmployeeModel($this->corp_id);
             $employee_list = $employeeM->getEmployeeByStructId($struct_id,$start_num,$num);
             //var_exp($employee_list,'$employee_list',1);
             $this->assign('listdata',$employee_list);
@@ -85,14 +85,14 @@ class Structure extends Initialize
         $filter = $this->_getCustomerFilter(["structure","tel_email"]);
         //var_exp($filter,'$filter');
         try{
-            $employeeM = new EmployeeModel();
+            $employeeM = new EmployeeModel($this->corp_id);
             $employee_list = $employeeM->getEmployeeByNotStructId($struct_id,$start_num,$num,$filter,$order,$direction);
             //var_exp($employee_list,'$employee_list',1);
             $this->assign('listdata',$employee_list);
             $employees_count = $employeeM->countEmployeeByNotStructId($struct_id);
             //var_exp($employees_count,'$employees_count',1);
             $this->assign("count",$employees_count);
-            $rolM = new RoleModel();
+            $rolM = new RoleModel($this->corp_id);
             $roles = $rolM->getAllRole();
             $this->assign("roles",$roles);
         }catch (\Exception $ex){
@@ -168,7 +168,7 @@ class Structure extends Initialize
             return json($result);
         }
         try{
-            $struM = new StructureModel();
+            $struM = new StructureModel($this->corp_id);
             $check_flg = $struM->checkStructureLevelDeep($pid,$max_deep_level);
             if(!$check_flg){
                 exception("部门层级达到上限");
@@ -198,7 +198,7 @@ class Structure extends Initialize
      */
     public function renameStructure($struct_id,$new_name)
     {
-        $struM = new StructureModel();
+        $struM = new StructureModel($this->corp_id);
         $data = [
             'struct_name'=>$new_name,
         ];
@@ -221,7 +221,7 @@ class Structure extends Initialize
             'status' => false,
             'message'=> '查询部门员工数失败',
         ];
-        $employeeM = new EmployeeModel();
+        $employeeM = new EmployeeModel($this->corp_id);
         $in_struct_employee_num = $employeeM->getInStructEmployeenum($struct_id);
         $info = [
             'status'=>true,
@@ -240,7 +240,7 @@ class Structure extends Initialize
      */
     public function deleteStructure($struct_id,$trans)
     {
-        $struM = new StructureModel();
+        $struM = new StructureModel($this->corp_id);
         $st_res = $struM->getStructureInfo($struct_id);
         if (empty($st_res)) {
             return ['status'=>false,'message'=>'选择的部门不存在'];
@@ -250,7 +250,7 @@ class Structure extends Initialize
         $ids = deep_get_ids($st_res_all,$struct_id);
         $ids = implode(',',$ids);
 
-        $employeeM = new StructureEmployeeModel();
+        $employeeM = new StructureEmployeeModel($this->corp_id);
         $users = $employeeM->getEmployeeByStructIds($ids);
         if ($trans == 1) {
             //转移员工到默认组
@@ -329,7 +329,7 @@ class Structure extends Initialize
      */
     public function showPointedDepartment($struct_id,$page_now_num=0,$page_row=10)
     {
-        $employeeM = new EmployeeModel();
+        $employeeM = new EmployeeModel($this->corp_id);
         $total_num = $employeeM->countEmployeeByStructId($struct_id);
         $data = $employeeM->getEmployeeByStructId($struct_id,$page_now_num,$page_row);
         $res = ['data'=>$data,'page'=>['page_now_num'=>$page_now_num,'page_row'=>$page_row,'total_num'=>$total_num]];
@@ -362,7 +362,7 @@ class Structure extends Initialize
             $item_data["user_id"] = $user_id;
             $structEmployees[] = $item_data;
         }
-        $employeeM = new StructureEmployeeModel();
+        $employeeM = new StructureEmployeeModel($this->corp_id);
         $res = $employeeM->addMultipleStructureEmployee($structEmployees);
         if ($res >0) {
             $info=[
@@ -385,12 +385,12 @@ class Structure extends Initialize
         if($group==$to_group){
             return ['status'=>false,'message'=>'转移前后不能是同一部门!'];
         }
-        $struM = new StructureModel();
+        $struM = new StructureModel($this->corp_id);
         $st_res = $struM->getStructureInfo($to_group);
         if (empty($st_res)) {
             return ['status'=>false,'message'=>'选择的部门不存在'];
         }
-        $employeeM = new StructureEmployeeModel();
+        $employeeM = new StructureEmployeeModel($this->corp_id);
         $data = [
             'struct_id' => $to_group,
         ];
@@ -418,7 +418,7 @@ class Structure extends Initialize
      */
     public function delEmployeeStructure($user_id,$group)
     {
-        $employeeM = new StructureEmployeeModel();
+        $employeeM = new StructureEmployeeModel($this->corp_id);
         $data = [
             'struct_id' => $group,
         ];

@@ -26,6 +26,14 @@ class ContractSetting extends Base{
             ->select();
         return $contractSettingList;
     }
+
+    public function getAllContractName(){
+        $contractSettingList = $this->model
+            ->table($this->table)
+            ->order("id desc")
+            ->column("contract_name","id");
+        return $contractSettingList;
+    }
     /**
      * 查询合同设置
      * @param $num int 数量
@@ -61,6 +69,17 @@ class ContractSetting extends Base{
     public function addContractSetting($data)
     {
         return $this->model->table($this->table)->insertGetId($data);
+    }
+
+    /**
+     * 根据合同设置id获取合同设置
+     * @param $id
+     * @return int|string
+     * @throws \think\Exception
+     */
+    public function getContractSettingById($id)
+    {
+        return $this->model->table($this->table)->where('id',$id)->find();
     }
 
     /**
