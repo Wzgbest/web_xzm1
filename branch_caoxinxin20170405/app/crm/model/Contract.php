@@ -20,7 +20,46 @@ class Contract extends Base
         parent::__construct($corp_id);
     }
     /**
-     * 查询合同
+     * 查询所有合同
+     * @param $user_id int 用户id
+     * @param $type int 合同类型
+     * @param $status array 状态
+     * @param $order string 排序字段
+     * @param $direction string 排序顺序
+     * @return array|false
+     * @throws \think\Exception
+     */
+    public function getAllContract($user_id=null,$status=[],$type=null,$order="ca.id",$direction="desc"){
+        //筛选
+        $map = [];
+        if($user_id){
+            $map["ca.employee_id"] = $user_id;
+        }
+        if($type){
+            $map["contract_type"] = $type;
+        }
+        if(!empty($type)){
+            $map["ca.status"] = ["in",$status];
+        }
+        $map["c.status"] = 1;
+
+        //排序
+        if($direction!="desc" && $direction!="asc"){
+            $direction = "desc";
+        }
+        $order = $order." ".$direction;
+
+        $contractList = $this->model->table($this->dbprefix."contract")->alias('c')
+            ->join($this->table.' ca','ca.id = c.applied_id',"LEFT")
+            ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
+            ->where($map)
+            ->order($order)
+            ->field('c.*,ca.contract_type,ca.contract_num,cs.contract_name as contract_type_name')
+            ->select();
+        return $contractList;
+    }
+    /**
+     * 查询合同申请
      * @param $num int 数量
      * @param $page int 页
      * @param $filter array 合同筛选条件
