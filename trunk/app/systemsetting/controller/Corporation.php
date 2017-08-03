@@ -75,7 +75,7 @@ class Corporation extends Initialize
             'corp_product_keys' => $input['corp_product_keys'],
         ];
 
-        $corpM = new CorporationModel();
+        $corpM = new CorporationModel($this->corp_id);
         $res = $corpM->setCorporationInfo($this->corp_id,$data);
         if ($res >= 0) {
             $info['status'] = 1;
@@ -105,7 +105,7 @@ class Corporation extends Initialize
             'corp_lng' => $input['lng'],
         ];
 
-        $corpM = new CorporationModel();
+        $corpM = new CorporationModel($this->corp_id);
         $res = $corpM->setCorporationInfo($this->corp_id,$data);
         if ($res >= 0) {
             $info['message'] = '修改定位信息成功';

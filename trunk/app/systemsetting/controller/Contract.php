@@ -47,7 +47,7 @@ class Contract extends Initialize{
             "create_contract_num_6"=>"",
         ];
         $this->assign("contractSetting",$contractSetting);
-        $roleM = new RoleModel();
+        $roleM = new RoleModel($this->corp_id);
         $roles = $roleM->getAllRole();
         $this->assign('roles',$roles);
         $this->assign('roles_json',json_encode($roles));
@@ -105,7 +105,7 @@ class Contract extends Initialize{
                 "create_contract_num"=>$contractSetting["create_contract_num_6"]
             ];
         }
-        $roleM = new RoleModel();
+        $roleM = new RoleModel($this->corp_id);
         $roles = $roleM->getAllRole();
         $this->assign('roles',$roles);
         $this->assign('roles_json',json_encode($roles));

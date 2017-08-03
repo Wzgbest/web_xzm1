@@ -80,7 +80,7 @@ class Contract extends Base
         if(!empty($type)){
             $map["ca.status"] = ["in",$status];
         }
-        $map["c.status"] = 1;
+        $map["c.status"] = ["egt",1];
 
         //排序
         if($direction!="desc" && $direction!="asc"){

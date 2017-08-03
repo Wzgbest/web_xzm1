@@ -9,7 +9,6 @@ function list_manage(from,target,url,p,num,max,in_column,sub){
     this.in_column = parseInt(in_column);
     this.sub = sub;
     this.activity_buttons = new Array();
-    this.searchForm = $("#"+this.target+" ."+this.from+this.sub+" .search_form").serialize();;
 
     //事件绑定
     var self = this;
@@ -53,9 +52,22 @@ function list_manage(from,target,url,p,num,max,in_column,sub){
     };
     this.search=function(){
         //console.log($("#"+this.target+" ."+this.from+this.sub+" .search_form"));
-        this.searchForm = $("#"+this.target+" ."+this.from+this.sub+" .search_form").serialize();
+        var search_form_data = $("#"+this.target+" ."+this.from+this.sub+" .search_form").serialize();
         //console.log(search_form_data);
-        this.load_list(1,this.num,this.in_column);
+        var url = this.get_url(1,this.num,this.in_column);
+        $.ajax({
+            url: url,
+            type: 'post',
+            data: search_form_data,
+            success: function(data) {
+                //console.log(data);
+                //console.log('#frames #'+self.target+" ."+self.from+self.sub);
+                $('#frames #'+self.target+" ."+self.from+self.sub).html(data);
+            },
+            error: function() {
+                alert("搜索时发生错误!");
+            }
+        });
     };
     this.isSelect=function(){
         var selected_length = $("."+this.from+' .u-tabList .u-tabCheckbox :checked').length;
@@ -155,7 +167,7 @@ function list_manage(from,target,url,p,num,max,in_column,sub){
 
     //公共方法
     this.load_list=function(p,num,in_column){
-        loadPagebypost(this.get_url(p,num,in_column),this.searchForm,this.target+this.sub);
+        loadPage(this.get_url(p,num,in_column),this.target+this.sub);
     };
     this.get_url=function(p,num,in_column){
         return this.url+"/p/"+p+"/num/"+num+"/in_column/"+in_column;
