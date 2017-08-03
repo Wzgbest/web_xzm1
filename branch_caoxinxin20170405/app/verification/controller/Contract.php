@@ -91,4 +91,173 @@ class Contract extends Initialize{
         $field = [];
         return $field;
     }
+    public function approved(){
+        $result = ['status'=>0 ,'info'=>"通过合同申请时发生错误！"];
+        $contractAppliedM = new ContractAppliedModel($this->corp_id);
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $time = time();
+        $contractApplied = $contractAppliedM->getContract($id);
+        if(empty($contractApplied)){
+            $result['info'] = "未找到合同申请！";
+            return json($result);
+        }
+        $contract_apply_status = $contractApplied["contract_apply_status"];
+        if(empty($contract_apply_status) || $contract_apply_status>6){
+            $result['info'] = "审批流程出现问题,请联系管理员！";
+            return json($result);
+        }
+        $contract_apply_status = $contract_apply_status+1;
+        $applied_data["contract_apply_status"] = $contract_apply_status;
+        if(
+            $contract_apply_status!=6 &&
+            !empty($contractApplied["contract_apply_".($contract_apply_status+1)])
+        ){
+            //还有下一步审批,转为下一个人审批
+            $contractAppliedFlg = $contractAppliedM->setContract($id,$applied_data);
+            if(!$contractAppliedFlg){
+                $result['info'] = "审批失败！";
+                return json($result);
+            }
+        }else{
+            //最后一步审批,审批通过,生成合同,改为待领取
+            $applied_data["status"] = 1;
+            $contractAppliedFlg = $contractAppliedM->setContract($id,$applied_data);
+            if(!$contractAppliedFlg){
+                $result['info'] = "审批失败！";
+                return json($result);
+            }
+            $contractSettingModel = new ContractModel($this->corp_id);
+            $contract_setting = $contractSettingModel->getContractSettingById($contractApplied["contract_type"]);
+            $contract_num = $contractApplied["contract_num"];
+            $now_contract_no = $contract_setting["current_contract"];
+            $end_contract_no = $now_contract_no+$contract_num-1;
+            if($end_contract_no>$contract_setting["end_num"]){
+                $result['info'] = "审批失败,剩余合同号数量不足！";
+                return json($result);
+            }
+            $contract_arr = [];
+            $contract_item["applied_id"] = $id;
+            $contract_item["update_time"] = $time;
+            $contract_item["create_time"] = $time;
+            $contract_item["status"] = 1;
+            for($contract_no=$now_contract_no;$contract_no<=$end_contract_no;$contract_no++){
+                $contract_item["contract_no"] = $contract_no;
+                $contract_arr[] = $contract_item;
+            }
+            $contractCreateFlg = $contractAppliedM->createContractNos($contract_arr);
+            if(!$contractCreateFlg){
+                $result['info'] = "审批失败,生成合同号时出现错误！";
+                return json($result);
+            }
+            $applied_data = [];
+            $applied_data["status"] = 4;
+            $contractAppliedFlg = $contractAppliedM->setContract($id,$applied_data);
+            if(!$contractCreateFlg){
+                $result['info'] = "审批失败,更新合同申请状态时出现错误！";
+                return json($result);
+            }
+            $contractSettingModel = new ContractModel($this->corp_id);
+            $contract_setting_flg = $contractSettingModel->setContractSetting(
+                $contractApplied["contract_type"],
+                ["current_contract"=>["exp","current_contract + ".$contract_num]]//$contract_num
+            );
+            if(!$contract_setting_flg){
+                $result['info'] = "审批失败,更新合同当前合同号时出现错误！";
+                return json($result);
+            }
+        }
+        $result['status']=1;
+        $result['info']='通过合同申请成功!';
+        return $result;
+    }
+    public function rejected(){
+        $result = ['status'=>0 ,'info'=>"驳回合同申请时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $contractAppliedM = new ContractAppliedModel($this->corp_id);
+        $update_flg = $contractAppliedM->rejected($id,$uid);
+        if(!$update_flg){
+            $result['info'] = "驳回合同失败！";
+            return json($result);
+        }
+        $result['status']=1;
+        $result['info']='驳回合同申请成功!';
+        return $result;
+    }
+    public function invalid(){
+        $result = ['status'=>0 ,'info'=>"作废合同时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $result['status']=1;
+        $result['info']='作废合同开发中!';
+        return $result;
+    }
+    public function received(){
+        $result = ['status'=>0 ,'info'=>"已领取合同时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $result['status']=1;
+        $result['info']='已领取合同开发中!';
+        return $result;
+    }
+    public function remind(){
+        $result = ['status'=>0 ,'info'=>"提醒领取合同时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $result['status']=1;
+        $result['info']='提醒领取合同开发中!';
+        return $result;
+    }
+    public function refunded(){
+        $result = ['status'=>0 ,'info'=>"已退款时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $result['status']=1;
+        $result['info']='已退款开发中!';
+        return $result;
+    }
+    public function withdrawal(){
+        $result = ['status'=>0 ,'info'=>"收回合同时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $result['status']=1;
+        $result['info']='收回合同开发中!';
+        return $result;
+    }
 }

@@ -33,6 +33,7 @@ class Index extends Initialize{
         $filter = $this->_getCustomerFilter([]);
         $field = $this->_getCustomerField([]);
         //$filter["employee_id"] = $uid; // 审核人
+        $filter["status"] = 1;
         try{
             $saleChanceM = new SaleOrderContractModel($this->corp_id);
             $SaleOrderContractsData = $saleChanceM->getAllSaleOrderContractByPage($num,$p,$filter,$field,$order,$direction);
@@ -72,5 +73,43 @@ class Index extends Initialize{
     protected function _getCustomerField($field_column){
         $field = [];
         return $field;
+    }
+    public function approved(){
+        $result = ['status'=>0 ,'info'=>"通过成单申请时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $contractAppliedM = new SaleOrderContractModel($this->corp_id);
+        $update_flg = $contractAppliedM->approvedSaleOrderContract($id,$uid);
+        if(!$update_flg){
+            $result['info'] = "通过成单申请失败！";
+            return json($result);
+        }
+        $result['status']=1;
+        $result['info']='通过成单申请成功!';
+        return $result;
+    }
+    public function rejected(){
+        $result = ['status'=>0 ,'info'=>"驳回成单申请时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $contractAppliedM = new SaleOrderContractModel($this->corp_id);
+        $update_flg = $contractAppliedM->rejectedSaleOrderContract($id,$uid);
+        if(!$update_flg){
+            $result['info'] = "驳回成单申请失败！";
+            return json($result);
+        }
+        $result['status']=1;
+        $result['info']='驳回成单申请成功!';
+        return $result;
     }
 }

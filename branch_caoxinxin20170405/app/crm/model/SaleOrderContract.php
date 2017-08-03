@@ -172,8 +172,70 @@ class SaleOrderContract extends Base{
      * @return false|\PDOStatement|int|\think\Collection
      * created by blu10ph
      */
-    public function setSaleChanceVisitBySaleId($sale_id,$data)
+    public function setSaleOrderContractBySaleId($sale_id,$data)
     {
         return $this->model->table($this->table)->where('sale_id',$sale_id)->update($data);
+    }
+
+    /**撤回
+     * @param $id int 客户商机id
+     * @param $uid int 用户id
+     * @return false|\PDOStatement|int|\think\Collection
+     * created by blu10ph
+     */
+    public function retractSaleOrderContract($id,$uid){
+        $map['sc.id'] = $id;
+        $data["soc.status"] = 0;
+        $map['sc.sale_status'] = 4;
+        if($uid){
+            $map["sc.employee_id"] = $uid;
+        }
+        $data["soc.status"] = 3;
+        return $this->model->table($this->table)->alias('soc')
+            ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
+            ->where($map)
+            ->update($data);
+    }
+
+    /**通过
+     * @param $id int 客户商机id
+     * @param $uid int 用户id
+     * @return false|\PDOStatement|int|\think\Collection
+     * created by blu10ph
+     */
+    public function approvedSaleOrderContract($id,$uid){
+        $map['sc.id'] = $id;
+        $data["soc.status"] = 0;
+        $map['sc.sale_status'] = 4;
+        if($uid){
+            $map["sc.employee_id"] = $uid;
+        }
+        $data["soc.status"] = 1;
+        $data['sc.sale_status'] = 5;
+        return $this->model->table($this->table)->alias('soc')
+            ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
+            ->where($map)
+            ->update($data);
+    }
+
+    /**驳回
+     * @param $id int 客户商机id
+     * @param $uid int 用户id
+     * @return false|\PDOStatement|int|\think\Collection
+     * created by blu10ph
+     */
+    public function rejectedSaleOrderContract($id,$uid){
+        $map['sc.id'] = $id;
+        $data["soc.status"] = 0;
+        $map['sc.sale_status'] = 4;
+        if($uid){
+            $map["sc.employee_id"] = $uid;
+        }
+        $data["soc.status"] = 2;
+        //$data['sc.sale_status'] = 6;
+        return $this->model->table($this->table)->alias('soc')
+            ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
+            ->where($map)
+            ->update($data);
     }
 }
