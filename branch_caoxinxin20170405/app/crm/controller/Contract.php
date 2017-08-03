@@ -45,7 +45,10 @@ class Contract extends Initialize{
             $employeeM = new EmployeeModel($this->corp_id);
             $employee_name_index = $employeeM->getEmployeeNameByUserids($employee_ids);
             foreach ($contractApplieds as &$contractApplied){
-                if(isset($employee_name_index[$contractApplied["assessor"]])) {
+                if(
+                    isset($contractApplied["assessor"])&&
+                    isset($employee_name_index[$contractApplied["assessor"]])
+                ) {
                     $contractApplied["assessor_name"] = $employee_name_index[$contractApplied["assessor"]];
                 }else{
                     $contractApplied["assessor_name"] = '';
