@@ -189,14 +189,14 @@ class EmployeeImport extends Initialize{
         $telephones = array_filter($telephones);
         $telephones = array_unique($telephones);
 
-        $struM = new StructureModel();
+        $struM = new StructureModel($this->corp_id);
         $structs = $struM->getAllStructure();
         $structs_arr = [];
         foreach ($structs as $struct){
             $structs_arr[$struct["struct_name"]] = $struct["id"];
         }
         //var_exp($structs_arr,'$structs_arr');
-        $rolM = new RoleModel();
+        $rolM = new RoleModel($this->corp_id);
         $roles = $rolM->getAllRole();
         $roles_arr = [];
         foreach ($roles as $role){
@@ -405,14 +405,14 @@ class EmployeeImport extends Initialize{
             9 => "QQ号",
             10 => "微信号"
         ]];
-        $struM = new StructureModel();
+        $struM = new StructureModel($this->corp_id);
         $structs = $struM->getAllStructure();
         $structs_arr = [];
         foreach ($structs as $struct){
             $structs_arr[$struct["id"]] = $struct["struct_name"];
         }
         //var_exp($structs_arr,'$structs_arr');
-        $rolM = new RoleModel();
+        $rolM = new RoleModel($this->corp_id);
         $roles = $rolM->getAllRole();
         $roles_arr = [];
         foreach ($roles as $role){

@@ -64,13 +64,13 @@
                         	<li class="update-time">{$vo.update_time|day_format}</li>
                         	<li class="contract-number">{$vo.contract_num}</li>
                         	<li class="contract-type">{$vo.contract_type_name}</li>
-                        	<li class="contract-status">{$vo.status|getContractAppliedStatusName}</li>
+                        	<li class="contract-status">待领取</li>
                         	<li class="assessor">{$vo.assessor_name}</li>
                         	<li class="sale-id">网站建设</li>
                         	<li class="customer-id color-blue">山东中迅网络传媒</li>
                         	<li class="service">网站建设</li>
                         	<li class="order-status">定金</li>
-                        	<li class="status">已通过合同</li>
+                        	<li class="status">{$vo.status|getContractAppliedStatusName}</li>
                         	<li class="reject-reson">太丑</li>
                         	<li class="operate color-blue">撤回</li>
                         	<div class="clearfix"></div>

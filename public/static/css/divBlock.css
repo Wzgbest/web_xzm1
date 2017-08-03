@@ -47,6 +47,7 @@
 }
 .color-blue{
 	color: #77b8ff !important;
+	cursor: pointer;
 }
 .color-green{
 	color: #13ae6b;

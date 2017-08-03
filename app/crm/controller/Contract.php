@@ -45,7 +45,10 @@ class Contract extends Initialize{
             $employeeM = new EmployeeModel($this->corp_id);
             $employee_name_index = $employeeM->getEmployeeNameByUserids($employee_ids);
             foreach ($contractApplieds as &$contractApplied){
-                if(isset($employee_name_index[$contractApplied["assessor"]])) {
+                if(
+                    isset($contractApplied["assessor"])&&
+                    isset($employee_name_index[$contractApplied["assessor"]])
+                ) {
                     $contractApplied["assessor_name"] = $employee_name_index[$contractApplied["assessor"]];
                 }else{
                     $contractApplied["assessor_name"] = '';
@@ -321,36 +324,84 @@ class Contract extends Initialize{
     }
     public function rejected(){
         $result = ['status'=>0 ,'info'=>"驳回合同申请时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $contractAppliedM = new ContractAppliedModel($this->corp_id);
+        $update_flg = $contractAppliedM->rejected($id,$uid);
+        if(!$update_flg){
+            $result['info'] = "驳回合同失败！";
+            return json($result);
+        }
         $result['status']=1;
-        $result['info']='驳回合同申请开发中!';
+        $result['info']='驳回合同申请成功!';
         return $result;
     }
     public function invalid(){
         $result = ['status'=>0 ,'info'=>"作废合同时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $result['status']=1;
         $result['info']='作废合同开发中!';
         return $result;
     }
     public function received(){
         $result = ['status'=>0 ,'info'=>"已领取合同时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $result['status']=1;
         $result['info']='已领取合同开发中!';
         return $result;
     }
     public function remind(){
         $result = ['status'=>0 ,'info'=>"提醒领取合同时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $result['status']=1;
         $result['info']='提醒领取合同开发中!';
         return $result;
     }
     public function refunded(){
         $result = ['status'=>0 ,'info'=>"已退款时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $result['status']=1;
         $result['info']='已退款开发中!';
         return $result;
     }
     public function withdrawal(){
         $result = ['status'=>0 ,'info'=>"收回合同时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $result['status']=1;
         $result['info']='收回合同开发中!';
         return $result;

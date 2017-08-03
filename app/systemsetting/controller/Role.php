@@ -28,7 +28,7 @@ class Role extends Initialize{
      */
     public function index()
     {
-        $roleM = new RoleModel();
+        $roleM = new RoleModel($this->corp_id);
         $roles = $roleM->getAllRole();
         $this->assign('roles',$roles);
         return view();
@@ -40,7 +40,7 @@ class Role extends Initialize{
         foreach ($roles_str_arr as $roles_str){
             $role_ids = array_merge($role_ids,explode(",",$roles_str));
         }
-        $roleM = new RuleModel();
+        $roleM = new RuleModel($this->corp_id);
         $roles = $roleM->getRulesColumnByIds($role_ids);
         //var_exp($roles,'$roles',1);
         foreach ($roles as &$role){
@@ -99,10 +99,10 @@ class Role extends Initialize{
         $employee["role_id"] = explode(",",$employee["role_id"]);
         //var_exp($employee,'$employee',1);
         $this->assign("employee",$employee);
-        $struM = new StructureModel();
+        $struM = new StructureModel($this->corp_id);
         $structs = $struM->getAllStructure();
         $this->assign("structs",$structs);
-        $rolM = new RoleModel();
+        $rolM = new RoleModel($this->corp_id);
         $roles = $rolM->getAllRole();
         $this->assign("roles",$roles);
         return view();
@@ -130,7 +130,7 @@ class Role extends Initialize{
             $employees_count = $employeeM->getNotRoleEmployeeCountByRole($role_id,$filter);
             //var_exp($employees_count,'$employees_count',1);
             $this->assign("count",$employees_count);
-            $struM = new StructureModel();
+            $struM = new StructureModel($this->corp_id);
             $structs = $struM->getAllStructure();
             $this->assign("structs",$structs);
         }catch (\Exception $ex){
@@ -198,7 +198,7 @@ class Role extends Initialize{
      */
     public function showRoles()
     {
-        $rol = new RoleModel();
+        $rol = new RoleModel($this->corp_id);
         $data = $rol->getAllRole();
         return $data;
     }
@@ -211,7 +211,7 @@ class Role extends Initialize{
      */
     public function showRules($role_id)
     {
-        $rol = new RoleModel();
+        $rol = new RoleModel($this->corp_id);
         $roles = $rol->getRoleInfo($role_id);
         return $roles;
     }
@@ -224,7 +224,7 @@ class Role extends Initialize{
      */
     public function addRole($role_name)
     {
-        $rol = new RoleModel();
+        $rol = new RoleModel($this->corp_id);
         $data = [
             'role_name'=>$role_name,
         ];
@@ -252,7 +252,7 @@ class Role extends Initialize{
     public function editRole(Request $request)
     {
         $input = $request->param();
-        $rol = new RoleModel();
+        $rol = new RoleModel($this->corp_id);
         $data = [
             'role_name'=>$input['role_name']
         ];
@@ -280,12 +280,12 @@ class Role extends Initialize{
     {
         $input = $request->param();
         if ($request->isGet()) {
-            $rolRulM = new RoleModel();
+            $rolRulM = new RoleModel($this->corp_id);
             $roles = $rolRulM->getRoleInfo($input['role_id']);
             $this->assign('roles',$roles);
             return view();
         } elseif ($request->isPost()) {
-            $rolRulM = new RoleModel();
+            $rolRulM = new RoleModel($this->corp_id);
             $data = [
                 'roles'=>$input['roles']
             ];
@@ -381,7 +381,7 @@ class Role extends Initialize{
                 'message'=>'该角色包含成员，不能删除'
             ];
         }
-        $rolM = new RoleModel();
+        $rolM = new RoleModel($this->corp_id);
         $b = $rolM->deleteRole($input['role_id']);
         if ($b > 0) {
             return [
