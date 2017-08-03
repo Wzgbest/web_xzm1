@@ -32,6 +32,7 @@ class Index extends Initialize{
         $uid = $userinfo["userid"];
         $filter = $this->_getCustomerFilter([]);
         $field = $this->_getCustomerField([]);
+        //$filter["employee_id"] = $uid; // 审核人
         try{
             $saleChanceM = new SaleOrderContractModel($this->corp_id);
             $SaleOrderContractsData = $saleChanceM->getAllSaleOrderContractByPage($num,$p,$filter,$field,$order,$direction);

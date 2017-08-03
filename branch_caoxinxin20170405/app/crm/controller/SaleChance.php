@@ -19,6 +19,7 @@ use app\systemsetting\model\BusinessFlowItem;
 use app\systemsetting\model\BusinessFlowItemLink;
 use app\common\model\RoleEmployee as RoleEmployeeModel;
 use app\systemsetting\model\ContractSetting as ContractSettingModel;
+use app\crm\model\Contract as ContractAppliedModel;
 
 class SaleChance extends Initialize{
     protected $_activityBusinessFlowItem = [1,2,4];
@@ -39,6 +40,7 @@ class SaleChance extends Initialize{
         $uid = $userinfo["userid"];
         $filter = $this->_getCustomerFilter([]);
         $field = $this->_getCustomerField([]);
+        $filter["employee_id"] = $uid;
         try{
             $saleChanceM = new SaleChanceModel($this->corp_id);
             $SaleChancesData = $saleChanceM->getAllSaleChancesByPage($num,$p,$filter,$field,$order,$direction);
@@ -241,16 +243,17 @@ class SaleChance extends Initialize{
             //var_exp($role_employee_index,'$role_employee_index',1);
             $this->assign('role_employee_index',$role_employee_index);
 
-            $contractSettingModel = new ContractSettingModel($this->corp_id);
-            $contracts = $contractSettingModel->getAllContract();
+            $status = [5,7,8];
+            $contractAppliedModel = new ContractAppliedModel($this->corp_id);
+            $contracts = $contractAppliedModel->getAllContractNoAndType($uid,$status);
             //var_exp($contracts,'$contracts',1);
-            //$this->assign('contract_type_list',$contracts);
-            $contract_type_name = [];
+            $this->assign('contract_list',$contracts);
+            $contract_type_index = [];
             foreach($contracts as $contract){
-                $contract_type_name[$contract["id"]] = $contract["contract_name"];
+                $contract_type_index[$contract["id"]] = $contract["contract_type_name"];
             }
-            //$this->assign('contract_type_name',$contract_type_name);
-            $this->assign('contract_type_name_json',json_encode($contract_type_name,true));
+            $this->assign('contract_type_name_json',json_encode($contract_type_index,true));
+
             $show_fine = true;
         }
         $this->assign('show_fine',$show_fine);
