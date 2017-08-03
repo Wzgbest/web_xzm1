@@ -6,6 +6,6 @@ class Bill
 
     public function index()
     {
-        return '/verification/bill/index';
+        return view();
     }
 }

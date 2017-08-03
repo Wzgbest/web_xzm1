@@ -24,11 +24,11 @@
         </div>
         <div class="m-divBlock m-form">
             <div class="u-traceRecord creat-traceRecord hide">
-                <div class="circle  first"></div>
-                <textarea></textarea>
+                <div class="circle first"></div>
+                <textarea class="new-trace-remark"></textarea>
                 <div class="u-submitButton">
-                    <button>保存</button>
-                    <button>取消</button>
+                    <button class="new-trace-save">保存</button>
+                    <button class="new-trace-cancel">取消</button>
                 </div>
             </div>
             {volist name="customer_trace" id="vo" key="key"}
@@ -39,7 +39,26 @@
                     </div>
                     {volist name="vo" id="voi"}
                         <div class="detail">
-                            <span>{$voi.operator_user_name} {$voi.option_name} <span class="underline">{$voi.item_name} </span> {$voi.from_name} {$voi.link_name} <span class="underline">{$voi.to_name}</span></span>
+                            {eq name="voi.add_type" value="0"}
+                                <span>
+                                    {$voi.operator_user_name}
+                                    {$voi.option_name}
+                                    <span class="underline">
+                                        {$voi.item_name}
+                                    </span>
+                                    {$voi.from_name}
+                                    {$voi.link_name}
+                                    <span class="underline">
+                                        {$voi.to_name}
+                                    </span>
+                                </span>
+                            {else/}
+                                <span>
+                                    {$voi.operator_user_name}
+                                    添加了 跟踪记录
+                                    {$voi.remark}
+                                </span>
+                            {/eq}
                         </div>
                     {/volist}
                 </div>

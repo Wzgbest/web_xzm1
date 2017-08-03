@@ -63,6 +63,15 @@ class BillSetting extends Base{
     }
 
     /**
+     * 获取单个发票设置
+     * @param $id int 发票设置id
+     * @return int|string
+     */
+    public function getBillSettingById($id){
+        return $this->model->table($this->table)->where('id',$id)->find();
+    }
+
+    /**
      * 根据发票设置id修改发票设置
      * @param $id
      * @param $data

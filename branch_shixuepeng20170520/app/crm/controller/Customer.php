@@ -212,8 +212,6 @@ class Customer extends Initialize{
         $business_list = $business->getBusinessArray();
         //var_exp($business_list,'$business_list',1);
         $info_array["business_array"] = $business_list;
-
-        $this->assign($info_array);
         return $info_array;
     }
     public function add_page(){
@@ -228,6 +226,7 @@ class Customer extends Initialize{
     }
     public function general(){
         $info_array = $this->_showCustomer();
+        $this->assign($info_array);
         $employeeM = new EmployeeModel($this->corp_id);
         $handle_employee = $employeeM->getEmployeeByUserid($info_array["customer"]["handle_man"]);
         $this->assign("handle_employee",$handle_employee);
@@ -242,11 +241,13 @@ class Customer extends Initialize{
         return view();
     }
     public function show(){
-        $this->_showCustomer();
+        $info_array = $this->_showCustomer();
+        $this->assign($info_array);
         return view();
     }
     public function edit(){
-        $this->_showCustomer();
+        $info_array = $this->_showCustomer();
+        $this->assign($info_array);
         return view();
     }
     
@@ -733,7 +734,20 @@ class Customer extends Initialize{
         try{
             $customerM = new CustomerModel($this->corp_id);
             $customerData = $customerM->getCustomer($id);
-            //TODO 获取其他表内容
+            if(empty($customerData)){
+                exception("未找到客户!");
+            }
+            $employeeM = new EmployeeModel($this->corp_id);
+            $handle_employee = $employeeM->getEmployeeByUserid($customerData["handle_man"]);
+            $customerData["handle_employee"] = $handle_employee;
+            $add_employee = $employeeM->getEmployeeByUserid($customerData["add_man"]);
+            $customerData["add_employee"] = $add_employee;
+            $customerM = new SaleChanceModel($this->corp_id);
+            $SaleChancesData = $customerM->getAllSaleChancesByCustomerId($id);
+            $customerData["sale_chance"] = $SaleChancesData;
+            $customerM = new CustomerContactModel($this->corp_id);
+            $customerContactData = $customerM->getAllCustomerContactsByCustomerId($id);
+            $customerData["customer_contact"] = $customerContactData;
             $result['data'] = $customerData;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
@@ -777,24 +791,24 @@ class Customer extends Initialize{
             $customer['handle_man'] = ($customer['belongs_to']==2)?0:$uid;
         }
 
-        $customer['customer_name'] = input('customer_name');
-        $customer['telephone'] = input('telephone');
+        $customer['customer_name'] = input('customer_name','','string');
+        $customer['telephone'] = input('telephone','','string');
 
         $customer['resource_from'] = input('resource_from',0,'int');
-        $customer['grade'] = input('grade');
+        $customer['grade'] = input('grade','','string');
 
         $customer['field1'] = input('field1',0,'int');
         $customer['field2'] = input('field2',0,'int');
         $customer['field'] = input('field',0,'int');
-        $customer['prov'] = input('prov');
-        $customer['city'] = input('city');
-        $customer['dist'] = input('dist');
+        $customer['prov'] = input('prov','','string');
+        $customer['city'] = input('city','','string');
+        $customer['dist'] = input('dist','','string');
         $customer['address'] = input('address');
         $customer['location'] = input('location');
-        $customer['lat'] = input('lat',0,'float');
-        $customer['lng'] = input('lng',0,'float');
-        $customer['website'] = input('website');
-        $customer['remark'] = input('remark');
+        $customer['lat'] = "".number_format(input('lat',0,'float'),6);
+        $customer['lng'] = "".number_format(input('lng',0,'float'),6);
+        $customer['website'] = input('website','','string');
+        $customer['remark'] = input('remark','','string');
 
         $customer["last_edit_time"] = time();
         return $customer;
@@ -874,6 +888,7 @@ class Customer extends Initialize{
         $customerM = new CustomerModel($this->corp_id);
         $customerOldData = $customerM->getCustomer($id);
 
+        //var_exp($customerOldData,'$customerOldData');
         $customerIntersertData = array_intersect_key($customerOldData,$customer);
         unset($customerIntersertData["last_edit_time"]);
         //var_exp($customerIntersertData,'$customerIntersertData');
@@ -888,8 +903,8 @@ class Customer extends Initialize{
             $customersTrace["customer_id"] = $id;
             $customersTrace["db_table_name"] = 'customer';
             $customersTrace["db_field_name"] = $key;
-            $customersTrace["old_value"] = $customerOldData[$key];
-            $customersTrace["new_value"] = $customer[$key];
+            $customersTrace["old_value"] = isset($customerOldData[$key])?$customerOldData[$key]:"";
+            $customersTrace["new_value"] = isset($customer[$key])?$customer[$key]:"";
             $customersTrace["value_type"] = isset($updateItemName[$key][1])?$updateItemName[$key][1]:"";
             $func_name = $customersTrace["value_type"];
             $customersTrace["option_name"] = '更改了';

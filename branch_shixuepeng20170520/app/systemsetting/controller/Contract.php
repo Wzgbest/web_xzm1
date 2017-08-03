@@ -47,7 +47,7 @@ class Contract extends Initialize{
             "create_contract_num_6"=>"",
         ];
         $this->assign("contractSetting",$contractSetting);
-        $roleM = new RoleModel();
+        $roleM = new RoleModel($this->corp_id);
         $roles = $roleM->getAllRole();
         $this->assign('roles',$roles);
         $this->assign('roles_json',json_encode($roles));
@@ -105,7 +105,7 @@ class Contract extends Initialize{
                 "create_contract_num"=>$contractSetting["create_contract_num_6"]
             ];
         }
-        $roleM = new RoleModel();
+        $roleM = new RoleModel($this->corp_id);
         $roles = $roleM->getAllRole();
         $this->assign('roles',$roles);
         $this->assign('roles_json',json_encode($roles));
@@ -154,6 +154,27 @@ class Contract extends Initialize{
         }
         $result['status'] = 1;
         $result['info'] = "添加成功！";
+        return json($result);
+    }
+
+    public function get(){
+        $result = ['status'=>0 ,'info'=>"获取合同设置时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        try{
+            $contractSetting = $this->_contractSettingModel->getContractSettingById($id);
+            if(empty($contractSetting)){
+                exception("未找到合同设置!");
+            }
+            $result['data'] = $contractSetting;
+        }catch (\Exception $ex){
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "获取成功！";
         return json($result);
     }
 

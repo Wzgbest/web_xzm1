@@ -66,6 +66,19 @@
 .table-contract{
 	width: 1781px;
 } 
+/*审核*/
+.table-v-index{
+	width: 2096px;
+}
+.table-v-bill{
+	width: 1685px;
+}
+.table-v-contract{
+	width: 1830px;
+}
+.table-v-count{
+	width: 2238px;
+}
 .m-table ul{
 	border-bottom: 1px solid #eeeeee;
 }
@@ -108,6 +121,7 @@
 }
 .u-tabCilentName{
 	color: #77b8ff;
+	cursor: pointer;
 }
 .u-tabLinkWay{
 	color: #13ae6b;

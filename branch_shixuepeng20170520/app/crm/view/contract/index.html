@@ -25,14 +25,14 @@
                     	<select name="">
                 	        <option value="">合同类型</option>
 							{volist name="contract_type_list" id="vo"}
-							<option value="{$vo.id}">{$vo.contract_name}</option>
+								<option value="{$vo.id}">{$vo.contract_name}</option>
 							{/volist}
                 	    </select>
                     	<select name="">
                      	    <option value="">对应业务</option>
-                    	    <option value="1" >转介绍</option>
-                   	   		<option value="2" >搜索</option>
-                  	    	<option value="3" >购买</option>
+							{volist name="business_flow_list" id="vo"}
+								<option value="{$vo.id}">{$vo.business_flow_name}</option>
+							{/volist}
                  	    </select>
                 	    
                 	    <input type="text" name="" placeholder="输入合同编码" value=""/>
@@ -58,33 +58,35 @@
                         	<li class="operate">操作</li>
                         	<div class="clearfix"></div>
                     	</ul>
+						{volist name="list_data" id="vo"}
                     	<ul class="u-tabList">
-                        	<li class="creat-time">2017/07/24/09:24</li>
-                        	<li class="update-time">2017/07/24/09:25</li>
-                        	<li class="contract-number">12138</li>
-                        	<li class="contract-type">网站建设合同</li>
-                        	<li class="contract-status">已领取</li>
-                        	<li class="assessor">李白白</li>
+                        	<li class="creat-time">{$vo.create_time|day_format}</li>
+                        	<li class="update-time">{$vo.update_time|day_format}</li>
+                        	<li class="contract-number">{$vo.contract_num}</li>
+                        	<li class="contract-type">{$vo.contract_type_name}</li>
+                        	<li class="contract-status">待领取</li>
+                        	<li class="assessor">{$vo.assessor_name}</li>
                         	<li class="sale-id">网站建设</li>
                         	<li class="customer-id color-blue">山东中迅网络传媒</li>
                         	<li class="service">网站建设</li>
                         	<li class="order-status">定金</li>
-                        	<li class="status">已通过合同</li>
+                        	<li class="status">{$vo.status|getContractAppliedStatusName}</li>
                         	<li class="reject-reson">太丑</li>
                         	<li class="operate color-blue">撤回</li>
                         	<div class="clearfix"></div>
                     	</ul>
+						{/volist}
            	 		</div>
            	 	</div>
            	 	<div class="u-tabControlRow">
                 	<span>显示行数</span>
-                		<select>
-                  		    <option value="5" >5</option>
-                    		<option value="10"  selected="selected">10</option>
-                    		<option value="20" >20</option>
-                	</select>
-                	<span>1-10条/</span>
-                	<span>共10条</span>
+					<select>
+						<option value="5" {eq name="num" value="5"} selected="selected"{/eq}>5</option>
+						<option value="10" {eq name="num" value="10"} selected="selected"{/eq}>10</option>
+						<option value="20" {eq name="num" value="20"} selected="selected"{/eq}>20</option>
+					</select>
+					<span>{$start_num}-{$end_num}条/</span>
+					<span>共{$count}条</span>
                 	<button class="index_previous_page previous_page  disabled">上一页</button>
                 	<button class="index_next_page next_page  disabled">下一页</button>
                 	<span>前往</span>
@@ -103,7 +105,7 @@
 <script>
 	var i = '<i class="fa fa-unsorted"></i>';
 	var arr = [[0,3,5,12],[[1,"通过时间",i],2,3,4,5],[[1,"驳回时间",i],3,5,11],[[1,"撤回时间",i],3,5],[[1,"作废时间",i],2,3,5],[[1,"提交审核时间",i],2,3,5,7,8,12],[[1,"成单时间",i],2,3,5,6,7,8,9],[[1,"状态变更时间",i],2,3,5,6,7,8,9,10]];
-	var contract_index_list_manage = new list_manage("crm_contract_index","table-contract",arr);
+	var contract_index_list_manage = new list_manager("crm_contract_index","table-contract",arr);
 </script>
 <script src="/crm/js/PopUp.js"></script>
 <script>
