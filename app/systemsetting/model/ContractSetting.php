@@ -64,6 +64,17 @@ class ContractSetting extends Base{
     }
 
     /**
+     * 根据合同设置id获取合同设置
+     * @param $id
+     * @return int|string
+     * @throws \think\Exception
+     */
+    public function getContractSettingById($id)
+    {
+        return $this->model->table($this->table)->where('id',$id)->find();
+    }
+
+    /**
      * 根据合同设置id修改合同设置
      * @param $id
      * @param $data

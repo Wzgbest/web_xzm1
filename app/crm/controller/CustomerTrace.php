@@ -49,15 +49,14 @@ class CustomerTrace extends Initialize{
     public function get_list(){
         $result = ['status'=>0 ,'info'=>"获取跟踪记录时发生错误！"];
         $customer_id = input('customer_id',0,'int');
-        $last_time = input('last_time',0,'int');
-        $last_operator_id = input('last_operator_id',0,'int');
-        if(empty($customer_id)||empty($last_time)||empty($last_operator_id)){
+        $last_id = input('last_id',0,'int');
+        if(empty($customer_id)||empty($last_id)){
             $result['info'] = "参数错误！";
             return json($result);
         }
         $num = input('num',10,'int');
         $customerM = new CustomerTraceModel($this->corp_id);
-        $customerTraceList = $customerM->getCustomerTraceByLastId($customer_id,$last_operator_id,$last_time,$num);
+        $customerTraceList = $customerM->getCustomerTraceByLastId($customer_id,$last_id,$num);
         //var_exp($customerTraceList,'$customerTraceList',1);
         $customerTraceData = [];
         foreach($customerTraceList as $customerTrace){

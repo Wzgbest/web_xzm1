@@ -29,7 +29,7 @@ class Contract extends Initialize{
         try{
             $contractAppliedModel = new ContractAppliedModel($this->corp_id);
             $contractApplieds = $contractAppliedModel->getContractApplied($num,$p,$filter,$field,$order,$direction);
-            //var_exp($contracts,'$contracts',1);
+            //var_exp($contractApplieds,'$contractApplieds',1);
             $employee_ids = [];
             foreach ($contractApplieds as &$contractApplied){
                 $contract_apply_status = $contractApplied["contract_apply_status"];
@@ -219,6 +219,18 @@ class Contract extends Initialize{
     }
     public function approved(){
         $result = ['status'=>0 ,'info'=>"通过合同申请时发生错误！"];
+        $contractAppliedM = new ContractAppliedModel($this->corp_id);
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $contractApplied = $contractAppliedM->getContract($id);
+        $contractSettingModel = new ContractModel($this->corp_id);
+        $contract_sstting = $contractSettingModel->getContractSettingById($contractApplied["contract_type"]);
+        //TODO 审批通过,生成合同,改为待领取
         $result['status']=1;
         $result['info']='通过合同申请开发中!';
         return $result;

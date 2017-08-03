@@ -120,4 +120,74 @@ class Contract extends Base
         $map["status"] = 0;
         return $this->model->table($this->table)->where($map)->update($data);
     }
+
+    public function approved($id,$user_id=null){
+        if($user_id){
+            $data["employee_id"] = $user_id;
+        }
+        $data["status"] = 1;
+        $map["id"] = $id;
+        $map["status"] = 0;
+        return $this->model->table($this->table)->where($map)->update($data);
+    }
+
+    public function rejected($id,$user_id=null){
+        if($user_id){
+            $data["employee_id"] = $user_id;
+        }
+        $data["status"] = 2;
+        $map["id"] = $id;
+        $map["status"] = 0;
+        return $this->model->table($this->table)->where($map)->update($data);
+    }
+
+    public function invalid($id,$user_id=null){
+        if($user_id){
+            $data["employee_id"] = $user_id;
+        }
+        $data["status"] = 6;
+        $map["id"] = $id;
+        $map["status"] = 0;
+        return $this->model->table($this->table)->where($map)->update($data);
+    }
+
+    public function received($id,$user_id=null){
+        if($user_id){
+            $data["employee_id"] = $user_id;
+        }
+        $data["status"] = 5;
+        $map["id"] = $id;
+        $map["status"] = 0;
+        return $this->model->table($this->table)->where($map)->update($data);
+    }
+
+    public function remind($id,$user_id=null){
+        if($user_id){
+            $data["employee_id"] = $user_id;
+        }
+        $data["status"] = 8;
+        $map["id"] = $id;
+        $map["status"] = 0;
+        return $this->model->table($this->table)->where($map)->update($data);
+    }
+
+    public function refunded($id,$user_id=null){
+        if($user_id){
+            $data["employee_id"] = $user_id;
+        }
+        $data["status"] = 9;
+        $map["id"] = $id;
+        $map["status"] = 0;
+        return $this->model->table($this->table)->where($map)->update($data);
+    }
+
+    public function withdrawal($id,$user_id=null){
+        if($user_id){
+            $data["employee_id"] = $user_id;
+        }
+        $data["status"] = 7;
+        $map["id"] = $id;
+        $map["status"] = 0;
+        return $this->model->table($this->table)->where($map)->update($data);
+    }
 }
