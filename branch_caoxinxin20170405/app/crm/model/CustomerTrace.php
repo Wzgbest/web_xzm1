@@ -118,12 +118,13 @@ class CustomerTrace extends Base
             return [];
         }
         //var_exp($id_list,'$id_list',1);
+        $end_id = $id_list[0]['id'];
         $map = [];
-        if($last_id){
+        if($last_id&&$end_id){
             $map["ct.id"][] = ["lt",$last_id];
-            $map["ct.id"][] = ["egt",$id_list[0]['id']];
-        }else{
-            $map["ct.id"] = ["egt",$id_list[0]['id']];
+            $map["ct.id"][] = ["egt",$end_id];
+        }elseif($end_id){
+            $map["ct.id"] = ["egt",$end_id];
         }
         $map["ct.customer_id"] = $customer_id;
         return $this->model->table($this->table)->alias('ct')
