@@ -157,6 +157,27 @@ class Contract extends Initialize{
         return json($result);
     }
 
+    public function get(){
+        $result = ['status'=>0 ,'info'=>"获取合同设置时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        try{
+            $contractSetting = $this->_contractSettingModel->getContractSettingById($id);
+            if(empty($contractSetting)){
+                exception("未找到合同设置!");
+            }
+            $result['data'] = $contractSetting;
+        }catch (\Exception $ex){
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "获取成功！";
+        return json($result);
+    }
+
     public function update(){
         $result = ['status'=>0 ,'info'=>"更新合同设置时发生错误！"];
         $id = input("id",0,"int");
