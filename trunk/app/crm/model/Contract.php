@@ -142,6 +142,21 @@ class Contract extends Base
         return $this->model->table($this->table)->field($field)->insertAll($datas);
     }
 
+    public function createContractNo($data){
+        return $this->model->table($this->dbprefix."contract")->insertGetId($data);
+    }
+
+    public function createContractNos($datas){
+        $field = [
+            'applied_id',
+            'contract_no',
+            'update_time',
+            'create_time',
+            'status',
+        ];
+        return $this->model->table($this->dbprefix."contract")->field($field)->insertAll($datas);
+    }
+
     public function getContract($id){
         return $this->model->table($this->table)->where('id',$id)->find();
     }
