@@ -75,7 +75,7 @@ class Contract extends Base
             $map["ca.employee_id"] = $user_id;
         }
         if($type){
-            $map["contract_type"] = $type;
+            $map["ca.contract_type"] = $type;
         }
         if(!empty($type)){
             $map["ca.status"] = ["in",$status];
