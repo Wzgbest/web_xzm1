@@ -96,13 +96,17 @@ class CustomerTrace extends Base
 
     /**根据客户ID获取所有
      * @param $customer_id int 客户id
+     * @param $last_id int 最后一条跟踪记录id
+     * @param $num int 数量
      * @return false|\PDOStatement|int|\think\Collection
      * created by blu10ph
      */
-    public function getCustomerTraceByLastId($customer_id,$last_id,$num=10){
-
+    public function getCustomerTraceByLastId($customer_id,$last_id=null,$num=10){
+        $time_map = [];
+        if($last_id){
+            $time_map["id"] = ["lt",$last_id];
+        }
         $time_map["customer_id"] = $customer_id;
-        $time_map["id"] = ["lt",$last_id];
         $id_list = $this->model->table($this->table)
             ->where($time_map)
             ->field("id")
@@ -114,9 +118,14 @@ class CustomerTrace extends Base
             return [];
         }
         //var_exp($id_list,'$id_list',1);
+        $map = [];
+        if($last_id){
+            $map["ct.id"][] = ["lt",$last_id];
+            $map["ct.id"][] = ["egt",$id_list[0]['id']];
+        }else{
+            $map["ct.id"] = ["egt",$id_list[0]['id']];
+        }
         $map["ct.customer_id"] = $customer_id;
-        $map["ct.id"][] = ["lt",$last_record['id']];
-        $map["ct.id"][] = ["egt",$id_list[0]['id']];
         return $this->model->table($this->table)->alias('ct')
             ->join($this->dbprefix.'employee e','ct.operator_id = e.id',"LEFT")
             ->where($map)
