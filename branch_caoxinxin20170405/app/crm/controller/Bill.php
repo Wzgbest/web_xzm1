@@ -30,8 +30,8 @@ class Bill extends Initialize{
             if(empty($contractSetting)){
                 exception("未找到发票设置!");
             }
-            $contractSetting["bill_type"] = explode(",",$contractSetting["bill_type"]);
-            $contractSetting["bank_type"] = explode(",",$contractSetting["bank_type"]);
+            $contractSettingInfo["product_type"] = explode(",",$contractSetting["product_type"]);
+            $contractSettingInfo["bank_type"] = explode(",",$contractSetting["bank_type"]);
             $role_ids = [];
             $role_ids[] = $contractSetting["handle_1"];
             $role_ids[] = $contractSetting["handle_2"];
@@ -53,12 +53,12 @@ class Bill extends Initialize{
                 $role_employee_index[$role_id][] = $employeeinfo;
             }
             //var_exp($role_employee_index,'$role_employee_index',1);
-            $contractSetting["role_employee_index"] = $role_employee_index;
+            $contractSettingInfo["role_employee_index"] = $role_employee_index;
 
             $contractSettingModel = new ContractSettingModel($this->corp_id);
             $contracts = $contractSettingModel->getAllContractName();
             //var_exp($contracts,'$contracts',1);
-            $contractSetting["contract_list"] = $contracts;
+            $contractSettingInfo["contract_list"] = $contracts;
 
             $status = [5,7,8];
             $contractAppliedModel = new ContractAppliedModel($this->corp_id);
@@ -68,9 +68,9 @@ class Bill extends Initialize{
             foreach ($contracts as $contract){
                 $contract_type_index[$contract["contract_type"]][] = $contract;
             }
-            $contractSetting["contract_type_index"] = $contract_type_index;
+            $contractSettingInfo["contract_type_index"] = $contract_type_index;
 
-            $result['data'] = $contractSetting;
+            $result['data'] = $contractSettingInfo;
         }catch (\Exception $ex){
             $result["info"] = $ex->getMessage();
             return json($result);
