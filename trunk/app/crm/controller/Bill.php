@@ -30,6 +30,12 @@ class Bill extends Initialize{
             if(empty($contractSetting)){
                 exception("未找到发票设置!");
             }
+            $contractSettingInfo["handle_1"] = $contractSetting["handle_1"];
+            $contractSettingInfo["handle_2"] = $contractSetting["handle_2"];
+            $contractSettingInfo["handle_3"] = $contractSetting["handle_3"];
+            $contractSettingInfo["handle_4"] = $contractSetting["handle_4"];
+            $contractSettingInfo["handle_5"] = $contractSetting["handle_5"];
+            $contractSettingInfo["handle_6"] = $contractSetting["handle_6"];
             $contractSettingInfo["product_type"] = explode(",",$contractSetting["product_type"]);
             $contractSettingInfo["bank_type"] = explode(",",$contractSetting["bank_type"]);
             $role_ids = [];
@@ -62,11 +68,13 @@ class Bill extends Initialize{
 
             $status = [5,7,8];
             $contractAppliedModel = new ContractAppliedModel($this->corp_id);
-            $contracts = $contractAppliedModel->getAllContract($uid,$status);
+            $contracts = $contractAppliedModel->getAllContractNoAndType($uid,$status);
             //var_exp($contractApplieds,'$contractApplieds',1);
             $contract_type_index = [];
             foreach ($contracts as $contract){
-                $contract_type_index[$contract["contract_type"]][] = $contract;
+                $tmp["id"] = $contract["id"];
+                $tmp["contract_no"] = $contract["contract_no"];
+                $contract_type_index[$contract["contract_type"]][] = $tmp;
             }
             $contractSettingInfo["contract_type_index"] = $contract_type_index;
 
