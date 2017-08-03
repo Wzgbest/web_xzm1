@@ -404,6 +404,42 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 						$(edit_sale_chance_panel+" .sale-chance-finish").removeClass("hide");
 					}
 				});
+				var contract_type_name_json = $(edit_sale_chance_panel+" .contract_num_selecter").siblings("input").val();
+				//console.log(contract_type_name_json);
+				var contract_type_name_index = null;
+				try{
+					contract_type_name_index = JSON.parse(contract_type_name_json);
+				}catch (ex){
+					console.log(ex);
+				}
+				if(contract_type_name_index==null){
+					console.log("contract type name data not found");
+					contract_type_name_index = [];
+				}
+				//console.log(contract_type_name_index);
+				var get_contract_type_name_by_id = function(id){
+					var contract_type_name = "------";
+					if(id in contract_type_name_index){
+						contract_type_name = contract_type_name_index[id];
+					}
+					return contract_type_name;
+				};
+				var set_contract_type_name_by_id = function(target){
+					var contract_id = $(target).val();
+					if(!contract_id>0){
+						return;
+					}
+					var contract_type_name = get_contract_type_name_by_id(contract_id);
+					$(edit_sale_chance_panel+" .contract_type").text(contract_type_name);
+				};
+				$(edit_sale_chance_panel+" .contract_num_selecter").change(function(){
+					set_contract_type_name_by_id(this);
+				});
+				try{
+					set_contract_type_name_by_id($(edit_sale_chance_panel+" .contract_num_selecter"));
+				}catch (ex){
+					console.log(ex);
+				}
 				$(edit_sale_chance_panel+" .sale_chance_edit_save").click(function(){
 					self.sale_chance_edit_send(id,self.id);
 				});
