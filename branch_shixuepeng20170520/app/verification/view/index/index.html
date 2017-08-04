@@ -29,9 +29,15 @@
 		<div class="m-filterNav">
 			<select>
 				<option>部门</option>
+				{volist name="structs" id="vo"}
+				<option value="{$vo.id}" {present name='filter.structure'}{eq name='filter.structure' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.struct_name}</option>
+				{/volist}
 			</select>
 			<select>
 				<option>对应业务</option>
+				{volist name="business_flows" id="vo"}
+				<option value="{$vo.id}">{$vo.business_flow_name}</option>
+				{/volist}
 			</select>
 			<select>
 				<option>收款银行</option>
@@ -64,42 +70,58 @@
 					<li>所在列</li>-->
 					<li>分类</li>
 					<li>备注<i class="fa fa-unsorted"></i></li>
+					<li>对应状态</li>
 					<li>操作</li>
 					<div class="clearfix"></div>
 				</ul>
+				{volist name="list_data" id="vo"}
 				<ul class="u-tabList">
 					<li class="u-tabCheckbox"><input type="checkbox"/></li>
-					<li >2017/02/28</li>
-					<li>3245907</li>
-					<li>赵晓飞</li>
-					<li>销售一部</li>
-					<li>网站建设</li>
-					<li>公司官网首页</li>
-					<li>3,000.00元</li>
-					<li>3,000.00元</li>
-					<li class="u-tabLinkWay">3,000.00元<i class="fa fa-phone"></i></li>
+					<li>{$vo.update_time|time_format}</li>
+					<li>{present name="vo.contract_no"}{$vo.contract_no}{/present}</li>
+					<li>{$vo.employee_name}</li>
+					<li>{$vo.struct_name}</li>
+					<li>{$business_flow_names[$vo['business_id']]}</li>
+					<li>{$vo.prod_desc}</li>
+					<li>{$vo.need_money}元</li>
+					<li>{$vo.payed_money}元</li>
+					<li class="u-tabLinkWay">{$vo.pay_money}元<i class="fa fa-phone"></i></li>
 					<li>招商银行</li>
-					<li>潍坊中迅推广</li>
+					<li>{$vo.pay_name}</li>
 					<li>2017/03/02</li>
 					<!--<li>1天23:59</li>
 					<li>待沟通客户</li>-->
 					<li>定金审核</li>
 					<li>客户要求时间急</li>
-					<li class="u-tabOperation"><span>驳回</span><span>通过</span><span>备注通过</span></li>
+					<li class="status">
+						{eq name="vo.status" value="1"}
+						{$vo.contract_status|getContractAppliedStatusName}
+						{else/}
+						{$vo.status|getContractAppliedStatusName}
+						{/eq}
+					</li>
+					<li class="u-tabOperation">
+						{eq name="vo.status" value="0"}
+							<span>驳回</span>
+							<span>通过</span>
+							<span>备注通过</span>
+						{/eq}
+					</li>
 					<div class="clearfix"></div>
 				</ul>
+				{/volist}
 			</div>
 			
 		</div>
 		<div class="u-tabControlRow">
 			<span>显示行数</span>
-			<select onchange="listNumChange()">
-				<option value="5">5</option>
-				<option value="10">10</option>
-				<option value="20">20</option>
+			<select>
+				<option value="5" {eq name="num" value="5"} selected="selected"{/eq}>5</option>
+				<option value="10" {eq name="num" value="10"} selected="selected"{/eq}>10</option>
+				<option value="20" {eq name="num" value="20"} selected="selected"{/eq}>20</option>
 			</select>
-			<span>1-10条/</span>
-			<span>共50条</span>
+			<span>{$start_num}-{$end_num}条/</span>
+			<span>共{$count}条</span>
 			<button>上一页</button>
 			<button>下一页</button>
 			<span>前往</span>

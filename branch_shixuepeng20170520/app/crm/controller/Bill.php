@@ -14,6 +14,10 @@ class Bill extends Initialize{
         $this->paginate_list_rows = config("paginate.list_rows");
     }
 
+    public function bill_apply(){
+        return view();
+    }
+
     public function get_bill_setting(){
         $result = ['status'=>0 ,'info'=>"获取发票设置时发生错误！"];
         $id = input("id",0,"int");
@@ -86,5 +90,28 @@ class Bill extends Initialize{
         $result['status'] = 1;
         $result['info'] = "获取成功！";
         return json($result);
+    }
+
+    public function apply(){
+        $bill_apply = input("bill_apply");
+        var_exp($bill_apply,'$bill_apply',1);
+    }
+    public function retract(){
+        $result = ['status'=>0 ,'info'=>"撤回发票申请时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $update_flg = false;
+        if(!$update_flg){
+            $result['info'] = "撤回发票申请失败！";
+            return json($result);
+        }
+        $result['status']=1;
+        $result['info']='撤回发票申请成功!';
+        return $result;
     }
 }

@@ -28,25 +28,33 @@
         <div class="m-divBlock m-form sale-chance-record sale-chance-record-{$vo.id}">
             <div class="z-recordState">
                 {lt name="vo.sale_status" value="5"}
-                <div class="z-modify">
-                    <div class="edit2 sale_chance_edit">
-                        <i class="fa fa-file-text-o fa-2x"></i></br><span>编辑</span>
-                    </div>
-                    <div class="edit2 sale_chance_invalid">
-                        <i class="fa fa-2x fa-file-excel-o"></i></br><span>作废</span>
-                    </div>
+                    {if condition="($vo.sale_status==4) AND ($vo.order_status==0)"}
+                        <div class="z-backspace">
+                            <div class="edit2 sale_chance_reply">
+                                <i class="fa fa-2x fa-reply"></i></br>
+                                <span>撤回</span>
+                            </div>
+                        </div>
+                    {elseif condition="($vo.sale_status==4) AND ($vo.order_status==2)"/}
+                        <div class="z-reapply sale_chance_refresh">
+                            <div class="edit2">
+                                <i class="fa fa-2x fa-refresh" style="margin-left: 13px;"></i></br>
+                                <span>重新申请</span>
+                            </div>
+                        </div>
+                    {else/}
+                        <div class="z-modify">
+                            <div class="edit2 sale_chance_edit">
+                                <i class="fa fa-file-text-o fa-2x"></i></br>
+                                <span>编辑</span>
+                            </div>
+                            <div class="edit2 sale_chance_invalid">
+                                <i class="fa fa-2x fa-file-excel-o"></i></br>
+                                <span>作废</span>
+                            </div>
+                        </div>
+                    {/if}
                     <input type="hidden" class="edit_id" value="{$vo.id}"/>
-                </div>
-                <div class="z-backspace hide">
-                    <div class="edit2">
-                        <i class="fa fa-2x fa-reply"></i></br><span>撤回</span>
-                    </div>
-                </div>
-                <div class="z-reapply hide">
-                    <div class="edit2">
-                        <i class="fa fa-2x fa-refresh" style="margin-left: 13px;"></i></br><span>重新申请</span>
-                    </div>
-                </div>
                 {/lt}
                 {eq name="vo.sale_status" value="5"}
                 <div class="z-win">
@@ -92,7 +100,7 @@
             <div class="sale-chance-visit-record">
                 <div>
                     <span class="cont">拜访时间：</span>
-                    <span class="cont-x">{$vo.visit_time|day_format}</span>
+                    <span class="cont-x">{$vo.visit_time|time_format}</span>
                     <span class="cont">拜访地点：</span>
                     <span class="cont-x">{$vo.visit_place}</span>
                 </div>
@@ -120,7 +128,7 @@
                 </div>
                 <div>
                     <span class="cont">发票类型：</span>
-                    <span class="cont-x"><span class="number">7,000</span> 元<span class="cont-in">发票带领取</span></span>
+                    <span class="cont-x"><span class="number">7,000</span> 元<span class="cont-in">发票待领取</span></span>
                 </div>
                 <div>
                     <span class="cont">定金：</span>
@@ -128,7 +136,7 @@
                 </div>
                 <div>
                     <span class="cont">尾中款：</span>
-                    <span class="cont-x"><span class="number">500</span> 元<span class="cont-in color-blue">申请发票</span></span>
+                    <span class="cont-x"><span class="number">500</span> 元<span class="cont-in color-blue bill-apply">申请发票</span></span>
                 </div>
                 <div>
                     <span class="cont">共缴纳：</span>
@@ -150,5 +158,12 @@
             {/egt}
         </div>
         {/volist}
+        <div id="create-bill"  class="popUp hide">
+
+        </div>
     </section>
 </section>
+<script src="/crm/js/PopUp.js"></script>
+<script>
+    var pop = new pop("#create-bill","/crm/bill/bill_apply/",".bill-apply");
+</script>
