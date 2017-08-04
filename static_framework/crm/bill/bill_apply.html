@@ -4,23 +4,256 @@
 <div class="pop_content m-form">
 	<div class="pop_bill_block">
 		<h2 class="cont">发票类型</h2>
-		<select>
+		<select class="bill-type">
 			<option></option>
+			<option value="1">增值类</option>
+			<option value="2">百度类</option>
+			<option value="3">建站类</option>
 		</select>
 		<div class="line">
 			<span class="cont-max">关联成单合同</span>
-			<select>
+			<select class="contract-type">
 				<option></option>
 			</select>
 			<span class="cont">合同编号</span>
-			<select>
+			<select class="contract_number">
 				<option></option>
 			</select>
 		</div>
+		<div class="line">
+			<span class="cont">开票金额:</span>
+			<span class="cont-x">6000元</span>
+			<span class="cont">公司名称:</span>
+			<span class="cont-x">山东中迅网络传媒</span>
+		</div>
+		<div class="line">
+			<span class="cont">公司税号</span>
+			<input class="tax-number" type="text" />
+		</div>
+	</div>
+	<div class="pop_bill_block">
+		<h2 class="cont">产品类型</h2>
+		<ul class="product-type">
+			<!--<li><input type="checkbox"/><span class="cont">百度</span><input type="text"/>元</li>-->
+		</ul>
+		<h4>注：所填写的总金额需满足默认开票金额才可提交</h4>
+	</div>
+	<div class="pop_bill_block pay-way-box">
+		<h2 class="cont">打款方式</h2>
+		<div>
+			<input type="radio" class="cash pay-way" name="way-pay" value="现金"/>现金
+			<input type="radio" class="bank pay-way"  name="way-pay" value="银行"/>银行
+			<select class="bank-type" disabled="disabled">
+				<option></option>
+			</select>
+		</div>
+	</div>
+	<div class="pop_bill_block">
+		<span class="cont exam-man hide">一审人</span>
+			<select class="exam-man-s hide">
+				<option></option>
+			</select >
+			<span class="cont exam-man hide">二审人</span>
+			<select class="exam-man-s hide">
+				<option></option>
+			</select>
+		</div>
+	<div class="pop_bill_block">
+		<span class="cont exam-man hide">三审人</span>
+		<select class="exam-man-s hide">
+			<option></option>
+		</select>
+		<span class="cont exam-man hide">四审人</span>
+		<select class="exam-man-s hide">
+			<option></option>
+		</select>
+	</div>	
+	<div class="pop_bill_block">
+		<span class="cont exam-man hide">五审人</span>
+		<select class="exam-man-s hide">
+			<option></option>
+		</select>
+		<span class="cont exam-man hide">六审人</span>
+		<select class="exam-man-s hide">
+			<option></option>
+		</select>
 	</div>
 	<div class="u-submitButton">
 		<button class="pop-submit-btn">申请</button>
 		<button class="pop-close-btn">取消</button>
 	</div>
 </div>
+<script>
+	var json_data= new Object();
+	$(".pop-submit-btn").click(function(){
+		json_data.bill_type = $(".pop_bill_block .bill-type").val();
+		json_data.contract_type = $(".pop_bill_block .contract-type").val();
+		json_data.contract_number = $(".pop_bill_block .contract-number").val();
+		json_data.tax_num = $(".pop_bill_block .tax-number").val();
+		var check = $(".pop_bill_block .product-type input[type='checkbox']");
+		var arr2 = new Array();
+		var j=0;
+		for(var i=0;i<check.length;i++){			
+			if(check.eq(i).prop("checked")){
+//				console.log(3);
+/*				console.log(check.eq(i).siblings("span").text());
+				console.log(check.eq(i).siblings("input").val());*/
+				arr2[j] = new Object();
+				arr2[j].product_type = check.eq(i).siblings("span").text();
+				arr2[j].product_type_money = check.eq(i).siblings("input").val();
+				j++;
+			}
+		}
+		json_data.product_type = arr2;
+		json_data.pay_way = new Object();
+		var way = $(".pop_bill_block .pay-way");
+		if($(".pay-way-box .cash").prop("checked")){
+			json_data.pay_way.way = "现金";
+			json_data.pay_way.bank_type = null;
+		}else if($(".pay-way-box .bank").prop("checked")){
+			json_data.pay_way.way = "银行";
+			json_data.pay_way.bank_type = $(".pay-way-box .bank-type").val();
+		}
+		json_data.handle = new Object();
+		var exm = $(".pop_bill_block .exam-man-s").not(".hide");
+//		console.log(exm.length);
+		for(var i=1;i<=exm.length;i++){
+			json_data.handle["handle_"+i]=exm.eq(i-1).val();
+		}
+		$.ajax({
+	        url: '/crm/bill/apply',
+	        type: 'post',
+	        data: "bill_apply="+JSON.stringify(json_data),
+	        success: function(data) {
+	            alert(data.info);
+	            $("#create-bill").children().remove();
+	        },
+	        error: function() {
+	            alert("申请时发生错误!");
+	        }
+	   });
+		console.log(json_data);
+	});
+	//获取到的数据
+	var master;
+	//发票类型的值
+	var bill_type;
+	$(".pop_bill_block .bill-type").change(function(){
+		bill_type = $(this).val();
+		var d = "id/"+bill_type;
+//			console.log(d);
+		$.ajax({
+	        url: '/crm/bill/get_bill_setting/'+d,
+	        type: 'get',
+	        dataType:"json",
+	        success: function(data) {
+	        	if(data.status!=1){
+	            	alert(data.info);
+	        	}
+	        	
+//	        	product_type = master.product_type;
+//	        	console.log(master);
+	        	dataHandler(data);
+	        	master = data.data;
+	        	productTypeHandler();
+	        	bankHandler();
+	        	examManHandler();
+	        },
+	        error: function() {
+	            alert("申请时发生错误!");
+	        }
+	   });
+	   
+//	   console.log(master);
+		
+	});
+	function productTypeHandler(){
+		var product_type = master.product_type;
+//	   console.log(product_type);
+	   $(".pop_bill_block .product-type").empty();
+	   for(var i=0;i<product_type.length;i++){
+	   		$(".pop_bill_block .product-type").append('<li><input type="checkbox"/><span class="cont">'+product_type[i]+'</span><input type="text" readonly="readonly"/>元</li>');
+	   }
+	}
+	function bankHandler(){
+		var bank_type = master.bank_type;
+//		console.log($(".pop_bill_block .bank").prop("checked"));
+		$(".pop_bill_block .pay-way").click(function(){
+			if($(".pop_bill_block .bank").prop("checked")){
+			$(".pop_bill_block .bank-type").removeAttr("disabled");
+			$(".pop_bill_block .bank-type").html("<option></option>");
+			   for(var i=0;i<bank_type.length;i++){
+			   		$(".pop_bill_block .bank-type").append("<option>"+bank_type[i]+"</option>");
+			   }
+			}else{
+				$(".pop_bill_block .bank-type").attr("disabled","disabled");
+			}
+		});
+		
+		
+	}
+	function examManHandler(){
+		var exam = master.role_employee_index;
+//		console.log(exam);
+		$("#create-bill .exam-man").addClass("hide");
+		$("#create-bill .exam-man-s").addClass("hide");
+		for(var i=1;i<=6;i++){	
+//			console.log(i);
+			if(master["handle_"+i]!=0){
+//				console.log(master["handle_"+i],i);
+				$("#create-bill .exam-man").eq(i-1).removeClass("hide");
+				$("#create-bill .exam-man-s").eq(i-1).removeClass("hide");
+				$("#create-bill .exam-man-s").eq(i-1).html("<option></option>")
+				var arr1 = exam[master["handle_"+i]];//数组
+				for(var j=0;j<arr1.length;j++){
+					$("#create-bill .exam-man-s").eq(i-1).append("<option value="+arr1[j].user_id+">"+arr1[j].truename+"</option>");
+				}
+				
+			}
+		}
+	}
+	function dataHandler(e){
+//		console.log(e.data);
+//		master = e.data;
+		//合同类型的选择
+		var contract_list = e.data.contract_list;
+//		console.log(contract_list);
+		var x;
+		$(".pop_bill_block .contract-type").html("<option></option>");
+		for(x in contract_list){
+			$(".pop_bill_block .contract-type").append("<option value="+x+">"+contract_list[x]+"</option>");
+		}
+		
+	}
+	//合同编码
+		$(".pop_bill_block .contract-type").change(function(){
+			//类型的值
+			var type = $(this).val();
+			$(".pop_bill_block .contract_number").html("<option></option>");
+			//库里的合同编号总列表
+			var contract_number = master.contract_type_index;
+			var contract_number_list = contract_number[type];
+//			console.log(contract_number_list);
+			if(contract_number_list){				
+				var x;
+				for(x in contract_number_list){
+					$(".pop_bill_block .contract_number").append("<option value="+contract_number_list[x].id+">"+contract_number_list[x].contract_no+"</option>");
+				}
+			}			
+		});
+	//产品类型的checkbox
+	$(document).on("click",".pop_bill_block .product-type input[type='checkbox']",function(){
+//		console.log($(this).prop("checked"));
+		if($(this).prop("checked")){
+			/*$(this).removeProp("checked");
+			$(this).siblings("input[type='text']").attr("readonly","readonly");*/
+			$(this).siblings("input[type='text']").removeAttr("readonly");
+		}else{
+			/*$(this).prop("checked","checked");
+			$(this).siblings("input[type='text']").removeAttr("readonly");*/
+			$(this).siblings("input[type='text']").attr("readonly","readonly");
+		}
+	});
+	
+</script>
 <link rel="stylesheet" href="/crm/css/popUp.css" />

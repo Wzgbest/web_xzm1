@@ -55,10 +55,34 @@
 }
 .popUp .pop_content .pop_bill_block{
 	padding-left: 55px;
+	font-size: 14px;
 }
 .popUp .pop_content .pop_bill_block h2{
 	display: inline-block;
+	line-height: 39px;
 }
+.popUp .pop_content .pop_bill_block h4{
+	color: #6b7a99;
+	font-size: 12px;
+	display: inline-block;
+	line-height: 39px;
+	margin-left: 30px;
+}
+.popUp .pop_content .pop_bill_block .product-type .cont{
+	width: 44px;
+	margin-left: 50px;
+}
+.popUp .pop_content .pop_bill_block .cont-x{
+	width: 270px !important;
+}
+.popUp .pop_content .pop_bill_block .line{
+	line-height: 39px;
+}
+.popUp .pop_content .pop_bill_block input[type="checkbox"]{
+	margin-right: -36px;
+    margin-left: 30px;
+}
+
 .popUpClose{
 	position: absolute;
 	width: 18px;
