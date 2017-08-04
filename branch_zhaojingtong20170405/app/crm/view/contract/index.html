@@ -62,7 +62,7 @@
                     	<ul class="u-tabList">
                         	<li class="creat-time">{$vo.create_time|day_format}</li>
                         	<li class="update-time">{$vo.update_time|day_format}</li>
-                        	<li class="contract-number">{$vo.contract_num}</li>
+                        	<li class="contract-number">{present name="vo.contract_no"}{$vo.contract_no}{/present}</li>
                         	<li class="contract-type">{$vo.contract_type_name}</li>
                         	<li class="contract-status">待领取</li>
                         	<li class="assessor">{$vo.assessor_name}</li>
@@ -70,9 +70,15 @@
                         	<li class="customer-id color-blue">山东中迅网络传媒</li>
                         	<li class="service">网站建设</li>
                         	<li class="order-status">定金</li>
-                        	<li class="status">{$vo.status|getContractAppliedStatusName}</li>
+                        	<li class="status">
+								{eq name="vo.status" value="1"}
+									{$vo.contract_status|getContractAppliedStatusName}
+								{else/}
+									{$vo.status|getContractAppliedStatusName}
+								{/eq}
+							</li>
                         	<li class="reject-reson">太丑</li>
-                        	<li class="operate color-blue">撤回</li>
+                        	<li class="operate color-blue">{eq name="vo.status" value="0"}撤回{/eq}</li>
                         	<div class="clearfix"></div>
                     	</ul>
 						{/volist}

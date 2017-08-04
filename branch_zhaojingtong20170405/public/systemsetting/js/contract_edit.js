@@ -8,7 +8,7 @@
 
 var contract_setting_apply_arr = null;
 try{
-    var contract_setting_apply_arr = JSON.parse(contract_setting_applys);
+    contract_setting_apply_arr = JSON.parse(contract_setting_applys);
 }catch (ex){
     console.log(ex);
 }

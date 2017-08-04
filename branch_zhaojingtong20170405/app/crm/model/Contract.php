@@ -75,7 +75,7 @@ class Contract extends Base
             $map["ca.employee_id"] = $user_id;
         }
         if($type){
-            $map["contract_type"] = $type;
+            $map["ca.contract_type"] = $type;
         }
         if(!empty($type)){
             $map["ca.status"] = ["in",$status];
@@ -124,12 +124,14 @@ class Contract extends Base
         $order = $order." ".$direction;
 
         $contractAppliedList = $this->model->table($this->table)->alias('ca')
+            ->join($this->dbprefix.'contract c','c.applied_id = ca.id',"LEFT")
             ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
             ->where($map)
             ->order($order)
             ->limit($offset,$num)
-            ->field('ca.*,cs.contract_name as contract_type_name')
+            ->field('ca.*,c.contract_no,c.status as contract_status,cs.contract_name as contract_type_name')
             ->select();
+        //var_exp($contractAppliedList,'$contractAppliedList',1);
         if($num==1&&$page==0&&$contractAppliedList){
             $contractAppliedList = $contractAppliedList[0];
         }
@@ -145,8 +147,8 @@ class Contract extends Base
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
 
-        $contractAppliedCount= $this->model
-            ->table($this->table)
+        $contractAppliedCount= $this->model->table($this->table)->alias('ca')
+            ->join($this->dbprefix.'contract c','c.applied_id = ca.id',"LEFT")
             ->where($map)
             ->count();
         return $contractAppliedCount;
@@ -240,7 +242,7 @@ class Contract extends Base
         $data["status"] = 6;
         $map["id"] = $id;
         $map["status"] = 0;
-        return $this->model->table($this->table)->where($map)->update($data);
+        return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
     }
 
     public function received($id,$user_id=null){
@@ -250,7 +252,7 @@ class Contract extends Base
         $data["status"] = 5;
         $map["id"] = $id;
         $map["status"] = 0;
-        return $this->model->table($this->table)->where($map)->update($data);
+        return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
     }
 
     public function remind($id,$user_id=null){
@@ -260,7 +262,7 @@ class Contract extends Base
         $data["status"] = 8;
         $map["id"] = $id;
         $map["status"] = 0;
-        return $this->model->table($this->table)->where($map)->update($data);
+        return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
     }
 
     public function refunded($id,$user_id=null){
@@ -270,7 +272,7 @@ class Contract extends Base
         $data["status"] = 9;
         $map["id"] = $id;
         $map["status"] = 0;
-        return $this->model->table($this->table)->where($map)->update($data);
+        return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
     }
 
     public function withdrawal($id,$user_id=null){
@@ -280,6 +282,6 @@ class Contract extends Base
         $data["status"] = 7;
         $map["id"] = $id;
         $map["status"] = 0;
-        return $this->model->table($this->table)->where($map)->update($data);
+        return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
     }
 }

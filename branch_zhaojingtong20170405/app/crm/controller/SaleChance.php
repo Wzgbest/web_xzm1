@@ -15,17 +15,70 @@ use app\crm\model\SaleChanceVisit as SaleChanceVisitModel;
 use app\crm\model\SaleOrderContract as SaleOrderContractModel;
 use app\crm\model\CustomerTrace;
 use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
+use app\systemsetting\model\BusinessFlowItem;
 use app\systemsetting\model\BusinessFlowItemLink;
 use app\common\model\RoleEmployee as RoleEmployeeModel;
-use app\systemsetting\model\ContractSetting as ContractSettingModel;
+use app\crm\model\Contract as ContractAppliedModel;
 
 class SaleChance extends Initialize{
     protected $_activityBusinessFlowItem = [1,2,4];
+    var $paginate_list_rows = 10;
     public function __construct(){
         parent::__construct();
+        $this->paginate_list_rows = config("paginate.list_rows");
     }
     public function index(){
+        $num = input('num',$this->paginate_list_rows,'int');
+        $p = input("p",1,"int");
+        $customers_count=0;
+        $start_num = ($p-1)*$num;
+        $end_num = $start_num+$num;
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $filter = $this->_getCustomerFilter([]);
+        $field = $this->_getCustomerField([]);
+        $filter["employee_id"] = $uid;
+        try{
+            $saleChanceM = new SaleChanceModel($this->corp_id);
+            $SaleChancesData = $saleChanceM->getAllSaleChancesByPage($num,$p,$filter,$field,$order,$direction);
+            $this->assign("list_data",$SaleChancesData);
+            $customers_count = $saleChanceM->getAllSaleChanceCount($filter);
+            $this->assign("count",$customers_count);
+            $businessFlowModel = new BusinessFlowModel($this->corp_id);
+            $business_flow_names = $businessFlowModel->getAllBusinessFlowName();
+            //var_exp($business_flow_names,'$business_flow_names',1);
+            $this->assign('business_flow_names',$business_flow_names);
+            $businessFlowModel = new BusinessFlowModel($this->corp_id);
+            $business_flows = $businessFlowModel->getAllBusinessFlowByUserId($uid);
+            //var_exp($business_flows,'$business_flows',1);
+            $this->assign('business_flows',$business_flows);
+            $businessFlowItemM = new BusinessFlowItem($this->corp_id);
+            $businessFlowItems = $businessFlowItemM->getAllBusinessFlowItem("id asc");
+            $this->assign('business_flow_items',$businessFlowItems);
+        }catch (\Exception $ex){
+            $this->error($ex->getMessage());
+        }
+        $max_page = ceil($customers_count/$num);
+        $userinfo = get_userinfo();
+        $truename = $userinfo["truename"];
+        $this->assign("p",$p);
+        $this->assign("num",$num);
+        $this->assign("filter",$filter);
+        $this->assign("max_page",$max_page);
+        $this->assign("truename",$truename);
+        $this->assign("start_num",$customers_count?$start_num+1:0);
+        $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view();
+    }
+    protected function _getCustomerFilter($filter_column){
+        $filter = [];
+        return $filter;
+    }
+    protected function _getCustomerField($field_column){
+        $field = [];
+        return $field;
     }
     public function sale_chance_subordinate(){
         return "crm/sale_chance/sale_chance_subordinate";
@@ -189,16 +242,17 @@ class SaleChance extends Initialize{
             //var_exp($role_employee_index,'$role_employee_index',1);
             $this->assign('role_employee_index',$role_employee_index);
 
-            $contractSettingModel = new ContractSettingModel($this->corp_id);
-            $contracts = $contractSettingModel->getAllContract();
+            $status = [5,7,8];
+            $contractAppliedModel = new ContractAppliedModel($this->corp_id);
+            $contracts = $contractAppliedModel->getAllContractNoAndType($uid,$status);
             //var_exp($contracts,'$contracts',1);
-            //$this->assign('contract_type_list',$contracts);
-            $contract_type_name = [];
+            $this->assign('contract_list',$contracts);
+            $contract_type_index = [];
             foreach($contracts as $contract){
-                $contract_type_name[$contract["id"]] = $contract["contract_name"];
+                $contract_type_index[$contract["id"]] = $contract["contract_type_name"];
             }
-            //$this->assign('contract_type_name',$contract_type_name);
-            $this->assign('contract_type_name_json',json_encode($contract_type_name,true));
+            $this->assign('contract_type_name_json',json_encode($contract_type_index,true));
+
             $show_fine = true;
         }
         $this->assign('show_fine',$show_fine);
@@ -208,6 +262,17 @@ class SaleChance extends Initialize{
     public function edit_page(){
         $this->_showSaleChanceEdit();
         return view();
+    }
+    public function get_all_list(){
+        $result = ['status'=>0 ,'info'=>"获取销售机会时发生错误！"];
+        $last_id = input('last_id',0,'int');
+        $num = input('num',10,'int');
+        $saleChanceM = new SaleChanceModel($this->corp_id);
+        $SaleChancesData = $saleChanceM->getAllSaleChancesByLastId($last_id,$num);
+        $result['data'] = $SaleChancesData;
+        $result['status'] = 1;
+        $result['info'] = "获取销售机会成功！";
+        return json($result);
     }
     public function get_list(){
         $result = ['status'=>0 ,'info'=>"获取销售机会时发生错误！"];
@@ -252,7 +317,7 @@ class SaleChance extends Initialize{
             $uid = $userinfo["userid"];
             $saleChance['employee_id'] = $uid;
             $saleChance['business_id'] = input('business_id',0,'int');
-            $saleChance['create_time'] = input('create_time',0,'int');
+            $saleChance['create_time'] = time();
         }
         $saleChance['associator_id'] = input('associator_id',0,'int');
 
@@ -362,7 +427,7 @@ class SaleChance extends Initialize{
         if($add_flg){
             $saleOrderFine["sale_id"] = $sale_id;
             $saleOrderFine["create_time"] = time();
-            $saleOrderFine["status"] = 0;
+            $saleOrderFine["status"] = 1;
             $saleOrderFine["handle_status"] = 0;
             $saleOrderFine["contract_handle_status"] = 0;
         }
@@ -405,23 +470,24 @@ class SaleChance extends Initialize{
         if($add_flg){
             $save_flg = $saleOrderContractM->addSaleOrderContract($saleOrderContractData);
         }else{
-            $save_flg = $saleOrderContractM->setSaleChanceVisitBySaleId($sale_id,$saleOrderContractData);
+            $save_flg = $saleOrderContractM->setSaleOrderContractBySaleId($sale_id,$saleOrderContractData);
         }
         return $save_flg;
     }
     public function sign_in(){
         $result = ['status'=>0 ,'info'=>"签到时发生错误！"];
         $customer_id = input('customer_id',0,'int');
-        $lat = "".number_format(input('lat',0,'float'),6);
-        $lng = "".number_format(input('lng',0,'float'),6);
         if(!$customer_id){
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $sale_id = input('sale_id',0,'int');
+        $lat = "".number_format(input('lat',0,'float'),6);
+        $lng = "".number_format(input('lng',0,'float'),6);
         $saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
         try{
             $saleChanceVisitM->link->startTrans();
-            $saleChanceflg = $saleChanceVisitM->sign_in($customer_id,$lat,$lng);
+            $saleChanceflg = $saleChanceVisitM->sign_in($customer_id,$lat,$lng,$sale_id);
             if(!$saleChanceflg){
                 exception("签到失败!");
             }
@@ -437,6 +503,25 @@ class SaleChance extends Initialize{
         $result['info'] = "签到成功！";
         return json($result);
     }
+    public function retract(){
+        $result = ['status'=>0 ,'info'=>"撤回成单申请时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $saleChanceM = new SaleOrderContractModel($this->corp_id);
+        $update_flg = $saleChanceM->retractSaleOrderContract($id,$uid);
+        if(!$update_flg){
+            $result['info'] = "撤回成单申请失败！";
+            return json($result);
+        }
+        $result['status']=1;
+        $result['info']='撤回成单申请成功!';
+        return $result;
+    }
     public function invalid(){
         $result = ['status'=>0 ,'info'=>"作废销售机会时发生错误！"];
         $id = input("id",0,"int");
@@ -444,9 +529,11 @@ class SaleChance extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         try{
             $saleChanceM = new SaleChanceModel($this->corp_id);
-            $saleChanceflg = $saleChanceM->invalidSaleChance($id);
+            $saleChanceflg = $saleChanceM->invalidSaleChance($id,$uid);
             $result['data'] = $saleChanceflg;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
@@ -454,6 +541,27 @@ class SaleChance extends Initialize{
         }
         $result['status'] = 1;
         $result['info'] = "作废销售机会成功！";
+        return json($result);
+    }
+    public function abandoned(){
+        $result = ['status'=>0 ,'info'=>"输单销售机会时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        try{
+            $saleChanceM = new SaleChanceModel($this->corp_id);
+            $saleChanceflg = $saleChanceM->abandonedSaleOrderContract($id,$uid);
+            $result['data'] = $saleChanceflg;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "输单销售机会成功！";
         return json($result);
     }
 }

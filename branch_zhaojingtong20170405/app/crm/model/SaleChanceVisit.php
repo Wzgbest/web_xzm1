@@ -76,11 +76,16 @@ class SaleChanceVisit extends Base{
      * @param $customer_id int 客户id
      * @param $lat double 经度
      * @param $lng double 纬度
+     * @param $sale_id double 销售机会id
      * @return false|\PDOStatement|int|\think\Collection
      * created by blu10ph
      */
-    public function sign_in($customer_id,$lat,$lng){
+    public function sign_in($customer_id,$lat,$lng,$sale_id=null){
+        if($sale_id){
+            $map["sc.id"] = $sale_id;
+        }
         $data["scv.sign_in_location"] = $lat.",".$lng;
+        $data["scv.visit_ok"] = 1;
         $data["sc.sale_status"] = 3;
         $map["sc.customer_id"] = $customer_id;
         $map["sc.sale_status"] = 2;
