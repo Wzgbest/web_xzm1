@@ -66,6 +66,10 @@
 .table-contract{
 	width: 1781px;
 } 
+/*我的发票列表*/
+.table-bill{
+	width: 1959px;
+}
 /*审核*/
 .table-v-index{
 	width: 2096px;
