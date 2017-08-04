@@ -133,6 +133,7 @@ class SaleChance extends Base
     public function getAllSaleChancesByLastId($last_id=null,$num=10){
         $field = [
             "sc.*",
+            "c.customer_name",
             "bfi.item_name as sale_status_name",
             "bfs.business_flow_name as business_name",
             "e.truename as employee_name",
@@ -148,7 +149,7 @@ class SaleChance extends Base
         ];
         $map = [];
         if($last_id){
-            $map['id'] = ["lt",$last_id];
+            $map['sc.id'] = ["lt",$last_id];
         }
         return $this->model->table($this->table)->alias('sc')
             ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
@@ -185,9 +186,9 @@ class SaleChance extends Base
             "scv.visit_ok",
             "soc.status as order_status",
         ];
-        $map['customer_id'] = $customer_id;
+        $map['sc.customer_id'] = $customer_id;
         if($last_id){
-            $map['id'] = ["lt",$last_id];
+            $map['sc.id'] = ["lt",$last_id];
         }
         return $this->model->table($this->table)->alias('sc')
             ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
