@@ -42,7 +42,7 @@ class BusinessFlow extends Initialize{
         ];
         $this->assign("business_flow_setting",$business_flow_setting);
         $businessFlowItemM = new BusinessFlowItem($this->corp_id);
-        $businessFlowItems = $businessFlowItemM->getAllBusinessFlowItem("id asc");
+        $businessFlowItems = $businessFlowItemM->getAllSelectBusinessFlowItem("id asc");
         $this->assign('business_flow_items',$businessFlowItems);
         $this->assign('items_json',json_encode($businessFlowItems));
         $businessFlowItemLinks = [];
@@ -73,7 +73,7 @@ class BusinessFlow extends Initialize{
             $this->error($ex->getMessage());
         }
         $businessFlowItemM = new BusinessFlowItem($this->corp_id);
-        $businessFlowItems = $businessFlowItemM->getAllBusinessFlowItem("id asc");
+        $businessFlowItems = $businessFlowItemM->getAllSelectBusinessFlowItem("id asc");
         $this->assign('business_flow_items',$businessFlowItems);
         $this->assign('items_json',json_encode($businessFlowItems));
         $businessFlowItemLinkM = new BusinessFlowItemLink($this->corp_id);
