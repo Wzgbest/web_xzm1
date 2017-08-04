@@ -145,7 +145,7 @@ class Contract extends Initialize{
             $contract_item["applied_id"] = $id;
             $contract_item["update_time"] = $time;
             $contract_item["create_time"] = $time;
-            $contract_item["status"] = 1;
+            $contract_item["status"] = 4;
             for($contract_no=$now_contract_no;$contract_no<=$end_contract_no;$contract_no++){
                 $contract_item["contract_no"] = $contract_no;
                 $contract_arr[] = $contract_item;
@@ -153,13 +153,6 @@ class Contract extends Initialize{
             $contractCreateFlg = $contractAppliedM->createContractNos($contract_arr);
             if(!$contractCreateFlg){
                 $result['info'] = "审批失败,生成合同号时出现错误！";
-                return json($result);
-            }
-            $applied_data = [];
-            $applied_data["status"] = 4;
-            $contractAppliedFlg = $contractAppliedM->setContract($id,$applied_data);
-            if(!$contractCreateFlg){
-                $result['info'] = "审批失败,更新合同申请状态时出现错误！";
                 return json($result);
             }
             $contractSettingModel = new ContractModel($this->corp_id);
