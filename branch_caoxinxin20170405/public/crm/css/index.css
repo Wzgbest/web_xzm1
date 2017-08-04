@@ -226,6 +226,7 @@
 	line-height: 54px;
 	color: #333;
 	font-size: 16px;
+	cursor: pointer;
 }
 .crm_customer .m-pageInfoNav li.current{
 	color: #77b8ff;
