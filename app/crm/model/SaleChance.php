@@ -203,17 +203,6 @@ class SaleChance extends Base
         return $this->model->table($this->table)->where('id',$id)->update($data);
     }
 
-    /**作废
-     * @param $id int 客户商机id
-     * @return false|\PDOStatement|int|\think\Collection
-     * created by blu10ph
-     */
-    public function invalidSaleChance($id)
-    {
-        $data["sale_status"] = 7;
-        return $this->model->table($this->table)->where('id',$id)->update($data);
-    }
-
     /**获取对应客户的正在进行的商机预计成单金额总额
      * @param $customer_ids array 客户ID列表
      * @return false|\PDOStatement|string|\think\Collection
@@ -240,5 +229,39 @@ class SaleChance extends Base
             ->where($map)
             ->group("customer_id")
             ->column("SUM(final_money)","customer_id");
+    }
+
+    /**作废
+     * @param $id int 客户商机id
+     * @param $uid int 用户id
+     * @return false|\PDOStatement|int|\think\Collection
+     * created by blu10ph
+     */
+    public function invalidSaleChance($id,$uid){
+        if($uid){
+            $data["employee_id"] = $uid;
+        }
+        $data["sale_status"] = 7;
+        return $this->model->table($this->table)
+            ->where('id',$id)
+            ->update($data);
+    }
+
+    /**输单
+     * @param $id int 客户商机id
+     * @param $uid int 用户id
+     * @return false|\PDOStatement|int|\think\Collection
+     * created by blu10ph
+     */
+    public function abandonedSaleOrderContract($id,$uid){
+        $map['id'] = $id;
+        $map['sale_status'] = 4;
+        if($uid){
+            $map["employee_id"] = $uid;
+        }
+        $data['sale_status'] = 6;
+        return $this->model->table($this->table)
+            ->where($map)
+            ->update($data);
     }
 }

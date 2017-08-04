@@ -313,12 +313,20 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 					self.sale_chance_add(self.id);
 				});
 				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_edit").click(function(){
-					var edit_id = $(this).siblings(":input").val();
+					var edit_id = $(this).parent().siblings(":input").val();
 					self.sale_chance_edit(edit_id);
 				});
+				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_refresh").click(function(){
+					var edit_id = $(this).parent().siblings(":input").val();
+					self.sale_chance_edit(edit_id);
+				});
+				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_reply").click(function(){
+					var edit_id = $(this).parent().siblings(":input").val();
+					self.sale_chance_reply(edit_id,self.id);
+				});
 				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_invalid").click(function(){
-					var edit_id = $(this).siblings(":input").val();
-					self.sale_chance_invalid(edit_id);
+					var edit_id = $(this).parent().siblings(":input").val();
+					self.sale_chance_invalid(edit_id,self.id);
 				});
 				if(open_edit_id&&open_edit_id>0){
 					self.sale_chance_edit(open_edit_id);
@@ -406,39 +414,41 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				});
 				var contract_type_name_json = $(edit_sale_chance_panel+" .contract_num_selecter").siblings("input").val();
 				//console.log(contract_type_name_json);
-				var contract_type_name_index = null;
-				try{
-					contract_type_name_index = JSON.parse(contract_type_name_json);
-				}catch (ex){
-					console.log(ex);
-				}
-				if(contract_type_name_index==null){
-					console.log("contract type name data not found");
-					contract_type_name_index = [];
-				}
-				//console.log(contract_type_name_index);
-				var get_contract_type_name_by_id = function(id){
-					var contract_type_name = "------";
-					if(id in contract_type_name_index){
-						contract_type_name = contract_type_name_index[id];
+				if(contract_type_name_json){
+					var contract_type_name_index = null;
+					try{
+						contract_type_name_index = JSON.parse(contract_type_name_json);
+					}catch (ex){
+						console.log(ex);
 					}
-					return contract_type_name;
-				};
-				var set_contract_type_name_by_id = function(target){
-					var contract_id = $(target).val();
-					if(!contract_id>0){
-						return;
+					if(contract_type_name_index==null){
+						console.log("contract type name data not found");
+						contract_type_name_index = [];
 					}
-					var contract_type_name = get_contract_type_name_by_id(contract_id);
-					$(edit_sale_chance_panel+" .contract_type").text(contract_type_name);
-				};
-				$(edit_sale_chance_panel+" .contract_num_selecter").change(function(){
-					set_contract_type_name_by_id(this);
-				});
-				try{
-					set_contract_type_name_by_id($(edit_sale_chance_panel+" .contract_num_selecter"));
-				}catch (ex){
-					console.log(ex);
+					//console.log(contract_type_name_index);
+					var get_contract_type_name_by_id = function(id){
+						var contract_type_name = "------";
+						if(id in contract_type_name_index){
+							contract_type_name = contract_type_name_index[id];
+						}
+						return contract_type_name;
+					};
+					var set_contract_type_name_by_id = function(target){
+						var contract_id = $(target).val();
+						if(!contract_id>0){
+							return;
+						}
+						var contract_type_name = get_contract_type_name_by_id(contract_id);
+						$(edit_sale_chance_panel+" .contract_type").text(contract_type_name);
+					};
+					$(edit_sale_chance_panel+" .contract_num_selecter").change(function(){
+						set_contract_type_name_by_id(this);
+					});
+					try{
+						set_contract_type_name_by_id($(edit_sale_chance_panel+" .contract_num_selecter"));
+					}catch (ex){
+						console.log(ex);
+					}
 				}
 				$(edit_sale_chance_panel+" .sale_chance_edit_save").click(function(){
 					self.sale_chance_edit_send(id,self.id);
@@ -489,7 +499,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 		this.reload_flg = 1;
 		//console.log(sale_chance_invalid_data);
 		$.ajax({
-			url: '/crm/customer_contact/invalid',
+			url: '/crm/sale_chance/invalid',
 			type: 'post',
 			data: sale_chance_invalid_data,
 			dataType: 'json',
@@ -497,11 +507,36 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				//console.log(data);
 				alert(data.info);
 				if(data.status) {
-					self.contact_show(customer_id);
+					self.sale_chance_show(customer_id);
 				}
 			},
 			error: function() {
 				alert("作废商机时发生错误!");
+			}
+		});
+	};
+	this.sale_chance_reply=function(id,customer_id){
+		console.log(id);
+		if(!window.confirm("确认撤回这个商机的成单申请吗?")){
+			return false;
+		}
+		var sale_chance_invalid_data = "id="+id+"&fr="+this.from;
+		this.reload_flg = 1;
+		//console.log(sale_chance_invalid_data);
+		$.ajax({
+			url: '/crm/sale_chance/retract',
+			type: 'post',
+			data: sale_chance_invalid_data,
+			dataType: 'json',
+			success: function(data) {
+				//console.log(data);
+				alert(data.info);
+				if(data.status) {
+					self.sale_chance_show(customer_id);
+				}
+			},
+			error: function() {
+				alert("撤回成单申请时发生错误!");
 			}
 		});
 	};
