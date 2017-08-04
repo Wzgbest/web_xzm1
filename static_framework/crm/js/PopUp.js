@@ -17,7 +17,7 @@ function pop(id,url,clicker){
 	   $(id).children().remove();
 	}); 
 }
-function pop(id,url){   
+function popLoad(id,url){   
 	$.ajax({
     	url: url,
     	type: 'get',
