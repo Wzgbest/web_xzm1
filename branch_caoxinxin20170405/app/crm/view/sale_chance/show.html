@@ -54,7 +54,6 @@
                             </div>
                         </div>
                     {/if}
-                    <input type="hidden" class="edit_id" value="{$vo.id}"/>
                 {/lt}
                 {eq name="vo.sale_status" value="5"}
                 <div class="z-win">
@@ -71,6 +70,7 @@
                     <img src="/crm/img/invalid.png" />
                 </div>
                 {/eq}
+                <input type="hidden" class="edit_id" value="{$vo.id}"/>
             </div>
             <div>
                 <span class="cont">销售机会：</span>
@@ -164,6 +164,3 @@
     </section>
 </section>
 <script src="/crm/js/PopUp.js"></script>
-<script>
-    var pop = new pop("#create-bill","/crm/bill/bill_apply/",".bill-apply");
-</script>

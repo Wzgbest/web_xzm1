@@ -316,17 +316,21 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 					var edit_id = $(this).parent().siblings(":input").val();
 					self.sale_chance_edit(edit_id);
 				});
-				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_refresh").click(function(){
-					var edit_id = $(this).parent().siblings(":input").val();
-					self.sale_chance_edit(edit_id);
-				});
-				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_reply").click(function(){
-					var edit_id = $(this).parent().siblings(":input").val();
-					self.sale_chance_reply(edit_id,self.id);
-				});
 				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_invalid").click(function(){
 					var edit_id = $(this).parent().siblings(":input").val();
 					self.sale_chance_invalid(edit_id,self.id);
+				});
+				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_refresh").click(function(){
+					var edit_id = $(this).siblings(":input").val();
+					self.sale_chance_edit(edit_id);
+				});
+				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_reply").click(function(){
+					var edit_id = $(this).siblings(":input").val();
+					self.sale_chance_reply(edit_id,self.id);
+				});
+				$(panel+" .clientInfoSaleChance .sale-chance-record .bill-apply").click(function(){
+					var edit_id = $(panel+" .clientInfoSaleChance .sale-chance-record .edit_id").val();
+					var pop = new popLoad("#create-bill","/crm/bill/bill_apply/sale_id/"+edit_id);
 				});
 				if(open_edit_id&&open_edit_id>0){
 					self.sale_chance_edit(open_edit_id);

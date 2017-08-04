@@ -2,22 +2,23 @@
 	<h1>发票申请<i class="fa fa-close fa-2x pop-close-btn"></i></h1>
 </header>
 <div class="pop_content m-form">
+	<input type="hidden" class="sale-id" value="{$sale_id}" />
 	<div class="pop_bill_block">
 		<h2 class="cont">发票类型</h2>
 		<select class="bill-type">
-			<option></option>
-			<option value="1">增值类</option>
-			<option value="2">百度类</option>
-			<option value="3">建站类</option>
+			<option>请选择</option>
+			{volist name="bill_name" id="vo" key="key"}
+			<option value="{$key-1}">{$vo}</option>
+			{/volist}
 		</select>
 		<div class="line">
 			<span class="cont-max">关联成单合同</span>
 			<select class="contract-type">
-				<option></option>
+				<option>请选择</option>
 			</select>
 			<span class="cont">合同编号</span>
 			<select class="contract-number">
-				<option></option>
+				<option>请选择</option>
 			</select>
 		</div>
 		<div class="line">
@@ -41,41 +42,41 @@
 	<div class="pop_bill_block pay-way-box">
 		<h2 class="cont">打款方式</h2>
 		<div>
-			<input type="radio" class="cash pay-way" name="way-pay" value="现金"/>现金
-			<input type="radio" class="bank pay-way"  name="way-pay" value="银行"/>银行
+			<input type="radio" class="cash pay-way" name="way-pay" value="0"/>现金
+			<input type="radio" class="bank pay-way"  name="way-pay" value="1"/>银行
 			<select class="bank-type" disabled="disabled">
-				<option></option>
+				<option>请选择</option>
 			</select>
 		</div>
 	</div>
 	<div class="pop_bill_block">
 		<span class="cont exam-man hide">一审人</span>
 			<select class="exam-man-s hide">
-				<option></option>
+				<option>请选择</option>
 			</select >
 			<span class="cont exam-man hide">二审人</span>
 			<select class="exam-man-s hide">
-				<option></option>
+				<option>请选择</option>
 			</select>
 		</div>
 	<div class="pop_bill_block">
 		<span class="cont exam-man hide">三审人</span>
 		<select class="exam-man-s hide">
-			<option></option>
+			<option>请选择</option>
 		</select>
 		<span class="cont exam-man hide">四审人</span>
 		<select class="exam-man-s hide">
-			<option></option>
+			<option>请选择</option>
 		</select>
-	</div>	
+	</div>
 	<div class="pop_bill_block">
 		<span class="cont exam-man hide">五审人</span>
 		<select class="exam-man-s hide">
-			<option></option>
+			<option>请选择</option>
 		</select>
 		<span class="cont exam-man hide">六审人</span>
 		<select class="exam-man-s hide">
-			<option></option>
+			<option>请选择</option>
 		</select>
 	</div>
 	<div class="u-submitButton">
@@ -86,6 +87,7 @@
 <script>
 	var json_data= new Object();
 	$(".pop-submit-btn").click(function(){
+		json_data.sale_id = $(".pop_content .sale-id").val();
 		json_data.bill_type = $(".pop_bill_block .bill-type").val();
 		json_data.contract_type = $(".pop_bill_block .contract-type").val();
 		json_data.contract_number = $(".pop_bill_block .contract-number").val();
@@ -93,7 +95,7 @@
 		var check = $(".pop_bill_block .product-type input[type='checkbox']");
 		var arr2 = new Array();
 		var j=0;
-		for(var i=0;i<check.length;i++){			
+		for(var i=0;i<check.length;i++){
 			if(check.eq(i).prop("checked")){
 //				console.log(3);
 /*				console.log(check.eq(i).siblings("span").text());
@@ -150,7 +152,7 @@
 	        	if(data.status!=1){
 	            	alert(data.info);
 	        	}
-	        	
+
 //	        	product_type = master.product_type;
 //	        	console.log(master);
 	        	dataHandler(data);
@@ -163,9 +165,9 @@
 	            alert("申请时发生错误!");
 	        }
 	   });
-	   
+
 //	   console.log(master);
-		
+
 	});
 	function productTypeHandler(){
 		var product_type = master.product_type;
@@ -181,7 +183,7 @@
 		$(".pop_bill_block .pay-way").click(function(){
 			if($(".pop_bill_block .bank").prop("checked")){
 			$(".pop_bill_block .bank-type").removeAttr("disabled");
-			$(".pop_bill_block .bank-type").html("<option></option>");
+			$(".pop_bill_block .bank-type").html("<option>请选择</option>");
 			   for(var i=0;i<bank_type.length;i++){
 			   		$(".pop_bill_block .bank-type").append("<option>"+bank_type[i]+"</option>");
 			   }
@@ -189,26 +191,26 @@
 				$(".pop_bill_block .bank-type").attr("disabled","disabled");
 			}
 		});
-		
-		
+
+
 	}
 	function examManHandler(){
 		var exam = master.role_employee_index;
 //		console.log(exam);
 		$("#create-bill .exam-man").addClass("hide");
 		$("#create-bill .exam-man-s").addClass("hide");
-		for(var i=1;i<=6;i++){	
+		for(var i=1;i<=6;i++){
 //			console.log(i);
 			if(master["handle_"+i]!=0){
 //				console.log(master["handle_"+i],i);
 				$("#create-bill .exam-man").eq(i-1).removeClass("hide");
 				$("#create-bill .exam-man-s").eq(i-1).removeClass("hide");
-				$("#create-bill .exam-man-s").eq(i-1).html("<option></option>")
+				$("#create-bill .exam-man-s").eq(i-1).html("<option>请选择</option>")
 				var arr1 = exam[master["handle_"+i]];//数组
 				for(var j=0;j<arr1.length;j++){
 					$("#create-bill .exam-man-s").eq(i-1).append("<option value="+arr1[j].user_id+">"+arr1[j].truename+"</option>");
 				}
-				
+
 			}
 		}
 	}
@@ -219,17 +221,17 @@
 		var contract_list = e.data.contract_list;
 //		console.log(contract_list);
 		var x;
-		$(".pop_bill_block .contract-type").html("<option></option>");
+		$(".pop_bill_block .contract-type").html("<option>请选择</option>");
 		for(x in contract_list){
 			$(".pop_bill_block .contract-type").append("<option value="+x+">"+contract_list[x]+"</option>");
 		}
-		
+
 	}
 	//合同编码
 		$(".pop_bill_block .contract-type").change(function(){
 			//类型的值
 			var type = $(this).val();
-			$(".pop_bill_block .contract-number").html("<option></option>");
+			$(".pop_bill_block .contract-number").html("<option>请选择</option>");
 			//库里的合同编号总列表
 			var contract_number = master.contract_type_index;
 			var contract_number_list = contract_number[type];
