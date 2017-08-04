@@ -85,6 +85,7 @@ class SaleChanceVisit extends Base{
             $map["sc.id"] = $sale_id;
         }
         $data["scv.sign_in_location"] = $lat.",".$lng;
+        $data["scv.visit_ok"] = 1;
         $data["sc.sale_status"] = 3;
         $map["sc.customer_id"] = $customer_id;
         $map["sc.sale_status"] = 2;
