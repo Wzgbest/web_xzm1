@@ -17,6 +17,23 @@ function pop(id,url,clicker){
 	   $(id).children().remove();
 	}); 
 }
+function pop(id,url){   
+	$.ajax({
+    	url: url,
+    	type: 'get',
+    	async: false,
+    	success: function(data) {
+        	$(id).html(data);
+        	$(id).removeClass("hide");
+    	},
+    	error: function() {
+        	alert("加载失败!");
+    	}
+	});   	
+    $(document).on('click', id+" .pop-close-btn", function() {
+	   $(id).children().remove();
+	}); 
+}
 function popUp(e){
 	console.log(e.innerHTML);
 	blackBgshow();
