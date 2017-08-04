@@ -137,6 +137,7 @@ class Contract extends Initialize{
             $contract_num = $contractApplied["contract_num"];
             $now_contract_no = $contract_setting["current_contract"];
             $end_contract_no = $now_contract_no+$contract_num-1;
+            $contract_prefix = $contract_setting["contract_prefix"];
             if($end_contract_no>$contract_setting["end_num"]){
                 $result['info'] = "审批失败,剩余合同号数量不足！";
                 return json($result);
@@ -147,7 +148,7 @@ class Contract extends Initialize{
             $contract_item["create_time"] = $time;
             $contract_item["status"] = 4;
             for($contract_no=$now_contract_no;$contract_no<=$end_contract_no;$contract_no++){
-                $contract_item["contract_no"] = $contract_no;
+                $contract_item["contract_no"] = $contract_prefix.$contract_no;
                 $contract_arr[] = $contract_item;
             }
             $contractCreateFlg = $contractAppliedM->createContractNos($contract_arr);

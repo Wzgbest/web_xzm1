@@ -33,6 +33,6 @@ function list_show(form,arr){
 			for(var j=0;j<len;j++){
 				$("."+form+" .u-tabList").eq(j).children("li").eq(arr[i][0]).removeClass("hide");
 			}
-		}
+		}		
 	}
 }

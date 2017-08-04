@@ -74,8 +74,8 @@
 #clientInfoOutline .calendar-box{
 	position: absolute;
 	background-color: white;
-	width: 720px;
-	height: 500px;
+	width: 600px;
+	/*height: 500px;*/
 	top: 50px;
 	left: 50px;
 	z-index: 10;
