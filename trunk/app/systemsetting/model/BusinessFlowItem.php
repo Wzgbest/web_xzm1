@@ -26,6 +26,18 @@ class BusinessFlowItem extends Base{
             ->select();
         return $businessFlowItemList;
     }
+
+    public function getAllSelectBusinessFlowItem($order="id desc"){
+        $map["type"] = 1;
+        $map["status"] = 1;
+        $businessFlowItemList = $this->model
+            ->table($this->table)
+            ->where($map)
+            ->order($order)
+            ->field("*")
+            ->select();
+        return $businessFlowItemList;
+    }
     /**
      * 查询业务流项目
      * @param $num int 数量

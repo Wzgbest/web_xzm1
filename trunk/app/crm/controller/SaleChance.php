@@ -263,6 +263,17 @@ class SaleChance extends Initialize{
         $this->_showSaleChanceEdit();
         return view();
     }
+    public function get_all_list(){
+        $result = ['status'=>0 ,'info'=>"获取销售机会时发生错误！"];
+        $last_id = input('last_id',0,'int');
+        $num = input('num',10,'int');
+        $saleChanceM = new SaleChanceModel($this->corp_id);
+        $SaleChancesData = $saleChanceM->getAllSaleChancesByLastId($last_id,$num);
+        $result['data'] = $SaleChancesData;
+        $result['status'] = 1;
+        $result['info'] = "获取销售机会成功！";
+        return json($result);
+    }
     public function get_list(){
         $result = ['status'=>0 ,'info'=>"获取销售机会时发生错误！"];
         $customer_id = input('customer_id',0,'int');

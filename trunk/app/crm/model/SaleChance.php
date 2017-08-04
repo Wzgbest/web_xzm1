@@ -125,6 +125,47 @@ class SaleChance extends Base
     }
 
     /**根据客户ID获取所有
+     * @param $last_id int 最后一条销售机会id
+     * @param $num int 客户id
+     * @return false|\PDOStatement|int|\think\Collection
+     * created by blu10ph
+     */
+    public function getAllSaleChancesByLastId($last_id=null,$num=10){
+        $field = [
+            "sc.*",
+            "bfi.item_name as sale_status_name",
+            "bfs.business_flow_name as business_name",
+            "e.truename as employee_name",
+            "ae.truename as associator_name",
+            "scv.visit_time",
+            "scv.create_time",
+            "scv.visit_place",
+            "scv.location",
+            "scv.partner_notice",
+            "scv.add_note",
+            "scv.visit_ok",
+            "soc.status as order_status",
+        ];
+        $map = [];
+        if($last_id){
+            $map['id'] = ["lt",$last_id];
+        }
+        return $this->model->table($this->table)->alias('sc')
+            ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'business_flow_setting bfs','bfs.id = sc.business_id',"LEFT")
+            ->join($this->dbprefix.'business_flow_item bfi','bfi.id = sc.sale_status',"LEFT")
+            ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
+            ->join($this->dbprefix.'employee ae','sc.associator_id = ae.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance_visit scv','scv.sale_id = sc.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract soc','soc.sale_id = sc.id',"LEFT")
+            ->where($map)
+            ->field($field)
+            ->order("sc.id desc")
+            ->limit($num)
+            ->select();
+    }
+
+    /**根据客户ID获取所有
      * @param $customer_id int 客户id
      * @return false|\PDOStatement|int|\think\Collection
      * created by blu10ph

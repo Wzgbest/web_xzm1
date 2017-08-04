@@ -470,7 +470,7 @@ function getContractAppliedStatusName($applied_status){
             $applied_status_name = "已提醒";
             break;
         case 9:
-            $applied_status_name = "已已退款";
+            $applied_status_name = "已退款";
             break;
         default:
             $applied_status_name = "无";
