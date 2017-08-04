@@ -466,16 +466,17 @@ class SaleChance extends Initialize{
     public function sign_in(){
         $result = ['status'=>0 ,'info'=>"签到时发生错误！"];
         $customer_id = input('customer_id',0,'int');
-        $lat = "".number_format(input('lat',0,'float'),6);
-        $lng = "".number_format(input('lng',0,'float'),6);
         if(!$customer_id){
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $sale_id = input('sale_id',0,'int');
+        $lat = "".number_format(input('lat',0,'float'),6);
+        $lng = "".number_format(input('lng',0,'float'),6);
         $saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
         try{
             $saleChanceVisitM->link->startTrans();
-            $saleChanceflg = $saleChanceVisitM->sign_in($customer_id,$lat,$lng);
+            $saleChanceflg = $saleChanceVisitM->sign_in($customer_id,$lat,$lng,$sale_id);
             if(!$saleChanceflg){
                 exception("签到失败!");
             }
