@@ -18,7 +18,6 @@ use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
 use app\systemsetting\model\BusinessFlowItem;
 use app\systemsetting\model\BusinessFlowItemLink;
 use app\common\model\RoleEmployee as RoleEmployeeModel;
-use app\systemsetting\model\ContractSetting as ContractSettingModel;
 use app\crm\model\Contract as ContractAppliedModel;
 
 class SaleChance extends Initialize{
@@ -417,7 +416,7 @@ class SaleChance extends Initialize{
         if($add_flg){
             $saleOrderFine["sale_id"] = $sale_id;
             $saleOrderFine["create_time"] = time();
-            $saleOrderFine["status"] = 0;
+            $saleOrderFine["status"] = 1;
             $saleOrderFine["handle_status"] = 0;
             $saleOrderFine["contract_handle_status"] = 0;
         }
@@ -460,23 +459,24 @@ class SaleChance extends Initialize{
         if($add_flg){
             $save_flg = $saleOrderContractM->addSaleOrderContract($saleOrderContractData);
         }else{
-            $save_flg = $saleOrderContractM->setSaleChanceVisitBySaleId($sale_id,$saleOrderContractData);
+            $save_flg = $saleOrderContractM->setSaleOrderContractBySaleId($sale_id,$saleOrderContractData);
         }
         return $save_flg;
     }
     public function sign_in(){
         $result = ['status'=>0 ,'info'=>"签到时发生错误！"];
         $customer_id = input('customer_id',0,'int');
-        $lat = "".number_format(input('lat',0,'float'),6);
-        $lng = "".number_format(input('lng',0,'float'),6);
         if(!$customer_id){
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $sale_id = input('sale_id',0,'int');
+        $lat = "".number_format(input('lat',0,'float'),6);
+        $lng = "".number_format(input('lng',0,'float'),6);
         $saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
         try{
             $saleChanceVisitM->link->startTrans();
-            $saleChanceflg = $saleChanceVisitM->sign_in($customer_id,$lat,$lng);
+            $saleChanceflg = $saleChanceVisitM->sign_in($customer_id,$lat,$lng,$sale_id);
             if(!$saleChanceflg){
                 exception("签到失败!");
             }
@@ -492,6 +492,25 @@ class SaleChance extends Initialize{
         $result['info'] = "签到成功！";
         return json($result);
     }
+    public function retract(){
+        $result = ['status'=>0 ,'info'=>"撤回成单申请时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $saleChanceM = new SaleOrderContractModel($this->corp_id);
+        $update_flg = $saleChanceM->retractSaleOrderContract($id,$uid);
+        if(!$update_flg){
+            $result['info'] = "撤回成单申请失败！";
+            return json($result);
+        }
+        $result['status']=1;
+        $result['info']='撤回成单申请成功!';
+        return $result;
+    }
     public function invalid(){
         $result = ['status'=>0 ,'info'=>"作废销售机会时发生错误！"];
         $id = input("id",0,"int");
@@ -499,9 +518,11 @@ class SaleChance extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         try{
             $saleChanceM = new SaleChanceModel($this->corp_id);
-            $saleChanceflg = $saleChanceM->invalidSaleChance($id);
+            $saleChanceflg = $saleChanceM->invalidSaleChance($id,$uid);
             $result['data'] = $saleChanceflg;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
@@ -509,6 +530,27 @@ class SaleChance extends Initialize{
         }
         $result['status'] = 1;
         $result['info'] = "作废销售机会成功！";
+        return json($result);
+    }
+    public function abandoned(){
+        $result = ['status'=>0 ,'info'=>"输单销售机会时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        try{
+            $saleChanceM = new SaleChanceModel($this->corp_id);
+            $saleChanceflg = $saleChanceM->abandonedSaleOrderContract($id,$uid);
+            $result['data'] = $saleChanceflg;
+        }catch (\Exception $ex){
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "输单销售机会成功！";
         return json($result);
     }
 }

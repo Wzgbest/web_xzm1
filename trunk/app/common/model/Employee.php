@@ -74,6 +74,9 @@ class Employee extends Base{
      */
     public function getEmployeeNameByUserids($user_ids)
     {
+        if(empty($user_ids)){
+            return [];
+        }
         return $this->model->table($this->table)
             ->where('id','in',$user_ids)
             ->column("truename","id");

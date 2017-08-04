@@ -73,6 +73,7 @@
 					<li>所在列</li>-->
 					<!--<li>分类</li>-->
 					<li>是否开票</li>
+					<li>对应状态</li>
 					<li>操作</li>
 					<div class="clearfix"></div>
 				</ul>
@@ -97,7 +98,22 @@
 					<li>待沟通客户</li>-->
 					<!--<li>定金审核</li>
 					<li>客户要求时间急</li>-->
-					<li class="u-tabOperation"><span>驳回</span><span>通过</span><span>作废</span></li>
+					<li class="status">
+						{eq name="vo.status" value="1"}
+							{$vo.contract_status|getContractAppliedStatusName}
+						{else/}
+							{$vo.status|getContractAppliedStatusName}
+						{/eq}
+					</li>
+					<li class="u-tabOperation">
+						{eq name="vo.status" value="0"}
+							<span>驳回</span>
+							<span>通过</span>
+						{/eq}
+						{eq name="vo.status" value="1"}
+							<span>作废</span>
+						{/eq}
+					</li>
 					<div class="clearfix"></div>
 				</ul>
 				{/volist}
