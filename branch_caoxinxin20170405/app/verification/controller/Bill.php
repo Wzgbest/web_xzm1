@@ -52,7 +52,7 @@ class Bill extends Initialize{
         return $field;
     }
     public function approved(){
-        $result = ['status'=>0 ,'info'=>"通过成单申请时发生错误！"];
+        $result = ['status'=>0 ,'info'=>"通过发票申请时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){
             $result['info'] = "参数错误！";
@@ -62,15 +62,15 @@ class Bill extends Initialize{
         $uid = $userinfo["userid"];
         $update_flg = true;
         if(!$update_flg){
-            $result['info'] = "通过成单申请失败！";
+            $result['info'] = "通过发票申请失败！";
             return json($result);
         }
         $result['status']=1;
-        $result['info']='通过成单申请成功!';
+        $result['info']='通过发票申请成功!';
         return $result;
     }
     public function rejected(){
-        $result = ['status'=>0 ,'info'=>"驳回成单申请时发生错误！"];
+        $result = ['status'=>0 ,'info'=>"驳回发票申请时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){
             $result['info'] = "参数错误！";
@@ -80,14 +80,14 @@ class Bill extends Initialize{
         $uid = $userinfo["userid"];
         $update_flg = false;
         if(!$update_flg){
-            $result['info'] = "驳回成单申请失败！";
+            $result['info'] = "驳回发票申请失败！";
             return json($result);
         }
         $result['status']=1;
-        $result['info']='驳回成单申请成功!';
+        $result['info']='驳回发票申请成功!';
     }
     public function received(){
-        $result = ['status'=>0 ,'info'=>"已领取合同时发生错误！"];
+        $result = ['status'=>0 ,'info'=>"已领取发票时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){
             $result['info'] = "参数错误！";
@@ -96,7 +96,20 @@ class Bill extends Initialize{
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
         $result['status']=1;
-        $result['info']='已领取合同开发中!';
+        $result['info']='已领取发票开发中!';
+        return $result;
+    }
+    public function invalid(){
+        $result = ['status'=>0 ,'info'=>"作废发票时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $result['status']=1;
+        $result['info']='作废发票开发中!';
         return $result;
     }
 }

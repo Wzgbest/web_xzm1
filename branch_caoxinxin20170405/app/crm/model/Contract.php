@@ -10,8 +10,7 @@ namespace app\crm\model;
 
 use app\common\model\Base;
 
-class Contract extends Base
-{
+class Contract extends Base{
     protected $dbprefix;
     public function __construct($corp_id)
     {
@@ -205,6 +204,7 @@ class Contract extends Base
         return $this->model->table($this->table)->where('id',$id)->update($data);
     }
 
+    //撤回
     public function retract($id,$user_id=null){
         if($user_id){
             $data["employee_id"] = $user_id;
@@ -215,6 +215,7 @@ class Contract extends Base
         return $this->model->table($this->table)->where($map)->update($data);
     }
 
+    //核准
     public function approved($id,$user_id=null){
         if($user_id){
             $data["employee_id"] = $user_id;
@@ -225,6 +226,7 @@ class Contract extends Base
         return $this->model->table($this->table)->where($map)->update($data);
     }
 
+    //驳回
     public function rejected($id,$user_id=null){
         if($user_id){
             $data["employee_id"] = $user_id;
@@ -235,6 +237,7 @@ class Contract extends Base
         return $this->model->table($this->table)->where($map)->update($data);
     }
 
+    //作废
     public function invalid($id,$user_id=null){
         if($user_id){
             $data["employee_id"] = $user_id;
@@ -245,6 +248,7 @@ class Contract extends Base
         return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
     }
 
+    //已领取
     public function received($id,$user_id=null){
         if($user_id){
             $data["employee_id"] = $user_id;
@@ -255,6 +259,7 @@ class Contract extends Base
         return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
     }
 
+    //提醒
     public function remind($id,$user_id=null){
         if($user_id){
             $data["employee_id"] = $user_id;
@@ -265,6 +270,7 @@ class Contract extends Base
         return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
     }
 
+    //已退款
     public function refunded($id,$user_id=null){
         if($user_id){
             $data["employee_id"] = $user_id;
@@ -275,6 +281,7 @@ class Contract extends Base
         return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
     }
 
+    //收回
     public function withdrawal($id,$user_id=null){
         if($user_id){
             $data["employee_id"] = $user_id;
