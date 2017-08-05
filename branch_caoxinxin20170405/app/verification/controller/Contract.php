@@ -108,17 +108,16 @@ class Contract extends Initialize{
             return json($result);
         }
         $contract_apply_status = $contractApplied["contract_apply_status"];
-        if(empty($contract_apply_status) || $contract_apply_status>6){
+        if(empty($contract_apply_status) || $contract_apply_status>=6){
             $result['info'] = "审批流程出现问题,请联系管理员！";
             return json($result);
         }
-        $contract_apply_status = $contract_apply_status+1;
-        $applied_data["contract_apply_status"] = $contract_apply_status;
         if(
             $contract_apply_status!=6 &&
             !empty($contractApplied["contract_apply_".($contract_apply_status+1)])
         ){
             //还有下一步审批,转为下一个人审批
+            $applied_data["contract_apply_status"] = $contract_apply_status+1;
             $contractAppliedFlg = $contractAppliedM->setContract($id,$applied_data);
             if(!$contractAppliedFlg){
                 $result['info'] = "审批失败！";
@@ -126,43 +125,47 @@ class Contract extends Initialize{
             }
         }else{
             //最后一步审批,审批通过,生成合同,改为待领取
-            $applied_data["status"] = 1;
-            $contractAppliedFlg = $contractAppliedM->setContract($id,$applied_data);
-            if(!$contractAppliedFlg){
-                $result['info'] = "审批失败！";
-                return json($result);
-            }
-            $contractSettingModel = new ContractModel($this->corp_id);
-            $contract_setting = $contractSettingModel->getContractSettingById($contractApplied["contract_type"]);
-            $contract_num = $contractApplied["contract_num"];
-            $now_contract_no = $contract_setting["current_contract"];
-            $end_contract_no = $now_contract_no+$contract_num-1;
-            $contract_prefix = $contract_setting["contract_prefix"];
-            if($end_contract_no>$contract_setting["end_num"]){
-                $result['info'] = "审批失败,剩余合同号数量不足！";
-                return json($result);
-            }
-            $contract_arr = [];
-            $contract_item["applied_id"] = $id;
-            $contract_item["update_time"] = $time;
-            $contract_item["create_time"] = $time;
-            $contract_item["status"] = 4;
-            for($contract_no=$now_contract_no;$contract_no<=$end_contract_no;$contract_no++){
-                $contract_item["contract_no"] = $contract_prefix.$contract_no;
-                $contract_arr[] = $contract_item;
-            }
-            $contractCreateFlg = $contractAppliedM->createContractNos($contract_arr);
-            if(!$contractCreateFlg){
-                $result['info'] = "审批失败,生成合同号时出现错误！";
-                return json($result);
-            }
-            $contractSettingModel = new ContractModel($this->corp_id);
-            $contract_setting_flg = $contractSettingModel->setContractSetting(
-                $contractApplied["contract_type"],
-                ["current_contract"=>["exp","current_contract + ".$contract_num]]//$contract_num
-            );
-            if(!$contract_setting_flg){
-                $result['info'] = "审批失败,更新合同当前合同号时出现错误！";
+            try{
+                $contractAppliedM->link->startTrans();
+                $applied_data["status"] = 1;
+                $contractAppliedFlg = $contractAppliedM->setContract($id,$applied_data);
+                if(!$contractAppliedFlg){
+                    exception("审批失败！");
+                }
+                $contractSettingModel = new ContractModel($this->corp_id);
+                $contract_setting = $contractSettingModel->getContractSettingById($contractApplied["contract_type"]);
+                $contract_num = $contractApplied["contract_num"];
+                $now_contract_no = $contract_setting["current_contract"];
+                $end_contract_no = $now_contract_no+$contract_num-1;
+                $contract_prefix = $contract_setting["contract_prefix"];
+                if($end_contract_no>$contract_setting["end_num"]){
+                    exception("审批失败,剩余合同号数量不足！");
+                }
+                $contract_arr = [];
+                $contract_item["applied_id"] = $id;
+                $contract_item["update_time"] = $time;
+                $contract_item["create_time"] = $time;
+                $contract_item["status"] = 4;
+                for($contract_no=$now_contract_no;$contract_no<=$end_contract_no;$contract_no++){
+                    $contract_item["contract_no"] = $contract_prefix.$contract_no;
+                    $contract_arr[] = $contract_item;
+                }
+                $contractCreateFlg = $contractAppliedM->createContractNos($contract_arr);
+                if(!$contractCreateFlg){
+                    exception("审批失败,生成合同号时出现错误！");
+                }
+                $contractSettingModel = new ContractModel($this->corp_id);
+                $contract_setting_flg = $contractSettingModel->setContractSetting(
+                    $contractApplied["contract_type"],
+                    ["current_contract"=>["exp","current_contract + ".$contract_num]]//$contract_num
+                );
+                if(!$contract_setting_flg){
+                    exception("审批失败,更新合同当前合同号时出现错误！");
+                }
+                $contractAppliedM->link->commit();
+            }catch (\Exception $ex){
+                $contractAppliedM->link->rollback();
+                $result['info'] = $ex->getMessage();
                 return json($result);
             }
         }

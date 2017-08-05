@@ -29,6 +29,9 @@
 		<div class="m-filterNav">
 			<select>
 				<option>发票类型</option>
+				{volist name="bill_name" id="vo" key="key"}
+					<option value="{$key-1}">{$vo}</option>
+				{/volist}
 			</select>
 			<select>
 				<option>产品类型</option>
@@ -67,40 +70,51 @@
 					<li>操作</li>
 					<div class="clearfix"></div>
 				</ul>
+				{volist name="list_data" id="vo"}
 				<ul class="u-tabList">
-					<li class="u-tabCheckbox"><input type="checkbox"/></li>
-					<li >2017/02/28</li>
-					<li>3245907</li>
-					<li>普通发票</li>
-					<li>3,000.00元</li>
-					<li class="u-tabCilentName">山东潍坊中迅网络科技有限公司</li>
-					<li>1120987</li>
-					<li>网站建设</li>
-					<li>2017/03/05</li>
-					<li class="u-tabLinkWay">赵晓飞<i class="fa fa-phone"></i></li>
-					<li>全款</li>
-					<li>招商银行</li>
+					<li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+					<li >{$vo.create_time|time_format}</li>
+					<li>{$vo.bill_no}</li>
+					<li>{$vo.bill_type_name}</li>
+					<li>{$vo.bill_money}元</li>
+					<li class="u-tabCilentName">{$vo.customer_name}</li>
+					<li>{$vo.tax_num}</li>
+					<li>{$vo.product_type_name}</li>
+					<li>
+						{notempty name="vo.check_money_time"}
+							{$vo.check_money_time|time_format}
+						{/notempty}
+					</li>
+					<li class="u-tabLinkWay">{$vo.assessor_name}<i class="fa fa-phone"></i></li>
+					<li>{eq name="vo.pay_type" value="现金"}现金{else/}银行打款{/eq}</li>
+					<li>{$vo.pay_type}</li>
 					<!--<li>潍坊中迅推广</li>-->
 					
 					<!--<li>1天23:59</li>
 					<li>待沟通客户</li>-->
 					<!--<li>定金审核</li>
 					<li>客户要求时间急</li>-->
-					<li class="u-tabOperation"><span>驳回</span><span>通过</span><span>备注通过</span></li>
+					<li class="u-tabOperation">
+						<span>驳回</span>
+						<span>通过</span>
+						<span>备注通过</span>
+					</li>
 					<div class="clearfix"></div>
 				</ul>
+				{/volist}
 			</div>
 			
 		</div>
 		<div class="u-tabControlRow">
 			<span>显示行数</span>
-			<select onchange="listNumChange()">
-				<option value="5">5</option>
-				<option value="10">10</option>
-				<option value="20">20</option>
+			<span>显示行数</span>
+			<select>
+				<option value="5" {eq name="num" value="5"} selected="selected"{/eq}>5</option>
+				<option value="10" {eq name="num" value="10"} selected="selected"{/eq}>10</option>
+				<option value="20" {eq name="num" value="20"} selected="selected"{/eq}>20</option>
 			</select>
-			<span>1-10条/</span>
-			<span>共50条</span>
+			<span>{$start_num}-{$end_num}条/</span>
+			<span>共{$count}条</span>
 			<button>上一页</button>
 			<button>下一页</button>
 			<span>前往</span>

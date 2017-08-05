@@ -2,6 +2,9 @@
 namespace app\verification\controller;
 
 use app\common\controller\Initialize;
+use app\crm\model\Bill as BillModel;
+use app\common\model\Employee as EmployeeModel;
+use app\systemsetting\model\BillSetting as BillSettingModel;
 
 class Bill extends Initialize{
     var $paginate_list_rows = 10;
@@ -24,10 +27,39 @@ class Bill extends Initialize{
         //$filter["employee_id"] = $uid; // 审核人
         $filter["status"] = 1;
         try{
-            $SaleOrderContractsData = [];//xxx($num,$p,$filter,$field,$order,$direction);
-            $this->assign("list_data",$SaleOrderContractsData);
-            $customers_count = 0;//xxx($filter);
+            $billM = new BillModel($this->corp_id);
+            $bill_list = $billM->getBill($num,$p,$filter,$field,$order,$direction);
+            //var_exp($bill_list,'$bill_list',1);
+            $employee_ids = [];
+            foreach ($bill_list as &$bill){
+                $handle_status = $bill["handle_status"];
+                if(
+                    isset($bill["handle_".$handle_status]) &&
+                    !empty($bill["handle_".$handle_status])
+                ){
+                    $employee_ids[] = $bill["handle_".$handle_status];
+                    $bill["assessor"] = $bill["handle_".$handle_status];
+                }
+            }
+            $employeeM = new EmployeeModel($this->corp_id);
+            $employee_name_index = $employeeM->getEmployeeNameByUserids($employee_ids);
+            foreach ($bill_list as &$bill){
+                if(
+                    isset($bill["assessor"])&&
+                    isset($employee_name_index[$bill["assessor"]])
+                ) {
+                    $bill["assessor_name"] = $employee_name_index[$bill["assessor"]];
+                }else{
+                    $bill["assessor_name"] = '';
+                }
+            }
+            $this->assign('list_data',$bill_list);
+            $customers_count = $billM->getBillCount($filter);
             $this->assign("count",$customers_count);
+            $billSettingModel = new BillSettingModel($this->corp_id);
+            $bills = $billSettingModel->getBillNameIndex();
+            //var_exp($bills,'$bills',1);
+            $this->assign('bill_name',$bills);
         }catch (\Exception $ex){
             $this->error($ex->getMessage());
         }
@@ -58,12 +90,27 @@ class Bill extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
-        $userinfo = get_userinfo();
-        $uid = $userinfo["userid"];
-        $update_flg = true;
-        if(!$update_flg){
-            $result['info'] = "通过发票申请失败！";
-            return json($result);
+        $billM = new BillModel($this->corp_id);
+        $bill_info = $billM->getBillById($id);
+        $bill_handle_status = $bill_info["handle_status"];
+        if(
+            $bill_handle_status!=6 &&
+            !empty($bill_info["handle_".($bill_handle_status+1)])
+        ){
+            //还有下一步审批,转为下一个人审批
+            $bill_data["handle_status"] = $bill_handle_status+1;
+            $billFlg = $billM->setBill($id,$bill_data);
+            if(!$billFlg){
+                $result['info'] = "审批失败！";
+                return json($result);
+            }
+        }else{
+            //最后一步审批
+            $update_flg = $billM->approved($id);
+            if(!$update_flg){
+                $result['info'] = "通过发票申请失败！";
+                return json($result);
+            }
         }
         $result['status']=1;
         $result['info']='通过发票申请成功!';
@@ -76,9 +123,8 @@ class Bill extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
-        $userinfo = get_userinfo();
-        $uid = $userinfo["userid"];
-        $update_flg = false;
+        $billM = new BillModel($this->corp_id);
+        $update_flg = $billM->rejected($id);
         if(!$update_flg){
             $result['info'] = "驳回发票申请失败！";
             return json($result);
@@ -93,10 +139,14 @@ class Bill extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
-        $userinfo = get_userinfo();
-        $uid = $userinfo["userid"];
+        $billM = new BillModel($this->corp_id);
+        $update_flg = $billM->received($id);
+        if(!$update_flg){
+            $result['info'] = "已领取发票失败！";
+            return json($result);
+        }
         $result['status']=1;
-        $result['info']='已领取发票开发中!';
+        $result['info']='已领取发票成功!';
         return $result;
     }
     public function invalid(){
@@ -106,10 +156,14 @@ class Bill extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
-        $userinfo = get_userinfo();
-        $uid = $userinfo["userid"];
+        $billM = new BillModel($this->corp_id);
+        $update_flg = $billM->invalid($id);
+        if(!$update_flg){
+            $result['info'] = "作废发票失败！";
+            return json($result);
+        }
         $result['status']=1;
-        $result['info']='作废发票开发中!';
+        $result['info']='作废发票成功!';
         return $result;
     }
 }

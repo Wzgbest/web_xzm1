@@ -2,11 +2,12 @@
 namespace app\crm\controller;
 
 use app\common\controller\Initialize;
+use app\crm\model\Bill as BillModel;
+use app\common\model\Employee as EmployeeModel;
 use app\systemsetting\model\BillSetting as BillSettingModel;
 use app\common\model\RoleEmployee as RoleEmployeeModel;
 use app\systemsetting\model\ContractSetting as ContractSettingModel;
 use app\crm\model\Contract as ContractAppliedModel;
-use app\crm\model\Bill as BillModel;
 use app\crm\model\SaleChance as SaleChanceModel;
 use app\crm\model\Customer as CustomerModel;
 use app\crm\model\SaleOrderContract as SaleOrderContractModel;
@@ -19,13 +20,105 @@ class Bill extends Initialize{
     }
 
     public function index(){
-        return "/crm/bill/index";
+        $num = input('num',$this->paginate_list_rows,'int');
+        $p = input("p",1,"int");
+        $customers_count=0;
+        $start_num = ($p-1)*$num;
+        $end_num = $start_num+$num;
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $filter = $this->_getCustomerFilter([]);
+        $field = $this->_getCustomerField([]);
+        $filter["employee_id"] = $uid;
+        try{
+            $billM = new BillModel($this->corp_id);
+            $bill_list = $billM->getBill($num,$p,$filter,$field,$order,$direction);
+            //var_exp($bill_list,'$bill_list',1);
+            $employee_ids = [];
+            foreach ($bill_list as &$bill){
+                $handle_status = $bill["handle_status"];
+                if(
+                    isset($bill["handle_".$handle_status]) &&
+                    !empty($bill["handle_".$handle_status])
+                ){
+                    $employee_ids[] = $bill["handle_".$handle_status];
+                    $bill["assessor"] = $bill["handle_".$handle_status];
+                }
+            }
+            $employeeM = new EmployeeModel($this->corp_id);
+            $employee_name_index = $employeeM->getEmployeeNameByUserids($employee_ids);
+            foreach ($bill_list as &$bill){
+                if(
+                    isset($bill["assessor"])&&
+                    isset($employee_name_index[$bill["assessor"]])
+                ) {
+                    $bill["assessor_name"] = $employee_name_index[$bill["assessor"]];
+                }else{
+                    $bill["assessor_name"] = '';
+                }
+            }
+            $this->assign('list_data',$bill_list);
+            $customers_count = $billM->getBillCount($filter);
+            $this->assign("count",$customers_count);
+            $billSettingModel = new BillSettingModel($this->corp_id);
+            $bills = $billSettingModel->getBillNameIndex();
+            //var_exp($bills,'$bills',1);
+            $this->assign('bill_name',$bills);
+        }catch (\Exception $ex){
+            $this->error($ex->getMessage());
+        }
+        $max_page = ceil($customers_count/$num);
+        $userinfo = get_userinfo();
+        $truename = $userinfo["truename"];
+        $this->assign("p",$p);
+        $this->assign("num",$num);
+        $this->assign("filter",$filter);
+        $this->assign("max_page",$max_page);
+        $this->assign("truename",$truename);
+        $this->assign("start_num",$customers_count?$start_num+1:0);
+        $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
+        return view();
+    }
+    protected function _getCustomerFilter($filter_column){
+        $filter = [];
+        return $filter;
+    }
+    protected function _getCustomerField($field_column){
+        $field = [];
+        return $field;
+    }
+
+    public function bill_apply_check(){
+        $result = ['status'=>0 ,'info'=>"检查发票申请时发生错误！"];
+        $sale_id = input("sale_id",0,"int");
+        if(!$sale_id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $billM = new BillModel($this->corp_id);
+        $bill_info = $billM->checkBillBySaleIdNot($sale_id,[2,3,6,9]);
+        if(!empty($bill_info)){
+            $result['info'] = "该销售机会已申请发票,请勿重复申请！";
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "该销售机会未申请发票！";
+        return json($result);
     }
 
     public function bill_apply(){
         $sale_id = input("sale_id",0,"int");
         if(!$sale_id){
             $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $billM = new BillModel($this->corp_id);
+        $bill_info = $billM->checkBillBySaleIdNot($sale_id,[2,3,6,9]);
+        if(!empty($bill_info)){
+            $result['status'] = 0;
+            $result['info'] = "该销售机会已申请发票,请勿重复申请！";
             return json($result);
         }
         $this->assign('sale_id',$sale_id);
@@ -43,6 +136,7 @@ class Bill extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $sale_id = input("sale_id",null,"int");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
         try{
@@ -83,22 +177,24 @@ class Bill extends Initialize{
             //var_exp($role_employee_index,'$role_employee_index',1);
             $contractSettingInfo["role_employee_index"] = $role_employee_index;
 
-            $contractSettingModel = new ContractSettingModel($this->corp_id);
-            $contracts = $contractSettingModel->getAllContractName();
-            //var_exp($contracts,'$contracts',1);
-            $contractSettingInfo["contract_list"] = $contracts;
-
             $status = [5,7,8];
             $contractAppliedModel = new ContractAppliedModel($this->corp_id);
-            $contracts = $contractAppliedModel->getAllContractNoAndType($uid,$status);
+            $contracts = $contractAppliedModel->getAllContractNoAndType($uid,$sale_id,$status);
             //var_exp($contractApplieds,'$contractApplieds',1);
             $contract_type_index = [];
+            $contract_type_ids= [];
             foreach ($contracts as $contract){
                 $tmp["id"] = $contract["id"];
                 $tmp["contract_no"] = $contract["contract_no"];
                 $contract_type_index[$contract["contract_type"]][] = $tmp;
+                $contract_type_ids[] = $contract["contract_type"];
             }
             $contractSettingInfo["contract_type_index"] = $contract_type_index;
+
+            $contractSettingModel = new ContractSettingModel($this->corp_id);
+            $contracts = $contractSettingModel->getAllContractName($contract_type_ids);
+            //var_exp($contracts,'$contracts',1);
+            $contractSettingInfo["contract_list"] = $contracts;
 
             $result['data'] = $contractSettingInfo;
         }catch (\Exception $ex){
@@ -122,17 +218,27 @@ class Bill extends Initialize{
             return json($result);
         }
         $sale_id = $bill_apply_arr["sale_id"];
-        //$sale_id += 1;//TODO 测试
+        if(
+            empty($sale_id)
+        ){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $billM = new BillModel($this->corp_id);
+        $bill_info = $billM->checkBillBySaleIdNot($sale_id,[2,3,6,9]);
+        if(!empty($bill_info)){
+            $result['info'] = "该销售机会已申请发票,请勿重复申请！";
+            return json($result);
+        }
         $bill_type = $bill_apply_arr["bill_type"];
-        $contract_number = $bill_apply_arr["contract_number"];
+        $contract_id = $bill_apply_arr["contract_id"];
         $tax_num = $bill_apply_arr["tax_num"];
         $product_type_arr = $bill_apply_arr["product_type"];
         $pay_way_arr = $bill_apply_arr["pay_way"];
         $handle_arr = $bill_apply_arr["handle"];
         if(
-            empty($sale_id)||
             empty($bill_type)||
-            empty($contract_number)||
+            empty($contract_id)||
             empty($tax_num)||
             empty($product_type_arr)||
             empty($pay_way_arr)||
@@ -166,7 +272,7 @@ class Bill extends Initialize{
             return json($result);
         }
         $contractAppliedM = new ContractAppliedModel($this->corp_id);
-        $contract = $contractAppliedM->getContract($contract_number);
+        $contract = $contractAppliedM->getContractNoInfo($contract_id);
         if(empty($contract)){
             $result['info'] = "未找到所选合同！";
             return json($result);
@@ -196,8 +302,12 @@ class Bill extends Initialize{
         $data["handle_4"] = isset($handle_arr["handle_4"])?$handle_arr["handle_4"]:0;
         $data["handle_5"] = isset($handle_arr["handle_5"])?$handle_arr["handle_5"]:0;
         $data["handle_6"] = isset($handle_arr["handle_6"])?$handle_arr["handle_6"]:0;
+        $data["handle_status"] = 1;
+        $data["create_time"] = $time;
+        $data["update_time"] = $time;
+        $data["status"] = 0;
+        //var_exp($data,'$data',1);
 
-        $billM = new BillModel($this->corp_id);
         try{
             $billM->link->startTrans();
             $bill_add_flg = $billM->addBill($data);
@@ -207,6 +317,7 @@ class Bill extends Initialize{
             foreach ($product_type_arr as &$product_type){
                 $product_type["bill_id"] = $bill_add_flg;
             }
+            //var_exp($product_type_arr,'$product_type_arr',1);
             $bill_item_add_flg = $billM->addAllBillItem($product_type_arr);
             if(!$bill_item_add_flg){
                 exception("提交发票申请信息失败!");
@@ -214,8 +325,8 @@ class Bill extends Initialize{
             $billM->link->commit();
         }catch (\Exception $ex){
             $billM->link->rollback();
-            //$result['info'] = $ex->getMessage();
-            $result['info'] = "提交发票申请失败！";
+            $result['info'] = $ex->getMessage();
+            //$result['info'] = "提交发票申请失败！";
             return json($result);
         }
         $result['status']=1;
@@ -224,14 +335,15 @@ class Bill extends Initialize{
     }
     public function retract(){
         $result = ['status'=>0 ,'info'=>"撤回发票申请时发生错误！"];
-        $id = input("id",0,"int");
-        if(!$id){
+        $sale_id = input("sale_id",0,"int");
+        if(!$sale_id){
             $result['info'] = "参数错误！";
             return json($result);
         }
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        $update_flg = false;
+        $billM = new BillModel($this->corp_id);
+        $update_flg = $billM->retractBySaleId($sale_id,$uid);
         if(!$update_flg){
             $result['info'] = "撤回发票申请失败！";
             return json($result);

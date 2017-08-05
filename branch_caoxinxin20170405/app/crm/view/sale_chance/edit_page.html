@@ -74,11 +74,12 @@
 
         {eq name='show_fine' value='1'}
         <div class="sale-chance sale-chance-finish {notin name='now_item' value='3,4'} hide{/notin}">
+            <input type="hidden" name="refresh" value="{$refresh}" />
             <div>
                 <span class="cont">合同编号</span>
-                <select name="contract_num" class="contract_num_selecter">
+                <select name="contract_no" class="contract_no_selecter">
                     {volist name="contract_list" id="vo" key="key"}
-                        <option value="{$key-1}" {eq name='saleOrderContractData.contract_num' value='$key-1'} selected="selected"{/eq}>{$vo.contract_no}</option>
+                        <option value="{$key-1}" {eq name='saleOrderContractData.contract_no' value='$key-1'} selected="selected"{/eq}>{$vo.contract_no}</option>
                     {/volist}
                 </select>
                 <input type="hidden"  value='{$contract_type_name_json}'/>

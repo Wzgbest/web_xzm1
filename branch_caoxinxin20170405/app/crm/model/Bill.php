@@ -48,10 +48,12 @@ class Bill extends Base{
 
         $billList = $this->model->table($this->table)->alias('sob')
             ->join($this->dbprefix.'bill_setting bs','bs.id = sob.bill_type',"LEFT")
+            ->join($this->dbprefix.'sale_order_bill_item sobi','sobi.bill_id = sob.id',"LEFT")
             ->where($map)
             ->order($order)
+            ->group("sob.id")
             ->limit($offset,$num)
-            ->field('sob.*,bs.bill_type as bill_type_name')
+            ->field('sob.*,bs.bill_type as bill_type_name,GROUP_CONCAT( distinct `sobi`.`product_type`) as `product_type_name`')
             ->select();
         //var_exp($billList,'$billList',1);
         if($num==1&&$page==0&&$billList){
@@ -94,6 +96,48 @@ class Bill extends Base{
             ->select();
     }
 
+    public function checkBillBySaleIdNot($sale_id,$status){
+        if(empty($status)){
+            return [];
+        }
+        $map['status'] = ['notin',$status];
+        $map['sale_id'] = $sale_id;
+        return $this->model->table($this->table)
+            ->where($map)
+            ->find();
+    }
+
+    public function checkBillBySaleId($sale_id,$status){
+        if(empty($status)){
+            return [];
+        }
+        $map['status'] = ['in',$status];
+        $map['sale_id'] = $sale_id;
+        return $this->model->table($this->table)
+            ->where($map)
+            ->find();
+    }
+
+    public function getBillBySaleId($sale_id,$status=null){
+        if($status!=null){
+            $map['status'] = $status;
+        }
+        $map['sale_id'] = $sale_id;
+        return $this->model->table($this->table)
+            ->where($map)
+            ->find();
+    }
+
+    public function getBillById($id){
+        return $this->model->table($this->table)
+            ->where("id",$id)
+            ->find();
+    }
+
+    public function setBill($id,$data){
+        return $this->model->table($this->table)->where('id',$id)->update($data);
+    }
+
     public function addBill($data){
         return $this->model->table($this->table)->insertGetId($data);
     }
@@ -101,38 +145,43 @@ class Bill extends Base{
         $field = [
             'bill_id',
             'product_type',
-            'bill_money',
+            'product_type_money',
         ];
         return $this->model->table($this->dbprefix."sale_order_bill_item")->field($field)->insertAll($datas);
     }
 
     //撤回
     public function retract($id,$user_id=null){
-        if($user_id){
-            $data["employee_id"] = $user_id;
-        }
         $data["status"] = 3;
+        if($user_id){
+            $map["employee_id"] = $user_id;
+        }
         $map["id"] = $id;
         $map["status"] = 0;
         return $this->model->table($this->table)->where($map)->update($data);
     }
 
-    //核准
-    public function approved($id,$user_id=null){
+    //撤回
+    public function retractBySaleId($sale_id,$user_id=null){
+        $data["status"] = 3;
         if($user_id){
-            $data["employee_id"] = $user_id;
+            $map["employee_id"] = $user_id;
         }
-        $data["status"] = 1;
+        $map["sale_id"] = $sale_id;
+        $map["status"] = 0;
+        return $this->model->table($this->table)->where($map)->update($data);
+    }
+
+    //核准
+    public function approved($id){
+        $data["status"] = 4;
         $map["id"] = $id;
         $map["status"] = 0;
         return $this->model->table($this->table)->where($map)->update($data);
     }
 
     //驳回
-    public function rejected($id,$user_id=null){
-        if($user_id){
-            $data["employee_id"] = $user_id;
-        }
+    public function rejected($id){
         $data["status"] = 2;
         $map["id"] = $id;
         $map["status"] = 0;
@@ -140,10 +189,7 @@ class Bill extends Base{
     }
 
     //作废
-    public function invalid($id,$user_id=null){
-        if($user_id){
-            $data["employee_id"] = $user_id;
-        }
+    public function invalid($id){
         $data["status"] = 6;
         $map["id"] = $id;
         $map["status"] = 0;
@@ -151,10 +197,7 @@ class Bill extends Base{
     }
 
     //已领取
-    public function received($id,$user_id=null){
-        if($user_id){
-            $data["employee_id"] = $user_id;
-        }
+    public function received($id){
         $data["status"] = 5;
         $map["id"] = $id;
         $map["status"] = 0;

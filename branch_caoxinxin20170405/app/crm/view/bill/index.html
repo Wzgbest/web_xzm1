@@ -1,0 +1,121 @@
+<div class="crm_bill crm_bill_index" style="overflow-x: hidden;">
+	<div class="index_panel index">
+		<header>
+			<ul class="m-firNav">
+				<li in_column="0" class="in_column current"><div>发票审核中（<span>10</span>）</div></li>
+				<li in_column="1" class="in_column "><div>已通过发票（<span>0</span>）</div></li>
+				<li in_column="2" class="in_column "><div>已驳回发票（<span>0</span>）</div></li>
+				<li in_column="3" class="in_column "><div>已撤回发票（<span>0</span>）</div></li>
+				<li in_column="4" class="in_column "><div>已作废发票（<span>0</span>）</div></li>
+				<li in_column="5" class="in_column "><div>所有发票（<span>0</span>）</div></li>
+			</ul>
+			<!--<div id="bill-apply">
+                <i class="fa fa-clipboard"></i><br />
+                发票申请
+            </div>-->
+		</header>
+
+		<!--我的发票  列表-->
+		<section id="myAllBillPage">
+			<div class="m-divBlock m-divBlock2">
+				<ul class="m-secNav">
+					<li class="export-report">导出报表</li>
+					<div class="clearfix"></div>
+				</ul>
+				<div class="m-filterNav">
+					<form class="search_form" onsubmit="return false;">
+						<select name="">
+							<option value="">发票类型</option>
+							{volist name="bill_name" id="vo" key="key"}
+								<option value="{$key-1}">{$vo}</option>
+							{/volist}
+						</select>
+						<select name="">
+							<option value="">产品类型</option>
+						</select>
+						<select name="">
+							<option value="">收款银行</option>
+						</select>
+						<input type="text" name="" placeholder="输入申请人" value=""/>
+						<input type="text" name="customer_name" placeholder="输入对应客户" value=""/>
+						<input type="text" name="" placeholder="输入公司税号" value=""/>
+						<button class="u-btnSearch">查询</button>
+					</form>
+				</div>
+				<div class="m-tableBox">
+					<div class="m-table table-bill">
+						<ul class="u-tabTitle">
+							<li class="u-tabCheckbox"><input type="checkbox"/></li>
+							<li class="creat-time">申请时间<i class="fa fa-unsorted"></i></li>
+							<li class="update-time">状态变更时间<i class="fa fa-unsorted"></i></li>
+							<li class="bill-number">发票号</li>
+							<li class="bill-type">发票类型</li>
+							<li class="bill-money">开票金额</li>
+							<li class="client">对应客户</li>
+							<li class="tax-num">公司税号</li>
+							<li class="product-type">产品类型</li>
+							<li class="data-money">认款日期</li>
+							<li class="bill-assessor">审核人</li>
+							<li class="pay-type">打款类型</li>
+							<li class="pay-way">打款方式</li>
+							<li class="bill-status">发票状态</li>
+							<li class="operate">操作</li>
+							<div class="clearfix"></div>
+						</ul>
+						{volist name="list_data" id="vo"}
+						<ul class="u-tabList">
+							<li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+							<li class="creat-time">{$vo.create_time|time_format}</li>
+							<li class="update-time">{$vo.update_time|time_format}</li>
+							<li class="bill-number">{$vo.bill_no}</li>
+							<li class="bill-type">{$vo.bill_type_name}</li>
+							<li class="bill-money">{$vo.bill_money}元</li>
+							<li class="client">{$vo.customer_name}</li>
+							<li class="tax-num">{$vo.tax_num}</li>
+							<li class="product-type">{$vo.product_type_name}</li>
+							<li class="data-money">
+								{notempty name="vo.check_money_time"}
+									{$vo.check_money_time|time_format}
+								{/notempty}
+							</li>
+							<li class="bill-assessor">{$vo.assessor_name}</li>
+							<li class="pay-type">{eq name="vo.pay_type" value="现金"}现金{else/}银行打款{/eq}</li>
+							<li class="pay-way">{$vo.pay_type}</li>
+							<li class="bill-status">{$vo.status|getBillStatusName}</li>
+							<li class="u-tabOperation">
+								<span>撤回</span>
+							</li>
+							<div class="clearfix"></div>
+						</ul>
+						{/volist}
+					</div>
+				</div>
+				<div class="u-tabControlRow">
+					<span>显示行数</span>
+					<select>
+						<option value="5" {eq name="num" value="5"} selected="selected"{/eq}>5</option>
+						<option value="10" {eq name="num" value="10"} selected="selected"{/eq}>10</option>
+						<option value="20" {eq name="num" value="20"} selected="selected"{/eq}>20</option>
+					</select>
+					<span>{$start_num}-{$end_num}条/</span>
+					<span>共{$count}条</span>
+					<button class="index_previous_page previous_page  disabled">上一页</button>
+					<button class="index_next_page next_page  disabled">下一页</button>
+					<span>前往</span>
+					<input class="index_jump_page jump_page" type="text" />
+					<span>页</span>
+				</div>
+			</div>
+		</section>
+		<!--<section id="create-bill" class="popUp hide">
+
+        </section>-->
+	</div>
+</div>
+<link rel="stylesheet" href="/crm/css/contract.css" />
+<script src="/crm/js/contract_index.js"></script>
+<script>
+	/*var i = '<i class="fa fa-unsorted"></i>';
+	 var arr = [[0,3,5,12],[[1,"通过时间",i],2,3,4,5],[[1,"驳回时间",i],3,5,11],[[1,"撤回时间",i],3,5],[[1,"作废时间",i],2,3,5],[[1,"提交审核时间",i],2,3,5,7,8,12],[[1,"成单时间",i],2,3,5,6,7,8,9],[[1,"状态变更时间",i],2,3,5,6,7,8,9,10]];
+	 var contract_index_list_manage = new list_manager("crm_contract_index","table-contract",arr);*/
+</script>

@@ -109,7 +109,10 @@ class SaleChance extends Base
             "scv.partner_notice",
             "scv.add_note",
             "scv.visit_ok",
+            "soc.id as order_id",
             "soc.status as order_status",
+            "sob.id as bill_id",
+            "sob.status as bill_status",
         ];
         return $this->model->table($this->table)->alias('sc')
             ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
@@ -118,7 +121,8 @@ class SaleChance extends Base
             ->join($this->dbprefix.'employee ae','sc.associator_id = ae.id',"LEFT")
             ->join($this->dbprefix.'sale_chance_visit scv','scv.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'sale_order_contract soc','soc.sale_id = sc.id',"LEFT")
-            ->where('customer_id',$customer_id)
+            ->join($this->dbprefix.'sale_order_bill sob','sob.sale_id = sc.id',"LEFT")
+            ->where('sc.customer_id',$customer_id)
             ->field($field)
             ->order("sc.id desc")
             ->select();

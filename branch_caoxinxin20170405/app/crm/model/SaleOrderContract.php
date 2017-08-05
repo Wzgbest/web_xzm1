@@ -185,7 +185,7 @@ class SaleOrderContract extends Base{
      */
     public function retractSaleOrderContract($id,$uid){
         $map['sc.id'] = $id;
-        $data["soc.status"] = 0;
+        $map["soc.status"] = 0;
         $map['sc.sale_status'] = 4;
         if($uid){
             $map["sc.employee_id"] = $uid;
@@ -199,17 +199,13 @@ class SaleOrderContract extends Base{
 
     /**通过
      * @param $id int 客户商机id
-     * @param $uid int 用户id
      * @return false|\PDOStatement|int|\think\Collection
      * created by blu10ph
      */
-    public function approvedSaleOrderContract($id,$uid){
-        $map['sc.id'] = $id;
-        $data["soc.status"] = 0;
+    public function approvedSaleOrderContract($id){
+        $map['soc.id'] = $id;
+        $map["soc.status"] = 0;
         $map['sc.sale_status'] = 4;
-        if($uid){
-            $map["sc.employee_id"] = $uid;
-        }
         $data["soc.status"] = 1;
         $data['sc.sale_status'] = 5;
         return $this->model->table($this->table)->alias('soc')
@@ -220,17 +216,13 @@ class SaleOrderContract extends Base{
 
     /**驳回
      * @param $id int 客户商机id
-     * @param $uid int 用户id
      * @return false|\PDOStatement|int|\think\Collection
      * created by blu10ph
      */
-    public function rejectedSaleOrderContract($id,$uid){
-        $map['sc.id'] = $id;
-        $data["soc.status"] = 0;
+    public function rejectedSaleOrderContract($id){
+        $map['soc.id'] = $id;
+        $map["soc.status"] = 0;
         $map['sc.sale_status'] = 4;
-        if($uid){
-            $map["sc.employee_id"] = $uid;
-        }
         $data["soc.status"] = 2;
         //$data['sc.sale_status'] = 6;
         return $this->model->table($this->table)->alias('soc')

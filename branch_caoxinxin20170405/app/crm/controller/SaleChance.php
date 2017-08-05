@@ -94,6 +94,7 @@ class SaleChance extends Initialize{
         $this->assign("fr",input('fr'));
         $saleChanceM = new SaleChanceModel($this->corp_id);
         $SaleChancesData = $saleChanceM->getAllSaleChancesByCustomerId($customer_id);
+        //var_exp($SaleChancesData,'$SaleChancesData',1);
         $this->assign("sale_chance",$SaleChancesData);
         $customerContactM = new CustomerContact($this->corp_id);
         $customer_contact_num = $customerContactM->getCustomerContactCount($customer_id);
@@ -189,7 +190,7 @@ class SaleChance extends Initialize{
             $saleOrderContractM = new SaleOrderContractModel($this->corp_id);
             $saleOrderContractData = $saleOrderContractM->getSaleOrderContractBySaleId($id);
             if(empty($saleOrderContractData)){
-                $saleOrderContractData["contract_num"] = 0;
+                $saleOrderContractData["contract_no"] = 0;
                 $saleOrderContractData["order_money"] = 0.00;
                 $saleOrderContractData["pay_money"] = 0.00;
                 $saleOrderContractData["pay_type"] = 0;
@@ -244,7 +245,7 @@ class SaleChance extends Initialize{
 
             $status = [5,7,8];
             $contractAppliedModel = new ContractAppliedModel($this->corp_id);
-            $contracts = $contractAppliedModel->getAllContractNoAndType($uid,$status);
+            $contracts = $contractAppliedModel->getAllContractNoAndType($uid,null,$status);
             //var_exp($contracts,'$contracts',1);
             $this->assign('contract_list',$contracts);
             $contract_type_index = [];
@@ -252,6 +253,9 @@ class SaleChance extends Initialize{
                 $contract_type_index[$contract["id"]] = $contract["contract_type_name"];
             }
             $this->assign('contract_type_name_json',json_encode($contract_type_index,true));
+
+            $refresh = input("refresh",0,"int");
+            $this->assign('refresh',$refresh);
 
             $show_fine = true;
         }
@@ -330,7 +334,8 @@ class SaleChance extends Initialize{
         $saleChance['final_money'] = input('final_money',0,'float');
 
         $saleChance['update_time'] = time();
-        $saleChance['prepay_time'] = input('prepay_time',0,'int');
+        $saleChance['prepay_time'] = input('prepay_time',0,'strtotime');
+        $saleChance['remark'] = input('remark','','string');
         return $saleChance;
     }
     public function add(){
@@ -427,11 +432,10 @@ class SaleChance extends Initialize{
         if($add_flg){
             $saleOrderFine["sale_id"] = $sale_id;
             $saleOrderFine["create_time"] = time();
-            $saleOrderFine["status"] = 1;
-            $saleOrderFine["handle_status"] = 0;
-            $saleOrderFine["contract_handle_status"] = 0;
+            $saleOrderFine["status"] = 0;
+            $saleOrderFine["handle_status"] = 1;
         }
-        $saleOrderFine['contract_num'] = input('contract_num',0,'int');
+        $saleOrderFine['contract_no'] = input('contract_no',0,'int');
         $saleOrderFine['order_money'] = input('order_money',0,'float');
         $saleOrderFine['pay_money'] = input('pay_money',0,'float');
         $saleOrderFine['pay_type'] = input('pay_type',0,'int');
@@ -447,13 +451,6 @@ class SaleChance extends Initialize{
         $saleOrderFine['handle_5'] = input('handle_5',0,'int');
         $saleOrderFine['handle_6'] = input('handle_6',0,'int');
 
-        $saleOrderFine['contract_handle_1'] = input('contract_handle_1',0,'int');
-        $saleOrderFine['contract_handle_2'] = input('contract_handle_2',0,'int');
-        $saleOrderFine['contract_handle_3'] = input('contract_handle_3',0,'int');
-        $saleOrderFine['contract_handle_4'] = input('contract_handle_4',0,'int');
-        $saleOrderFine['contract_handle_5'] = input('contract_handle_5',0,'int');
-        $saleOrderFine['contract_handle_6'] = input('contract_handle_6',0,'int');
-
         $saleOrderFine["update_time"] = time();
         return $saleOrderFine;
     }
@@ -464,7 +461,9 @@ class SaleChance extends Initialize{
         if(empty($saleOrderContractOldData)){
             $add_flg = true;
         }
-        $saleOrderContractData = $this->_getSaleChanceFineForInput($sale_id,$add_flg);
+        $refresh = input("refresh",0,"int");
+        $reply = $saleOrderContractOldData["status"]==3;
+        $saleOrderContractData = $this->_getSaleChanceFineForInput($sale_id,$add_flg||$refresh||$reply);
         //var_exp($saleOrderContractData,'$saleOrderContractData',1);
         $save_flg = false;
         if($add_flg){

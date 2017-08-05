@@ -81,13 +81,28 @@ class Index extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
-        $userinfo = get_userinfo();
-        $uid = $userinfo["userid"];
-        $contractAppliedM = new SaleOrderContractModel($this->corp_id);
-        $update_flg = $contractAppliedM->approvedSaleOrderContract($id,$uid);
-        if(!$update_flg){
-            $result['info'] = "通过成单申请失败！";
-            return json($result);
+        $saleOrderContractM = new SaleOrderContractModel($this->corp_id);
+        $saleOrderContract = $saleOrderContractM->getSaleOrderContract($id);
+        //var_exp($saleOrderContract,'$saleOrderContract',1);
+        $saleOrderContractStatus = $saleOrderContract["handle_status"];
+        if(
+            $saleOrderContractStatus!=6 &&
+            !empty($saleOrderContract["handle_".($saleOrderContractStatus+1)])
+        ){
+            //还有下一步审批,转为下一个人审批
+            $applied_data["handle_status"] = $saleOrderContractStatus+1;
+            $saleOrderContractFlg = $saleOrderContractM->setSaleOrderContract($id,$applied_data);
+            if(!$saleOrderContractFlg){
+                $result['info'] = "移交审批失败！";
+                return json($result);
+            }
+        }else{
+            //最后一步审批
+            $saleOrderContractFlg = $saleOrderContractM->approvedSaleOrderContract($id);
+            if(!$saleOrderContractFlg){
+                $result['info'] = "审批失败！!";
+                return json($result);
+            }
         }
         $result['status']=1;
         $result['info']='通过成单申请成功!';
@@ -100,10 +115,8 @@ class Index extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
-        $userinfo = get_userinfo();
-        $uid = $userinfo["userid"];
-        $contractAppliedM = new SaleOrderContractModel($this->corp_id);
-        $update_flg = $contractAppliedM->rejectedSaleOrderContract($id,$uid);
+        $saleOrderContractM = new SaleOrderContractModel($this->corp_id);
+        $update_flg = $saleOrderContractM->rejectedSaleOrderContract($id);
         if(!$update_flg){
             $result['info'] = "驳回成单申请失败！";
             return json($result);

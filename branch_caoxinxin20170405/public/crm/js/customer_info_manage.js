@@ -314,26 +314,30 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				});
 				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_edit").click(function(){
 					var edit_id = $(this).parent().siblings(":input").val();
-					self.sale_chance_edit(edit_id);
+					self.sale_chance_edit(edit_id,0);
 				});
 				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_invalid").click(function(){
 					var edit_id = $(this).parent().siblings(":input").val();
 					self.sale_chance_invalid(edit_id,self.id);
 				});
 				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_refresh").click(function(){
-					var edit_id = $(this).siblings(":input").val();
-					self.sale_chance_edit(edit_id);
+					var edit_id = $(this).parent().siblings(":input").val();
+					self.sale_chance_edit(edit_id,1);
 				});
 				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_reply").click(function(){
-					var edit_id = $(this).siblings(":input").val();
+					var edit_id = $(this).parent().siblings(":input").val();
 					self.sale_chance_reply(edit_id,self.id);
 				});
 				$(panel+" .clientInfoSaleChance .sale-chance-record .bill-apply").click(function(){
-					var edit_id = $(panel+" .clientInfoSaleChance .sale-chance-record .edit_id").val();
+					var edit_id = $(this).parent().parent().parent().siblings(".z-recordState").children(".edit_id").val();
 					var pop = new popLoad("#create-bill","/crm/bill/bill_apply/sale_id/"+edit_id);
 				});
+				$(panel+" .clientInfoSaleChance .sale-chance-record .bill-apply-retract").click(function(){
+					var edit_id = $(this).parent().parent().parent().siblings(".z-recordState").children(".edit_id").val();
+					self.bill_apply_retract(edit_id,self.id);
+				});
 				if(open_edit_id&&open_edit_id>0){
-					self.sale_chance_edit(open_edit_id);
+					self.sale_chance_edit(open_edit_id,0);
 				}
 			},
 			error:function(){
@@ -390,9 +394,9 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			}
 		});
 	};
-	this.sale_chance_edit=function(id){
+	this.sale_chance_edit=function(id,refresh){
 		console.log(id);
-		var url = "/crm/sale_chance/edit_page/id/"+id+"/fr/"+this.from;
+		var url = "/crm/sale_chance/edit_page/id/"+id+"/refresh/"+refresh+"/fr/"+this.from;
 		var panel = this.panel_base+' .customer_sale_chance';
 		var sale_chance_panel = panel+" .clientInfoSaleChance";
 		var edit_sale_chance_panel = sale_chance_panel+" .edit-sale-chance-"+id;
@@ -416,7 +420,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 						$(edit_sale_chance_panel+" .sale-chance-finish").removeClass("hide");
 					}
 				});
-				var contract_type_name_json = $(edit_sale_chance_panel+" .contract_num_selecter").siblings("input").val();
+				var contract_type_name_json = $(edit_sale_chance_panel+" .contract_no_selecter").siblings("input").val();
 				//console.log(contract_type_name_json);
 				if(contract_type_name_json){
 					var contract_type_name_index = null;
@@ -445,11 +449,11 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 						var contract_type_name = get_contract_type_name_by_id(contract_id);
 						$(edit_sale_chance_panel+" .contract_type").text(contract_type_name);
 					};
-					$(edit_sale_chance_panel+" .contract_num_selecter").change(function(){
+					$(edit_sale_chance_panel+" .contract_no_selecter").change(function(){
 						set_contract_type_name_by_id(this);
 					});
 					try{
-						set_contract_type_name_by_id($(edit_sale_chance_panel+" .contract_num_selecter"));
+						set_contract_type_name_by_id($(edit_sale_chance_panel+" .contract_no_selecter"));
 					}catch (ex){
 						console.log(ex);
 					}
@@ -541,6 +545,31 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			},
 			error: function() {
 				alert("撤回成单申请时发生错误!");
+			}
+		});
+	};
+	this.bill_apply_retract=function(id,customer_id){
+		console.log(id);
+		if(!window.confirm("确认撤回这个商机的发票申请吗?")){
+			return false;
+		}
+		var sale_chance_invalid_data = "id="+id+"&fr="+this.from;
+		this.reload_flg = 1;
+		//console.log(sale_chance_invalid_data);
+		$.ajax({
+			url: '/crm/bill/retract',
+			type: 'post',
+			data: sale_chance_invalid_data,
+			dataType: 'json',
+			success: function(data) {
+				//console.log(data);
+				alert(data.info);
+				if(data.status) {
+					self.sale_chance_show(customer_id);
+				}
+			},
+			error: function() {
+				alert("撤回发票申请时发生错误!");
 			}
 		});
 	};

@@ -23,6 +23,9 @@ function popLoad(id,url){
     	type: 'get',
     	async: false,
     	success: function(data) {
+			if(data.status==0){
+				alert(data.info);
+			}
         	$(id).html(data);
         	$(id).removeClass("hide");
     	},

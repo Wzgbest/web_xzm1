@@ -60,24 +60,30 @@ class Contract extends Base{
     /**
      * 查询所有合同
      * @param $user_id int 用户id
-     * @param $type int 合同类型
+     * @param $sale_id int 销售机会id
      * @param $status array 状态
+     * @param $type int 合同类型
      * @param $order string 排序字段
      * @param $direction string 排序顺序
      * @return array|false
      * @throws \think\Exception
      */
-    public function getAllContractNoAndType($user_id=null,$status=[],$type=null,$order="ca.id",$direction="desc"){
+    public function getAllContractNoAndType($user_id=null,$sale_id=null,$status=[],$type=null,$order="ca.id",$direction="desc"){
         //筛选
         $map = [];
         if($user_id){
             $map["ca.employee_id"] = $user_id;
         }
-        if($type){
-            $map["ca.contract_type"] = $type;
+        if($sale_id){
+            $map["soc.sale_id"] = $sale_id;
+        }else{
+            $map["soc.sale_id"] = ["exp","is null"];
         }
         if(!empty($type)){
             $map["ca.status"] = ["in",$status];
+        }
+        if($type){
+            $map["ca.contract_type"] = $type;
         }
         $map["c.status"] = ["egt",1];
 
@@ -90,6 +96,7 @@ class Contract extends Base{
         $contractList = $this->model->table($this->dbprefix."contract")->alias('c')
             ->join($this->table.' ca','ca.id = c.applied_id',"LEFT")
             ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract soc','soc.contract_no = c.id',"LEFT")
             ->where($map)
             ->order($order)
             ->column("c.contract_no,ca.contract_type,cs.contract_name as contract_type_name","c.id");
@@ -200,27 +207,20 @@ class Contract extends Base{
         return $this->model->table($this->table)->where('id',$id)->find();
     }
 
+    public function getContractNoInfo($id){
+        return $this->model->table($this->dbprefix."contract")->where('id',$id)->find();
+    }
+
     public function setContract($id,$data){
         return $this->model->table($this->table)->where('id',$id)->update($data);
     }
 
     //撤回
     public function retract($id,$user_id=null){
-        if($user_id){
-            $data["employee_id"] = $user_id;
-        }
         $data["status"] = 3;
-        $map["id"] = $id;
-        $map["status"] = 0;
-        return $this->model->table($this->table)->where($map)->update($data);
-    }
-
-    //核准
-    public function approved($id,$user_id=null){
         if($user_id){
-            $data["employee_id"] = $user_id;
+            $map["employee_id"] = $user_id;
         }
-        $data["status"] = 1;
         $map["id"] = $id;
         $map["status"] = 0;
         return $this->model->table($this->table)->where($map)->update($data);
@@ -228,10 +228,10 @@ class Contract extends Base{
 
     //驳回
     public function rejected($id,$user_id=null){
-        if($user_id){
-            $data["employee_id"] = $user_id;
-        }
         $data["status"] = 2;
+        if($user_id){
+            $map["employee_id"] = $user_id;
+        }
         $map["id"] = $id;
         $map["status"] = 0;
         return $this->model->table($this->table)->where($map)->update($data);
@@ -239,10 +239,10 @@ class Contract extends Base{
 
     //作废
     public function invalid($id,$user_id=null){
-        if($user_id){
-            $data["employee_id"] = $user_id;
-        }
         $data["status"] = 6;
+        if($user_id){
+            $map["employee_id"] = $user_id;
+        }
         $map["id"] = $id;
         $map["status"] = 0;
         return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
@@ -250,10 +250,10 @@ class Contract extends Base{
 
     //已领取
     public function received($id,$user_id=null){
-        if($user_id){
-            $data["employee_id"] = $user_id;
-        }
         $data["status"] = 5;
+        if($user_id){
+            $map["employee_id"] = $user_id;
+        }
         $map["id"] = $id;
         $map["status"] = 0;
         return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
@@ -261,10 +261,10 @@ class Contract extends Base{
 
     //提醒
     public function remind($id,$user_id=null){
-        if($user_id){
-            $data["employee_id"] = $user_id;
-        }
         $data["status"] = 8;
+        if($user_id){
+            $map["employee_id"] = $user_id;
+        }
         $map["id"] = $id;
         $map["status"] = 0;
         return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
@@ -272,10 +272,10 @@ class Contract extends Base{
 
     //已退款
     public function refunded($id,$user_id=null){
-        if($user_id){
-            $data["employee_id"] = $user_id;
-        }
         $data["status"] = 9;
+        if($user_id){
+            $map["employee_id"] = $user_id;
+        }
         $map["id"] = $id;
         $map["status"] = 0;
         return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
@@ -283,10 +283,10 @@ class Contract extends Base{
 
     //收回
     public function withdrawal($id,$user_id=null){
-        if($user_id){
-            $data["employee_id"] = $user_id;
-        }
         $data["status"] = 7;
+        if($user_id){
+            $map["employee_id"] = $user_id;
+        }
         $map["id"] = $id;
         $map["status"] = 0;
         return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
