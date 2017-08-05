@@ -61,6 +61,7 @@ class SaleChance extends Initialize{
             $this->error($ex->getMessage());
         }
         $max_page = ceil($customers_count/$num);
+        $in_column = isset($filter["in_column"])?$filter["in_column"]:0;
         $userinfo = get_userinfo();
         $truename = $userinfo["truename"];
         $this->assign("p",$p);
@@ -68,6 +69,7 @@ class SaleChance extends Initialize{
         $this->assign("filter",$filter);
         $this->assign("max_page",$max_page);
         $this->assign("truename",$truename);
+        $this->assign("in_column",$in_column);
         $this->assign("start_num",$customers_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view();

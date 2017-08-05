@@ -1,13 +1,13 @@
 <div class="crm_sale_chance crm_sale_chance_index">
-    <div class="index_panel index">
+    <div class="index_panel index number_screening">
 		<header>
             <ul class="m-firNav">
-                <li in_column="0" class="in_column current"><div>正常跟进（<span>10</span>）</div></li>
-                <li in_column="1" class="in_column "><div>停滞（<span>0</span>）</div></li>
-                <li in_column="2" class="in_column "><div>已成单（<span>0</span>）</div></li>
-                <li in_column="3" class="in_column "><div>已输单（<span>0</span>）</div></li>
-                <li in_column="4" class="in_column "><div>已作废（<span>0</span>）</div></li>
-                <li in_column="5" class="in_column "><div>所有销售机会（<span>0</span>）</div></li>
+                <li in_column="0" class="in_column {eq name='in_column' value='0'}current{/eq}"><div>正常跟进（<span>10</span>）</div></li>
+                <li in_column="1" class="in_column {eq name='in_column' value='1'}current{/eq}"><div>停滞（<span>0</span>）</div></li>
+                <li in_column="2" class="in_column {eq name='in_column' value='2'}current{/eq}"><div>已成单（<span>0</span>）</div></li>
+                <li in_column="3" class="in_column {eq name='in_column' value='3'}current{/eq}"><div>已输单（<span>0</span>）</div></li>
+                <li in_column="4" class="in_column {eq name='in_column' value='4'}current{/eq}"><div>已作废（<span>0</span>）</div></li>
+                <li in_column="5" class="in_column {eq name='in_column' value='5'}current{/eq}"><div>所有销售机会（<span>0</span>）</div></li>
             </ul>
         </header>
     
@@ -109,3 +109,8 @@
     </div>
 </div>    
 <link rel="stylesheet" href="/crm/css/index.css"/>
+<script src="/static/js/list_manage.js"></script>
+<script language="javascript">
+    var my_bill_list_manage = new list_manage("number_screening","number-screeningfr","/crm/sale_chance/index",'{$p}','{$num}','{$max_page}','{$in_column}',"");
+</script>
+<script src="/crm/js/sale_chance_index.js"></script>

@@ -70,6 +70,7 @@ class Bill extends Initialize{
             $this->error($ex->getMessage());
         }
         $max_page = ceil($customers_count/$num);
+        $in_column = isset($filter["in_column"])?$filter["in_column"]:0;
         $userinfo = get_userinfo();
         $truename = $userinfo["truename"];
         $this->assign("p",$p);
@@ -77,6 +78,7 @@ class Bill extends Initialize{
         $this->assign("filter",$filter);
         $this->assign("max_page",$max_page);
         $this->assign("truename",$truename);
+        $this->assign("in_column",$in_column);
         $this->assign("start_num",$customers_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view();
@@ -335,15 +337,21 @@ class Bill extends Initialize{
     }
     public function retract(){
         $result = ['status'=>0 ,'info'=>"撤回发票申请时发生错误！"];
+        $id = input("id",0,"int");
         $sale_id = input("sale_id",0,"int");
-        if(!$sale_id){
+        if(!$id&&!$sale_id){
             $result['info'] = "参数错误！";
             return json($result);
         }
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
+        $update_flg = false;
         $billM = new BillModel($this->corp_id);
-        $update_flg = $billM->retractBySaleId($sale_id,$uid);
+        if($id){
+            $update_flg = $billM->retract($id,$uid);
+        }else{
+            $update_flg = $billM->retractBySaleId($sale_id,$uid);
+        }
         if(!$update_flg){
             $result['info'] = "撤回发票申请失败！";
             return json($result);

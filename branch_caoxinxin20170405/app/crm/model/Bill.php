@@ -154,7 +154,7 @@ class Bill extends Base{
     public function retract($id,$user_id=null){
         $data["status"] = 3;
         if($user_id){
-            $map["employee_id"] = $user_id;
+            $map["operator"] = $user_id;
         }
         $map["id"] = $id;
         $map["status"] = 0;
@@ -165,7 +165,7 @@ class Bill extends Base{
     public function retractBySaleId($sale_id,$user_id=null){
         $data["status"] = 3;
         if($user_id){
-            $map["employee_id"] = $user_id;
+            $map["operator"] = $user_id;
         }
         $map["sale_id"] = $sale_id;
         $map["status"] = 0;
