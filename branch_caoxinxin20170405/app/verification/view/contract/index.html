@@ -1,139 +1,172 @@
-		<header>
-			<ul class="m-firNav">
-				<li in_column="0" class="in_column {eq name='in_column' value='0'}current{/eq}" id="myAllClients" ><div>待审核（<span>68</span>）</div></li>
-				<li in_column="1" class="in_column {eq name='in_column' value='1'}current{/eq}" id="awaitComClients"><div>待领取（<span>26</span>）</div></li>
-				<li in_column="2" class="in_column {eq name='in_column' value='2'}current{/eq}" id="notFllowClients"><div>已领取（<span>32</span>）</div></li>
-				<li in_column="3" class="in_column {eq name='in_column' value='3'}current{/eq}" id="followClients"><div>成单合同申请（<span>6</span>）</div></li>
-				<li in_column="4" class="in_column {eq name='in_column' value='4'}current{/eq}" id="stagnantClients"><div>已成单合同</div></li>
-				<!--
-				<li in_column="5" class="in_column {eq name='in_column' value='5'}current{/eq}" id="undeterminedClients"><div>尾款审核（<span>2</span>）</div></li>
-				<li in_column="6" class="in_column {eq name='in_column' value='6'}current{/eq}" id="noIntentionClients"><div>已结清订单（<span>8</span>）</div></li>
-				-->
-				<li in_column="7" class="in_column {eq name='in_column' value='7'}current{/eq}" id="overClients"><div>已驳回（<span>9</span>）</div></li>
-				<li in_column="8" class="in_column {eq name='in_column' value='8'}current{/eq}" id="invalidClients"><div>已作废（<span>9</span>）</div></li>
-				<li in_column="9" class="in_column {eq name='in_column' value='9'}current{/eq}" id="uselessClients"><div>已退款（<span>3</span>）</div></li>
-				<li in_column="10" class="in_column {eq name='in_column' value='10'}current{/eq}" id="allClients"><div>所有合同（<span>50</span>）</div></li>
-			</ul>
-		</header>
-		
-		<!--客户列表-->
-		<section>
-		<ul class="m-secNav">
-			<!--<li class="active" onclick="newClient()">新建客户</li>
-			<li class="active">导入客户</li>
-			<li class="active">录入记录</li>
-			<li class="vertical"></li>-->
-			<li>通过</li>
-			<li>驳回</li>
-			<li>导出报表</li>
-			<div class="clearfix"></div>
-		</ul>
-		<div class="m-filterNav">
-			<select>
-				<option>产品</option>
-			</select>
-			<select>
-				<option>部门</option>
-				{volist name="structs" id="vo"}
-				<option value="{$vo.id}" {present name='filter.structure'}{eq name='filter.structure' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.struct_name}</option>
-				{/volist}
-			</select>
-			<select>
-				<option>合同类型</option>
-				{volist name="contract_type_list" id="vo"}
-				<option value="{$vo.id}">{$vo.contract_name}</option>
-				{/volist}
-			</select>
-			<select>
-				<option>对应业务</option>
-				{volist name="business_flow_list" id="vo"}
-				<option value="{$vo.id}">{$vo.business_flow_name}</option>
-				{/volist}
-			</select>
-			<input type="text" placeholder="输入负责人姓名"/>
-			<input type="text" placeholder="输入客户名称"/>
-			<!--<input type="text" placeholder="输入公司税号"/>-->
-			<button class="u-btnSearch">查询</button>
-		</div>
-		<div class="m-tableBox">
-			<div class="m-table table-v-contract">
-				<ul class="u-tabTitle">
-					<li class="u-tabCheckbox"><input type="checkbox"/></li>
-					<li>时间<i class="fa fa-caret-up u-tabCilentName"></i></li>
-					<li>合同类型</li>
-					<li>合同号</li>
-					<li>对应业务</li>
-					<li>产品详情</li>
-					<li>部门<i class="fa fa-unsorted"></i></li>
-					<li>客户</li>
-					<li>签单时间<i class="fa fa-unsorted"></i></li>
-					<li>到账金额<i class="fa fa-unsorted"></i></li>
-					<li>合同状态</li>
-					<li>银行</li>
-					<!--<li>打款日期<i class="fa fa-unsorted"></i></li>-->
-					<!--<li>提醒时间<i class="fa fa-unsorted"></i></li>
-					<li>所在列</li>-->
-					<!--<li>分类</li>-->
-					<li>是否开票</li>
-					<li>对应状态</li>
-					<li>操作</li>
-					<div class="clearfix"></div>
-				</ul>
-				{volist name="list_data" id="vo"}
-				<ul class="u-tabList">
-					<li class="u-tabCheckbox"><input type="checkbox"/></li>
-					<li >{$vo.update_time|day_format}</li>
-					<li>{$vo.contract_type_name}</li>
-					<li>{present name="vo.contract_no"}{$vo.contract_no}{/present}</li>
-					<li>网站建设</li>
-					<li>公司官网首页</li>
-					<li>销售一部</li>
-					<li class="u-tabCilentName">山东潍坊中迅网络科技有限公司</li>
-					<li>2017/03/02</li>
-					<li>3,000.00元</li>
-					<li class="u-tabCilentName">全款合同</li>
-					
-					<li>招商银行</li>
-					<li>是</li>
-					
-					<!--<li>1天23:59</li>
-					<li>待沟通客户</li>-->
-					<!--<li>定金审核</li>
-					<li>客户要求时间急</li>-->
-					<li class="status">
-						{eq name="vo.status" value="1"}
-							{$vo.contract_status|getContractAppliedStatusName}
-						{else/}
-							{$vo.status|getContractAppliedStatusName}
-						{/eq}
-					</li>
-					<li class="u-tabOperation">
-						{eq name="vo.status" value="0"}
-							<span>驳回</span>
-							<span>通过</span>
-						{/eq}
-						{eq name="vo.status" value="1"}
-							<span>作废</span>
-						{/eq}
-					</li>
-					<div class="clearfix"></div>
-				</ul>
-				{/volist}
-			</div>
-		</div>
-		<div class="u-tabControlRow">
-			<span>显示行数</span>
-			<select>
-				<option value="5" {eq name="num" value="5"} selected="selected"{/eq}>5</option>
-				<option value="10" {eq name="num" value="10"} selected="selected"{/eq}>10</option>
-				<option value="20" {eq name="num" value="20"} selected="selected"{/eq}>20</option>
-			</select>
-			<span>{$start_num}-{$end_num}条/</span>
-			<span>共{$count}条</span>
-			<button>上一页</button>
-			<button>下一页</button>
-			<span>前往</span>
-			<input type="text" />
-			<span>页</span>
-		</div>
-		</section>
+<div class="verification_contract verification_contract_index" style="overflow-x: hidden;">
+    <div class="index_panel index verification_contract">
+        <header>
+            <ul class="m-firNav">
+                <li in_column="0" class="in_column {eq name='in_column' value='0'}current{/eq}" id="myAllClients">
+                    <div>待审核（<span>68</span>）</div>
+                </li>
+                <li in_column="1" class="in_column {eq name='in_column' value='1'}current{/eq}" id="awaitComClients">
+                    <div>待领取（<span>26</span>）</div>
+                </li>
+                <li in_column="2" class="in_column {eq name='in_column' value='2'}current{/eq}" id="notFllowClients">
+                    <div>已领取（<span>32</span>）</div>
+                </li>
+                <li in_column="3" class="in_column {eq name='in_column' value='3'}current{/eq}" id="followClients">
+                    <div>成单合同申请（<span>6</span>）</div>
+                </li>
+                <li in_column="4" class="in_column {eq name='in_column' value='4'}current{/eq}" id="stagnantClients">
+                    <div>已成单合同</div>
+                </li>
+                <!--
+                <li in_column="5" class="in_column {eq name='in_column' value='5'}current{/eq}" id="undeterminedClients"><div>尾款审核（<span>2</span>）</div></li>
+                <li in_column="6" class="in_column {eq name='in_column' value='6'}current{/eq}" id="noIntentionClients"><div>已结清订单（<span>8</span>）</div></li>
+                -->
+                <li in_column="7" class="in_column {eq name='in_column' value='7'}current{/eq}" id="overClients">
+                    <div>已驳回（<span>9</span>）</div>
+                </li>
+                <li in_column="8" class="in_column {eq name='in_column' value='8'}current{/eq}" id="invalidClients">
+                    <div>已作废（<span>9</span>）</div>
+                </li>
+                <li in_column="9" class="in_column {eq name='in_column' value='9'}current{/eq}" id="uselessClients">
+                    <div>已退款（<span>3</span>）</div>
+                </li>
+                <li in_column="10" class="in_column {eq name='in_column' value='10'}current{/eq}" id="allClients">
+                    <div>所有合同（<span>50</span>）</div>
+                </li>
+            </ul>
+        </header>
+
+        <!--客户列表-->
+        <section>
+            <ul class="m-secNav">
+                <!--<li class="active" onclick="newClient()">新建客户</li>
+                <li class="active">导入客户</li>
+                <li class="active">录入记录</li>
+                <li class="vertical"></li>-->
+                <li>通过</li>
+                <li>驳回</li>
+                <li>导出报表</li>
+                <div class="clearfix"></div>
+            </ul>
+            <div class="m-filterNav">
+                <select>
+                    <option>产品</option>
+                </select>
+                <select>
+                    <option>部门</option>
+                    {volist name="structs" id="vo"}
+                    <option value="{$vo.id}" {present name='filter.structure' }{eq name='filter.structure' value='$vo.id' }
+                            selected="selected" {
+                    /eq}{/present}>{$vo.struct_name}</option>
+                    {/volist}
+                </select>
+                <select>
+                    <option>合同类型</option>
+                    {volist name="contract_type_list" id="vo"}
+                    <option value="{$vo.id}">{$vo.contract_name}</option>
+                    {/volist}
+                </select>
+                <select>
+                    <option>对应业务</option>
+                    {volist name="business_flow_list" id="vo"}
+                    <option value="{$vo.id}">{$vo.business_flow_name}</option>
+                    {/volist}
+                </select>
+                <input type="text" placeholder="输入负责人姓名"/>
+                <input type="text" placeholder="输入客户名称"/>
+                <!--<input type="text" placeholder="输入公司税号"/>-->
+                <button class="u-btnSearch">查询</button>
+            </div>
+            <div class="m-tableBox">
+                <div class="m-table table-v-contract">
+                    <ul class="u-tabTitle">
+                        <li class="u-tabCheckbox"><input type="checkbox"/></li>
+                        <li>时间<i class="fa fa-caret-up u-tabCilentName"></i></li>
+                        <li>合同类型</li>
+                        <li>合同号</li>
+                        <li>对应业务</li>
+                        <li>产品详情</li>
+                        <li>部门<i class="fa fa-unsorted"></i></li>
+                        <li>客户</li>
+                        <li>签单时间<i class="fa fa-unsorted"></i></li>
+                        <li>到账金额<i class="fa fa-unsorted"></i></li>
+                        <li>合同状态</li>
+                        <li>银行</li>
+                        <!--<li>打款日期<i class="fa fa-unsorted"></i></li>-->
+                        <!--<li>提醒时间<i class="fa fa-unsorted"></i></li>
+                        <li>所在列</li>-->
+                        <!--<li>分类</li>-->
+                        <li>是否开票</li>
+                        <li>对应状态</li>
+                        <li>操作</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                    {volist name="list_data" id="vo"}
+                    <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+                        <li>{$vo.update_time|day_format}</li>
+                        <li>{$vo.contract_type_name}</li>
+                        <li>{present name="vo.contract_no"}{$vo.contract_no}{/present}</li>
+                        <li>网站建设</li>
+                        <li>公司官网首页</li>
+                        <li>销售一部</li>
+                        <li class="u-tabCilentName">山东潍坊中迅网络科技有限公司</li>
+                        <li>2017/03/02</li>
+                        <li>3,000.00元</li>
+                        <li class="u-tabCilentName">全款合同</li>
+
+                        <li>招商银行</li>
+                        <li>是</li>
+
+                        <!--<li>1天23:59</li>
+                        <li>待沟通客户</li>-->
+                        <!--<li>定金审核</li>
+                        <li>客户要求时间急</li>-->
+                        <li class="status">
+                            {eq name="vo.status" value="1"}
+                            {$vo.contract_status|getContractAppliedStatusName}
+                            {else/}
+                            {$vo.status|getContractAppliedStatusName}
+                            {/eq}
+                        </li>
+                        <li class="u-tabOperation">
+                            {eq name="vo.status" value="0"}
+                                <span class="rejected">驳回</span>
+                                <span class="approved">通过</span>
+                                <span class="approved comment">备注通过</span>
+                            {/eq}
+                            {eq name="vo.status" value="1"}
+                                <span class="invalid">作废</span>
+                            {/eq}
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                    {/volist}
+                </div>
+            </div>
+            <div class="u-tabControlRow">
+                <span>显示行数</span>
+                <select>
+                    <option value="5" {eq name="num" value="5" } selected="selected" {
+                    /eq}>5</option>
+                    <option value="10" {eq name="num" value="10" } selected="selected" {
+                    /eq}>10</option>
+                    <option value="20" {eq name="num" value="20" } selected="selected" {
+                    /eq}>20</option>
+                </select>
+                <span>{$start_num}-{$end_num}条/</span>
+                <span>共{$count}条</span>
+                <button class="index_previous_page previous_page  disabled">上一页</button>
+                <button class="index_next_page next_page  disabled">下一页</button>
+                <span>前往</span>
+                <input class="index_jump_page jump_page" type="text" />
+                <span>页</span>
+            </div>
+        </section>
+    </div>
+</div>
+<script src="/static/js/list_manage.js"></script>
+<script language="javascript">
+    var verification_contract_list_manage = new list_manage("verification_contract","verification-contractfr","/verification/contract/index",'{$p}','{$num}','{$max_page}','{$in_column}',"");
+</script>
+<script src="/verification/js/verification_contract.js"></script>

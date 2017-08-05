@@ -348,7 +348,7 @@ class Bill extends Initialize{
         $update_flg = false;
         $billM = new BillModel($this->corp_id);
         if($id){
-            $update_flg = $billM->retract($id,$uid);
+            $update_flg = $billM->retract($sale_id,$uid);
         }else{
             $update_flg = $billM->retractBySaleId($sale_id,$uid);
         }

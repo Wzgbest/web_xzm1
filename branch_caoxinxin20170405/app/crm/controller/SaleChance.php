@@ -192,7 +192,7 @@ class SaleChance extends Initialize{
             $saleOrderContractM = new SaleOrderContractModel($this->corp_id);
             $saleOrderContractData = $saleOrderContractM->getSaleOrderContractBySaleId($id);
             if(empty($saleOrderContractData)){
-                $saleOrderContractData["contract_no"] = 0;
+                $saleOrderContractData["contract_id"] = 0;
                 $saleOrderContractData["order_money"] = 0.00;
                 $saleOrderContractData["pay_money"] = 0.00;
                 $saleOrderContractData["pay_type"] = 0;
@@ -437,7 +437,7 @@ class SaleChance extends Initialize{
             $saleOrderFine["status"] = 0;
             $saleOrderFine["handle_status"] = 1;
         }
-        $saleOrderFine['contract_no'] = input('contract_no',0,'int');
+        $saleOrderFine['contract_id'] = input('contract_id',0,'int');
         $saleOrderFine['order_money'] = input('order_money',0,'float');
         $saleOrderFine['pay_money'] = input('pay_money',0,'float');
         $saleOrderFine['pay_type'] = input('pay_type',0,'int');

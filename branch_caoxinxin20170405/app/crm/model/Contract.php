@@ -96,7 +96,7 @@ class Contract extends Base{
         $contractList = $this->model->table($this->dbprefix."contract")->alias('c')
             ->join($this->table.' ca','ca.id = c.applied_id',"LEFT")
             ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
-            ->join($this->dbprefix.'sale_order_contract soc','soc.contract_no = c.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract soc','soc.contract_id = c.id',"LEFT")
             ->where($map)
             ->order($order)
             ->column("c.contract_no,ca.contract_type,cs.contract_name as contract_type_name","c.id");

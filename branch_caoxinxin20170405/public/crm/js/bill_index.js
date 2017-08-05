@@ -20,7 +20,7 @@ $("#frames #my-billfr .my_bill .u-tabList .u-tabOperation .retract").click(funct
             }
         },
         error: function() {
-            alert("撤回合同申请时发生错误!");
+            alert("撤回发票申请时发生错误!");
         }
     });
 });

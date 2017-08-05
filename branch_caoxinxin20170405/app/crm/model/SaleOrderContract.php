@@ -74,6 +74,7 @@ class SaleOrderContract extends Base{
 
         $field = [
             "soc.*",
+            "co.contract_no",
             "e.truename as employee_name",
             "sc.business_id",
             "sc.sale_name",
@@ -87,6 +88,7 @@ class SaleOrderContract extends Base{
         return $this->model->table($this->table)->alias('soc')
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'contract co','co.id = soc.contract_id',"LEFT")
             ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
             ->join($this->dbprefix.'structure_employee se','se.user_id = e.id')
             ->join($this->dbprefix.'structure s','se.struct_id = s.id')
