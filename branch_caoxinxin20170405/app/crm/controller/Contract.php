@@ -24,7 +24,7 @@ class Contract extends Initialize{
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        $filter = $this->_getCustomerFilter([]);
+        $filter = $this->_getCustomerFilter(["in_column"]);
         $field = $this->_getCustomerField([]);
         $filter["employee_id"] = $uid;
         try{
@@ -57,6 +57,9 @@ class Contract extends Initialize{
             $this->assign('list_data',$contractApplieds);
             $customers_count = $contractAppliedModel->getContractAppliedCount($filter);
             $this->assign("count",$customers_count);
+            $listCount = $contractAppliedModel->getColumnNum($uid,$filter);
+            //var_exp($listCount,'$listCount',1);
+            $this->assign("listCount",$listCount);
             $contractSettingModel = new ContractModel($this->corp_id);
             $contracts = $contractSettingModel->getAllContract();
             //var_exp($contracts,'$contracts',1);
@@ -84,6 +87,14 @@ class Contract extends Initialize{
     }
     protected function _getCustomerFilter($filter_column){
         $filter = [];
+
+        //所在列
+        if(in_array("in_column", $filter_column)){
+            $in_column = input("in_column",1,"int");
+            if($in_column){
+                $filter["in_column"] = $in_column;
+            }
+        }
         return $filter;
     }
     protected function _getCustomerField($field_column){

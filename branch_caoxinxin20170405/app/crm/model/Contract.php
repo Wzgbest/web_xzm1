@@ -122,6 +122,13 @@ class Contract extends Base{
 
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
+        $having = null;
+        if(array_key_exists("in_column", $filter)){
+            $in_column = $filter["in_column"];
+            if($in_column>0&&$in_column<8){
+                $having = " in_column = $in_column ";
+            }
+        }
 
         //排序
         if($direction!="desc" && $direction!="asc"){
@@ -129,14 +136,39 @@ class Contract extends Base{
         }
         $order = $order." ".$direction;
 
+        $field = [
+            'ca.*',
+            'GROUP_CONCAT(co.contract_no) as contract_no',
+            'co.status as contract_status',
+            'cs.contract_name as contract_type_name',
+            "sc.sale_name",
+            "sc.sale_status",
+            'soc.status as order_status',
+            "c.customer_name",
+            "bfs.business_flow_name",
+            "(case when `ca`.`status` = 0 then 1 
+            when `ca`.`status` = 2 then 3 
+            when `ca`.`status` = 3 then 4 
+            when `ca`.`status` = 1 and co.status = 6 then 5 
+            when `ca`.`status` = 1 and sc.sale_status = 4 and soc.status = 0 then 6 
+            when `ca`.`status` = 1 and sc.sale_status = 5 and soc.status = 1 then 7 
+            when `ca`.`status` = 1 and (co.status = 1 or co.status = 4 or co.status = 5 or co.status = 7 or co.status = 8) then 2 
+            else 8 end ) as in_column",
+        ];
+
         $contractAppliedList = $this->model->table($this->table)->alias('ca')
-            ->join($this->dbprefix.'contract c','c.applied_id = ca.id',"LEFT")
+            ->join($this->dbprefix.'contract co','co.applied_id = ca.id',"LEFT")
             ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract soc','soc.contract_id = co.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
+            ->join($this->dbprefix.'customer c','c.id = sc.customer_id',"LEFT")
+            ->join($this->dbprefix.'business_flow_setting bfs','bfs.id = sc.business_id',"LEFT")
             ->where($map)
+            ->group("ca.id,co.group_field")
             ->order($order)
-            ->group("ca.id,c.group_field")
+            ->having($having)
             ->limit($offset,$num)
-            ->field('ca.*,GROUP_CONCAT(c.contract_no) as contract_no,c.status as contract_status,cs.contract_name as contract_type_name')
+            ->field($field)
             ->select();
         //var_exp($contractAppliedList,'$contractAppliedList',1);
         if($num==1&&$page==0&&$contractAppliedList){
@@ -164,6 +196,73 @@ class Contract extends Base{
     protected function _getMapByFilter($filter,$filter_column){
         $map = [];
         return $map;
+    }
+
+    /**
+     * 根据员工id查询我的客户页列上的数量
+     * @param $uid int 员工id
+     * @param $filter array 过滤条件
+     * @return array|false|\PDOStatement|string|\think\Model
+     * created by blu10ph
+     */
+    public function getColumnNum($uid,$filter=null){
+
+        //筛选
+        $map = $this->_getMapByFilter($filter,[]);
+
+        $field = [
+            "(case when `ca`.`status` = 0 then 1 
+            when `ca`.`status` = 2 then 3 
+            when `ca`.`status` = 3 then 4 
+            when `ca`.`status` = 1 and co.status = 6 then 5 
+            when `ca`.`status` = 1 and sc.sale_status = 4 and soc.status = 0 then 6 
+            when `ca`.`status` = 1 and sc.sale_status = 5 and soc.status = 1 then 7 
+            when `ca`.`status` = 1 and (co.status = 1 or co.status = 4 or co.status = 5 or co.status = 7 or co.status = 8) then 2 
+            else 8 end ) as in_column",
+        ];
+        $getCountField = [
+            "(case when in_column = 1 then 1 else 0 end) as `1`",
+            "(case when in_column = 2 then 1 else 0 end) as `2`",
+            "(case when in_column = 3 then 1 else 0 end) as `3`",
+            "(case when in_column = 4 then 1 else 0 end) as `4`",
+            "(case when in_column = 5 then 1 else 0 end) as `5`",
+            "(case when in_column = 6 then 1 else 0 end) as `6`",
+            "(case when in_column = 7 then 1 else 0 end) as `7`",
+        ];
+        $countField = [
+            "count(*) as `0`",
+            "sum(`1`) as `1`",
+            "sum(`2`) as `2`",
+            "sum(`3`) as `3`",
+            "sum(`4`) as `4`",
+            "sum(`5`) as `5`",
+            "sum(`6`) as `6`",
+            "sum(`7`) as `7`",
+        ];
+
+        $customerQuery = $this->model->table($this->table)->alias('ca')
+            ->join($this->dbprefix.'contract co','co.applied_id = ca.id',"LEFT")
+            ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract soc','soc.contract_id = co.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
+            ->join($this->dbprefix.'customer c','c.id = sc.customer_id',"LEFT")
+            ->join($this->dbprefix.'business_flow_setting bfs','bfs.id = sc.business_id',"LEFT")
+            ->where($map)
+            ->group("ca.id,co.group_field")
+            ->field($field)
+            ->buildSql();
+        //var_exp($contractAppliedList,'$contractAppliedList',1);
+        $getListCount = $this->model
+            ->table($customerQuery." glc")
+            ->field($getCountField)
+            ->buildSql();
+        //var_exp($getListCount,'$listCount');
+        $listCount = $this->model
+            ->table($getListCount." lc")
+            ->field($countField)
+            ->find();
+        //var_exp($listCount,'$listCount',1);
+        return $listCount;
     }
 
     public function addContract($data){
