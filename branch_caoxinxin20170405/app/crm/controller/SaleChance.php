@@ -19,6 +19,7 @@ use app\systemsetting\model\BusinessFlowItem;
 use app\systemsetting\model\BusinessFlowItemLink;
 use app\common\model\RoleEmployee as RoleEmployeeModel;
 use app\crm\model\Contract as ContractAppliedModel;
+use app\crm\model\CustomerTrace as CustomerTraceModel;
 
 class SaleChance extends Initialize{
     protected $_activityBusinessFlowItem = [1,2,4];
@@ -261,6 +262,7 @@ class SaleChance extends Initialize{
 
             $show_fine = true;
         }
+        
         $this->assign('show_fine',$show_fine);
         //var_exp($this->_activityBusinessFlowItem,'$activity_business_flow_item_index');
         $this->assign('activity_business_flow_item_index',$this->_activityBusinessFlowItem);
@@ -383,6 +385,15 @@ class SaleChance extends Initialize{
                     exception("保存成单申请信息失败!");
                 }
             }
+            
+//            if(!empty($customersTraces)){
+//                $customerM = new CustomerTraceModel($this->corp_id);
+//                $customerTraceflg = $customerM->addMultipleCustomerMessage($customersTraces);
+//                if(!$customerTraceflg){
+//                    exception('提交客户跟踪数据失败!');
+//                }
+//            }
+            
             $saleChanceM->link->commit();
             $result['data'] = $saleChanceflg;
         }catch (\Exception $ex){

@@ -134,8 +134,9 @@ class Contract extends Base{
             ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
             ->where($map)
             ->order($order)
+            ->group("ca.id,c.group_field")
             ->limit($offset,$num)
-            ->field('ca.*,c.contract_no,c.status as contract_status,cs.contract_name as contract_type_name')
+            ->field('ca.*,GROUP_CONCAT(c.contract_no) as contract_no,c.status as contract_status,cs.contract_name as contract_type_name')
             ->select();
         //var_exp($contractAppliedList,'$contractAppliedList',1);
         if($num==1&&$page==0&&$contractAppliedList){
@@ -203,6 +204,14 @@ class Contract extends Base{
         return $this->model->table($this->dbprefix."contract")->field($field)->insertAll($datas);
     }
 
+    public function updateContractNos($id){
+        $data["c.group_field"] = ['exp',"contract_no"];
+        return $this->model->table($this->table)->alias('ca')
+            ->join($this->dbprefix.'contract c','c.applied_id = ca.id',"LEFT")
+            ->where('ca.id',$id)
+            ->update($data);
+    }
+
     public function getContract($id){
         return $this->model->table($this->table)->where('id',$id)->find();
     }
@@ -211,8 +220,8 @@ class Contract extends Base{
         return $this->model->table($this->dbprefix."contract")->where('id',$id)->find();
     }
 
-    public function setContract($id,$data){
-        return $this->model->table($this->table)->where('id',$id)->update($data);
+    public function setContract($id,$data,$map=null){
+        return $this->model->table($this->table)->where('id',$id)->where($map)->update($data);
     }
 
     //撤回

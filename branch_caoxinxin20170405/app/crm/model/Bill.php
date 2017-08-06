@@ -47,13 +47,14 @@ class Bill extends Base{
         $order = $order." ".$direction;
 
         $billList = $this->model->table($this->table)->alias('sob')
+            ->join($this->dbprefix.'employee e','sob.operator = e.id',"LEFT")
             ->join($this->dbprefix.'bill_setting bs','bs.id = sob.bill_type',"LEFT")
             ->join($this->dbprefix.'sale_order_bill_item sobi','sobi.bill_id = sob.id',"LEFT")
             ->where($map)
             ->order($order)
             ->group("sob.id")
             ->limit($offset,$num)
-            ->field('sob.*,bs.bill_type as bill_type_name,GROUP_CONCAT( distinct `sobi`.`product_type`) as `product_type_name`')
+            ->field('sob.*,e.truename as operator_name,bs.bill_type as bill_type_name,GROUP_CONCAT( distinct `sobi`.`product_type`) as `product_type_name`')
             ->select();
         //var_exp($billList,'$billList',1);
         if($num==1&&$page==0&&$billList){
@@ -104,6 +105,7 @@ class Bill extends Base{
         $map['sale_id'] = $sale_id;
         return $this->model->table($this->table)
             ->where($map)
+            ->order("id desc")
             ->find();
     }
 
@@ -134,8 +136,8 @@ class Bill extends Base{
             ->find();
     }
 
-    public function setBill($id,$data){
-        return $this->model->table($this->table)->where('id',$id)->update($data);
+    public function setBill($id,$data,$map=null){
+        return $this->model->table($this->table)->where('id',$id)->where($map)->update($data);
     }
 
     public function addBill($data){
@@ -168,14 +170,6 @@ class Bill extends Base{
             $map["operator"] = $user_id;
         }
         $map["sale_id"] = $sale_id;
-        $map["status"] = 0;
-        return $this->model->table($this->table)->where($map)->update($data);
-    }
-
-    //核准
-    public function approved($id){
-        $data["status"] = 4;
-        $map["id"] = $id;
         $map["status"] = 0;
         return $this->model->table($this->table)->where($map)->update($data);
     }

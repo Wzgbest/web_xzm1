@@ -63,7 +63,13 @@
                         	<li class="update-time">{$vo.update_time|day_format}</li>
                         	<li class="contract-number">{present name="vo.contract_no"}{$vo.contract_no}{/present}</li>
                         	<li class="contract-type">{$vo.contract_type_name}</li>
-                        	<li class="contract-status">待领取</li>
+                        	<li class="contract-status">
+								{eq name="vo.status" value="1"}
+								{$vo.contract_status|getContractAppliedStatusName}
+								{else/}
+								{$vo.status|getContractAppliedStatusName}
+								{/eq}
+							</li>
                         	<li class="assessor">{$vo.assessor_name}</li>
                         	<li class="sale-id">网站建设</li>
                         	<li class="customer-id color-blue">山东中迅网络传媒</li>
@@ -76,7 +82,7 @@
 									{$vo.status|getContractAppliedStatusName}
 								{/eq}
 							</li>
-                        	<li class="reject-reson">太丑</li>
+                        	<li class="reject-reson">{$vo.remark}</li>
                         	<li class="u-tabOperation">
 								{eq name="vo.status" value="0"}<span class="retract">撤回</span>{/eq}
 							</li>

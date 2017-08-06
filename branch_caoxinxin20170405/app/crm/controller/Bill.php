@@ -234,20 +234,25 @@ class Bill extends Initialize{
         }
         $bill_type = $bill_apply_arr["bill_type"];
         $contract_id = $bill_apply_arr["contract_id"];
-        $tax_num = $bill_apply_arr["tax_num"];
         $product_type_arr = $bill_apply_arr["product_type"];
         $pay_way_arr = $bill_apply_arr["pay_way"];
         $handle_arr = $bill_apply_arr["handle"];
         if(
             empty($bill_type)||
             empty($contract_id)||
-            empty($tax_num)||
             empty($product_type_arr)||
             empty($pay_way_arr)||
             empty($handle_arr)
         ){
             $result['info'] = "参数错误！";
             return json($result);
+        }
+        if(isset($bill_apply_arr["tax_num"])){
+            $tax_num = $bill_apply_arr["tax_num"];
+            if(empty($tax_num)){
+                $result['info'] = "参数错误！";
+                return json($result);
+            }
         }
         $saleChanceM = new SaleChanceModel($this->corp_id);
         $sale_chance = $saleChanceM->getSaleChance($sale_id);

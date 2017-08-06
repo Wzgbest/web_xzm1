@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------
 // | Author: blu10ph <blu10ph@gmail.com> <http://www.blu10ph.cn>
 // +----------------------------------------------------------------------
-namespace app\verificatio\model;
+namespace app\verification\model;
 
 use app\common\model\Base;
 
@@ -14,7 +14,7 @@ class VerificatioLog extends Base{
     protected $dbprefix;
     public function __construct($corp_id){
         $this->dbprefix = config('database.prefix');
-        $this->table = config('database.prefix') . 'sale_order_bill';
+        $this->table = config('database.prefix') . 'verification_log';
         parent::__construct($corp_id);
     }
 
@@ -64,7 +64,7 @@ class VerificatioLog extends Base{
      * @return array|false
      * @throws \think\Exception
      */
-    public function getBillCount($filter=null){
+    public function getVerificatioLogCount($filter=null){
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
 
@@ -81,6 +81,10 @@ class VerificatioLog extends Base{
 
     public function addVerificatioLog($data){
         return $this->model->table($this->table)->insertGetId($data);
+    }
+
+    public function addMutipleVerificatioLog($datas){
+        return $this->model->table($this->table)->insertAll($datas);
     }
 
 }

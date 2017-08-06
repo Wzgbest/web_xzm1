@@ -5,6 +5,7 @@ use app\common\controller\Initialize;
 use app\crm\model\Bill as BillModel;
 use app\common\model\Employee as EmployeeModel;
 use app\systemsetting\model\BillSetting as BillSettingModel;
+use app\verification\model\VerificatioLog;
 
 class Bill extends Initialize{
     var $paginate_list_rows = 10;
@@ -92,28 +93,80 @@ class Bill extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $remark = input("remark",null,"string");
+        $bill_no = input("bill_no",null,"string");
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $time = time();
+
         $billM = new BillModel($this->corp_id);
         $bill_info = $billM->getBillById($id);
         $bill_handle_status = $bill_info["handle_status"];
-        if(
-            $bill_handle_status!=6 &&
-            !empty($bill_info["handle_".($bill_handle_status+1)])
-        ){
-            //还有下一步审批,转为下一个人审批
-            $bill_data["handle_status"] = $bill_handle_status+1;
-            $billFlg = $billM->setBill($id,$bill_data);
-            if(!$billFlg){
-                $result['info'] = "审批失败！";
-                return json($result);
+
+        try{
+            $billM->link->startTrans();
+
+            //审核记录通用数据
+            $verificatioLogData["type"] = 3;
+            $verificatioLogData["target_id"] = $id;
+            $verificatioLogData["create_user"] = $uid;
+            $verificatioLogData["create_time"] = $time;
+            $verificatioLogRemark = '';
+
+            $bill_data = [];
+            if($remark){
+                $bill_data["remark"] = ["exp","concat(remark,'".$remark.";')"];
             }
-        }else{
-            //最后一步审批
-            $update_flg = $billM->approved($id);
-            if(!$update_flg){
-                $result['info'] = "通过发票申请失败！";
-                return json($result);
+            if($bill_no){
+                $bill_data["bill_no"] = $bill_no;
+                $verificatioLogRemark .= "填写发票号!";
             }
+            $map["status"] = 0;
+
+            if(
+                $bill_handle_status!=6 &&
+                !empty($bill_info["handle_".($bill_handle_status+1)])
+            ){
+                //还有下一步审批,转为下一个人审批
+                $bill_data["handle_status"] = $bill_handle_status+1;
+                $update_flg = $billM->setBill($id,$bill_data,$map);
+                if(!$update_flg){
+                    $result['info'] = "审批失败！";
+                    return json($result);
+                }
+
+                $verificatioLogRemark .= "审核通过,转到下一审核人";
+                $verificatioLogData["status_previous"] = $bill_handle_status;
+                $verificatioLogData["status_now"] = $bill_handle_status+1;
+            }else{
+                //最后一步审批
+                //$bill_data["status"] = 1;
+                $bill_data["status"] = 4;
+                $update_flg = $billM->setBill($id,$bill_data,$map);
+                if(!$update_flg){
+                    $result['info'] = "通过发票申请失败！";
+                    return json($result);
+                }
+
+                $verificatioLogRemark .= "审核最终通过!";
+                $verificatioLogData["status_previous"] = $bill_info["status"];
+                $verificatioLogData["status_now"] = $bill_data["status"];
+            }
+
+            //保存审核记录
+            $verificatioLogData["remark"] = $verificatioLogRemark;
+            $verificatioLogM = new VerificatioLog($this->corp_id);
+            $verificatioLogAddFlg = $verificatioLogM->addVerificatioLog($verificatioLogData);
+            if(!$verificatioLogAddFlg){
+                exception("审批失败,保存审批记录时出现错误！");
+            }
+            $billM->link->commit();
+        }catch (\Exception $ex){
+            $billM->link->rollback();
+            $result['info'] = $ex->getMessage();
+            return json($result);
         }
+
         $result['status']=1;
         $result['info']='通过发票申请成功!';
         return $result;
@@ -125,10 +178,33 @@ class Bill extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $time = time();
         $billM = new BillModel($this->corp_id);
-        $update_flg = $billM->rejected($id);
-        if(!$update_flg){
-            $result['info'] = "驳回发票申请失败！";
+        try{
+            $billM->link->startTrans();
+            $update_flg = $billM->rejected($id);
+            if(!$update_flg){
+                $result['info'] = "驳回发票申请失败！";
+                return json($result);
+            }
+            $verificatioLogData["type"] = 3;
+            $verificatioLogData["target_id"] = $id;
+            $verificatioLogData["create_user"] = $uid;
+            $verificatioLogData["create_time"] = $time;
+            $verificatioLogData["status_previous"] = 0;
+            $verificatioLogData["status_now"] = 2;
+            $verificatioLogData["remark"] = "审核被驳回";
+            $verificatioLogM = new VerificatioLog($this->corp_id);
+            $verificatioLogAddFlg = $verificatioLogM->addVerificatioLog($verificatioLogData);
+            if(!$verificatioLogAddFlg){
+                exception("审批失败,保存审批记录时出现错误！");
+            }
+            $billM->link->commit();
+        }catch (\Exception $ex){
+            $billM->link->rollback();
+            $result['info'] = $ex->getMessage();
             return json($result);
         }
         $result['status']=1;

@@ -7,6 +7,7 @@ use app\crm\model\Contract as ContractAppliedModel;
 use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
 use app\common\model\Employee as EmployeeModel;
 use app\common\model\Structure as StructureModel;
+use app\verification\model\VerificatioLog;
 
 class Contract extends Initialize{
     var $paginate_list_rows = 10;
@@ -101,6 +102,7 @@ class Contract extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $remark = input("remark",null,"string");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
         $time = time();
@@ -114,28 +116,28 @@ class Contract extends Initialize{
             $result['info'] = "审批流程出现问题,请联系管理员！";
             return json($result);
         }
-        if(
-            $contract_apply_status!=6 &&
-            !empty($contractApplied["contract_apply_".($contract_apply_status+1)])
-        ){
-            //还有下一步审批,转为下一个人审批
-            $applied_data["contract_apply_status"] = $contract_apply_status+1;
-            $contractAppliedFlg = $contractAppliedM->setContract($id,$applied_data);
-            if(!$contractAppliedFlg){
-                $result['info'] = "审批失败！";
-                return json($result);
+        try{
+            $contractAppliedM->link->startTrans();
+
+            //审核记录通用数据
+            $verificatioLogData["type"] = 1;
+            $verificatioLogData["target_id"] = $id;
+            $verificatioLogData["create_user"] = $uid;
+            $verificatioLogData["create_time"] = $time;
+            $verificatioLogRemark = '';
+
+            $applied_data=[];
+            if($remark){
+                $applied_data["remark"] = ["exp","concat(remark,'".$remark.";')"];
             }
-        }else{
-            //最后一步审批,审批通过,生成合同,改为待领取
-            try{
-                $contractAppliedM->link->startTrans();
-                $applied_data["status"] = 1;
-                $contractAppliedFlg = $contractAppliedM->setContract($id,$applied_data);
-                if(!$contractAppliedFlg){
-                    exception("审批失败！");
-                }
-                $contractSettingModel = new ContractModel($this->corp_id);
-                $contract_setting = $contractSettingModel->getContractSettingById($contractApplied["contract_type"]);
+            $map["status"] = 0;
+
+
+            //生成合同
+            $contractSettingModel = new ContractModel($this->corp_id);
+            $contract_setting = $contractSettingModel->getContractSettingById($contractApplied["contract_type"]);
+            //如果当前审核生成合同号
+            if($contract_setting["create_contract_num_".$contract_apply_status]==1){
                 $contract_num = $contractApplied["contract_num"];
                 $now_contract_no = $contract_setting["current_contract"];
                 $end_contract_no = $now_contract_no+$contract_num-1;
@@ -164,12 +166,54 @@ class Contract extends Initialize{
                 if(!$contract_setting_flg){
                     exception("审批失败,更新合同当前合同号时出现错误！");
                 }
-                $contractAppliedM->link->commit();
-            }catch (\Exception $ex){
-                $contractAppliedM->link->rollback();
-                $result['info'] = $ex->getMessage();
-                return json($result);
+                $verificatioLogRemark .= "生成合同号!";
             }
+
+            if(
+                $contract_apply_status!=6 &&
+                !empty($contractApplied["contract_apply_".($contract_apply_status+1)])
+            ){
+                //还有下一步审批,转为下一个人审批
+                $applied_data["contract_apply_status"] = $contract_apply_status+1;
+                $contractAppliedFlg = $contractAppliedM->setContract($id,$applied_data,$map);
+                if(!$contractAppliedFlg){
+                    $result['info'] = "审批失败！";
+                    return json($result);
+                }
+                
+                $verificatioLogRemark .= "审核通过,转到下一审核人";
+                $verificatioLogData["status_previous"] = $contract_apply_status;
+                $verificatioLogData["status_now"] = $contract_apply_status+1;
+            }else{
+                //最后一步审批,审批通过
+                $applied_data["status"] = 1;
+                $contractAppliedFlg = $contractAppliedM->setContract($id,$applied_data,$map);
+                if(!$contractAppliedFlg){
+                    exception("审批失败！");
+                }
+
+                $contractCreateFlg = $contractAppliedM->updateContractNos($id);
+                if(!$contractCreateFlg){
+                    exception("审批失败,更新合同信息时出现错误！");
+                }
+
+                $verificatioLogRemark .= "审核最终通过!";
+                $verificatioLogData["status_previous"] = $contractApplied["status"];
+                $verificatioLogData["status_now"] = $applied_data["status"];
+            }
+
+            //保存审核记录
+            $verificatioLogData["remark"] = $verificatioLogRemark;
+            $verificatioLogM = new VerificatioLog($this->corp_id);
+            $verificatioLogAddFlg = $verificatioLogM->addVerificatioLog($verificatioLogData);
+            if(!$verificatioLogAddFlg){
+                exception("审批失败,保存审批记录时出现错误！");
+            }
+            $contractAppliedM->link->commit();
+        }catch (\Exception $ex){
+            $contractAppliedM->link->rollback();
+            $result['info'] = $ex->getMessage();
+            return json($result);
         }
         $result['status']=1;
         $result['info']='通过合同申请成功!';
@@ -184,10 +228,31 @@ class Contract extends Initialize{
         }
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
+        $time = time();
         $contractAppliedM = new ContractAppliedModel($this->corp_id);
-        $update_flg = $contractAppliedM->rejected($id,$uid);
-        if(!$update_flg){
-            $result['info'] = "驳回合同失败！";
+        try{
+            $contractAppliedM->link->startTrans();
+            $update_flg = $contractAppliedM->rejected($id,$uid);
+            if(!$update_flg){
+                $result['info'] = "驳回合同失败！";
+                return json($result);
+            }
+            $verificatioLogData["type"] = 1;
+            $verificatioLogData["target_id"] = $id;
+            $verificatioLogData["create_user"] = $uid;
+            $verificatioLogData["create_time"] = $time;
+            $verificatioLogData["status_previous"] = 0;
+            $verificatioLogData["status_now"] = 2;
+            $verificatioLogData["remark"] = "审核被驳回";
+            $verificatioLogM = new VerificatioLog($this->corp_id);
+            $verificatioLogAddFlg = $verificatioLogM->addVerificatioLog($verificatioLogData);
+            if(!$verificatioLogAddFlg){
+                exception("审批失败,保存审批记录时出现错误！");
+            }
+            $contractAppliedM->link->commit();
+        }catch (\Exception $ex){
+            $contractAppliedM->link->rollback();
+            $result['info'] = $ex->getMessage();
             return json($result);
         }
         $result['status']=1;

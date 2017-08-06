@@ -103,7 +103,7 @@ class SaleChance extends Base
             "e.truename as employee_name",
             "ae.truename as associator_name",
             "scv.visit_time",
-            "scv.create_time",
+            "scv.create_time as visit_create_time",
             "scv.visit_place",
             "scv.location",
             "scv.partner_notice",
@@ -114,7 +114,7 @@ class SaleChance extends Base
             "sob.id as bill_id",
             "sob.status as bill_status",
         ];
-        return $this->model->table($this->table)->alias('sc')
+        $subQuery = $this->model->table($this->table)->alias('sc')
             ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'business scb','scb.id = sc.business_id',"LEFT")
             ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
@@ -124,7 +124,11 @@ class SaleChance extends Base
             ->join($this->dbprefix.'sale_order_bill sob','sob.sale_id = sc.id',"LEFT")
             ->where('sc.customer_id',$customer_id)
             ->field($field)
-            ->order("sc.id desc")
+            ->order("sc.id desc,sob.id desc")
+            ->buildSql();
+        return $this->model->table($subQuery)->alias('v')
+            ->where('customer_id',$customer_id)
+            ->group("id")
             ->select();
     }
 

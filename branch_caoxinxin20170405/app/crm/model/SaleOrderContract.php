@@ -160,12 +160,12 @@ class SaleOrderContract extends Base{
     /**更新
      * @param $id int 销售单id
      * @param $data array 销售单数据
+     * @param $map array 筛选条件
      * @return false|\PDOStatement|int|\think\Collection
      * created by blu10ph
      */
-    public function setSaleOrderContract($id,$data)
-    {
-        return $this->model->table($this->table)->where('id',$id)->update($data);
+    public function setSaleOrderContract($id,$data,$map=null){
+        return $this->model->table($this->table)->where('id',$id)->where($map)->update($data);
     }
 
     /**更新
@@ -201,17 +201,15 @@ class SaleOrderContract extends Base{
 
     /**通过
      * @param $id int 客户商机id
+     * @param $data array 销售单数据
+     * @param $map array 筛选条件
      * @return false|\PDOStatement|int|\think\Collection
      * created by blu10ph
      */
-    public function approvedSaleOrderContract($id){
-        $map['soc.id'] = $id;
-        $map["soc.status"] = 0;
-        $map['sc.sale_status'] = 4;
-        $data["soc.status"] = 1;
-        $data['sc.sale_status'] = 5;
+    public function approvedSaleOrderContract($id,$data,$map){
         return $this->model->table($this->table)->alias('soc')
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
+            ->where('id',$id)
             ->where($map)
             ->update($data);
     }
