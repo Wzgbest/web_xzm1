@@ -2,30 +2,12 @@
     <div class="index_panel index verification_bill">
         <header>
             <ul class="m-firNav">
-                <li in_column="0" class="in_column {eq name='in_column' value='0'}current{/eq}" id="myAllClients">
-                    <div>待审核（<span>68</span>）</div>
-                </li>
-                <li in_column="1" class="in_column {eq name='in_column' value='1'}current{/eq}" id="awaitComClients">
-                    <div>待领取（<span>26</span>）</div>
-                </li>
-                <li in_column="2" class="in_column {eq name='in_column' value='2'}current{/eq}" id="notFllowClients">
-                    <div>已领取（<span>32</span>）</div>
-                </li>
-                <!--
-                <li in_column="3" class="in_column {eq name='in_column' value='3'}current{/eq}" id="followClients"><div>尾中审核（<span>6</span>）</div></li>
-                <li in_column="4" class="in_column {eq name='in_column' value='4'}current{/eq}" id="stagnantClients"><div>尾中已通过</div></li>
-                <li in_column="5" class="in_column {eq name='in_column' value='5'}current{/eq}" id="undeterminedClients"><div>尾款审核（<span>2</span>）</div></li>
-                <li in_column="6" class="in_column {eq name='in_column' value='6'}current{/eq}" id="noIntentionClients"><div>已结清订单（<span>8</span>）</div></li>
-                -->
-                <li in_column="7" class="in_column {eq name='in_column' value='7'}current{/eq}" id="overClients">
-                    <div>已驳回（<span>9</span>）</div>
-                </li>
-                <li in_column="8" class="in_column {eq name='in_column' value='8'}current{/eq}" id="uselessClients">
-                    <div>已退款（<span>3</span>）</div>
-                </li>
-                <li in_column="9" class="in_column {eq name='in_column' value='9'}current{/eq}" id="allClients">
-                    <div>所有发票（<span>50</span>）</div>
-                </li>
+                <li in_column="1" class="in_column {eq name='in_column' value='1'}current{/eq}" id="myAllClients"><div>待审核（<span>{$listCount.1}</span>）</div></li>
+                <li in_column="2" class="in_column {eq name='in_column' value='2'}current{/eq}" id="awaitComClients"><div>待领取（<span>{$listCount.2}</span>）</div></li>
+                <li in_column="3" class="in_column {eq name='in_column' value='3'}current{/eq}" id="notFllowClients"><div>已领取（<span>{$listCount.3}</span>）</div></li>
+                <li in_column="4" class="in_column {eq name='in_column' value='4'}current{/eq}" id="overClients"><div>已驳回（<span>{$listCount.4}</span>）</div></li>
+                <li in_column="5" class="in_column {eq name='in_column' value='5'}current{/eq}" id="uselessClients"><div>已退款（<span>{$listCount.5}</span>）</div></li>
+                <li in_column="0" class="in_column {eq name='in_column' value='0'}current{/eq}" id="allClients"><div>所有发票（<span>{$listCount.0}</span>）</div></li>
             </ul>
         </header>
 
