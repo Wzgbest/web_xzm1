@@ -146,13 +146,13 @@ class Contract extends Base{
             'soc.status as order_status',
             "c.customer_name",
             "bfs.business_flow_name",
-            "(case when `ca`.`status` = 0 then 1 
-            when `ca`.`status` = 2 then 3 
-            when `ca`.`status` = 3 then 4 
-            when `ca`.`status` = 1 and co.status = 6 then 5 
-            when `ca`.`status` = 1 and sc.sale_status = 4 and soc.status = 0 then 6 
-            when `ca`.`status` = 1 and sc.sale_status = 5 and soc.status = 1 then 7 
-            when `ca`.`status` = 1 and (co.status = 1 or co.status = 4 or co.status = 5 or co.status = 7 or co.status = 8) then 2 
+            "(case when ca.status = 0 then 1 
+            when ca.status = 2 then 3 
+            when ca.status = 3 then 4 
+            when ca.status = 1 and co.status = 6 then 5 
+            when ca.status = 1 and sc.sale_status = 4 and soc.status = 0 then 6 
+            when ca.status = 1 and sc.sale_status = 5 and soc.status = 1 then 7 
+            when ca.status = 1 and (co.status = 1 or co.status = 4 or co.status = 5 or co.status = 7 or co.status = 8) then 2 
             else 8 end ) as in_column",
         ];
 
@@ -185,10 +185,34 @@ class Contract extends Base{
     public function getContractAppliedCount($filter=null){
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
+        $having = null;
+        if(array_key_exists("in_column", $filter)){
+            $in_column = $filter["in_column"];
+            if($in_column>0&&$in_column<8){
+                $having = " in_column = $in_column ";
+            }
+        }
+
+        $field = [
+            "(case when ca.status = 0 then 1 
+            when ca.status = 2 then 3 
+            when ca.status = 3 then 4 
+            when ca.status = 1 and co.status = 6 then 5 
+            when ca.status = 1 and sc.sale_status = 4 and soc.status = 0 then 6 
+            when ca.status = 1 and sc.sale_status = 5 and soc.status = 1 then 7 
+            when ca.status = 1 and (co.status = 1 or co.status = 4 or co.status = 5 or co.status = 7 or co.status = 8) then 2 
+            else 8 end ) as in_column",
+        ];
 
         $contractAppliedCount= $this->model->table($this->table)->alias('ca')
-            ->join($this->dbprefix.'contract c','c.applied_id = ca.id',"LEFT")
+            ->join($this->dbprefix.'contract co','co.applied_id = ca.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract soc','soc.contract_id = co.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
+            ->join($this->dbprefix.'customer c','c.id = sc.customer_id',"LEFT")
             ->where($map)
+            ->field($field)
+            ->group("ca.id,co.group_field")
+            ->having($having)
             ->count();
         return $contractAppliedCount;
     }
@@ -211,13 +235,13 @@ class Contract extends Base{
         $map = $this->_getMapByFilter($filter,[]);
 
         $field = [
-            "(case when `ca`.`status` = 0 then 1 
-            when `ca`.`status` = 2 then 3 
-            when `ca`.`status` = 3 then 4 
-            when `ca`.`status` = 1 and co.status = 6 then 5 
-            when `ca`.`status` = 1 and sc.sale_status = 4 and soc.status = 0 then 6 
-            when `ca`.`status` = 1 and sc.sale_status = 5 and soc.status = 1 then 7 
-            when `ca`.`status` = 1 and (co.status = 1 or co.status = 4 or co.status = 5 or co.status = 7 or co.status = 8) then 2 
+            "(case when ca.status = 0 then 1 
+            when ca.status = 2 then 3 
+            when ca.status = 3 then 4 
+            when ca.status = 1 and co.status = 6 then 5 
+            when ca.status = 1 and sc.sale_status = 4 and soc.status = 0 then 6 
+            when ca.status = 1 and sc.sale_status = 5 and soc.status = 1 then 7 
+            when ca.status = 1 and (co.status = 1 or co.status = 4 or co.status = 5 or co.status = 7 or co.status = 8) then 2 
             else 8 end ) as in_column",
         ];
         $getCountField = [
