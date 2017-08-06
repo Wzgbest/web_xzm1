@@ -2,12 +2,12 @@
 	<div class="index_panel index my_bill">
 		<header>
 			<ul class="m-firNav">
-				<li in_column="0" class="in_column {eq name='in_column' value='0'}current{/eq}"><div>发票审核中（<span>10</span>）</div></li>
-				<li in_column="1" class="in_column {eq name='in_column' value='1'}current{/eq}"><div>已通过发票（<span>0</span>）</div></li>
-				<li in_column="2" class="in_column {eq name='in_column' value='2'}current{/eq}"><div>已驳回发票（<span>0</span>）</div></li>
-				<li in_column="3" class="in_column {eq name='in_column' value='3'}current{/eq}"><div>已撤回发票（<span>0</span>）</div></li>
-				<li in_column="4" class="in_column {eq name='in_column' value='4'}current{/eq}"><div>已作废发票（<span>0</span>）</div></li>
-				<li in_column="5" class="in_column {eq name='in_column' value='5'}current{/eq}"><div>所有发票（<span>0</span>）</div></li>
+				<li in_column="1" class="in_column {eq name='in_column' value='1'}current{/eq}"><div>发票审核中（<span>{$listCount.1}</span>）</div></li>
+				<li in_column="2" class="in_column {eq name='in_column' value='2'}current{/eq}"><div>已通过发票（<span>{$listCount.2}</span>）</div></li>
+				<li in_column="3" class="in_column {eq name='in_column' value='3'}current{/eq}"><div>已驳回发票（<span>{$listCount.3}</span>）</div></li>
+				<li in_column="4" class="in_column {eq name='in_column' value='4'}current{/eq}"><div>已撤回发票（<span>{$listCount.4}</span>）</div></li>
+				<li in_column="5" class="in_column {eq name='in_column' value='5'}current{/eq}"><div>已作废发票（<span>{$listCount.5}</span>）</div></li>
+				<li in_column="0" class="in_column {eq name='in_column' value='0'}current{/eq}"><div>所有发票（<span>{$listCount.0}</span>）</div></li>
 			</ul>
 			<!--<div id="bill-apply">
                 <i class="fa fa-clipboard"></i><br />

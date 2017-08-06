@@ -58,7 +58,6 @@ class Contract extends Initialize{
             $customers_count = $contractAppliedModel->getContractAppliedCount($filter);
             $this->assign("count",$customers_count);
             $listCount = $contractAppliedModel->getColumnNum($uid,$filter);
-            //var_exp($listCount,'$listCount',1);
             $this->assign("listCount",$listCount);
             $contractSettingModel = new ContractModel($this->corp_id);
             $contracts = $contractSettingModel->getAllContract();

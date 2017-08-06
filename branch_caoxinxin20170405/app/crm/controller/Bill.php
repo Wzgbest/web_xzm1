@@ -29,7 +29,7 @@ class Bill extends Initialize{
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        $filter = $this->_getCustomerFilter([]);
+        $filter = $this->_getCustomerFilter(["in_column"]);
         $field = $this->_getCustomerField([]);
         $filter["employee_id"] = $uid;
         try{
@@ -62,6 +62,8 @@ class Bill extends Initialize{
             $this->assign('list_data',$bill_list);
             $customers_count = $billM->getBillCount($filter);
             $this->assign("count",$customers_count);
+            $listCount = $billM->getColumnNum($uid,$filter);
+            $this->assign("listCount",$listCount);
             $billSettingModel = new BillSettingModel($this->corp_id);
             $bills = $billSettingModel->getBillNameIndex();
             //var_exp($bills,'$bills',1);
@@ -85,6 +87,14 @@ class Bill extends Initialize{
     }
     protected function _getCustomerFilter($filter_column){
         $filter = [];
+
+        //所在列
+        if(in_array("in_column", $filter_column)){
+            $in_column = input("in_column",1,"int");
+            if($in_column){
+                $filter["in_column"] = $in_column;
+            }
+        }
         return $filter;
     }
     protected function _getCustomerField($field_column){

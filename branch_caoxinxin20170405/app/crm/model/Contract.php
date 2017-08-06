@@ -217,13 +217,8 @@ class Contract extends Base{
         return $contractAppliedCount;
     }
 
-    protected function _getMapByFilter($filter,$filter_column){
-        $map = [];
-        return $map;
-    }
-
     /**
-     * 根据员工id查询我的客户页列上的数量
+     * 查询列上的数量
      * @param $uid int 员工id
      * @param $filter array 过滤条件
      * @return array|false|\PDOStatement|string|\think\Model
@@ -287,6 +282,11 @@ class Contract extends Base{
             ->find();
         //var_exp($listCount,'$listCount',1);
         return $listCount;
+    }
+
+    protected function _getMapByFilter($filter,$filter_column){
+        $map = [];
+        return $map;
     }
 
     public function addContract($data){

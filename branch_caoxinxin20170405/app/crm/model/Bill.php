@@ -39,6 +39,13 @@ class Bill extends Base{
 
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
+        $having = null;
+        if(array_key_exists("in_column", $filter)){
+            $in_column = $filter["in_column"];
+            if($in_column>0&&$in_column<8){
+                $having = " in_column = $in_column ";
+            }
+        }
 
         //排序
         if($direction!="desc" && $direction!="asc"){
@@ -46,15 +53,29 @@ class Bill extends Base{
         }
         $order = $order." ".$direction;
 
+        $field = [
+            'sob.*',
+            'e.truename as operator_name',
+            'bs.bill_type as bill_type_name',
+            'GROUP_CONCAT( distinct `sobi`.`product_type`) as `product_type_name`',
+            "(case when sob.status = 0 then 1 
+                when sob.status = 2 then 3 
+                when sob.status = 3 then 4 
+                when sob.status = 6 then 5 
+                when sob.status = 6 then 5 
+                else 2 end ) as in_column",
+        ];
+
         $billList = $this->model->table($this->table)->alias('sob')
             ->join($this->dbprefix.'employee e','sob.operator = e.id',"LEFT")
             ->join($this->dbprefix.'bill_setting bs','bs.id = sob.bill_type',"LEFT")
             ->join($this->dbprefix.'sale_order_bill_item sobi','sobi.bill_id = sob.id',"LEFT")
             ->where($map)
-            ->order($order)
             ->group("sob.id")
+            ->order($order)
+            ->having($having)
             ->limit($offset,$num)
-            ->field('sob.*,e.truename as operator_name,bs.bill_type as bill_type_name,GROUP_CONCAT( distinct `sobi`.`product_type`) as `product_type_name`')
+            ->field($field)
             ->select();
         //var_exp($billList,'$billList',1);
         if($num==1&&$page==0&&$billList){
@@ -71,11 +92,85 @@ class Bill extends Base{
     public function getBillCount($filter=null){
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
+        $having = null;
+        if(array_key_exists("in_column", $filter)){
+            $in_column = $filter["in_column"];
+            if($in_column>0&&$in_column<8){
+                $having = " in_column = $in_column ";
+            }
+        }
+
+        $field = [
+            "(case when sob.status = 0 then 1 
+                when sob.status = 2 then 3 
+                when sob.status = 3 then 4 
+                when sob.status = 6 then 5 
+                when sob.status = 6 then 5 
+                else 2 end ) as in_column",
+        ];
 
         $billCount= $this->model->table($this->table)->alias('sob')
             ->where($map)
+            ->field($field)
+            ->group("sob.id")
+            ->having($having)
             ->count();
         return $billCount;
+    }
+
+    /**
+     * 查询列上的数量
+     * @param $uid int 员工id
+     * @param $filter array 过滤条件
+     * @return array|false|\PDOStatement|string|\think\Model
+     * created by blu10ph
+     */
+    public function getColumnNum($uid,$filter=null){
+
+        //筛选
+        $map = $this->_getMapByFilter($filter,[]);
+
+        $field = [
+            "(case when sob.status = 0 then 1 
+                when sob.status = 2 then 3 
+                when sob.status = 3 then 4 
+                when sob.status = 6 then 5 
+                when sob.status = 6 then 5 
+                else 2 end ) as in_column",
+        ];
+        $getCountField = [
+            "(case when in_column = 1 then 1 else 0 end) as `1`",
+            "(case when in_column = 2 then 1 else 0 end) as `2`",
+            "(case when in_column = 3 then 1 else 0 end) as `3`",
+            "(case when in_column = 4 then 1 else 0 end) as `4`",
+            "(case when in_column = 5 then 1 else 0 end) as `5`",
+        ];
+        $countField = [
+            "count(*) as `0`",
+            "sum(`1`) as `1`",
+            "sum(`2`) as `2`",
+            "sum(`3`) as `3`",
+            "sum(`4`) as `4`",
+            "sum(`5`) as `5`",
+        ];
+
+        $customerQuery = $this->model->table($this->table)->alias('sob')
+            ->where($map)
+            ->group("sob.id")
+            ->field($field)
+            ->buildSql();
+        //var_exp($contractAppliedList,'$contractAppliedList',1);
+        $getListCount = $this->model
+            ->table($customerQuery." glc")
+            ->field($getCountField)
+            ->buildSql();
+        //var_exp($getListCount,'$listCount');
+        $listCount = $this->model
+            ->table($getListCount." lc")
+            ->field($countField)
+            ->find();
+        //var_exp($listCount,'$listCount',1);
+        return $listCount;
     }
 
     protected function _getMapByFilter($filter,$filter_column){
