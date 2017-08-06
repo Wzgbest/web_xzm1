@@ -283,6 +283,192 @@ class Contract extends Base{
         //var_exp($listCount,'$listCount',1);
         return $listCount;
     }
+    /**
+     * 查询合同申请
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $filter array 合同筛选条件
+     * @param $field array 合同列筛选条件
+     * @param $order string 排序字段
+     * @param $direction string 排序顺序
+     * @return array|false
+     * @throws \think\Exception
+     */
+    public function getVerificationContractApplied($num=10,$page=0,$filter=null,$field=null,$order="ca.id",$direction="desc"){
+        //分页
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+
+        //筛选
+        $map = $this->_getMapByFilter($filter,[]);
+        $map["ca.status"] = ["neq",3];
+        $having = null;
+        if(array_key_exists("in_column", $filter)){
+            $in_column = $filter["in_column"];
+            if($in_column>0&&$in_column<8){
+                $having = " in_column = $in_column ";
+            }
+        }
+
+        //排序
+        if($direction!="desc" && $direction!="asc"){
+            $direction = "desc";
+        }
+        $order = $order." ".$direction;
+
+        $field = [
+            'ca.*',
+            'GROUP_CONCAT(co.contract_no) as contract_no',
+            'co.status as contract_status',
+            'cs.contract_name as contract_type_name',
+            "sc.sale_name",
+            "sc.sale_status",
+            'soc.status as order_status',
+            "c.customer_name",
+            "bfs.business_flow_name",
+            "(case when ca.status = 0 then 1 
+            when ca.status = 1 and co.status = 4 then 2 
+            when ca.status = 1 and sc.sale_status = 4 and soc.status = 0 then 4 
+            when ca.status = 1 and sc.sale_status = 5 and soc.status = 1 then 5 
+            when ca.status = 2 then 6 
+            when sc.sale_status = 6 then 7 
+            when sc.sale_status = 9 then 8 
+            else 3 end ) as in_column",
+        ];
+
+        $contractAppliedList = $this->model->table($this->table)->alias('ca')
+            ->join($this->dbprefix.'contract co','co.applied_id = ca.id',"LEFT")
+            ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract soc','soc.contract_id = co.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
+            ->join($this->dbprefix.'customer c','c.id = sc.customer_id',"LEFT")
+            ->join($this->dbprefix.'business_flow_setting bfs','bfs.id = sc.business_id',"LEFT")
+            ->where($map)
+            ->group("ca.id,co.group_field")
+            ->order($order)
+            ->having($having)
+            ->limit($offset,$num)
+            ->field($field)
+            ->select();
+        //var_exp($contractAppliedList,'$contractAppliedList',1);
+        if($num==1&&$page==0&&$contractAppliedList){
+            $contractAppliedList = $contractAppliedList[0];
+        }
+        return $contractAppliedList;
+    }
+    /**
+     * 查询合同数量
+     * @param $filter array 合同筛选条件
+     * @return array|false
+     * @throws \think\Exception
+     */
+    public function getVerificationContractAppliedCount($filter=null){
+        //筛选
+        $map = $this->_getMapByFilter($filter,[]);
+        $map["ca.status"] = ["neq",3];
+        $having = null;
+        if(array_key_exists("in_column", $filter)){
+            $in_column = $filter["in_column"];
+            if($in_column>0&&$in_column<8){
+                $having = " in_column = $in_column ";
+            }
+        }
+
+        $field = [
+            "(case when ca.status = 0 then 1 
+            when ca.status = 1 and co.status = 4 then 2 
+            when ca.status = 1 and sc.sale_status = 4 and soc.status = 0 then 4 
+            when ca.status = 1 and sc.sale_status = 5 and soc.status = 1 then 5 
+            when ca.status = 2 then 6 
+            when sc.sale_status = 6 then 7 
+            when sc.sale_status = 9 then 8 
+            else 3 end ) as in_column",
+        ];
+
+        $contractAppliedCount= $this->model->table($this->table)->alias('ca')
+            ->join($this->dbprefix.'contract co','co.applied_id = ca.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract soc','soc.contract_id = co.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
+            ->join($this->dbprefix.'customer c','c.id = sc.customer_id',"LEFT")
+            ->where($map)
+            ->field($field)
+            ->group("ca.id,co.group_field")
+            ->having($having)
+            ->count();
+        return $contractAppliedCount;
+    }
+
+    /**
+     * 查询列上的数量
+     * @param $uid int 员工id
+     * @param $filter array 过滤条件
+     * @return array|false|\PDOStatement|string|\think\Model
+     * created by blu10ph
+     */
+    public function getVerificationColumnNum($uid,$filter=null){
+
+        //筛选
+        $map = $this->_getMapByFilter($filter,[]);
+        $map["ca.status"] = ["neq",3];
+
+        $field = [
+            "(case when ca.status = 0 then 1 
+            when ca.status = 1 and co.status = 4 then 2 
+            when ca.status = 1 and sc.sale_status = 4 and soc.status = 0 then 4 
+            when ca.status = 1 and sc.sale_status = 5 and soc.status = 1 then 5 
+            when ca.status = 2 then 6 
+            when sc.sale_status = 6 then 7 
+            when sc.sale_status = 9 then 8 
+            else 3 end ) as in_column",
+        ];
+        $getCountField = [
+            "(case when in_column = 1 then 1 else 0 end) as `1`",
+            "(case when in_column = 2 then 1 else 0 end) as `2`",
+            "(case when in_column = 3 then 1 else 0 end) as `3`",
+            "(case when in_column = 4 then 1 else 0 end) as `4`",
+            "(case when in_column = 5 then 1 else 0 end) as `5`",
+            "(case when in_column = 6 then 1 else 0 end) as `6`",
+            "(case when in_column = 7 then 1 else 0 end) as `7`",
+            "(case when in_column = 8 then 1 else 0 end) as `8`",
+        ];
+        $countField = [
+            "count(*) as `0`",
+            "sum(`1`) as `1`",
+            "sum(`2`) as `2`",
+            "sum(`3`) as `3`",
+            "sum(`4`) as `4`",
+            "sum(`5`) as `5`",
+            "sum(`6`) as `6`",
+            "sum(`7`) as `7`",
+            "sum(`8`) as `8`",
+        ];
+
+        $customerQuery = $this->model->table($this->table)->alias('ca')
+            ->join($this->dbprefix.'contract co','co.applied_id = ca.id',"LEFT")
+            ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract soc','soc.contract_id = co.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
+            ->join($this->dbprefix.'customer c','c.id = sc.customer_id',"LEFT")
+            ->join($this->dbprefix.'business_flow_setting bfs','bfs.id = sc.business_id',"LEFT")
+            ->where($map)
+            ->group("ca.id,co.group_field")
+            ->field($field)
+            ->buildSql();
+        //var_exp($contractAppliedList,'$contractAppliedList',1);
+        $getListCount = $this->model
+            ->table($customerQuery." glc")
+            ->field($getCountField)
+            ->buildSql();
+        //var_exp($getListCount,'$listCount');
+        $listCount = $this->model
+            ->table($getListCount." lc")
+            ->field($countField)
+            ->find();
+        //var_exp($listCount,'$listCount',1);
+        return $listCount;
+    }
 
     protected function _getMapByFilter($filter,$filter_column){
         $map = [];

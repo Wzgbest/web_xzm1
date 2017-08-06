@@ -25,12 +25,12 @@ class Contract extends Initialize{
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        $filter = $this->_getCustomerFilter([]);
+        $filter = $this->_getCustomerFilter(["in_column"]);
         $field = $this->_getCustomerField([]);
         //$filter["employee_id"] = $uid; // 审核人
         try{
             $contractAppliedModel = new ContractAppliedModel($this->corp_id);
-            $contractApplieds = $contractAppliedModel->getContractApplied($num,$p,$filter,$field,$order,$direction);
+            $contractApplieds = $contractAppliedModel->getVerificationContractApplied($num,$p,$filter,$field,$order,$direction);
             //var_exp($contractApplieds,'$contractApplieds',1);
             $employee_ids = [];
             foreach ($contractApplieds as &$contractApplied){
@@ -56,8 +56,10 @@ class Contract extends Initialize{
                 }
             }
             $this->assign('list_data',$contractApplieds);
-            $customers_count = $contractAppliedModel->getContractAppliedCount($filter);
+            $customers_count = $contractAppliedModel->getVerificationContractAppliedCount($filter);
             $this->assign("count",$customers_count);
+            $listCount = $contractAppliedModel->getVerificationColumnNum($uid,$filter);
+            $this->assign("listCount",$listCount);
             $struM = new StructureModel($this->corp_id);
             $structs = $struM->getAllStructure();
             $this->assign("structs",$structs);
@@ -88,6 +90,14 @@ class Contract extends Initialize{
     }
     protected function _getCustomerFilter($filter_column){
         $filter = [];
+
+        //所在列
+        if(in_array("in_column", $filter_column)){
+            $in_column = input("in_column",1,"int");
+            if($in_column){
+                $filter["in_column"] = $in_column;
+            }
+        }
         return $filter;
     }
     protected function _getCustomerField($field_column){
