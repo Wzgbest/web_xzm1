@@ -196,8 +196,7 @@ class Bill extends Initialize{
             $billM->link->startTrans();
             $update_flg = $billM->rejected($id);
             if(!$update_flg){
-                $result['info'] = "驳回发票申请失败！";
-                return json($result);
+                exception("驳回发票申请失败！");
             }
             $verificatioLogData["type"] = 3;
             $verificatioLogData["target_id"] = $id;

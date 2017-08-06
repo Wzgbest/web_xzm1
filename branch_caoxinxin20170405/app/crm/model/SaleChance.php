@@ -289,6 +289,8 @@ class SaleChance extends Base
             "sob.status as bill_status",
             "co.contract_no",
             "cs.contract_name as contract_type_name",
+            "@n := IF (sob.id != @prev, 1, @n + 1) AS n",
+            "@prev := sob.id as ng",
         ];
         $subQuery = $this->model->table($this->table)->alias('sc')
             ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
@@ -301,12 +303,13 @@ class SaleChance extends Base
             ->join($this->dbprefix.'contract co','co.id = soc.contract_id',"LEFT")
             ->join($this->dbprefix.'contract_applied ca','ca.id = co.applied_id',"LEFT")
             ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
+            ->join("(SELECT @prev := '', @n := 0) init","sc.id=sc.id","LEFT")
             ->where('sc.customer_id',$customer_id)
             ->field($field)
             ->order("sc.id desc,sob.id desc")
             ->buildSql();
         return $this->model->table($subQuery)->alias('v')
-            ->where('customer_id',$customer_id)
+            ->where('n',"elt",3)
             ->group("id")
             ->order("id desc")
             ->select();
