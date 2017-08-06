@@ -185,16 +185,16 @@ return [
 
     'cache'                  => [
         // 驱动方式
-        'type'   => 'File',
-        // 缓存保存目录
-        'path'   => CACHE_PATH,
+//        'type'   => 'File',
+//        // 缓存保存目录
+//        'path'   => CACHE_PATH,
         // 缓存前缀
         'prefix' => '',
         // 缓存有效期 0表示永久缓存
         'expire' => 0,
-        //'type'   => 'Redis',
-        //'host'=>'192.168.102.200',
-        //'password'=>'zxcms_guguo_xzm',
+        'type'   => 'Redis',
+        'host'=>'192.168.102.200',
+        'password'=>'zxcms_guguo_xzm',
     ],
 
     // +----------------------------------------------------------------------
@@ -241,16 +241,16 @@ return [
     ],
     'db_config1'    =>  [
         'type'        => 'mysql',
-//        'hostname'    => '192.168.102.200',
-//        'database'    => '',
-//        'username'    => 'zxwz',
-//        'password'    => '123456',
-//        'hostport'    => '3307',
-        'hostname'    => 'localhost',
+        'hostname'    => '192.168.102.200',
         'database'    => '',
         'username'    => 'zxwz',
         'password'    => '123456',
-        'hostport'    => '3306',
+        'hostport'    => '3307',
+//        'hostname'    => 'localhost',
+//        'database'    => '',
+//        'username'    => 'zxwz',
+//        'password'    => '123456',
+//        'hostport'    => '3306',
         'charset'     => 'utf8',
         'prefix'      => 'guguo_',
     ],
