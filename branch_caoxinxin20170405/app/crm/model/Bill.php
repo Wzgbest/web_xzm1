@@ -40,7 +40,7 @@ class Bill extends Base{
 
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
-        $map["operator"] = $uid;
+        $map["sob.operator"] = $uid;
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -95,7 +95,7 @@ class Bill extends Base{
     public function getBillCount($uid,$filter=null){
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
-        $map["operator"] = $uid;
+        $map["sob.operator"] = $uid;
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -133,7 +133,7 @@ class Bill extends Base{
 
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
-        $map["operator"] = $uid;
+        $map["sob.operator"] = $uid;
 
         $field = [
             "(case when sob.status = 0 then 1 

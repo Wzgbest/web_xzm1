@@ -74,7 +74,7 @@ class SaleChance extends Base
 
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
-        $map["employee_id"] = $uid;
+        $map["sc.employee_id"] = $uid;
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -142,7 +142,7 @@ class SaleChance extends Base
 
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
-        $map["employee_id"] = $uid;
+        $map["sc.employee_id"] = $uid;
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -202,7 +202,7 @@ class SaleChance extends Base
 
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
-        $map["employee_id"] = $uid;
+        $map["sc.employee_id"] = $uid;
 
         $field = [
             "(case when sc.sale_status = 7 then 5 

@@ -123,7 +123,7 @@ class Contract extends Base{
 
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
-        $map["employee_id"] = $uid;
+        $map["ca.employee_id"] = $uid;
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -188,7 +188,7 @@ class Contract extends Base{
     public function getContractAppliedCount($uid,$filter=null){
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
-        $map["employee_id"] = $uid;
+        $map["ca.employee_id"] = $uid;
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -232,7 +232,7 @@ class Contract extends Base{
 
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
-        $map["employee_id"] = $uid;
+        $map["ca.employee_id"] = $uid;
 
         $field = [
             "(case when ca.status = 0 then 1 
