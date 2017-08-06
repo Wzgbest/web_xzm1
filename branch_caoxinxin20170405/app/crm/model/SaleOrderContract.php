@@ -206,6 +206,7 @@ class SaleOrderContract extends Base{
 
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
+        $map["soc.status"] = ["neq",3];
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -262,6 +263,7 @@ class SaleOrderContract extends Base{
     public function getVerificationSaleChanceCount($filter=null){
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
+        $map["soc.status"] = ["neq",3];
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -302,6 +304,7 @@ class SaleOrderContract extends Base{
 
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
+        $map["soc.status"] = ["neq",3];
 
         $field = [
             "(case when sc.sale_status = 4 and soc.status = 0 then 1 

@@ -6,6 +6,7 @@
 namespace app\crm\model;
 
 use app\common\model\Base;
+use app\systemsetting\model\CustomerSetting;
 
 class SaleChance extends Base
 {
@@ -33,6 +34,7 @@ class SaleChance extends Base
     }
 
     /**
+     * @param $uid int 用户id
      * @param $num int 数量
      * @param $page int 页
      * @param $filter array 合同筛选条件
@@ -42,7 +44,28 @@ class SaleChance extends Base
      * @return false|\PDOStatement|string|\think\Collection
      * created by blu10ph
      */
-    public function getAllSaleChancesByPage($num=10,$page=0,$filter=null,$field=null,$order="ca.id",$direction="desc"){
+    public function getAllSaleChancesByPage($uid,$num=10,$page=0,$filter=null,$field=null,$order="ca.id",$direction="desc"){
+        //获取客户配置
+        $struct_ids = getStructureIds($uid);
+        $customerSettingModel = new CustomerSetting();
+        $searchCustomerList = $customerSettingModel->getCustomerSettingByStructIds($struct_ids);
+        //$protect_customer_days = [];
+        $protect_customer_day_max = 0;//暂定员工属于两个部门且有客户,保有时间按长的来
+        $to_halt_day_max = 0;//暂定员工属于两个部门且有客户,划归停滞客户的天数按长的来
+        foreach ($searchCustomerList as $customerSetting){
+            if(!$customerSetting){
+                $customerSetting["protect_customer_day"] = 0;
+                $customerSetting["to_halt_day"] = 0;
+            }
+            //$protect_customer_days[$structure] = $customerSetting["protect_customer_day"];
+            if($customerSetting["protect_customer_day"]>$protect_customer_day_max){//暂定员工属于两个部门且有客户,保有时间按长的来
+                $protect_customer_day_max = $customerSetting["protect_customer_day"];
+            }
+            if($customerSetting["to_halt_day"]>$to_halt_day_max){//暂定员工属于两个部门且有客户,划归停滞客户的天数按长的来
+                $to_halt_day_max = $customerSetting["to_halt_day"];
+            }
+        }
+
         //分页
         $offset = 0;
         if($page){
@@ -51,6 +74,13 @@ class SaleChance extends Base
 
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
+        $having = null;
+        if(array_key_exists("in_column", $filter)){
+            $in_column = $filter["in_column"];
+            if($in_column>0){
+                $having = " in_column = $in_column ";
+            }
+        }
 
         //排序
         if($direction!="desc" && $direction!="asc"){
@@ -61,29 +91,168 @@ class SaleChance extends Base
         $field = [
             "sc.*",
             "c.customer_name",
+            "(case when sc.sale_status = 7 then 5 
+            when sc.sale_status = 6 then 4 
+            when sc.sale_status = 5 and soc.status = 1 then 3 
+            when sc.sale_status = 9 then 2 
+            when FLOOR((unix_timestamp()-ct.create_time)/60/60/24) >".$to_halt_day_max." then 2 
+            else 1 end ) as in_column",
         ];
         return $this->model->table($this->table)->alias('sc')
+            ->join($this->dbprefix.'sale_order_contract soc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")
             ->where($map)
-            ->order($order)
             ->limit($offset,$num)
             ->field($field)
+            ->group("sc.id")
+            ->order($order)
+            ->having($having)
             ->select();
     }
 
     /**
+     * @param $uid int 用户id
      * @param $filter array 合同筛选条件
      * @return false|\PDOStatement|string|\think\Collection
      * created by blu10ph
      */
-    public function getAllSaleChanceCount($filter=null){
+    public function getAllSaleChanceCount($uid,$filter=null){
+        //获取客户配置
+        $struct_ids = getStructureIds($uid);
+        $customerSettingModel = new CustomerSetting();
+        $searchCustomerList = $customerSettingModel->getCustomerSettingByStructIds($struct_ids);
+        //$protect_customer_days = [];
+        $protect_customer_day_max = 0;//暂定员工属于两个部门且有客户,保有时间按长的来
+        $to_halt_day_max = 0;//暂定员工属于两个部门且有客户,划归停滞客户的天数按长的来
+        foreach ($searchCustomerList as $customerSetting){
+            if(!$customerSetting){
+                $customerSetting["protect_customer_day"] = 0;
+                $customerSetting["to_halt_day"] = 0;
+            }
+            //$protect_customer_days[$structure] = $customerSetting["protect_customer_day"];
+            if($customerSetting["protect_customer_day"]>$protect_customer_day_max){//暂定员工属于两个部门且有客户,保有时间按长的来
+                $protect_customer_day_max = $customerSetting["protect_customer_day"];
+            }
+            if($customerSetting["to_halt_day"]>$to_halt_day_max){//暂定员工属于两个部门且有客户,划归停滞客户的天数按长的来
+                $to_halt_day_max = $customerSetting["to_halt_day"];
+            }
+        }
+
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
+        $having = null;
+        if(array_key_exists("in_column", $filter)){
+            $in_column = $filter["in_column"];
+            if($in_column>0){
+                $having = " in_column = $in_column ";
+            }
+        }
+
+        $field = [
+            "(case when sc.sale_status = 7 then 5 
+            when sc.sale_status = 6 then 4 
+            when sc.sale_status = 5 and soc.status = 1 then 3 
+            when sc.sale_status = 9 then 2 
+            when FLOOR((unix_timestamp()-ct.create_time)/60/60/24) >".$to_halt_day_max." then 2 
+            else 1 end ) as in_column",
+        ];
         
         return $this->model->table($this->table)->alias('sc')
+            ->join($this->dbprefix.'sale_order_contract soc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")
             ->where($map)
+            ->field($field)
+            ->group("sc.id")
+            ->having($having)
             ->count();
+    }
+
+    /**
+     * 查询列上的数量
+     * @param $uid int 员工id
+     * @param $filter array 过滤条件
+     * @return array|false|\PDOStatement|string|\think\Model
+     * created by blu10ph
+     */
+    public function getAllColumnNum($uid,$filter=null){
+        //获取客户配置
+        $struct_ids = getStructureIds($uid);
+        $customerSettingModel = new CustomerSetting();
+        $searchCustomerList = $customerSettingModel->getCustomerSettingByStructIds($struct_ids);
+        //$protect_customer_days = [];
+        $protect_customer_day_max = 0;//暂定员工属于两个部门且有客户,保有时间按长的来
+        $to_halt_day_max = 0;//暂定员工属于两个部门且有客户,划归停滞客户的天数按长的来
+        foreach ($searchCustomerList as $customerSetting){
+            if(!$customerSetting){
+                $customerSetting["protect_customer_day"] = 0;
+                $customerSetting["to_halt_day"] = 0;
+            }
+            //$protect_customer_days[$structure] = $customerSetting["protect_customer_day"];
+            if($customerSetting["protect_customer_day"]>$protect_customer_day_max){//暂定员工属于两个部门且有客户,保有时间按长的来
+                $protect_customer_day_max = $customerSetting["protect_customer_day"];
+            }
+            if($customerSetting["to_halt_day"]>$to_halt_day_max){//暂定员工属于两个部门且有客户,划归停滞客户的天数按长的来
+                $to_halt_day_max = $customerSetting["to_halt_day"];
+            }
+        }
+
+        //筛选
+        $map = $this->_getMapByFilter($filter,[]);
+
+        $field = [
+            "(case when sc.sale_status = 7 then 5 
+            when sc.sale_status = 6 then 4 
+            when sc.sale_status = 5 and soc.status = 1 then 3 
+            when sc.sale_status = 9 then 2 
+            when FLOOR((unix_timestamp()-ct.create_time)/60/60/24) >".$to_halt_day_max." then 2 
+            else 1 end ) as in_column",
+        ];
+        $getCountField = [
+            "(case when in_column = 1 then 1 else 0 end) as `1`",
+            "(case when in_column = 2 then 1 else 0 end) as `2`",
+            "(case when in_column = 3 then 1 else 0 end) as `3`",
+            "(case when in_column = 4 then 1 else 0 end) as `4`",
+            "(case when in_column = 5 then 1 else 0 end) as `5`",
+            "(case when in_column = 6 then 1 else 0 end) as `6`",
+            "(case when in_column = 7 then 1 else 0 end) as `7`",
+            "(case when in_column = 8 then 1 else 0 end) as `8`",
+            "(case when in_column = 9 then 1 else 0 end) as `9`",
+        ];
+        $countField = [
+            "count(*) as `0`",
+            "sum(`1`) as `1`",
+            "sum(`2`) as `2`",
+            "sum(`3`) as `3`",
+            "sum(`4`) as `4`",
+            "sum(`5`) as `5`",
+            "sum(`6`) as `6`",
+            "sum(`7`) as `7`",
+            "sum(`8`) as `8`",
+            "sum(`9`) as `9`",
+        ];
+
+        $customerQuery = $this->model->table($this->table)->alias('sc')
+            ->join($this->dbprefix.'sale_order_contract soc','sc.id = soc.sale_id',"LEFT")
+            ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")
+            ->where($map)
+            ->group("sc.id")
+            ->field($field)
+            ->buildSql();
+        //var_exp($contractAppliedList,'$contractAppliedList',1);
+        $getListCount = $this->model
+            ->table($customerQuery." glc")
+            ->field($getCountField)
+            ->buildSql();
+        //var_exp($getListCount,'$listCount');
+        $listCount = $this->model
+            ->table($getListCount." lc")
+            ->field($countField)
+            ->find();
+        //var_exp($listCount,'$listCount',1);
+        return $listCount;
     }
 
     protected function _getMapByFilter($filter,$filter_column){

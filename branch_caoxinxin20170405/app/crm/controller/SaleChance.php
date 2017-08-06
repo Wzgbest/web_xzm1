@@ -38,15 +38,18 @@ class SaleChance extends Initialize{
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        $filter = $this->_getCustomerFilter([]);
+        $filter = $this->_getCustomerFilter(["in_column"]);
         $field = $this->_getCustomerField([]);
         $filter["employee_id"] = $uid;
         try{
             $saleChanceM = new SaleChanceModel($this->corp_id);
-            $SaleChancesData = $saleChanceM->getAllSaleChancesByPage($num,$p,$filter,$field,$order,$direction);
+            $SaleChancesData = $saleChanceM->getAllSaleChancesByPage($uid,$num,$p,$filter,$field,$order,$direction);
+            //var_exp($SaleChancesData,'$SaleChancesData',1);
             $this->assign("list_data",$SaleChancesData);
-            $customers_count = $saleChanceM->getAllSaleChanceCount($filter);
+            $customers_count = $saleChanceM->getAllSaleChanceCount($uid,$filter);
             $this->assign("count",$customers_count);
+            $listCount = $saleChanceM->getAllColumnNum($uid,$filter);
+            $this->assign("listCount",$listCount);
             $businessFlowModel = new BusinessFlowModel($this->corp_id);
             $business_flow_names = $businessFlowModel->getAllBusinessFlowName();
             //var_exp($business_flow_names,'$business_flow_names',1);
@@ -77,6 +80,14 @@ class SaleChance extends Initialize{
     }
     protected function _getCustomerFilter($filter_column){
         $filter = [];
+
+        //所在列
+        if(in_array("in_column", $filter_column)){
+            $in_column = input("in_column",1,"int");
+            if($in_column){
+                $filter["in_column"] = $in_column;
+            }
+        }
         return $filter;
     }
     protected function _getCustomerField($field_column){
