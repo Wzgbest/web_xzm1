@@ -148,6 +148,7 @@ class Bill extends Initialize{
             if(empty($contractSetting)){
                 exception("未找到发票设置!");
             }
+            $contractSettingInfo["need_tax_id"] = $contractSetting["need_tax_id"];
             $contractSettingInfo["handle_1"] = $contractSetting["handle_1"];
             $contractSettingInfo["handle_2"] = $contractSetting["handle_2"];
             $contractSettingInfo["handle_3"] = $contractSetting["handle_3"];
@@ -247,7 +248,13 @@ class Bill extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
-        if(isset($bill_apply_arr["tax_num"])){
+        $billSettingModel = new BillSettingModel($this->corp_id);
+        $contractSetting = $billSettingModel->getBillSettingById($bill_type);
+        //var_exp($contractSetting,'$contractSetting',1);
+        if(empty($contractSetting)){
+            exception("未找到发票设置!");
+        }
+        if($contractSetting["need_tax_id"]==1){
             $tax_num = $bill_apply_arr["tax_num"];
             if(empty($tax_num)){
                 $result['info'] = "参数错误！";

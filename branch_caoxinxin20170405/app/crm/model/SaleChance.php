@@ -113,6 +113,8 @@ class SaleChance extends Base
             "soc.status as order_status",
             "sob.id as bill_id",
             "sob.status as bill_status",
+            "co.contract_no",
+            "cs.contract_name as contract_type_name",
         ];
         $subQuery = $this->model->table($this->table)->alias('sc')
             ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
@@ -122,6 +124,9 @@ class SaleChance extends Base
             ->join($this->dbprefix.'sale_chance_visit scv','scv.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'sale_order_contract soc','soc.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'sale_order_bill sob','sob.sale_id = sc.id',"LEFT")
+            ->join($this->dbprefix.'contract co','co.id = soc.contract_id',"LEFT")
+            ->join($this->dbprefix.'contract_applied ca','ca.id = co.applied_id',"LEFT")
+            ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
             ->where('sc.customer_id',$customer_id)
             ->field($field)
             ->order("sc.id desc,sob.id desc")
@@ -129,6 +134,7 @@ class SaleChance extends Base
         return $this->model->table($subQuery)->alias('v')
             ->where('customer_id',$customer_id)
             ->group("id")
+            ->order("id desc")
             ->select();
     }
 
