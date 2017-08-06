@@ -21,6 +21,7 @@ class Bill extends Base{
 
     /**
      * 查询发票申请
+     * @param $uid int 员工id
      * @param $num int 数量
      * @param $page int 页
      * @param $filter array 发票筛选条件
@@ -30,7 +31,7 @@ class Bill extends Base{
      * @return array|false
      * @throws \think\Exception
      */
-    public function getBill($num=10,$page=0,$filter=null,$field=null,$order="sob.id",$direction="desc"){
+    public function getBill($uid,$num=10,$page=0,$filter=null,$field=null,$order="sob.id",$direction="desc"){
         //分页
         $offset = 0;
         if($page){
@@ -39,6 +40,7 @@ class Bill extends Base{
 
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
+        $map["operator"] = $uid;
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -85,13 +87,15 @@ class Bill extends Base{
     }
     /**
      * 查询发票数量
+     * @param $uid int 员工id
      * @param $filter array 发票筛选条件
      * @return array|false
      * @throws \think\Exception
      */
-    public function getBillCount($filter=null){
+    public function getBillCount($uid,$filter=null){
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
+        $map["operator"] = $uid;
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -129,6 +133,7 @@ class Bill extends Base{
 
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
+        $map["operator"] = $uid;
 
         $field = [
             "(case when sob.status = 0 then 1 

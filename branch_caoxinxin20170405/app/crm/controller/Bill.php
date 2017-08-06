@@ -31,10 +31,9 @@ class Bill extends Initialize{
         $uid = $userinfo["userid"];
         $filter = $this->_getCustomerFilter(["in_column"]);
         $field = $this->_getCustomerField([]);
-        $filter["employee_id"] = $uid;
         try{
             $billM = new BillModel($this->corp_id);
-            $bill_list = $billM->getBill($num,$p,$filter,$field,$order,$direction);
+            $bill_list = $billM->getBill($uid,$num,$p,$filter,$field,$order,$direction);
             //var_exp($bill_list,'$bill_list',1);
             $employee_ids = [];
             foreach ($bill_list as &$bill){
@@ -60,7 +59,7 @@ class Bill extends Initialize{
                 }
             }
             $this->assign('list_data',$bill_list);
-            $customers_count = $billM->getBillCount($filter);
+            $customers_count = $billM->getBillCount($uid,$filter);
             $this->assign("count",$customers_count);
             $listCount = $billM->getColumnNum($uid,$filter);
             $this->assign("listCount",$listCount);

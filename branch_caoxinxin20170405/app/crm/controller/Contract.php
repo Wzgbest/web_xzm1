@@ -26,10 +26,9 @@ class Contract extends Initialize{
         $uid = $userinfo["userid"];
         $filter = $this->_getCustomerFilter(["in_column"]);
         $field = $this->_getCustomerField([]);
-        $filter["employee_id"] = $uid;
         try{
             $contractAppliedModel = new ContractAppliedModel($this->corp_id);
-            $contractApplieds = $contractAppliedModel->getContractApplied($num,$p,$filter,$field,$order,$direction);
+            $contractApplieds = $contractAppliedModel->getContractApplied($uid,$num,$p,$filter,$field,$order,$direction);
             //var_exp($contractApplieds,'$contractApplieds',1);
             $employee_ids = [];
             foreach ($contractApplieds as &$contractApplied){
@@ -55,7 +54,7 @@ class Contract extends Initialize{
                 }
             }
             $this->assign('list_data',$contractApplieds);
-            $customers_count = $contractAppliedModel->getContractAppliedCount($filter);
+            $customers_count = $contractAppliedModel->getContractAppliedCount($uid,$filter);
             $this->assign("count",$customers_count);
             $listCount = $contractAppliedModel->getColumnNum($uid,$filter);
             $this->assign("listCount",$listCount);
