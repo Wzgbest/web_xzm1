@@ -110,6 +110,8 @@ class SaleChance extends Base
             "scv.add_note",
             "scv.visit_ok",
             "soc.id as order_id",
+            "soc.order_money",
+            "soc.pay_money",
             "soc.status as order_status",
             "sob.id as bill_id",
             "sob.status as bill_status",

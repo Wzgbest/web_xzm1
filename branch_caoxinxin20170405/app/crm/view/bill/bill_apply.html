@@ -23,11 +23,11 @@
 		</div>
 		<div class="line">
 			<span class="cont">开票金额:</span>
-			<span class="cont-x">6000元</span>
+			<span class="cont-x">{$sale_order_contract.pay_money}元</span>
 			<span class="cont">公司名称:</span>
 			<span class="cont-x">山东中迅网络传媒</span>
 		</div>
-		<div class="line">
+		<div class="line tax-number-line">
 			<span class="cont">公司税号</span>
 			<input class="tax-number" type="text" />
 		</div>
@@ -217,7 +217,7 @@
 		}
 	}
 	function dataHandler(e){
-//		console.log(e.data);
+		//console.log(e.data);
 //		master = e.data;
 		//合同类型的选择
 		var contract_list = e.data.contract_list;
@@ -228,6 +228,11 @@
 			$(".pop_bill_block .contract-type").append("<option value="+x+">"+contract_list[x]+"</option>");
 		}
 
+		if(e.data.need_tax_id==1){
+			$(".tax-number-line").removeClass("hide");
+		}else{
+			$(".tax-number-line").addClass("hide");
+		}
 	}
 	//合同编码
 		$(".pop_bill_block .contract-type").change(function(){
@@ -258,6 +263,7 @@
 			$(this).siblings("input[type='text']").attr("readonly","readonly");
 		}
 	});
-	
+
+	$(".pop_bill_block .bill-type").focus();
 </script>
 <link rel="stylesheet" href="/crm/css/popUp.css" />

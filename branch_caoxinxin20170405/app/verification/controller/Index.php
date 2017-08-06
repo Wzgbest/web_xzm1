@@ -27,7 +27,7 @@ class Index extends Initialize{
         $customers_count=0;
         $start_num = ($p-1)*$num;
         $end_num = $start_num+$num;
-        $order = input("order","id","string");
+        $order = input("order","soc.create_time","string");
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];

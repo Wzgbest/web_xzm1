@@ -104,7 +104,7 @@
                     {volist name="list_data" id="vo"}
                     <ul class="u-tabList">
                         <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
-                        <li>{$vo.update_time|day_format}</li>
+                        <li>{$vo.update_time|time_format}</li>
                         <li>{$vo.contract_type_name}</li>
                         <li>{present name="vo.contract_no"}{$vo.contract_no}{/present}</li>
                         <li>网站建设</li>

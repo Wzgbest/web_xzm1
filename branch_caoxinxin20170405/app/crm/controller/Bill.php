@@ -124,6 +124,22 @@ class Bill extends Initialize{
             return json($result);
         }
         $this->assign('sale_id',$sale_id);
+        $saleChanceM = new SaleChanceModel($this->corp_id);
+        $saleChanceData = $saleChanceM->getSaleChance($sale_id);
+        if(empty($saleChanceData)){
+            $result['status'] = 0;
+            $result['info'] = "未找到该销售机会！";
+            return json($result);
+        }
+        $this->assign('sale_chance',$saleChanceData);
+        $saleOrderContractM = new SaleOrderContractModel($this->corp_id);
+        $saleOrderContractData = $saleOrderContractM->getSaleOrderContractBySaleId($sale_id);
+        if(empty($saleOrderContractData)){
+            $result['status'] = 0;
+            $result['info'] = "未找到该销售机会成单申请！";
+            return json($result);
+        }
+        $this->assign('sale_order_contract',$saleOrderContractData);
         $billSettingModel = new BillSettingModel($this->corp_id);
         $bills = $billSettingModel->getBillNameIndex();
         //var_exp($bills,'$bills',1);
@@ -236,6 +252,7 @@ class Bill extends Initialize{
         $bill_type = $bill_apply_arr["bill_type"];
         $contract_id = $bill_apply_arr["contract_id"];
         $product_type_arr = $bill_apply_arr["product_type"];
+        $tax_num = '';
         $pay_way_arr = $bill_apply_arr["pay_way"];
         $handle_arr = $bill_apply_arr["handle"];
         if(

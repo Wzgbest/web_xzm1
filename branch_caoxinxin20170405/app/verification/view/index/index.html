@@ -108,16 +108,16 @@
                         <li>{$vo.struct_name}</li>
                         <li>{$business_flow_names[$vo['business_id']]}</li>
                         <li>{$vo.prod_desc}</li>
-                        <li>{$vo.need_money}元</li>
+                        <li>{$vo.order_money}元</li>
                         <li>{$vo.payed_money}元</li>
-                        <li class="u-tabLinkWay">{$vo.pay_money}元<i class="fa fa-phone"></i></li>
-                        <li>招商银行</li>
+                        <li class="u-tabLinkWay">{$vo.pay_money}元</i></li>
+                        <li>无</li>
                         <li>{$vo.pay_name}</li>
                         <li>2017/03/02</li>
                         <!--<li>1天23:59</li>
                         <li>待沟通客户</li>-->
-                        <li>定金审核</li>
-                        <li>客户要求时间急</li>
+                        <li>无</li>
+                        <li>{$vo.remark}</li>
                         <li class="status">
                             {$vo.status|getContractAppliedStatusName}
                         </li>

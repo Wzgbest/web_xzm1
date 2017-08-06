@@ -553,7 +553,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 		if(!window.confirm("确认撤回这个商机的发票申请吗?")){
 			return false;
 		}
-		var sale_chance_invalid_data = "id="+id+"&fr="+this.from;
+		var sale_chance_invalid_data = "sale_id="+id+"&fr="+this.from;
 		this.reload_flg = 1;
 		//console.log(sale_chance_invalid_data);
 		$.ajax({

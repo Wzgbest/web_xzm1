@@ -56,7 +56,7 @@ class SaleOrderContract extends Base{
      * @return false|\PDOStatement|string|\think\Collection
      * created by blu10ph
      */
-    public function getAllSaleOrderContractByPage($num=10,$page=0,$filter=null,$field=null,$order="ca.id",$direction="desc"){
+    public function getAllSaleOrderContractByPage($num=10,$page=0,$filter=null,$field=null,$order="soc.create_time",$direction="desc"){
         //分页
         $offset = 0;
         if($page){
@@ -93,10 +93,10 @@ class SaleOrderContract extends Base{
             ->join($this->dbprefix.'structure_employee se','se.user_id = e.id')
             ->join($this->dbprefix.'structure s','se.struct_id = s.id')
             ->where($map)
-            ->order($order)
             ->limit($offset,$num)
             ->field($field)
             ->group("soc.id")
+            ->order($order)
             ->select();
     }
 
@@ -209,7 +209,7 @@ class SaleOrderContract extends Base{
     public function approvedSaleOrderContract($id,$data,$map){
         return $this->model->table($this->table)->alias('soc')
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
-            ->where('id',$id)
+            ->where('soc.id',$id)
             ->where($map)
             ->update($data);
     }
