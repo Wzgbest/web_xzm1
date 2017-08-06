@@ -31,16 +31,18 @@ class Index extends Initialize{
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        $filter = $this->_getCustomerFilter([]);
+        $filter = $this->_getCustomerFilter(["in_column"]);
         $field = $this->_getCustomerField([]);
         //$filter["employee_id"] = $uid; // 审核人
         $filter["status"] = 1;
         try{
             $saleChanceM = new SaleOrderContractModel($this->corp_id);
-            $SaleOrderContractsData = $saleChanceM->getAllSaleOrderContractByPage($num,$p,$filter,$field,$order,$direction);
+            $SaleOrderContractsData = $saleChanceM->getVerificationSaleOrderContractByPage($num,$p,$filter,$field,$order,$direction);
             $this->assign("list_data",$SaleOrderContractsData);
-            $customers_count = $saleChanceM->getAllSaleChanceCount($filter);
+            $customers_count = $saleChanceM->getVerificationSaleChanceCount($filter);
             $this->assign("count",$customers_count);
+            $listCount = $saleChanceM->getVerificationColumnNum($uid,$filter);
+            $this->assign("listCount",$listCount);
             $struM = new StructureModel($this->corp_id);
             $structs = $struM->getAllStructure();
             $this->assign("structs",$structs);
@@ -71,6 +73,14 @@ class Index extends Initialize{
     }
     protected function _getCustomerFilter($filter_column){
         $filter = [];
+
+        //所在列
+        if(in_array("in_column", $filter_column)){
+            $in_column = input("in_column",1,"int");
+            if($in_column){
+                $filter["in_column"] = $in_column;
+            }
+        }
         return $filter;
     }
     protected function _getCustomerField($field_column){

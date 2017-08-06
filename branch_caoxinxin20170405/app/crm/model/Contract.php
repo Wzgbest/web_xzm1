@@ -125,7 +125,7 @@ class Contract extends Base{
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
-            if($in_column>0&&$in_column<8){
+            if($in_column>0){
                 $having = " in_column = $in_column ";
             }
         }
@@ -188,7 +188,7 @@ class Contract extends Base{
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
-            if($in_column>0&&$in_column<8){
+            if($in_column>0){
                 $having = " in_column = $in_column ";
             }
         }
@@ -307,7 +307,7 @@ class Contract extends Base{
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
-            if($in_column>0&&$in_column<8){
+            if($in_column>0){
                 $having = " in_column = $in_column ";
             }
         }
@@ -371,7 +371,7 @@ class Contract extends Base{
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
-            if($in_column>0&&$in_column<8){
+            if($in_column>0){
                 $having = " in_column = $in_column ";
             }
         }
