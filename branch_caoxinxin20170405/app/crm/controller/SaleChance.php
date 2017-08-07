@@ -442,12 +442,19 @@ class SaleChance extends Initialize{
             $add_flg = true;
         }
         $SaleChancesVisitData = $this->_getSaleChanceVisitForInput($sale_id,$add_flg);
+        //var_exp($sale_id,'$sale_id');
+        //var_exp($SaleChancesVisitOldData,'$SaleChancesVisitOldData');
+        //var_exp($SaleChancesVisitData,'$SaleChancesVisitData');
+        //var_exp($add_flg,'$add_flg');
         $save_flg = false;
         if($add_flg){
             $save_flg = $saleChanceVisitM->addSaleChanceVisit($SaleChancesVisitData);
         }else{
+            //var_exp(1,'up');
             $save_flg = $saleChanceVisitM->setSaleChanceVisitBySaleId($sale_id,$SaleChancesVisitData);
+            $save_flg = true;
         }
+        //var_exp($save_flg,'$save_flg',1);
         return $save_flg;
     }
     protected function _getSaleChanceFineForInput($sale_id,$add_flg){
@@ -496,6 +503,13 @@ class SaleChance extends Initialize{
             $save_flg = $saleOrderContractM->setSaleOrderContractBySaleId($sale_id,$saleOrderContractData);
         }
         return $save_flg;
+    }
+    public function sign_in_page(){
+        $saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
+        $saleChanseVisitWaitList = $saleChanceVisitM->getAllSaleChanceVisitWait();
+        //var_exp($saleChanseVisitWaitList,'$saleChanseVisitWaitList',1);
+        $this->assign('wait_list',$saleChanseVisitWaitList);
+        return view();
     }
     public function sign_in(){
         $result = ['status'=>0 ,'info'=>"签到时发生错误！"];

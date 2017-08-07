@@ -18,6 +18,26 @@ class SaleChanceVisit extends Base{
         parent::__construct($corp_id);
     }
 
+    /**获取客户商机预约拜访
+     * @return false|\PDOStatement|int|\think\Collection
+     * created by blu10ph
+     */
+    public function getAllSaleChanceVisitWait(){
+        $map["sc.sale_status"] = 2;
+        $field = [
+            "scv.*",
+            "sc.id as sale_id",
+            "sc.sale_name",
+            "c.id as customer_id",
+            "c.customer_name",
+        ];
+        return $this->model->table($this->table)->alias('scv')
+            ->join($this->dbprefix.'sale_chance sc','sc.id = scv.sale_id',"LEFT")
+            ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
+            ->where($map)
+            ->select();
+    }
+
     /**根据商机ID获取客户商机拜访
      * @param $sale_id int 商机id
      * @return false|\PDOStatement|int|\think\Collection
