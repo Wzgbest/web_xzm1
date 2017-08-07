@@ -242,7 +242,7 @@ class Contract extends Initialize{
         $contractAppliedM = new ContractAppliedModel($this->corp_id);
         try{
             $contractAppliedM->link->startTrans();
-            $update_flg = $contractAppliedM->rejected($id,$uid);
+            $update_flg = $contractAppliedM->rejected($id);
             if(!$update_flg){
                 $result['info'] = "驳回合同失败！";
                 return json($result);
@@ -291,8 +291,35 @@ class Contract extends Initialize{
         }
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
+        $time = time();
+        $contractAppliedM = new ContractAppliedModel($this->corp_id);
+        try{
+            $contractAppliedM->link->startTrans();
+            $update_flg = $contractAppliedM->received($id);
+            if(!$update_flg){
+                $result['info'] = "已领取合同失败！";
+                return json($result);
+            }
+            $verificatioLogData["type"] = 1;
+            $verificatioLogData["target_id"] = $id;
+            $verificatioLogData["create_user"] = $uid;
+            $verificatioLogData["create_time"] = $time;
+            $verificatioLogData["status_previous"] = 0;
+            $verificatioLogData["status_now"] = 2;
+            $verificatioLogData["remark"] = "已领取合同";
+            $verificatioLogM = new VerificatioLog($this->corp_id);
+            $verificatioLogAddFlg = $verificatioLogM->addVerificatioLog($verificatioLogData);
+            if(!$verificatioLogAddFlg){
+                exception("审批失败,保存审批记录时出现错误！");
+            }
+            $contractAppliedM->link->commit();
+        }catch (\Exception $ex){
+            $contractAppliedM->link->rollback();
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
         $result['status']=1;
-        $result['info']='已领取合同开发中!';
+        $result['info']='已领取合同成功!';
         return $result;
     }
     public function remind(){
@@ -330,8 +357,35 @@ class Contract extends Initialize{
         }
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
+        $time = time();
+        $contractAppliedM = new ContractAppliedModel($this->corp_id);
+        try{
+            $contractAppliedM->link->startTrans();
+            $update_flg = $contractAppliedM->withdrawal($id);
+            if(!$update_flg){
+                $result['info'] = "收回合同失败！";
+                return json($result);
+            }
+            $verificatioLogData["type"] = 1;
+            $verificatioLogData["target_id"] = $id;
+            $verificatioLogData["create_user"] = $uid;
+            $verificatioLogData["create_time"] = $time;
+            $verificatioLogData["status_previous"] = 0;
+            $verificatioLogData["status_now"] = 2;
+            $verificatioLogData["remark"] = "收回合同";
+            $verificatioLogM = new VerificatioLog($this->corp_id);
+            $verificatioLogAddFlg = $verificatioLogM->addVerificatioLog($verificatioLogData);
+            if(!$verificatioLogAddFlg){
+                exception("审批失败,保存审批记录时出现错误！");
+            }
+            $contractAppliedM->link->commit();
+        }catch (\Exception $ex){
+            $contractAppliedM->link->rollback();
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
         $result['status']=1;
-        $result['info']='收回合同开发中!';
+        $result['info']='收回合同成功!';
         return $result;
     }
 }

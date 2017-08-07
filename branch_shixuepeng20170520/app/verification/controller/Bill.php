@@ -236,8 +236,34 @@ class Bill extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $time = time();
         $billM = new BillModel($this->corp_id);
-        $update_flg = $billM->received($id);
+        try{
+            $billM->link->startTrans();
+            $update_flg = $billM->received($id);
+            if(!$update_flg){
+                exception("已领取发票失败！");
+            }
+            $verificatioLogData["type"] = 3;
+            $verificatioLogData["target_id"] = $id;
+            $verificatioLogData["create_user"] = $uid;
+            $verificatioLogData["create_time"] = $time;
+            $verificatioLogData["status_previous"] = 0;
+            $verificatioLogData["status_now"] = 2;
+            $verificatioLogData["remark"] = "已领取发票";
+            $verificatioLogM = new VerificatioLog($this->corp_id);
+            $verificatioLogAddFlg = $verificatioLogM->addVerificatioLog($verificatioLogData);
+            if(!$verificatioLogAddFlg){
+                exception("审批失败,保存审批记录时出现错误！");
+            }
+            $billM->link->commit();
+        }catch (\Exception $ex){
+            $billM->link->rollback();
+            $result['info'] = $ex->getMessage();
+            return json($result);
+        }
         if(!$update_flg){
             $result['info'] = "已领取发票失败！";
             return json($result);

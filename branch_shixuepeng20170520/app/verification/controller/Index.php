@@ -38,6 +38,7 @@ class Index extends Initialize{
         try{
             $saleChanceM = new SaleOrderContractModel($this->corp_id);
             $SaleOrderContractsData = $saleChanceM->getVerificationSaleOrderContractByPage($num,$p,$filter,$field,$order,$direction);
+            //var_exp($SaleOrderContractsData,'$SaleOrderContractsData',1);
             $this->assign("list_data",$SaleOrderContractsData);
             $customers_count = $saleChanceM->getVerificationSaleChanceCount($filter);
             $this->assign("count",$customers_count);

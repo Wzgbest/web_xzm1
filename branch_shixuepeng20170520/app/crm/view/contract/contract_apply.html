@@ -79,7 +79,7 @@
 		//遍历类b
 		for(c in b){
 		//如果当前属性的值不是空
-			if(b[c]){
+			if(b[c]&&b[c]>0){
 				$(".main-content").eq(row).find(".exam-man").eq(d).removeClass("hide");
 				$(".main-content").eq(row).find(".exam-man-s").eq(d).removeClass("hide");
 				//当前属性值在role_employee_index里对应的数组

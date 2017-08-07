@@ -21,7 +21,7 @@ $("#frames #verification-indexfr .verification_sale_chance .u-tabList .u-tabOper
             //console.log(data);
             alert(data.info);
             if(data.status) {
-                my_customer_list_manage.reload_list();
+                verification_sale_chance_list_manage.reload_list();
             }
         },
         error: function() {
@@ -45,7 +45,7 @@ $("#frames #verification-indexfr .verification_sale_chance .u-tabList .u-tabOper
             //console.log(data);
             alert(data.info);
             if(data.status) {
-                my_customer_list_manage.reload_list();
+                verification_sale_chance_list_manage.reload_list();
             }
         },
         error: function() {
