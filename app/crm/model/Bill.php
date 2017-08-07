@@ -450,15 +450,15 @@ class Bill extends Base{
         $data["status"] = 6;
         $map["id"] = $id;
         $map["status"] = 0;
-        return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
+        return $this->model->table($this->table)->where($map)->update($data);
     }
 
     //已领取
     public function received($id){
         $data["status"] = 5;
         $map["id"] = $id;
-        $map["status"] = 0;
-        return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
+        $map["status"] = 4;
+        return $this->model->table($this->table)->where($map)->update($data);
     }
 
 }
