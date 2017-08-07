@@ -478,6 +478,45 @@ function getContractAppliedStatusName($applied_status){
     return $applied_status_name;
 }
 
+function getBillStatusName($status){
+    $status_name = null;
+    switch ($status){
+        case 0:
+            $status_name = "审核中";
+            break;
+        case 1:
+            $status_name = "已通过";
+            break;
+        case 2:
+            $status_name = "已驳回";
+            break;
+        case 3:
+            $status_name = "已撤回";
+            break;
+        case 4:
+            $status_name = "待领取";
+            break;
+        case 5:
+            $status_name = "已领取";
+            break;
+        case 6:
+            $status_name = "已作废";
+            break;
+        case 7:
+            $status_name = "已收回";
+            break;
+        case 8:
+            $status_name = "已提醒";
+            break;
+        case 9:
+            $status_name = "已退款";
+            break;
+        default:
+            $status_name = "无";
+    }
+    return $status_name;
+}
+
 function getBusinessName($business){
     $corp_id = get_corpid();
     $business_index = cache("user_cache_".$corp_id."_business");

@@ -24,12 +24,11 @@ class Contract extends Initialize{
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        $filter = $this->_getCustomerFilter([]);
+        $filter = $this->_getCustomerFilter(["in_column"]);
         $field = $this->_getCustomerField([]);
-        $filter["employee_id"] = $uid;
         try{
             $contractAppliedModel = new ContractAppliedModel($this->corp_id);
-            $contractApplieds = $contractAppliedModel->getContractApplied($num,$p,$filter,$field,$order,$direction);
+            $contractApplieds = $contractAppliedModel->getContractApplied($uid,$num,$p,$filter,$field,$order,$direction);
             //var_exp($contractApplieds,'$contractApplieds',1);
             $employee_ids = [];
             foreach ($contractApplieds as &$contractApplied){
@@ -55,8 +54,10 @@ class Contract extends Initialize{
                 }
             }
             $this->assign('list_data',$contractApplieds);
-            $customers_count = $contractAppliedModel->getContractAppliedCount($filter);
+            $customers_count = $contractAppliedModel->getContractAppliedCount($uid,$filter);
             $this->assign("count",$customers_count);
+            $listCount = $contractAppliedModel->getColumnNum($uid,$filter);
+            $this->assign("listCount",$listCount);
             $contractSettingModel = new ContractModel($this->corp_id);
             $contracts = $contractSettingModel->getAllContract();
             //var_exp($contracts,'$contracts',1);
@@ -69,6 +70,7 @@ class Contract extends Initialize{
             $this->error($ex->getMessage());
         }
         $max_page = ceil($customers_count/$num);
+        $in_column = isset($filter["in_column"])?$filter["in_column"]:0;
         $userinfo = get_userinfo();
         $truename = $userinfo["truename"];
         $this->assign("p",$p);
@@ -76,12 +78,21 @@ class Contract extends Initialize{
         $this->assign("filter",$filter);
         $this->assign("max_page",$max_page);
         $this->assign("truename",$truename);
+        $this->assign("in_column",$in_column);
         $this->assign("start_num",$customers_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view();
     }
     protected function _getCustomerFilter($filter_column){
         $filter = [];
+
+        //所在列
+        if(in_array("in_column", $filter_column)){
+            $in_column = input("in_column",1,"int");
+            if($in_column){
+                $filter["in_column"] = $in_column;
+            }
+        }
         return $filter;
     }
     protected function _getCustomerField($field_column){

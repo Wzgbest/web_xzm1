@@ -515,7 +515,7 @@ class Customer extends Base
         //列筛选
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
-            if($in_column>0&&$in_column<9){
+            if($in_column>0){
                 $having = " in_column = $in_column ";
             }else{
                 $having = null;
@@ -639,7 +639,13 @@ class Customer extends Base
             "take_time",
             "contract_due_time",
             "remind_time",
-            "(case when phone_correct = 0 and profile_correct = 0 then 8 when tend_to = 0 then 6 when is_wait = 0 then 5 when sale_status = 0 then 7 when ct_id = '' or ct_id is null then 2 when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >".$to_halt_day_max." then 4 when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >3 then 1 else 3 end ) as in_column",
+            "(case when phone_correct = 0 and profile_correct = 0 then 8 
+            when tend_to = 0 then 6 
+            when is_wait = 0 then 5 
+            when sale_status = 0 then 7 
+            when ct_id = '' or ct_id is null then 2 
+            when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >".$to_halt_day_max." then 4 
+            when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >3 then 1 else 3 end ) as in_column",
             "sale_status",
             "ct_id",
         ];
@@ -750,7 +756,7 @@ class Customer extends Base
         //列筛选
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
-            if($in_column>0&&$in_column<9){
+            if($in_column>0){
                 $having = " in_column = $in_column ";
             }else{
                 $having = null;
@@ -942,7 +948,7 @@ class Customer extends Base
         //列筛选
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
-            if($in_column>0&&$in_column<9){
+            if($in_column>0){
                 $having = " in_column = $in_column ";
             }else{
                 $having = null;

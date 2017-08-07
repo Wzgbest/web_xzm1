@@ -27,9 +27,14 @@ class ContractSetting extends Base{
         return $contractSettingList;
     }
 
-    public function getAllContractName(){
+    public function getAllContractName($contract_type_ids=null){
+        $map = [];
+        if($contract_type_ids){
+            $map["id"] = ["in",$contract_type_ids];
+        }
         $contractSettingList = $this->model
             ->table($this->table)
+            ->where($map)
             ->order("id desc")
             ->column("contract_name","id");
         return $contractSettingList;
