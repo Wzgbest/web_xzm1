@@ -27,7 +27,9 @@ if(count($request_uri_array)>=4){
 		$key = array_search("in_column",$request_uri_array);
 		if(isset($request_uri_array[$key+1])){
 			$val = intval($request_uri_array[$key+1]);
-			$file_url .= "_in_column_".$val;
+			if(file_exists($file_url."_in_column_".$val.".html")){
+				$file_url .= "_in_column_".$val;
+			}
 		}
 	}
 	$file_url.=".html";
