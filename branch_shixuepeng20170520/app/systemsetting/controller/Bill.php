@@ -113,6 +113,27 @@ class Bill extends Initialize{
         return view("edit_page");
     }
 
+    public function get(){
+        $result = ['status'=>0 ,'info'=>"获取发票设置时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        try{
+            $contractSetting = $this->_billSettingModel->getBillSettingById($id);
+            if(empty($contractSetting)){
+                exception("未找到发票设置!");
+            }
+            $result['data'] = $contractSetting;
+        }catch (\Exception $ex){
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "获取成功！";
+        return json($result);
+    }
+
     protected function _getBillSettingForInput(){
         $billSetting['bill_type'] = input('bill_type');
         $billSetting['need_tax_id'] = input('need_tax_id',0,'int');
@@ -162,6 +183,16 @@ class Bill extends Initialize{
         return $billSetting;
     }
 
+    protected function _checkCreateBillNoNum($contractSetting){
+        $create_contract_no_num = 0;
+        for($i=1;$i<=6;$i++){
+            if($contractSetting['create_bill_num_'.$i]){
+                $create_contract_no_num++;
+            }
+        }
+        return $create_contract_no_num;
+    }
+
     public function add(){
         $result = ['status'=>0 ,'info'=>"添加发票设置时发生错误！"];
         $billSetting = $this->_getBillSettingForInput();
@@ -172,6 +203,15 @@ class Bill extends Initialize{
                 $result['info'] = $validate_result;
                 return json($result);
             }
+
+            //验证填写次数
+            $create_bill_no_num = $this->_checkCreateBillNoNum($billSetting);
+            if($create_bill_no_num<1){
+                $result['info'] = "发票号填写必须至少有一次!";
+                return json($result);
+            }
+            //var_exp($billSetting,'$billSetting',1);
+
             $billSettingAddFlg = $this->_billSettingModel->addBillSetting($billSetting);
             $result['data'] = $billSettingAddFlg;
         }catch (\Exception $ex){
@@ -179,27 +219,6 @@ class Bill extends Initialize{
         }
         $result['status'] = 1;
         $result['info'] = "添加成功！";
-        return json($result);
-    }
-
-    public function get(){
-        $result = ['status'=>0 ,'info'=>"获取发票设置时发生错误！"];
-        $id = input("id",0,"int");
-        if(!$id){
-            $result['info'] = "参数错误！";
-            return json($result);
-        }
-        try{
-            $contractSetting = $this->_billSettingModel->getBillSettingById($id);
-            if(empty($contractSetting)){
-                exception("未找到发票设置!");
-            }
-            $result['data'] = $contractSetting;
-        }catch (\Exception $ex){
-            return json($result);
-        }
-        $result['status'] = 1;
-        $result['info'] = "获取成功！";
         return json($result);
     }
 
@@ -218,6 +237,15 @@ class Bill extends Initialize{
                 $result['info'] = $validate_result;
                 return json($result);
             }
+
+            //验证填写次数
+            $create_bill_no_num = $this->_checkCreateBillNoNum($billSetting);
+            if($create_bill_no_num<1){
+                $result['info'] = "发票号填写必须至少有一次!";
+                return json($result);
+            }
+            //var_exp($billSetting,'$billSetting',1);
+            
             $billSettingUpdateFlg = $this->_billSettingModel->setBillSetting($id,$billSetting);
         }catch (\Exception $ex){
             return json($result);

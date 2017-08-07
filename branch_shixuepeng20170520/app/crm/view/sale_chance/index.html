@@ -1,13 +1,13 @@
 <div class="crm_sale_chance crm_sale_chance_index">
-    <div class="index_panel index">
+    <div class="index_panel index number_screening">
 		<header>
             <ul class="m-firNav">
-                <li in_column="0" class="in_column current"><div>正常跟进（<span>10</span>）</div></li>
-                <li in_column="1" class="in_column "><div>停滞（<span>0</span>）</div></li>
-                <li in_column="2" class="in_column "><div>已成单（<span>0</span>）</div></li>
-                <li in_column="3" class="in_column "><div>已输单（<span>0</span>）</div></li>
-                <li in_column="4" class="in_column "><div>已作废（<span>0</span>）</div></li>
-                <li in_column="5" class="in_column "><div>所有销售机会（<span>0</span>）</div></li>
+                <li in_column="1" class="in_column {eq name='in_column' value='1'}current{/eq}"><div>正常跟进（<span>{$listCount.1}</span>）</div></li>
+                <li in_column="2" class="in_column {eq name='in_column' value='2'}current{/eq}"><div>停滞（<span>{$listCount.2}</span>）</div></li>
+                <li in_column="3" class="in_column {eq name='in_column' value='3'}current{/eq}"><div>已成单（<span>{$listCount.3}</span>）</div></li>
+                <li in_column="4" class="in_column {eq name='in_column' value='4'}current{/eq}"><div>已输单（<span>{$listCount.4}</span>）</div></li>
+                <li in_column="5" class="in_column {eq name='in_column' value='5'}current{/eq}"><div>已作废（<span>{$listCount.5}</span>）</div></li>
+                <li in_column="0" class="in_column {eq name='in_column' value='0'}current{/eq}"><div>所有销售机会（<span>{$listCount.0}</span>）</div></li>
             </ul>
         </header>
     
@@ -49,7 +49,7 @@
                     </ul>
                     {volist name="list_data" id="vo"}
                     <ul class="u-tabList">
-                        <li>{$vo.update_time|day_format}</li>
+                        <li>{$vo.update_time|time_format}</li>
                         <li class="color-blue">{$vo.sale_name}</li>
                         <li class="color-blue">{$vo.customer_name}</li>
                         <li>{$business_flow_names[$vo['business_id']]}</li>
@@ -60,33 +60,6 @@
                         <div class="clearfix"></div>
                     </ul>
                     {/volist}
-            	</div>
-            	<!--sale-chance-complete为已成单销售机会表格 table6定义宽度-->
-            	<div class="m-table table6 sale-chance-complete hide">
-            		<ul class="u-tabTitle">
-                        <li>最后变更时间<i class="fa fa-caret-down"></i></li>
-                        <li>销售机会<i class="fa fa-unsorted"></i></li>
-                        <li>对应客户</li>
-                        <li>对应业务</li>
-                        <li>业务状态</li>
-                        <li>预计金额<i class="fa fa-unsorted"></i></li>
-                        <li>成单金额<i class="fa fa-unsorted"></i></li>
-                        <li>已交金额<i class="fa fa-unsorted"></i></li>
-                        <li>预计合同到期时间<i class="fa fa-unsorted"></i></li>
-                        <div class="clearfix"></div>
-                    </ul>
-                    <ul class="u-tabList">
-                        <li>{$vo.update_time|time_format}</li>
-                        <li class="color-blue">{$vo.sale_name}</li>
-                        <li class="color-blue">{$vo.customer_name}</li>
-                        <li>{$business_flow_names[$vo['business_id']]}</li>
-                        <li>{$vo.sale_status|getSaleStatusName}</li>
-                        <li>{$vo.guess_money}元</li>
-                        <li>{$vo.final_money}元</li>
-                        <li>{$vo.payed_money}元</li>
-                        <li>2017/07/18/17:36</li>
-                        <div class="clearfix"></div>
-                    </ul>
             	</div>
             </div>
             <div class="u-tabControlRow">
@@ -109,3 +82,8 @@
     </div>
 </div>    
 <link rel="stylesheet" href="/crm/css/index.css"/>
+<script src="/static/js/list_manage.js"></script>
+<script language="javascript">
+    var my_bill_list_manage = new list_manage("number_screening","number-screeningfr","/crm/sale_chance/index",'{$p}','{$num}','{$max_page}','{$in_column}',"");
+</script>
+<script src="/crm/js/sale_chance_index.js"></script>

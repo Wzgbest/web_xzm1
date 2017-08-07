@@ -115,6 +115,27 @@ class Contract extends Initialize{
         return view("edit_page");
     }
 
+    public function get(){
+        $result = ['status'=>0 ,'info'=>"获取合同设置时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        try{
+            $contractSetting = $this->_contractSettingModel->getContractSettingById($id);
+            if(empty($contractSetting)){
+                exception("未找到合同设置!");
+            }
+            $result['data'] = $contractSetting;
+        }catch (\Exception $ex){
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "获取成功！";
+        return json($result);
+    }
+
     protected function _getContractSettingForInput(){
         $contractSetting['contract_name'] = input('contract_name');
         $contractSetting['contract_prefix'] = input('contract_prefix');
@@ -137,6 +158,16 @@ class Contract extends Initialize{
         return $contractSetting;
     }
 
+    protected function _checkCreateContractNoNum($contractSetting){
+        $create_contract_no_num = 0;
+        for($i=1;$i<=6;$i++){
+            if($contractSetting['create_contract_num_'.$i]){
+                $create_contract_no_num++;
+            }
+        }
+        return $create_contract_no_num;
+    }
+
     public function add(){
         $result = ['status'=>0 ,'info'=>"添加合同设置时发生错误！"];
         $contractSetting = $this->_getContractSettingForInput();
@@ -147,6 +178,15 @@ class Contract extends Initialize{
                 $result['info'] = $validate_result;
                 return json($result);
             }
+
+            //验证生成次数
+            $create_contract_no_num = $this->_checkCreateContractNoNum($contractSetting);
+            if($create_contract_no_num!=1){
+                $result['info'] = "合同号生成必须有且只有一次!";
+                return json($result);
+            }
+            //var_exp($contractSetting,'$contractSetting',1);
+
             $contractSettingAddFlg = $this->_contractSettingModel->addContractSetting($contractSetting);
             $result['data'] = $contractSettingAddFlg;
         }catch (\Exception $ex){
@@ -154,27 +194,6 @@ class Contract extends Initialize{
         }
         $result['status'] = 1;
         $result['info'] = "添加成功！";
-        return json($result);
-    }
-
-    public function get(){
-        $result = ['status'=>0 ,'info'=>"获取合同设置时发生错误！"];
-        $id = input("id",0,"int");
-        if(!$id){
-            $result['info'] = "参数错误！";
-            return json($result);
-        }
-        try{
-            $contractSetting = $this->_contractSettingModel->getContractSettingById($id);
-            if(empty($contractSetting)){
-                exception("未找到合同设置!");
-            }
-            $result['data'] = $contractSetting;
-        }catch (\Exception $ex){
-            return json($result);
-        }
-        $result['status'] = 1;
-        $result['info'] = "获取成功！";
         return json($result);
     }
 
@@ -193,6 +212,15 @@ class Contract extends Initialize{
                 $result['info'] = $validate_result;
                 return json($result);
             }
+            
+            //验证生成次数
+            $create_contract_no_num = $this->_checkCreateContractNoNum($contractSetting);
+            if($create_contract_no_num!=1){
+                $result['info'] = "合同号生成必须有且只有一次!";
+                return json($result);
+            }
+            //var_exp($contractSetting,'$contractSetting',1);
+
             $contractSettingUpdateFlg = $this->_contractSettingModel->setContractSetting($id,$contractSetting);
         }catch (\Exception $ex){
             return json($result);

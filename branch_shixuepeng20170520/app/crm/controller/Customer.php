@@ -918,15 +918,18 @@ class Customer extends Initialize{
         }
         try{
             $customerM->link->startTrans();
+
             $customersFlg = $customerM->setCustomer($id,$customer);
             /*if(!$customersFlg){
                 exception('添加客户失败!');
             }*/
+
             $customerNegotiateM = new CustomerNegotiate($this->corp_id);
             $customersNegotiateFlg = $customerNegotiateM->updateCustomerNegotiate($id,$customerNegotiate);
             /*if(!$customersNegotiateFlg){
                 exception('更新客户沟通状态失败!');
             }*/
+
             if(!empty($customersTraces)){
                 $customerM = new CustomerTraceModel($this->corp_id);
                 $customerTraceflg = $customerM->addMultipleCustomerMessage($customersTraces);
@@ -934,6 +937,7 @@ class Customer extends Initialize{
                     exception('提交客户跟踪数据失败!');
                 }
             }
+
             $customerM->link->commit();
         }catch (\Exception $ex){
             $customerM->link->rollback();
