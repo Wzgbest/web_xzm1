@@ -19,6 +19,7 @@ use app\systemsetting\model\BusinessFlowItem;
 use app\systemsetting\model\BusinessFlowItemLink;
 use app\common\model\RoleEmployee as RoleEmployeeModel;
 use app\crm\model\Contract as ContractAppliedModel;
+use app\crm\model\CustomerTrace as CustomerTraceModel;
 
 class SaleChance extends Initialize{
     protected $_activityBusinessFlowItem = [1,2,4];
@@ -37,15 +38,18 @@ class SaleChance extends Initialize{
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        $filter = $this->_getCustomerFilter([]);
+        $filter = $this->_getCustomerFilter(["in_column"]);
         $field = $this->_getCustomerField([]);
         $filter["employee_id"] = $uid;
         try{
             $saleChanceM = new SaleChanceModel($this->corp_id);
-            $SaleChancesData = $saleChanceM->getAllSaleChancesByPage($num,$p,$filter,$field,$order,$direction);
+            $SaleChancesData = $saleChanceM->getAllSaleChancesByPage($uid,$num,$p,$filter,$field,$order,$direction);
+            //var_exp($SaleChancesData,'$SaleChancesData',1);
             $this->assign("list_data",$SaleChancesData);
-            $customers_count = $saleChanceM->getAllSaleChanceCount($filter);
+            $customers_count = $saleChanceM->getAllSaleChanceCount($uid,$filter);
             $this->assign("count",$customers_count);
+            $listCount = $saleChanceM->getAllColumnNum($uid,$filter);
+            $this->assign("listCount",$listCount);
             $businessFlowModel = new BusinessFlowModel($this->corp_id);
             $business_flow_names = $businessFlowModel->getAllBusinessFlowName();
             //var_exp($business_flow_names,'$business_flow_names',1);
@@ -61,6 +65,7 @@ class SaleChance extends Initialize{
             $this->error($ex->getMessage());
         }
         $max_page = ceil($customers_count/$num);
+        $in_column = isset($filter["in_column"])?$filter["in_column"]:0;
         $userinfo = get_userinfo();
         $truename = $userinfo["truename"];
         $this->assign("p",$p);
@@ -68,12 +73,21 @@ class SaleChance extends Initialize{
         $this->assign("filter",$filter);
         $this->assign("max_page",$max_page);
         $this->assign("truename",$truename);
+        $this->assign("in_column",$in_column);
         $this->assign("start_num",$customers_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view();
     }
     protected function _getCustomerFilter($filter_column){
         $filter = [];
+
+        //所在列
+        if(in_array("in_column", $filter_column)){
+            $in_column = input("in_column",1,"int");
+            if($in_column){
+                $filter["in_column"] = $in_column;
+            }
+        }
         return $filter;
     }
     protected function _getCustomerField($field_column){
@@ -94,6 +108,7 @@ class SaleChance extends Initialize{
         $this->assign("fr",input('fr'));
         $saleChanceM = new SaleChanceModel($this->corp_id);
         $SaleChancesData = $saleChanceM->getAllSaleChancesByCustomerId($customer_id);
+        //var_exp($SaleChancesData,'$SaleChancesData',1);
         $this->assign("sale_chance",$SaleChancesData);
         $customerContactM = new CustomerContact($this->corp_id);
         $customer_contact_num = $customerContactM->getCustomerContactCount($customer_id);
@@ -189,7 +204,7 @@ class SaleChance extends Initialize{
             $saleOrderContractM = new SaleOrderContractModel($this->corp_id);
             $saleOrderContractData = $saleOrderContractM->getSaleOrderContractBySaleId($id);
             if(empty($saleOrderContractData)){
-                $saleOrderContractData["contract_num"] = 0;
+                $saleOrderContractData["contract_id"] = 0;
                 $saleOrderContractData["order_money"] = 0.00;
                 $saleOrderContractData["pay_money"] = 0.00;
                 $saleOrderContractData["pay_type"] = 0;
@@ -244,7 +259,7 @@ class SaleChance extends Initialize{
 
             $status = [5,7,8];
             $contractAppliedModel = new ContractAppliedModel($this->corp_id);
-            $contracts = $contractAppliedModel->getAllContractNoAndType($uid,$status);
+            $contracts = $contractAppliedModel->getAllContractNoAndType($uid,null,$status);
             //var_exp($contracts,'$contracts',1);
             $this->assign('contract_list',$contracts);
             $contract_type_index = [];
@@ -253,8 +268,12 @@ class SaleChance extends Initialize{
             }
             $this->assign('contract_type_name_json',json_encode($contract_type_index,true));
 
+            $refresh = input("refresh",0,"int");
+            $this->assign('refresh',$refresh);
+
             $show_fine = true;
         }
+        
         $this->assign('show_fine',$show_fine);
         //var_exp($this->_activityBusinessFlowItem,'$activity_business_flow_item_index');
         $this->assign('activity_business_flow_item_index',$this->_activityBusinessFlowItem);
@@ -330,7 +349,8 @@ class SaleChance extends Initialize{
         $saleChance['final_money'] = input('final_money',0,'float');
 
         $saleChance['update_time'] = time();
-        $saleChance['prepay_time'] = input('prepay_time',0,'int');
+        $saleChance['prepay_time'] = input('prepay_time',0,'strtotime');
+        $saleChance['remark'] = input('remark','','string');
         return $saleChance;
     }
     public function add(){
@@ -376,6 +396,15 @@ class SaleChance extends Initialize{
                     exception("保存成单申请信息失败!");
                 }
             }
+            
+//            if(!empty($customersTraces)){
+//                $customerM = new CustomerTraceModel($this->corp_id);
+//                $customerTraceflg = $customerM->addMultipleCustomerMessage($customersTraces);
+//                if(!$customerTraceflg){
+//                    exception('提交客户跟踪数据失败!');
+//                }
+//            }
+            
             $saleChanceM->link->commit();
             $result['data'] = $saleChanceflg;
         }catch (\Exception $ex){
@@ -427,11 +456,10 @@ class SaleChance extends Initialize{
         if($add_flg){
             $saleOrderFine["sale_id"] = $sale_id;
             $saleOrderFine["create_time"] = time();
-            $saleOrderFine["status"] = 1;
-            $saleOrderFine["handle_status"] = 0;
-            $saleOrderFine["contract_handle_status"] = 0;
+            $saleOrderFine["status"] = 0;
+            $saleOrderFine["handle_status"] = 1;
         }
-        $saleOrderFine['contract_num'] = input('contract_num',0,'int');
+        $saleOrderFine['contract_id'] = input('contract_id',0,'int');
         $saleOrderFine['order_money'] = input('order_money',0,'float');
         $saleOrderFine['pay_money'] = input('pay_money',0,'float');
         $saleOrderFine['pay_type'] = input('pay_type',0,'int');
@@ -447,13 +475,6 @@ class SaleChance extends Initialize{
         $saleOrderFine['handle_5'] = input('handle_5',0,'int');
         $saleOrderFine['handle_6'] = input('handle_6',0,'int');
 
-        $saleOrderFine['contract_handle_1'] = input('contract_handle_1',0,'int');
-        $saleOrderFine['contract_handle_2'] = input('contract_handle_2',0,'int');
-        $saleOrderFine['contract_handle_3'] = input('contract_handle_3',0,'int');
-        $saleOrderFine['contract_handle_4'] = input('contract_handle_4',0,'int');
-        $saleOrderFine['contract_handle_5'] = input('contract_handle_5',0,'int');
-        $saleOrderFine['contract_handle_6'] = input('contract_handle_6',0,'int');
-
         $saleOrderFine["update_time"] = time();
         return $saleOrderFine;
     }
@@ -464,7 +485,9 @@ class SaleChance extends Initialize{
         if(empty($saleOrderContractOldData)){
             $add_flg = true;
         }
-        $saleOrderContractData = $this->_getSaleChanceFineForInput($sale_id,$add_flg);
+        $refresh = input("refresh",0,"int");
+        $reply = $saleOrderContractOldData["status"]==3;
+        $saleOrderContractData = $this->_getSaleChanceFineForInput($sale_id,$add_flg||$refresh||$reply);
         //var_exp($saleOrderContractData,'$saleOrderContractData',1);
         $save_flg = false;
         if($add_flg){

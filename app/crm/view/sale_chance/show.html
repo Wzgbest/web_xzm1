@@ -36,8 +36,8 @@
                             </div>
                         </div>
                     {elseif condition="($vo.sale_status==4) AND ($vo.order_status==2)"/}
-                        <div class="z-reapply sale_chance_refresh">
-                            <div class="edit2">
+                        <div class="z-reapply">
+                            <div class="edit2 sale_chance_refresh">
                                 <i class="fa fa-2x fa-refresh" style="margin-left: 13px;"></i></br>
                                 <span>重新申请</span>
                             </div>
@@ -54,7 +54,6 @@
                             </div>
                         </div>
                     {/if}
-                    <input type="hidden" class="edit_id" value="{$vo.id}"/>
                 {/lt}
                 {eq name="vo.sale_status" value="5"}
                 <div class="z-win">
@@ -71,6 +70,7 @@
                     <img src="/crm/img/invalid.png" />
                 </div>
                 {/eq}
+                <input type="hidden" class="edit_id" value="{$vo.id}"/>
             </div>
             <div>
                 <span class="cont">销售机会：</span>
@@ -122,29 +122,58 @@
             <div class="sale-chance-finish-record">
                 <div>
                     <span class="cont">合同类型：</span>
-                    <span class="cont-x">技术合同 <span class="cont-in">收据类型：<span class="cont-in-x">普通收据</span></span></span>
+                    <span class="cont-x">{$vo.contract_type_name}<span class="cont-in">收据类型：<span class="cont-in-x">普通收据</span></span></span>
                     <span class="cont-max-max">合同/收据编号：</span>
-                    <span class="cont-x">4651782</span>
+                    <span class="cont-x">{$vo.contract_no}</span>
                 </div>
                 <div>
-                    <span class="cont">发票类型：</span>
-                    <span class="cont-x"><span class="number">7,000</span> 元<span class="cont-in">发票待领取</span></span>
-                </div>
-                <div>
-                    <span class="cont">定金：</span>
-                    <span class="cont-x"><span class="number">6,000</span> 元</span>
-                </div>
-                <div>
-                    <span class="cont">尾中款：</span>
-                    <span class="cont-x"><span class="number">500</span> 元<span class="cont-in color-blue bill-apply">申请发票</span></span>
+                    <span class="cont">应收金额：</span>
+                    <span class="cont-x"><span class="number">{$vo.order_money}</span> 元</span>
                 </div>
                 <div>
                     <span class="cont">共缴纳：</span>
-                    <span class="cont-x"><span class="number">6,500</span> 元</span>
-                </div>
-                <div>
-                    <span class="cont">剩余尾款：</span>
-                    <span class="cont-x"><span class="number">500</span> 元<span class="cont-in color-blue">尾款缴纳申请</span></span>
+                    <span class="cont-x">
+                        <span class="number">{$vo.pay_money}</span> 元
+                    {eq name="vo.sale_status" value="5"}
+                        {empty name="vo.bill_id"}
+                            <span class="cont-in color-blue bill-apply">申请发票</span>
+                        {else/}
+                            {switch	name="vo.bill_status"}
+                                {case value="0"}
+                                    <span class="cont-in color-blue bill-apply-retract">撤回发票申请</span>
+                                {/case}
+                                {case value="1"}
+                                    <span class="cont-in">发票申请已通过</span>
+                                {/case}
+                                {case value="2"}
+                                    <span class="cont-in color-blue bill-apply">发票申请已驳回</span>
+                                {/case}
+                                {case value="3"}
+                                    <span class="cont-in color-blue bill-apply">发票申请已撤回</span>
+                                {/case}
+                                {case value="4"}
+                                    <span class="cont-in">发票待领取</span>
+                                {/case}
+                                {case value="5"}
+                                    <span class="cont-in">发票已领取</span>
+                                {/case}
+                                {case value="6"}
+                                    <span class="cont-in">已作废</span>
+                                {/case}
+                                {case value="7"}
+                                    <span class="cont-in">已收回</span>
+                                {/case}
+                                {case value="8"}
+                                    <span class="cont-in">已提醒</span>
+                                {/case}
+                                {case value="9"}
+                                    <span class="cont-in">已退款</span>
+                                {/case}
+                                {default /}
+                            {/switch}
+                        {/empty}
+                    {/eq}
+                    </span>
                 </div>
             </div>
             {/in}
@@ -164,6 +193,3 @@
     </section>
 </section>
 <script src="/crm/js/PopUp.js"></script>
-<script>
-    var pop = new pop("#create-bill","/crm/bill/bill_apply/",".bill-apply");
-</script>

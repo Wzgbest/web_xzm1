@@ -2,6 +2,10 @@
 namespace app\verification\controller;
 
 use app\common\controller\Initialize;
+use app\crm\model\Bill as BillModel;
+use app\common\model\Employee as EmployeeModel;
+use app\systemsetting\model\BillSetting as BillSettingModel;
+use app\verification\model\VerificatioLog;
 
 class Bill extends Initialize{
     var $paginate_list_rows = 10;
@@ -19,19 +23,52 @@ class Bill extends Initialize{
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        $filter = $this->_getCustomerFilter([]);
+        $filter = $this->_getCustomerFilter(["in_column"]);
         $field = $this->_getCustomerField([]);
         //$filter["employee_id"] = $uid; // 审核人
         $filter["status"] = 1;
         try{
-            $SaleOrderContractsData = [];//xxx($num,$p,$filter,$field,$order,$direction);
-            $this->assign("list_data",$SaleOrderContractsData);
-            $customers_count = 0;//xxx($filter);
+            $billM = new BillModel($this->corp_id);
+            $bill_list = $billM->getVerificationBill($num,$p,$filter,$field,$order,$direction);
+            //var_exp($bill_list,'$bill_list',1);
+            $employee_ids = [];
+            foreach ($bill_list as &$bill){
+                $handle_status = $bill["handle_status"];
+                if(
+                    isset($bill["handle_".$handle_status]) &&
+                    !empty($bill["handle_".$handle_status])
+                ){
+                    $employee_ids[] = $bill["handle_".$handle_status];
+                    $bill["assessor"] = $bill["handle_".$handle_status];
+                    $bill["now_handle_create_item"] = "create_bill_num_".$handle_status;
+                }
+            }
+            $employeeM = new EmployeeModel($this->corp_id);
+            $employee_name_index = $employeeM->getEmployeeNameByUserids($employee_ids);
+            foreach ($bill_list as &$bill){
+                if(
+                    isset($bill["assessor"])&&
+                    isset($employee_name_index[$bill["assessor"]])
+                ) {
+                    $bill["assessor_name"] = $employee_name_index[$bill["assessor"]];
+                }else{
+                    $bill["assessor_name"] = '';
+                }
+            }
+            $this->assign('list_data',$bill_list);
+            $customers_count = $billM->getVerificationBillCount($filter);
             $this->assign("count",$customers_count);
+            $listCount = $billM->getVerificationColumnNum($uid,$filter);
+            $this->assign("listCount",$listCount);
+            $billSettingModel = new BillSettingModel($this->corp_id);
+            $bills = $billSettingModel->getBillNameIndex();
+            //var_exp($bills,'$bills',1);
+            $this->assign('bill_name',$bills);
         }catch (\Exception $ex){
             $this->error($ex->getMessage());
         }
         $max_page = ceil($customers_count/$num);
+        $in_column = isset($filter["in_column"])?$filter["in_column"]:0;
         $userinfo = get_userinfo();
         $truename = $userinfo["truename"];
         $this->assign("p",$p);
@@ -39,12 +76,21 @@ class Bill extends Initialize{
         $this->assign("filter",$filter);
         $this->assign("max_page",$max_page);
         $this->assign("truename",$truename);
+        $this->assign("in_column",$in_column);
         $this->assign("start_num",$customers_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view();
     }
     protected function _getCustomerFilter($filter_column){
         $filter = [];
+
+        //所在列
+        if(in_array("in_column", $filter_column)){
+            $in_column = input("in_column",1,"int");
+            if($in_column){
+                $filter["in_column"] = $in_column;
+            }
+        }
         return $filter;
     }
     protected function _getCustomerField($field_column){
@@ -52,25 +98,101 @@ class Bill extends Initialize{
         return $field;
     }
     public function approved(){
-        $result = ['status'=>0 ,'info'=>"通过成单申请时发生错误！"];
+        $result = ['status'=>0 ,'info'=>"通过发票申请时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $remark = input("remark",null,"string");
+        $bill_no = '';
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        $update_flg = true;
-        if(!$update_flg){
-            $result['info'] = "通过成单申请失败！";
+        $time = time();
+
+        $billM = new BillModel($this->corp_id);
+        $bill_info = $billM->getBillById($id);
+        $bill_handle_status = $bill_info["handle_status"];
+        $billSettingModel = new BillSettingModel($this->corp_id);
+        $contractSetting = $billSettingModel->getBillSettingById($bill_info["bill_type"]);
+        if($contractSetting["create_bill_num_".$bill_handle_status]==1){
+            $bill_no = input("bill_no",'',"string");
+            if(empty($bill_no)){
+                $result['info'] = "参数错误！";
+                return json($result);
+            }
+        }
+
+        try{
+            $billM->link->startTrans();
+
+            //审核记录通用数据
+            $verificatioLogData["type"] = 3;
+            $verificatioLogData["target_id"] = $id;
+            $verificatioLogData["create_user"] = $uid;
+            $verificatioLogData["create_time"] = $time;
+            $verificatioLogRemark = '';
+
+            $bill_data = [];
+            if($remark){
+                $bill_data["remark"] = ["exp","concat(remark,'".$remark.";')"];
+            }
+            if(!empty($bill_no)){
+                $bill_data["bill_no"] = $bill_no;
+                $verificatioLogRemark .= "填写发票号!";
+            }
+            $map["status"] = 0;
+
+            if(
+                $bill_handle_status!=6 &&
+                !empty($bill_info["handle_".($bill_handle_status+1)])
+            ){
+                //还有下一步审批,转为下一个人审批
+                $bill_data["handle_status"] = $bill_handle_status+1;
+                $update_flg = $billM->setBill($id,$bill_data,$map);
+                if(!$update_flg){
+                    $result['info'] = "审批失败！";
+                    return json($result);
+                }
+
+                $verificatioLogRemark .= "审核通过,转到下一审核人";
+                $verificatioLogData["status_previous"] = $bill_handle_status;
+                $verificatioLogData["status_now"] = $bill_handle_status+1;
+            }else{
+                //最后一步审批
+                //$bill_data["status"] = 1;
+                $bill_data["status"] = 4;
+                $update_flg = $billM->setBill($id,$bill_data,$map);
+                if(!$update_flg){
+                    $result['info'] = "通过发票申请失败！";
+                    return json($result);
+                }
+
+                $verificatioLogRemark .= "审核最终通过!";
+                $verificatioLogData["status_previous"] = $bill_info["status"];
+                $verificatioLogData["status_now"] = $bill_data["status"];
+            }
+
+            //保存审核记录
+            $verificatioLogData["remark"] = $verificatioLogRemark;
+            $verificatioLogM = new VerificatioLog($this->corp_id);
+            $verificatioLogAddFlg = $verificatioLogM->addVerificatioLog($verificatioLogData);
+            if(!$verificatioLogAddFlg){
+                exception("审批失败,保存审批记录时出现错误！");
+            }
+            $billM->link->commit();
+        }catch (\Exception $ex){
+            $billM->link->rollback();
+            $result['info'] = $ex->getMessage();
             return json($result);
         }
+
         $result['status']=1;
-        $result['info']='通过成单申请成功!';
+        $result['info']='通过发票申请成功!';
         return $result;
     }
     public function rejected(){
-        $result = ['status'=>0 ,'info'=>"驳回成单申请时发生错误！"];
+        $result = ['status'=>0 ,'info'=>"驳回发票申请时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){
             $result['info'] = "参数错误！";
@@ -78,25 +200,67 @@ class Bill extends Initialize{
         }
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        $update_flg = false;
-        if(!$update_flg){
-            $result['info'] = "驳回成单申请失败！";
+        $time = time();
+        $billM = new BillModel($this->corp_id);
+        try{
+            $billM->link->startTrans();
+            $update_flg = $billM->rejected($id);
+            if(!$update_flg){
+                exception("驳回发票申请失败！");
+            }
+            $verificatioLogData["type"] = 3;
+            $verificatioLogData["target_id"] = $id;
+            $verificatioLogData["create_user"] = $uid;
+            $verificatioLogData["create_time"] = $time;
+            $verificatioLogData["status_previous"] = 0;
+            $verificatioLogData["status_now"] = 2;
+            $verificatioLogData["remark"] = "审核被驳回";
+            $verificatioLogM = new VerificatioLog($this->corp_id);
+            $verificatioLogAddFlg = $verificatioLogM->addVerificatioLog($verificatioLogData);
+            if(!$verificatioLogAddFlg){
+                exception("审批失败,保存审批记录时出现错误！");
+            }
+            $billM->link->commit();
+        }catch (\Exception $ex){
+            $billM->link->rollback();
+            $result['info'] = $ex->getMessage();
             return json($result);
         }
         $result['status']=1;
-        $result['info']='驳回成单申请成功!';
+        $result['info']='驳回发票申请成功!';
     }
     public function received(){
-        $result = ['status'=>0 ,'info'=>"已领取合同时发生错误！"];
+        $result = ['status'=>0 ,'info'=>"已领取发票时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){
             $result['info'] = "参数错误！";
             return json($result);
         }
-        $userinfo = get_userinfo();
-        $uid = $userinfo["userid"];
+        $billM = new BillModel($this->corp_id);
+        $update_flg = $billM->received($id);
+        if(!$update_flg){
+            $result['info'] = "已领取发票失败！";
+            return json($result);
+        }
         $result['status']=1;
-        $result['info']='已领取合同开发中!';
+        $result['info']='已领取发票成功!';
+        return $result;
+    }
+    public function invalid(){
+        $result = ['status'=>0 ,'info'=>"作废发票时发生错误！"];
+        $id = input("id",0,"int");
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $billM = new BillModel($this->corp_id);
+        $update_flg = $billM->invalid($id);
+        if(!$update_flg){
+            $result['info'] = "作废发票失败！";
+            return json($result);
+        }
+        $result['status']=1;
+        $result['info']='作废发票成功!';
         return $result;
     }
 }

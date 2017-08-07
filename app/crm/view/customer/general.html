@@ -118,10 +118,12 @@
             <div>
                 <span>状态变更备注：</span><span>{$vo.remark}</span>
             </div>
-            <div class="edit sale_chance_edit" sale_chance_id="{$vo.id}">
-                <i class="fa fa-file-text fa-2x"></i>
-                <span>编辑</span>
-            </div>
+            {between name="vo.sale_status" value="1,3"}
+                <div class="edit sale_chance_edit" sale_chance_id="{$vo.id}">
+                    <i class="fa fa-file-text fa-2x"></i>
+                    <span>编辑</span>
+                </div>
+            {/between}
         </div>
         {/volist}
         <div class="m-divBlock ">
