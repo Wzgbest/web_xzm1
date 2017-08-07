@@ -25,7 +25,7 @@ $("#frames #verification-billfr .verification_bill .u-tabList .u-tabOperation .a
             //console.log(data);
             alert(data.info);
             if(data.status) {
-                my_customer_list_manage.reload_list();
+                verification_bill_list_manage.reload_list();
             }
         },
         error: function() {
@@ -49,7 +49,7 @@ $("#frames #verification-billfr .verification_bill .u-tabList .u-tabOperation .r
             //console.log(data);
             alert(data.info);
             if(data.status) {
-                my_customer_list_manage.reload_list();
+                verification_bill_list_manage.reload_list();
             }
         },
         error: function() {

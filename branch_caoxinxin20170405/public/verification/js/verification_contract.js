@@ -21,7 +21,7 @@ $("#frames #verification-contractfr .verification_contract .u-tabList .u-tabOper
             //console.log(data);
             alert(data.info);
             if(data.status) {
-                my_customer_list_manage.reload_list();
+                verification_contract_list_manage.reload_list();
             }
         },
         error: function() {
@@ -45,7 +45,7 @@ $("#frames #verification-contractfr .verification_contract .u-tabList .u-tabOper
             //console.log(data);
             alert(data.info);
             if(data.status) {
-                my_customer_list_manage.reload_list();
+                verification_contract_list_manage.reload_list();
             }
         },
         error: function() {
@@ -69,7 +69,7 @@ $("#frames #verification-contractfr .verification_contract .u-tabList .u-tabOper
             //console.log(data);
             alert(data.info);
             if(data.status) {
-                my_customer_list_manage.reload_list();
+                verification_contract_list_manage.reload_list();
             }
         },
         error: function() {
