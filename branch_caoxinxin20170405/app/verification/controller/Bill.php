@@ -40,6 +40,7 @@ class Bill extends Initialize{
                 ){
                     $employee_ids[] = $bill["handle_".$handle_status];
                     $bill["assessor"] = $bill["handle_".$handle_status];
+                    $bill["now_handle_create_item"] = "create_bill_num_".$handle_status;
                 }
             }
             $employeeM = new EmployeeModel($this->corp_id);
@@ -104,7 +105,7 @@ class Bill extends Initialize{
             return json($result);
         }
         $remark = input("remark",null,"string");
-        $bill_no = input("bill_no",null,"string");
+        $bill_no = '';
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
         $time = time();
@@ -112,6 +113,15 @@ class Bill extends Initialize{
         $billM = new BillModel($this->corp_id);
         $bill_info = $billM->getBillById($id);
         $bill_handle_status = $bill_info["handle_status"];
+        $billSettingModel = new BillSettingModel($this->corp_id);
+        $contractSetting = $billSettingModel->getBillSettingById($bill_info["bill_type"]);
+        if($contractSetting["create_bill_num_".$bill_handle_status]==1){
+            $bill_no = input("bill_no",'',"string");
+            if(empty($bill_no)){
+                $result['info'] = "参数错误！";
+                return json($result);
+            }
+        }
 
         try{
             $billM->link->startTrans();
@@ -127,7 +137,7 @@ class Bill extends Initialize{
             if($remark){
                 $bill_data["remark"] = ["exp","concat(remark,'".$remark.";')"];
             }
-            if($bill_no){
+            if(!empty($bill_no)){
                 $bill_data["bill_no"] = $bill_no;
                 $verificatioLogRemark .= "填写发票号!";
             }

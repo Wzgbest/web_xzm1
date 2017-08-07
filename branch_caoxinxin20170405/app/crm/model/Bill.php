@@ -217,6 +217,12 @@ class Bill extends Base{
             'sob.*',
             'e.truename as operator_name',
             'bs.bill_type as bill_type_name',
+            "bs.create_bill_num_1",
+            "bs.create_bill_num_2",
+            "bs.create_bill_num_3",
+            "bs.create_bill_num_4",
+            "bs.create_bill_num_5",
+            "bs.create_bill_num_6",
             'GROUP_CONCAT( distinct `sobi`.`product_type`) as `product_type_name`',
             "(case when sob.status = 0 then 1 
                 when sob.status = 4 then 2 

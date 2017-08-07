@@ -9,10 +9,14 @@
 $("#frames #verification-billfr .verification_bill .u-tabList .u-tabOperation .approved").click(function(){
     var id = $(this).parent().siblings().children("input").val();
     var remark = "";
+    var bill_no = "";
     if($(this).hasClass("remark")){
         remark = prompt("请输入备注","");
     }
-    var data = "id="+id+"&remark="+remark;
+    if($(this).hasClass("bill_no")){
+        bill_no = prompt("请输入发票号","");
+    }
+    var data = "id="+id+"&bill_no="+bill_no+"&remark="+remark;
     $.ajax({
         url: '/verification/bill/approved',
         type: 'post',

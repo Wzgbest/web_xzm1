@@ -94,7 +94,7 @@
                         <li class="u-tabOperation">
                             {eq name="vo.status" value="0"}
                                 <span class="rejected">驳回</span>
-                                <span class="approved">通过</span>
+                                <span class="approved {eq name='vo[$vo["now_handle_create_item"]]' value='1'}bill_no{/eq}">通过</span>
                                 <span class="approved remark">备注通过</span>
                             {/eq}
                         </li>
