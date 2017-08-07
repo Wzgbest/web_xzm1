@@ -211,7 +211,11 @@ class SaleOrderContract extends Base{
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
             if($in_column>0){
-                $having = " in_column = $in_column ";
+                $having = " (case when sc.sale_status = 4 and soc.status = 0 then 1 
+            when sc.sale_status = 5 and soc.status = 1 then 7 
+            when sc.sale_status = 4 and soc.status = 2 then 8 
+            when sc.sale_status = 9 then 9 
+            else 10 end ) = $in_column ";
             }
         }
 
@@ -239,7 +243,8 @@ class SaleOrderContract extends Base{
             when sc.sale_status = 9 then 9 
             else 10 end ) as in_column",
         ];
-        return $this->model->table($this->table)->alias('soc')
+        $query = $this->model->table($this->table)->alias('soc');
+        $sale_chance_list = $query
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'contract co','co.id = soc.contract_id',"LEFT")
@@ -253,6 +258,8 @@ class SaleOrderContract extends Base{
             ->order($order)
             ->having($having)
             ->select();
+        //var_exp($query->getLastSql(),"lastsql",1);
+        return $sale_chance_list;
     }
 
     /**
@@ -268,7 +275,11 @@ class SaleOrderContract extends Base{
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
             if($in_column>0){
-                $having = " in_column = $in_column ";
+                $having = " (case when sc.sale_status = 4 and soc.status = 0 then 1 
+            when sc.sale_status = 5 and soc.status = 1 then 7 
+            when sc.sale_status = 4 and soc.status = 2 then 8 
+            when sc.sale_status = 9 then 9 
+            else 10 end ) = $in_column ";
             }
         }
 
