@@ -14,7 +14,8 @@ $("#frames #verification-billfr .verification_bill .u-tabList .u-tabOperation .a
         remark = prompt("请输入备注","");
     }
     if($(this).hasClass("bill_no")){
-        bill_no = prompt("请输入发票号","");
+        bill_no = $(this).attr("bill_no");
+        bill_no = prompt("请输入发票号",bill_no);
     }
     var data = "id="+id+"&bill_no="+bill_no+"&remark="+remark;
     $.ajax({
@@ -25,7 +26,7 @@ $("#frames #verification-billfr .verification_bill .u-tabList .u-tabOperation .a
             //console.log(data);
             alert(data.info);
             if(data.status) {
-                my_customer_list_manage.reload_list();
+                verification_bill_list_manage.reload_list();
             }
         },
         error: function() {
@@ -49,7 +50,30 @@ $("#frames #verification-billfr .verification_bill .u-tabList .u-tabOperation .r
             //console.log(data);
             alert(data.info);
             if(data.status) {
-                my_customer_list_manage.reload_list();
+                verification_bill_list_manage.reload_list();
+            }
+        },
+        error: function() {
+            alert("驳回发票申请时发生错误!");
+        }
+    });
+});
+$("#frames #verification-billfr .verification_bill .u-tabList .u-tabOperation .received").click(function(){
+    var id = $(this).parent().siblings().children("input").val();
+    var remark = "";
+    if($(this).hasClass("remark")){
+        remark = prompt("请输入备注","");
+    }
+    var data = "id="+id+"&remark="+remark;
+    $.ajax({
+        url: '/verification/bill/received',
+        type: 'post',
+        data: data,
+        success: function(data) {
+            //console.log(data);
+            alert(data.info);
+            if(data.status) {
+                verification_bill_list_manage.reload_list();
             }
         },
         error: function() {

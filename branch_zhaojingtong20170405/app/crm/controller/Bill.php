@@ -335,7 +335,7 @@ class Bill extends Initialize{
         $data["customer_name"] = $customers_data["customer_name"];
         $data["tax_num"] = $tax_num;
         $data["bill_money"] = $bill_money;
-        $data["pay_type"] = $pay_way_arr["way"]?$pay_way_arr["bank_type"]:"现金";
+        $data["pay_type"] = $pay_way_arr["way"]!="现金"?$pay_way_arr["bank_type"]:"现金";
         $data["handle_1"] = $handle_arr["handle_1"];
         $data["handle_2"] = isset($handle_arr["handle_2"])?$handle_arr["handle_2"]:0;
         $data["handle_3"] = isset($handle_arr["handle_3"])?$handle_arr["handle_3"]:0;

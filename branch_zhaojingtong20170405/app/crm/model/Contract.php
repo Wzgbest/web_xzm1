@@ -326,6 +326,7 @@ class Contract extends Base{
         $field = [
             'ca.*',
             'GROUP_CONCAT(co.contract_no) as contract_no',
+            'co.id as contract_id',
             'co.status as contract_status',
             'cs.contract_name as contract_type_name',
             "sc.sale_name",
@@ -550,68 +551,50 @@ class Contract extends Base{
     }
 
     //驳回
-    public function rejected($id,$user_id=null){
+    public function rejected($id){
         $data["status"] = 2;
-        if($user_id){
-            $map["employee_id"] = $user_id;
-        }
         $map["id"] = $id;
         $map["status"] = 0;
         return $this->model->table($this->table)->where($map)->update($data);
     }
 
     //作废
-    public function invalid($id,$user_id=null){
+    public function invalid($id){
         $data["status"] = 6;
-        if($user_id){
-            $map["employee_id"] = $user_id;
-        }
         $map["id"] = $id;
         $map["status"] = 0;
         return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
     }
 
     //已领取
-    public function received($id,$user_id=null){
+    public function received($id){
         $data["status"] = 5;
-        if($user_id){
-            $map["employee_id"] = $user_id;
-        }
         $map["id"] = $id;
-        $map["status"] = 0;
+        $map["status"] = 4;
         return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
     }
 
     //提醒
-    public function remind($id,$user_id=null){
+    public function remind($id){
         $data["status"] = 8;
-        if($user_id){
-            $map["employee_id"] = $user_id;
-        }
         $map["id"] = $id;
         $map["status"] = 0;
         return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
     }
 
     //已退款
-    public function refunded($id,$user_id=null){
+    public function refunded($id){
         $data["status"] = 9;
-        if($user_id){
-            $map["employee_id"] = $user_id;
-        }
         $map["id"] = $id;
         $map["status"] = 0;
         return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
     }
 
     //收回
-    public function withdrawal($id,$user_id=null){
+    public function withdrawal($id){
         $data["status"] = 7;
-        if($user_id){
-            $map["employee_id"] = $user_id;
-        }
         $map["id"] = $id;
-        $map["status"] = 0;
+        $map["status"] = 5;
         return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
     }
 }
