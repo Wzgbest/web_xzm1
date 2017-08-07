@@ -81,7 +81,13 @@
                     </ul>
                     {volist name="list_data" id="vo"}
                     <ul class="u-tabList">
-                        <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+                        <li class="u-tabCheckbox"><input type="checkbox" value="
+                            {eq name='vo.status' value='1'}
+                            {$vo.contract_id}
+                            {else/}
+                            {$vo.id}
+                            {/eq}
+                            "/></li>
                         <li>{$vo.update_time|time_format}</li>
                         <li>{$vo.contract_type_name}</li>
                         <li>{present name="vo.contract_no"}{$vo.contract_no}{/present}</li>
@@ -115,6 +121,12 @@
                             {/eq}
                             {eq name="vo.status" value="1"}
                                 <span class="invalid">作废</span>
+                                {eq name="vo.contract_status" value="4"}
+                                    <span class="received">已领取</span>
+                                {/eq}
+                                {eq name="vo.contract_status" value="5"}
+                                    <span class="withdrawal">收回</span>
+                                {/eq}
                             {/eq}
                         </li>
                         <div class="clearfix"></div>
