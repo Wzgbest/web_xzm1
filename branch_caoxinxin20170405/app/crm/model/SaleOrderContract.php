@@ -284,6 +284,8 @@ class SaleOrderContract extends Base{
         }
 
         $field = [
+            "soc.status",
+            "sc.sale_status",
             "(case when sc.sale_status = 4 and soc.status = 0 then 1 
             when sc.sale_status = 5 and soc.status = 1 then 7 
             when sc.sale_status = 4 and soc.status = 2 then 8 
