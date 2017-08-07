@@ -1,15 +1,15 @@
 <div class="crm_contract crm_contract_index" style="overflow-x: hidden;">
-	<div class="index_panel index">
+	<div class="index_panel index my_contract">
 		<header>
             <ul class="m-firNav">
-                <li in_column="0" class="in_column current"><div>合同审核中（<span>10</span>）</div></li>
-                <li in_column="1" class="in_column "><div>已通过合同（<span>0</span>）</div></li>
-                <li in_column="2" class="in_column "><div>已驳回合同（<span>0</span>）</div></li>
-                <li in_column="3" class="in_column "><div>已撤回合同（<span>0</span>）</div></li>
-                <li in_column="4" class="in_column "><div>已作废合同（<span>0</span>）</div></li>
-                <li in_column="5" class="in_column "><div>成单审核中合同（<span>0</span>）</div></li>
-                <li in_column="6" class="in_column "><div>已成单合同（<span>0</span>）</div></li>
-                <li in_column="7" class="in_column "><div>所有合同（<span>0</span>）</div></li>
+                <li in_column="1" class="in_column {eq name='in_column' value='1'}current{/eq}"><div>合同审核中（<span>{$listCount.1}</span>）</div></li>
+                <li in_column="2" class="in_column {eq name='in_column' value='2'}current{/eq}"><div>已通过合同（<span>{$listCount.2}</span>）</div></li>
+                <li in_column="3" class="in_column {eq name='in_column' value='3'}current{/eq}"><div>已驳回合同（<span>{$listCount.3}</span>）</div></li>
+                <li in_column="4" class="in_column {eq name='in_column' value='4'}current{/eq}"><div>已撤回合同（<span>{$listCount.4}</span>）</div></li>
+                <li in_column="5" class="in_column {eq name='in_column' value='5'}current{/eq}"><div>已作废合同（<span>{$listCount.5}</span>）</div></li>
+                <li in_column="6" class="in_column {eq name='in_column' value='6'}current{/eq}"><div>成单审核中合同（<span>{$listCount.6}</span>）</div></li>
+                <li in_column="7" class="in_column {eq name='in_column' value='7'}current{/eq}"><div>已成单合同（<span>{$listCount.7}</span>）</div></li>
+                <li in_column="0" class="in_column {eq name='in_column' value='0'}current{/eq}"><div>所有合同（<span>{$listCount.0}</span>）</div></li>
             </ul>
             <div id="contract-apply">
             	<i class="fa fa-clipboard"></i><br />
@@ -22,27 +22,26 @@
         	<div class="m-divBlock m-divBlock2">
         		<div class="m-filterNav">
                 	<form class="search_form" onsubmit="return false;">
-                    	<select name="">
+                    	<select name="contract_type">
                 	        <option value="">合同类型</option>
 							{volist name="contract_type_list" id="vo"}
 								<option value="{$vo.id}">{$vo.contract_name}</option>
 							{/volist}
                 	    </select>
-                    	<select name="">
+                    	<select name="business_id">
                      	    <option value="">对应业务</option>
 							{volist name="business_flow_list" id="vo"}
 								<option value="{$vo.id}">{$vo.business_flow_name}</option>
 							{/volist}
                  	    </select>
-                	    
-                	    <input type="text" name="" placeholder="输入合同编码" value=""/>
+                	    <input type="text" name="contract_no" placeholder="输入合同编码" value=""/>
                 	    <input type="text" name="customer_name" placeholder="输入客户名称" value=""/>
                	    	<button class="u-btnSearch">查询</button>
               	  	</form>
            	 	</div>
            	 	<div class="m-tableBox">
            	 		<div class="m-table table-contract">
-                    	<ul class="u-tabTitle">                        
+                    	<ul class="u-tabTitle">
                         	<li class="creat-time">申请时间<i class="fa fa-unsorted"></i></li>
                         	<li class="update-time">状态变更时间<i class="fa fa-unsorted"></i></li>
                         	<li class="contract-number">合同编码</li>
@@ -59,26 +58,46 @@
                         	<div class="clearfix"></div>
                     	</ul>
 						{volist name="list_data" id="vo"}
-                    	<ul class="u-tabList">
+                    	<ul class="u-tabList"><input type="hidden" value="{$vo.id}"/>
                         	<li class="creat-time">{$vo.create_time|day_format}</li>
                         	<li class="update-time">{$vo.update_time|day_format}</li>
-                        	<li class="contract-number">{present name="vo.contract_no"}{$vo.contract_no}{/present}</li>
+                        	<li class="contract-number">
+								{present name="vo.contract_no"}
+									{$vo.contract_no}
+								{/present}
+							</li>
                         	<li class="contract-type">{$vo.contract_type_name}</li>
-                        	<li class="contract-status">待领取</li>
-                        	<li class="assessor">{$vo.assessor_name}</li>
-                        	<li class="sale-id">网站建设</li>
-                        	<li class="customer-id color-blue">山东中迅网络传媒</li>
-                        	<li class="service">网站建设</li>
-                        	<li class="order-status">定金</li>
-                        	<li class="status">
+                        	<li class="contract-status">
 								{eq name="vo.status" value="1"}
 									{$vo.contract_status|getContractAppliedStatusName}
 								{else/}
 									{$vo.status|getContractAppliedStatusName}
 								{/eq}
 							</li>
-                        	<li class="reject-reson">太丑</li>
-                        	<li class="operate color-blue">{eq name="vo.status" value="0"}撤回{/eq}</li>
+                        	<li class="assessor">{$vo.assessor_name}</li>
+                        	<li class="sale-id">{$vo.sale_name}</li>
+                        	<li class="customer-id color-blue">{$vo.customer_name}</li>
+                        	<li class="service">{$vo.business_flow_name}</li>
+                        	<li class="order-status">
+								{gt name="vo.sale_status" value="3"}
+									{$vo.sale_status|getSaleStatusName}
+								{/gt}
+							</li>
+                        	<li class="status">
+								{gt name="vo.sale_status" value="3"}
+									{$vo.sale_status|getSaleStatusName}
+								{else/}
+									{eq name="vo.status" value="1"}
+										{$vo.contract_status|getContractAppliedStatusName}
+									{else/}
+										{$vo.status|getContractAppliedStatusName}
+									{/eq}
+								{/gt}
+							</li>
+                        	<li class="reject-reson">{$vo.remark}</li>
+                        	<li class="u-tabOperation">
+								{eq name="vo.status" value="0"}<span class="retract">撤回</span>{/eq}
+							</li>
                         	<div class="clearfix"></div>
                     	</ul>
 						{/volist}
@@ -107,12 +126,11 @@
 	</div>
 </div>
 <link rel="stylesheet" href="/crm/css/contract.css" />
-<script src="/crm/js/contract_index.js"></script>
-<script>
-	var i = '<i class="fa fa-unsorted"></i>';
-	var arr = [[0,3,5,12],[[1,"通过时间",i],2,3,4,5],[[1,"驳回时间",i],3,5,11],[[1,"撤回时间",i],3,5],[[1,"作废时间",i],2,3,5],[[1,"提交审核时间",i],2,3,5,7,8,12],[[1,"成单时间",i],2,3,5,6,7,8,9],[[1,"状态变更时间",i],2,3,5,6,7,8,9,10]];
-	var contract_index_list_manage = new list_manager("crm_contract_index","table-contract",arr);
+<script src="/static/js/list_manage.js"></script>
+<script language="javascript">
+	var my_contract_list_manage = new list_manage("my_contract","my-contractfr","/crm/contract/index",'{$p}','{$num}','{$max_page}','{$in_column}',"");
 </script>
+<script src="/crm/js/contract_index.js"></script>
 <script src="/crm/js/PopUp.js"></script>
 <script>
 	var pop = new pop("#create-contract","/crm/contract/contract_apply/","#contract-apply");

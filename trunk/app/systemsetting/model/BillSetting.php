@@ -26,6 +26,14 @@ class BillSetting extends Base{
             ->select();
         return $billSettingList;
     }
+
+    public function getBillNameIndex(){
+        $billSettingList = $this->model
+            ->table($this->table)
+            ->order("id desc")
+            ->column("bill_type","id");
+        return $billSettingList;
+    }
     /**
      * 查询发票设置
      * @param $num int 数量

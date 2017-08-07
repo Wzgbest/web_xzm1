@@ -17,6 +17,26 @@ function pop(id,url,clicker){
 	   $(id).children().remove();
 	}); 
 }
+function popLoad(id,url){   
+	$.ajax({
+    	url: url,
+    	type: 'get',
+    	async: false,
+    	success: function(data) {
+			if(data.status==0){
+				alert(data.info);
+			}
+        	$(id).html(data);
+        	$(id).removeClass("hide");
+    	},
+    	error: function() {
+        	alert("加载失败!");
+    	}
+	});   	
+    $(document).on('click', id+" .pop-close-btn", function() {
+	   $(id).children().remove();
+	}); 
+}
 function popUp(e){
 	console.log(e.innerHTML);
 	blackBgshow();
