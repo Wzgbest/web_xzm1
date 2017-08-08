@@ -343,6 +343,7 @@ class Bill extends Initialize{
         $data["handle_5"] = isset($handle_arr["handle_5"])?$handle_arr["handle_5"]:0;
         $data["handle_6"] = isset($handle_arr["handle_6"])?$handle_arr["handle_6"]:0;
         $data["handle_status"] = 1;
+        $data["handle_now"] = $data["handle_1"];
         $data["create_time"] = $time;
         $data["update_time"] = $time;
         $data["status"] = 0;

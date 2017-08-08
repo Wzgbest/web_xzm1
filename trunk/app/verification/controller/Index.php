@@ -119,6 +119,9 @@ class Index extends Initialize{
             if($remark){
                 $applied_data["remark"] = ["exp","concat(remark,'".$remark.";')"];
             }
+            if($saleOrderContractStatus!=6){
+                $applied_data["handle_now"] = $saleOrderContract["handle_".($saleOrderContractStatus+1)];
+            }
             $map = [];
 
             if(
