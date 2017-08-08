@@ -5,7 +5,7 @@
     <title>等待签到列表</title>
 </head>
 <body>
-{volist name="wait_list" id="vo"}
+{volist name="wait_list" id="vo" empty="不存在的!~"}
 <a href="{:url('crm/sale_chance/sign_in',['customer_id'=>$vo.customer_id,'sale_id'=>$vo.sale_id,'lat'=>36,'lng'=>119])}">{$vo.customer_name}->{$vo.sale_name}</a><br/><br/>
 {/volist}
 </body>

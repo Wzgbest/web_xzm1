@@ -181,6 +181,7 @@ class Contract extends Initialize{
                 $result['info'] = "合同一审人不能为空！";
                 return json($result);
             }
+            $contract_applied_item["contract_apply_now"] = $apply["apply_1"];
             $contract_setting = $contract_index[$apply["type"]];
             if(empty($contract_setting)){
                 $result['info'] = "参数错误！";
