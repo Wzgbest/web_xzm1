@@ -71,7 +71,7 @@
 	padding-right: 10px;
 	line-height: 24px;
 }
-#clientInfoOutline #calendar-box{
+#clientInfoOutline .calendar-box{
 	position: absolute;
 	background-color: white;
 	width: 600px;
