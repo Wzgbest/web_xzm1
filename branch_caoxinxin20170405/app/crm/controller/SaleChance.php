@@ -501,6 +501,7 @@ class SaleChance extends Initialize{
             $saleOrderFine["create_time"] = time();
             $saleOrderFine["status"] = 0;
             $saleOrderFine["handle_status"] = 1;
+            $saleOrderFine['handle_now'] = input('handle_1',0,'int');
         }
         $saleOrderFine['contract_id'] = input('contract_id',0,'int');
         $saleOrderFine['order_money'] = input('order_money',0,'float');

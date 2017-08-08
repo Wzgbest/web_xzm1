@@ -140,6 +140,9 @@ class Contract extends Initialize{
             if($remark){
                 $applied_data["remark"] = ["exp","concat(remark,'".$remark.";')"];
             }
+            if($contract_apply_status!=6){
+                $applied_data["handle_now"] = $contractApplied["handle_".($contract_apply_status+1)];
+            }
             $map["status"] = 0;
 
 

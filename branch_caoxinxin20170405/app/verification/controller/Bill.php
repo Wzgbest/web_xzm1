@@ -141,6 +141,9 @@ class Bill extends Initialize{
                 $bill_data["bill_no"] = $bill_no;
                 $verificatioLogRemark .= "填写发票号!";
             }
+            if($bill_handle_status!=6){
+                $bill_data["handle_now"] = $bill_info["handle_".($bill_handle_status+1)];
+            }
             $map["status"] = 0;
 
             if(

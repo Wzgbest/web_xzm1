@@ -250,6 +250,21 @@ function getCommStatusByArr($comm_status_arr){
     return $comm_status;
 }
 
+function getSexName($sex){
+    $sex_name = null;
+    switch ($sex){
+        case 0:
+            $sex_name = "女";
+            break;
+        case 1:
+            $sex_name = "男";
+            break;
+        default:
+            $sex_name = "无";
+    }
+    return $sex_name;
+}
+
 function getCommStatusName($comm_status){
     $comm_status_name = null;
     switch ($comm_status){
