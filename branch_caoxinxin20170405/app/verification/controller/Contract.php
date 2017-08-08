@@ -30,7 +30,7 @@ class Contract extends Initialize{
         //$filter["employee_id"] = $uid; // 审核人
         try{
             $contractAppliedModel = new ContractAppliedModel($this->corp_id);
-            $contractApplieds = $contractAppliedModel->getVerificationContractApplied($num,$p,$filter,$field,$order,$direction);
+            $contractApplieds = $contractAppliedModel->getVerificationContractApplied($uid,$num,$p,$filter,$field,$order,$direction);
             //var_exp($contractApplieds,'$contractApplieds',1);
             $employee_ids = [];
             foreach ($contractApplieds as &$contractApplied){
@@ -56,7 +56,7 @@ class Contract extends Initialize{
                 }
             }
             $this->assign('list_data',$contractApplieds);
-            $customers_count = $contractAppliedModel->getVerificationContractAppliedCount($filter);
+            $customers_count = $contractAppliedModel->getVerificationContractAppliedCount($uid,$filter);
             $this->assign("count",$customers_count);
             $listCount = $contractAppliedModel->getVerificationColumnNum($uid,$filter);
             $this->assign("listCount",$listCount);

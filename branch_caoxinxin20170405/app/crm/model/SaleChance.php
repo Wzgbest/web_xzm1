@@ -304,6 +304,7 @@ class SaleChance extends Base
             ->where('sc.customer_id',$customer_id)
             ->field($field)
             ->order("sc.id desc,sob.id desc")
+            ->limit("999999")
             ->buildSql();
         return $this->model->table($subQuery)->alias('v')
             ->group("id")

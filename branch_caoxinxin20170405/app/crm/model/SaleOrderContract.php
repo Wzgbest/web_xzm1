@@ -188,6 +188,7 @@ class SaleOrderContract extends Base{
     }
 
     /**
+     * @param $uid int 员工id
      * @param $num int 数量
      * @param $page int 页
      * @param $filter array 合同筛选条件
@@ -197,7 +198,7 @@ class SaleOrderContract extends Base{
      * @return false|\PDOStatement|string|\think\Collection
      * created by blu10ph
      */
-    public function getVerificationSaleOrderContractByPage($num=10,$page=0,$filter=null,$field=null,$order="soc.create_time",$direction="desc"){
+    public function getVerificationSaleOrderContractByPage($uid,$num=10,$page=0,$filter=null,$field=null,$order="soc.create_time",$direction="desc"){
         //分页
         $offset = 0;
         if($page){
@@ -207,6 +208,7 @@ class SaleOrderContract extends Base{
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["soc.status"] = ["neq",3];
+        $map["soc.handle_now"] = $uid;
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -263,14 +265,16 @@ class SaleOrderContract extends Base{
     }
 
     /**
+     * @param $uid int 员工id
      * @param $filter array 合同筛选条件
      * @return false|\PDOStatement|string|\think\Collection
      * created by blu10ph
      */
-    public function getVerificationSaleChanceCount($filter=null){
+    public function getVerificationSaleChanceCount($uid,$filter=null){
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["soc.status"] = ["neq",3];
+        $map["soc.handle_now"] = $uid;
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -318,6 +322,7 @@ class SaleOrderContract extends Base{
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["soc.status"] = ["neq",3];
+        $map["soc.handle_now"] = $uid;
 
         $field = [
             "(case when sc.sale_status = 4 and soc.status = 0 then 1 
@@ -370,6 +375,11 @@ class SaleOrderContract extends Base{
             ->table($getListCount." lc")
             ->field($countField)
             ->find();
+        if($listCount["0"]==0){
+            foreach ($listCount as &$count){
+                $count = 0;
+            }
+        }
         //var_exp($listCount,'$listCount',1);
         return $listCount;
     }

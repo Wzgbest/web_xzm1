@@ -29,7 +29,7 @@ class Bill extends Initialize{
         $filter["status"] = 1;
         try{
             $billM = new BillModel($this->corp_id);
-            $bill_list = $billM->getVerificationBill($num,$p,$filter,$field,$order,$direction);
+            $bill_list = $billM->getVerificationBill($uid,$num,$p,$filter,$field,$order,$direction);
             //var_exp($bill_list,'$bill_list',1);
             $employee_ids = [];
             foreach ($bill_list as &$bill){
@@ -56,7 +56,7 @@ class Bill extends Initialize{
                 }
             }
             $this->assign('list_data',$bill_list);
-            $customers_count = $billM->getVerificationBillCount($filter);
+            $customers_count = $billM->getVerificationBillCount($uid,$filter);
             $this->assign("count",$customers_count);
             $listCount = $billM->getVerificationColumnNum($uid,$filter);
             $this->assign("listCount",$listCount);
