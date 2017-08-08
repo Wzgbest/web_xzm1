@@ -173,13 +173,13 @@ function employee_list_edit(id,status){
 	});
 }
 function employee_list_edit_update(id){
-	var employee_list_edit_from_data = $(".employee_list_edit_from").serialize();
-	employee_list_edit_from_data += "&user_id="+id;
-	//console.log(employee_list_edit_from_data);
+	var employee_list_edit_form_data = $(".employee_list_edit_form").serialize();
+	employee_list_edit_form_data += "&user_id="+id;
+	//console.log(employee_list_edit_form_data);
 	$.ajax({
 		url: '/systemsetting/employee/editemployee.html',
 		type: 'post',
-		data: employee_list_edit_from_data,
+		data: employee_list_edit_form_data,
 		dataType: 'json',
 		success: function(data) {
 			//console.log(data);
