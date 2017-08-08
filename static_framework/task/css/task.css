@@ -87,6 +87,7 @@ article .dv1 {
 	padding-bottom: 30px;
 	display: block;
 	border-radius: 15px;
+	
 }
 
 article .dv1 .img1 {
@@ -114,6 +115,7 @@ article .dv1 .details {
 	border-bottom: 1px solid #e5e5e5;
 	margin-left: 38px;
 	padding-left: 10px;
+	position: relative;
 }
 
 article .dv1 .details .det_p1 {
@@ -185,8 +187,28 @@ article .dv1 .details .remark {
 	margin-top: 8px;
 	margin-left: 20px;
 }
-
+article .dv1 .details .flotage{
+	width: 280px;
+	height: 70px;
+	position:absolute;
+	padding-left: 40px;
+	padding-right: 40px;
+	/*border: 1px solid red;*/
+	background-color: #fff;
+	z-index: 100;
+	box-shadow:5px 5px 5px silver;
+	top:50px;
+	left: -35px;
+	display: none;
+}
+article .dv1 .details .flotage span{
+	margin-right: 20px;
+}
+article .dv1 .details:hover .flotage{
+	display: block;
+}
 article .dv1 .comment {
+	position: relative;
 	height: 24px;
 	padding-top: 10px;
 	padding-bottom: 10px;
@@ -672,6 +694,12 @@ article .dv1 .later .record span{
 	margin: 2px auto;
 	border-bottom: 1px solid #d9d9d9;
 }
+.reveal_six .bot{
+	width: 510px;
+	height: 110px;
+	margin: 2px auto;
+	/*border-bottom: 1px solid #d9d9d9;*/
+}
 .reveal_six .mid .compare{
 	font-size:14px ;
 	margin-left: 0;
@@ -679,6 +707,44 @@ article .dv1 .later .record span{
 }
 .reveal_six .mid .compare span{
 	color: #ffa928;
+}
+.reveal_six .mid .sign{
+	margin-left: 0;
+	margin-top: 0;
+	width: 100%;
+	height: 32px;
+	text-align: left;
+	line-height: 32px;
+}
+.reveal_six .mid .sign .circle{
+	width: 8px;
+	height: 8px;
+	border-radius: 100%;
+	/*background-color: #f19149;*/
+	background-color: #38a0f4;
+	display: inline-block;
+	/*background-color: red;*/
+	/*border: 1px solid red;*/
+}
+.reveal_six .bot .sign{
+	margin-left: 0;
+	margin-top: 0;
+	width: 100%;
+	height: 32px;
+	text-align: left;
+	line-height: 32px;
+}
+.reveal_six .bot .sign .circle{
+	width: 8px;
+	height: 8px;
+	border-radius: 100%;
+	background-color: #f19149;
+	display: inline-block;
+	/*background-color: red;*/
+	/*border: 1px solid red;*/
+}
+.reveal_six .bot .compare{
+	margin-left: 0;
 }
 .reveal_seven {
 	width: 590px;
@@ -759,4 +825,154 @@ article .dv1 .later .record span{
 }
 .reveal_seven .mid .compare span{
 	color: #ffa928;
+}
+.reveal_seven .mid .sign{
+	margin-left: 0;
+	margin-top: 0;
+	width: 100%;
+	height: 32px;
+	text-align: left;
+	line-height: 32px;
+}
+.reveal_seven .mid .sign{
+	margin-left: 0;
+	margin-top: 0;
+	width: 100%;
+	height: 32px;
+	text-align: left;
+	line-height: 32px;
+}
+
+.reveal_seven .mid .sign i{
+	width: 8px;
+	height: 8px;
+	border-radius: 100%;
+	background-color: #38a0f4;
+	display: inline-block;
+	/*background-color: red;*/
+	/*border: 1px solid red;*/
+}
+article .dv1 .m_c{
+	background-color: #cccccc;
+	border-radius: 10px;
+	position: relative;
+}
+article .dv1 .m_c .picture{
+	
+	position: absolute;
+	left: 100px;
+	top:200px
+}
+.comment .review{
+	display: none;
+	z-index: 100;
+	position: absolute;
+	width: 1118px !important;
+	height: 500px !important;
+	background-color: #ededed;
+	box-shadow: 5px 5px 5px silver;
+	top:45px;
+	left: 0;
+}
+.comment .triangle{
+	position: relative;
+}
+.comment .triangle img:nth-last-of-type(1){
+	display: none;
+	position: absolute;
+	top:20px;
+	left: 0px;
+
+}
+.comment .review .one{
+	width: 1090px;
+	height: 35px;
+	margin-left: 6px;
+	margin-top: 20px;
+
+}
+.comment .review .one img{
+	margin-right: 12px;
+	vertical-align: middle;
+}
+.comment .review .one input{
+	width: 1030px;
+	height: 35px;
+	vertical-align: middle;
+}
+.comment .review .two{
+	width: 1035px;
+	height: 35px;
+	margin-left: 55px;
+	margin-top: 12px;
+
+}
+.comment .review .two div{
+	width: 200px;
+	height: 35px;
+	
+}
+.comment .review .two input{
+	vertical-align: middle;
+	margin-left: 10px;
+}
+.comment .review .two span{
+	margin-left: 0;
+}
+.comment .review .two p{
+	width: 80px;
+	height: 35px;
+	background-color: #42a5f5;
+	text-align: center;
+	line-height: 35px;
+	color: #fff;
+	border-radius: 10px;
+}
+.comment .review .there{
+	width: 1090px;
+	height: 35px;
+	margin-left: 6px;
+	margin-top: 12px;
+
+}
+.comment .review .there img{
+	margin-right: 12px;
+	vertical-align: middle;
+	float: left;
+}
+.comment .review .there div{
+	width: 1035px;
+	height: 35px;
+	float: left;
+
+	margin-left: 5px;
+}
+.name{
+	color: #77b8ff;
+}
+.comment .review .there span{
+	margin-top: 0px;
+	font-size: 10px;
+}
+.reply span{
+	float: left;
+}
+.reply .play{
+	float: right;
+	display: block;
+	width: 100px ;
+	height: 18px;
+	
+}
+.reply .play span:nth-child(1){
+	padding: 0 10px;
+	border-right: 1px solid silver;
+}
+div .dv1 .comment .review div.line{
+	
+	widows: 1000px !important;
+	height: 1px !important;
+	margin-top: 10px;
+	background-color: silver;
+	margin-left: 10px;
 }
