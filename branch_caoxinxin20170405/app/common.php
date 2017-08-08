@@ -250,6 +250,21 @@ function getCommStatusByArr($comm_status_arr){
     return $comm_status;
 }
 
+function getYesNoName($val){
+    $yes_no_name = null;
+    switch ($val){
+        case 0:
+            $yes_no_name = "否";
+            break;
+        case 1:
+            $yes_no_name = "是";
+            break;
+        default:
+            $yes_no_name = "无";
+    }
+    return $yes_no_name;
+}
+
 function getSexName($sex){
     $sex_name = null;
     switch ($sex){
@@ -263,6 +278,54 @@ function getSexName($sex){
             $sex_name = "无";
     }
     return $sex_name;
+}
+
+function getCloseDegreeName($close_degree){
+    $close_degree_name = null;
+    switch ($close_degree){
+        case 0:
+            $close_degree_name = "不亲密";
+            break;
+        case 1:
+            $close_degree_name = "亲密";
+            break;
+        default:
+            $close_degree_name = "无";
+    }
+    return $close_degree_name;
+}
+
+function getDealCapabilityName($deal_capability){
+    $deal_capability_name = null;
+    switch ($deal_capability){
+        case 1:
+            $deal_capability_name = "普通人";
+            break;
+        case 2:
+            $deal_capability_name = "决策人";
+            break;
+        case 3:
+            $deal_capability_name = "分项决策人";
+            break;
+        case 4:
+            $deal_capability_name = "商务决策人";
+            break;
+        case 5:
+            $deal_capability_name = "技术决策人";
+            break;
+        case 6:
+            $deal_capability_name = "财务决策人";
+            break;
+        case 7:
+            $deal_capability_name = "使用人";
+            break;
+        case 8:
+            $deal_capability_name = "意见影响人";
+            break;
+        default:
+            $deal_capability_name = "无";
+    }
+    return $deal_capability_name;
 }
 
 function getCommStatusName($comm_status){
