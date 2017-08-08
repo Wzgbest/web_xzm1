@@ -950,6 +950,7 @@ class Customer extends Initialize{
         $uid = $userinfo["userid"];
         $now_time = time();
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
+        $customerNegotiateM = new CustomerNegotiate($this->corp_id);
         $customerM = new CustomerModel($this->corp_id);
         $customerOldData = $customerM->getCustomer($id);
         $customer["comm_status"] = input('comm_status',0,'int');
@@ -962,11 +963,13 @@ class Customer extends Initialize{
             $customersTraces[] = $customersTrace;
         }
         try{
-            $customerNegotiateM = new CustomerNegotiate($this->corp_id);
+            $customerNegotiateM->link->startTrans();
+            
             $customersNegotiateFlg = $customerNegotiateM->updateCustomerNegotiate($id,$customerNegotiate);
             if(!$customersNegotiateFlg){
                 exception('更新客户沟通状态失败!');
             }
+            
             if(!empty($customersTraces)){
                 $customerM = new CustomerTraceModel($this->corp_id);
                 $customerTraceflg = $customerM->addMultipleCustomerMessage($customersTraces);
@@ -974,7 +977,10 @@ class Customer extends Initialize{
                     exception('提交客户跟踪数据失败!');
                 }
             }
+            
+            $customerNegotiateM->link->commit();
         }catch (\Exception $ex){
+            $customerNegotiateM->link->rollback();
             $result['info'] = $ex->getMessage();
             return json($result);
         }

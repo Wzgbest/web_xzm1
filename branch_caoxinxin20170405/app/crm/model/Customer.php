@@ -606,6 +606,7 @@ class Customer extends Base
             "scb.business_name as sale_biz_name",
             "(case when sc.sale_status<1 then 0 when sc.sale_status<4 then 0 else sc.guess_money end) as in_progress_guess_money",//all_guess_money
             "(case when sc.sale_status=5 then sc.final_money else 0 end) as win_final_money",//all_final_money
+            "(case when sc.sale_status=5 then sc.payed_money else 0 end) as win_payed_money",//all_final_money
             "cc.contact_name",
             "IFNULL(cc.phone_first,c.telephone) as phone_first",
             "ct.create_time as last_trace_time",
@@ -632,6 +633,7 @@ class Customer extends Base
             "group_concat(sale_biz_name) as sale_biz_names",
             "SUM(in_progress_guess_money) as all_guess_money",
             "SUM(win_final_money) as all_final_money",
+            "SUM(win_payed_money) as all_payed_money",
             "contact_name",
             "phone_first",
             "last_trace_time",
