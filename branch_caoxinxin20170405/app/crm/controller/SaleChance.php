@@ -403,27 +403,10 @@ class SaleChance extends Initialize{
         //var_exp($saleChanceIntersertData,'$saleChanceIntersertData');
         $saleChanceDiffData = array_diff_assoc($saleChanceIntersertData,$saleChance);
         //var_exp($saleChanceDiffData,'$saleChanceDiffData',1);
+        $table = 'sale_chance';
         $customersTraces = [];
         foreach ($saleChanceDiffData as $key=>$saleChanceDiff){
-            $is_sale_status = false;
-            $customersTrace["add_type"] = 0;
-            $customersTrace["operator_type"] = 0;
-            $customersTrace["operator_id"] = $uid;
-            $customersTrace["create_time"] = $now_time;
-            $customersTrace["customer_id"] = $saleChanceOldData["customer_id"];
-            $customersTrace["db_table_name"] = 'sale_chance';
-            $customersTrace["db_field_name"] = $key;
-            $customersTrace["old_value"] = isset($saleChanceOldData[$key])?$saleChanceOldData[$key]:"";
-            $customersTrace["new_value"] = isset($saleChance[$key])?$saleChance[$key]:"";
-            $customersTrace["value_type"] = isset($updateItemName[$key][1])?$updateItemName[$key][1]:"";
-            $func_name = $customersTrace["value_type"];
-            $customersTrace["option_name"] = "变更";
-            $customersTrace["item_name"] = isset($updateItemName[$key][0])?$updateItemName[$key][0]:"";
-            $customersTrace["from_name"] = isset($updateItemName[$key][1])?$func_name($customersTrace["old_value"]):$customersTrace["old_value"];
-            $customersTrace["link_name"] = "改为";
-            $customersTrace["to_name"] = isset($updateItemName[$key][1])?$func_name($customersTrace["new_value"]):$customersTrace["new_value"];
-            $customersTrace["status_name"] = '';
-            $customersTrace["remark"] = '';
+            $customersTrace = createCustomersTraceItem($uid,$now_time,$table,$saleChanceOldData["customer_id"],$key,$saleChanceOldData,$saleChance,$updateItemName);
             $customersTraces[] = $customersTrace;
         }
         //var_exp($customersTraces,'$customersTraces',1);

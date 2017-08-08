@@ -899,28 +899,13 @@ class Customer extends Initialize{
         //var_exp($customer,'$customer');
         $customerDiffData = array_diff_assoc($customerIntersertData,$customer);
         //var_exp($customerDiffData,'$customerDiffData',1);
+        $table = 'customer';
         $customersTraces = [];
         foreach ($customerDiffData as $key=>$customerDiff){
-            $customersTrace["add_type"] = 0;
-            $customersTrace["operator_type"] = 0;
-            $customersTrace["operator_id"] = $uid;
-            $customersTrace["create_time"] = $now_time;
-            $customersTrace["customer_id"] = $id;
-            $customersTrace["db_table_name"] = 'customer';
-            $customersTrace["db_field_name"] = $key;
-            $customersTrace["old_value"] = isset($customerOldData[$key])?$customerOldData[$key]:"";
-            $customersTrace["new_value"] = isset($customer[$key])?$customer[$key]:"";
-            $customersTrace["value_type"] = isset($updateItemName[$key][1])?$updateItemName[$key][1]:"";
-            $func_name = $customersTrace["value_type"];
-            $customersTrace["option_name"] = '更改了';
-            $customersTrace["item_name"] = isset($updateItemName[$key][0])?$updateItemName[$key][0]:"";
-            $customersTrace["from_name"] = isset($updateItemName[$key][1])?$func_name($customersTrace["old_value"]):$customersTrace["old_value"];
-            $customersTrace["link_name"] = '更改为';
-            $customersTrace["to_name"] = isset($updateItemName[$key][1])?$func_name($customersTrace["new_value"]):$customersTrace["new_value"];
-            $customersTrace["status_name"] = '';
-            $customersTrace["remark"] = '';
+            $customersTrace = createCustomersTraceItem($uid,$now_time,$table,$id,$key,$customerOldData,$customer,$updateItemName);
             $customersTraces[] = $customersTrace;
         }
+        //var_exp($customersTraces,'$customersTraces',1);
         unset($customer["comm_status"]);
         try{
             $customerM->link->startTrans();
@@ -961,12 +946,33 @@ class Customer extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $now_time = time();
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
+        $customerM = new CustomerModel($this->corp_id);
+        $customerOldData = $customerM->getCustomer($id);
+        $customer["comm_status"] = input('comm_status',0,'int');
+        $updateItemName = $this->getUpdateItemNameAndType();
+        $table = 'customer_negotiate';
+        $customersTraces = [];
+        if($customer["comm_status"]!=$customerOldData["comm_status"]){
+            $key="comm_status";
+            $customersTrace = createCustomersTraceItem($uid,$now_time,$table,$id,$key,$customerOldData,$customer,$updateItemName);
+            $customersTraces[] = $customersTrace;
+        }
         try{
             $customerNegotiateM = new CustomerNegotiate($this->corp_id);
             $customersNegotiateFlg = $customerNegotiateM->updateCustomerNegotiate($id,$customerNegotiate);
             if(!$customersNegotiateFlg){
                 exception('更新客户沟通状态失败!');
+            }
+            if(!empty($customersTraces)){
+                $customerM = new CustomerTraceModel($this->corp_id);
+                $customerTraceflg = $customerM->addMultipleCustomerMessage($customersTraces);
+                if(!$customerTraceflg){
+                    exception('提交客户跟踪数据失败!');
+                }
             }
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
