@@ -23,14 +23,7 @@
                 <span class="cont-x">{$customer.customer_name}</span>
                 <span class="cont">沟通状态：</span>
                 <span class="cont-x number">
-                        {switch	name="customer.comm_status"}
-                        {case value="1"}无意向{/case}
-                        {case value="2"}号码无效{/case}
-                        {case value="3"}资料有误{/case}
-                        {case value="4"}未接通{/case}
-                        {case value="5"}待定{/case}
-                        {case value="6"}有意向{/case}
-                        {/switch}
+                    {$customer.comm_status|getCommStatusName}
                 </span>
             </div>
             <div>

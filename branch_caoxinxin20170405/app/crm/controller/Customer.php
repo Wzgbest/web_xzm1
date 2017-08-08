@@ -870,6 +870,8 @@ class Customer extends Initialize{
         $itemName["lng"] = ["坐标经度"];
         $itemName["website"] = ["公司官网"];
         $itemName["remark"] = ["备注"];
+
+        $itemName["comm_status"] = ["沟通状态","getCommStatusName"];
         return $itemName;
     }
     public function update(){
@@ -887,17 +889,20 @@ class Customer extends Initialize{
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
         $customerM = new CustomerModel($this->corp_id);
         $customerOldData = $customerM->getCustomer($id);
+        $customer["comm_status"] = input('comm_status',0,'int');
 
         //var_exp($customerOldData,'$customerOldData');
+        $updateItemName = $this->getUpdateItemNameAndType();
         $customerIntersertData = array_intersect_key($customerOldData,$customer);
-        unset($customerIntersertData["last_edit_time"]);
+        $customerIntersertData = array_intersect_key($customerIntersertData,$updateItemName);
         //var_exp($customerIntersertData,'$customerIntersertData');
         //var_exp($customer,'$customer');
         $customerDiffData = array_diff_assoc($customerIntersertData,$customer);
         //var_exp($customerDiffData,'$customerDiffData',1);
         $customersTraces = [];
-        $updateItemName = $this->getUpdateItemNameAndType();
         foreach ($customerDiffData as $key=>$customerDiff){
+            $customersTrace["add_type"] = 0;
+            $customersTrace["operator_type"] = 0;
             $customersTrace["operator_id"] = $uid;
             $customersTrace["create_time"] = $now_time;
             $customersTrace["customer_id"] = $id;
@@ -916,6 +921,7 @@ class Customer extends Initialize{
             $customersTrace["remark"] = '';
             $customersTraces[] = $customersTrace;
         }
+        unset($customer["comm_status"]);
         try{
             $customerM->link->startTrans();
 

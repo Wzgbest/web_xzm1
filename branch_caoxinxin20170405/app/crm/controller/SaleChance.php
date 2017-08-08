@@ -343,10 +343,10 @@ class SaleChance extends Initialize{
         $saleChance['sale_name'] = input('sale_name');
         $saleChance['sale_status'] = input('sale_status',1,'int');;
 
-        $saleChance['guess_money'] = input('guess_money',0,'float');
-        $saleChance['need_money'] = input('need_money',0,'float');//必填?
-        $saleChance['payed_money'] = input('payed_money',0,'float');
-        $saleChance['final_money'] = input('final_money',0,'float');
+        $saleChance['guess_money'] = "".number_format(input('guess_money',0,'float'),2);
+        $saleChance['need_money'] = "".number_format(input('need_money',0,'float'),2);
+        $saleChance['payed_money'] = "".number_format(input('payed_money',0,'float'),2);
+        $saleChance['final_money'] = "".number_format(input('final_money',0,'float'),2);
 
         $saleChance['update_time'] = time();
         $saleChance['prepay_time'] = input('prepay_time',0,'strtotime');
@@ -368,6 +368,13 @@ class SaleChance extends Initialize{
         $result['info'] = "新建销售机会成功！";
         return json($result);
     }
+    public function getUpdateItemNameAndType(){
+        $itemName["sale_status"] = ["阶段","getSaleStatusName"];
+        $itemName["sale_name"] = ["销售机会名称"];
+        $itemName["guess_money"] = ["预期金额"];
+        $itemName["prepay_time"] = ["预计成单日期"];
+        return $itemName;
+    }
     public function update(){
         $result = ['status'=>0 ,'info'=>"保存销售机会时发生错误！"];
         $id = input("id",0,"int");
@@ -377,6 +384,50 @@ class SaleChance extends Initialize{
         }
         $saleChance = $this->_getSaleChanceForInput(0);
         $saleChanceM = new SaleChanceModel($this->corp_id);
+
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $now_time = time();
+        $saleChanceOldData = $saleChanceM->getSaleChance($id);
+        if(empty($saleChanceOldData)){
+            $result['info'] = "未找到销售机会！";
+            return json($result);
+        }
+        //var_exp($saleChanceOldData,'$saleChanceOldData');
+        //var_exp($saleChance,'$saleChance');
+        $updateItemName = $this->getUpdateItemNameAndType();
+        //var_exp($updateItemName,'$updateItemName');
+        $saleChanceIntersertData = array_intersect_key($saleChanceOldData,$saleChance);
+        $saleChanceIntersertData = array_intersect_key($saleChanceIntersertData,$updateItemName);
+        //unset($saleChanceIntersertData["update_time"]);
+        //var_exp($saleChanceIntersertData,'$saleChanceIntersertData');
+        $saleChanceDiffData = array_diff_assoc($saleChanceIntersertData,$saleChance);
+        //var_exp($saleChanceDiffData,'$saleChanceDiffData',1);
+        $customersTraces = [];
+        foreach ($saleChanceDiffData as $key=>$saleChanceDiff){
+            $is_sale_status = false;
+            $customersTrace["add_type"] = 0;
+            $customersTrace["operator_type"] = 0;
+            $customersTrace["operator_id"] = $uid;
+            $customersTrace["create_time"] = $now_time;
+            $customersTrace["customer_id"] = $saleChanceOldData["customer_id"];
+            $customersTrace["db_table_name"] = 'sale_chance';
+            $customersTrace["db_field_name"] = $key;
+            $customersTrace["old_value"] = isset($saleChanceOldData[$key])?$saleChanceOldData[$key]:"";
+            $customersTrace["new_value"] = isset($saleChance[$key])?$saleChance[$key]:"";
+            $customersTrace["value_type"] = isset($updateItemName[$key][1])?$updateItemName[$key][1]:"";
+            $func_name = $customersTrace["value_type"];
+            $customersTrace["option_name"] = "变更";
+            $customersTrace["item_name"] = isset($updateItemName[$key][0])?$updateItemName[$key][0]:"";
+            $customersTrace["from_name"] = isset($updateItemName[$key][1])?$func_name($customersTrace["old_value"]):$customersTrace["old_value"];
+            $customersTrace["link_name"] = "改为";
+            $customersTrace["to_name"] = isset($updateItemName[$key][1])?$func_name($customersTrace["new_value"]):$customersTrace["new_value"];
+            $customersTrace["status_name"] = '';
+            $customersTrace["remark"] = '';
+            $customersTraces[] = $customersTrace;
+        }
+        //var_exp($customersTraces,'$customersTraces',1);
+        
         try{
             $saleChanceM->link->startTrans();
             $saleChanceflg = $saleChanceM->setSaleChance($id,$saleChance);
@@ -397,13 +448,15 @@ class SaleChance extends Initialize{
                 }
             }
             
-//            if(!empty($customersTraces)){
-//                $customerM = new CustomerTraceModel($this->corp_id);
-//                $customerTraceflg = $customerM->addMultipleCustomerMessage($customersTraces);
-//                if(!$customerTraceflg){
-//                    exception('提交客户跟踪数据失败!');
-//                }
-//            }
+            if(!empty($customersTraces)){
+                $customerTraceM = new CustomerTraceModel($this->corp_id);
+                //var_exp($customersTraces,'$customersTraces');
+                $customerTraceflg = $customerTraceM->addMultipleCustomerMessage($customersTraces);
+                //var_exp($customerTraceflg,'$customerTraceflg',1);
+                if(!$customerTraceflg){
+                    exception('提交客户跟踪数据失败!');
+                }
+            }
             
             $saleChanceM->link->commit();
             $result['data'] = $saleChanceflg;
