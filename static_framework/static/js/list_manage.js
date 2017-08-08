@@ -1,4 +1,4 @@
-function list_manage(from,target,url,p,num,max,in_column,sub){
+function list_manage(from,target,url,p,num,max,in_column,sub,arr){
     //当前列表变量
     this.from = from;
     this.target = target;
@@ -8,10 +8,16 @@ function list_manage(from,target,url,p,num,max,in_column,sub){
     this.max = parseInt(max);
     this.in_column = parseInt(in_column);
     this.sub = sub;
+    this.arr = arr;
+    this.width = widthCount();
     this.activity_buttons = new Array();
 
     //事件绑定
     var self = this;
+    //宽度重置
+    
+    $("."+this.from+" .m-tableBox .m-table").width(self.width);
+    
     $("."+this.from+" .m-firNav .in_column").click(function(){
         var in_column = $(this).attr("in_column");
         self.columnChange(in_column);
@@ -47,6 +53,26 @@ function list_manage(from,target,url,p,num,max,in_column,sub){
     });
 
     //列表动作
+    function init(){
+    	$("."+self.from+" .m-tableBox .m-table ul li").addClass("hide");
+    	console.log(arr[in_column]);
+    	for(var i=0;i<arr[in_column].length;i++){
+    		console.log(arr[in_column][i]);
+    		$("."+self.from+" .m-tableBox .m-table .u-tabTitle li").eq(arr[in_column][i]).removeClass("hide");
+    		var len = $("."+self.from+" .u-tabList").length;
+			for(var j=0;j<len;j++){
+				$("."+self.from+" .u-tabList").eq(j).children("li").eq(arr[in_column][i]).removeClass("hide");
+			}   		
+    	}
+    }
+    init();
+    function widthCount(){
+    	var width = arr[in_column].length*137;
+    	if($("."+from+" .m-tableBox .m-table .u-tabTitle li").eq(0).attr("class")=="u-tabCheckbox"){
+    		width -=96;
+    	}	
+    	return width;
+    }
     this.columnChange=function(in_column){
         this.load_list(1,this.num,in_column);
     };
