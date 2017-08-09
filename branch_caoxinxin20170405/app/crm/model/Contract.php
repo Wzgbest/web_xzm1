@@ -122,7 +122,7 @@ class Contract extends Base{
         }
 
         //筛选
-        $map = $this->_getMapByFilter($filter,["contract_type"]);
+        $map = $this->_getMapByFilter($filter,["contract_type","business_id","contract_no","customer_name"]);
         $map["ca.employee_id"] = $uid;
         $having = null;
         if(array_key_exists("in_column", $filter)){
@@ -187,7 +187,7 @@ class Contract extends Base{
      */
     public function getContractAppliedCount($uid,$filter=null){
         //筛选
-        $map = $this->_getMapByFilter($filter,["contract_type"]);
+        $map = $this->_getMapByFilter($filter,["contract_type","business_id","contract_no","customer_name"]);
         $map["ca.employee_id"] = $uid;
         $having = null;
         if(array_key_exists("in_column", $filter)){
@@ -231,7 +231,7 @@ class Contract extends Base{
     public function getColumnNum($uid,$filter=null){
 
         //筛选
-        $map = $this->_getMapByFilter($filter,["contract_type"]);
+        $map = $this->_getMapByFilter($filter,["contract_type","business_id","contract_no","customer_name"]);
         $map["ca.employee_id"] = $uid;
 
         $field = [
@@ -507,6 +507,18 @@ class Contract extends Base{
         //发票类型
         if(in_array("contract_type",$filter_column) && array_key_exists("contract_type", $filter)){
             $map["ca.contract_type"] = $filter["contract_type"];
+        }
+        //对应业务
+        if(in_array("business_id",$filter_column) && array_key_exists("business_id", $filter)){
+            $map["sc.business_id"] = $filter["business_id"];
+        }
+        //合同编码
+        if(in_array("contract_no",$filter_column) && array_key_exists("contract_no", $filter)){
+            $map["co.contract_no"] = ["like","%".$filter["contract_no"]."%"];
+        }
+        //客户名称
+        if(in_array("customer_name",$filter_column) && array_key_exists("customer_name", $filter)){
+            $map["c.customer_name"] = ["like","%".$filter["customer_name"]."%"];
         }
         return $map;
     }

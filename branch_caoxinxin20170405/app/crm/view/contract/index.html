@@ -31,11 +31,11 @@
                     	<select name="business_id">
                      	    <option value="">对应业务</option>
 							{volist name="business_flow_list" id="vo"}
-								<option value="{$vo.id}">{$vo.business_flow_name}</option>
+								<option value="{$vo.id}" {present name='filter.business_id'}{eq name='filter.business_id' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.business_flow_name}</option>
 							{/volist}
                  	    </select>
-                	    <input type="text" name="contract_no" placeholder="输入合同编码" value=""/>
-                	    <input type="text" name="customer_name" placeholder="输入客户名称" value=""/>
+                	    <input type="text" name="contract_no" placeholder="输入合同编码" value="{present name='filter.contract_no'}{$filter.contract_no}{/present}"/>
+                	    <input type="text" name="customer_name" placeholder="输入客户名称" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
                	    	<button class="u-btnSearch">查询</button>
               	  	</form>
            	 	</div>

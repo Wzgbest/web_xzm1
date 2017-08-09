@@ -24,7 +24,7 @@ class Contract extends Initialize{
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        $filter = $this->_getCustomerFilter(["in_column","contract_type"]);
+        $filter = $this->_getCustomerFilter(["in_column","contract_type","business_id","contract_no","customer_name"]);
         $field = $this->_getCustomerField([]);
         try{
             $contractAppliedModel = new ContractAppliedModel($this->corp_id);
@@ -108,6 +108,30 @@ class Contract extends Initialize{
             $in_column = input("contract_type",0,"int");
             if($in_column){
                 $filter["contract_type"] = $in_column;
+            }
+        }
+
+        //对应业务
+        if(in_array("business_id", $filter_column)){
+            $in_column = input("business_id",0,"int");
+            if($in_column){
+                $filter["business_id"] = $in_column;
+            }
+        }
+
+        //合同编码
+        if(in_array("contract_no", $filter_column)){
+            $in_column = input("contract_no",'',"string");
+            if($in_column){
+                $filter["contract_no"] = $in_column;
+            }
+        }
+
+        //客户名称
+        if(in_array("customer_name", $filter_column)){
+            $in_column = input("customer_name",'',"string");
+            if($in_column){
+                $filter["customer_name"] = $in_column;
             }
         }
 

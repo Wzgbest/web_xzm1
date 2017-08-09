@@ -37,8 +37,8 @@ function list_manage(from,target,url,p,num,max,in_column,sub){
         self.next_page();
     });
     /*$("."+this.from+" .u-tabControlRow input").blur(function(){
-     var p = parseInt($(this).val());
-     self.jump_page(p);
+        var p = parseInt($(this).val());
+        self.jump_page(p);
      });*/
     $("."+this.from+" .u-tabControlRow input").bind('keypress',function(event){
         if(event.keyCode == "13"){
