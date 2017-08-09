@@ -27,14 +27,18 @@ t=10;
 for(var i=0;i<t;i++){
 	$("#myModalsix .table").append(content3);	
 }
-//红包
+//领红包
 $(".dv1 .grade .get").click(function(){
-	$(this).hide()
-	$(".dv1 .mengceng").addClass("m_c")
-//	$(".mengceng").append('<img src=' + "img/redPacket.png" + ""/>)
-//	$(".mengceng").append('<img src='+"../img/redPacket.png"+'>')
-var a='<img src="../img/redPacket.png" class="picture"/>'
-	$(".mengceng").append(a)
+	if($(this).hasClass("p1")){
+		return;
+	}
+	
+	$(this).hide();
+	$(".dv1 .mengceng").addClass("m_c");
+//	$(".mengceng").append('<img src=' + "img/redPacket.png" + ""/>);
+//	$(".mengceng").append('<img src='+"../img/redPacket.png"+'>');
+	var a='<img src="/task/img/redPacket.png" class="picture"/>';
+	$(".mengceng").append(a);
 	
 
 //$('.mengceng').on("click",'.picture',function(){
@@ -92,5 +96,14 @@ $('.grade .show_ranking_task').click( function() {
 		revealObj.setCloseHandle(function(){
 			$('.grade .show_ranking_task').parent().parent().siblings('.motai').removeClass('motai1');
 			$('.grade .show_ranking_task').parents().removeClass("change");
+		});
+});
+$('.grade .show_ranking_incentive').click( function() {
+		$(this).parent().parent().siblings('.motai').addClass('motai1');
+		$(this).parents().addClass("change");
+		var revealObj = $(".myModaltwo").reveal("{data-animation:'fade'}");
+		revealObj.setCloseHandle(function(){
+			$('.grade .show_ranking_incentive').parent().parent().siblings('.motai').removeClass('motai1');
+			$('.grade .show_ranking_incentive').parents().removeClass("change");
 		});
 });
