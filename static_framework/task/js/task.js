@@ -81,3 +81,16 @@ $(function() {
 					}
 				})
 			})
+
+
+
+//点击span时加.motai 
+$('.grade .show_ranking_task').click( function() {
+		$(this).parent().parent().siblings('.motai').addClass('motai1');
+		$(this).parents().addClass("change");
+		var revealObj = $(".myModalone").reveal("{data-animation:'fade'}");
+		revealObj.setCloseHandle(function(){
+			$('.grade .show_ranking_task').parent().parent().siblings('.motai').removeClass('motai1');
+			$('.grade .show_ranking_task').parents().removeClass("change");
+		});
+});
