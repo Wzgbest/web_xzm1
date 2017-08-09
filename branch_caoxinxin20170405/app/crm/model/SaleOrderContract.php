@@ -447,7 +447,10 @@ class SaleOrderContract extends Base{
      */
     public function setSaleOrderContractBySaleId($sale_id,$data)
     {
-        return $this->model->table($this->table)->where('sale_id',$sale_id)->update($data);
+        return $this->model->table($this->table)
+            ->where('sale_id',$sale_id)
+            ->where('status',"in",[2,3])
+            ->update($data);
     }
 
     /**撤回
