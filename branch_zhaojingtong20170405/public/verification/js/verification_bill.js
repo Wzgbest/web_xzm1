@@ -12,10 +12,16 @@ $("#frames #verification-billfr .verification_bill .u-tabList .u-tabOperation .a
     var bill_no = "";
     if($(this).hasClass("remark")){
         remark = prompt("请输入备注","");
+        if (remark==null || remark==""){
+            return;
+        }
     }
     if($(this).hasClass("bill_no")){
         bill_no = $(this).attr("bill_no");
         bill_no = prompt("请输入发票号",bill_no);
+        if (bill_no==null || bill_no==""){
+            return;
+        }
     }
     var data = "id="+id+"&bill_no="+bill_no+"&remark="+remark;
     $.ajax({

@@ -11,6 +11,9 @@ $("#frames #verification-indexfr .verification_sale_chance .u-tabList .u-tabOper
     var remark = "";
     if($(this).hasClass("remark")){
         remark = prompt("请输入备注","");
+        if (remark==null || remark==""){
+            return;
+        }
     }
     var data = "id="+id+"&remark="+remark;
     $.ajax({

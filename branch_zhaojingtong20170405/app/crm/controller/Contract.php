@@ -37,18 +37,35 @@ class Contract extends Initialize{
                     isset($contractApplied["contract_apply_".$contract_apply_status]) &&
                     !empty($contractApplied["contract_apply_".$contract_apply_status])
                 ){
-                    $employee_ids[] = $contractApplied["contract_apply_".$contract_apply_status];
+                    $temp_employee_ids = explode(",",$contractApplied["contract_apply_".$contract_apply_status]);
+                    if($temp_employee_ids==null){
+                        continue;
+                    }
+                    $employee_ids = array_merge($employee_ids,$temp_employee_ids);
                     $contractApplied["assessor"] = $contractApplied["contract_apply_".$contract_apply_status];
                 }
             }
+            $employee_ids = array_filter($employee_ids);
+            $employee_ids = array_unique($employee_ids);
+            $employee_ids = array_merge($employee_ids);
             $employeeM = new EmployeeModel($this->corp_id);
             $employee_name_index = $employeeM->getEmployeeNameByUserids($employee_ids);
             foreach ($contractApplieds as &$contractApplied){
                 if(
                     isset($contractApplied["assessor"])&&
-                    isset($employee_name_index[$contractApplied["assessor"]])
+                    !empty($contractApplied["assessor"])
                 ) {
-                    $contractApplied["assessor_name"] = $employee_name_index[$contractApplied["assessor"]];
+                    $temp_employee_names = [];
+                    $temp_employee_ids = explode(",",$contractApplied["assessor"]);
+                    if($temp_employee_ids==null){
+                        continue;
+                    }
+                    foreach ($temp_employee_ids as $temp_employee_id){
+                        if(isset($employee_name_index[$temp_employee_id])){
+                            $temp_employee_names[] = $employee_name_index[$temp_employee_id];
+                        }
+                    }
+                    $contractApplied["assessor_name"] = implode(",",$temp_employee_names);
                 }else{
                     $contractApplied["assessor_name"] = '';
                 }
@@ -171,16 +188,16 @@ class Contract extends Initialize{
                 return json($result);
             }
             $contract_applied_item["contract_type"] = $apply["type"];
-            $contract_applied_item["contract_num"] = $apply["num"];
             if(empty($apply["num"])){
                 $result['info'] = "合同数量不能为空！";
                 return json($result);
             }
-            $contract_applied_item["contract_apply_1"] = $apply["apply_1"];
-            if(empty($apply["num"])){
+            $contract_applied_item["contract_num"] = $apply["num"];
+            if(empty($apply["apply_1"])){
                 $result['info'] = "合同一审人不能为空！";
                 return json($result);
             }
+            $contract_applied_item["contract_apply_1"] = $apply["apply_1"];
             $contract_applied_item["contract_apply_now"] = $apply["apply_1"];
             $contract_setting = $contract_index[$apply["type"]];
             if(empty($contract_setting)){

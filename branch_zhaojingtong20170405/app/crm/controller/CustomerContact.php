@@ -12,6 +12,7 @@ use app\common\controller\Initialize;
 use app\crm\model\CustomerContact as CustomerContactModel;
 use app\crm\model\SaleChance;
 use app\crm\model\CustomerTrace;
+use app\crm\model\CustomerTrace as CustomerTraceModel;
 
 class CustomerContact extends Initialize{
     public function index(){
@@ -108,25 +109,25 @@ class CustomerContact extends Initialize{
             $customerContact['customer_id'] = input('customer_id',0,'int');
         }
         // add customer contact page
-        $customerContact['contact_name'] = input('contact_name');
-        $customerContact['phone_first'] = input('phone_first');
+        $customerContact['contact_name'] = input('contact_name','','string');
+        $customerContact['phone_first'] = input('phone_first','','string');
 
-        $customerContact['phone_second'] = input('phone_second');
-        $customerContact['phone_third'] = input('phone_third');
+        $customerContact['phone_second'] = input('phone_second','','string');
+        $customerContact['phone_third'] = input('phone_third','','string');
 
-        $customerContact['email'] = input('email');
-        $customerContact['qqnum'] = input('qqnum');
-        $customerContact['wechat'] = input('wechat');
+        $customerContact['email'] = input('email','','string');
+        $customerContact['qqnum'] = input('qqnum','','string');
+        $customerContact['wechat'] = input('wechat','','string');
 
-        $customerContact['structure'] = input('structure');
-        $customerContact['occupation'] = input('occupation');
-        $customerContact['key_decide'] = input('key_decide/b');
-        $customerContact['deal_capability'] = input('deal_capability');
-        $customerContact['introducer'] = input('introducer');
-        $customerContact['close_degree'] = input('close_degree');
-        $customerContact['birthday'] = input('birthday');
-        $customerContact['hobby'] = input('hobby');
-        $customerContact['remark'] = input('remark');
+        $customerContact['structure'] = input('structure','','string');
+        $customerContact['occupation'] = input('occupation','','string');
+        $customerContact['key_decide'] = input('key_decide',0,'int');
+        $customerContact['deal_capability'] = input('deal_capability',0,'int');
+        $customerContact['introducer'] = input('introducer','','string');
+        $customerContact['close_degree'] = input('close_degree',0,'int');
+        $customerContact['birthday'] = input('birthday',0,'strtotime');
+        $customerContact['hobby'] = input('hobby','','string');
+        $customerContact['remark'] = input('remark','','string');
 
         return $customerContact;
     }
@@ -145,6 +146,26 @@ class CustomerContact extends Initialize{
         $result['info'] = "新建联系人成功！";
         return json($result);
     }
+    public function getUpdateItemNameAndType(){
+        $itemName["contact_name"] = ["联系人姓名"];
+        $itemName["sex"] = ["性别","getSexName"];
+        $itemName["phone_first"] = ["首要电话"];
+        $itemName["phone_second"] = ["备用电话"];
+        $itemName["phone_third"] = ["次用电话"];
+        $itemName["email"] = ["邮箱"];
+        $itemName["qqnum"] = ["QQ"];
+        $itemName["wechat"] = ["微信"];
+        $itemName["structure"] = ["所在部门"];
+        $itemName["occupation"] = ["职位"];
+        $itemName["key_decide"] = ["是否是关键决策人","getYesNoName"];
+        $itemName["deal_capability"] = ["决策能力","getDealCapabilityName"];
+        $itemName["introducer"] = ["客户介绍人"];
+        $itemName["close_degree"] = ["亲密度","getCloseDegreeName"];
+        $itemName["birthday"] = ["生日","day_format"];
+        $itemName["hobby"] = ["爱好"];
+        $itemName["remark"] = ["备注"];
+        return $itemName;
+    }
     public function update(){
         $result = ['status'=>0 ,'info'=>"保存联系人时发生错误！"];
         $id = input("id",0,"int");
@@ -153,11 +174,50 @@ class CustomerContact extends Initialize{
             return json($result);
         }
         $customerContact = $this->_getCustomerContactForInput(0);
+        $customerContactM = new CustomerContactModel($this->corp_id);
+
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $now_time = time();
+        $customerContactOldData = $customerContactM->getCustomerContact($id);
+        if(empty($customerContactOldData)){
+            $result['info'] = "未找到联系人！";
+            return json($result);
+        }
+        //var_exp($customerContactOldData,'$customerContactOldData');
+        //var_exp($customerContact,'$customerContact');
+        $updateItemName = $this->getUpdateItemNameAndType();
+        //var_exp($updateItemName,'$updateItemName');
+        $customerContactIntersertData = array_intersect_key($customerContactOldData,$customerContact);
+        $customerContactIntersertData = array_intersect_key($customerContactIntersertData,$updateItemName);
+        //unset($customerContactIntersertData["update_time"]);
+        //var_exp($customerContactIntersertData,'$customerContactIntersertData');
+        $customerContactDiffData = array_diff_assoc($customerContactIntersertData,$customerContact);
+        //var_exp($customerContactDiffData,'$customerContactDiffData',1);
+        $table = 'customer_contact';
+        $customersTraces = [];
+        foreach ($customerContactDiffData as $key=>$customerContactDiff){
+            $customersTrace = createCustomersTraceItem($uid,$now_time,$table,$customerContactOldData["customer_id"],$key,$customerContactOldData,$customerContact,$updateItemName);
+            $customersTraces[] = $customersTrace;
+        }
+        //var_exp($customersTraces,'$customersTraces',1);
+
         try{
-            $customerContactM = new CustomerContactModel($this->corp_id);
+            $customerContactM->link->startTrans();
             $customerContactFlg = $customerContactM->setCustomerContact($id,$customerContact);
+
+            if(!empty($customersTraces)){
+                $customerM = new CustomerTraceModel($this->corp_id);
+                $customerTraceflg = $customerM->addMultipleCustomerMessage($customersTraces);
+                if(!$customerTraceflg){
+                    exception('提交客户跟踪数据失败!');
+                }
+            }
+
+            $customerContactM->link->commit();
             $result['data'] = $customerContactFlg;
         }catch (\Exception $ex){
+            $customerContactM->link->rollback();
             $result['info'] = $ex->getMessage();
             return json($result);
         }
