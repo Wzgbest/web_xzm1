@@ -10,6 +10,7 @@ namespace app\verification\controller;
 
 use app\common\controller\Initialize;
 use app\crm\model\SaleOrderContract as SaleOrderContractModel;
+use app\systemsetting\model\ContractSetting as ContractModel;
 use app\common\model\Structure as StructureModel;
 use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
 use app\verification\model\VerificatioLog;
@@ -31,7 +32,7 @@ class Index extends Initialize{
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        $filter = $this->_getCustomerFilter(["in_column"]);
+        $filter = $this->_getCustomerFilter(["in_column","contract_type","structure","business_id","pay_type","order_status","contract_no","apply_employee","customer_name"]);
         $field = $this->_getCustomerField([]);
         $filter["status"] = 1;
         try{
@@ -43,6 +44,10 @@ class Index extends Initialize{
             $this->assign("count",$customers_count);
             $listCount = $saleChanceM->getVerificationColumnNum($uid,$filter);
             $this->assign("listCount",$listCount);
+            $contractSettingModel = new ContractModel($this->corp_id);
+            $contracts = $contractSettingModel->getAllContract();
+            //var_exp($contracts,'$contracts',1);
+            $this->assign('contract_type_list',$contracts);
             $struM = new StructureModel($this->corp_id);
             $structs = $struM->getAllStructure();
             $this->assign("structs",$structs);
@@ -54,6 +59,10 @@ class Index extends Initialize{
             $business_flow_names = $businessFlowModel->getAllBusinessFlowName();
             //var_exp($business_flow_names,'$business_flow_names',1);
             $this->assign('business_flow_names',$business_flow_names);
+            $apply_status_list = getApplyStatusList();
+            array_pop($apply_status_list);
+            //var_exp($status_list,'$status_list',1);
+            $this->assign('apply_status_list',$apply_status_list);
         }catch (\Exception $ex){
             $this->error($ex->getMessage());
         }
@@ -73,6 +82,70 @@ class Index extends Initialize{
     }
     protected function _getCustomerFilter($filter_column){
         $filter = [];
+
+        //合同类型
+        if(in_array("contract_type", $filter_column)){
+            $in_column = input("contract_type",0,"int");
+            if($in_column){
+                $filter["contract_type"] = $in_column;
+            }
+        }
+
+        //对应部门
+        if(in_array("structure", $filter_column)){
+            $in_column = input("structure",0,"int");
+            if($in_column){
+                $filter["structure"] = $in_column;
+            }
+        }
+
+        //对应业务
+        if(in_array("business_id", $filter_column)){
+            $in_column = input("business_id",0,"int");
+            if($in_column){
+                $filter["business_id"] = $in_column;
+            }
+        }
+
+        //打款方式
+        if(in_array("pay_type", $filter_column)){
+            $in_column = input("pay_type",0,"int");
+            if($in_column){
+                $filter["pay_type"] = $in_column;
+            }
+        }
+
+        //订单状态
+        if(in_array("order_status", $filter_column)){
+            $in_column = input("order_status",-1,"int");
+            if($in_column>=0){
+                $filter["order_status"] = $in_column;
+            }
+        }
+
+        //合同号
+        if(in_array("contract_no", $filter_column)){
+            $in_column = input("contract_no",'',"string");
+            if($in_column){
+                $filter["contract_no"] = $in_column;
+            }
+        }
+
+        //负责人
+        if(in_array("apply_employee", $filter_column)){
+            $in_column = input("apply_employee",'',"string");
+            if($in_column){
+                $filter["apply_employee"] = $in_column;
+            }
+        }
+
+        //客户名称
+        if(in_array("customer_name", $filter_column)){
+            $in_column = input("customer_name",'',"string");
+            if($in_column){
+                $filter["customer_name"] = $in_column;
+            }
+        }
 
         //所在列
         if(in_array("in_column", $filter_column)){
