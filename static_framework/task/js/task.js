@@ -107,3 +107,12 @@ $('.grade .show_ranking_incentive').click( function() {
 			$('.grade .show_ranking_incentive').parents().removeClass("change");
 		});
 });
+$('.grade .show_ranking_reward').click( function() {
+		$(this).parent().parent().siblings('.motai').addClass('motai1');
+		$(this).parents().addClass("change");
+		var revealObj = $(".myModalthree").reveal("{data-animation:'fade'}");
+		revealObj.setCloseHandle(function(){
+			$('.grade .show_ranking_reward').parent().parent().siblings('.motai').removeClass('motai1');
+			$('.grade .show_ranking_reward').parents().removeClass("change");
+		});
+});
