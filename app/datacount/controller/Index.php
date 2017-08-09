@@ -8,11 +8,21 @@
 // +----------------------------------------------------------------------
 namespace app\datacount\controller;
 
-class Index{
+use app\common\controller\Initialize;
+
+class Index extends Initialize{
+    public function __construct(){
+        parent::__construct();
+    }
     public function index(){
         return 'Index/index';
     }
     public function summary(){
+        $userinfo = get_userinfo();
+        if (empty($userinfo)) {
+            $this->redirect('/login/index/index');
+        }
+        $this->assign("userinfo",$userinfo);
         return view();
     }
 }

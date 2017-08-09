@@ -47,7 +47,7 @@
             </div>
             <div>
                 <span class="cont"><span class="u-required">＊</span>联系电话</span>
-                <input type="text" name="telephone" required="required" pattern="[\d]{7,12}" placeholder="请输入电话号码" title="请输入正确的联系方式" value="{$customer.telephone}"/>
+                <input type="text" name="telephone" required="required" pattern="^(?:(?:0\d{2,3}[- ]?[1-9]\d{6,7})|(?:(13[0-9]|15[012356789]|18[0236789]|14[5789])[0-9]{8}))$" placeholder="请输入电话号码" title="请输入正确的联系方式" value="{$customer.telephone}"/>
 
                 <span class="cont">获取途径</span>
                 <select name="resource_from">

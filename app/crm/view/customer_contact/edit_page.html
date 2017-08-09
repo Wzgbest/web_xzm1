@@ -1,5 +1,5 @@
 <div class="m-divBlock m-form creat-linkman">
-    <form class="{$fr}_contact_edit_from contact_edit_from {$fr}_contact_edit_from" onsubmit="return false;">
+    <form class="{$fr}_contact_edit_form contact_edit_form {$fr}_contact_edit_form" onsubmit="return false;">
         <h1><i class="fa fa-vcard-o"></i>编辑联系人</h1>
         <div>
             <span class="cont">联系人姓名</span>
@@ -10,13 +10,13 @@
         </div>
         <div>
             <span class="cont">联系方式1</span>
-            <input type="text" name="phone_first" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码" value="{$customer_contact.phone_first}"/>
+            <input type="text" name="phone_first" pattern="^(?:(?:0\d{2,3}[- ]?[1-9]\d{6,7})|(?:(13[0-9]|15[012356789]|18[0236789]|14[5789])[0-9]{8}))$" title="请输入电话号码" placeholder="请输入电话号码" value="{$customer_contact.phone_first}"/>
             <span class="cont">联系方式2</span>
-            <input type="text" name="phone_second" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码" value="{$customer_contact.phone_second}"/>
+            <input type="text" name="phone_second" pattern="^(?:(?:0\d{2,3}[- ]?[1-9]\d{6,7})|(?:(13[0-9]|15[012356789]|18[0236789]|14[5789])[0-9]{8}))$" title="请输入电话号码" placeholder="请输入电话号码" value="{$customer_contact.phone_second}"/>
         </div>
         <div>
             <span class="cont">联系方式3</span>
-            <input type="text" name="phone_third" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码" value="{$customer_contact.phone_third}"/>
+            <input type="text" name="phone_third" pattern="^(?:(?:0\d{2,3}[- ]?[1-9]\d{6,7})|(?:(13[0-9]|15[012356789]|18[0236789]|14[5789])[0-9]{8}))$" title="请输入电话号码" placeholder="请输入电话号码" value="{$customer_contact.phone_third}"/>
             <span class="cont">邮箱</span>
             <input type="email" name="email" placeholder="请输入邮箱" value="{$customer_contact.email}"/>
         </div>
@@ -40,14 +40,14 @@
             </div>
             <span class="cont">决策能力</span>
             <select name="deal_capability">
-                <option value="1" {eq name='customer_contact.deal_capability' value='0'} selected="selected"{/eq}>普通人</option>
-                <option value="2" {eq name='customer_contact.deal_capability' value='1'} selected="selected"{/eq}>决策人</option>
-                <option value="3" {eq name='customer_contact.deal_capability' value='2'} selected="selected"{/eq}>分项决策人</option>
-                <option value="4" {eq name='customer_contact.deal_capability' value='3'} selected="selected"{/eq}>商务决策人</option>
-                <option value="5" {eq name='customer_contact.deal_capability' value='4'} selected="selected"{/eq}>技术决策人</option>
-                <option value="6" {eq name='customer_contact.deal_capability' value='5'} selected="selected"{/eq}>财务决策人</option>
-                <option value="7" {eq name='customer_contact.deal_capability' value='6'} selected="selected"{/eq}>使用人</option>
-                <option value="8" {eq name='customer_contact.deal_capability' value='7'} selected="selected"{/eq}>意见影响人</option>
+                <option value="1" {eq name='customer_contact.deal_capability' value='1'} selected="selected"{/eq}>普通人</option>
+                <option value="2" {eq name='customer_contact.deal_capability' value='2'} selected="selected"{/eq}>决策人</option>
+                <option value="3" {eq name='customer_contact.deal_capability' value='3'} selected="selected"{/eq}>分项决策人</option>
+                <option value="4" {eq name='customer_contact.deal_capability' value='4'} selected="selected"{/eq}>商务决策人</option>
+                <option value="5" {eq name='customer_contact.deal_capability' value='5'} selected="selected"{/eq}>技术决策人</option>
+                <option value="6" {eq name='customer_contact.deal_capability' value='6'} selected="selected"{/eq}>财务决策人</option>
+                <option value="7" {eq name='customer_contact.deal_capability' value='7'} selected="selected"{/eq}>使用人</option>
+                <option value="8" {eq name='customer_contact.deal_capability' value='8'} selected="selected"{/eq}>意见影响人</option>
             </select>
         </div>
         <div>
