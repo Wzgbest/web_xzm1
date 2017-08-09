@@ -21,6 +21,11 @@
 
     $.fn.reveal = function(options) {
         
+        this.closeHandle=null;
+        this.setCloseHandle=function(fun){
+        	this.closeHandle=fun;
+        };
+        var self = this;
         
         var defaults = {  
 	    	animation: 'fadeAndPop', //fade, fadeAndPop, none
@@ -112,6 +117,9 @@
 					}		
 				}
 				modal.unbind('reveal:close');
+				if(self.closeHandle!=null){
+					self.closeHandle();
+				}
 			});     
    	
 /*---------------------------
@@ -147,6 +155,7 @@
 			}	
 			
         });//each call
+        return self;
     }//orbit plugin call
 })(jQuery);
         
