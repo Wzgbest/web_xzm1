@@ -32,29 +32,6 @@ class Contract extends Initialize{
             $contractAppliedModel = new ContractAppliedModel($this->corp_id);
             $contractApplieds = $contractAppliedModel->getVerificationContractApplied($uid,$num,$p,$filter,$field,$order,$direction);
             //var_exp($contractApplieds,'$contractApplieds',1);
-            $employee_ids = [];
-            foreach ($contractApplieds as &$contractApplied){
-                $contract_apply_status = $contractApplied["contract_apply_status"];
-                if(
-                    isset($contractApplied["contract_apply_".$contract_apply_status]) &&
-                    !empty($contractApplied["contract_apply_".$contract_apply_status])
-                ){
-                    $employee_ids[] = $contractApplied["contract_apply_".$contract_apply_status];
-                    $contractApplied["assessor"] = $contractApplied["contract_apply_".$contract_apply_status];
-                }
-            }
-            $employeeM = new EmployeeModel($this->corp_id);
-            $employee_name_index = $employeeM->getEmployeeNameByUserids($employee_ids);
-            foreach ($contractApplieds as &$contractApplied){
-                if(
-                    isset($contractApplied["assessor"])&&
-                    isset($employee_name_index[$contractApplied["assessor"]])
-                ) {
-                    $contractApplied["assessor_name"] = $employee_name_index[$contractApplied["assessor"]];
-                }else{
-                    $contractApplied["assessor_name"] = '';
-                }
-            }
             $this->assign('list_data',$contractApplieds);
             $customers_count = $contractAppliedModel->getVerificationContractAppliedCount($uid,$filter);
             $this->assign("count",$customers_count);

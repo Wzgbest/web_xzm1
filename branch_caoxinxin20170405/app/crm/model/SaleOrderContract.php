@@ -208,7 +208,8 @@ class SaleOrderContract extends Base{
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["soc.status"] = ["neq",3];
-        $map["soc.handle_now"] = $uid;
+        //$map["soc.handle_now"] = $uid;
+        $mapStr = "find_in_set('".$uid."',soc.handle_now)";
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -254,13 +255,15 @@ class SaleOrderContract extends Base{
             ->join($this->dbprefix.'structure_employee se','se.user_id = e.id')
             ->join($this->dbprefix.'structure s','se.struct_id = s.id')
             ->where($map)
+            ->where($mapStr)
             ->limit($offset,$num)
             ->field($field)
             ->group("soc.id")
             ->order($order)
             ->having($having)
             ->select();
-        //var_exp($query->getLastSql(),"lastsql",1);
+        //var_exp($sale_chance_list,'$sale_chance_list',1);
+        //var_exp($query->getLastSql(),'lastsql',1);
         return $sale_chance_list;
     }
 
@@ -274,7 +277,8 @@ class SaleOrderContract extends Base{
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["soc.status"] = ["neq",3];
-        $map["soc.handle_now"] = $uid;
+        //$map["soc.handle_now"] = $uid;
+        $mapStr = "find_in_set('".$uid."',soc.handle_now)";
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -304,6 +308,7 @@ class SaleOrderContract extends Base{
             ->join($this->dbprefix.'structure_employee se','se.user_id = e.id')
             ->join($this->dbprefix.'structure s','se.struct_id = s.id')
             ->where($map)
+            ->where($mapStr)
             ->field($field)
             ->group("soc.id")
             ->having($having)
@@ -322,7 +327,8 @@ class SaleOrderContract extends Base{
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["soc.status"] = ["neq",3];
-        $map["soc.handle_now"] = $uid;
+        //$map["soc.handle_now"] = $uid;
+        $mapStr = "find_in_set('".$uid."',soc.handle_now)";
 
         $field = [
             "(case when sc.sale_status = 4 and soc.status = 0 then 1 
@@ -362,6 +368,7 @@ class SaleOrderContract extends Base{
             ->join($this->dbprefix.'structure_employee se','se.user_id = e.id')
             ->join($this->dbprefix.'structure s','se.struct_id = s.id')
             ->where($map)
+            ->where($mapStr)
             ->group("soc.id")
             ->field($field)
             ->buildSql();

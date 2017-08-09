@@ -31,30 +31,6 @@ class Bill extends Initialize{
             $billM = new BillModel($this->corp_id);
             $bill_list = $billM->getVerificationBill($uid,$num,$p,$filter,$field,$order,$direction);
             //var_exp($bill_list,'$bill_list',1);
-            $employee_ids = [];
-            foreach ($bill_list as &$bill){
-                $handle_status = $bill["handle_status"];
-                if(
-                    isset($bill["handle_".$handle_status]) &&
-                    !empty($bill["handle_".$handle_status])
-                ){
-                    $employee_ids[] = $bill["handle_".$handle_status];
-                    $bill["assessor"] = $bill["handle_".$handle_status];
-                    $bill["now_handle_create_item"] = "create_bill_num_".$handle_status;
-                }
-            }
-            $employeeM = new EmployeeModel($this->corp_id);
-            $employee_name_index = $employeeM->getEmployeeNameByUserids($employee_ids);
-            foreach ($bill_list as &$bill){
-                if(
-                    isset($bill["assessor"])&&
-                    isset($employee_name_index[$bill["assessor"]])
-                ) {
-                    $bill["assessor_name"] = $employee_name_index[$bill["assessor"]];
-                }else{
-                    $bill["assessor_name"] = '';
-                }
-            }
             $this->assign('list_data',$bill_list);
             $customers_count = $billM->getVerificationBillCount($uid,$filter);
             $this->assign("count",$customers_count);

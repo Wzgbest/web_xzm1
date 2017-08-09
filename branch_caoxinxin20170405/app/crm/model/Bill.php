@@ -200,7 +200,8 @@ class Bill extends Base{
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["sob.status"] = ["neq","3"];
-        $map["sob.handle_now"] = $uid;
+        //$map["sob.handle_now"] = $uid;
+        $mapStr = "find_in_set('".$uid."',sob.handle_now)";
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -239,6 +240,7 @@ class Bill extends Base{
             ->join($this->dbprefix.'bill_setting bs','bs.id = sob.bill_type',"LEFT")
             ->join($this->dbprefix.'sale_order_bill_item sobi','sobi.bill_id = sob.id',"LEFT")
             ->where($map)
+            ->where($mapStr)
             ->group("sob.id")
             ->order($order)
             ->having($having)
@@ -262,7 +264,8 @@ class Bill extends Base{
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["sob.status"] = ["neq","3"];
-        $map["sob.handle_now"] = $uid;
+        //$map["sob.handle_now"] = $uid;
+        $mapStr = "find_in_set('".$uid."',sob.handle_now)";
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -282,6 +285,7 @@ class Bill extends Base{
 
         $billCount= $this->model->table($this->table)->alias('sob')
             ->where($map)
+            ->where($mapStr)
             ->field($field)
             ->group("sob.id")
             ->having($having)
@@ -301,7 +305,8 @@ class Bill extends Base{
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["sob.status"] = ["neq","3"];
-        $map["sob.handle_now"] = $uid;
+        //$map["sob.handle_now"] = $uid;
+        $mapStr = "find_in_set('".$uid."',sob.handle_now)";
 
         $field = [
             "(case when sob.status = 0 then 1 
@@ -329,6 +334,7 @@ class Bill extends Base{
 
         $customerQuery = $this->model->table($this->table)->alias('sob')
             ->where($map)
+            ->where($mapStr)
             ->group("sob.id")
             ->field($field)
             ->buildSql();

@@ -310,7 +310,8 @@ class Contract extends Base{
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["ca.status"] = ["neq",3];
-        $map["ca.contract_apply_now"] = $uid;
+        //$map["ca.contract_apply_now"] = $uid;
+        $mapStr = "find_in_set('".$uid."',ca.contract_apply_now)";
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -354,6 +355,7 @@ class Contract extends Base{
             ->join($this->dbprefix.'customer c','c.id = sc.customer_id',"LEFT")
             ->join($this->dbprefix.'business_flow_setting bfs','bfs.id = sc.business_id',"LEFT")
             ->where($map)
+            ->where($mapStr)
             ->group("ca.id,co.group_field")
             ->order($order)
             ->having($having)
@@ -377,7 +379,8 @@ class Contract extends Base{
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["ca.status"] = ["neq",3];
-        $map["ca.contract_apply_now"] = $uid;
+        //$map["ca.contract_apply_now"] = $uid;
+        $mapStr = "find_in_set('".$uid."',ca.contract_apply_now)";
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -403,6 +406,7 @@ class Contract extends Base{
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'customer c','c.id = sc.customer_id',"LEFT")
             ->where($map)
+            ->where($mapStr)
             ->field($field)
             ->group("ca.id,co.group_field")
             ->having($having)
@@ -422,7 +426,8 @@ class Contract extends Base{
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["ca.status"] = ["neq",3];
-        $map["ca.contract_apply_now"] = $uid;
+        //$map["ca.contract_apply_now"] = $uid;
+        $mapStr = "find_in_set('".$uid."',ca.contract_apply_now)";
 
         $field = [
             "(case when ca.status = 0 then 1 
@@ -464,6 +469,7 @@ class Contract extends Base{
             ->join($this->dbprefix.'customer c','c.id = sc.customer_id',"LEFT")
             ->join($this->dbprefix.'business_flow_setting bfs','bfs.id = sc.business_id',"LEFT")
             ->where($map)
+            ->where($mapStr)
             ->group("ca.id,co.group_field")
             ->field($field)
             ->buildSql();
