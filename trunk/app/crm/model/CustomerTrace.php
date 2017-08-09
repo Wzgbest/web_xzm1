@@ -23,7 +23,7 @@ class CustomerTrace extends Base
      */
     public function addSingleCustomerMessage($data)
     {
-        return $this->model->table($this->table)->insert($data);
+        return $this->model->table($this->table)->insertGetId($data);
     }
 
     /**

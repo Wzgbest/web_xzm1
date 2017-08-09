@@ -343,10 +343,10 @@ class SaleChance extends Initialize{
         $saleChance['sale_name'] = input('sale_name');
         $saleChance['sale_status'] = input('sale_status',1,'int');;
 
-        $saleChance['guess_money'] = "".number_format(input('guess_money',0,'float'),2);
-        $saleChance['need_money'] = "".number_format(input('need_money',0,'float'),2);
-        $saleChance['payed_money'] = "".number_format(input('payed_money',0,'float'),2);
-        $saleChance['final_money'] = "".number_format(input('final_money',0,'float'),2);
+        $saleChance['guess_money'] = "".number_format(input('guess_money',0,'float'),2,".","");
+        $saleChance['need_money'] = "".number_format(input('need_money',0,'float'),2,".","");
+        $saleChance['payed_money'] = "".number_format(input('payed_money',0,'float'),2,".","");
+        $saleChance['final_money'] = "".number_format(input('final_money',0,'float'),2,".","");
 
         $saleChance['update_time'] = time();
         $saleChance['prepay_time'] = input('prepay_time',0,'strtotime');
@@ -356,11 +356,48 @@ class SaleChance extends Initialize{
     public function add(){
         $result = ['status'=>0 ,'info'=>"新建销售机会时发生错误！"];
         $saleChance = $this->_getSaleChanceForInput(1);
+        $saleChanceM = new SaleChanceModel($this->corp_id);
+
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $now_time = time();
+        $table = 'sale_chance';
+
+        $customersTrace["add_type"] = 0;
+        $customersTrace["operator_type"] = 0;
+        $customersTrace["operator_id"] = $uid;
+        $customersTrace["create_time"] = $now_time;
+        $customersTrace["customer_id"] = $saleChance['customer_id'];
+        $customersTrace["db_table_name"] = $table;
+        $customersTrace["db_field_name"] = "id";
+        $customersTrace["old_value"] = 0;
+        $customersTrace["new_value"] = 0;
+        $customersTrace["value_type"] = "";
+        $customersTrace["option_name"] = "添加了";
+        $customersTrace["sub_name"] = "";
+        $customersTrace["item_name"] = "新商机";
+        $customersTrace["from_name"] = "";
+        $customersTrace["link_name"] = "";
+        $customersTrace["to_name"] = $saleChance["sale_name"];
+        $customersTrace["status_name"] = '';
+        $customersTrace["remark"] = '';
+
         try{
-            $saleChanceM = new SaleChanceModel($this->corp_id);
+            $saleChanceM->link->startTrans();
             $saleChanceId = $saleChanceM->addSaleChance($saleChance);
+
+            $customerM = new CustomerTraceModel($this->corp_id);
+            $customersTrace["new_value"] = $saleChanceId;
+            //var_exp($customersTrace,'$customersTrace',1);
+            $customerTraceflg = $customerM->addSingleCustomerMessage($customersTrace);
+            if(!$customerTraceflg){
+                exception('提交客户跟踪数据失败!');
+            }
+
+            $saleChanceM->link->commit();
             $result['data'] = $saleChanceId;
         }catch (\Exception $ex){
+            $saleChanceM->link->rollback();
             $result['info'] = $ex->getMessage();
             return json($result);
         }
@@ -406,7 +443,17 @@ class SaleChance extends Initialize{
         $table = 'sale_chance';
         $customersTraces = [];
         foreach ($saleChanceDiffData as $key=>$saleChanceDiff){
-            $customersTrace = createCustomersTraceItem($uid,$now_time,$table,$saleChanceOldData["customer_id"],$key,$saleChanceOldData,$saleChance,$updateItemName);
+            $customersTrace = createCustomersTraceItem(
+                $uid,
+                $now_time,
+                $table,
+                $saleChanceOldData["customer_id"],
+                $key,
+                $saleChanceOldData,
+                $saleChance,
+                $updateItemName,
+                $saleChanceOldData["sale_name"]
+            );
             $customersTraces[] = $customersTrace;
         }
         //var_exp($customersTraces,'$customersTraces',1);
@@ -470,9 +517,19 @@ class SaleChance extends Initialize{
         $saleChanceVisit['add_note'] = input('add_note',0,'int');
         return $saleChanceVisit;
     }
+    public function getUpdateVisitItemNameAndType(){
+        $itemName["visit_time"] = ["拜访时间","time_format"];
+        $itemName["visit_place"] = ["拜访地点"];
+        $itemName["location"] = ["拜访位置坐标"];
+        $itemName["partner_notice"] = ["结伴提醒","getYesNoName"];
+        $itemName["add_note"] = ["添加到备忘录","getYesNoName"];
+        return $itemName;
+    }
     protected function _update_visit($sale_id){
         $saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
         $SaleChancesVisitOldData = $saleChanceVisitM->getSaleChanceVisitBySaleId($sale_id);
+        $saleChanceM = new SaleChanceModel($this->corp_id);
+        $saleChanceData = $saleChanceM->getSaleChance($SaleChancesVisitOldData["sale_id"]);
         $add_flg = false;
         if(empty($SaleChancesVisitOldData)){
             $add_flg = true;
@@ -488,6 +545,48 @@ class SaleChance extends Initialize{
         }else{
             //var_exp(1,'up');
             $save_flg = $saleChanceVisitM->setSaleChanceVisitBySaleId($sale_id,$SaleChancesVisitData);
+
+            $userinfo = get_userinfo();
+            $uid = $userinfo["userid"];
+            $now_time = time();
+            //var_exp($SaleChancesVisitOldData,'$SaleChancesVisitOldData');
+            //var_exp($SaleChancesVisitData,'$SaleChancesVisitData');
+            $updateItemName = $this->getUpdateVisitItemNameAndType();
+            //var_exp($updateItemName,'$updateItemName');
+            $SaleChancesVisitDataIntersertData = array_intersect_key($SaleChancesVisitOldData,$SaleChancesVisitData);
+            $SaleChancesVisitDataIntersertData = array_intersect_key($SaleChancesVisitDataIntersertData,$updateItemName);
+            //unset($SaleChancesVisitDataIntersertData["update_time"]);
+            //var_exp($SaleChancesVisitDataIntersertData,'$SaleChancesVisitDataIntersertData');
+            $SaleChancesVisitDataDiffData = array_diff_assoc($SaleChancesVisitDataIntersertData,$SaleChancesVisitData);
+            //var_exp($SaleChancesVisitDataDiffData,'$SaleChancesVisitDataDiffData',1);
+            $table = 'sale_chance';
+            $customersTraces = [];
+            foreach ($SaleChancesVisitDataDiffData as $key=>$SaleChancesVisitDataDiff){
+                $customersTrace = createCustomersTraceItem(
+                    $uid,
+                    $now_time,
+                    $table,
+                    $saleChanceData["customer_id"],
+                    $key,
+                    $SaleChancesVisitOldData,
+                    $SaleChancesVisitData,
+                    $updateItemName,
+                    $saleChanceData["sale_name"]
+                );
+                $customersTraces[] = $customersTrace;
+            }
+            //var_exp($customersTraces,'$customersTraces',1);
+
+            if(!empty($customersTraces)){
+                $customerTraceM = new CustomerTraceModel($this->corp_id);
+                //var_exp($customersTraces,'$customersTraces');
+                $customerTraceflg = $customerTraceM->addMultipleCustomerMessage($customersTraces);
+                //var_exp($customerTraceflg,'$customerTraceflg',1);
+                if(!$customerTraceflg){
+                    exception('提交客户跟踪数据失败!');
+                }
+            }
+
             $save_flg = true;
         }
         //var_exp($save_flg,'$save_flg',1);
@@ -570,8 +669,8 @@ class SaleChance extends Initialize{
             return json($result);
         }
         $sale_id = input('sale_id',0,'int');
-        $lat = "".number_format(input('lat',0,'float'),6);
-        $lng = "".number_format(input('lng',0,'float'),6);
+        $lat = "".number_format(input('lat',0,'float'),6,".","");
+        $lng = "".number_format(input('lng',0,'float'),6,".","");
         $saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
         try{
             $saleChanceVisitM->link->startTrans();
