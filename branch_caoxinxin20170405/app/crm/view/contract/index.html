@@ -25,7 +25,7 @@
                     	<select name="contract_type">
                 	        <option value="">合同类型</option>
 							{volist name="contract_type_list" id="vo"}
-								<option value="{$vo.id}">{$vo.contract_name}</option>
+								<option value="{$vo.id}" {present name='filter.contract_type'}{eq name='filter.contract_type' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.contract_name}</option>
 							{/volist}
                 	    </select>
                     	<select name="business_id">

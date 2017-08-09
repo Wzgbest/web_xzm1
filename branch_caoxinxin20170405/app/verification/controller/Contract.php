@@ -27,7 +27,6 @@ class Contract extends Initialize{
         $uid = $userinfo["userid"];
         $filter = $this->_getCustomerFilter(["in_column"]);
         $field = $this->_getCustomerField([]);
-        //$filter["employee_id"] = $uid; // 审核人
         try{
             $contractAppliedModel = new ContractAppliedModel($this->corp_id);
             $contractApplieds = $contractAppliedModel->getVerificationContractApplied($uid,$num,$p,$filter,$field,$order,$direction);

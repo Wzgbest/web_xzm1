@@ -24,7 +24,7 @@ class Contract extends Initialize{
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        $filter = $this->_getCustomerFilter(["in_column"]);
+        $filter = $this->_getCustomerFilter(["in_column","contract_type"]);
         $field = $this->_getCustomerField([]);
         try{
             $contractAppliedModel = new ContractAppliedModel($this->corp_id);
@@ -102,6 +102,14 @@ class Contract extends Initialize{
     }
     protected function _getCustomerFilter($filter_column){
         $filter = [];
+
+        //合同类型
+        if(in_array("contract_type", $filter_column)){
+            $in_column = input("contract_type",0,"int");
+            if($in_column){
+                $filter["contract_type"] = $in_column;
+            }
+        }
 
         //所在列
         if(in_array("in_column", $filter_column)){
