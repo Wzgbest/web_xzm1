@@ -38,7 +38,7 @@ class SaleChance extends Initialize{
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        $filter = $this->_getCustomerFilter(["in_column"]);
+        $filter = $this->_getCustomerFilter(["in_column","business_id","sale_status","sale_name","customer_name"]);
         $field = $this->_getCustomerField([]);
         $filter["employee_id"] = $uid;
         try{
@@ -80,6 +80,38 @@ class SaleChance extends Initialize{
     }
     protected function _getCustomerFilter($filter_column){
         $filter = [];
+
+        //对应业务
+        if(in_array("business_id", $filter_column)){
+            $in_column = input("business_id",0,"int");
+            if($in_column){
+                $filter["business_id"] = $in_column;
+            }
+        }
+
+        //业务状态
+        if(in_array("sale_status", $filter_column)){
+            $in_column = input("sale_status",0,"int");
+            if($in_column){
+                $filter["sale_status"] = $in_column;
+            }
+        }
+
+        //商机名称
+        if(in_array("sale_name", $filter_column)){
+            $in_column = input("sale_name",'',"string");
+            if($in_column){
+                $filter["sale_name"] = $in_column;
+            }
+        }
+
+        //客户名称
+        if(in_array("customer_name", $filter_column)){
+            $in_column = input("customer_name",'',"string");
+            if($in_column){
+                $filter["customer_name"] = $in_column;
+            }
+        }
 
         //所在列
         if(in_array("in_column", $filter_column)){
