@@ -214,7 +214,7 @@ class Bill extends Base{
         }
 
         //筛选
-        $map = $this->_getMapByFilter($filter,[]);
+        $map = $this->_getMapByFilter($filter,["bill_type","product_type","pay_type","apply_employee","customer_name","tax_num"]);
         $map["sob.status"] = ["neq","3"];
         //$map["sob.handle_now"] = $uid;
         $mapStr = "find_in_set('".$uid."',sob.handle_now)";
@@ -252,6 +252,9 @@ class Bill extends Base{
         ];
 
         $billList = $this->model->table($this->table)->alias('sob')
+            ->join($this->dbprefix.'sale_order_bill_item sobis','sobis.bill_id = sob.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance sc','sc.id = sob.sale_id',"LEFT")
+            ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'employee e','sob.operator = e.id',"LEFT")
             ->join($this->dbprefix.'bill_setting bs','bs.id = sob.bill_type',"LEFT")
             ->join($this->dbprefix.'sale_order_bill_item sobi','sobi.bill_id = sob.id',"LEFT")
@@ -278,7 +281,7 @@ class Bill extends Base{
      */
     public function getVerificationBillCount($uid,$filter=null){
         //筛选
-        $map = $this->_getMapByFilter($filter,[]);
+        $map = $this->_getMapByFilter($filter,["bill_type","product_type","pay_type","apply_employee","customer_name","tax_num"]);
         $map["sob.status"] = ["neq","3"];
         //$map["sob.handle_now"] = $uid;
         $mapStr = "find_in_set('".$uid."',sob.handle_now)";
@@ -300,6 +303,10 @@ class Bill extends Base{
         ];
 
         $billCount= $this->model->table($this->table)->alias('sob')
+            ->join($this->dbprefix.'sale_order_bill_item sobis','sobis.bill_id = sob.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance sc','sc.id = sob.sale_id',"LEFT")
+            ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'employee e','sob.operator = e.id',"LEFT")
             ->where($map)
             ->where($mapStr)
             ->field($field)
@@ -319,7 +326,7 @@ class Bill extends Base{
     public function getVerificationColumnNum($uid,$filter=null){
 
         //筛选
-        $map = $this->_getMapByFilter($filter,[]);
+        $map = $this->_getMapByFilter($filter,["bill_type","product_type","pay_type","apply_employee","customer_name","tax_num"]);
         $map["sob.status"] = ["neq","3"];
         //$map["sob.handle_now"] = $uid;
         $mapStr = "find_in_set('".$uid."',sob.handle_now)";
@@ -349,6 +356,10 @@ class Bill extends Base{
         ];
 
         $customerQuery = $this->model->table($this->table)->alias('sob')
+            ->join($this->dbprefix.'sale_order_bill_item sobis','sobis.bill_id = sob.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance sc','sc.id = sob.sale_id',"LEFT")
+            ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'employee e','sob.operator = e.id',"LEFT")
             ->where($map)
             ->where($mapStr)
             ->group("sob.id")
