@@ -255,6 +255,11 @@ class SaleChance extends Base
             ->field($countField)
             ->find();
         //var_exp($listCount,'$listCount',1);
+        if($listCount["0"]==0){
+            foreach ($listCount as &$count){
+                $count = 0;
+            }
+        }
         return $listCount;
     }
 
@@ -304,6 +309,7 @@ class SaleChance extends Base
             ->where('sc.customer_id',$customer_id)
             ->field($field)
             ->order("sc.id desc,sob.id desc")
+            ->limit("999999")
             ->buildSql();
         return $this->model->table($subQuery)->alias('v')
             ->group("id")

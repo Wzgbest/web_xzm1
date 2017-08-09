@@ -68,6 +68,17 @@ class Index extends Controller
             return $reg_reg;
         }
         set_userinfo($corp_id,$telephone,$user_arr);
+
+
+        $this->redirect('index/index/index');
+        
+//        $req_reg['message'] = '登录成功!';
+//        $req_reg['errnum'] = 0;
+//        $req_reg['status'] = true;
+//        return $req_reg;
+    }
+    public function logout(){
+        logout();
         $this->redirect('index/index/index');
     }
 }

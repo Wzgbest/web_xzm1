@@ -175,11 +175,17 @@ class Bill extends Base{
             ->field($countField)
             ->find();
         //var_exp($listCount,'$listCount',1);
+        if($listCount["0"]==0){
+            foreach ($listCount as &$count){
+                $count = 0;
+            }
+        }
         return $listCount;
     }
 
     /**
      * 查询发票申请
+     * @param $uid int 员工id
      * @param $num int 数量
      * @param $page int 页
      * @param $filter array 发票筛选条件
@@ -189,7 +195,7 @@ class Bill extends Base{
      * @return array|false
      * @throws \think\Exception
      */
-    public function getVerificationBill($num=10,$page=0,$filter=null,$field=null,$order="sob.id",$direction="desc"){
+    public function getVerificationBill($uid,$num=10,$page=0,$filter=null,$field=null,$order="sob.id",$direction="desc"){
         //分页
         $offset = 0;
         if($page){
@@ -199,6 +205,8 @@ class Bill extends Base{
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["sob.status"] = ["neq","3"];
+        //$map["sob.handle_now"] = $uid;
+        $mapStr = "find_in_set('".$uid."',sob.handle_now)";
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -237,6 +245,7 @@ class Bill extends Base{
             ->join($this->dbprefix.'bill_setting bs','bs.id = sob.bill_type',"LEFT")
             ->join($this->dbprefix.'sale_order_bill_item sobi','sobi.bill_id = sob.id',"LEFT")
             ->where($map)
+            ->where($mapStr)
             ->group("sob.id")
             ->order($order)
             ->having($having)
@@ -251,14 +260,17 @@ class Bill extends Base{
     }
     /**
      * 查询发票数量
+     * @param $uid int 员工id
      * @param $filter array 发票筛选条件
      * @return array|false
      * @throws \think\Exception
      */
-    public function getVerificationBillCount($filter=null){
+    public function getVerificationBillCount($uid,$filter=null){
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["sob.status"] = ["neq","3"];
+        //$map["sob.handle_now"] = $uid;
+        $mapStr = "find_in_set('".$uid."',sob.handle_now)";
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -278,6 +290,7 @@ class Bill extends Base{
 
         $billCount= $this->model->table($this->table)->alias('sob')
             ->where($map)
+            ->where($mapStr)
             ->field($field)
             ->group("sob.id")
             ->having($having)
@@ -297,6 +310,8 @@ class Bill extends Base{
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["sob.status"] = ["neq","3"];
+        //$map["sob.handle_now"] = $uid;
+        $mapStr = "find_in_set('".$uid."',sob.handle_now)";
 
         $field = [
             "(case when sob.status = 0 then 1 
@@ -324,6 +339,7 @@ class Bill extends Base{
 
         $customerQuery = $this->model->table($this->table)->alias('sob')
             ->where($map)
+            ->where($mapStr)
             ->group("sob.id")
             ->field($field)
             ->buildSql();
@@ -337,6 +353,11 @@ class Bill extends Base{
             ->table($getListCount." lc")
             ->field($countField)
             ->find();
+        if($listCount["0"]==0){
+            foreach ($listCount as &$count){
+                $count = 0;
+            }
+        }
         //var_exp($listCount,'$listCount',1);
         return $listCount;
     }

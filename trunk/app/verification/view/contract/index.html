@@ -64,6 +64,7 @@
                         <li>合同号</li>
                         <li>对应业务</li>
                         <li>产品详情</li>
+                        <li>负责人</li>
                         <li>部门<i class="fa fa-unsorted"></i></li>
                         <li>客户</li>
                         <li>签单时间<i class="fa fa-unsorted"></i></li>
@@ -91,10 +92,11 @@
                         <li>{$vo.update_time|time_format}</li>
                         <li>{$vo.contract_type_name}</li>
                         <li>{present name="vo.contract_no"}{$vo.contract_no}{/present}</li>
-                        <li>网站建设</li>
-                        <li>公司官网首页</li>
-                        <li>销售一部</li>
-                        <li class="u-tabCilentName">山东潍坊中迅网络科技有限公司</li>
+                        <li>{$vo.business_flow_name}</li>
+                        <li>{$vo.sale_name}</li>
+                        <li>{$vo.employee_name}</li>
+                        <li>{$vo.struct_name}</li>
+                        <li class="u-tabCilentName">{$vo.customer_name}</li>
                         <li>2017/03/02</li>
                         <li>3,000.00元</li>
                         <li class="u-tabCilentName">全款合同</li>
@@ -117,7 +119,7 @@
                             {eq name="vo.status" value="0"}
                                 <span class="rejected">驳回</span>
                                 <span class="approved">通过</span>
-                                <span class="approved comment">备注通过</span>
+                                <span class="approved remark">备注通过</span>
                             {/eq}
                             {eq name="vo.status" value="1"}
                                 <span class="invalid">作废</span>

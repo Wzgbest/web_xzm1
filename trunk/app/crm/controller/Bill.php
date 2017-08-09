@@ -42,7 +42,11 @@ class Bill extends Initialize{
                     isset($bill["handle_".$handle_status]) &&
                     !empty($bill["handle_".$handle_status])
                 ){
-                    $employee_ids[] = $bill["handle_".$handle_status];
+                    $temp_employee_ids = explode(",",$bill["handle_".$handle_status]);
+                    if($temp_employee_ids==null){
+                        continue;
+                    }
+                    $employee_ids = array_merge($employee_ids,$temp_employee_ids);
                     $bill["assessor"] = $bill["handle_".$handle_status];
                 }
             }
@@ -51,9 +55,19 @@ class Bill extends Initialize{
             foreach ($bill_list as &$bill){
                 if(
                     isset($bill["assessor"])&&
-                    isset($employee_name_index[$bill["assessor"]])
+                    !empty($bill["assessor"])
                 ) {
-                    $bill["assessor_name"] = $employee_name_index[$bill["assessor"]];
+                    $temp_employee_names = [];
+                    $temp_employee_ids = explode(",",$bill["assessor"]);
+                    if($temp_employee_ids==null){
+                        continue;
+                    }
+                    foreach ($temp_employee_ids as $temp_employee_id){
+                        if(isset($employee_name_index[$temp_employee_id])){
+                            $temp_employee_names[] = $employee_name_index[$temp_employee_id];
+                        }
+                    }
+                    $bill["assessor_name"] = implode(",",$temp_employee_names);
                 }else{
                     $bill["assessor_name"] = '';
                 }

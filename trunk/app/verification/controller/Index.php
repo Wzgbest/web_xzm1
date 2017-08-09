@@ -37,10 +37,10 @@ class Index extends Initialize{
         $filter["status"] = 1;
         try{
             $saleChanceM = new SaleOrderContractModel($this->corp_id);
-            $SaleOrderContractsData = $saleChanceM->getVerificationSaleOrderContractByPage($num,$p,$filter,$field,$order,$direction);
+            $SaleOrderContractsData = $saleChanceM->getVerificationSaleOrderContractByPage($uid,$num,$p,$filter,$field,$order,$direction);
             //var_exp($SaleOrderContractsData,'$SaleOrderContractsData',1);
             $this->assign("list_data",$SaleOrderContractsData);
-            $customers_count = $saleChanceM->getVerificationSaleChanceCount($filter);
+            $customers_count = $saleChanceM->getVerificationSaleChanceCount($uid,$filter);
             $this->assign("count",$customers_count);
             $listCount = $saleChanceM->getVerificationColumnNum($uid,$filter);
             $this->assign("listCount",$listCount);
@@ -119,9 +119,6 @@ class Index extends Initialize{
             if($remark){
                 $applied_data["remark"] = ["exp","concat(remark,'".$remark.";')"];
             }
-            if($saleOrderContractStatus!=6){
-                $applied_data["handle_now"] = $saleOrderContract["handle_".($saleOrderContractStatus+1)];
-            }
             $map = [];
 
             if(
@@ -129,6 +126,7 @@ class Index extends Initialize{
                 !empty($saleOrderContract["handle_".($saleOrderContractStatus+1)])
             ){
                 //还有下一步审批,转为下一个人审批
+                $applied_data["handle_now"] = $saleOrderContract["handle_".($saleOrderContractStatus+1)];
                 $applied_data["handle_status"] = $saleOrderContractStatus+1;
                 $map["status"] = 0;
                 $saleOrderContractFlg = $saleOrderContractM->setSaleOrderContract($id,$applied_data,$map);

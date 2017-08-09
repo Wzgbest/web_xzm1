@@ -143,14 +143,14 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 	};
 	this.edit_update=function(id){
 		var panel = this.panel_base+' .customer_edit';
-		var edit_from_data = $(panel+" ."+this.from+"_edit").serialize();
-		edit_from_data += "&id="+id+"&fr="+this.from;
+		var edit_form_data = $(panel+" ."+this.from+"_edit").serialize();
+		edit_form_data += "&id="+id+"&fr="+this.from;
 		this.reload_flg = 1;
-		//console.log(edit_from_data);
+		//console.log(edit_form_data);
 		$.ajax({
 			url: '/crm/customer/update',
 			type: 'post',
-			data: edit_from_data,
+			data: edit_form_data,
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
@@ -276,14 +276,14 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 	};
 	this.contact_edit_update=function(id,customer_id){
 		var panel = this.panel_base+' .customer_contact';
-		var contact_edit_from = $(panel+" . contact_edit_panel_"+id+" .contact_edit_from").serialize();
-		contact_edit_from += "&id="+id+"&fr="+this.from;
+		var contact_edit_form = $(panel+" .contact_edit_panel_"+id+" .contact_edit_form").serialize();
+		contact_edit_form += "&id="+id+"&fr="+this.from;
 		this.reload_flg = 1;
-		//console.log(contact_edit_from);
+		//console.log(contact_edit_form);
 		$.ajax({
 			url: '/crm/customer_contact/update',
 			type: 'post',
-			data: contact_edit_from,
+			data: contact_edit_form,
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
@@ -477,14 +477,14 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 		var panel = this.panel_base+' .customer_sale_chance';
 		var sale_chance_panel = panel+" .clientInfoSaleChance";
 		var edit_sale_chance_panel = sale_chance_panel+" .edit-sale-chance-"+id;
-		var sale_chance_edit_from = $(edit_sale_chance_panel+" .editSaleChanceForm").serialize();
-		sale_chance_edit_from += "&id="+id+"&customer_id="+customer_id+"&fr="+this.from;
+		var sale_chance_edit_form = $(edit_sale_chance_panel+" .editSaleChanceForm").serialize();
+		sale_chance_edit_form += "&id="+id+"&customer_id="+customer_id+"&fr="+this.from;
 		this.reload_flg = 1;
 		//console.log(sale_chance_add_from);
 		$.ajax({
 			url: '/crm/sale_chance/update',
 			type: 'post',
-			data: sale_chance_edit_from,
+			data: sale_chance_edit_form,
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
