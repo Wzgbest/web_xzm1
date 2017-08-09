@@ -25,7 +25,7 @@ class Contract extends Initialize{
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        $filter = $this->_getCustomerFilter(["in_column"]);
+        $filter = $this->_getCustomerFilter(["in_column","order_status","structure","contract_type","business_id","contract_no","apply_employee","customer_name"]);
         $field = $this->_getCustomerField([]);
         try{
             $contractAppliedModel = new ContractAppliedModel($this->corp_id);
@@ -46,7 +46,11 @@ class Contract extends Initialize{
             $businessFlowModel = new BusinessFlowModel($this->corp_id);
             $business_flows = $businessFlowModel->getAllBusinessFlow();
             //var_exp($business_flows,'$business_flows',1);
-            $this->assign('business_flow_list',$business_flows);
+            $this->assign('business_flows',$business_flows);
+            $apply_status_list = getApplyStatusList();
+            array_pop($apply_status_list);
+            //var_exp($status_list,'$status_list',1);
+            $this->assign('apply_status_list',$apply_status_list);
         }catch (\Exception $ex){
             $this->error($ex->getMessage());
         }
@@ -66,6 +70,62 @@ class Contract extends Initialize{
     }
     protected function _getCustomerFilter($filter_column){
         $filter = [];
+
+        //订单状态
+        if(in_array("order_status", $filter_column)){
+            $in_column = input("order_status",-1,"int");
+            if($in_column>=0){
+                $filter["order_status"] = $in_column;
+            }
+        }
+
+        //合同类型
+        if(in_array("contract_type", $filter_column)){
+            $in_column = input("contract_type",0,"int");
+            if($in_column){
+                $filter["contract_type"] = $in_column;
+            }
+        }
+
+        //对应部门
+        if(in_array("structure", $filter_column)){
+            $in_column = input("structure",0,"int");
+            if($in_column){
+                $filter["structure"] = $in_column;
+            }
+        }
+
+        //对应业务
+        if(in_array("business_id", $filter_column)){
+            $in_column = input("business_id",0,"int");
+            if($in_column){
+                $filter["business_id"] = $in_column;
+            }
+        }
+
+        //合同号
+        if(in_array("contract_no", $filter_column)){
+            $in_column = input("contract_no",'',"string");
+            if($in_column){
+                $filter["contract_no"] = $in_column;
+            }
+        }
+
+        //负责人
+        if(in_array("apply_employee", $filter_column)){
+            $in_column = input("apply_employee",'',"string");
+            if($in_column){
+                $filter["apply_employee"] = $in_column;
+            }
+        }
+
+        //客户名称
+        if(in_array("customer_name", $filter_column)){
+            $in_column = input("customer_name",'',"string");
+            if($in_column){
+                $filter["customer_name"] = $in_column;
+            }
+        }
 
         //所在列
         if(in_array("in_column", $filter_column)){
