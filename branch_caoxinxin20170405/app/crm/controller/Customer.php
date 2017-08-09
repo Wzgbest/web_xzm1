@@ -805,8 +805,8 @@ class Customer extends Initialize{
         $customer['dist'] = input('dist','','string');
         $customer['address'] = input('address');
         $customer['location'] = input('location');
-        $customer['lat'] = "".number_format(input('lat',0,'float'),6);
-        $customer['lng'] = "".number_format(input('lng',0,'float'),6);
+        $customer['lat'] = "".number_format(input('lat',0,'float'),6,".","");
+        $customer['lng'] = "".number_format(input('lng',0,'float'),6,".","");
         $customer['website'] = input('website','','string');
         $customer['remark'] = input('remark','','string');
 
