@@ -134,11 +134,48 @@ class CustomerContact extends Initialize{
     public function add(){
         $result = ['status'=>0 ,'info'=>"新建联系人时发生错误！"];
         $customerContact = $this->_getCustomerContactForInput("all");
+        $customerContactM = new CustomerContactModel($this->corp_id);
+
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $now_time = time();
+        $table = 'customer_contact';
+
+        $customersTrace["add_type"] = 0;
+        $customersTrace["operator_type"] = 0;
+        $customersTrace["operator_id"] = $uid;
+        $customersTrace["create_time"] = $now_time;
+        $customersTrace["customer_id"] = $customerContact['customer_id'];
+        $customersTrace["db_table_name"] = $table;
+        $customersTrace["db_field_name"] = "id";
+        $customersTrace["old_value"] = 0;
+        $customersTrace["new_value"] = 0;
+        $customersTrace["value_type"] = "";
+        $customersTrace["option_name"] = "添加了";
+        $customersTrace["sub_name"] = "";
+        $customersTrace["item_name"] = "新联系人";
+        $customersTrace["from_name"] = "";
+        $customersTrace["link_name"] = "";
+        $customersTrace["to_name"] = $customerContact["contact_name"];
+        $customersTrace["status_name"] = '';
+        $customersTrace["remark"] = '';
+
         try{
-            $customerContactM = new CustomerContactModel($this->corp_id);
+            $customerContactM->link->startTrans();
             $customerContactId = $customerContactM->addCustomerContact($customerContact);
+
+            $customerM = new CustomerTraceModel($this->corp_id);
+            $customersTrace["new_value"] = $customerContactId;
+            //var_exp($customersTrace,'$customersTrace',1);
+            $customerTraceflg = $customerM->addSingleCustomerMessage($customersTrace);
+            if(!$customerTraceflg){
+                exception('提交客户跟踪数据失败!');
+            }
+
+            $customerContactM->link->commit();
             $result['data'] = $customerContactId;
         }catch (\Exception $ex){
+            $customerContactM->link->rollback();
             $result['info'] = $ex->getMessage();
             return json($result);
         }

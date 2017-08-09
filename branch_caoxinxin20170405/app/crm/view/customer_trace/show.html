@@ -42,7 +42,7 @@
                             {eq name="voi.add_type" value="0"}
                                 <span>
                                     {$voi.operator_user_name}
-                                    {$voi.option_name}
+                                    {$voi.option_name}<span></span>
                                     {neq name="voi.db_table_name" value="customer"}
                                         {notempty name="voi.sub_name"}
                                             {switch	name="voi.db_table_name"}
@@ -54,7 +54,6 @@
                                         {/notempty}
                                     {/neq}
                                     {$voi.item_name}
-                                    从
                                     <span class="underline">
                                         {$voi.from_name}
                                     </span>
