@@ -43,7 +43,18 @@
                                 <span>
                                     {$voi.operator_user_name}
                                     {$voi.option_name}
+                                    {neq name="voi.db_table_name" value="customer"}
+                                        {notempty name="voi.sub_name"}
+                                            {switch	name="voi.db_table_name"}
+                                                {case value="customer_contact"}联系人{/case}
+                                                {case value="sale_chance"}销售机会{/case}
+                                            {/switch}
+                                            {$voi.sub_name}
+                                            的
+                                        {/notempty}
+                                    {/neq}
                                     {$voi.item_name}
+                                    从
                                     <span class="underline">
                                         {$voi.from_name}
                                     </span>

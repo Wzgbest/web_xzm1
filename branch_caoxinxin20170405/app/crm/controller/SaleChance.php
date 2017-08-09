@@ -406,7 +406,17 @@ class SaleChance extends Initialize{
         $table = 'sale_chance';
         $customersTraces = [];
         foreach ($saleChanceDiffData as $key=>$saleChanceDiff){
-            $customersTrace = createCustomersTraceItem($uid,$now_time,$table,$saleChanceOldData["customer_id"],$key,$saleChanceOldData,$saleChance,$updateItemName);
+            $customersTrace = createCustomersTraceItem(
+                $uid,
+                $now_time,
+                $table,
+                $saleChanceOldData["customer_id"],
+                $key,
+                $saleChanceOldData,
+                $saleChance,
+                $updateItemName,
+                $saleChanceOldData["sale_name"]
+            );
             $customersTraces[] = $customersTrace;
         }
         //var_exp($customersTraces,'$customersTraces',1);

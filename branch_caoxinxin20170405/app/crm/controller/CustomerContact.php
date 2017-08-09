@@ -197,7 +197,17 @@ class CustomerContact extends Initialize{
         $table = 'customer_contact';
         $customersTraces = [];
         foreach ($customerContactDiffData as $key=>$customerContactDiff){
-            $customersTrace = createCustomersTraceItem($uid,$now_time,$table,$customerContactOldData["customer_id"],$key,$customerContactOldData,$customerContact,$updateItemName);
+            $customersTrace = createCustomersTraceItem(
+                $uid,
+                $now_time,
+                $table,
+                $customerContactOldData["customer_id"],
+                $key,
+                $customerContactOldData,
+                $customerContact,
+                $updateItemName,
+                $customerContactOldData["contact_name"]
+            );
             $customersTraces[] = $customersTrace;
         }
         //var_exp($customersTraces,'$customersTraces',1);

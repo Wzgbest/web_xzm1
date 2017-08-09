@@ -612,7 +612,19 @@ function getBusinessName($business){
     return $business_index[$business];
 }
 
-function createCustomersTraceItem($uid,$time,$table,$id,$key,$customerOldData,$customerNewData,$updateItemName){
+function createCustomersTraceItem(
+    $uid,
+    $time,
+    $table,
+    $id,
+    $key,
+    $customerOldData,
+    $customerNewData,
+    $updateItemName,
+    $sub_name="",
+    $option_name="更改了",
+    $link_name="更改为"
+){
     $customersTrace["add_type"] = 0;
     $customersTrace["operator_type"] = 0;
     $customersTrace["operator_id"] = $uid;
@@ -624,10 +636,11 @@ function createCustomersTraceItem($uid,$time,$table,$id,$key,$customerOldData,$c
     $customersTrace["new_value"] = isset($customerNewData[$key])?$customerNewData[$key]:"";
     $customersTrace["value_type"] = isset($updateItemName[$key][1])?$updateItemName[$key][1]:"";
     $func_name = $customersTrace["value_type"];
-    $customersTrace["option_name"] = '更改了';
+    $customersTrace["option_name"] = $option_name;
+    $customersTrace["sub_name"] = $sub_name;
     $customersTrace["item_name"] = isset($updateItemName[$key][0])?$updateItemName[$key][0]:"";
     $customersTrace["from_name"] = isset($updateItemName[$key][1])?$func_name($customersTrace["old_value"]):$customersTrace["old_value"];
-    $customersTrace["link_name"] = '更改为';
+    $customersTrace["link_name"] = $link_name;
     $customersTrace["to_name"] = isset($updateItemName[$key][1])?$func_name($customersTrace["new_value"]):$customersTrace["new_value"];
     $customersTrace["status_name"] = '';
     $customersTrace["remark"] = '';
