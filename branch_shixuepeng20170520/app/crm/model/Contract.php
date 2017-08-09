@@ -286,10 +286,16 @@ class Contract extends Base{
             ->field($countField)
             ->find();
         //var_exp($listCount,'$listCount',1);
+        if($listCount["0"]==0){
+            foreach ($listCount as &$count){
+                $count = 0;
+            }
+        }
         return $listCount;
     }
     /**
      * 查询合同申请
+     * @param $uid int 员工id
      * @param $num int 数量
      * @param $page int 页
      * @param $filter array 合同筛选条件
@@ -299,7 +305,7 @@ class Contract extends Base{
      * @return array|false
      * @throws \think\Exception
      */
-    public function getVerificationContractApplied($num=10,$page=0,$filter=null,$field=null,$order="ca.id",$direction="desc"){
+    public function getVerificationContractApplied($uid,$num=10,$page=0,$filter=null,$field=null,$order="ca.id",$direction="desc"){
         //分页
         $offset = 0;
         if($page){
@@ -309,6 +315,8 @@ class Contract extends Base{
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["ca.status"] = ["neq",3];
+        //$map["ca.contract_apply_now"] = $uid;
+        $mapStr = "find_in_set('".$uid."',ca.contract_apply_now)";
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -334,6 +342,8 @@ class Contract extends Base{
             'soc.status as order_status',
             "c.customer_name",
             "bfs.business_flow_name",
+            "e.truename as employee_name",
+            "s.struct_name",
             "(case when ca.status = 0 then 1 
             when ca.status = 1 and co.status = 4 then 2 
             when ca.status = 1 and sc.sale_status = 4 and soc.status = 0 then 4 
@@ -351,7 +361,11 @@ class Contract extends Base{
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'customer c','c.id = sc.customer_id',"LEFT")
             ->join($this->dbprefix.'business_flow_setting bfs','bfs.id = sc.business_id',"LEFT")
+            ->join($this->dbprefix.'employee e','ca.employee_id = e.id',"LEFT")
+            ->join($this->dbprefix.'structure_employee se','se.user_id = e.id')
+            ->join($this->dbprefix.'structure s','se.struct_id = s.id')
             ->where($map)
+            ->where($mapStr)
             ->group("ca.id,co.group_field")
             ->order($order)
             ->having($having)
@@ -366,14 +380,17 @@ class Contract extends Base{
     }
     /**
      * 查询合同数量
+     * @param $uid int 员工id
      * @param $filter array 合同筛选条件
      * @return array|false
      * @throws \think\Exception
      */
-    public function getVerificationContractAppliedCount($filter=null){
+    public function getVerificationContractAppliedCount($uid,$filter=null){
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["ca.status"] = ["neq",3];
+        //$map["ca.contract_apply_now"] = $uid;
+        $mapStr = "find_in_set('".$uid."',ca.contract_apply_now)";
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -399,6 +416,7 @@ class Contract extends Base{
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'customer c','c.id = sc.customer_id',"LEFT")
             ->where($map)
+            ->where($mapStr)
             ->field($field)
             ->group("ca.id,co.group_field")
             ->having($having)
@@ -418,6 +436,8 @@ class Contract extends Base{
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["ca.status"] = ["neq",3];
+        //$map["ca.contract_apply_now"] = $uid;
+        $mapStr = "find_in_set('".$uid."',ca.contract_apply_now)";
 
         $field = [
             "(case when ca.status = 0 then 1 
@@ -459,6 +479,7 @@ class Contract extends Base{
             ->join($this->dbprefix.'customer c','c.id = sc.customer_id',"LEFT")
             ->join($this->dbprefix.'business_flow_setting bfs','bfs.id = sc.business_id',"LEFT")
             ->where($map)
+            ->where($mapStr)
             ->group("ca.id,co.group_field")
             ->field($field)
             ->buildSql();
@@ -472,6 +493,11 @@ class Contract extends Base{
             ->table($getListCount." lc")
             ->field($countField)
             ->find();
+        if($listCount["0"]==0){
+            foreach ($listCount as &$count){
+                $count = 0;
+            }
+        }
         //var_exp($listCount,'$listCount',1);
         return $listCount;
     }
@@ -497,6 +523,7 @@ class Contract extends Base{
             'contract_apply_5',
             'contract_apply_6',
             'contract_apply_status',
+            'contract_apply_now',
             'update_time',
             'create_time',
             'status',

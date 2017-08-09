@@ -188,6 +188,7 @@ class SaleOrderContract extends Base{
     }
 
     /**
+     * @param $uid int 员工id
      * @param $num int 数量
      * @param $page int 页
      * @param $filter array 合同筛选条件
@@ -197,7 +198,7 @@ class SaleOrderContract extends Base{
      * @return false|\PDOStatement|string|\think\Collection
      * created by blu10ph
      */
-    public function getVerificationSaleOrderContractByPage($num=10,$page=0,$filter=null,$field=null,$order="soc.create_time",$direction="desc"){
+    public function getVerificationSaleOrderContractByPage($uid,$num=10,$page=0,$filter=null,$field=null,$order="soc.create_time",$direction="desc"){
         //分页
         $offset = 0;
         if($page){
@@ -207,6 +208,8 @@ class SaleOrderContract extends Base{
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["soc.status"] = ["neq",3];
+        //$map["soc.handle_now"] = $uid;
+        $mapStr = "find_in_set('".$uid."',soc.handle_now)";
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -252,25 +255,30 @@ class SaleOrderContract extends Base{
             ->join($this->dbprefix.'structure_employee se','se.user_id = e.id')
             ->join($this->dbprefix.'structure s','se.struct_id = s.id')
             ->where($map)
+            ->where($mapStr)
             ->limit($offset,$num)
             ->field($field)
             ->group("soc.id")
             ->order($order)
             ->having($having)
             ->select();
-        //var_exp($query->getLastSql(),"lastsql",1);
+        //var_exp($sale_chance_list,'$sale_chance_list',1);
+        //var_exp($query->getLastSql(),'lastsql',1);
         return $sale_chance_list;
     }
 
     /**
+     * @param $uid int 员工id
      * @param $filter array 合同筛选条件
      * @return false|\PDOStatement|string|\think\Collection
      * created by blu10ph
      */
-    public function getVerificationSaleChanceCount($filter=null){
+    public function getVerificationSaleChanceCount($uid,$filter=null){
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["soc.status"] = ["neq",3];
+        //$map["soc.handle_now"] = $uid;
+        $mapStr = "find_in_set('".$uid."',soc.handle_now)";
         $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
@@ -300,6 +308,7 @@ class SaleOrderContract extends Base{
             ->join($this->dbprefix.'structure_employee se','se.user_id = e.id')
             ->join($this->dbprefix.'structure s','se.struct_id = s.id')
             ->where($map)
+            ->where($mapStr)
             ->field($field)
             ->group("soc.id")
             ->having($having)
@@ -318,6 +327,8 @@ class SaleOrderContract extends Base{
         //筛选
         $map = $this->_getMapByFilter($filter,[]);
         $map["soc.status"] = ["neq",3];
+        //$map["soc.handle_now"] = $uid;
+        $mapStr = "find_in_set('".$uid."',soc.handle_now)";
 
         $field = [
             "(case when sc.sale_status = 4 and soc.status = 0 then 1 
@@ -357,6 +368,7 @@ class SaleOrderContract extends Base{
             ->join($this->dbprefix.'structure_employee se','se.user_id = e.id')
             ->join($this->dbprefix.'structure s','se.struct_id = s.id')
             ->where($map)
+            ->where($mapStr)
             ->group("soc.id")
             ->field($field)
             ->buildSql();
@@ -370,6 +382,11 @@ class SaleOrderContract extends Base{
             ->table($getListCount." lc")
             ->field($countField)
             ->find();
+        if($listCount["0"]==0){
+            foreach ($listCount as &$count){
+                $count = 0;
+            }
+        }
         //var_exp($listCount,'$listCount',1);
         return $listCount;
     }
@@ -430,7 +447,10 @@ class SaleOrderContract extends Base{
      */
     public function setSaleOrderContractBySaleId($sale_id,$data)
     {
-        return $this->model->table($this->table)->where('sale_id',$sale_id)->update($data);
+        return $this->model->table($this->table)
+            ->where('sale_id',$sale_id)
+            ->where('status',"in",[2,3])
+            ->update($data);
     }
 
     /**撤回

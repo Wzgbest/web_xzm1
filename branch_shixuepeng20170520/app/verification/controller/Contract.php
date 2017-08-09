@@ -30,33 +30,10 @@ class Contract extends Initialize{
         //$filter["employee_id"] = $uid; // 审核人
         try{
             $contractAppliedModel = new ContractAppliedModel($this->corp_id);
-            $contractApplieds = $contractAppliedModel->getVerificationContractApplied($num,$p,$filter,$field,$order,$direction);
+            $contractApplieds = $contractAppliedModel->getVerificationContractApplied($uid,$num,$p,$filter,$field,$order,$direction);
             //var_exp($contractApplieds,'$contractApplieds',1);
-            $employee_ids = [];
-            foreach ($contractApplieds as &$contractApplied){
-                $contract_apply_status = $contractApplied["contract_apply_status"];
-                if(
-                    isset($contractApplied["contract_apply_".$contract_apply_status]) &&
-                    !empty($contractApplied["contract_apply_".$contract_apply_status])
-                ){
-                    $employee_ids[] = $contractApplied["contract_apply_".$contract_apply_status];
-                    $contractApplied["assessor"] = $contractApplied["contract_apply_".$contract_apply_status];
-                }
-            }
-            $employeeM = new EmployeeModel($this->corp_id);
-            $employee_name_index = $employeeM->getEmployeeNameByUserids($employee_ids);
-            foreach ($contractApplieds as &$contractApplied){
-                if(
-                    isset($contractApplied["assessor"])&&
-                    isset($employee_name_index[$contractApplied["assessor"]])
-                ) {
-                    $contractApplied["assessor_name"] = $employee_name_index[$contractApplied["assessor"]];
-                }else{
-                    $contractApplied["assessor_name"] = '';
-                }
-            }
             $this->assign('list_data',$contractApplieds);
-            $customers_count = $contractAppliedModel->getVerificationContractAppliedCount($filter);
+            $customers_count = $contractAppliedModel->getVerificationContractAppliedCount($uid,$filter);
             $this->assign("count",$customers_count);
             $listCount = $contractAppliedModel->getVerificationColumnNum($uid,$filter);
             $this->assign("listCount",$listCount);
@@ -140,9 +117,6 @@ class Contract extends Initialize{
             if($remark){
                 $applied_data["remark"] = ["exp","concat(remark,'".$remark.";')"];
             }
-            if($contract_apply_status!=6){
-                $applied_data["handle_now"] = $contractApplied["handle_".($contract_apply_status+1)];
-            }
             $map["status"] = 0;
 
 
@@ -187,6 +161,7 @@ class Contract extends Initialize{
                 !empty($contractApplied["contract_apply_".($contract_apply_status+1)])
             ){
                 //还有下一步审批,转为下一个人审批
+                $applied_data["contract_apply_now"] = $contractApplied["contract_apply_".($contract_apply_status+1)];
                 $applied_data["contract_apply_status"] = $contract_apply_status+1;
                 $contractAppliedFlg = $contractAppliedM->setContract($id,$applied_data,$map);
                 if(!$contractAppliedFlg){

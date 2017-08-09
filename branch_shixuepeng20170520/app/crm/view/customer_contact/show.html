@@ -39,7 +39,7 @@
                     <span class="cont-max">联系人姓名：</span>
                     <span class="cont-x">{$vo.contact_name}</span>
                     <span class="cont">性别：</span>
-                    <span class="cont-x">{eq name="vo.sex" value="1"}男{else/}女{/eq}</span>
+                    <span class="cont-x">{$vo.sex|getSexName}</span>
                 </div>
                 <div>
                     <span class="cont">联系方式1：</span>

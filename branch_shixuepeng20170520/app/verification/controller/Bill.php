@@ -29,34 +29,19 @@ class Bill extends Initialize{
         $filter["status"] = 1;
         try{
             $billM = new BillModel($this->corp_id);
-            $bill_list = $billM->getVerificationBill($num,$p,$filter,$field,$order,$direction);
+            $bill_list = $billM->getVerificationBill($uid,$num,$p,$filter,$field,$order,$direction);
             //var_exp($bill_list,'$bill_list',1);
-            $employee_ids = [];
             foreach ($bill_list as &$bill){
                 $handle_status = $bill["handle_status"];
                 if(
                     isset($bill["handle_".$handle_status]) &&
                     !empty($bill["handle_".$handle_status])
                 ){
-                    $employee_ids[] = $bill["handle_".$handle_status];
-                    $bill["assessor"] = $bill["handle_".$handle_status];
                     $bill["now_handle_create_item"] = "create_bill_num_".$handle_status;
                 }
             }
-            $employeeM = new EmployeeModel($this->corp_id);
-            $employee_name_index = $employeeM->getEmployeeNameByUserids($employee_ids);
-            foreach ($bill_list as &$bill){
-                if(
-                    isset($bill["assessor"])&&
-                    isset($employee_name_index[$bill["assessor"]])
-                ) {
-                    $bill["assessor_name"] = $employee_name_index[$bill["assessor"]];
-                }else{
-                    $bill["assessor_name"] = '';
-                }
-            }
             $this->assign('list_data',$bill_list);
-            $customers_count = $billM->getVerificationBillCount($filter);
+            $customers_count = $billM->getVerificationBillCount($uid,$filter);
             $this->assign("count",$customers_count);
             $listCount = $billM->getVerificationColumnNum($uid,$filter);
             $this->assign("listCount",$listCount);
@@ -141,9 +126,6 @@ class Bill extends Initialize{
                 $bill_data["bill_no"] = $bill_no;
                 $verificatioLogRemark .= "填写发票号!";
             }
-            if($bill_handle_status!=6){
-                $bill_data["handle_now"] = $bill_info["handle_".($bill_handle_status+1)];
-            }
             $map["status"] = 0;
 
             if(
@@ -151,6 +133,7 @@ class Bill extends Initialize{
                 !empty($bill_info["handle_".($bill_handle_status+1)])
             ){
                 //还有下一步审批,转为下一个人审批
+                $bill_data["handle_now"] = $bill_info["handle_".($bill_handle_status+1)];
                 $bill_data["handle_status"] = $bill_handle_status+1;
                 $update_flg = $billM->setBill($id,$bill_data,$map);
                 if(!$update_flg){
