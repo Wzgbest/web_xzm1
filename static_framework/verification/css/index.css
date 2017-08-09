@@ -1,0 +1,16 @@
+/*账单审核*/
+.verification_record header i{
+	line-height: 41px;
+    margin-left: 5px;
+}
+.index-record-page{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background-color: #fff;
+}
+/*账单审核记录*/
+.table-v-index-record{
+		width: 548px;
+	}

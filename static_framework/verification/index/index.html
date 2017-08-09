@@ -1,44 +1,41 @@
+<div class="verification_index verification_index_index">
+	<div class="index_panel index">
 		<!--header-->
 		<header>
 			<ul class="m-firNav">
-				<li id="myAllClients" class="current"><div>全款待审核（<span>68</span>）</div></li>
-				<li id="awaitComClients"><div>定金审核（<span>26</span>）</div></li>
-				<li id="notFllowClients"><div>定金已通过（<span>32</span>）</div></li>
-				<li id="followClients"><div>尾中审核（<span>6</span>）</div></li>
-				<li id="stagnantClients"><div>尾中已通过</div></li>
-				<li id="undeterminedClients"><div>尾款审核（<span>2</span>）</div></li>
-				<li id="noIntentionClients"><div>已结清订单（<span>8</span>）</div></li>
-				<li id="overClients"><div>已驳回订单（<span>9</span>）</div></li>
-				<li id="uselessClients"><div>已退款订单（<span>3</span>）</div></li>
-				<li id="uselessClients"><div>所有订单（<span>50</span>）</div></li>
+				<li in_column="0" class="in_column current"><div>待审核（<span>10</span>）</div></li>
+                <li in_column="1" class="in_column "><div>已通过（<span>0</span>）</div></li>
+                <li in_column="2" class="in_column "><div>已驳回（<span>0</span>）</div></li>
+                <li in_column="3" class="in_column "><div>已退款（<span>0</span>）</div></li>
+                <li in_column="4" class="in_column "><div>所有成单（<span>0</span>）</div></li>
 			</ul>
 		</header>
 		
-		<!--客户列表-->
+		<!--成单审核或者到账审核或者订单审核-->
 		<section>
 		<ul class="m-secNav">
-			<!--<li class="active" onclick="newClient()">新建客户</li>
-			<li class="active">导入客户</li>
-			<li class="active">录入记录</li>
-			<li class="vertical"></li>-->
 			<li>通过</li>
 			<li>驳回</li>
 			<li>导出报表</li>
+			<li class="active index-record">审核记录</li>
 			<div class="clearfix"></div>
 		</ul>
 		<div class="m-filterNav">
 			<select>
-				<option>部门</option>
+				<option>合同类型</option>
+			</select>
+			<select>
+				<option>对应部门</option>
 			</select>
 			<select>
 				<option>对应业务</option>
 			</select>
 			<select>
-				<option>收款银行</option>
+				<option>打款方式</option>
 			</select>
-			<!--<select>
-				<option>沟通状态</option>
-			</select>-->
+			<select>
+				<option>订单状态</option>
+			</select>
 			<input type="text" placeholder="输入合同号"/>
 			<input type="text" placeholder="输入负责人姓名"/>
 			<input type="text" placeholder="输入客户姓名"/>
@@ -48,48 +45,53 @@
 			<div class="m-table table-v-index">
 				<ul class="u-tabTitle">
 					<li class="u-tabCheckbox"><input type="checkbox"/></li>
-					<li>时间<i class="fa fa-caret-up u-tabCilentName"></i></li>
+					<li>申请时间<i class="fa fa-caret-up u-tabCilentName"></i></li>
 					<li>合同号</li>
+					<li>合同类型</li>
 					<li>负责人</li>
-					<li>部门<i class="fa fa-unsorted"></i></li>
+					<li>所属部门</li>
+					<li>销售机会</li>
+					<li>对应客户</li>
 					<li>对应业务</li>
 					<li>产品详情</li>
+					<li>打款方式</li>
+					<li>打款名称</li>
+					<li>打款时间<i class="fa fa-unsorted"></i></li>
 					<li>应收金额<i class="fa fa-unsorted"></i></li>
 					<li>已收金额<i class="fa fa-unsorted"></i></li>
-					<li>打款金额</li>
-					<li>收款银行（本公司）</li>
-					<li>打款名称</li>
-					<li>打款日期<i class="fa fa-unsorted"></i></li>
-					<!--<li>提醒时间<i class="fa fa-unsorted"></i></li>
-					<li>所在列</li>-->
-					<li>分类</li>
-					<li>备注<i class="fa fa-unsorted"></i></li>
+					<li>到账金额<i class="fa fa-unsorted"></i></li>
+					<li>订单状态</li>
+					<li>是否开发票</li>					
+					<li>备注</li>
+					<li>对应状态</li>
 					<li>操作</li>
 					<div class="clearfix"></div>
 				</ul>
 				<ul class="u-tabList">
 					<li class="u-tabCheckbox"><input type="checkbox"/></li>
-					<li >2017/02/28</li>
+					<li >2017/02/28/11:14</li>
 					<li>3245907</li>
+					<li>网站建设</li>
 					<li>赵晓飞</li>
 					<li>销售一部</li>
 					<li>网站建设</li>
+					<li class="color-blue">山东中迅网络传媒</li>
+					<li>网站建设</li>
 					<li>公司官网首页</li>
+					<li>现金</li>
+					<li>名称</li>
+					<li>2017/02/28</li>
 					<li>3,000.00元</li>
 					<li>3,000.00元</li>
-					<li class="u-tabLinkWay">3,000.00元<i class="fa fa-phone"></i></li>
-					<li>招商银行</li>
-					<li>潍坊中迅推广</li>
-					<li>2017/03/02</li>
-					<!--<li>1天23:59</li>
-					<li>待沟通客户</li>-->
-					<li>定金审核</li>
-					<li>客户要求时间急</li>
-					<li class="u-tabOperation"><span>驳回</span><span>通过</span><span>备注通过</span></li>
+					<li>3,000.00元</li>
+					<li>结清</li>
+					<li>是</li>
+					<li>备注</li>
+					<li>已通过</li>
+					<li class="u-tabOperation"><span>驳回</span><span>通过</span><span>作废</span></li>
 					<div class="clearfix"></div>
 				</ul>
-			</div>
-			
+			</div>			
 		</div>
 		<div class="u-tabControlRow">
 			<span>显示行数</span>
@@ -107,3 +109,15 @@
 			<span>页</span>
 		</div>
 		</section>
+		<section class="index-record-page">
+			
+		</section>
+		<script src="/static/js/list_manage.1.1.js"></script>
+        <script language="javascript">
+            var arr = [[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,20],[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20],[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]];
+            var my_customer_list_manage = new list_manage("verification_index_index","verification-indexfr","/verification/index/index",'1','10','1','0',"",arr);
+        </script>
+        <script src="/verification/js/index.js"></script>
+	</div>
+</div>
+<link rel="stylesheet" href="/verification/css/index.css"/>
