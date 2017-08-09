@@ -24,8 +24,8 @@
 				</ul>
 				<div class="m-filterNav">
 					<form class="search_form" onsubmit="return false;">
-						<select name="">
-							<option value="bill_type">发票类型</option>
+						<select name="bill_type">
+							<option value="">发票类型</option>
 							{volist name="bill_name" id="vo" key="key"}
 								<option value="{$key-1}">{$vo}</option>
 							{/volist}
