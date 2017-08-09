@@ -161,7 +161,7 @@ class Contract extends Initialize{
                 !empty($contractApplied["contract_apply_".($contract_apply_status+1)])
             ){
                 //还有下一步审批,转为下一个人审批
-                $applied_data["handle_now"] = $contractApplied["handle_".($contract_apply_status+1)];
+                $applied_data["contract_apply_now"] = $contractApplied["contract_apply_".($contract_apply_status+1)];
                 $applied_data["contract_apply_status"] = $contract_apply_status+1;
                 $contractAppliedFlg = $contractAppliedM->setContract($id,$applied_data,$map);
                 if(!$contractAppliedFlg){
