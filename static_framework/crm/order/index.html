@@ -1,0 +1,113 @@
+<div class="crm_order crm_order_index">
+	<div class="index_panel index">
+		<!--header-->
+		<header>
+			<ul class="m-firNav">
+				<li in_column="0" class="in_column current"><div>待审核（<span>10</span>）</div></li>
+                <li in_column="1" class="in_column "><div>已通过（<span>0</span>）</div></li>
+                <li in_column="2" class="in_column "><div>已驳回（<span>0</span>）</div></li>
+                <li in_column="3" class="in_column "><div>已退款（<span>0</span>）</div></li>
+                <li in_column="4" class="in_column "><div>已撤回（<span>0</span>）</div></li>
+                <li in_column="5" class="in_column "><div>所有成单（<span>0</span>）</div></li>
+			</ul>
+		</header>
+		
+		<!--我的订单-->
+		<section>
+		<div class="m-filterNav">
+			<select>
+				<option>合同类型</option>
+			</select>
+			<select>
+				<option>对应部门</option>
+			</select>
+			<select>
+				<option>对应业务</option>
+			</select>
+			<select>
+				<option>打款方式</option>
+			</select>
+			<select>
+				<option>订单状态</option>
+			</select>
+			<input type="text" placeholder="输入合同号"/>
+			<input type="text" placeholder="输入负责人姓名"/>
+			<input type="text" placeholder="输入客户姓名"/>
+			<button class="u-btnSearch">查询</button>
+		</div>
+		<div class="m-tableBox">
+			<div class="m-table table-order-index">
+				<ul class="u-tabTitle">
+					<li class="u-tabCheckbox"><input type="checkbox"/></li>
+					<li>申请时间<i class="fa fa-caret-up u-tabCilentName"></i></li>
+					<li>合同号</li>
+					<li>合同类型</li>
+					<li>审核人</li>
+					<li>销售机会</li>
+					<li>对应客户</li>
+					<li>对应业务</li>
+					<li>产品详情</li>
+					<li>打款方式</li>
+					<li>打款名称</li>
+					<li>打款时间<i class="fa fa-unsorted"></i></li>
+					<li>应收金额<i class="fa fa-unsorted"></i></li>
+					<li>已收金额<i class="fa fa-unsorted"></i></li>
+					<li>到账金额<i class="fa fa-unsorted"></i></li>
+					<li>订单状态</li>
+					<li>是否开发票</li>					
+					<li>对应状态</li>
+					<li>操作</li>
+					<div class="clearfix"></div>
+				</ul>
+				<ul class="u-tabList">
+					<li class="u-tabCheckbox"><input type="checkbox"/></li>
+					<li >2017/02/28/11:14</li>
+					<li>3245907</li>
+					<li>网站建设</li>
+					<li>赵晓飞</li>
+					<li>网站建设</li>
+					<li class="color-blue">山东中迅网络传媒</li>
+					<li>网站建设</li>
+					<li>公司官网首页</li>
+					<li>现金</li>
+					<li>名称</li>
+					<li>2017/02/28</li>
+					<li>3,000.00元</li>
+					<li>3,000.00元</li>
+					<li>3,000.00元</li>
+					<li>结清</li>
+					<li>是</li>
+					<li>已通过</li>
+					<li class="u-tabOperation"><span>撤回</span></li>
+					<div class="clearfix"></div>
+				</ul>
+			</div>			
+		</div>
+		<div class="u-tabControlRow">
+			<span>显示行数</span>
+			<select onchange="listNumChange()">
+				<option value="5">5</option>
+				<option value="10">10</option>
+				<option value="20">20</option>
+			</select>
+			<span>1-10条/</span>
+			<span>共50条</span>
+			<button>上一页</button>
+			<button>下一页</button>
+			<span>前往</span>
+			<input type="text" />
+			<span>页</span>
+		</div>
+		</section>
+		<section class="index-record-page">
+			
+		</section>
+		<script src="/static/js/list_manage.1.1.js"></script>
+        <script language="javascript">
+            var arr = [[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,18],[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]];
+            var my_customer_list_manage = new list_manage("crm_order_index","my-orderfr","/crm/order/index",'1','10','1','0',"",arr);
+        </script>
+        <script src="/verification/js/index.js"></script>
+	</div>
+</div>
+<link rel="stylesheet" href="/verification/css/index.css"/>
