@@ -175,6 +175,11 @@ class Bill extends Base{
             ->field($countField)
             ->find();
         //var_exp($listCount,'$listCount',1);
+        if($listCount["0"]==0){
+            foreach ($listCount as &$count){
+                $count = 0;
+            }
+        }
         return $listCount;
     }
 
