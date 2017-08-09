@@ -92,6 +92,9 @@ function get_userinfo(){
     $userinfo = session('userinfo');
     return $userinfo;
 }
+function logout(){
+    session(null);
+}
 /**
  * 通过手机号获取用户id
  * @param $tel
