@@ -381,6 +381,23 @@ class Bill extends Base{
             ->select();
     }
 
+    public function getAllPayTypeName(){
+        $field = [
+            "distinct pay_type",
+        ];
+        return $this->model->table($this->table)
+            ->where("pay_type","neq","现金")
+            ->column($field);
+    }
+
+    public function getAllProductTypeName(){
+        $field = [
+            "distinct product_type",
+        ];
+        return $this->model->table($this->dbprefix.'sale_order_bill_item')
+            ->column($field);
+    }
+
     public function checkBillBySaleIdNot($sale_id,$status){
         if(empty($status)){
             return [];

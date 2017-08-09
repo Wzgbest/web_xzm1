@@ -81,6 +81,12 @@ class Bill extends Initialize{
             $bills = $billSettingModel->getBillNameIndex();
             //var_exp($bills,'$bills',1);
             $this->assign('bill_name',$bills);
+            $payTypeName = $billM->getAllPayTypeName();
+            //var_exp($payTypeName,'$payTypeName',1);
+            $this->assign('pay_type_name',$payTypeName);
+            $productTypeName = $billM->getAllProductTypeName();
+            //var_exp($productTypeName,'$productTypeName',1);
+            $this->assign('product_type_name',$productTypeName);
         }catch (\Exception $ex){
             $this->error($ex->getMessage());
         }

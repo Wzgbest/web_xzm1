@@ -25,20 +25,26 @@
 				<div class="m-filterNav">
 					<form class="search_form" onsubmit="return false;">
 						<select name="">
-							<option value="">发票类型</option>
+							<option value="bill_type">发票类型</option>
 							{volist name="bill_name" id="vo" key="key"}
 								<option value="{$key-1}">{$vo}</option>
 							{/volist}
 						</select>
-						<select name="">
+						<select name="product_type">
 							<option value="">产品类型</option>
+							{volist name="product_type_name" id="vo"}
+							<option value="{$vo}">{$vo}</option>
+							{/volist}
 						</select>
-						<select name="">
+						<select name="pay_type">
 							<option value="">收款银行</option>
+							{volist name="pay_type_name" id="vo"}
+							<option value="{$vo}">{$vo}</option>
+							{/volist}
 						</select>
-						<input type="text" name="" placeholder="输入申请人" value=""/>
+						<input type="text" name="apply_employee" placeholder="输入申请人" value=""/>
 						<input type="text" name="customer_name" placeholder="输入对应客户" value=""/>
-						<input type="text" name="" placeholder="输入公司税号" value=""/>
+						<input type="text" name="tax_num" placeholder="输入公司税号" value=""/>
 						<button class="u-btnSearch">查询</button>
 					</form>
 				</div>
