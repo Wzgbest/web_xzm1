@@ -356,11 +356,48 @@ class SaleChance extends Initialize{
     public function add(){
         $result = ['status'=>0 ,'info'=>"新建销售机会时发生错误！"];
         $saleChance = $this->_getSaleChanceForInput(1);
+        $saleChanceM = new SaleChanceModel($this->corp_id);
+
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $now_time = time();
+        $table = 'sale_chance';
+
+        $customersTrace["add_type"] = 0;
+        $customersTrace["operator_type"] = 0;
+        $customersTrace["operator_id"] = $uid;
+        $customersTrace["create_time"] = $now_time;
+        $customersTrace["customer_id"] = $saleChance['customer_id'];
+        $customersTrace["db_table_name"] = $table;
+        $customersTrace["db_field_name"] = "id";
+        $customersTrace["old_value"] = 0;
+        $customersTrace["new_value"] = 0;
+        $customersTrace["value_type"] = "";
+        $customersTrace["option_name"] = "添加了";
+        $customersTrace["sub_name"] = "";
+        $customersTrace["item_name"] = "新商机";
+        $customersTrace["from_name"] = "";
+        $customersTrace["link_name"] = "";
+        $customersTrace["to_name"] = $saleChance["sale_name"];
+        $customersTrace["status_name"] = '';
+        $customersTrace["remark"] = '';
+
         try{
-            $saleChanceM = new SaleChanceModel($this->corp_id);
+            $saleChanceM->link->startTrans();
             $saleChanceId = $saleChanceM->addSaleChance($saleChance);
+
+            $customerM = new CustomerTraceModel($this->corp_id);
+            $customersTrace["new_value"] = $saleChanceId;
+            //var_exp($customersTrace,'$customersTrace',1);
+            $customerTraceflg = $customerM->addSingleCustomerMessage($customersTrace);
+            if(!$customerTraceflg){
+                exception('提交客户跟踪数据失败!');
+            }
+
+            $saleChanceM->link->commit();
             $result['data'] = $saleChanceId;
         }catch (\Exception $ex){
+            $saleChanceM->link->rollback();
             $result['info'] = $ex->getMessage();
             return json($result);
         }
