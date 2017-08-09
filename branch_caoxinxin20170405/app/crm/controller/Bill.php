@@ -29,7 +29,7 @@ class Bill extends Initialize{
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        $filter = $this->_getCustomerFilter(["in_column"]);
+        $filter = $this->_getCustomerFilter(["in_column","bill_type","product_type","pay_type","apply_employee","customer_name","tax_num"]);
         $field = $this->_getCustomerField([]);
         try{
             $billM = new BillModel($this->corp_id);
@@ -106,6 +106,54 @@ class Bill extends Initialize{
     }
     protected function _getCustomerFilter($filter_column){
         $filter = [];
+
+        //对应业务
+        if(in_array("bill_type", $filter_column)){
+            $in_column = input("bill_type",0,"int");
+            if($in_column){
+                $filter["bill_type"] = $in_column;
+            }
+        }
+
+        //产品类型
+        if(in_array("product_type", $filter_column)){
+            $in_column = input("product_type",'',"string");
+            if($in_column){
+                $filter["product_type"] = $in_column;
+            }
+        }
+
+        //收款银行
+        if(in_array("pay_type", $filter_column)){
+            $in_column = input("pay_type",'',"string");
+            if($in_column){
+                $filter["pay_type"] = $in_column;
+            }
+        }
+
+        //申请人
+        if(in_array("apply_employee", $filter_column)){
+            $in_column = input("apply_employee",'',"string");
+            if($in_column){
+                $filter["apply_employee"] = $in_column;
+            }
+        }
+
+        //客户名称
+        if(in_array("customer_name", $filter_column)){
+            $in_column = input("customer_name",'',"string");
+            if($in_column){
+                $filter["customer_name"] = $in_column;
+            }
+        }
+
+        //公司税号
+        if(in_array("tax_num", $filter_column)){
+            $in_column = input("tax_num",'',"string");
+            if($in_column){
+                $filter["tax_num"] = $in_column;
+            }
+        }
 
         //所在列
         if(in_array("in_column", $filter_column)){

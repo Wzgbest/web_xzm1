@@ -39,7 +39,7 @@ class Bill extends Base{
         }
 
         //筛选
-        $map = $this->_getMapByFilter($filter,[]);
+        $map = $this->_getMapByFilter($filter,["bill_type","product_type","pay_type","apply_employee","customer_name","tax_num"]);
         $map["sob.operator"] = $uid;
         $having = null;
         if(array_key_exists("in_column", $filter)){
@@ -69,6 +69,9 @@ class Bill extends Base{
         ];
 
         $billList = $this->model->table($this->table)->alias('sob')
+            ->join($this->dbprefix.'sale_order_bill_item sobis','sobis.bill_id = sob.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance sc','sc.id = sob.sale_id',"LEFT")
+            ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'employee e','sob.operator = e.id',"LEFT")
             ->join($this->dbprefix.'bill_setting bs','bs.id = sob.bill_type',"LEFT")
             ->join($this->dbprefix.'sale_order_bill_item sobi','sobi.bill_id = sob.id',"LEFT")
@@ -94,7 +97,7 @@ class Bill extends Base{
      */
     public function getBillCount($uid,$filter=null){
         //筛选
-        $map = $this->_getMapByFilter($filter,[]);
+        $map = $this->_getMapByFilter($filter,["bill_type","product_type","pay_type","apply_employee","customer_name","tax_num"]);
         $map["sob.operator"] = $uid;
         $having = null;
         if(array_key_exists("in_column", $filter)){
@@ -114,6 +117,10 @@ class Bill extends Base{
         ];
 
         $billCount= $this->model->table($this->table)->alias('sob')
+            ->join($this->dbprefix.'sale_order_bill_item sobis','sobis.bill_id = sob.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance sc','sc.id = sob.sale_id',"LEFT")
+            ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'employee e','sob.operator = e.id',"LEFT")
             ->where($map)
             ->field($field)
             ->group("sob.id")
@@ -132,7 +139,7 @@ class Bill extends Base{
     public function getColumnNum($uid,$filter=null){
 
         //筛选
-        $map = $this->_getMapByFilter($filter,[]);
+        $map = $this->_getMapByFilter($filter,["bill_type","product_type","pay_type","apply_employee","customer_name","tax_num"]);
         $map["sob.operator"] = $uid;
 
         $field = [
@@ -160,6 +167,10 @@ class Bill extends Base{
         ];
 
         $customerQuery = $this->model->table($this->table)->alias('sob')
+            ->join($this->dbprefix.'sale_order_bill_item sobis','sobis.bill_id = sob.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance sc','sc.id = sob.sale_id',"LEFT")
+            ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'employee e','sob.operator = e.id',"LEFT")
             ->where($map)
             ->group("sob.id")
             ->field($field)
@@ -364,6 +375,30 @@ class Bill extends Base{
 
     protected function _getMapByFilter($filter,$filter_column){
         $map = [];
+        //发票类型
+        if(in_array("bill_type",$filter_column) && array_key_exists("bill_type", $filter)){
+            $map["sob.bill_type"] = $filter["bill_type"];
+        }
+        //产品类型
+        if(in_array("product_type",$filter_column) && array_key_exists("product_type", $filter)){
+            $map["sobis.product_type"] = $filter["product_type"];
+        }
+        //收款银行
+        if(in_array("pay_type",$filter_column) && array_key_exists("pay_type", $filter)){
+            $map["sob.pay_type"] = $filter["pay_type"];
+        }
+        //申请人
+        if(in_array("apply_employee",$filter_column) && array_key_exists("apply_employee", $filter)){
+            $map["e.truename"] = ["like","%".$filter["apply_employee"]."%"];
+        }
+        //客户名称
+        if(in_array("customer_name",$filter_column) && array_key_exists("customer_name", $filter)){
+            $map["c.customer_name"] = ["like","%".$filter["customer_name"]."%"];
+        }
+        //公司税号
+        if(in_array("tax_num",$filter_column) && array_key_exists("tax_num", $filter)){
+            $map["sob.tax_num"] = ["like","%".$filter["tax_num"]."%"];
+        }
         return $map;
     }
 
