@@ -188,16 +188,16 @@ class Contract extends Initialize{
                 return json($result);
             }
             $contract_applied_item["contract_type"] = $apply["type"];
-            $contract_applied_item["contract_num"] = $apply["num"];
             if(empty($apply["num"])){
                 $result['info'] = "合同数量不能为空！";
                 return json($result);
             }
-            $contract_applied_item["contract_apply_1"] = $apply["apply_1"];
-            if(empty($apply["num"])){
+            $contract_applied_item["contract_num"] = $apply["num"];
+            if(empty($apply["apply_1"])){
                 $result['info'] = "合同一审人不能为空！";
                 return json($result);
             }
+            $contract_applied_item["contract_apply_1"] = $apply["apply_1"];
             $contract_applied_item["contract_apply_now"] = $apply["apply_1"];
             $contract_setting = $contract_index[$apply["type"]];
             if(empty($contract_setting)){

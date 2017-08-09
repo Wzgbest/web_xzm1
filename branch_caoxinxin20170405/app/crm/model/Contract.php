@@ -342,6 +342,8 @@ class Contract extends Base{
             'soc.status as order_status',
             "c.customer_name",
             "bfs.business_flow_name",
+            "e.truename as employee_name",
+            "s.struct_name",
             "(case when ca.status = 0 then 1 
             when ca.status = 1 and co.status = 4 then 2 
             when ca.status = 1 and sc.sale_status = 4 and soc.status = 0 then 4 
@@ -359,6 +361,9 @@ class Contract extends Base{
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'customer c','c.id = sc.customer_id',"LEFT")
             ->join($this->dbprefix.'business_flow_setting bfs','bfs.id = sc.business_id',"LEFT")
+            ->join($this->dbprefix.'employee e','ca.employee_id = e.id',"LEFT")
+            ->join($this->dbprefix.'structure_employee se','se.user_id = e.id')
+            ->join($this->dbprefix.'structure s','se.struct_id = s.id')
             ->where($map)
             ->where($mapStr)
             ->group("ca.id,co.group_field")
@@ -518,6 +523,7 @@ class Contract extends Base{
             'contract_apply_5',
             'contract_apply_6',
             'contract_apply_status',
+            'contract_apply_now',
             'update_time',
             'create_time',
             'status',
