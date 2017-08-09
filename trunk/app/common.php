@@ -268,6 +268,21 @@ function getYesNoName($val){
     return $yes_no_name;
 }
 
+function getPayTypeName($val){
+    $pay_type_name = null;
+    switch ($val){
+        case 0:
+            $pay_type_name = "银行转帐";
+            break;
+        case 1:
+            $pay_type_name = "现金";
+            break;
+        default:
+            $pay_type_name = "无";
+    }
+    return $pay_type_name;
+}
+
 function getSexName($sex){
     $sex_name = null;
     switch ($sex){
