@@ -24,21 +24,27 @@
 				</ul>
 				<div class="m-filterNav">
 					<form class="search_form" onsubmit="return false;">
-						<select name="">
+						<select name="bill_type">
 							<option value="">发票类型</option>
 							{volist name="bill_name" id="vo" key="key"}
-								<option value="{$key-1}">{$vo}</option>
+								<option value="{$key-1}" {present name='filter.bill_type'}{eq name='filter.bill_type' value='$key-1'} selected="selected"{/eq}{/present}>{$vo}</option>
 							{/volist}
 						</select>
-						<select name="">
+						<select name="product_type">
 							<option value="">产品类型</option>
+							{volist name="product_type_name" id="vo"}
+							<option value="{$vo}" {present name='filter.product_type'}{eq name='filter.product_type' value='$vo'} selected="selected"{/eq}{/present}>{$vo}</option>
+							{/volist}
 						</select>
-						<select name="">
+						<select name="pay_type">
 							<option value="">收款银行</option>
+							{volist name="pay_type_name" id="vo"}
+							<option value="{$vo}" {present name='filter.pay_type'}{eq name='filter.pay_type' value='$vo'} selected="selected"{/eq}{/present}>{$vo}</option>
+							{/volist}
 						</select>
-						<input type="text" name="" placeholder="输入申请人" value=""/>
-						<input type="text" name="customer_name" placeholder="输入对应客户" value=""/>
-						<input type="text" name="" placeholder="输入公司税号" value=""/>
+						<input type="text" name="apply_employee" placeholder="输入申请人" value="{present name='filter.apply_employee'}{$filter.apply_employee}{/present}"/>
+						<input type="text" name="customer_name" placeholder="输入对应客户" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
+						<input type="text" name="tax_num" placeholder="输入公司税号" value="{present name='filter.tax_num'}{$filter.tax_num}{/present}"/>
 						<button class="u-btnSearch">查询</button>
 					</form>
 				</div>

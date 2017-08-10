@@ -96,7 +96,7 @@
                 <span class="cont">打款方式</span>
                 <div class="u-inlineRadio">
                     <input type="radio" name="pay_type" {eq name='saleOrderContractData.pay_type' value='1'} checked="checked"{/eq} value="1"/>现金
-                    <input type="radio" name="pay_type" {neq name='saleOrderContractData.pay_type' value='1'} checked="checked"{/neq} value="0"/>银行转账
+                    <input type="radio" name="pay_type" {neq name='saleOrderContractData.pay_type' value='2'} checked="checked"{/neq} value="2"/>银行转账
                 </div>
                 <span class="cont">打款名称</span>
                 <input type="text" placeholder="请输入打款名称" name="pay_name" value="{$saleOrderContractData.pay_name}" />
