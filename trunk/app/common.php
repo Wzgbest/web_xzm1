@@ -271,11 +271,11 @@ function getYesNoName($val){
 function getPayTypeName($val){
     $pay_type_name = null;
     switch ($val){
-        case 0:
-            $pay_type_name = "银行转帐";
-            break;
         case 1:
             $pay_type_name = "现金";
+            break;
+        case 2:
+            $pay_type_name = "银行转帐";
             break;
         default:
             $pay_type_name = "无";
@@ -463,6 +463,75 @@ function getInColumnName($in_column){
     return $in_column_name;
 }
 
+function getApplyStatusList(){
+    $sale_status_list = [];
+    $sale_status_list[] = ["status"=>0,"name"=>"审核中"];
+    $sale_status_list[] = ["status"=>1,"name"=>"通过"];
+    $sale_status_list[] = ["status"=>2,"name"=>"驳回"];
+    $sale_status_list[] = ["status"=>3,"name"=>"撤回"];
+    return $sale_status_list;
+}
+
+function getApplyStatusColumn(){
+    $sale_status_list = [];
+    $sale_status_list[0] = "审核中";
+    $sale_status_list[1] = "通过";
+    $sale_status_list[2] = "驳回";
+    $sale_status_list[3] = "撤回";
+    return $sale_status_list;
+}
+
+function getApplyStatusName($sale_status){
+    $sale_status_name = null;
+    switch ($sale_status){
+        case 0:
+            $sale_status_name = "审核中";
+            break;
+        case 1:
+            $sale_status_name = "通过";
+            break;
+        case 2:
+            $sale_status_name = "驳回";
+            break;
+        case 3:
+            $sale_status_name = "撤回";
+            break;
+        default:
+            $sale_status_name = "无";
+    }
+    return $sale_status_name;
+}
+
+function getSaleStatusList(){
+    $sale_status_list = [];
+    $sale_status_list[] = ["status"=>0,"name"=>"无意向"];
+    $sale_status_list[] = ["status"=>1,"name"=>"有意向"];
+    $sale_status_list[] = ["status"=>2,"name"=>"预约拜访"];
+    $sale_status_list[] = ["status"=>3,"name"=>"已拜访"];
+    $sale_status_list[] = ["status"=>4,"name"=>"成单申请"];
+    $sale_status_list[] = ["status"=>5,"name"=>"赢单"];
+    $sale_status_list[] = ["status"=>6,"name"=>"输单"];
+    $sale_status_list[] = ["status"=>7,"name"=>"作废"];
+    $sale_status_list[] = ["status"=>8,"name"=>"发票申请"];
+    $sale_status_list[] = ["status"=>9,"name"=>"已退款"];
+    return $sale_status_list;
+}
+
+function getSaleStatusColumn(){
+    $sale_status_list = [];
+    $sale_status_list[0] = "无意向";
+    $sale_status_list[1] = "有意向";
+    $sale_status_list[2] = "预约拜访";
+    $sale_status_list[3] = "已拜访";
+    $sale_status_list[4] = "成单申请";
+    $sale_status_list[5] = "赢单";
+    $sale_status_list[6] = "输单";
+    $sale_status_list[7] = "作废";
+    $sale_status_list[8] = "发票申请";
+    $sale_status_list[9] = "已退款";
+    return $sale_status_list;
+}
+
 function getSaleStatusName($sale_status){
     $sale_status_name = null;
     switch ($sale_status){
@@ -492,6 +561,9 @@ function getSaleStatusName($sale_status){
             break;
         case 8:
             $sale_status_name = "发票申请";
+            break;
+        case 9:
+            $sale_status_name = "已退款";
             break;
         default:
             $sale_status_name = "无";

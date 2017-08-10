@@ -206,8 +206,10 @@ class SaleOrderContract extends Base{
         }
 
         //筛选
-        $map = $this->_getMapByFilter($filter,[]);
-        $map["soc.status"] = ["neq",3];
+        $map = $this->_getMapByFilter($filter,["contract_type","structure","business_id","pay_type","order_status","contract_no","apply_employee","customer_name"]);
+        if(!isset($map["soc.status"])){
+            $map["soc.status"] = ["neq",3];
+        }
         //$map["soc.handle_now"] = $uid;
         $mapStr = "find_in_set('".$uid."',soc.handle_now)";
         $having = null;
@@ -251,8 +253,10 @@ class SaleOrderContract extends Base{
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'contract co','co.id = soc.contract_id',"LEFT")
+            ->join($this->dbprefix.'contract_applied ca','ca.id = co.applied_id',"LEFT")
             ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
             ->join($this->dbprefix.'structure_employee se','se.user_id = e.id')
+            ->join($this->dbprefix.'structure_employee ses','se.user_id = e.id')
             ->join($this->dbprefix.'structure s','se.struct_id = s.id')
             ->where($map)
             ->where($mapStr)
@@ -275,7 +279,7 @@ class SaleOrderContract extends Base{
      */
     public function getVerificationSaleChanceCount($uid,$filter=null){
         //筛选
-        $map = $this->_getMapByFilter($filter,[]);
+        $map = $this->_getMapByFilter($filter,["contract_type","structure","business_id","pay_type","order_status","contract_no","apply_employee","customer_name"]);
         $map["soc.status"] = ["neq",3];
         //$map["soc.handle_now"] = $uid;
         $mapStr = "find_in_set('".$uid."',soc.handle_now)";
@@ -304,8 +308,11 @@ class SaleOrderContract extends Base{
         return $this->model->table($this->table)->alias('soc')
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'contract co','co.id = soc.contract_id',"LEFT")
+            ->join($this->dbprefix.'contract_applied ca','ca.id = co.applied_id',"LEFT")
             ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
             ->join($this->dbprefix.'structure_employee se','se.user_id = e.id')
+            ->join($this->dbprefix.'structure_employee ses','se.user_id = e.id')
             ->join($this->dbprefix.'structure s','se.struct_id = s.id')
             ->where($map)
             ->where($mapStr)
@@ -325,7 +332,7 @@ class SaleOrderContract extends Base{
     public function getVerificationColumnNum($uid,$filter=null){
 
         //筛选
-        $map = $this->_getMapByFilter($filter,[]);
+        $map = $this->_getMapByFilter($filter,["contract_type","structure","business_id","pay_type","order_status","contract_no","apply_employee","customer_name"]);
         $map["soc.status"] = ["neq",3];
         //$map["soc.handle_now"] = $uid;
         $mapStr = "find_in_set('".$uid."',soc.handle_now)";
@@ -364,8 +371,11 @@ class SaleOrderContract extends Base{
         $customerQuery = $this->model->table($this->table)->alias('soc')
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'contract co','co.id = soc.contract_id',"LEFT")
+            ->join($this->dbprefix.'contract_applied ca','ca.id = co.applied_id',"LEFT")
             ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
             ->join($this->dbprefix.'structure_employee se','se.user_id = e.id')
+            ->join($this->dbprefix.'structure_employee ses','se.user_id = e.id')
             ->join($this->dbprefix.'structure s','se.struct_id = s.id')
             ->where($map)
             ->where($mapStr)
@@ -393,6 +403,38 @@ class SaleOrderContract extends Base{
 
     protected function _getMapByFilter($filter,$filter_column){
         $map = [];
+        //合同类型
+        if(in_array("contract_type",$filter_column) && array_key_exists("contract_type", $filter)){
+            $map["ca.contract_type"] = $filter["contract_type"];
+        }
+        //对应部门
+        if(in_array("structure",$filter_column) && array_key_exists("structure", $filter)){
+            $map["ses.struct_id"] = $filter["structure"];
+        }
+        //对应业务
+        if(in_array("business_id",$filter_column) && array_key_exists("business_id", $filter)){
+            $map["sc.business_id"] = $filter["business_id"];
+        }
+        //打款方式
+        if(in_array("pay_type",$filter_column) && array_key_exists("pay_type", $filter)){
+            $map["soc.pay_type"] = $filter["pay_type"];
+        }
+        //订单状态
+        if(in_array("order_status",$filter_column) && array_key_exists("order_status", $filter)){
+            $map["soc.status"] = $filter["order_status"];
+        }
+        //合同号
+        if(in_array("contract_no",$filter_column) && array_key_exists("contract_no", $filter)){
+            $map["co.contract_no"] = ["like","%".$filter["contract_no"]."%"];
+        }
+        //负责人
+        if(in_array("apply_employee",$filter_column) && array_key_exists("apply_employee", $filter)){
+            $map["e.truename"] = ["like","%".$filter["apply_employee"]."%"];
+        }
+        //客户名称
+        if(in_array("customer_name",$filter_column) && array_key_exists("customer_name", $filter)){
+            $map["c.customer_name"] = ["like","%".$filter["customer_name"]."%"];
+        }
         return $map;
     }
 
