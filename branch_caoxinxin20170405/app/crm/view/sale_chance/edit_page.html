@@ -44,7 +44,7 @@
         <div class="sale-chance sale-chance-visit {neq name='now_item' value='2'} hide{/neq}">
             <div>
                 <span class="cont">拜访时间</span>
-                <input type="date" name="visit_time" value="{$saleChancesVisitData.visit_time|day_format}" />
+                <input type="datetime-local" name="visit_time" value="{$saleChancesVisitData.visit_time|day_format}" />
             </div>
             <div>
                 <span class="cont">拜访地点</span>

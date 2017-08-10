@@ -105,7 +105,7 @@
 	margin: 0 64px 12px 20px;
 	/*border: 1px solid #e5e5e5;*/
 }
-.m-form input[type="text"],.m-form select,.m-form input[type="email"],.m-form input[type="date"],.m-form input[type="url"]{
+.m-form input[type="text"],.m-form select,.m-form input[type="email"],.m-form input[type="date"],.m-form input[type="datetime-local"],.m-form input[type="url"]{
 	box-sizing: content-box;
 	width: 234px;
 	height: 35px;
