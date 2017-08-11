@@ -1,0 +1,85 @@
+<!--客户详情-->
+<section class="page-info">
+    <header>
+        <ul class="m-firNav">
+            <li class="current back"><div>我的所有客户（<span>160</span>）</div></li>
+            <i class="fa fa-angle-right fa-2x"></i>
+            <span class="u-spanInfo">详情</span>
+        </ul>
+    </header>
+    <ul class="m-pageInfoNav">
+        <div class="clearfix"></div>
+        <li class="customer_general_show">概要</li>
+        <li class="current">客户信息</li>
+        <li class="customer_contact_show">联系人（{$customer_contact_num}）</li>
+        <li class="customer_sale_chance_show">销售机会（{$sale_chance_num}）</li>
+        <li class="customer_trace_show">跟踪记录（{$customer_trace_num}）</li>
+        <div class="clearfix"></div>
+    </ul>
+    <section class="clientInformation clientInformation">
+        <div class="m-form m-divBlock">
+            <div>
+                <span class="cont">客户名称：</span>
+                <span class="cont-x">{$customer.customer_name}</span>
+                <span class="cont">沟通状态：</span>
+                <span class="cont-x number">
+                    {$customer.comm_status|getCommStatusName}
+                </span>
+            </div>
+            <div>
+                <span class="cont">客户编码：</span>
+                <span class="cont-x">{$customer.id}</span>
+                <span class="cont">客户级别：</span>
+                <span class="cont-x color-blue">{$customer.grade}<i class="fa fa-caret-right" style="margin-left: 5px;"></i></span>
+            </div>
+            <div>
+                <span class="cont">联系电话：</span>
+                <span class="cont-x telephone">{$customer.telephone}<i class="fa fa-phone"></i></span>
+                <span class="cont">获取途径：</span>
+                <span class="cont-x">{$customer.resource_from|getResourceFromName}</span>
+            </div>
+            <div>
+                <span class="cont">客户行业：</span>
+                <span class="cont-x">
+                    {notempty name="customer.field1"}{$business_array[$customer['field1']]}<span> </span>{/notempty}
+                    {notempty name="customer.field2"}{$business_array[$customer['field2']]}<span> </span>{/notempty}
+                    {notempty name="customer.field"}{$business_array[$customer['field']]}{/notempty}
+                </span>
+            </div>
+            <div>
+                <span class="cont">公司地址：</span>
+                <span class="cont-x">{$customer.prov} {$customer.city} {$customer.dist}</span>
+            </div>
+            <div>
+                <span class="cont">详细地址：</span>
+                <span class="cont-x">{$customer.address}</span>
+            </div>
+            <div>
+                <span class="cont">详细定位：</span>
+                <span class="cont-x">{$customer.location}</span>
+            </div>
+            <div>
+                <span class="cont">地图</span>
+                <span class="cont-x">{$customer.lat},{$customer.lng}</span>
+            </div>
+            <div>
+                <span class="cont">公司网址：</span>
+                <span class="cont-x">{$customer.website}</span>
+            </div>
+            <div>
+                <span class="cont">备注</span>
+                <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                <span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                <span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                <span class="u-addRemark"><i class="fa fa-plus"></i></span>
+                <div class="clearfix"></div>
+                <span class="cont"></span>
+                <span class="remark">{$customer.remark}</span>
+            </div>
+            <div class="edit customer_info_edit_show">
+                <i class="fa fa-file-text fa-2x"></i>
+                <span>编辑</span>
+            </div>
+        </div>
+    </section>
+</section>

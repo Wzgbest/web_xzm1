@@ -1,0 +1,78 @@
+.block_list {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    font-family: "微软雅黑";
+    width: 100%;
+    height: 770px;
+    background-color: #f5f7fa;
+}
+
+.block_list ul,
+li,
+ol {
+    list-style: none
+}
+
+.block_list .content {
+    /*width: 1090px;*/
+    width: 100%;
+    height: 812px;
+    background-color: #fff;
+    margin: auto 10px;
+    margin-top: 6px;
+    margin-bottom: 12px;
+    padding-top: 30px;
+    padding-left: 30px;
+}
+
+.block_list .content .content_item {
+    position: relative;
+    width: 210px;
+    height: 200px;
+    background-color: #ebf3ff;
+    float: left;
+    margin:0 10px 10px 0;
+    border-radius: 6px;
+}
+
+.block_list .content .content_item .content_title {
+    font-size: 18px;
+    text-align: center;
+    line-height: 60px;
+}
+
+.block_list .content .content_item .content_sub_title {
+    font-size: 56px;
+    text-align: center;
+    line-height: 140px;
+    color: #95c8ff;
+}
+
+.block_list .content .content_item .content_info {
+    font-size: 12px;
+    text-align: center;
+    line-height: 20px;
+}
+
+.block_list .content .content_item .content_link {
+    position: absolute;
+    font-size: 16px;
+    text-align: center;
+    display: block;
+    line-height: 60px;
+    color: #77b8ff;
+    top: 140px;
+    left: 74px;
+}
+
+.block_list .content .content_item .add {
+    position: absolute;
+    font-size: 16px;
+    text-align: center;
+    display: block;
+    line-height: 60px;
+    color: #77b8ff;
+    top: 140px;
+    left: 40px;
+}

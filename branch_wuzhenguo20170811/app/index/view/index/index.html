@@ -1,0 +1,67 @@
+{extend name="common@index/index"}
+{block name="rightchange"}
+<section id="subt">
+    <div id="subtitle">
+        <div id="index"  class="active"><span>首页</span></div>
+    </div>
+</section>
+<div id="frames">
+    <div id="indexfr" class="once">
+        页面加载中...
+    </div>
+</div>
+
+<!--电话盒子-->
+<div class="phone-box hide">
+    <i class="fa fa-close"></i>
+    <div class="m-divBlock m-divBlock2 m-divBlock4">
+        <h1 class="call-number">17186761671</h1>
+        <h4><i class="fa fa-phone color-green"></i>&nbsp;&nbsp;通话中...&nbsp;&nbsp;<span class="color-yellow">00:00:00</span></h4>
+        <div class="dial">
+            <div class="clearfix"></div>
+            <div class="row1">
+                <div class="u-block1 current">主通话</div>
+                <div class="u-block1">三方通话</div>
+                <div class="u-block1">请求协助</div>
+            </div>
+            <div class="row1">
+                <input id="phone-number" value="" class="row1 row2 "/>
+                <div class="delete" id="num-dele">
+                    <i class="fa fa-backward fa-2x"></i>
+                </div>
+            </div>
+            <div class="row1 row3">
+                <button class="u-block1 u-block2 num">1</button>
+                <button class="u-block1 u-block2 num">2</button>
+                <button class="u-block1 u-block2 num">3</button>
+            </div>
+            <div class="row1 row3">
+                <button class="u-block1 u-block2 num">4</button>
+                <button class="u-block1 u-block2 num">5</button>
+                <button class="u-block1 u-block2 num">6</button>
+            </div>
+            <div class="row1 row3">
+                <button class="u-block1 u-block2 num">7</button>
+                <button class="u-block1 u-block2 num">8</button>
+                <button class="u-block1 u-block2 num">9</button>
+            </div>
+            <div class="row1 row3">
+                <button class="u-block1 u-block2 num">*</button>
+                <button class="u-block1 u-block2 num">0</button>
+                <button class="u-block1 u-block2 num">#</button>
+            </div>
+            <h1 class="row1 row3 row4">
+                <div class="on"><i class="fa fa-phone"></i>&nbsp;&nbsp;拨打</div>
+                <div class="off hide"><i class="fa fa-phone"></i>&nbsp;&nbsp;挂断</div>
+            </h1>
+        </div>
+    </div>
+    <div class="m-divBlock m-divBlock2 m-divBlock4">
+        <div class="click-node">
+            <i class="fa fa-tags color-green"></i>&nbsp;&nbsp;打点<i class="fa fa-plus fr"></i>
+        </div>
+        <ul class="nodes"></ul>
+    </div>
+</div>
+{/block}
+{block name="cus-footer-res"}{/block}

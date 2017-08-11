@@ -1,0 +1,122 @@
+<div class="crm_customer crm_public_pool">
+    <div class="public_pool_panel public_pool">
+        <!--客户列表-->
+        <section id="myAllClientsPage" >
+            <ul class="m-secNav">
+                <li class="active showNewClient">新建</li>
+                <li class="active">导入</li>
+                <li class="active customer_import">导入记录</li>
+                <li class="active">批量申领</li>
+                <li class="vertical"></li>
+                <li class="delete">删除</li>
+                <li class="change_customers_visible_range">更改可见范围</li>
+                <div class="clearfix"></div>
+            </ul>
+            <div class="m-filterNav">
+                <form class="search_form" onsubmit="return false;">
+                    <select name="take_type">
+                        <option value="">获取途径</option>
+                        <option value="1" {present name='filter.take_type'}{eq name='filter.take_type' value='1'} selected="selected"{/eq}{/present}>转介绍</option>
+                        <option value="2" {present name='filter.take_type'}{eq name='filter.take_type' value='2'} selected="selected"{/eq}{/present}>搜索</option>
+                        <option value="3" {present name='filter.take_type'}{eq name='filter.take_type' value='3'} selected="selected"{/eq}{/present}>购买</option>
+                    </select>
+                    <select name="grade">
+                        <option value="">客户级别</option>
+                        <option value="A" {present name='filter.grade'}{eq name='filter.grade' value='A'} selected="selected"{/eq}{/present}>A</option>
+                        <option value="B" {present name='filter.grade'}{eq name='filter.grade' value='B'} selected="selected"{/eq}{/present}>B</option>
+                        <option value="C" {present name='filter.grade'}{eq name='filter.grade' value='C'} selected="selected"{/eq}{/present}>C</option>
+                        <option value="D" {present name='filter.grade'}{eq name='filter.grade' value='D'} selected="selected"{/eq}{/present}>D</option>
+                    </select>
+                    <input type="text" name="customer_name" placeholder="输入客户名称" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
+                    <button class="u-btnSearch">查询</button>
+                </form>
+            </div>
+            <div class="m-tableBox">
+                <div class="m-table table3">
+                    <ul class="u-tabTitle">
+                        <li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
+                        <li>客户名称<i class="fa fa-caret-down"></i></li>
+                        <li>获取途径</li>
+                        <li>客户级别<i class="fa fa-unsorted"></i></li>
+                        <li>添加人</li>
+                        <li>联系人<i class="fa fa-unsorted"></i></li>
+                        <li>联系方式</li>
+                        <li>操作</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                    {volist name="listdata" id="vo"}
+                    <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+                        <li class="u-tabCilentName customer_info_name_show">{$vo.customer_name}</li>
+                        <li>{$vo.resource_from|getResourceFromName}</li>
+                        <li>{$vo.grade}</li>
+                        <li>{$vo.add_man}</li>
+                        <li>{$vo.contact_name}</li>
+                        <li class="u-tabLinkWay">{$vo.phone_first}<i class="fa fa-phone"></i></li>
+                        <li class="u-tabOperation">
+                            <span class="take_public_customer">变更为我的客户</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                    {/volist}
+                </div>
+            </div>
+            <div class="u-tabControlRow">
+                <span>显示行数</span>
+                <select>
+                    <option value="5" {eq name="num" value="5"} selected="selected"{/eq}>5</option>
+                    <option value="10" {eq name="num" value="10"} selected="selected"{/eq}>10</option>
+                    <option value="20" {eq name="num" value="20"} selected="selected"{/eq}>20</option>
+                </select>
+                <span>{$start_num}-{$end_num}条/</span>
+                <span>共{$count}条</span>
+                <button class="my_customer_previous_page previous_page {eq name='p' value='1'} disabled{/eq}">上一页</button>
+                <button class="my_customer_next_page next_page {eq name='p' value='$max_page'} disabled{/eq}">下一页</button>
+                <span>前往</span>
+                <input class="my_customer_jump_page jump_page" type="text" />
+                <span>页</span>
+            </div>
+        </section>
+        <script src="/static/js/list_manage.js"></script>
+        <script language="javascript">
+            var public_pool_list_manage = new list_manage("public_pool","high-seafr","/crm/customer/public_customer_pool",'{$p}','{$num}','{$max_page}','0',"");
+        </script>
+        <script src="/crm/js/customer_info_manage.js"></script>
+        <script language="javascript">
+            var public_pool_info_manage = new customer_info_manage("public_pool","high-seafr",public_pool_list_manage,"0","公海池","{$count}");
+        </script>
+        <script src="/crm/js/customer_add.js"></script>
+        <script language="javascript">
+            var public_pool_info_add = new customer_add("public_pool","high-seafr",public_pool_list_manage);
+        </script>
+        <script src="/crm/js/customer_import.js"></script>
+        <script language="javascript">
+            var public_pool_customer_import = new customer_import("#frames #high-seafr .crm_public_pool .customer_import_record",2);
+        </script>
+        <script src="/crm/js/public_pool.js"></script>
+    </div>
+    <div class="public_pool_panel customer_info_panel customer_general hide">
+    </div>
+    <div class="public_pool_panel customer_info_panel customer_info hide">
+    </div>
+    <div class="public_pool_panel customer_info_panel customer_edit hide">
+    </div>
+    <div class="public_pool_panel customer_info_panel customer_contact hide">
+    </div>
+    <div class="public_pool_panel customer_info_panel customer_sale_chance hide">
+    </div>
+    <div class="public_pool_panel customer_info_panel customer_trace hide">
+    </div>
+    <div class="public_pool_panel customer_info_panel customer_import_record hide">
+        <header>
+            <ul class="m-firNav">
+                <li class="current"><div style="border: none;">公海池</div></li>
+                <i class="fa fa-angle-right fa-2x" style="line-height: 40px;margin-left: 5px;"></i><span class="u-spanInfo">导入记录</span>
+            </ul>
+        </header>
+        <div class="customer_import_record_list">
+
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="/crm/css/index.css"/>
