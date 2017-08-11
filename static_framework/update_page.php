@@ -23,7 +23,7 @@ $page_list[] = ["systemsetting","employee","show","id/4"];
 $page_list[] = ["systemsetting","employee","edit","id/4"];
 $page_list[] = ["systemsetting","employee_import","index",""];
 $page_list[] = ["systemsetting","role","index",""];
-$page_list[] = ["systemsetting","role","rule_manage","id/1"];
+$page_list[] = ["systemsetting","role","role_manage","id/1"];
 $page_list[] = ["systemsetting","role","employee_list","id/1"];
 $page_list[] = ["systemsetting","role","employee_show","id/1"];
 $page_list[] = ["systemsetting","role","not_role_employee_list","id/1"];
@@ -42,6 +42,7 @@ $page_list[] = ["systemsetting","contract","edit_page","id/1"];
 $page_list[] = ["systemsetting","customer","index",""];
 $page_list[] = ["systemsetting","customer","add_page",""];
 $page_list[] = ["systemsetting","customer","edit_page","id/7"];
+$page_list[] = ["workerman","index","index",""];
 
 login($server,$cookie_file);
 foreach($page_list as $page){
