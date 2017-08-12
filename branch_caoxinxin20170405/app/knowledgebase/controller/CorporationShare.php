@@ -162,6 +162,7 @@ class CorporationShare extends Initialize{
         $comment["reply_content"] = $reply_content;
         $comment["reviewer_id"] = $reviewer_id;
         $comment["reply_commont_id"] = $commont_id;
+        $comment["commont_time"] = time();
         $add_comment_flg= $corporationShareCommentModel->createCorporationShareComment($comment);
         $result['data'] = $add_comment_flg;
         $result['status'] = 1;
