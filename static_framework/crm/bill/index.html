@@ -47,38 +47,40 @@
            	 		<div class="m-table table-bill">
                     	<ul class="u-tabTitle">
                     		<li class="u-tabCheckbox"><input type="checkbox"/></li>
-                        	<li class="creat-time">申请时间<i class="fa fa-unsorted"></i></li>
-                        	<li class="update-time">状态变更时间<i class="fa fa-unsorted"></i></li>
-                        	<li class="bill-number">发票号</li>
-                        	<li class="bill-type">发票类型</li>
-                        	<li class="bill-money">开票金额</li>
-                        	<li class="client">对应客户</li>
-                        	<li class="tax-num">公司税号</li>
-                        	<li class="product-type">产品类型</li>
-                        	<li class="data-money">认款日期</li>
-                        	<li class="bill-assessor">审核人</li>
-                        	<li class="pay-type">打款类型</li>
-                        	<li class="pay-way">打款方式</li>
-                        	<li class="bill-status">发票状态</li>                        	
-                        	<li class="operate">操作</li>
+                        	<li>申请时间<i class="fa fa-unsorted"></i></li>
+                        	<li>状态变更时间<i class="fa fa-unsorted"></i></li>
+                        	<li>发票号</li>
+                        	<li>发票类型</li>
+                        	<li>开票金额</li>
+                        	<li>对应客户</li>
+                        	<li>公司税号</li>
+                        	<li>产品类型</li>
+                        	<li>认款日期</li>
+                        	<li>审核人</li>
+                        	<li>打款类型</li>
+                        	<li>打款方式</li>
+                        	<li>对应状态</li>                       	                        	
+                        	<li>操作</li>
+                        	<li>发票状态</li>
                         	<div class="clearfix"></div>
                     	</ul>
                     	<ul class="u-tabList">
                         	<li class="u-tabCheckbox"><input type="checkbox"/></li>
-                        	<li class="creat-time">申请时间<i class="fa fa-unsorted"></i></li>
-                        	<li class="update-time">状态变更时间<i class="fa fa-unsorted"></i></li>
-                        	<li class="bill-number">发票号</li>
-                        	<li class="bill-type">发票类型</li>
-                        	<li class="bill-money">开票金额</li>
-                        	<li class="client">对应客户</li>
-                        	<li class="tax-num">公司税号</li>
-                        	<li class="product-type">产品类型</li>
-                        	<li class="data-money">认款日期</li>
-                        	<li class="bill-assessor">审核人</li>
-                        	<li class="pay-type">打款类型</li>
-                        	<li class="pay-way">打款方式</li>
-                        	<li class="bill-status">发票状态</li>                        	
-                        	<li class="operate">操作</li>
+                        	<li>2017/12/12/12:12</li>
+                        	<li>2017/12/12/12:12</li>
+                        	<li>12138</li>
+                        	<li>这个类型</li>
+                        	<li>100</li>
+                        	<li class="color-blue">山东中迅网络传媒</li>
+                        	<li>12138</li>
+                        	<li>百度大搜</li>
+                        	<li>2017/12/12/12:12</li>
+                        	<li>员工甲</li>
+                        	<li>打款类型</li>
+                        	<li>招商银行</li>
+                        	<li>审核中</li>                       	                       	
+                        	<li class="u-tabOperation"><span>撤回</span></li>
+                        	<li>尾款</li> 
                         	<div class="clearfix"></div>
                     	</ul>
            	 		</div>
@@ -106,10 +108,9 @@
 	</div>
 </div>
 <link rel="stylesheet" href="/crm/css/contract.css" />
-<script src="/crm/js/contract_index.js"></script>
+<script src="/static/js/list_manage.1.1.js"></script>
 <script>
-	/*var i = '<i class="fa fa-unsorted"></i>';
-	var arr = [[0,3,5,12],[[1,"通过时间",i],2,3,4,5],[[1,"驳回时间",i],3,5,11],[[1,"撤回时间",i],3,5],[[1,"作废时间",i],2,3,5],[[1,"提交审核时间",i],2,3,5,7,8,12],[[1,"成单时间",i],2,3,5,6,7,8,9],[[1,"状态变更时间",i],2,3,5,6,7,8,9,10]];
-	var contract_index_list_manage = new list_manager("crm_contract_index","table-contract",arr);*/
+	var arr = [[0,1,4,5,6,7,8,9,10,11,12,14],[0,1,3,4,5,6,7,8,9,10,11,12,15],[0,2,4,5,6,7,8,9,10,11,12],[0,2,4,5,6,7,8,9,10,11,12],[0,2,4,5,6,7,8,9,10,11,12],[0,2,3,4,5,6,7,8,9,10,11,12,13]];
+	var bill_index_list_manage = new list_manage("crm_bill_index","my-billfr","/crm/contract/index",'1','10','1','0',"",arr);
 </script>
 

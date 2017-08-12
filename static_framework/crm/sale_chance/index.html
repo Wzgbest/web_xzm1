@@ -35,34 +35,9 @@
                 </form>
             </div>
             <div class="m-tableBox">
-            	<!--sale-chance-all为正常跟进、停滞、已输单、已作废、所有销售机会表格（表格结构相同） table5定义宽度-->
-<!--            	<div class="m-table table5 sale-chance-all">
+            	<div class="m-table table-sale-chance">
             		<ul class="u-tabTitle">
-                        <li>最后变更时间<i class="fa fa-caret-down"></i></li>
-                        <li>销售机会<i class="fa fa-unsorted"></i></li>
-                        <li>对应客户</li>
-                        <li>对应业务</li>
-                        <li>业务状态</li>
-                        <li>预计金额<i class="fa fa-unsorted"></i></li>
-                        <li>成单金额<i class="fa fa-unsorted"></i></li>
-                        <li>已交金额<i class="fa fa-unsorted"></i></li>
-                        <div class="clearfix"></div>
-                    </ul>
-                    <ul class="u-tabList">
-                        <li>2017/07/18/17:36</li>
-                        <li class="color-blue">网站建设</li>
-                        <li class="color-blue">山东中迅网络传媒</li>
-                        <li>百度推广</li>
-                        <li>成单申请</li>
-                        <li>5600元</li>
-                        <li>5400元</li>
-                        <li>5200元</li>
-                    <div class="clearfix"></div>
-            	</div>-->
-            	<!--sale-chance-complete为已成单销售机会表格 table6定义宽度-->
-            	<div class="m-table table6 table-sale-chance">
-            		<ul class="u-tabTitle">
-                        <li>最后变更时间<i class="fa fa-caret-down"></i></li>
+                        <li>状态变更时间<i class="fa fa-caret-down"></i></li>
                         <li>销售机会<i class="fa fa-unsorted"></i></li>
                         <li>对应客户</li>
                         <li>对应业务</li>
@@ -119,9 +94,9 @@
     </div>
 </div>    
 <link rel="stylesheet" href="/crm/css/index.css"/>
-<script src="/crm/js/contract_index.js"></script>
+<script src="/static/js/list_manage.1.1.js"></script>
 <script>
-	var i = '<i class="fa fa-unsorted"></i>';
+//	var i = '<i class="fa fa-unsorted"></i>';
 	var arr = [[0,1,2,3,4,5,6,7],[0,1,2,3,4,5,6,7],[0,1,2,3,4,5,6,7,8],[0,1,2,3,4,5,6,7],[0,1,2,3,4,5,6,7],[0,1,2,3,4,5,6,7]];
-	var sale_chance_index_list_manage = new list_manager("crm_sale_chance_index","table-sale-chance",arr);
+	var sale_chance_index_list_manage = new list_manage("crm_sale_chance_index","sale-chancefr","/crm/sale_chance/index",'1','10','1','0',"",arr);
 </script>

@@ -43,20 +43,13 @@
 .table2{
 	width: 1685px;
 }
-.table3{
+/*公海池表格宽度*/
+.table-public-pool{
 	width: 1000px;
 }
 /*导入记录的表单*/
 .table4{
 	width: 959px;
-}
-/*销售机会表单-all*/
-.table5{
-	width: 1096px;
-}
-/*销售机会表单-已成单*/
-.table6{
-	width: 1233px;
 }
 /*公海池-导入记录*/
 .table7{
@@ -75,7 +68,7 @@
 	width: 2096px;
 }
 .table-v-bill{
-	width: 1685px;
+	/*width: 1685px;*/
 }
 .table-v-contract{
 	width: 1830px;

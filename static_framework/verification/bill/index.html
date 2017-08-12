@@ -1,29 +1,23 @@
-		
-<header>
+<div class="verification_bill verification_bill_index">
+	<div class="index_panel index">				
+		<header>
 			<ul class="m-firNav">
-				<li id="myAllClients" class="current"><div>待审核（<span>68</span>）</div></li>
-				<li id="awaitComClients"><div>待领取（<span>26</span>）</div></li>
-				<li id="notFllowClients"><div>已领取（<span>32</span>）</div></li>
-				<!--<li id="followClients"><div>尾中审核（<span>6</span>）</div></li>
-				<li id="stagnantClients"><div>尾中已通过</div></li>
-				<li id="undeterminedClients"><div>尾款审核（<span>2</span>）</div></li>
-				<li id="noIntentionClients"><div>已结清订单（<span>8</span>）</div></li>-->
-				<li id="overClients"><div>已驳回（<span>9</span>）</div></li>
-				<li id="uselessClients"><div>已退款（<span>3</span>）</div></li>
-				<li id="uselessClients"><div>所有发票（<span>50</span>）</div></li>
+				<li in_column="0" class="in_column current"><div>待审核（<span>68</span>）</div></li>
+				<li in_column="1" class="in_column "><div>待领取（<span>26</span>）</div></li>
+				<li in_column="2" class="in_column "><div>已领取（<span>32</span>）</div></li>
+				<li in_column="3" class="in_column "><div>已驳回（<span>9</span>）</div></li>
+				<li in_column="4" class="in_column "><div>已退款（<span>3</span>）</div></li>
+				<li in_column="5" class="in_column "><div>所有发票（<span>50</span>）</div></li>
 			</ul>
 		</header>
 		
-		<!--客户列表-->
-		<section id="myAllClientsPage" >
+		<!--发票审核-->
+		<section>
 		<ul class="m-secNav">
-			<!--<li class="active" onclick="newClient()">新建客户</li>
-			<li class="active">导入客户</li>
-			<li class="active">录入记录</li>
-			<li class="vertical"></li>-->
 			<li>通过</li>
 			<li>驳回</li>
 			<li>导出报表</li>
+			<li class="active index-record">审核记录</li>
 			<div class="clearfix"></div>
 		</ul>
 		<div class="m-filterNav">
@@ -31,14 +25,11 @@
 				<option>发票类型</option>
 			</select>
 			<select>
-				<option>产品类型</option>
+				<option>对应业务</option>
 			</select>
 			<select>
 				<option>收款银行</option>
 			</select>
-			<!--<select>
-				<option>沟通状态</option>
-			</select>-->
 			<input type="text" placeholder="输入申请人"/>
 			<input type="text" placeholder="输入对应客户"/>
 			<input type="text" placeholder="输入公司税号"/>
@@ -47,50 +38,46 @@
 		<div class="m-tableBox">
 			<div class="m-table table-v-bill">
 				<ul class="u-tabTitle">
-					<li class="u-tabCheckbox"><input type="checkbox"/></li>
-					<li>申请时间<i class="fa fa-caret-up u-tabCilentName"></i></li>
-					<li>发票号<i class="fa fa-unsorted"></i></li>
-					<li>发票类型</li>
-					<li>开票金额<i class="fa fa-unsorted"></i></li>
-					<li>对应客户</li>
-					<li>公司税号</li>
-					<li>产品类型</li>
-					<li>认款日期<i class="fa fa-unsorted"></i></li>
-					<li>申请人</li>
-					<li>打款类型<i class="fa fa-unsorted"></i></li>
-					<li>打款银行</li>
-					<!--<li>打款日期<i class="fa fa-unsorted"></i></li>-->
-					<!--<li>提醒时间<i class="fa fa-unsorted"></i></li>
-					<li>所在列</li>-->
-					<!--<li>分类</li>
-					<li>备注<i class="fa fa-unsorted"></i></li>-->
-					<li>操作</li>
-					<div class="clearfix"></div>
-				</ul>
-				<ul class="u-tabList">
-					<li class="u-tabCheckbox"><input type="checkbox"/></li>
-					<li >2017/02/28</li>
-					<li>3245907</li>
-					<li>普通发票</li>
-					<li>3,000.00元</li>
-					<li class="u-tabCilentName">山东潍坊中迅网络科技有限公司</li>
-					<li>1120987</li>
-					<li>网站建设</li>
-					<li>2017/03/05</li>
-					<li class="u-tabLinkWay">赵晓飞<i class="fa fa-phone"></i></li>
-					<li>全款</li>
-					<li>招商银行</li>
-					<!--<li>潍坊中迅推广</li>-->
-					
-					<!--<li>1天23:59</li>
-					<li>待沟通客户</li>-->
-					<!--<li>定金审核</li>
-					<li>客户要求时间急</li>-->
-					<li class="u-tabOperation"><span>驳回</span><span>通过</span><span>备注通过</span></li>
-					<div class="clearfix"></div>
-				</ul>
-			</div>
-			
+	        		<li class="u-tabCheckbox"><input type="checkbox"/></li>
+	            	<li>申请时间<i class="fa fa-unsorted"></i></li>
+	            	<li>状态变更时间<i class="fa fa-unsorted"></i></li>
+	            	<li>发票号</li>
+	            	<li>发票类型</li>
+	            	<li>开票金额</li>
+	            	<li>对应客户</li>
+	            	<li>公司税号</li>
+	            	<li>产品类型</li>
+	            	<li>认款日期</li>
+	            	<li>申请人</li>
+	            	<li>部门</li>
+	            	<li>订单状态</li>
+	            	<li>打款方式</li>
+	            	<li>所在列</li>                        	
+	            	<li>操作</li>
+	            	<li>备注</li>
+	            	<div class="clearfix"></div>
+	        	</ul>
+	        	<ul class="u-tabList">
+	            	<li class="u-tabCheckbox"><input type="checkbox"/></li>
+	            	<li>2017/08/11/15:19<i class="fa fa-unsorted"></i></li>
+	            	<li>2017/08/11/15:19</li>
+	            	<li>12138</li>
+	            	<li>普通发票</li>
+	            	<li>30000</li>
+	            	<li class="color-blue">山东中迅网络传媒</li>
+	            	<li>12138</li>
+	            	<li>百度大搜</li>
+	            	<li>2017/08/11/15:19</li>
+	            	<li>李白</li>
+	            	<li>研发部</li>
+	            	<li>结清</li>
+	            	<li>招商银行</li>
+	            	<li>待审核</li>                        	
+	            	<li class="u-tabOperation"><span>通过</span><span>驳回</span></li>
+	            	<li>驳回不需要理由</li>
+	            	<div class="clearfix"></div>
+	        	</ul>
+	 		</div>			
 		</div>
 		<div class="u-tabControlRow">
 			<span>显示行数</span>
@@ -108,3 +95,16 @@
 			<span>页</span>
 		</div>
 		</section>
+		<section class="bill-record-page">
+			
+		</section>
+		<script src="/static/js/list_manage.1.1.js"></script>
+		<script src="/verification/js/index.js"></script>
+        <script language="javascript">
+            var arr = [[0,1,4,5,6,7,8,9,10,11,12,13,15],[0,1,3,4,5,6,7,8,9,10,11,12,13,15],[0,1,3,4,5,6,7,8,9,10,11,12,13,15],[0,1,3,4,5,6,7,8,9,10,11,12,13,16],[0,1,3,4,5,6,7,8,9,10,11,12,13],[0,2,3,4,5,6,7,8,9,10,11,12,13,14]];
+            var bill_verification_list_manage = new list_manage("verification_bill_index","verification-billfr","/verification/bill/index",'1','10','1','0',"",arr);
+        	recordShow(".verification_bill_index ","/verification/bill/record.html",".bill-record-page")
+        </script>        
+	</div>
+</div>
+<link rel="stylesheet" href="/verification/css/index.css"/>

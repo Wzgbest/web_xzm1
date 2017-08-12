@@ -113,11 +113,13 @@
 			
 		</section>
 		<script src="/static/js/list_manage.1.1.js"></script>
+		<script src="/verification/js/index.js"></script>
         <script language="javascript">
             var arr = [[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,20],[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20],[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]];
-            var my_customer_list_manage = new list_manage("verification_index_index","verification-indexfr","/verification/index/index",'1','10','1','0',"",arr);
+            var order_verification_list_manage = new list_manage("verification_index_index","verification-indexfr","/verification/index/index",'1','10','1','0',"",arr);
+        	recordShow(".verification_index_index ","/verification/index/record.html",".index-record-page")
         </script>
-        <script src="/verification/js/index.js"></script>
+        
 	</div>
 </div>
 <link rel="stylesheet" href="/verification/css/index.css"/>

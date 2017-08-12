@@ -3,7 +3,7 @@
 	line-height: 41px;
     margin-left: 5px;
 }
-.index-record-page{
+.index-record-page,.bill-record-page{
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -11,6 +11,6 @@
 	background-color: #fff;
 }
 /*账单审核记录*/
-.table-v-index-record{
+.table-v-record{
 		width: 548px;
 	}
