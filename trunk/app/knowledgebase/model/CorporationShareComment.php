@@ -57,7 +57,7 @@ class CorporationShareComment extends Base{
      * @return array
      * @throws \think\Exception
      */
-    public function getAllCorporationShareComment($share_ids,$map=null,$order="id desc"){
+    public function getAllCorporationShareComment($share_ids,$map=null,$order="id asc"){
         if(empty($share_ids)){
             return [];
         }
