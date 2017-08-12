@@ -30,6 +30,9 @@ class CorporationShareComment extends Base{
      * @throws \think\Exception
      */
     public function getCorporationShareComment($share_ids,$num=10,$page=0,$map=null,$order="id desc"){
+        if(empty($share_ids)){
+            return [];
+        }
         $offset = 0;
         if($page){
             $offset = ($page-1)*$num;
@@ -55,6 +58,9 @@ class CorporationShareComment extends Base{
      * @throws \think\Exception
      */
     public function getAllCorporationShareComment($share_ids,$map=null,$order="id desc"){
+        if(empty($share_ids)){
+            return [];
+        }
         $map["share_id"] = ["in",$share_ids];
         $corporationShareCommentList = $this->model->table($this->table)->alias('csc')
             ->join($this->dbprefix.'employee re','re.id = csc.replyer_id',"LEFT")
