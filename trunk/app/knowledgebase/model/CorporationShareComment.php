@@ -47,6 +47,26 @@ class CorporationShareComment extends Base{
     }
 
     /**
+     * 获取动态的评论
+     * @param $share_ids array 评论筛选条件
+     * @param $map array 评论筛选条件
+     * @param $order string 排序
+     * @return array
+     * @throws \think\Exception
+     */
+    public function getAllCorporationShareComment($share_ids,$map=null,$order="id desc"){
+        $map["share_id"] = ["in",$share_ids];
+        $corporationShareCommentList = $this->model->table($this->table)->alias('csc')
+            ->join($this->dbprefix.'employee re','re.id = csc.replyer_id',"LEFT")
+            ->join($this->dbprefix.'employee rve','rve.id = csc.reviewer_id',"LEFT")
+            ->where($map)
+            ->order($order)
+            ->field("csc.*,re.telephone as replyer_telephone,re.truename as replyer_name,re.userpic as replyer_pic,rve.telephone as reviewer_telephone,rve.truename as reviewer_name,rve.userpic as reviewer_pic")//TODO
+            ->select();
+        return $corporationShareCommentList;
+    }
+
+    /**
      * 根据评论id评论
      * @param $commont_id int 评论id
      * @return array
