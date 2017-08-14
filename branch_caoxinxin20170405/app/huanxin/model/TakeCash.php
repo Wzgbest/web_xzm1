@@ -53,8 +53,11 @@ class TakeCash extends Base
      * @param $user
      * @return int|string
      */
-    public function getOrderList($user,$num=10,$last_id=0){
+    public function getOrderList($user,$type=1,$num=10,$last_id=0){
         $map["userid"] = $user;
+        if($type){
+            $map["money_type"] = $type;
+        }
         if($last_id){
             $map["id"] = ["lt",$last_id];
         }
