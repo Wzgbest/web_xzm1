@@ -57,7 +57,7 @@ class CorporationShareComment extends Base{
      * @return array
      * @throws \think\Exception
      */
-    public function getAllCorporationShareComment($share_ids,$map=null,$order="id desc"){
+    public function getAllCorporationShareComment($share_ids,$map=null,$order="id asc"){
         if(empty($share_ids)){
             return [];
         }
@@ -67,7 +67,7 @@ class CorporationShareComment extends Base{
             ->join($this->dbprefix.'employee rve','rve.id = csc.reviewer_id',"LEFT")
             ->where($map)
             ->order($order)
-            ->field("csc.*,re.telephone as replyer_telephone,re.truename as replyer_name,re.userpic as replyer_pic,rve.telephone as reviewer_telephone,rve.truename as reviewer_name,rve.userpic as reviewer_pic")//TODO
+            ->field("csc.*,re.telephone as replyer_telephone,re.truename as replyer_name,rve.telephone as reviewer_telephone,rve.truename as reviewer_name")//TODO
             ->select();
         return $corporationShareCommentList;
     }
