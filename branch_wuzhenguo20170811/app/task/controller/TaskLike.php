@@ -28,20 +28,30 @@ class TaskLike extends Initialize{
 		$userinfo = get_userinfo();
 		$uid = $userinfo['userid'];
 		$taskLikeModel = new TaskLikeModel($this->corp_id);
-		// $task_likeinfo = $taskLikeModel->getTaskLike($uid,$task_id);
+		$task_likeinfo = $taskLikeModel->getTaskLike($uid,$task_id);
 		if ($not_like == 0) {	
-			$like_info = $taskLikeModel->do_like($uid,$task_id);
-			if ($like_info) {
+			if ($task_likeinfo) {
 				$result['status'] = 1;
-				$result['info'] = "喜欢动态成功!";
+				$result['info'] = "已经喜欢动态了!";
+			}else{
+				$like_info = $taskLikeModel->do_like($uid,$task_id);
+				if ($like_info) {
+					$result['status'] = 1;
+					$result['info'] = "喜欢动态成功!";
+				}
 			}
 		}
 		if ($not_like == 1) {
-			$not_like_info = $taskLikeModel->do_notliek($uid,$task_id);
-			if ($not_like_info) {
+			if (empty($task_likeinfo)) {
 				$result['status'] = 1;
-				$result['info'] = "不喜欢动态成功!";
-			}
+				$result['info'] = "已经不喜欢动态了!";
+			}else{
+				$not_like_info = $taskLikeModel->do_notliek($uid,$task_id);
+				if ($not_like_info) {
+					$result['status'] = 1;
+					$result['info'] = "不喜欢动态成功!";
+				}
+			}	
 		}
 		//取得当前喜欢数量返回
 		$taskModel = new EmployeeTaskModel($this->corp_id);

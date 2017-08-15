@@ -24,10 +24,11 @@ class EmployeeTask extends Initialize{
 
 		$num = input('num',10,'int');
 		$last_id = input('last_id',0,'int');
+		$task_type = input('task_type',0,'int');
 		$user_info = get_userinfo();
 		$uid = $user_info['userid'];
 		$employeeTaskModel = new EmployeeTaskModel($this->corp_id);
-		$task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$last_id);
+		$task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$last_id,$task_type);
 		
 		/*
 			不需要直接获取用户的评论，可以点击后在获取用户评论
@@ -67,5 +68,28 @@ class EmployeeTask extends Initialize{
 		return json($result);
 	}
 
-	
+	/**
+	 * 我的直接参与任务列表
+	 * @return arr 任务列表
+	 */
+	public function myTaskList(){
+		$result = ['status'=>0,'info'=>"获取列表失败!"];
+
+		$num = input('num',10,'int');
+		$last_id = input('last_id',0,'int');
+		$task_type = input('task_type',0,'int');
+		$is_direct = input('is_direct',0,'int');
+		$is_indirect = input('is_indirect',0,'int');
+		$is_own = input('is_own',0,'int');
+		$user_info = get_userinfo();
+		$uid = $user_info['userid'];
+		$employeeTaskModel = new EmployeeTaskModel($this->corp_id);
+		$my_task_list = $employeeTaskModel->getMyTaskList($uid,$num,$last_id,$task_type,$is_direct,$is_indirect,$is_own);
+
+		$result['status'] = 1;
+		$result['info'] = "获取列表成功!";
+		$result['data'] = $my_task_list;
+		return json($result);
+	}
+
 }

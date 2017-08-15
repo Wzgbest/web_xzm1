@@ -26,7 +26,7 @@ class TaskLike extends Base{
      * @return arr          点赞信息
      */
     public function getTaskLike($user_id,$task_id){
-    	$task_likeinfo = $this->model->table($this->talbe)
+    	$task_likeinfo = $this->model->table($this->table)
     		->where(['task_id'=>$task_id,'user_id'=>$user_id])
     		->find();
 
