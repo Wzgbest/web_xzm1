@@ -57,7 +57,7 @@ class EmployeeTask extends Base{
                             ->order($order)
                             ->limit($num)
                             ->group("et.id")
-                            ->field("et.*,e.telephone,e.truename,e.userpic,etr.reward_amount,ett.target_num,case when etl.user_id>0 then 1 else 0 end as is_like")
+                            ->field("et.*,e.telephone,e.truename,e.userpic,etr.reward_amount,etr.reward_num,etr.reward_type,ett.target_type,ett.target_customer,ett.target_appraiser,ett.target_num,case when etl.user_id>0 then 1 else 0 end as is_like")
                             ->select();
 
         return $employeeTaskList;
