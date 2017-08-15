@@ -1,30 +1,75 @@
 var phoneWidth = 0;
+var sideW,sideSwitch;
 //初始化
 function init(){
 	//根据窗口变化获得屏幕可用尺寸
+	sideW = window.innerWidth>1280?220:50;
+	sideSwitch = window.innerWidth>1280?false:true;
 	$("#side").height(window.innerHeight);
-	$("header").width(window.innerWidth - 220);
-	$("section#subt").width(window.innerWidth - 220);
-	$("#subtitle").width(window.innerWidth - 220);
-	$("#frames").width(window.innerWidth - 220);
+	$("header").width(window.innerWidth - sideW);
+	$("section#subt").width(window.innerWidth - sideW);
+	$("#subtitle").width(window.innerWidth - sideW);
+	$("#frames").width(window.innerWidth - sideW);
 	$("#frames").height(window.innerHeight - 80);
-	$("#frames .once").width(window.innerWidth - 220);
+	$("#frames .once").width(window.innerWidth - sideW);
 	$("#frames .once").height(window.innerHeight - 80);
 	$(".phone-box").height(window.innerHeight - 80);
 	//隐藏副标题
-	$("aside dl dd").addClass("hide");
-	//默认事件
-	$("aside dl").eq(0).addClass("dlcurrent").children().children("i").eq(1).removeClass("fa-angle-right").addClass("fa-angle-down");
-	$("aside dl").eq(0).children("dd").removeClass("hide");
-	$("aside dl").eq(0).children("dt").addClass("dtcurrent").siblings("dd").eq(0).addClass("ddcurrent");
+	$("aside dl .ddcontent").addClass("hide");
+
+	if(sideSwitch){
+		miniWindow();
+	}else{
+		$("aside dl").eq(0).addClass("dlcurrent").children().children("i").eq(1).removeClass("fa-angle-right").addClass("fa-angle-down");
+		$("aside dl").eq(0).children(".ddcontent").removeClass("hide");
+		$("aside dl").eq(0).children("dt").addClass("dtcurrent").siblings(".ddcontent").children("dd").eq(0).addClass("ddcurrent");
+	}
 }
 init();
 
 //根据屏幕尺寸，设置侧边栏的可用高度
 window.onresize = function() {
+    if(window.innerWidth>1280){
+    	sideW = 220;
+    }else{
+    	sideSwitch = true;
+    	sideW = 50;
+    	miniWindow();
+    }
     changeFramesSize();
 };
-
+$("#x-layout").click(function(){
+	if (window.innerWidth>1280) {
+		sideSwitch = !sideSwitch;
+		if(sideSwitch){
+			miniWindow();
+			sideW = 50;
+			changeFramesSize(); 
+		}else{
+			maxWindow();
+			sideW = 220;
+			changeFramesSize(); 
+		}		
+	}
+});
+function miniWindow(){
+	
+	$("#side").addClass("mini");
+	$(".header").addClass("mini");
+	$("section#subt").addClass("mini");
+	$("#frames").addClass("mini");
+	$("aside dl .ddcontent").addClass("hide");
+	$("aside dl").removeClass("dlcurrent");
+	asideChange();
+}
+function maxWindow(){
+	$("#side").removeClass("mini");
+	$(".header").removeClass("mini");
+	$("section#subt").removeClass("mini");
+	$("#frames").removeClass("mini");
+	$("aside dl dt i.fa-angle-down").addClass("fa-angle-right").removeClass("fa-angle-down");		
+	asideChange();
+}
 function subResize() {
     var wid = $("#subtitle").width();
     var len = subtitleGroup.length;
@@ -38,15 +83,20 @@ function subResize() {
 }
 
 function changeFramesSize() {
+	if(sideSwitch){
+			sideW = 50;
+	}else{
+			sideW = 220;
+		}
     $("#side").height(window.innerHeight);
-    $(".header").width(window.innerWidth - 220);
-    $("section#subt").width(window.innerWidth - 220);
-    $("#subtitle").width(window.innerWidth - 220);
+    $(".header").width(window.innerWidth - sideW);
+    $("section#subt").width(window.innerWidth - sideW);
+    $("#subtitle").width(window.innerWidth - sideW);
     $("body").width(window.innerWidth);
     $("body").height(window.innerHeight);
-    $("#frames").width(window.innerWidth - 220 -phoneWidth);
+    $("#frames").width(window.innerWidth - sideW -phoneWidth);
     $("#frames").height(window.innerHeight - 80);
-    $("#frames .once").width(window.innerWidth - 220-phoneWidth);
+    $("#frames .once").width(window.innerWidth - sideW-phoneWidth);
     $("#frames .once").height(window.innerHeight - 80);
     $(".phone-box").height(window.innerHeight - 80);
     subResize();
@@ -54,11 +104,14 @@ function changeFramesSize() {
 
 //主标题单机事件
 $("aside dl dt").click(function() {
-    //主标题右侧的小图标切换
-    $(this).children("i").eq(1).toggleClass("fa-angle-right").toggleClass("fa-angle-down");
-    //副标题的显示与隐藏切换
-    $(this).siblings("dd").toggleClass("hide");
-    $(this).parent().toggleClass("dlcurrent");
+    if(window.innerWidth>1280&&!sideSwitch){
+	    //主标题右侧的小图标切换
+	    $(this).children("i").eq(1).toggleClass("fa-angle-right").toggleClass("fa-angle-down");
+	    //副标题的显示与隐藏切换
+	    $(this).siblings(".ddcontent").toggleClass("hide");
+	    $(this).parent().toggleClass("dlcurrent");
+    }
+    
 });
 //创建一个存储子标题的数组
 var subtitleGroup = ["index"];
@@ -66,7 +119,7 @@ var subtitleGroup = ["index"];
 $("aside dl dd").click(function() {
 	clicker($(this));
     asideChange();//侧边栏当前显示
-    changeFramesSize()
+    changeFramesSize();
 });
 
 function clicker(e){
@@ -83,7 +136,7 @@ function clicker(e){
         var tv = "<div id='" + v + "'class='active' ><span>" + t + "</span><i class='fa fa-close'></i></div>";
         $("#subtitle").append(tv);
         //frame模块隐藏
-        $("#frames .once").addClass("hid");
+        $("#frames .once").addClass("hide");
         //创建新的frame块
         var html = '<div id="' + f + '" class="once"></div>';
         $('#frames').append(html); //添加frame块到页面
@@ -166,22 +219,25 @@ $(document).on('click', '#subtitle>div i.fa-close', function() {
 //iframe的展示
 function frameShow() {
     //隐藏所有
-    $("#frames .once").addClass("hid");
+    $("#frames .once").addClass("hide");
     //根据子标题的当前当前项是谁，判断当前项是谁显示
-    document.getElementById($("#subtitle>div.active").attr("id") + "fr").classList.remove("hid");
+    document.getElementById($("#subtitle>div.active").attr("id") + "fr").classList.remove("hide");
 }
 //侧边栏在当前被删除后的切换
 function asideChange() {
-    //隐藏所有
-    $("aside dl dt").removeClass("dtcurrent");
-    $("aside dl dd").removeClass("ddcurrent");
-    //判断当前显示
-    var a = getElementByAttr('dd', 'data-subid', $("#subtitle>div.active").attr("id"))[0];
-    if(a){
-    	a.classList.add("ddcurrent");
-   		var ap = a.parentNode;
-    	ap.getElementsByTagName("dt")[0].classList.add("dtcurrent");	
-    }   
+//  if(window.innerWidth>1280){
+	    //隐藏所有
+	    $("aside dl dt").removeClass("dtcurrent");
+	    $("aside dl dd").removeClass("ddcurrent");
+	    //判断当前显示
+	    var a = getElementByAttr('dd', 'data-subid', $("#subtitle>div.active").attr("id"))[0];
+	    if(a){
+	    	a.classList.add("ddcurrent");
+	   		var app = a.parentNode.parentNode;
+	    	app.getElementsByTagName("dt")[0].classList.add("dtcurrent");	
+	    } 
+//  }	
+      
 }
 //根据自定义属性 获取元素
 function getElementByAttr(tag, attr, value) {
