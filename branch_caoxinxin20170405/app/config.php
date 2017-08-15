@@ -253,6 +253,9 @@ return [
 //        'hostport'    => '3306',
         'charset'     => 'utf8',
         'prefix'      => 'guguo_',
+        'params'      => [
+    		PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
+    	],
     ],
     'db_common_prefix'=>'guguo_',//分库前缀
     //sms短信账号
