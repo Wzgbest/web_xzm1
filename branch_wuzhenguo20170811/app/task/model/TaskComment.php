@@ -46,4 +46,27 @@ class TaskComment extends Base{
     	return $inser_info;
     }
 
+    /**
+     * 获取所有的评论
+     * @param  arr $task_ids 任务id
+     * @param  arr $map      条件
+     * @param  string $order    排序
+     * @return arr           
+     */
+    public function getAllTaskComment($task_ids,$map=null,$order="id desc"){
+        if (empty($task_ids)) {
+            return [];
+        }
+        $map['task_id'] = ['in',$task_ids];
+        $employeeTaskCommentList = $this->model->table($this->table)->alias('etc')
+                                    ->join($this->dbprefix.'employee rp','rp.task_id = etc.id',"LETF")
+                                    ->join($this->dbprefix.'employee rv','rv.task_id = etc.id',"LETF")
+                                    ->where($map)
+                                    ->order($order)
+                                    ->field("etc.*,rp.telephone as replayer_telephone,rp.truename as replayer_truename,rp.userpic as replayer_pic,rv.telephone as reviewer_telephone,rv.truename as reviewer_truename,rv.pic as reviewer_pic")
+                                    ->select();
+
+        return $employeeTaskCommentList;
+    }
+
 }

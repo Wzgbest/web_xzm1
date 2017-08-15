@@ -10,7 +10,7 @@ namespace app\Task\controller;
 
 use app\common\controller\Initialize;
 use app\task\model\TaskLike as TaskLikeModel;
-use app\task\model\EmployeeTask;
+use app\task\model\EmployeeTask as EmployeeTaskModel;
 
 class TaskLike extends Initialize{
 	/**
@@ -44,7 +44,7 @@ class TaskLike extends Initialize{
 			}
 		}
 		//取得当前喜欢数量返回
-		$taskModel = new EmployeeTask($this->corp_id);
+		$taskModel = new EmployeeTaskModel($this->corp_id);
 		$employee_info = $taskModel->getEmployeeById($task_id);
 		$result['data'] = $employee_info['like_count'];
 
