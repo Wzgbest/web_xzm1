@@ -472,7 +472,7 @@ class User extends Controller{
         $num = input('mun',10,"int");
         $corp_id = get_corpid($userid);
         $takeCashM = new TakeCashModel($corp_id);
-        $bill_list = $takeCashM->getOrderList($chk_info['userinfo']['id'],$num,$last_id);
+        $bill_list = $takeCashM->getOrderList($chk_info['userinfo']['id'],0,$num,$last_id);
         return json(['status'=>1,'info'=>'账户交易查询成功!','data'=>$bill_list]);
     }
 
