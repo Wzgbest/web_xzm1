@@ -51,6 +51,7 @@ class Index extends Initialize{
         $task_info['create_employee'] = $uid;
         $task_info['create_time'] = time();
         $task_info['status'] = 1;
+        return $task_info;
     }
     protected function _getTaskTargetForInput($taskId){
         $task_target_info['task_id'] = $taskId;
@@ -58,12 +59,14 @@ class Index extends Initialize{
         $task_target_info['target_num'] = input("target_num",0,"int");
         $task_target_info['target_customer'] = input("target_customer",0,"int");
         $task_target_info['target_appraiser'] = input("target_appraiser","","string");
+        return $task_target_info;
     }
     protected function _getTaskRewardForInput($taskId){
         $task_reward_info['task_id'] = $taskId;
         $task_reward_info['reward_type'] = input("reward_type",0,"int");
         $task_reward_info['reward_amount'] = input("reward_amount",0,"int");
         $task_reward_info['reward_num'] = input("reward_num",0,"int");
+        return $task_reward_info;
     }
     public function add(){
         $result = ['status'=>0 ,'info'=>"新建任务时发生错误！"];
@@ -71,6 +74,7 @@ class Index extends Initialize{
         $taskTargetM = new TaskTargetModel($this->corp_id);
         $taskRewardM = new TaskRewardModel($this->corp_id);
         $taskInfo = $this->_getTaskForInput();
+        //TODO 检验和判断
 
         try{
             $employeeTaskM->link->startTrans();
