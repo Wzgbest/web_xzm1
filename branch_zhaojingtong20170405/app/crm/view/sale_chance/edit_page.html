@@ -44,7 +44,7 @@
         <div class="sale-chance sale-chance-visit {neq name='now_item' value='2'} hide{/neq}">
             <div>
                 <span class="cont">拜访时间</span>
-                <input type="date" name="visit_time" value="{$saleChancesVisitData.visit_time|day_format}" />
+                <input type="datetime-local" name="visit_time" value="{$saleChancesVisitData.visit_time|day_format}" />
             </div>
             <div>
                 <span class="cont">拜访地点</span>
@@ -87,19 +87,19 @@
                 <span class="cont-x contract_type">------</span>
             </div>
             <div>
-                <span class="cont">成单金额</span>
-                <input type="text" placeholder="请输入成单" name="order_money" value="{$saleOrderContractData.order_money}" />
+                <span class="cont-max">实际成单金额</span>
+                <input type="text" placeholder="请输入成单" name="order_money" value="{empty name='saleOrderContractData.order_money'}{$sale_chance.guess_money}{else/}{$saleOrderContractData.order_money}{/empty}" />
                 <span class="cont">打款金额</span>
-                <input type="text" placeholder="请输入打款金额" name="pay_money" value="{$saleOrderContractData.pay_money}" />
+                <input type="text" placeholder="请输入打款金额" name="pay_money" value="{empty name='saleOrderContractData.pay_money'}{$sale_chance.guess_money}{else/}{$saleOrderContractData.pay_money}{/empty}" />
             </div>
             <div>
                 <span class="cont">打款方式</span>
                 <div class="u-inlineRadio">
                     <input type="radio" name="pay_type" {eq name='saleOrderContractData.pay_type' value='1'} checked="checked"{/eq} value="1"/>现金
-                    <input type="radio" name="pay_type" {neq name='saleOrderContractData.pay_type' value='1'} checked="checked"{/neq} value="0"/>银行转账
+                    <input type="radio" name="pay_type" {neq name='saleOrderContractData.pay_type' value='2'} checked="checked"{/neq} value="2"/>银行转账
                 </div>
-                <span class="cont">打款名称</span>
-                <input type="text" placeholder="请输入打款名称" name="pay_name" value="{$saleOrderContractData.pay_name}" />
+                <span class="cont">打款方名称</span>
+                <input type="text" placeholder="请输入打款方名称" name="pay_name" value="{empty name='saleOrderContractData.pay_name'}{$customer.customer_name}{else/}{$saleOrderContractData.pay_name}{/empty}" />
             </div>
             <div>
                 <span class="cont-max-max">预计合同到期时间</span>

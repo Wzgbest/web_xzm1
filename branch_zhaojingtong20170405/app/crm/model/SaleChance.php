@@ -73,7 +73,7 @@ class SaleChance extends Base
         }
 
         //筛选
-        $map = $this->_getMapByFilter($filter,[]);
+        $map = $this->_getMapByFilter($filter,["business_id","sale_status","sale_name","customer_name"]);
         $map["sc.employee_id"] = $uid;
         $having = null;
         if(array_key_exists("in_column", $filter)){
@@ -141,7 +141,7 @@ class SaleChance extends Base
         }
 
         //筛选
-        $map = $this->_getMapByFilter($filter,[]);
+        $map = $this->_getMapByFilter($filter,["business_id","sale_status","sale_name","customer_name"]);
         $map["sc.employee_id"] = $uid;
         $having = null;
         if(array_key_exists("in_column", $filter)){
@@ -201,7 +201,7 @@ class SaleChance extends Base
         }
 
         //筛选
-        $map = $this->_getMapByFilter($filter,[]);
+        $map = $this->_getMapByFilter($filter,["business_id","sale_status","sale_name","customer_name"]);
         $map["sc.employee_id"] = $uid;
 
         $field = [
@@ -265,6 +265,22 @@ class SaleChance extends Base
 
     protected function _getMapByFilter($filter,$filter_column){
         $map = [];
+        //对应业务
+        if(in_array("business_id",$filter_column) && array_key_exists("business_id", $filter)){
+            $map["sc.business_id"] = $filter["business_id"];
+        }
+        //业务状态
+        if(in_array("sale_status",$filter_column) && array_key_exists("sale_status", $filter)){
+            $map["sc.sale_status"] = $filter["sale_status"];
+        }
+        //商机名称
+        if(in_array("sale_name",$filter_column) && array_key_exists("sale_name", $filter)){
+            $map["sc.sale_name"] = ["like","%".$filter["sale_name"]."%"];
+        }
+        //客户名称
+        if(in_array("customer_name",$filter_column) && array_key_exists("customer_name", $filter)){
+            $map["c.customer_name"] = ["like","%".$filter["customer_name"]."%"];
+        }
         return $map;
     }
 

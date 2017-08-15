@@ -110,7 +110,7 @@ class CorporationShare extends Initialize{
         $share_data = $corporationShareModel->getCorporationShare($uid,$num,$last_id);
         $share_ids = array_column($share_data,"id");
         $corporationShareCommentModel = new CorporationShareCommentModel($this->corp_id);
-        $share_comment_data = $corporationShareCommentModel->getCorporationShareComment($share_ids,$num,$last_id);
+        $share_comment_data = $corporationShareCommentModel->getAllCorporationShareComment($share_ids);
         $share_comment_Index = [];
         foreach ($share_comment_data as $share_comment){
             $share_comment_Index[$share_comment["share_id"]][] = $share_comment;
@@ -162,6 +162,7 @@ class CorporationShare extends Initialize{
         $comment["reply_content"] = $reply_content;
         $comment["reviewer_id"] = $reviewer_id;
         $comment["reply_commont_id"] = $commont_id;
+        $comment["commont_time"] = time();
         $add_comment_flg= $corporationShareCommentModel->createCorporationShareComment($comment);
         $result['data'] = $add_comment_flg;
         $result['status'] = 1;
