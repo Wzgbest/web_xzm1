@@ -9,6 +9,7 @@
 namespace app\crm\controller;
 
 use app\common\controller\Initialize;
+use app\crm\model\Customer as CustomerModel;
 use app\crm\model\CustomerContact;
 use app\crm\model\SaleChance as SaleChanceModel;
 use app\crm\model\SaleChanceVisit as SaleChanceVisitModel;
@@ -183,7 +184,13 @@ class SaleChance extends Initialize{
         $uid = $userinfo["userid"];
         $saleChanceM = new SaleChanceModel($this->corp_id);
         $SaleChancesData = $saleChanceM->getSaleChance($id);
+        if(empty($SaleChancesData)){
+            $this->error("未找到销售机会！");
+        }
         $this->assign("sale_chance",$SaleChancesData);
+        $customerM = new CustomerModel($this->corp_id);
+        $customerData = $customerM->getCustomer($SaleChancesData["customer_id"]);
+        $this->assign("customer",$customerData);
 
         $businessFlowModel = new BusinessFlowModel($this->corp_id);
         $business_flows = $businessFlowModel->getAllBusinessFlowByUserId($uid);
