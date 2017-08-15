@@ -61,21 +61,15 @@ class CorporationShare extends Initialize{
         //trace(var_exp($infos,'$infos','return'));
         $share["userid"] = $uid;
         $share["create_time"] = time();
-        $hash = md5($msg);
         $corporationShareModel = new CorporationShareModel($this->corp_id);
         $corporationShareContentModel = new CorporationShareContent($this->corp_id);
         $corporationShareModel->link->startTrans();
-        $content = $corporationShareContentModel->getContentByHash($hash);
-        if(!$content["id"]){
-            $content["hash"] = $hash;
-            $content["content"] = $msg;
-            $content_id = $corporationShareContentModel->createCorporationShareContent($content);
-            $content["id"] = $content_id;
-        }
-        if(!$content["id"]){
+        $content["content"] = $msg;
+        $content_id = $corporationShareContentModel->createCorporationShareContent($content);
+        if(!$content_id){
             exception("发布动态内容失败");
         }
-        $share["content_id"] = $content["id"];
+        $share["content_id"] = $content_id;
         $share_id = $corporationShareModel->createCorporationShare($share);
         //trace(var_exp($share_id,'$share_id','return'));
         if(!$share_id){
@@ -84,7 +78,7 @@ class CorporationShare extends Initialize{
         }
         if($infos){
             $share_pictures = [];
-            $share_picture["content_id"] = $content["id"];
+            $share_picture["content_id"] = $content_id;
             $url_path = DS . 'webroot' . DS . $this->corp_id . DS . 'images' . DS;
             foreach ($infos as $info){
                 $share_picture["path"] = $url_path . $info;
@@ -92,7 +86,11 @@ class CorporationShare extends Initialize{
             }
             //trace(var_exp($share_pictures,'$share_pictures','return'));
             $corporationSharePicture = new CorporationSharePicture($this->corp_id);
-            $corporationSharePicture->createMutipleCorporationSharePicture($share_pictures);
+            $res = $corporationSharePicture->createMutipleCorporationSharePicture($share_pictures);
+            if(!$res["res"]){
+                $corporationShareModel->link->rollback();
+                exception("上传动态图片失败");
+            }
         }
         $corporationShareModel->link->commit();
         $result['data'] = $share_id;
