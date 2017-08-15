@@ -24,7 +24,7 @@ class TaskTarget extends Base{
      * @param  array $data 任务信息
      * @return int 任务ID
      */
-    public function addTaskTaget($data){
+    public function addTaskTarget($data){
         return $this->model->table($this->table)->insertGetId($data);
     }
 }

@@ -14,9 +14,9 @@ use app\knowledgebase\model\CorporationShareComment as CorporationShareCommentMo
 use app\knowledgebase\model\CorporationShareContent;
 use app\knowledgebase\model\CorporationSharePicture;
 use app\knowledgebase\model\CorporationShareLike;
-use app\huanxin\model\TakeCash;
 use app\knowledgebase\model\CorporationShareTip;
 use app\common\model\Employee;
+use app\huanxin\model\TakeCash;
 
 class CorporationShare extends Initialize{
     var $paginate_list_rows = 10;
@@ -231,9 +231,9 @@ class CorporationShare extends Initialize{
         $time = time();
 
         $corporationShareModel = new CorporationShareModel($this->corp_id);
-        $cashM = new TakeCash($this->corp_id);
         $TipModel = new CorporationShareTip($this->corp_id);
         $employM = new Employee($this->corp_id);
+        $cashM = new TakeCash($this->corp_id);
         $share_data = $corporationShareModel->getCorporationShareById($share_id);
         if(empty($share_data)){
             $result['info'] = '未找到动态';
@@ -246,7 +246,7 @@ class CorporationShare extends Initialize{
             if (!$flg) {
                 exception("添加打赏记录发生错误!");
             }
-            $tip_from_user = $employM->setEmployeeSingleInfo($userinfo["telephone"],['left_money'=>['exp',"left_money - $save_money"]]);
+            $tip_from_user = $employM->setEmployeeSingleInfo($userinfo["telephone"],['left_money'=>['exp',"left_money - $save_money"]],["left_money"=>["egt",$save_money]]);
             if (!$tip_from_user) {
                 exception("更新打赏用户余额发生错误!");
             }
