@@ -37,6 +37,15 @@ window.onresize = function() {
     	miniWindow();
     }
     changeFramesSize();
+    if(window.innerWidth<1000){
+    	$("#indexfr .space").addClass("hide");
+    	$(".summary .conversion-rate").css("height","auto");
+    	$(".summary .sale-estimate").css("height","auto");
+    }else{
+    	$("#indexfr .space").removeClass("hide");
+    	$(".summary .conversion-rate").css("height",100);
+    	$(".summary .sale-estimate").css("height",350);
+    }
 };
 $("#x-layout").click(function(){
 	if (window.innerWidth>1280) {
