@@ -30,4 +30,13 @@ class EmployeeTask extends Base{
 
     	return $employeeTaskInfo;
     }
+
+    /**
+     * 获取一条任务信息
+     * @param  array $data 任务信息
+     * @return int 任务ID
+     */
+    public function addTask($data){
+        return $this->model->table($this->table)->insertGetId($data);
+    }
 }
