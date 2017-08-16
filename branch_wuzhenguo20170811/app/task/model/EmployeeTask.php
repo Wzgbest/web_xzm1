@@ -77,7 +77,7 @@ class EmployeeTask extends Base{
      * @param  int $is_own 我发布的任务
      * @return arr            [description]
      */
-    public function getMyTaskList($uid,$num,$last_id,$task_type,$is_direct,$is_indirect,$is_own,$map=[]){
+    public function getMyTaskList($uid,$num=10,$last_id=0,$task_type=0,$is_direct=0,$is_indirect=0,$is_own=0,$is_old=0,$map=[]){
 
     	$order = "et.id desc";
     	if ($last_id) {
@@ -95,6 +95,9 @@ class EmployeeTask extends Base{
     	if ($is_own) {
     		$map['et.create_employee'] = $uid;
     	}
+    	if ($is_old) {
+    		$map['et.status'] = 5;
+    	}
     	$myTaskList = $this->model->table($this->table)->alias('et')
     	->join($this->dbprefix.'employee eown','eown.id = et.create_employee',"LEFT")
     	->join($this->dbprefix.'employee_task_take ett',"ett.task_id = et.id and ett.take_employee = '$uid'","LEFT")
@@ -105,7 +108,7 @@ class EmployeeTask extends Base{
     	->where($map)
     	->order($order)
     	->limit($num)
-    	->group('ett.id')
+    	->group('et.id')
     	->field("et.*,eown.telephone as own_telephone,eown.truename as own_truename,eown.userpic as own_userpic,ett.take_employee,ett.take_time,etr.reward_type,etr.reward_method,etr.reward_amount,etr.reward_num,ettar.target_type,ettar.target_num,ettar.target_customer,ettar.target_appraiser,case when etl.user_id>0 then 1 else 0 end as is_like,ettip.tip_employee,ettip.tip_money,ettip.tip_time")
     	->select();
 

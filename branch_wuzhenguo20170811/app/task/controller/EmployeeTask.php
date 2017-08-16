@@ -81,10 +81,11 @@ class EmployeeTask extends Initialize{
 		$is_direct = input('is_direct',0,'int');
 		$is_indirect = input('is_indirect',0,'int');
 		$is_own = input('is_own',0,'int');
+		$is_old = input('is_old',0,'int');
 		$user_info = get_userinfo();
 		$uid = $user_info['userid'];
 		$employeeTaskModel = new EmployeeTaskModel($this->corp_id);
-		$my_task_list = $employeeTaskModel->getMyTaskList($uid,$num,$last_id,$task_type,$is_direct,$is_indirect,$is_own);
+		$my_task_list = $employeeTaskModel->getMyTaskList($uid,$num,$last_id,$task_type,$is_direct,$is_indirect,$is_own,$is_old);
 
 		$result['status'] = 1;
 		$result['info'] = "获取列表成功!";
