@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/knowledgebase/css/default.css" />
 <div class="knowledgebase knowledgebase_speechcraft knowledgebase_speechcraft_new">
 	<div class="new_panel new">
 		<header>
@@ -19,7 +20,7 @@
         		</select><span class="color-blue">添加</span>
         		</div>
         		<div><span>简介</span><textarea placeholder="请输入文章简介"></textarea></div>
-        		<div><span>正文</span><textarea placeholder="编辑器%%%%%%%%%%待定"></textarea></div>
+        		<div><span>正文</span><textarea id="knowledgebase_speechcraft_new_editor" name="content" style="width:800px;height:300px;"></textarea></div>
         		<div>
         			<input type="radio" name="top" value="1"/>&nbsp;&nbsp;置顶
         			<input type="radio" name="top" value="0"/>&nbsp;&nbsp;不置顶
@@ -63,3 +64,19 @@
 </div>
 <link rel="stylesheet" href="/knowledgebase/css/index.css" />
 <script src="/knowledgebase/js/index.js"></script>
+<script charset="utf-8" src="/knowledgebase/js/kindeditor-all.js"></script>
+<script charset="utf-8" src="/knowledgebase/js/zh-CN.js"></script>
+<script>
+	var editor;
+	KindEditor.ready(function(K) {
+		editor = K.create('textarea[name="content"]', {
+			resizeType : 1,
+			allowPreviewEmoticons : false,
+			allowImageUpload : false,
+			items : [
+				'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+				'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+				'insertunorderedlist', '|', 'emoticons', 'image', 'link']
+		});
+	},true);
+</script>

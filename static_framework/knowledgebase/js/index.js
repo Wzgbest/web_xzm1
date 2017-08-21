@@ -11,3 +11,6 @@ $(".knowledgebase_speechcraft_new .radio-select input[name='class']").change(fun
 		$("form.quote").removeClass("hide");
 	}
 })
+$(".knowledgebase_speechcraft_new header li").click(function(){
+	loadPage("/knowledgebase/speechcraft/index", "speechcraftfr");
+});
