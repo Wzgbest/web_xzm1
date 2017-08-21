@@ -28,10 +28,11 @@ return [
     'dsn'             => '',
     // 数据库连接参数
     'params'          => [
-    	PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
+    	PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
+        PDO::MYSQL_ATTR_INIT_COMMAND =>'set names utf8mb4;'
     ],
-    // 数据库编码默认采用utf8
-    'charset'         => 'utf8',
+    // 数据库编码默认采用utf8mb4
+    'charset'         => 'utf8mb4',
     // 数据库表前缀
     'prefix'          => 'guguo_',
     // 数据库调试模式
