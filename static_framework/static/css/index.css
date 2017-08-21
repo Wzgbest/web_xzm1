@@ -363,3 +363,7 @@ section#subt{
 .m-filterNav input,.m-filterNav select{
 	margin-bottom: 10px;
 }
+#frames header .m-firNav i{
+	line-height: 41px;
+    margin-left: 5px;
+}
