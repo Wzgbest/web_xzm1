@@ -14,9 +14,9 @@ use app\knowledgebase\model\CorporationShareComment as CorporationShareCommentMo
 use app\knowledgebase\model\CorporationShareContent;
 use app\knowledgebase\model\CorporationSharePicture;
 use app\knowledgebase\model\CorporationShareLike;
-use app\huanxin\model\TakeCash;
 use app\knowledgebase\model\CorporationShareTip;
 use app\common\model\Employee;
+use app\huanxin\model\TakeCash;
 
 class CorporationShare extends Initialize{
     var $paginate_list_rows = 10;
@@ -61,21 +61,15 @@ class CorporationShare extends Initialize{
         //trace(var_exp($infos,'$infos','return'));
         $share["userid"] = $uid;
         $share["create_time"] = time();
-        $hash = md5($msg);
         $corporationShareModel = new CorporationShareModel($this->corp_id);
         $corporationShareContentModel = new CorporationShareContent($this->corp_id);
         $corporationShareModel->link->startTrans();
-        $content = $corporationShareContentModel->getContentByHash($hash);
-        if(!$content["id"]){
-            $content["hash"] = $hash;
-            $content["content"] = $msg;
-            $content_id = $corporationShareContentModel->createCorporationShareContent($content);
-            $content["id"] = $content_id;
-        }
-        if(!$content["id"]){
+        $content["content"] = $msg;
+        $content_id = $corporationShareContentModel->createCorporationShareContent($content);
+        if(!$content_id){
             exception("发布动态内容失败");
         }
-        $share["content_id"] = $content["id"];
+        $share["content_id"] = $content_id;
         $share_id = $corporationShareModel->createCorporationShare($share);
         //trace(var_exp($share_id,'$share_id','return'));
         if(!$share_id){
@@ -84,7 +78,7 @@ class CorporationShare extends Initialize{
         }
         if($infos){
             $share_pictures = [];
-            $share_picture["content_id"] = $share_id;
+            $share_picture["content_id"] = $content_id;
             $url_path = DS . 'webroot' . DS . $this->corp_id . DS . 'images' . DS;
             foreach ($infos as $info){
                 $share_picture["path"] = $url_path . $info;
@@ -92,7 +86,11 @@ class CorporationShare extends Initialize{
             }
             //trace(var_exp($share_pictures,'$share_pictures','return'));
             $corporationSharePicture = new CorporationSharePicture($this->corp_id);
-            $corporationSharePicture->createMutipleCorporationSharePicture($share_pictures);
+            $res = $corporationSharePicture->createMutipleCorporationSharePicture($share_pictures);
+            if(!$res["res"]){
+                $corporationShareModel->link->rollback();
+                exception("上传动态图片失败");
+            }
         }
         $corporationShareModel->link->commit();
         $result['data'] = $share_id;
@@ -113,6 +111,7 @@ class CorporationShare extends Initialize{
         $share_comment_data = $corporationShareCommentModel->getAllCorporationShareComment($share_ids);
         $share_comment_Index = [];
         foreach ($share_comment_data as $share_comment){
+            //$share_comment["reply_content"] = utf8_decode($share_comment["reply_content"]);
             $share_comment_Index[$share_comment["share_id"]][] = $share_comment;
         }
         foreach ($share_data as &$share){
@@ -144,6 +143,8 @@ class CorporationShare extends Initialize{
         $result = ['status'=>0 ,'info'=>"评论动态时发生错误！"];
         $share_id = input('share_id',0,"int");
         $reply_content = input('reply_content',"","string");
+        //$reply_content = utf8_encode($reply_content);
+        //var_exp($reply_content,'$reply_content',1);
         if(empty($share_id) || empty($reply_content)){
             exception("参数错误!");
         }
@@ -231,9 +232,9 @@ class CorporationShare extends Initialize{
         $time = time();
 
         $corporationShareModel = new CorporationShareModel($this->corp_id);
-        $cashM = new TakeCash($this->corp_id);
         $TipModel = new CorporationShareTip($this->corp_id);
         $employM = new Employee($this->corp_id);
+        $cashM = new TakeCash($this->corp_id);
         $share_data = $corporationShareModel->getCorporationShareById($share_id);
         if(empty($share_data)){
             $result['info'] = '未找到动态';
@@ -246,7 +247,7 @@ class CorporationShare extends Initialize{
             if (!$flg) {
                 exception("添加打赏记录发生错误!");
             }
-            $tip_from_user = $employM->setEmployeeSingleInfo($userinfo["telephone"],['left_money'=>['exp',"left_money - $save_money"]]);
+            $tip_from_user = $employM->setEmployeeSingleInfo($userinfo["telephone"],['left_money'=>['exp',"left_money - $save_money"]],["left_money"=>["egt",$save_money]]);
             if (!$tip_from_user) {
                 exception("更新打赏用户余额发生错误!");
             }
