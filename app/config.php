@@ -251,10 +251,11 @@ return [
 //        'username'    => 'zxwz',
 //        'password'    => '123456',
 //        'hostport'    => '3306',
-        'charset'     => 'utf8',
+        'charset'     => 'utf8mb4',
         'prefix'      => 'guguo_',
         'params'      => [
-    		PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
+    		PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
+            PDO::MYSQL_ATTR_INIT_COMMAND =>'set names utf8mb4;'
     	],
     ],
     'db_common_prefix'=>'guguo_',//分库前缀
