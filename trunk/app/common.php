@@ -162,6 +162,30 @@ function getStructureIds($user_id = null){
     return false;
 }
 
+// 处理带Emoji的数据，type=0表示写入数据库前的emoji转为HTML，为1时表示HTML转为emoji码
+function deal_emoji($msg, $type = 1) {
+    if ($type == 0) {
+        $msg = urlencode ( $msg );
+        $msg = json_encode ( $msg );
+    } else {
+
+        $msg = preg_replace ( "#\\\u([0-9a-f]+)#ie", "iconv('UCS-2','UTF-8', pack('H4', '\\1'))", $msg );
+
+        // $msg = preg_replace("#(\\\ue[0-9a-f]{3})#ie", "addslashes('\\1')",$msg);
+
+        $msg = urldecode ( $msg );
+        // $msg = json_decode ( $msg );
+        // dump($msg);
+        $msg = str_replace ( '"', "", $msg );
+        // dump($msg);exit;
+        /*if ($txt !== null) {
+            $msg = $txt;
+        }*/
+    }
+
+    return $msg;
+}
+
 function getCommStatusArr($comm_status){
     $comm_status_arr = [];
     switch ($comm_status){

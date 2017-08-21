@@ -111,6 +111,7 @@ class CorporationShare extends Initialize{
         $share_comment_data = $corporationShareCommentModel->getAllCorporationShareComment($share_ids);
         $share_comment_Index = [];
         foreach ($share_comment_data as $share_comment){
+            //$share_comment["reply_content"] = utf8_decode($share_comment["reply_content"]);
             $share_comment_Index[$share_comment["share_id"]][] = $share_comment;
         }
         foreach ($share_data as &$share){
@@ -142,6 +143,8 @@ class CorporationShare extends Initialize{
         $result = ['status'=>0 ,'info'=>"评论动态时发生错误！"];
         $share_id = input('share_id',0,"int");
         $reply_content = input('reply_content',"","string");
+        //$reply_content = utf8_encode($reply_content);
+        //var_exp($reply_content,'$reply_content',1);
         if(empty($share_id) || empty($reply_content)){
             exception("参数错误!");
         }
