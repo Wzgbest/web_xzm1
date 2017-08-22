@@ -761,7 +761,8 @@ function createCustomersTraceItem(
 /**
  * 时间戳格式化
  *
- * @param int $time
+ * @param $time int
+ * @param $format string
  * @return string 完整的时间显示
  * @author huajie <banhuajie@163.com>
  */
@@ -769,8 +770,20 @@ function time_format($time = NULL, $format = 'Y-m-d H:i') {
     if (empty ( $time ))
         return '';
 
-    $time = $time === NULL ? NOW_TIME : intval ( $time );
+    $time = $time === NULL ? time() : intval ( $time );
     return date ( $format, $time );
+}
+function time_format_html5($time = NULL) {
+    if (empty ( $time ))
+        return '';
+    $time = $time === NULL ? time() : intval ( $time );
+    return time_format($time,'Y-m-d')."T".time_format($time,'H:i:s');
+}
+function minutes_format_html5($time = NULL) {
+    if (empty ( $time ))
+        return '';
+    $time = $time === NULL ? time() : intval ( $time );
+    return time_format($time,'Y-m-d')."T".time_format($time,'H:i');
 }
 function day_format($time = NULL) {
     return time_format ( $time, 'Y-m-d' );
