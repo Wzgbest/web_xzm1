@@ -515,4 +515,101 @@ class SaleChance extends Base
             ->where($map)
             ->update($data);
     }
+
+
+
+    /**
+     * 查询商机数排名
+     * @param $start_time int 开始时间
+     * @param $end_time int 结束时间
+     * @param $uids array 员工id数组
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $map array 客户筛选条件
+     * @return array|false
+     * @throws \think\Exception
+     */
+    public function getSaleChanceRanking($start_time,$end_time,$uids,$num=10,$page=0,$map=null){
+        if(empty($uids)){
+            return [];
+        }
+        $map["sc.create_time"][] = ["egt",$start_time];
+        $map["sc.create_time"][] = ["elt",$end_time];
+        $map["sc.employee_id"] = ["in",$uids];
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+        $group="sc.employee_id";
+        $order="num desc";
+        $callRecordRanking = $this->model->table($this->table)->alias('sc')
+            ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
+            ->where($map)
+            ->group($group)
+            ->order($order)
+            ->limit($offset,$num)
+            ->field("e.id as employee_id,e.truename,count(sc.id) num")
+            ->select();
+        //var_exp($callRecordRanking,'$callRecordRanking',1);
+        if($num==1&&$page==0&&$callRecordRanking){
+            $callRecordRanking = $callRecordRanking[0];
+        }
+        return $callRecordRanking;
+    }
+
+
+    /**
+     * 查询商机数达标
+     * @param $start_time int 开始时间
+     * @param $end_time int 结束时间
+     * @param $uids array 员工id数组
+     * @param $standard int 标准
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $map array 客户筛选条件
+     * @return array|false
+     * @throws \think\Exception
+     */
+    public function getSaleChanceStandard($start_time,$end_time,$uids,$standard,$num=10,$page=0,$map=null){
+        if(empty($uids)){
+            return [];
+        }
+        $map["sc.create_time"][] = ["egt",$start_time];
+        $map["sc.create_time"][] = ["elt",$end_time];
+        $map["sc.employee_id"] = ["in",$uids];
+        $standard_map = "standard = ".$standard;
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+        $order="sc.employee_id asc,sc.create_time asc";
+        $vl_order="standard_time asc";
+        $standard_order="standard_time asc";
+        $subQuery = $this->model->table($this->table)->alias('sc')
+            ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
+            ->where($map)
+            ->order($order)
+            ->limit(999999)//2147483647?
+            ->field("sc.employee_id,e.truename,sc.create_time as standard_time")
+            ->buildSql();
+        //var_exp($subQuery,'$subQuery',1);
+        $subQuery = $this->model->table($subQuery)->alias('sl')
+            ->join("(SELECT @prev := '', @n := 0) init",'sl.employee_id = sl.employee_id',"LEFT")
+            ->order($vl_order)
+            ->limit(999999)//2147483647?
+            ->field("sl.*,@n := IF (sl.employee_id != @prev, '1', @n + 1) AS standard ,@prev := sl.employee_id AS ng")
+            ->buildSql();
+        //var_exp($subQuery,'$subQuery',1);
+        $callRecordRanking = $this->model->table($subQuery)->alias('v')
+            ->where($standard_map)
+            ->order($standard_order)
+            ->limit($offset,$num)
+            ->field("employee_id,truename,standard_time")
+            ->select();
+        //var_exp($callRecordRanking,'$callRecordRanking',1);
+        if($num==1&&$page==0&&$callRecordRanking){
+            $callRecordRanking = $callRecordRanking[0];
+        }
+        return $callRecordRanking;
+    }
 }
