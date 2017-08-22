@@ -16,6 +16,8 @@ use app\task\model\TaskReward as TaskRewardModel;
 use app\common\model\Employee;
 use app\huanxin\model\TakeCash;
 use app\common\model\Corporation;
+use app\crm\model\CallRecord;
+use app\crm\model\SaleChance;
 
 class Index extends Initialize{
     var $paginate_list_rows = 10;
@@ -30,6 +32,21 @@ class Index extends Initialize{
     public function add_page(){
     }
 
+    public function test(){
+        $start_time = input("start_time",0,"int");
+        $end_time = input("end_time",0,"int");
+        $uids_str = input("uids","","string");
+        $standard = input("standard",0,"int");
+        $num = input("num",0,"int");
+        $page = input("page",1,"int");
+        $uids = explode(",",$uids_str);
+//        $callRecordM = new CallRecord($this->corp_id);
+//        $callRecordData = $callRecordM->getCallRecordStandard($start_time,$end_time,$uids,$standard,$num,$page);
+
+        $saleChanceM = new SaleChance($this->corp_id);
+        $saleChanceData = $saleChanceM->getSaleChanceStandard($start_time,$end_time,$uids,$standard,$num,$page);
+        return json($saleChanceData);
+    }
 
     public function get(){
         $result = ['status'=>0 ,'info'=>"获取任务时发生错误！"];
@@ -86,6 +103,8 @@ class Index extends Initialize{
             $result['status'] = 6;
             return json($result);
         }
+        //TODO 冻结金额计算
+
         $save_money = intval($money*100);
 
         $employeeTaskM = new EmployeeTaskModel($this->corp_id);
@@ -114,8 +133,9 @@ class Index extends Initialize{
                 exception('提交任务目标失败!');
             }
 
-            $employee_data = ['corp_left_money'=>['exp',"corp_left_money - $save_money"]];
-            $employee_map = ["corp_left_money"=>["egt",$save_money]];
+            $employee_data['corp_left_money'] = ['exp',"corp_left_money - $save_money"];
+            $employee_data['corp_frozen_money'] = ['exp',"corp_frozen_money + $save_money"];
+            $employee_map["corp_left_money"] = ["egt",$save_money];
             $tip_from_user = $employM->setEmployeeSingleInfo($userinfo["telephone"],$employee_data,$employee_map);
             if (!$tip_from_user) {
                 exception("更新用户公司余额发生错误!");
@@ -134,8 +154,9 @@ class Index extends Initialize{
                 exception("添加交易记录发生错误!");
             }
 
-            $de_corp_money = ['corp_reserved_money' =>['exp',"corp_reserved_money - $save_money"]];
-            $de_corp_mone_map = ["corp_reserved_money"=>["egt",$save_money]];
+            $de_corp_money["corp_reserved_money"] = ['exp',"corp_reserved_money - $save_money"];
+            $de_corp_money["corp_reserved_forzen_money"] = ['exp',"corp_reserved_forzen_money + $save_money"];
+            $de_corp_mone_map["corp_reserved_money"] = ["egt",$save_money];
             $de_corp_money_flg = Corporation::setCorporationInfo($this->corp_id,$de_corp_money,$de_corp_mone_map);
             if (!$de_corp_money_flg) {
                 exception("更新公司保留额度发生错误!");
