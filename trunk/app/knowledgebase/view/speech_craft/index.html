@@ -1,0 +1,39 @@
+<div class="knowledgebase knowledgebase_speechcraft knowledgebase_speechcraft_index">
+	<div class="index_panel index">
+		<header>
+            <ul class="m-firNav">
+                <li in_column="0" class="in_column current" onclick="show_class_article('0');"><div>所有分类</div></li>
+                {volist name="article_type" id="vo"}
+                <li in_column="{$vo.id}" class="in_column " onclick="show_class_article('{$vo.id}');"><div>{$vo.type_name}</div></li>
+                {/volist}
+                <!--<li in_column="1" class="in_column "><div>百度业务</div></li>
+                <li in_column="2" class="in_column "><div>网站建设</div></li>-->
+            </ul>
+        </header>
+        <section class="m-divBlock m-divBlock2">
+        	<div class="m-filterNav">
+                <form class="search_form fl" onsubmit="return false;">
+                    <input type="text" name="key_word" placeholder="请输入关键字" value=""/>
+                    <button class="u-btnSearch" onclick="search_article()">查询</button>
+                </form>
+                <div class="new-speechcraft fr">
+            		<i class="fa fa-plus"></i><span>新建</span>
+            	</div>
+            	<div class="clearfix"></div>
+            </div>
+        </section>
+        <ul class="speech-list">
+            {volist name="all_article" id="vo"}
+                {eq name="vo.in_show" value="1"}
+                <li onclick="article_info_show('{$vo.id}');" {eq name="vo.in_top" value="1" }class="speech-hot"{/eq}>
+                    <h1>{$vo.article_name}<span class="hot">置顶</span></h1>
+                    <h2>{$vo.article_content}</h2>
+                    <h3>更新时间：<span>{$vo.article_edit_time|time_format}</span></h3>
+                </li>
+                {/eq}
+            {/volist}
+        </ul>
+	</div>
+</div>
+<link rel="stylesheet" href="/speechcraft/css/index.css" />
+<script src="/speechcraft/js/index.js"></script>
