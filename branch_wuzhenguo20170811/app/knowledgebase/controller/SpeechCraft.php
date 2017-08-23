@@ -148,6 +148,10 @@ class SpeechCraft extends Initialize{
         return json($result);
     }
 
+    /**
+     * 获取一篇文章信息
+     * @return [type] [description]
+     */
     protected function _showArticleInfo(){
         $id = input('id',0,'int');
         // var_dump($id);die();
@@ -158,8 +162,37 @@ class SpeechCraft extends Initialize{
         // var_dump($article);die();
         $this->assign("article",$article);
     }
+
+    /**
+     * 显示详情页面
+     * @return [type] [description]
+     */
     public function show(){
         $this->_showArticleInfo();
         return view('detail');
     }
+
+    /**
+     * 手机接口 获取所有文章
+     * @return [type] [description]
+     */
+    public function getAllArticle(){
+        $resutl = ['status'=>0,'info'=>'获取信息失败!'];
+
+        $key_word = input('key_word','','string');
+        $class_id = input('class_id',0,'int');
+        $page = input('page',1,'int');
+        $num = input('num',20,'int');
+        $all_article = $this->_speechCraftModel->getAllArticle($key_word,$class_id,$page,$num);
+        foreach ($all_article as $key => $value) {
+            $all_article[$key]['url'] = "/knowledgebase/speech_craft/show/id/".$value['id'];
+        }
+
+        $resutl['data'] = $all_article;
+        $result['status'] = 1;
+        $resutl['info'] = "获取成功!";
+
+        return json($resutl);
+    }
+
 }
