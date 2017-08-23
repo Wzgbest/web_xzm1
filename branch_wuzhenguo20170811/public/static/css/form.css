@@ -105,7 +105,7 @@
 	margin: 0 64px 12px 20px;
 	/*border: 1px solid #e5e5e5;*/
 }
-.m-form input[type="text"],.m-form select,.m-form input[type="email"],.m-form input[type="date"],.m-form input[type="datetime-local"],.m-form input[type="url"]{
+.m-form input[type="text"],.m-form select,.m-form input[type="email"],.m-form input[type="date"],.m-form input[type="url"]{
 	box-sizing: content-box;
 	width: 234px;
 	height: 35px;
@@ -157,11 +157,11 @@
 .m-form input[type="radio"]:checked{
 	background-color: blue;
 }
-.m-form .u-submitButton{
+.u-submitButton{
 	margin: 60px auto;
 	padding-left: 100px;
 }
-.m-form .u-submitButton button{
+.u-submitButton button{
 	padding:0 20px;
 	margin-right: 50px;
 	line-height: 40px;
@@ -171,7 +171,7 @@
 	border-style: none;
 	border: 1px solid #dcdcdc;
 }
-.m-form .u-submitButton button:hover{
+.u-submitButton button:hover{
 	transition: all 0.2s;
 	background-color: #42a5f5;
 	border: 1px solid #42A5F5;

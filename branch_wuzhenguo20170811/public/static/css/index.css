@@ -1,5 +1,6 @@
 body{
 	overflow: hidden;
+/*	min-width: 1024px;*/
 	position: relative;
 	background-color: #ecf0f5;
 }
@@ -193,7 +194,8 @@ section#subt{
 	position: fixed;
 	left: 220px;
 	top: 80px;
-	overflow: hidden;
+	min-width: 1024px;
+	/*overflow: hidden;*/
 }
 #frames .once {
 	position: absolute;
@@ -356,4 +358,12 @@ section#subt{
 }
 .phone-box .nodes .fa-times-circle-o{
 	color: #e01515;
+}
+/*补充*/
+.m-filterNav input,.m-filterNav select{
+	margin-bottom: 10px;
+}
+#frames header .m-firNav i{
+	line-height: 41px;
+    margin-left: 5px;
 }
