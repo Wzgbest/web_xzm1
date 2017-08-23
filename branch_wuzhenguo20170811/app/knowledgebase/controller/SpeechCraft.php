@@ -189,7 +189,7 @@ class SpeechCraft extends Initialize{
         }
 
         $resutl['data'] = $all_article;
-        $result['status'] = 1;
+        $resutl['status'] = 1;
         $resutl['info'] = "获取成功!";
 
         return json($resutl);

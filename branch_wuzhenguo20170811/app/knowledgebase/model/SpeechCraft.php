@@ -48,7 +48,7 @@ class SpeechCraft extends Base{
      * 获取所有文章
      * @return [type] [description]
      */
-    public function getAllArticle($key,$class_id,$page=0,$num=20,$mapStr='',$map=[]){
+    public function getAllArticle($key,$class_id,$page=1,$num=20,$mapStr='',$map=[]){
     	$order = "in_top desc, ta.article_edit_time desc, ta.id desc";
     	if ($class_id) {
     		$map['article_class'] = $class_id;
