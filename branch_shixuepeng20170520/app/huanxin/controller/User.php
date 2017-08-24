@@ -434,10 +434,10 @@ class User extends Controller{
             'corp_id'=>$chk_info['corp_id'],
             "red_data"=>''
         ],true);
-        $b = \think\Hook::listen('check_over_time_red',$params);
+        /*$b = \think\Hook::listen('check_over_time_red',$params);
         if (!$b[0]) {
             return json(['status'=>false,'errnum'=>1,'message'=>'账户余额查询请求失败，联系管理员']);
-        }
+        }*/
         $res = $this->employM->getEmployeeByTel($userid);
         $left_money = $res['left_money'];
         $left_money = number_format($left_money/100, 2, '.', '');
@@ -464,10 +464,10 @@ class User extends Controller{
             'corp_id'=>$chk_info['corp_id'],
             "red_data"=>''
         ],true);
-        $b = \think\Hook::listen('check_over_time_red',$params);
+        /*$b = \think\Hook::listen('check_over_time_red',$params);
         if (!$b[0]) {
             return json(['status'=>0,'info'=>'账户交易查询请求失败，联系管理员']);
-        }
+        }*/
         $last_id = input('last_id',0,"int");
         $num = input('mun',10,"int");
         $corp_id = get_corpid($userid);

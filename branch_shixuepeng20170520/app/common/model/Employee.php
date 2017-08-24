@@ -136,13 +136,14 @@ class Employee extends Base{
      * 设置用户信息
      * @param $telephone 电话号码
      * @param $data
+     * @param $map
      * @return int|string
      * @throws \think\Exception
      * created by messhair
      */
-    public function setEmployeeSingleInfo($telephone,$data)
+    public function setEmployeeSingleInfo($telephone,$data,$map=null)
     {
-        return $this->model->table($this->table)->where('telephone',$telephone)->update($data);
+        return $this->model->table($this->table)->where('telephone',$telephone)->where($map)->update($data);
     }
 
     /**

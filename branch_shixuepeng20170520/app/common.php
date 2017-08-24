@@ -162,6 +162,30 @@ function getStructureIds($user_id = null){
     return false;
 }
 
+// 处理带Emoji的数据，type=0表示写入数据库前的emoji转为HTML，为1时表示HTML转为emoji码
+function deal_emoji($msg, $type = 1) {
+    if ($type == 0) {
+        $msg = urlencode ( $msg );
+        $msg = json_encode ( $msg );
+    } else {
+
+        $msg = preg_replace ( "#\\\u([0-9a-f]+)#ie", "iconv('UCS-2','UTF-8', pack('H4', '\\1'))", $msg );
+
+        // $msg = preg_replace("#(\\\ue[0-9a-f]{3})#ie", "addslashes('\\1')",$msg);
+
+        $msg = urldecode ( $msg );
+        // $msg = json_decode ( $msg );
+        // dump($msg);
+        $msg = str_replace ( '"', "", $msg );
+        // dump($msg);exit;
+        /*if ($txt !== null) {
+            $msg = $txt;
+        }*/
+    }
+
+    return $msg;
+}
+
 function getCommStatusArr($comm_status){
     $comm_status_arr = [];
     switch ($comm_status){
@@ -737,7 +761,8 @@ function createCustomersTraceItem(
 /**
  * 时间戳格式化
  *
- * @param int $time
+ * @param $time int
+ * @param $format string
  * @return string 完整的时间显示
  * @author huajie <banhuajie@163.com>
  */
@@ -745,8 +770,20 @@ function time_format($time = NULL, $format = 'Y-m-d H:i') {
     if (empty ( $time ))
         return '';
 
-    $time = $time === NULL ? NOW_TIME : intval ( $time );
+    $time = $time === NULL ? time() : intval ( $time );
     return date ( $format, $time );
+}
+function time_format_html5($time = NULL) {
+    if (empty ( $time ))
+        return '';
+    $time = $time === NULL ? time() : intval ( $time );
+    return time_format($time,'Y-m-d')."T".time_format($time,'H:i:s');
+}
+function minutes_format_html5($time = NULL) {
+    if (empty ( $time ))
+        return '';
+    $time = $time === NULL ? time() : intval ( $time );
+    return time_format($time,'Y-m-d')."T".time_format($time,'H:i');
 }
 function day_format($time = NULL) {
     return time_format ( $time, 'Y-m-d' );
