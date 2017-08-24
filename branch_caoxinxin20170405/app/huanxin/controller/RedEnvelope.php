@@ -169,7 +169,7 @@ class RedEnvelope
                 'corp_id'=>$r['corp_id'],
                 'red_data'=>$pre_red[0]
             ],true);
-            Hook::listen('check_over_time_red',$params);
+            //Hook::listen('check_over_time_red',$params);
             $info['message'] = '红包已经过期';
             $info['errnum'] = 3;
             $info['overtime'] = true;
@@ -311,7 +311,7 @@ class RedEnvelope
             'corp_id'=>$r['corp_id'],
             'red_data'=>''
         ],true);
-        Hook::listen('check_over_time_red',$params);
+        //Hook::listen('check_over_time_red',$params);
 
         $myCount = $redM->getUserRedCount($r['userinfo']['id'],$red_id);
         if($myCount>0){
@@ -401,13 +401,14 @@ class RedEnvelope
                 'corp_id'=>$chk_info['corp_id'],
                 "red_data"=>''
             ],true);
-            $b = \think\Hook::listen('check_over_time_red',$params);
+            /*$b = \think\Hook::listen('check_over_time_red',$params);
             if (!$b[0]) {
                 return json(['status'=>false,'errnum'=>1,'message'=>'红包明细查询请求失败，联系管理员']);
-            }
+            }*/
 
+            $map["type"] = ["neq",3];
             $redM = new RedB($chk_info['corp_id']);
-            $myRedEnvelopeList = $redM->getMyRedEnvelope($num,$p,$chk_info["userinfo"]["id"]);
+            $myRedEnvelopeList = $redM->getMyRedEnvelope($num,$p,$chk_info["userinfo"]["id"],$map);
             $result['data'] = $myRedEnvelopeList;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
