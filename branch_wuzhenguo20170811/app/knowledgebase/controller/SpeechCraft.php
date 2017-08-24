@@ -27,7 +27,7 @@ class SpeechCraft extends Initialize{
         // var_dump($all_article);die();
         $this->assign('article_type',$article_type);
         $this->assign('all_article',$all_article);
-        $this->assign('now_time',time());
+        // $this->assign('now_time',time());
         return view();
     }
 
@@ -57,7 +57,7 @@ class SpeechCraft extends Initialize{
         $data['article_class'] = input('article_class',0,"int");
         $data['article_content'] = input('article_content','',"string");
         $data['article_url'] = input('article_url','',"string");
-        $data['article_text'] = input('article_text','',"string");
+        $data['article_text'] = input('article_text');
         $data['article_is_top'] = input('article_is_top',0,"int");
         $data['article_start_top_time'] = input('article_start_top_time','',"string");
         $data['article_end_top_time'] = input('article_end_top_time','',"string");
@@ -67,7 +67,8 @@ class SpeechCraft extends Initialize{
         $data['article_release_time'] = input('article_release_time','',"string");
         $data['article_creat_time'] = time();
         $data['article_edit_time'] = time();
-
+        // var_dump(input('post.'));
+        // var_dump($data);die();
         if (empty($data['article_name'])) {
             $result['message'] = "文章名不能为空!";
             return json($result);
@@ -177,7 +178,7 @@ class SpeechCraft extends Initialize{
      * @return [type] [description]
      */
     public function getAllArticle(){
-        $resutl = ['status'=>0,'info'=>'获取信息失败!'];
+        $result = ['status'=>0,'info'=>'获取信息失败!'];
 
         $key_word = input('key_word','','string');
         $class_id = input('class_id',0,'int');
@@ -188,11 +189,11 @@ class SpeechCraft extends Initialize{
             $all_article[$key]['url'] = "/knowledgebase/speech_craft/show/id/".$value['id'];
         }
 
-        $resutl['data'] = $all_article;
-        $resutl['status'] = 1;
-        $resutl['info'] = "获取成功!";
+        $result['data'] = $all_article;
+        $result['status'] = 1;
+        $result['info'] = "获取成功!";
 
-        return json($resutl);
+        return json($result);
     }
 
 }
