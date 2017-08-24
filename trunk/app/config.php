@@ -284,7 +284,7 @@ return [
     //app红包相关
     'red_envelope' =>[
         //超时时间，单位秒
-        'overtime' => 3600*24
+        'overtime' => 60*10//60*60*24
     ],
     //提现相关
     'take_cash' =>[
