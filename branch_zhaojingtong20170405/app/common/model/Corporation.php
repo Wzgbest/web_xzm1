@@ -40,12 +40,13 @@ class Corporation extends Db
      * 更新公司表信息
      * @param $corp_id
      * @param $data
+     * @param $map
      * @return int|string
      * @throws \think\Exception
      * created by messhair
      */
-    public static function setCorporationInfo($corp_id,$data)
+    public static function setCorporationInfo($corp_id,$data,$map=null)
     {
-        return Db::name('corporation')->where('corp_id',$corp_id)->update($data);
+        return Db::name('corporation')->where('corp_id',$corp_id)->where($map)->update($data);
     }
 }

@@ -49,7 +49,10 @@ class RedEnvelope extends Base
      */
     public function checkIfTook($userid,$red_id)
     {
-        return $this->model->table($this->table)->where('redid',$red_id)->where('took_user',$userid)->find();
+        return $this->model->table($this->table)
+            ->where('redid',$red_id)
+            ->where('took_user',$userid)
+            ->find();
     }
     /**
      * 红包取出一个
@@ -58,7 +61,10 @@ class RedEnvelope extends Base
      */
     public function getOneRedId($red_id)
     {
-        return $this->model->table($this->table)->where('redid',$red_id)->where('is_token',0)->find();
+        return $this->model->table($this->table)
+            ->where('redid',$red_id)
+            ->where('is_token',0)
+            ->find();
     }
 
     /**
@@ -70,7 +76,9 @@ class RedEnvelope extends Base
      */
     public function setOneRedId($id,$data)
     {
-        return $this->model->table($this->table)->where('id',$id)->update($data);
+        return $this->model->table($this->table)
+            ->where('id',$id)
+            ->update($data);
     }
 
     /**
@@ -95,11 +103,13 @@ class RedEnvelope extends Base
      */
     public function getRedCount($red_id)
     {
-        return $this->model->table($this->table)->where('redid',$red_id)->count('id');
+        return $this->model->table($this->table)
+            ->where('redid',$red_id)
+            ->count('id');
     }
 
     /**
-     * 取出已被领取的红包
+     * 领取红包
      * @param $red_id
      * @param $user
      * @return false|\PDOStatement|string|\think\Collection
@@ -130,7 +140,9 @@ class RedEnvelope extends Base
         $map["redid"] = $red_id;
         $map["is_token"] = 1;
         $map["took_user"] = $user;
-        return $this->model->table($this->table)->where($map)->count('id');
+        return $this->model->table($this->table)
+            ->where($map)
+            ->count('id');
     }
 
     /**
@@ -140,19 +152,12 @@ class RedEnvelope extends Base
      */
     public function getOverTimeRedIdsFromRedId($red_id)
     {
-        return $this->model->table($this->table)->field('id,redid,fromuser,money')->where('redid',$red_id)
-            ->where('is_token',0)->select();
-    }
-
-    /**
-     * 红包返还
-     * @param $ids 红包id
-     * @return int|string
-     * @throws \think\Exception
-     */
-    public function setOverTimeRed($ids,$time)
-    {
-        return $this->model->table($this->table)->where("id in($ids)")->update(['is_token'=>2,'sendback_time'=>$time]);
+        return $this->model->table($this->table)
+            ->where("type","neq",3)
+            ->where('redid',$red_id)
+            ->where('is_token',0)
+            ->field('id,redid,fromuser,money')
+            ->select();
     }
 
     /**
@@ -164,9 +169,40 @@ class RedEnvelope extends Base
     {
         $dep_time = time()-config('red_envelope.overtime');
         return $this->model->table($this->table)
-            ->where('fromuser',$userid)->where('is_token',0)
+            ->where("type","neq",3)
+            ->where('fromuser',$userid)
+            ->where('is_token',0)
             ->where('create_time','<',$dep_time)
             ->select();
+    }
+
+    /**
+     * 查询超时未领取的红包
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public function getOverTimeRedIds()
+    {
+        $dep_time = time()-config('red_envelope.overtime');
+        return $this->model->table($this->table)
+            ->where("type","neq",3)
+            ->where('is_token',0)
+            ->where('create_time','<',$dep_time)
+            ->select();
+    }
+
+    /**
+     * 红包返还
+     * @param $ids 红包id
+     * @return int|string
+     * @throws \think\Exception
+     */
+    public function setOverTimeRed($ids,$time)
+    {
+        return $this->model->table($this->table)
+            ->where("type","neq",3)
+            ->where("id in($ids)")
+            ->where("is_token",0)
+            ->update(['is_token'=>2,'sendback_time'=>$time]);
     }
 
     /**
