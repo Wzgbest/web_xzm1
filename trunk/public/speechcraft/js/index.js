@@ -50,6 +50,8 @@ function article_info_show(id){
 function search_article(){
 	var key_word = $("input[name='key_word']").val();
 	// alert(key_word);
+	// var class_id = $(".current").attr("in_column");
+	// alert(class_id);exit;
 	var url = "/knowledgebase/speech_craft/index/key_word/"+key_word;
 	var panel = 'speech-databasefr';
 	loadPage(url,panel);
