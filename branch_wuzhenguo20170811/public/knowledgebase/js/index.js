@@ -62,3 +62,6 @@ function show_class_article(class_id){
 	var panel = 'speech-databasefr';
 	loadPage(url,panel);
 }
+function close_new_article(){
+	loadPage("/knowledgebase/speech_craft/index", "speech-databasefr");
+}

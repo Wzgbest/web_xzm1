@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="/speechcraft/css/default.css" />
+<link rel="stylesheet" href="/knowledgebase/css/default.css" />
 <div class="knowledgebase knowledgebase_speechcraft knowledgebase_speechcraft_new">
 	<div class="new_panel new">
 		<header>
@@ -36,7 +36,7 @@
         		<div class="u-submitButton">
                     <input type="hidden" name="article_type" value="1">
         			<button type="submit" onclick="add_talk_article();">发布</button>
-        			<button>取消</button>
+        			<button onclick="close_new_article();">取消</button>
         		</div>
         	</form>
         	<form class="quote hide" onsubmit="return false;">
@@ -62,7 +62,7 @@
         		<div class="u-submitButton">
                     <input type="hidden" name="article_type" value="2">
         			<button type="submit" onclick="add_talk_article();">发布</button>
-        			<button>取消</button>
+        			<button onclick="close_new_article();">取消</button>
         		</div>
         	</form>
         </section>
@@ -71,14 +71,14 @@
         </div>
 	</div>
 </div>
-<link rel="stylesheet" href="/speechcraft/css/index.css" />
-<script src="/speechcraft/js/index.js"></script>
+<link rel="stylesheet" href="/knowledgebase/css/index.css" />
+<script src="/knowledgebase/js/index.js"></script>
 <script src="/static/js/PopUp.js"></script>
 <script>
     var pop = new pop("#speechcraft-add-class-content","/knowledgebase/speech_craft/add_class_page",".speechcraft-add-class");
 </script>
-<script charset="utf-8" src="/speechcraft/js/kindeditor-all.js"></script>
-<script charset="utf-8" src="/speechcraft/js/zh-CN.js"></script>
+<script charset="utf-8" src="/knowledgebase/js/kindeditor-all.js"></script>
+<script charset="utf-8" src="/knowledgebase/js/zh-CN.js"></script>
 <script>
     var editor;
     KindEditor.ready(function(K) {
