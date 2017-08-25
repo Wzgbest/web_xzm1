@@ -1,0 +1,78 @@
+.talk {
+	/*width: 100%;*/
+	width:1120px;
+	background-color: #f5f7fa;
+}
+
+header {width: 1120px;
+
+	height: 40px;
+	background-color: white;
+	margin-left: 5px;
+	margin-right: 5px;
+	border-right: 1px solid #ebedf0;
+}
+
+.nav {
+	width: 1120px;
+	height: 40px;
+	margin-left: 1px;
+	box-shadow: -1px 2px #ebedf0;
+}
+
+.nav li {
+	float: left;
+	color: #b2b2b2;
+	height: 20px;
+	padding: 10px 0;
+}
+
+.nav li:hover {
+	cursor: pointer;
+}
+
+.nav li div {
+	line-height: 20px;
+	padding: 0 8px;
+	font-size: 12px;
+	border-right: 2px solid #b2b2b2;
+}
+
+.nav li:last-child div {
+	border: none;
+}
+
+.nav li.flow {
+	color: #333333;
+	border-bottom: 1px solid #42a5f5;
+}
+
+header .add {
+	width: 56px;
+	height: 38px;
+	position: absolute;
+	right: 35px;
+	top: 0;
+	padding-top: 2px;
+}
+
+header .add p {
+	font-size: 12px;
+	text-align: center;
+}
+
+header .add i {
+	display: block;
+	color: #1f7ed0;
+	text-align: center;
+}
+
+section{
+	padding: 0;
+	width: 1120px;
+	height: 60px;
+	background-color: #fff;
+	background-color: #fff;
+	line-height: 60px;
+}
+

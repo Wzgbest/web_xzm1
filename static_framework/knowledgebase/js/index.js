@@ -71,7 +71,7 @@ $(".knowledgebase_company_library_index .library-list .lib-reply .reply-ago .rep
 	        				
 });*/
 });
-$(".knowledgebase_company_library_index .library-list .lib-reply .reply-ago .reply-ago-operator li").eq(1).click(function(){
+$(".knowledgebase_company_library_index .library-list .lib-reply .reply-ago .reply-ago-operator li.praise").click(function(){
 	$(this).toggleClass("active");
 });
 //点赞

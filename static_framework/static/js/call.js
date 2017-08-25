@@ -11,6 +11,12 @@ $(".phone-box i.fa-close").click(function(){
 	$("#phone-number").val("");
 	changeFramesSize();
 });
+
+
+
+
+
+
 //按键
 var pn = document.getElementById("phone-number");
 var number = document.getElementsByClassName("num");
@@ -67,7 +73,7 @@ $(".dial .on").click(function(){
     }
 //    获取连接
     function getWs () {
-        var socket = new WebSocket("ws://192.168.102.50:9002");
+        var socket = new WebSocket("ws://192.168.1.101:9002");
         return socket;
     }
    ws = getWs();
