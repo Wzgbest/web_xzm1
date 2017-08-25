@@ -56,9 +56,9 @@ function list_manage(from,target,url,p,num,max,in_column,sub,arr){
     //列表动作
     function init(){
     	$("."+self.from+" .m-tableBox .m-table ul li").addClass("hide");
-    	console.log(arr[in_column]);
+//  	console.log(arr[in_column]);
     	for(var i=0;i<arr[in_column].length;i++){
-    		console.log(arr[in_column][i]);
+//  		console.log(arr[in_column][i]);
     		$("."+self.from+" .m-tableBox .m-table .u-tabTitle li").eq(arr[in_column][i]).removeClass("hide");
     		var len = $("."+self.from+" .u-tabList").length;
 			for(var j=0;j<len;j++){
