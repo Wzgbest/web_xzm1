@@ -10,8 +10,8 @@
         </header>
         <section class="m-divBlock m-divBlock2">
         	<div class="radio-select">
-        		<input type="radio" name="class" value="1" checked="checked"/>&nbsp;&nbsp;原创&nbsp;&nbsp;
-        		<input type="radio" name="class" value="2"/>&nbsp;&nbsp;引用
+        		<input type="radio" name="class" value="0" checked="checked"/>&nbsp;&nbsp;原创&nbsp;&nbsp;
+        		<input type="radio" name="class" value="1"/>&nbsp;&nbsp;引用
         	</div>
         	<form class="original" >
         		<div><span>标题</span><input type="text" placeholder="请输入文章标题"/></div>
@@ -76,7 +76,7 @@
 <script>
 	var editor;
 	KindEditor.ready(function(K) {
-		editor = K.create('textarea[name="content"]', {
+		editor = K.create('#knowledgebase_speechcraft_new_editor', {
 			resizeType : 1,
 			allowPreviewEmoticons : false,
 			allowImageUpload : false,

@@ -1,0 +1,61 @@
+<div class="knowledgebase knowledgebase_company_library knowledgebase_company_library_new">
+	<div class="new_panel new">
+		<header>
+            <ul class="m-firNav">
+                <li class="current"><div>企业库</div></li>
+                <i class="fa fa-angle-right fa-2x"></i>
+            	<span class="u-spanInfo">新建</span>
+            </ul>
+        </header>
+        <section class="m-divBlock m-divBlock2">
+        	<div class="radio-select">
+        		<input type="radio" name="class" value="0" checked="checked"/>&nbsp;&nbsp;原创&nbsp;&nbsp;
+        		<input type="radio" name="class" value="1"/>&nbsp;&nbsp;引用
+        		<input type="radio" name="class" value="2"/>&nbsp;&nbsp;分享
+        	</div>
+        	<form class="original" >
+        		<div><span>简介</span><textarea placeholder="请输入文章简介"></textarea></div>
+        		<div><span>正文</span><textarea id="knowledgebase_company_library_new_editor" name="content" style="width:800px;height:300px;"></textarea></div>
+        		<div class="u-submitButton">
+        			<button>发布</button>
+        			<button>取消</button>
+        		</div>
+        	</form>
+        	<form class="quote hide">
+        		<div><span>URL</span><input type="text" placeholder="请输入URL"/></div>
+        		<div><span>简介</span><textarea placeholder="请输入文章简介"></textarea></div>
+        		<div class="u-submitButton">
+        			<button>发布</button>
+        			<button>取消</button>
+        		</div>
+        	</form>
+        	<form class="share hide">
+        		<div><span>文件</span><input type="file" placeholder="请输入文章标题"/></div>
+        		<div><span>简介</span><textarea placeholder="请输入文章简介"></textarea></div>
+        		<div class="u-submitButton">
+        			<button>发布</button>
+        			<button>取消</button>
+        		</div>
+        	</form>
+        </section>
+	</div>
+</div>
+<link rel="stylesheet" href="/knowledgebase/css/default.css" />
+<link rel="stylesheet" href="/knowledgebase/css/index.css" />
+<script src="/knowledgebase/js/index.js"></script>
+<script charset="utf-8" src="/knowledgebase/js/kindeditor-all.js"></script>
+<script charset="utf-8" src="/knowledgebase/js/zh-CN.js"></script>
+<script>
+	var editor2;
+	KindEditor.ready(function(K) {
+		editor2 = K.create('#knowledgebase_company_library_new_editor', {
+			resizeType : 1,
+			allowPreviewEmoticons : false,
+			allowImageUpload : false,
+			items : [
+				'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+				'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+				'insertunorderedlist']
+		});
+	},true);
+</script>
