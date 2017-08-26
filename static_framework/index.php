@@ -1,5 +1,8 @@
 <?PHP
 $request_uri_array = explode("/",$_SERVER["REQUEST_URI"]);
+if($request_uri_array[1]=="index.php"){
+	array_splice($request_uri_array,1,1);
+}
 $file_url = "";
 if($_SERVER["REQUEST_URI"]=="/"){
 	$request_uri_array = ["","index","index","index"];

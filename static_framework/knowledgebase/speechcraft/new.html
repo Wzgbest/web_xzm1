@@ -1,75 +1,77 @@
 <link rel="stylesheet" href="/knowledgebase/css/default.css" />
 <div class="knowledgebase knowledgebase_speechcraft knowledgebase_speechcraft_new">
-	<div class="new_panel new">
-		<header>
+    <div class="new_panel new">
+        <header>
             <ul class="m-firNav">
-                <li class="current"><div>话术库</div></li>
+                <li class="current">
+                    <div>话术库</div>
+                </li>
                 <i class="fa fa-angle-right fa-2x"></i>
-            	<span class="u-spanInfo">新建</span>
+                <span class="u-spanInfo">新建</span>
             </ul>
         </header>
         <section class="m-divBlock m-divBlock2">
-        	<div class="radio-select">
-        		<input type="radio" name="class" value="1" checked="checked"/>&nbsp;&nbsp;原创&nbsp;&nbsp;
-        		<input type="radio" name="class" value="2"/>&nbsp;&nbsp;引用
-        	</div>
-        	<form class="original" >
-        		<div><span>标题</span><input type="text" placeholder="请输入文章标题"/></div>
-        		<div><span>分类</span><select>
+            <div class="radio-select">
+                <input type="radio" name="class" value="1" checked="checked" />&nbsp;&nbsp;原创&nbsp;&nbsp;
+                <input type="radio" name="class" value="2" />&nbsp;&nbsp;引用
+            </div>
+            <form class="original" target="_blank">
+                <div><span>标题</span><input type="text" placeholder="请输入文章标题" /></div>
+                <div><span>分类</span><select>
         				<option></option>
         		</select><span class="color-blue speechcraft-add-class">添加</span>
-        		</div>
-        		<div><span>简介</span><textarea placeholder="请输入文章简介"></textarea></div>
-        		<div><span>正文</span><textarea id="knowledgebase_speechcraft_new_editor" name="content" style="width:800px;height:300px;"></textarea></div>
-        		<div>
-        			<input type="radio" name="top" value="1"/>&nbsp;&nbsp;置顶
-        			<input type="radio" name="top" value="0"/>&nbsp;&nbsp;不置顶
-        			<div><span>置顶时间</span>&nbsp;&nbsp;<input type="datetime-local" />&nbsp;&nbsp;至&nbsp;&nbsp;<input type="datetime-local" /></div>
-        			<div><span>显示时间</span>&nbsp;&nbsp;<input type="datetime-local" />&nbsp;&nbsp;至&nbsp;&nbsp;<input type="datetime-local" /></div>
-        		</div>
-        		<div>
-        			<input type="radio" name="release" value="1"/>&nbsp;&nbsp;定时发布&nbsp;&nbsp;<input type="datetime-local" /><br />
-        			<input type="radio" name="release" value="2"/>&nbsp;&nbsp;立即发布
-        		</div>
-        		<div class="u-submitButton">
-        			<button>发布</button>
-        			<button>取消</button>
-        		</div>
-        	</form>
-        	<form class="quote hide">
-        		<div><span>标题</span><input type="text" placeholder="请输入文章标题"/></div>
-        		<div><span>分类</span><select>
+                </div>
+                <div><span>简介</span><textarea placeholder="请输入文章简介"></textarea></div>
+                <div><span>正文</span><textarea id="knowledgebase_speechcraft_new_editor" name="content" style="width:800px;height:300px;"></textarea></div>
+                <div>
+                    <input type="radio" name="top" value="1" />&nbsp;&nbsp;置顶
+                    <input type="radio" name="top" value="0" />&nbsp;&nbsp;不置顶
+                    <div><span>置顶时间</span>&nbsp;&nbsp;<input type="datetime-local" />&nbsp;&nbsp;至&nbsp;&nbsp;<input type="datetime-local" /></div>
+                    <div><span>显示时间</span>&nbsp;&nbsp;<input type="datetime-local" />&nbsp;&nbsp;至&nbsp;&nbsp;<input type="datetime-local" /></div>
+                </div>
+                <div>
+                    <input type="radio" name="release" value="1" />&nbsp;&nbsp;定时发布&nbsp;&nbsp;<input type="datetime-local" /><br />
+                    <input type="radio" name="release" value="2" />&nbsp;&nbsp;立即发布
+                </div>
+                <div class="u-submitButton">
+                    <button id="customer_setting_submit">发布</button>
+                    <button>取消</button>
+                </div>
+            </form>
+            <form class="quote hide">
+                <div><span>标题</span><input type="text" placeholder="请输入文章标题" /></div>
+                <div><span>分类</span><select>
         				<option></option>
         		</select><span class="color-blue speechcraft-add-class">添加</span>
-        		</div>
-        		<div><span>URL</span><input type="text" placeholder="请输入URL"/></div>
-        		<div><span>简介</span><textarea placeholder="请输入文章简介"></textarea></div>
-        		<div>
-        			<input type="radio" name="top" value="1"/>&nbsp;&nbsp;置顶
-        			<input type="radio" name="top" value="0"/>&nbsp;&nbsp;不置顶
-        			<div><span>置顶时间</span>&nbsp;&nbsp;<input type="datetime-local" />&nbsp;&nbsp;至&nbsp;&nbsp;<input type="datetime-local" /></div>
-        			<div><span>显示时间</span>&nbsp;&nbsp;<input type="datetime-local" />&nbsp;&nbsp;至&nbsp;&nbsp;<input type="datetime-local" /></div>
-        		</div>
-        		<div>
-        			<input type="radio" name="release" value="1"/>&nbsp;&nbsp;定时发布&nbsp;&nbsp;<input type="datetime-local" /><br />
-        			<input type="radio" name="release" value="2"/>&nbsp;&nbsp;立即发布
-        		</div>
-        		<div class="u-submitButton">
-        			<button>发布</button>
-        			<button>取消</button>
-        		</div>
-        	</form>
+                </div>
+                <div><span>URL</span><input type="text" placeholder="请输入URL" /></div>
+                <div><span>简介</span><textarea placeholder="请输入文章简介"></textarea></div>
+                <div>
+                    <input type="radio" name="top" value="1" />&nbsp;&nbsp;置顶
+                    <input type="radio" name="top" value="0" />&nbsp;&nbsp;不置顶
+                    <div><span>置顶时间</span>&nbsp;&nbsp;<input type="datetime-local" />&nbsp;&nbsp;至&nbsp;&nbsp;<input type="datetime-local" /></div>
+                    <div><span>显示时间</span>&nbsp;&nbsp;<input type="datetime-local" />&nbsp;&nbsp;至&nbsp;&nbsp;<input type="datetime-local" /></div>
+                </div>
+                <div>
+                    <input type="radio" name="release" value="1" />&nbsp;&nbsp;定时发布&nbsp;&nbsp;<input type="datetime-local" /><br />
+                    <input type="radio" name="release" value="2" />&nbsp;&nbsp;立即发布
+                </div>
+                <div class="u-submitButton">
+                    <button>发布</button>
+                    <button>取消</button>
+                </div>
+            </form>
         </section>
         <div class="popUp hide" id="speechcraft-add-class-content">
-        	
+
         </div>
-	</div>
+    </div>
 </div>
 <link rel="stylesheet" href="/knowledgebase/css/index.css" />
 <script src="/knowledgebase/js/index.js"></script>
 <script src="/static/js/PopUp.js"></script>
 <script>
-	var pop = new pop("#speechcraft-add-class-content","/knowledgebase/speechcraft/add_class/",".speechcraft-add-class");
+    var pop = new pop("#speechcraft-add-class-content", "/knowledgebase/speechcraft/add_class/", ".speechcraft-add-class");
 </script>
 <script charset="utf-8" src="/knowledgebase/js/kindeditor-all.js"></script>
 <script charset="utf-8" src="/knowledgebase/js/zh-CN.js"></script>
@@ -86,4 +88,25 @@
 				'insertunorderedlist']
 		});
 	},true);
+</script>
+<script language="JavaScript">
+    $('#customer_setting_submit').click(function() {
+        console.log($(".original").serialize());
+        $.ajax({
+            url: '/systemsetting/customer/add.html',
+            type: 'post',
+            data: $(".original").serialize(),
+            dataType: 'json',
+            success: function(data) {
+                //console.log(data);
+                alert(data.info);
+                if (data.status) {
+                    loadPage("/systemsetting/customer/index", "customer-settingfr");
+                }
+            },
+            error: function() {
+
+            },
+        });
+    });
 </script>
