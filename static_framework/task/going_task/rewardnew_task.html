@@ -1,0 +1,172 @@
+<link rel="stylesheet" href="/task/css/task.css" />
+
+<div class="task">
+	<header>
+		<div id="top">
+			<ul class="firNav">
+				<li class="current">
+					<div>间接参与（<span>7</span>）</div>
+				</li>
+				<i class="fa fa-angle-right fa-2x"></i>
+				<span class="span-info">新建任务</span>
+			</ul>
+		</div>
+		<!--<div class="sort">
+			<img src="/task/img/sort.png" />
+			<p>排序</p>
+			<div class="classify">
+				<p>按时间</p>
+				<p>按奖金</p>
+				<p>按热度</p>
+			</div>
+		</div>
+		<div class="add">
+			<i class="fa fa-plus fa-2x"></i>
+			<p>新建任务</p>
+		</div>-->
+	</header>
+
+	<article>
+		<div class="dv4">
+			<div class="parcel">
+				<div class="left hezi">
+					<img src="/task/img/star.png" />
+					<span>任务类型</span>
+					<select>
+						<option value="3">悬赏任务</option>
+						<option value="2">PK任务</option>
+						<option value="1">激励任务</option>
+
+					</select>
+				</div>
+				<div class="right hezi">
+					<img src="/task/img/star.png" />
+					<span>任务名称</span>
+					<input type="text" placeholder="最佳通话能手" />
+				</div>
+				
+			</div>
+			<div class="parcel">
+				<div class="left hezi">
+					<img src="/task/img/star.png" />
+					<span>面向群体</span>
+					<select>
+						<option>李文璐、王大宝、张三等</option>
+						<option>张萌萌等</option>
+						<option>刘大宝等</option>
+					</select>
+				</div>
+				<div class="right hezi">
+					<img src="/task/img/star.png" />
+					<span>悬赏项目</span>
+					<select>
+						<option>有效通话数</option>
+						<option>商机数</option>
+						<option>成交额</option>
+						<option>成单数</option>
+						<option>拜访数</option>
+						<option>新增客户数</option>
+					</select>
+				</div>
+			</div>
+			<div class="parcel">
+				<div class="left hezi">
+					<img src="/task/img/star.png" />
+					<span>悬赏人数</span>
+					<input type="text" placeholder="2"/>
+					<span>人</span>
+				</div>
+				<div class="right hezi">
+					<img src="/task/img/star.png" />
+					<span>悬赏金额</span>
+					<input type="text" placeholder="20"/>
+					<span>元/人</span>
+				</div>
+			</div>
+			
+			<!--<div class="choice">
+				<span>奖励方式</span>
+				<input type="radio" name="like"/><span>按达标次序<span class="small">（统计周期时间内，达标的员工获得即时奖励）</span></span>
+			</div>
+			<div class="choice retract">
+				<input type="radio" name="like"/><span>按达标结果<span class="small">（任务结束，所有达标员工平均分配奖金）</span></span>
+			</div>	
+			<div class="choice retract">
+				<input type="radio" name="like"/><span>按周期排名<span class="small">（任务结束后，按完成任务量最终排名发放奖金）</span></span>
+			</div>
+			<div class="parcel">
+				<div class="len">
+					<img src="/task/img/star.png" />
+					<span>达标要求</span>
+					<span class="set">设置达标有效通话数</span>
+					<input type="text" placeholder="0" />
+					<span>个</span>
+				</div>
+			</div>
+			<div class="parcel">
+				<div class=" hezi">
+					<img src="/task/img/star.png" />
+					<span>激励金额</span>
+					<input type="text" placeholder="0" />
+					<span>元</span>
+				</div>
+			</div>
+			<div class="parcel">
+				<div class="len">
+					<img src="/task/img/star.png" />
+					<span>分配规则</span>
+					<span class="set">第</span>
+					<input type="text" placeholder="1" />
+					<span class="set">到</span>
+					<input type="text" placeholder="5" />
+					<span>名</span>
+					<span class="set">奖金</span>
+					<input type="text" placeholder="100" />
+					<span class="set">元</span>
+					<img src="/task/img/add.png" class="add"/>
+				</div>
+			</div>
+			
+			<ul>
+				<li>第<span>1</span>~<span>3</span>名，各奖励<span>300</span>元<i class="fa fa-edit"></i><i class="fa fa-trash-o"></i></li>
+				<li>第<span>4</span>~<span>6</span>名，各奖励<span>100</span>元<i class="fa fa-edit"></i><i class="fa fa-trash-o"></i></li>
+				<li>第<span>7</span>~<span>15</span>名，各奖励<span>50</span>元<i class="fa fa-edit"></i><i class="fa fa-trash-o"></i></li>
+				<li>奖励前<span>15</span>名，将支付<span>1000</span>元作为激励奖金</li>
+			</ul>-->
+			
+			
+			<div class="parcel">
+				<div class="normal">
+					<img src="/task/img/star.png" />
+					<span>领取周期</span>
+					<!--<input type="text" placeholder="请填写日期" />-->
+					<input type="datetime-local" style="line-height: 35px;" />
+					<span class="set">到</span>
+					<!--<input type="text" placeholder="请填写日期" />-->
+					<input type="datetime-local" style="line-height: 35px;" />
+				</div>
+			</div>
+			<div class="parcel">
+				<div class="normal">
+					<img src="/task/img/star.png" />
+					<span>统计周期</span>
+					<!--<input type="text" placeholder="请填写日期" />-->
+					<input type="datetime-local" style="line-height: 35px;" />
+					<span class="set">到</span>
+					<!--<input type="text" placeholder="请填写日期" />-->
+					<input type="datetime-local" style="line-height: 35px;" />
+				</div>
+			</div>
+			<div class="last">
+				<span>任务说明</span>
+				<textarea placeholder="请输入任务说明内容"></textarea>
+				<p>发布规则：任务期间自动向任务最高者发布&nbsp;&nbsp;&nbsp;&nbsp;你将支付<span class="orange">80</span>元作为PK金</p>
+			</div>
+			<div class="issue">
+				<p>发布</p>
+				<p>取消</p>
+			</div>
+		</div>
+	</article>
+
+	<script type="text/javascript" src="/task/js/task.js"></script>

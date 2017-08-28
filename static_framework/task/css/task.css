@@ -345,8 +345,8 @@ article .dv1 .center .details .flo {
 }
 
 article .dv1 .details .flotage {
-	width: 200px;
-	height: 70px;
+	width: 240px;
+	height: 100px;
 	position: absolute;
 	padding-left: 40px;
 	padding-right: 40px;
@@ -1536,11 +1536,7 @@ article .dv3 .title{
 	margin-top: 20px;
 }
 
-
-
-
 article .dv3 .left .review{
-	
 	width: 96%;
 	height: 252px;
 	margin: 10px auto;
@@ -1723,18 +1719,21 @@ article .dv4 .parcel .hezi{
 }
 article .dv4 .parcel .hezi .img{
 	vertical-align: middle;
+	
 }
 article .dv4 .parcel .hezi span{
+
 	font-size: 14px;
 	line-height: 36px;
 	margin-right: 25px;
-
+	width: 56px;
+	display: inline-block;
 }
 article .dv4 .parcel .hezi input{
 	width: 235px;
 	padding-left: 15px;
 	height: 34px;
-	
+	margin-right: 10px;
 }
 article .dv4 .parcel .hezi select{
 	width: 255px;
@@ -1803,7 +1802,7 @@ article .dv4 ul{
 	margin-left: 100px;
 	margin-bottom: 15px;
 }
-.a{
+article .dv4 ul.point{
 	display: block;
 }
 article .dv4 ul li{
@@ -1860,7 +1859,8 @@ article .dv4 .parcel .normal .set{
 article .dv4 .parcel .normal input{
 	width: 332px;
 	padding-left: 15px;
-	height: 34px;
+	height: 26px;
+	padding-top: 3px;
 	
 }
 
@@ -1880,6 +1880,13 @@ article .dv4 .last textarea{
 	margin-left: 25px;
 	padding-left: 15px;
 	padding-top: 10px;
+}
+article .dv4 .last p{
+	margin-top: 5px;
+	font-size: 12px;
+	color: #c6c6c6;
+	padding-left: 90px;
+
 }
 article .dv4 .issue{
 	width: 300px;
@@ -1902,4 +1909,7 @@ article .dv4 .issue p:nth-of-type(1){
 article .dv4 .issue p:nth-of-type(2){
 	border: 1px solid #999999;
 	float: right;
+}
+article .dv4 .tab{
+	display: none;
 }

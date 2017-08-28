@@ -27,25 +27,31 @@ for(var i = 0; i < t; i++) {
 	$("#myModalsix .table").append(content3);
 }
 //领红包
-$(".dv1 .grade .get").click(function() {
-	if($(this).hasClass("p1")) {
-		return;
-	}
-
-	$(this).hide();
-	//	$(this).css("visibility","hidden")
+//$(".dv1 .grade .get").click(function() {
+//	if($(this).hasClass("p1")) {
+//		return;
+//	}
+//
+//	$(this).hide();
+//	$(".dv1 .mengceng").addClass("m_c");
+//	var a = '<img src="/task/img/redPacket.png" class="picture"/>';
+//	$(".mengceng").append(a);
+//	$('.picture').click(function() {
+//
+//		$(this).parent().removeClass("m_c")
+//		$(this).remove()
+//
+//		$(".dv1 .grade .get").show()
+//		$(".dv1 .grade .get").addClass('p1').removeClass("p2").text("已领取100元")
+//
+//	})
+//
+//})
+//$(".dv1 .grade .p1").removeClass("get")
+	$(".dv1 .grade .get").hide();
 	$(".dv1 .mengceng").addClass("m_c");
-	//	$(".mengceng").append('<img src=' + "img/redPacket.png" + ""/>);
-	//	$(".mengceng").append('<img src='+"../img/redPacket.png"+'>');
 	var a = '<img src="/task/img/redPacket.png" class="picture"/>';
 	$(".mengceng").append(a);
-
-	//$('.mengceng').on("click",'.picture',function(){
-	//	alert(1);
-	//	$(this).parent().removeClass("m_c")
-	//	$(this).remove();
-	//})
-
 	$('.picture').click(function() {
 
 		$(this).parent().removeClass("m_c")
@@ -55,12 +61,6 @@ $(".dv1 .grade .get").click(function() {
 		$(".dv1 .grade .get").addClass('p1').removeClass("p2").text("已领取100元")
 
 	})
-	//.removeClass("get")
-
-})
-$(".dv1 .grade .p1").removeClass("get")
-
-
 //领小红包
 $("article .dv2 .left .box img").click(function() {
 	
@@ -126,19 +126,16 @@ $('.grade .show_ranking_reward').click(function() {
 
 //间接参与，重置P标签
 $(".dv1 .right .give .task").click(function() {
-
 	$(this).siblings().remove();
 	$(this).remove()
 	$(".give").append("<p class='cute'>任务进行中</p>");
-
 })
-$(".dv1 .right .stimulate .task").click(function() {
-
-//	$(this).siblings().remove();
-	$(this).remove()
-	$(".stimulate").append("<p class='cute'>任务进行中</p>");
-
-})
+//$(".dv1 .right .stimulate .task").click(function() {
+//
+//	$(this).remove()
+//	$(".stimulate").append("<p class='cute'>任务进行中</p>");
+//
+//})
 $(".dv1 .right .give .guess").click(function() {
 	var n="<p class='cute'>猜输赢进行中</p>"
 	$(this).siblings().remove();
@@ -213,9 +210,42 @@ function task_like(id,like,fun){
 			},
 		});
 }
+//新建里边点击加号ul显示
 $("article .dv4 .parcel .add").click(function(){
-//	alert(1)
-	$("article .dv4 ul").css("display",'block')
-//$("article .dv4 ul").toggleClass(a)
+
+$("article .dv4 ul").toggleClass('point')
 	
 })
+
+//$(".dv4 .parcel .hezi select").change(function(){
+//	var a=$(".dv4 .parcel .hezi select").val()
+//
+//	$(".dv4 .parcel .right .b").text(a+'项目')
+//})
+
+//绑定change事件
+//获取select值
+//panduan
+//tiaozhuan
+$(".dv4 .parcel .hezi select").change(function(){
+	var val=$(".dv4 .parcel .hezi select").val();
+//	alert(val)
+
+	if(val==1){
+		javascript:loadPage('/task/going_task/new_task.html','public-taskfr');
+	};
+	if(val==2){
+		javascript:loadPage('/task/going_task/PKnew_task.html','public-taskfr');
+	};
+	if(val==3){
+		javascript:loadPage('/task/going_task/rewardnew_task.html','public-taskfr');
+	}
+})
+
+
+$("article .dv4 .xuanze input").click(function(){
+					var index=$(this).attr("index")
+					$("article .dv4 .tab").css("display","none");
+					$("article .dv4 .tab").eq($(this).attr("index")).css("display",'block')
+				})
+
