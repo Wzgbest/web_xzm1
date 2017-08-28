@@ -37,3 +37,25 @@
 </div>
 <link rel="stylesheet" href="/knowledgebase/css/index.css" />
 <script src="/knowledgebase/js/index.js"></script>
+<script type="text/javascript">
+    function article_info_show(id){
+    var url = "/knowledgebase/speech_craft/show/id/"+id;
+    var panel = 'speech-databasefr';
+    loadPage(url,panel);
+}
+function search_article(){
+    var key_word = $("input[name='key_word']").val();
+    // alert(key_word);
+    // var class_id = $(".current").attr("in_column");
+    // alert(class_id);exit;
+    var url = "/knowledgebase/speech_craft/index/key_word/"+key_word;
+    var panel = 'speech-databasefr';
+    loadPage(url,panel);
+
+}
+function show_class_article(class_id){
+    var url = "/knowledgebase/speech_craft/index/class_id/"+class_id;
+    var panel = 'speech-databasefr';
+    loadPage(url,panel);
+}
+</script>

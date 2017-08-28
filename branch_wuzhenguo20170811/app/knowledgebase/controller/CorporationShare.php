@@ -324,4 +324,36 @@ class CorporationShare extends Initialize{
         $result['status'] = 1;
         return json($result);
     }
+
+    public function index(){
+
+        $num = input('num',10,'int');
+        $last_id = input("last_id",0,"int");
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $corporationShareModel = new CorporationShareModel($this->corp_id);
+        $share_data = $corporationShareModel->getCorporationShare($uid,$num,$last_id);
+        $share_ids = array_column($share_data,"id");
+        $corporationShareCommentModel = new CorporationShareCommentModel($this->corp_id);
+        $share_comment_data = $corporationShareCommentModel->getAllCorporationShareComment($share_ids);
+        $share_comment_Index = [];
+        foreach ($share_comment_data as $share_comment){
+            //$share_comment["reply_content"] = utf8_decode($share_comment["reply_content"]);
+            $share_comment_Index[$share_comment["share_id"]][] = $share_comment;
+        }
+        foreach ($share_data as &$share){
+            if(isset($share_comment_Index[$share["id"]])){
+                $share["comment_list"] = $share_comment_Index[$share["id"]];
+            }else{
+                $share["comment_list"] = [];
+            }
+        }
+        // var_dump($share_data);die();
+        $this->assign('share_list',$share_data);
+        return view();
+    }
+
+    public function add_share(){
+        return view('new');
+    }
 }

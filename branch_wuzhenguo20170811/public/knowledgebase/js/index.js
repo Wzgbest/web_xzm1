@@ -1,67 +1,72 @@
 $(".new-speechcraft").click(function(){
 	loadPage("/knowledgebase/speech_craft/add_article", "speech-databasefr");
 });
-$(".knowledgebase_speechcraft_new .radio-select input[name='class']").change(function(){
-	console.log(1);
-	if($(this).val()==1){
-		$("form.original").removeClass("hide");
-		$("form.original").addClass("new_article_form");
-		$("form.quote").addClass("hide");
-		$("form.quote").removeClass("new_article_form");
-	}else if($(this).val()==2){
-		$("form.original").addClass("hide");
-		$("form.original").removeClass("new_article_form");
-		$("form.quote").removeClass("hide");
-		$("form.quote").addClass("new_article_form");
-	}
-})
 $(".knowledgebase_speechcraft_new header li").click(function(){
 	loadPage("/knowledgebase/speech_craft/index", "speech-databasefr");
 });
-function add_talk_article(){
-	editor.sync();
-	var new_article_data = $(".new_article_form").serialize();
-	var url = '/knowledgebase/speech_craft/addArticle';
-	// console.log(new_article_data);
-	$.ajax({
-		url: url,
-		type: 'post',
-		data: new_article_data,
-		dataType: 'json',
-		success: function(data) {
-			// alert(data.data);
-			if(data.status) {
-				alert(data.info);
-				loadPage("/knowledgebase/speech_craft/index", "speech-databasefr");
-			}else {
-				alert(data.message);
-			}
-		},
-		error: function() {
-			alert("添加失败!");
-		}
-	});
-}
-function article_info_show(id){
-	var url = "/knowledgebase/speech_craft/show/id/"+id;
-	var panel = 'speech-databasefr';
-	loadPage(url,panel);
-}
-function search_article(){
-	var key_word = $("input[name='key_word']").val();
-	// alert(key_word);
-	// var class_id = $(".current").attr("in_column");
-	// alert(class_id);exit;
-	var url = "/knowledgebase/speech_craft/index/key_word/"+key_word;
-	var panel = 'speech-databasefr';
-	loadPage(url,panel);
+$(".new-company-library").click(function(){
+	loadPage("/knowledgebase/corporation_share/add_share", "company-libraryfr");
+});
+$(".knowledgebase_company_library_new header li").click(function(){
+	loadPage("/knowledgebase/corporation_share/index", "company-libraryfr");
+});
+$(".knowledgebase .new_panel .radio-select input[name='class']").change(function(){
+	var num = $(this).val();
+	var form = $(this).parent().siblings("form");
+	form.addClass("hide").removeClass('new_article_form').eq(num).removeClass("hide").addClass('new_article_form');
+})
 
+//图片点击事件
+$(".knowledgebase_company_library_index .library-list .lib-content .pic-grid li img").click(function(){
+	$(this).parents(".pic-grid").addClass("hide").siblings().removeClass("hide");
+	$(this).parents(".pic-grid").siblings(".pic-show").removeClass("hide").children("img").attr("src",$(this).attr("src"));
+	$(this).parents(".pic-grid").siblings(".pic-list").removeClass("hide").children("li").eq($(this).parent().index()).addClass("current");
+});
+$(".knowledgebase_company_library_index .library-list .lib-content .pic-list li img").click(function(){
+	$(this).parent("li").addClass("current").siblings("li").removeClass("current");
+	$(this).parent("li").parent("ul").siblings(".pic-show").children("img").attr("src",$(this).attr("src"));
+})
+//评论
+var comment = {
+	state:false,
+	name:null
 }
-function show_class_article(class_id){
-	var url = "/knowledgebase/speech_craft/index/class_id/"+class_id;
-	var panel = 'speech-databasefr';
-	loadPage(url,panel);
-}
-function close_new_article(){
-	loadPage("/knowledgebase/speech_craft/index", "speech-databasefr");
-}
+$(".knowledgebase_company_library_index .library-list .lib-operator .comment").click(function(){
+	$(this).parent(".lib-operator").siblings(".lib-reply").toggleClass("hide");
+})
+$(".knowledgebase_company_library_index .library-list .lib-reply .reply-now .reply-operator button").click(function(){
+	var txt = $(this).parent(".reply-operator").siblings("input").val();
+	var face_src = $(this).parent(".reply-operator").siblings(".face").children("img").attr("src");
+	var name = $("#nav-user span").text();
+	console.log(name);
+	var content1 = '<li><div class="face"><img src="';
+	var content2 = '" /></div><div class="reply-ago-content"><span class="name color-blue2">';
+	if(comment.state){
+		var content3 = '</span><span class="reply-reply">&nbsp;回复&nbsp;<span class="name2 color-blue2">';
+	}else{
+		var content3 = '</span><span class="reply-reply hide">&nbsp;回复&nbsp;<span class="name2 color-blue2">';
+	}
+	var content35 = '</span></span><span>：</span><span class="content">';
+	var content4 = '</span></div><div class="reply-ago-operator"><span class="datetime">';
+	var time = new Date().toLocaleString();
+	var content5 = '</span><ul class="fr"><li>回复</li></ul></div></li>';
+	var content = content1 +face_src+content2+name+content3+comment.name+content35+txt+content4+time+content5;
+	$(this).parent(".reply-operator").parent("li").parent(".reply-now").siblings(".reply-ago").append(content);  
+	$(this).parent(".reply-operator").siblings("input").val(null).attr("placeholder","");
+	comment.state = false;
+	comment.name = null;
+	        				
+});
+$(".knowledgebase_company_library_index .library-list .lib-reply .reply-ago .reply-ago-operator li").click(function(){
+	$(this).parents(".reply-ago").siblings(".reply-now").children("li").children("input").focus();
+	$(this).parents(".reply-ago").siblings(".reply-now").children("li").children("input").attr("placeholder","回复"+$(this).parents(".reply-ago-operator").siblings(".reply-ago-content").children(".name").text());
+	comment.state = true;
+	comment.name = $(this).parents(".reply-ago-operator").siblings(".reply-ago-content").children(".name").text();
+});
+$(".knowledgebase_company_library_index .library-list .lib-reply .reply-ago .reply-ago-operator li.praise").click(function(){
+	$(this).toggleClass("active");
+});
+//点赞
+$(".knowledgebase_company_library_index .library-list .lib-operator .praise").click(function(){
+	$(this).toggleClass("active");
+});
