@@ -67,7 +67,7 @@ class CorporationShareComment extends Base{
             ->join($this->dbprefix.'employee rve','rve.id = csc.reviewer_id',"LEFT")
             ->where($map)
             ->order($order)
-            ->field("csc.*,re.telephone as replyer_telephone,re.truename as replyer_name,rve.telephone as reviewer_telephone,rve.truename as reviewer_name")//TODO
+            ->field("csc.*,re.telephone as replyer_telephone,re.truename as replyer_name,re.userpic as replyer_pic,rve.telephone as reviewer_telephone,rve.truename as reviewer_name")//TODO
             ->select();
         return $corporationShareCommentList;
     }

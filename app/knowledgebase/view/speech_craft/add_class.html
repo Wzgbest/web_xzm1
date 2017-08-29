@@ -17,6 +17,7 @@
 		// alert(class_name);
 		if (!class_name) {
 			alert("请输入分类名称!");
+			return;
 		}
 		var data = "type_name="+class_name;
 		var url = "/knowledgebase/speech_craft/addClass"
