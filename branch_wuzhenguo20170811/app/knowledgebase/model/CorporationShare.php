@@ -242,4 +242,13 @@ class CorporationShare extends Base{
         return $flg;
     }
 
+    /**
+     * 删除一条评论
+     * @param  int $comment_id 评论id
+     * @return [type]             [description]
+     */
+    public function delOneCommentById($comment_id){
+        return $this->model->table($this->dbprefix.'corporation_share_comment')->where(['id'=>$comment_id])->delete();
+    }
+
 }
