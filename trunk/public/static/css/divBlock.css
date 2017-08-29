@@ -49,8 +49,14 @@
 	color: #77b8ff !important;
 	cursor: pointer;
 }
+.color-blue2{
+	color: #77b8ff !important;
+}
 .color-green{
 	color: #13ae6b;
+}
+.color-red{
+	color: #f43509;
 }
 .color-yellow{
 	color: #ffa31c;

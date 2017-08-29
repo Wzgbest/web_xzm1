@@ -16,7 +16,7 @@ class TaskComment extends Initialize{
 	 * 发表任务评论借口
 	 */
 	public function addTaskComment(){
-		$result = ['satus'=>0,'info'=>"评论任务时发生错误!"];
+		$result = ['status'=>0,'info'=>"评论任务时发生错误!"];
 
 		$task_id = input('task_id',0,"int");
 		$replay_content = input('replay_content',"","string");
