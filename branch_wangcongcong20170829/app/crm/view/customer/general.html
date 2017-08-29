@@ -1,0 +1,163 @@
+<!--客户详情-->
+<section class="page-info">
+    <header>
+        <ul class="m-firNav">
+            <li class="current back"><div>我的所有客户（<span>160</span>）</div></li>
+            <i class="fa fa-angle-right fa-2x"></i>
+            <span class="u-spanInfo">详情</span>
+        </ul>
+    </header>
+    <ul class="m-pageInfoNav">
+        <div class="clearfix"></div>
+        <li class="current">概要</li>
+        <li class="customer_info_show">客户信息</li>
+        <li class="customer_contact_show">联系人（{$customer_contact_num}）</li>
+        <li class="customer_sale_chance_show">销售机会（{$sale_chance_num}）</li>
+        <li class="customer_trace_show">跟踪记录（{$customer_trace_num}）</li>
+        <div class="clearfix"></div>
+    </ul>
+    <section class="clientInfoOutline">
+        <div class="m-divBlock outlineCharge">
+            <div>
+                <div class="set-remind buttons"><i class="fa fa-clock-o "></i><span>设置提醒</span></div>
+                <div class="order-visit buttons"><i class="fa fa-users"></i><span>预约拜访</span></div>
+                <div class="order-visit buttons"><i class="fa fa-users"></i><span>申请成单</span></div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="detail">
+                <span>负责人：</span><span>{$handle_employee.truename}</span>
+                <span class="vertical-blue">|</span>
+                <span>{$handle_employee.struct_name}</span>
+            </div>
+            <div class="detail">
+                <span>最后拜访时间：</span>
+                <span>2017/05/31</span>
+                <span class="vertical-blue">|</span>
+                <span>拜访次数：</span>
+                <span class="number">3</span>
+                <span>次</span>
+            </div>
+            <div class="detail">
+                <span>最后通话时间：</span>
+                <span>2017/05/31 10:36</span>
+                <span class="vertical-blue">|</span>
+                <span>来电次数：</span>
+                <span class="number">8</span>
+                <span>次</span>
+                <span class="vertical-blue">|</span>
+                <span>去电次数：</span>
+                <span class="number">10</span>
+                <span>次</span>
+            </div>
+        </div>
+        <div class="m-divBlock outlineInfo">
+            <div>
+                <span>客户名称：</span><span class="color-blue">{$customer.customer_name}</span>
+            </div>
+            <div>
+                <span>客户来源：</span><span>{$customer.resource_from|getResourceFromName}</span>
+                <span class="margin-left70">客户级别：</span><span>{$customer.grade}<i class="fa fa-caret-right color-blue" style="margin-left: 5px;"></i></span>
+                <span class="margin-left70">获取途径：</span><span>{$customer.take_type|getTakeTypeFromName}</span>
+            </div>
+            <div>
+                <span>客户行业：</span>
+                {notempty name="customer.field1"}
+                    <span class="color-blue">{$business_array[$customer['field1']]}</span>
+                    {notempty name="customer.field2"}
+                        <span class="vertical-yellow">|</span>
+                    {/notempty}
+                {/notempty}
+                {notempty name="customer.field2"}
+                    <span class="color-blue">{$business_array[$customer['field2']]}</span>
+                    {notempty name="customer.field"}
+                        <span class="vertical-yellow">|</span>
+                    {/notempty}
+                {/notempty}
+                {notempty name="customer.field"}
+                    <span class="color-blue">{$business_array[$customer['field']]}</span>
+                {/notempty}
+            </div>
+            <div>
+                <span>公司地址：</span>
+                <span class="color-blue">{$customer.address}</span>
+            </div>
+            <div>
+                <span>详细定位：</span>
+                <span class="color-blue">{$customer.location}</span>
+            </div>
+            <div>
+                <span>公司官网：</span>
+                {volist name="customer.website_arr" id="vo" key="key"}
+                    {neq name="key" value="1"}
+                        <span>/</span>
+                    {/neq}
+                    <span class="color-blue">{$vo}</span>
+                {/volist}
+            </div>
+            <div>
+                <span style="vertical-align: top;">沟通状态：</span>
+                <div class="buttons active"><i class="fa fa-frown-o"></i><span>无意向</span></div>
+                <div class="buttons active"><i class="fa fa-chain-broken"></i><span>号码无效</span></div>
+                <div class="buttons active"><i class="fa fa-file-excel-o"></i><span>资料有误</span></div>
+                <div class="buttons active"><i class="fa fa-bell-slash-o"></i><span>未接通</span></div>
+                <div class="buttons active"><i class="fa fa-spinner"></i><span>待定</span></div>
+                <div class="buttons active"><i class="fa fa-heart"></i><span>有意向</span></div>
+            </div>
+            <div class="edit active customer_info_edit">
+                <i class="fa fa-file-text fa-2x"></i>
+                <span>编辑</span>
+            </div>
+        </div>
+        {volist name="sale_chance" id="vo"}
+        <div class="m-divBlock outlineChance">
+            <div>
+                <span>销售机会：</span><span>{$vo.sale_name}</span>
+                <span class="margin-left70">客户状态：</span><span>{$vo.sale_status|getSaleStatusName}<i class="fa fa-caret-right color-blue" style="margin-left: 5px;"></i></span>
+                <span class="margin-left70">预期金额：</span><span class="number">{$vo.guess_money}</span><span>元</span>
+            </div>
+            <div>
+                <span>状态变更备注：</span><span>{$vo.remark}</span>
+            </div>
+            {between name="vo.sale_status" value="1,3"}
+                <div class="edit sale_chance_edit" sale_chance_id="{$vo.id}">
+                    <i class="fa fa-file-text fa-2x"></i>
+                    <span>编辑</span>
+                </div>
+            {/between}
+        </div>
+        {/volist}
+        <div class="m-divBlock ">
+            {volist name="customer_contact" id="vo"}
+            <div class="keyman-link">
+                <span>{$vo.contact_name}<span> {eq name="vo.key_decide" value="1"}关键决策人{/eq}</span></span>
+                {notempty name="vo.phone_first"}
+                    <div class="telephone">{$vo.phone_first}<i class="fa fa-phone"></i></div>
+                {/notempty}
+                {notempty name="vo.phone_second"}
+                    <div class="telephone">{$vo.phone_second}<i class="fa fa-phone"></i></div>
+                {/notempty}
+                {notempty name="vo.phone_third"}
+                    <div class="telephone">{$vo.phone_third}<i class="fa fa-phone"></i></div>
+                {/notempty}
+            </div>
+            {/volist}
+            <div class="clearfix"></div>
+        </div>
+        <div class="m-divBlock outlineLable">
+            <div>
+                <span>最近沟通标签：</span>
+            </div>
+            <div style="margin-top:10px;padding-left: 20px;margin-bottom: 20px;">
+                <span class="remark">{$customer.remark}</span>
+            </div>
+        </div>
+        <div class="m-divBlock outlineCreatPerson">
+            <div>
+                <span>创建人：</span><span>{$add_employee.truename}</span>
+            </div>
+            <div>
+                <span>最后编辑日期：</span><span>{$customer.last_edit_time|day_format}</span>
+            </div>
+        </div>
+    </section>
+</section>

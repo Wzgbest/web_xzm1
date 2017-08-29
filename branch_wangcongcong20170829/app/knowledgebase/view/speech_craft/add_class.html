@@ -1,0 +1,42 @@
+<header>
+	<h1>添加分类<i class="fa fa-close fa-2x pop-close-btn"></i></h1>
+</header>
+<div class="pop_content m-form">
+	<div class="main">
+		<input type="text" id="article_class" placeholder="请输入分类">
+	</div>
+	<div class="u-submitButton">
+		<button class="pop-submit-btn" onclick="add_article_class();">添加</button>
+		<button class="pop-close-btn">取消</button>
+	</div>
+</div>
+<link rel="stylesheet" href="/static/css/popUp.css" />
+<script type="text/javascript">
+	function add_article_class(){
+		var class_name = $("#article_class").val();
+		// alert(class_name);
+		if (!class_name) {
+			alert("请输入分类名称!");
+			return;
+		}
+		var data = "type_name="+class_name;
+		var url = "/knowledgebase/speech_craft/addClass"
+		$.ajax({
+			url: url,
+			type: 'post',
+			dataType: 'json',
+			data: data,
+			success: function(data) {
+				if (data.status) {
+					alert(data.info);
+					$("#popUp").children().remove();
+					loadPage("/knowledgebase/speech_craft/add_article", "speech-databasefr");
+				}
+			},
+			error: function() {
+				alert("添加分类失败!");
+			}
+		});
+		
+	}
+</script>

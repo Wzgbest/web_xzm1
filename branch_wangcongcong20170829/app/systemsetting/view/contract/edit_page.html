@@ -1,0 +1,109 @@
+<div class="systemsetting_contract_edit">
+    <div class="top">
+        <ul class="firNav">
+            <li class="current" onclick="loadPage('{:url('index')}','contract-settingfr');">
+                <div>合同设置</div>
+            </li>
+            <i class="fa fa-angle-right fa-2x"></i>
+            <span class="span-info">
+                {gt name="contractSetting.id" value="0"}
+                    {$contractSetting.contract_name}
+                {else/}
+                    添加合同设置
+                {/gt}
+            </span>
+        </ul>
+    </div>
+    <div class="content">
+        <form name="form_contract_setting" class="form_contract_setting" onsubmit="return false;" method="post">
+            <div class="dv1 ">
+                <p>
+                    <span>合同类型</span>
+                    <input type="text" name="contract_name" placeholder="请输入合同类型,如:百度类" value="{$contractSetting.contract_name}" />
+                </p>
+            </div>
+            <div class="dv2">
+                <p>
+                    <span>合同前缀编号</span>
+                    <input type="text" name="contract_prefix" placeholder="不填写默认无前缀" value="{$contractSetting.contract_prefix}" />
+                </p>
+            </div>
+            <div class="dv1">
+                <p>
+                    <span>合同编号</span>
+                    <input type="text" name="start_num" class="ipt1" placeholder="请输入" value="{$contractSetting.start_num}" /> 到
+                    <input type="text" name="end_num" class="ipt2" placeholder="请输入" value="{$contractSetting.end_num}" />
+                </p>
+            </div>
+            <div class="dv2">
+                <p>
+                    <span>当前合同号</span>
+                    <input type="text" name="current_contract" placeholder="请输入当前合同号" value="{$contractSetting.current_contract}" />
+                </p>
+            </div>
+            <div class="dv1">
+                <p>
+                    <span>最大申请数</span>
+                    <input type="text" name="max_apply" placeholder="请输入最大申请数" value="{$contractSetting.max_apply}" />
+                </p>
+            </div>
+            <div class="dv2 apply_role_split full"><p><span></span></p></div>
+            <div class="dv1">
+                <p>
+                    <img src="/systemsetting/images/line_green.jpg" class="img1" />
+                    <span class="sp1">合同审核</span>
+                </p>
+            </div>
+            <div class="dv2 apply_role_split full"><p><span></span></p></div>
+            <div class="dv1 apply_role apply_role_first" apply_num="1">
+                <p>
+                    <span>合同审核角色1</span>
+                    <select class="apply" name="apply_1">
+                        {volist name="roles" id="vo"}
+                            <option {eq name='contractSetting.apply_1' value='$vo.id'} selected="selected"{/eq} value="{$vo.id}">{$vo.role_name}</option>
+                        {/volist}
+                    </select>
+                </p>
+                <div class="switch_panel {neq name='contractSetting.create_contract_num_1' value='1'} close{/neq}" >
+                    <div class="switch_btn"></div>
+                    <input type="hidden" name="create_contract_num_1" value="{$contractSetting.create_contract_num_1}"/>
+                </div>
+                <span class="num_tip" >生成合同号</span>
+                <img src="/systemsetting/images/plus.jpg" class="img2 add" />
+            </div>
+            <div class="full">
+                <p class="p1">每一次代表一次审批流程，当前审核需要三个审批环节</p>
+            </div>
+            <p class="p5">
+                <input class="contract_setting_submit" type="submit" value="保存" />
+                <button onclick="loadPage('{:url('index')}','contract-settingfr');">取消</button>
+            </p>
+        </form>
+    </div>
+</div>
+<link rel="stylesheet" href="/systemsetting/css/contract_edit.css" />
+<script language="JavaScript">
+    var contract_setting_roles = '{$roles_json}';
+    var contract_setting_applys = '{$applys}';
+    var contract_setting_apply_max = '{$apply_max}';
+    $('.systemsetting_contract_edit .contract_setting_submit').click(function() {
+        console.log($(".form_contract_setting").serialize());
+        $.ajax({
+            url: '{$url}',
+            type: 'post',
+            data: $(".form_contract_setting").serialize(),
+            dataType: 'json',
+            success: function(data) {
+                //console.log(data);
+                alert(data.info);
+                if(data.status) {
+                    loadPage("/systemsetting/contract/index","contract-settingfr");
+                }
+            },
+            error: function() {
+
+            },
+        });
+    });
+</script>
+<script src="/systemsetting/js/contract_edit.js"></script>

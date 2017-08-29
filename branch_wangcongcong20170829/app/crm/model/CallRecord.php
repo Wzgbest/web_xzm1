@@ -1,0 +1,145 @@
+<?php
+// +----------------------------------------------------------------------
+// | 中迅传媒 [ 纯粹、极致到零 ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2017 http://www.baidusd.com All rights reserved.
+// +----------------------------------------------------------------------
+// | Author: blu10ph <blu10ph@gmail.com> <http://www.blu10ph.cn>
+// +----------------------------------------------------------------------
+namespace app\crm\model;
+
+use app\common\model\Base;
+
+class CallRecord extends Base{
+    protected $dbprefix;
+    public function __construct($corp_id = null){
+        $this->dbprefix = config('database.prefix');
+        $this->table = $this->dbprefix.'call_record';
+        parent::__construct($corp_id);
+    }
+
+    /**
+     * 查询通话记录
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $map array 客户筛选条件
+     * @param $order string 排序
+     * @return array|false
+     * @throws \think\Exception
+     */
+    public function getCallRecord($num=10,$page=0,$map=null,$order="id desc"){
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+        $callRecordList = $this->model->table($this->table)->alias('cr')
+            ->join($this->dbprefix.'customer c','cr.customer_id = c.id',"left")
+            ->join($this->dbprefix.'customer_contact cc','cr.contactor_id = cc.id',"left")
+            ->where($map)
+            ->order($order)
+            ->limit($offset,$num)
+            ->field("cr.*,c.customer_name,cc.contact_name,'' as head_img_url")//TODO field list
+            ->select();
+        //var_exp($callRecordList,'$callRecordList',1);
+        if($num==1&&$page==0&&$callRecordList){
+            $callRecordList = $callRecordList[0];
+        }
+        return $callRecordList;
+    }
+
+
+    /**
+     * 查询通话记录量排名
+     * @param $start_time int 开始时间
+     * @param $end_time int 结束时间
+     * @param $uids array 员工id数组
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $map array 客户筛选条件
+     * @return array|false
+     * @throws \think\Exception
+     */
+    public function getCallRecordRanking($start_time,$end_time,$uids,$num=10,$page=0,$map=null){
+        if(empty($uids)){
+            return [];
+        }
+        $map["cr.begin_time"][] = ["egt",$start_time];
+        $map["cr.begin_time"][] = ["elt",$end_time];
+        $map["cr.userid"] = ["in",$uids];
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+        $group="cr.userid";
+        $order="num desc";
+        $callRecordRanking = $this->model->table($this->table)->alias('cr')
+            ->join($this->dbprefix.'employee e','cr.userid = e.id',"LEFT")
+            ->where($map)
+            ->group($group)
+            ->order($order)
+            ->limit($offset,$num)
+            ->field("e.id as employee_id,e.truename,count(cr.id) num")
+            ->select();
+        //var_exp($callRecordRanking,'$callRecordRanking',1);
+        if($num==1&&$page==0&&$callRecordRanking){
+            $callRecordRanking = $callRecordRanking[0];
+        }
+        return $callRecordRanking;
+    }
+
+
+    /**
+     * 查询通话记录量达标
+     * @param $start_time int 开始时间
+     * @param $end_time int 结束时间
+     * @param $uids array 员工id数组
+     * @param $standard int 标准
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $map array 客户筛选条件
+     * @return array|false
+     * @throws \think\Exception
+     */
+    public function getCallRecordStandard($start_time,$end_time,$uids,$standard,$num=10,$page=0,$map=null){
+        if(empty($uids)){
+            return [];
+        }
+        $map["cr.begin_time"][] = ["egt",$start_time];
+        $map["cr.begin_time"][] = ["elt",$end_time];
+        $map["cr.userid"] = ["in",$uids];
+        $standard_map = "standard = ".$standard;
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+        $order="cr.userid asc,cr.begin_time asc";
+        $sl_order="standard_time asc";
+        $standard_order="standard_time asc";
+        $subQuery = $this->model->table($this->table)->alias('cr')
+            ->join($this->dbprefix.'employee e','cr.userid = e.id',"LEFT")
+            ->where($map)
+            ->order($order)
+            ->limit(999999)//2147483647?
+            ->field("e.id as employee_id,e.truename,cr.begin_time as standard_time")
+            ->buildSql();
+        //var_exp($subQuery,'$subQuery',1);
+        $subQuery = $this->model->table($subQuery)->alias('cl')
+            ->join("(SELECT @prev := '', @n := 0) init",'cl.employee_id = cl.employee_id',"LEFT")
+            ->order($sl_order)
+            ->limit(999999)//2147483647?
+            ->field("cl.*,@n := IF (cl.employee_id != @prev, '1', @n + 1) AS standard ,@prev := cl.employee_id AS ng")
+            ->buildSql();
+        //var_exp($subQuery,'$subQuery',1);
+        $callRecordRanking = $this->model->table($subQuery)->alias('v')
+            ->where($standard_map)
+            ->order($standard_order)
+            ->limit($offset,$num)
+            ->field("employee_id,truename,standard_time")
+            ->select();
+        //var_exp($callRecordRanking,'$callRecordRanking',1);
+        if($num==1&&$page==0&&$callRecordRanking){
+            $callRecordRanking = $callRecordRanking[0];
+        }
+        return $callRecordRanking;
+    }
+}

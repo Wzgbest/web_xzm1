@@ -1,0 +1,125 @@
+<link rel="stylesheet" href="/knowledgebase/css/default.css" />
+<div class="knowledgebase knowledgebase_speechcraft knowledgebase_speechcraft_new">
+	<div class="new_panel new">
+		<header>
+            <ul class="m-firNav">
+                <li class="current"><div>话术库</div></li>
+                <i class="fa fa-angle-right fa-2x"></i>
+            	<span class="u-spanInfo">新建</span>
+            </ul>
+        </header>
+        <section class="m-divBlock m-divBlock2">
+        	<div class="radio-select">
+        		<input type="radio" name="class" value="0" checked="checked"/>&nbsp;&nbsp;原创&nbsp;&nbsp;
+        		<input type="radio" name="class" value="1"/>&nbsp;&nbsp;引用
+        	</div>
+            <form class="original new_article_form" onsubmit="return false;">
+        		<div><span>标题</span><input type="text" name="article_name" placeholder="请输入文章标题"/></div>
+        		<div><span>分类</span><select name="article_class">
+                        {volist name="article_type" id="vo"}
+        				<option value="{$vo.id}">{$vo.type_name}</option>
+                        {/volist}
+        		</select><span class="color-blue speechcraft-add-class">添加</span>
+        		</div>
+        		<div><span>简介</span><textarea name="article_content" placeholder="请输入文章简介"></textarea></div>
+        		<div><span>正文</span><textarea id="knowledgebase_speechcraft_new_editor" name="article_text" style="width:800px;height:300px;"></textarea></div>
+        		<div>
+        			<input type="radio" name="article_is_top" value="1"/>&nbsp;&nbsp;置顶
+        			<input type="radio" checked="checked" name="article_is_top" value="0"/>&nbsp;&nbsp;不置顶
+        			<div><span>置顶时间</span>&nbsp;&nbsp;<input type="datetime-local" name="article_start_top_time" />&nbsp;&nbsp;至&nbsp;&nbsp;<input type="datetime-local" name="article_end_top_time" /></div>
+        			<div style="display: none;"><span>显示时间</span>&nbsp;&nbsp;<input type="datetime-local" name="article_start_show_time" />&nbsp;&nbsp;至&nbsp;&nbsp;<input type="datetime-local" name="article_end_show_time" /></div>
+        		</div>
+        		<div>
+        			<input type="radio" name="article_release_type" value="1"/>&nbsp;&nbsp;定时发布&nbsp;&nbsp;<input type="datetime-local" name="article_release_time" /><br />
+        			<input type="radio" checked="checked" name="article_release_type" value="0"/>&nbsp;&nbsp;立即发布
+        		</div>
+        		<div class="u-submitButton">
+                    <input type="hidden" name="article_type" value="1">
+        			<button type="submit" onclick="add_talk_article();">发布</button>
+        			<button onclick="close_new_article();">取消</button>
+        		</div>
+        	</form>
+        	<form class="quote hide" onsubmit="return false;">
+        		<div><span>标题</span><input type="text" name="article_name" placeholder="请输入文章标题"/></div>
+        		<div><span>分类</span><select name="article_class">
+        				{volist name="article_type" id="vo"}
+                        <option value="{$vo.id}">{$vo.type_name}</option>
+                        {/volist}
+        		</select><span class="color-blue speechcraft-add-class">添加</span>
+        		</div>
+        		<div><span>URL</span><input type="text" name="article_url" placeholder="请输入URL"/></div>
+        		<div><span>简介</span><textarea name="article_content" placeholder="请输入文章简介"></textarea></div>
+        		<div>
+        			<input type="radio" name="article_is_top" value="1"/>&nbsp;&nbsp;置顶
+        			<input type="radio" checked="checked" name="article_is_top" value="0"/>&nbsp;&nbsp;不置顶
+        			<div><span>置顶时间</span>&nbsp;&nbsp;<input type="datetime-local" name="article_start_top_time"/>&nbsp;&nbsp;至&nbsp;&nbsp;<input type="datetime-local" name="article_end_top_time" /></div>
+        			<div style="display: none;"><span>显示时间</span>&nbsp;&nbsp;<input type="datetime-local" name="article_start_show_time" />&nbsp;&nbsp;至&nbsp;&nbsp;<input type="datetime-local" name="article_end_show_time" /></div>
+        		</div>
+        		<div>
+        			<input type="radio" name="article_release_type" value="1"/>&nbsp;&nbsp;定时发布&nbsp;&nbsp;<input type="datetime-local" /><br />
+        			<input type="radio" checked="checked" name="article_release_type" value="0"/>&nbsp;&nbsp;立即发布
+        		</div>
+        		<div class="u-submitButton">
+                    <input type="hidden" name="article_type" value="2">
+        			<button type="submit" onclick="add_talk_article();">发布</button>
+        			<button onclick="close_new_article();">取消</button>
+        		</div>
+        	</form>
+        </section>
+        <div class="popUp hide" id="speechcraft-add-class-content">
+            
+        </div>
+	</div>
+</div>
+<link rel="stylesheet" href="/knowledgebase/css/index.css" />
+<script src="/knowledgebase/js/index.js"></script>
+<script src="/static/js/PopUp.js"></script>
+<script>
+    var pop = new pop("#speechcraft-add-class-content","/knowledgebase/speech_craft/add_class_page",".speechcraft-add-class");
+</script>
+<script charset="utf-8" src="/knowledgebase/js/kindeditor-all.js"></script>
+<script charset="utf-8" src="/knowledgebase/js/zh-CN.js"></script>
+<script>
+	var editor;
+	KindEditor.ready(function(K) {
+		editor = K.create('#knowledgebase_speechcraft_new_editor', {
+			resizeType : 1,
+			allowPreviewEmoticons : false,
+			allowImageUpload : false,
+			items : [
+				'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+				'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+				'insertunorderedlist']
+		});
+	},true);
+
+    function add_talk_article(){
+    editor.sync();
+    var new_article_data = $(".new_article_form").serialize();
+    var url = '/knowledgebase/speech_craft/addArticle';
+    // console.log(new_article_data);
+    $.ajax({
+        url: url,
+        type: 'post',
+        data: new_article_data,
+        dataType: 'json',
+        success: function(data) {
+            // alert(data.data);
+            if(data.status) {
+                alert(data.info);
+                loadPage("/knowledgebase/speech_craft/index", "speech-databasefr");
+            }else {
+                alert(data.message);
+            }
+        },
+        error: function() {
+            alert("添加失败!");
+        }
+    });
+}
+
+function close_new_article(){
+    loadPage("/knowledgebase/speech_craft/index", "speech-databasefr");
+}
+
+</script>

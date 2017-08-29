@@ -1,0 +1,80 @@
+<div class="systemsetting_business_flow systemsetting_business_flow_edit">
+    <div class="top">
+        <ul class="firNav">
+            <li class="current" onclick="loadPage('{:url('index')}','business-flowfr');">
+                <div>业务流</div>
+            </li>
+            <i class="fa fa-angle-right fa-2x"></i>
+            <span class="span-info">
+                {gt name="business_flow_setting.id" value="0"}
+                    {$business_flow_setting.business_flow_name}
+                {else/}
+                    添加业务流设置
+                {/gt}
+            </span>
+        </ul>
+    </div>
+    <div class="content">
+        <form name="form_business_flow_setting" class="form_business_flow_setting" onsubmit="return false;" method="post">
+            <p>
+                <span class="sp1">业务名称</span>
+                <input type="text" placeholder="百度推广" name="business_flow_name" value="{$business_flow_setting.business_flow_name}" />
+            </p>
+            <p class="p7">
+                <span class="sp1">拥有此业务角色</span>
+                {volist name="roles" id="vo"}
+                    {if	condition="in_array($vo.id,$business_flow_setting.set_to_role_arr)"}
+                        <input type="checkbox" name="set_to_role[]" checked="checked" value="{$vo.id}"/><span class="sp3">{$vo.role_name}</span>
+                    {else/}
+                        <input type="checkbox" name="set_to_role[]" value="{$vo.id}"/><span class="sp3">{$vo.role_name}</span>
+                    {/if}
+                {/volist}
+            </p>
+            <p class="item_add_panel business_flow_item_selected">
+                <span class="sp1">业务流程</span>
+            </p>
+            <p class="p6 business_flow_item_list">
+                {volist name="business_flow_items" id="vo"}
+                <input type="checkbox" class="more" index="{$vo.id}" /><span class="sp3">{$vo.item_name}</span><span class="sp6">{$vo.verification_remark}</span>
+                {/volist}
+            </p>
+            <div class="full role_list_splice"></div>
+            <p class="p5">
+                <input class="business_flow_setting_submit" type="submit" value="保存" />
+                <button onclick="loadPage('{:url('index')}','business-flowfr');">取消</button>
+            </p>
+        </form>
+    </div>
+</div>
+<link rel="stylesheet" href="/systemsetting/css/business_flow_edit.css" />
+<script language="JavaScript">
+    var business_flow_items = '{$items_json}';
+    var business_flow_item_links = '{$links_json}';
+    var business_flow_setting_roles = '{$roles_json}';
+    var business_flow_setting_handle_max = '{$handle_max}';
+    $('.systemsetting_business_flow_edit .business_flow_setting_submit').click(function() {
+        var form_business_flow_setting_data = $(".form_business_flow_setting").serialize();
+        console.log(form_business_flow_setting_data);
+        var link_json = get_business_flow_item_link_json();
+        console.log(link_json);
+        form_business_flow_setting_data+="&link_json="+link_json;
+        console.log(form_business_flow_setting_data);
+        $.ajax({
+            url: '{$url}',
+            type: 'post',
+            data: form_business_flow_setting_data,
+            dataType: 'json',
+            success: function(data) {
+                //console.log(data);
+                alert(data.info);
+                if(data.status) {
+                    loadPage("/systemsetting/business_flow/index","business-flowfr");
+                }
+            },
+            error: function() {
+
+            }
+        });
+    });
+</script>
+<script type="text/javascript" src="/systemsetting/js/business_flow_edit.js"></script>

@@ -1,0 +1,369 @@
+body{
+	overflow: hidden;
+/*	min-width: 1024px;*/
+	position: relative;
+	background-color: #ecf0f5;
+}
+/*侧边栏*/
+#side{
+	width: 220px;
+	background-color: #263238;
+	overflow-x: hidden;
+	overflow-y: auto;
+	scrollbar-track-color:green;
+	scrollbar-arrow-color: white;
+	scrollbar-track-color: #263238;
+	scrollbar-face-color: #202A2F;
+	scrollbar-3dlight-color: lightgray;
+}
+aside{
+	width: 220px;
+	overflow: hidden;
+	background-color: #263238;
+}
+#side::-webkit-scrollbar {
+        width:0px;
+    }
+aside dl{
+	font-size: 14px;
+	color: #abb1b7;
+	border-bottom: 1px solid #222d32;
+	position: relative;
+}
+aside dl:hover{
+	cursor:pointer;
+}
+.dlcurrent{
+	background-color: #202A2F;
+}
+aside dl dt{
+	font-size: 15px;
+	line-height: 45px;
+	color: #abb1b7;
+	text-indent: 20px;
+}
+.dtcurrent{
+	font-weight: bold;
+	color: white;
+}
+aside dl dd{
+	line-height: 37px;
+	text-indent: 48px;
+}
+.ddcurrent{
+	border-left: 2px solid #0c80df;
+	text-indent: 46px;
+	color: white;
+	font-weight: bold;
+}
+aside dl i{
+	line-height: 40px;
+	display:inline;
+}
+.blod{
+	font-weight: bold;
+}
+.hide{
+	display: none;
+}
+#side .fa-angle-right{
+	float: right;
+	margin-right: 20px;
+	margin-top: 12px;
+}
+#side .fa-angle-down{
+	float: right;
+	margin-right: 20px;
+	margin-top: 12px;
+}
+#logo{
+	width: 120px;
+	height: 120px;
+	position: relative;
+	left: 50%;
+	margin-left: -50px;
+}
+#logo img{
+	width: 100%;
+	height: 100%;
+}
+/*顶部栏*/
+.header{
+	height: 39px;
+	position: fixed;
+	top: 0;
+	left: 220px;
+	background-color: #3b4d56;
+	box-shadow: 0 2px #dddee0 ;
+}
+#x-layout{
+	line-height: 40px;
+	padding-left: 10px;
+	color: #919eac;
+	float: left;
+}
+#r-nav{
+	height: 40px;
+	line-height: 30px;
+	color: #919eac;
+	float: right;
+}
+#r-nav i{
+	line-height: 30px;
+	margin-right: 5px;
+}
+#r-nav span{
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	position: relative;
+	top: -2px;
+}
+#r-nav>div{
+	border-right: 1px solid #384951;
+	height: 30px;
+	float: left;
+	margin: 5px 0;
+	padding: 0 10px;
+	cursor: pointer;
+}
+#r-nav>div:last-child{
+	border: none;
+}
+/*section*/
+section#subt{
+	height: 38px;
+	padding-top: 1px;
+	position: fixed;
+	top: 42px;
+	left: 220px;
+	background-color: #f5f7fa;
+	overflow: hidden;
+}
+#subtitle{
+	height: 38px;
+	width: 152px;
+}
+#subtitle>div{
+	float: left;
+	width: 110px;
+	height: 38px;
+	position: relative;
+	margin-left: 6px;
+	margin-right: -4px;
+	padding: 0 30px 0 10px;
+	font-size: 14px;
+	line-height: 38px;
+	color: #333333;
+	background-color: #e3e7ed;
+	border-radius: 5px 5px 0 0;
+}
+#subtitle>div:hover{
+	cursor: pointer;
+}
+#subtitle>div.active{
+	height: 37px;
+	box-shadow: 0 -1px #d4d4d4;
+	background-color: white;
+}
+#subtitle span{
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+#subtitle i{
+	width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    text-align: center;
+    line-height: 18px;
+	color: #b2b2b2;
+}
+#subtitle>div.active i{
+	background-color: red;
+	color: white;
+}
+#subtitle span span{
+	font-size: 12px;
+}
+/*iframe*/
+#frames{
+	margin-left: 4px;
+	position: fixed;
+	left: 220px;
+	top: 80px;
+	min-width: 1024px;
+	/*overflow: hidden;*/
+}
+#frames .once {
+	position: absolute;
+	left: 0;
+	top: 0;
+	border: none;
+	background-color: #FFFFFF;
+	overflow: auto;
+}
+#frames .hid{
+	display: none;
+}
+/*电话盒子*/
+.phone-box{
+	width: 396px;
+	overflow-y:auto ;
+	box-sizing: border-box;
+	position: fixed;
+	right: 0;
+	top: 80px;
+	background-color: #FFF;
+}
+.phone-box i.fa-close{
+	width: 18px;
+	height: 18px;
+	text-align: center;
+	line-height: 18px;
+	position: absolute;
+	z-index: 9;
+	right: 4px;
+	top: 4px;
+	border-radius:50% ;
+	background-color: red;
+	color: white;
+}
+.phone-box .call-number{
+	text-align: center;
+	margin-top: 20px;
+}
+.phone-box h4{
+	margin: 20px 0;
+	text-align: center;
+	font-weight: normal;
+}
+.phone-box .dial{
+	width: 315px;
+	height: 350px;
+	margin: 0 auto;
+	text-align: center;
+	border-radius: 10px;
+	background-color: #758697;
+}
+.phone-box .row1{
+	width: 306px;
+	height: 40px;
+	margin: 0 auto;
+	padding: 0;
+	border: 0;
+	border-radius: 6px;
+	margin-top: 6px;
+	overflow: hidden;
+	position: relative;
+}
+.phone-box .row2{
+	margin-top: 0;
+	font-size: 24px;
+	box-sizing: border-box;
+	padding: 2px 10px;
+	font-weight: bold;
+	white-space: nowrap;
+}
+.phone-box .row3{
+	margin-top: 10px;
+}
+.phone-box .row4{
+	color: white;
+	cursor: pointer;
+}
+.phone-box .row4 .on{
+	height: 40px;
+	background-color:#89c247 ;
+}
+.phone-box .row4 .off{
+	height: 40px;
+	background-color: #e01515;
+}
+.phone-box .row4 .off i{
+	transform: rotate(135deg);
+}
+.phone-box .u-block1{
+	width: 102px;
+	float: left;
+	height: 40px;
+	border-radius: 6px;
+	background-color: #fff;
+	font-size: 18px;
+	text-align: center;
+	line-height: 40px;
+	cursor: pointer;
+}
+.phone-box .u-block1:last-child{
+	margin: 0;
+}
+.phone-box .u-block1.current{
+	background-color:#89c247 ;
+	color: #fff;
+}
+.phone-box .u-block2{
+	width: 96px;
+	margin-right: 9px;
+}
+.phone-box .delete{
+	width: 66px;
+	height: 36px;
+	position: absolute;
+	top: 2px;
+	right: 4px;
+	border-radius: 6px;
+	background-color: #d9d9d9;
+	text-align: center;
+	cursor: pointer;
+}
+.phone-box .delete i{
+	line-height: 36px;
+}
+.phone-box .click-node{
+	height: 40px;
+	padding: 0 10px;
+	line-height: 40px;
+	font-size: 20px;
+	border-bottom: 1px solid #e0e0e0;
+	margin-bottom: 6px;
+}
+.phone-box .click-node i{
+	line-height: 40px;
+	font-size: 1.5em;
+}
+.phone-box .fa-plus{
+	cursor: pointer;
+}
+.phone-box .nodes{
+}
+.phone-box .nodes input{
+	border: 1px solid #eee;
+	width: 240px;
+	height: 30px;
+}
+.phone-box .nodes li{
+	margin-bottom: 5px;
+}
+.phone-box .nodes i{
+	font-size: 1.6em;
+	cursor: pointer;
+}
+.phone-box .nodes .fa-check-circle-o{
+	color: #89c247;
+}
+.phone-box .nodes .fa-pencil{
+	color: #42a5f5;
+}
+.phone-box .nodes .fa-times-circle-o{
+	color: #e01515;
+}
+/*补充*/
+.m-filterNav input,.m-filterNav select{
+	margin-bottom: 10px;
+}
+#frames header .m-firNav i{
+	line-height: 41px;
+    margin-left: 5px;
+}

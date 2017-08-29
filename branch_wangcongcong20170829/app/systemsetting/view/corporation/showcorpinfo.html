@@ -1,0 +1,71 @@
+<div class="show_corp_info">
+    <div id="top">
+        <ul class="firNav">
+            <li class="current">
+                <div>公司信息</div>
+            </li>
+            <!--<i class="fa fa-angle-right fa-2x"></i>-->
+        </ul>
+    </div>
+    <div id="content">
+        <p>
+            <span class="left">公司名称</span>
+            <span class="colon">:</span>
+            <span class="right">{$data.corp_name}</span>
+        </p>
+        <p>
+            <span class="left">公司地址</span>
+            <span class="colon">:</span>
+            <span class="right">{$data.corp_website}</span>
+        </p>
+        <p>
+            <span class="left">公司电话</span>
+            <span class="colon">:</span>
+            <span class="right">{$data.corp_tel}</span>
+        </p>
+        <p>
+            <span class="left">公司所在地</span>
+            <span class="colon">:</span>
+            <span class="right">{$data.corp_address}</span>
+        </p>
+        <p>
+            <span class="left">详细地址</span>
+            <span class="colon">:</span>
+            <span class="right">{$data.corp_dist}</span>
+        </p>
+        <p>
+            <span class="left">详细定位</span>
+            <span class="colon">:</span>
+            <span class="right">{$data.corp_lat},{$data.corp_lng}</span>
+        </p>
+        <p>
+            <img src="/systemsetting/images/map.jpg" class="right" />
+        </p>
+        <p>
+            <span class="left">所属行业</span>
+            <span class="colon">:</span>
+            <span class="right">
+                {volist name="business_list" id="vo"}
+                    {eq name="vo.id" value="$data.corp_field"}
+                        {$vo.business_name}
+                    {/eq}
+                {/volist}
+            </span>
+        </p>
+        <p>
+            <span class="left">产品关键字</span>
+            <span class="colon">:</span>
+            <span class="right">{$data.corp_product_keys}</span>
+        </p>
+        <div id="compile">
+            <i class="fa fa-file-text-o"></i>
+            <p>编辑</p>
+        </div>
+    </div>
+    <script>
+        $('#compile').click(function() {
+            loadPage("{:url('/systemsetting/corporation/editcorpinfo')}","company-informationfr");
+        });
+    </script>
+</div>
+<link rel="stylesheet" href="/systemsetting/css/corpinfoshow.css" />
