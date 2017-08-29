@@ -62,11 +62,12 @@ class CorporationShare extends Base{
             ->join($this->dbprefix.'corporation_share_picture csp','csp.content_id = csco.id',"LEFT")
             ->join($this->dbprefix.'employee e','e.id = cs.userid',"LEFT")
             ->join($this->dbprefix.'corporation_share_like csl','cs.id = csl.share_id and csl.user_id='.$uid,"LEFT")
+            ->join($this->dbprefix.'corporation_share_tip cst','cs.id = cst.share_id and cst.user_id='.$uid,"LEFT")
             ->where($map)
             ->order($order)
             ->limit($num)
             ->group("cs.id")
-            ->field("cs.*,case when csl.user_id>0 then 1 else 0 end as is_like,csco.content,GROUP_CONCAT(csp.path) as img,e.telephone,e.truename,e.userpic")//TODO
+            ->field("cs.*,case when csl.user_id>0 then 1 else 0 end as is_like,case when cst.user_id>0 then 1 else 0 end as is_tip,csco.content,csco.text,GROUP_CONCAT(csp.path) as img,e.telephone,e.truename,e.userpic")//TODO
             ->select();
         foreach ($corporationShareList as &$corporationShare){
             if($corporationShare["img"]){
@@ -169,4 +170,76 @@ class CorporationShare extends Base{
         $b = $this->model->table($this->table)->where($map)->delete();
         return $b;
     }
+
+    /**
+     * 删除一条动态
+     * @param  int $share_id 动态id
+     * @return [type]           [description]
+     */
+    public function delOneShareById($share_id){
+        $flg = false;
+        $is_have = false;
+        $shareInfo = $this->getCorporationShareById($share_id);
+        $content_id = $shareInfo['content_id'];
+        try{
+            $this->link->startTrans();
+            $flg = $this->model->table($this->table)->where(['id'=>$share_id])->delete();
+            if (!$flg) {
+                exception("删除任务失败!");
+            }
+            $is_have = $this->model->table($this->dbprefix."corporation_share_comment")->where(['share_id'=>$share_id])->select();
+            if ($is_have) {
+                $flg = $this->model->table($this->dbprefix."corporation_share_comment")->where(['share_id'=>$share_id])->delete();
+                if (!$flg) {
+                    exception("删除任务评论失败!");
+                }
+            }
+
+            $is_have = $this->model->table($this->dbprefix."corporation_share_content")->where(['id'=>$content_id])->select();
+            if ($is_have) {
+                $flg = $this->model->table($this->dbprefix."corporation_share_content")->where(['id'=>$content_id])->delete();
+                if (!$flg) {
+                    exception("删除内容失败!");
+                }
+            }
+            
+            $is_have = $this->model->table($this->dbprefix."corporation_share_like")->where(['share_id'=>$share_id])->select();
+            if ($is_have) {
+                $flg = $this->model->table($this->dbprefix."corporation_share_like")->where(['share_id'=>$share_id])->delete();
+                if (!$flg) {
+                    exception("删除喜欢内容失败!");
+                }
+            }
+            
+            $is_have = $this->model->table($this->dbprefix."corporation_share_picture")->where(['content_id'=>$content_id])->select();
+            if ($is_have) {
+                $flg = $this->model->table($this->dbprefix."corporation_share_picture")->where(['content_id'=>$content_id])->delete();
+                if (!$flg) {
+                    exception("删除动态照片内容失败!");
+                }
+            }
+            
+            $is_have = $this->model->table($this->dbprefix."corporation_share_tape")->where(['content_id'=>$content_id])->select();
+            if ($is_have) {
+                $flg = $this->model->table($this->dbprefix."corporation_share_tape")->where(['content_id'=>$content_id])->delete();
+                if (!$flg) {
+                    exception("删除音频内容失败!");
+                }
+            }
+
+            $is_have = $this->model->table($this->dbprefix."corporation_share_tip")->where(['share_id'=>$share_id])->select();
+            if ($is_have) {
+                $flg = $this->model->table($this->dbprefix."corporation_share_tip")->where(['share_id'=>$share_id])->delete();
+                if (!$flg) {
+                    exception("删除打赏失败!");
+                }
+            }
+            $this->link->commit();
+
+        }catch(Exception $ex){
+            $this->link->rollback();
+        }
+        return $flg;
+    }
+
 }

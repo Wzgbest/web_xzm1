@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="/speechcraft/css/default.css" />
+<link rel="stylesheet" href="/knowledgebase/css/default.css" />
 <div class="knowledgebase knowledgebase_speechcraft knowledgebase_speechcraft_new">
 	<div class="new_panel new">
 		<header>
@@ -10,8 +10,8 @@
         </header>
         <section class="m-divBlock m-divBlock2">
         	<div class="radio-select">
-        		<input type="radio" name="class" value="1" checked="checked"/>&nbsp;&nbsp;原创&nbsp;&nbsp;
-        		<input type="radio" name="class" value="2"/>&nbsp;&nbsp;引用
+        		<input type="radio" name="class" value="0" checked="checked"/>&nbsp;&nbsp;原创&nbsp;&nbsp;
+        		<input type="radio" name="class" value="1"/>&nbsp;&nbsp;引用
         	</div>
             <form class="original new_article_form" onsubmit="return false;">
         		<div><span>标题</span><input type="text" name="article_name" placeholder="请输入文章标题"/></div>
@@ -36,7 +36,7 @@
         		<div class="u-submitButton">
                     <input type="hidden" name="article_type" value="1">
         			<button type="submit" onclick="add_talk_article();">发布</button>
-        			<button>取消</button>
+        			<button onclick="close_new_article();">取消</button>
         		</div>
         	</form>
         	<form class="quote hide" onsubmit="return false;">
@@ -62,7 +62,7 @@
         		<div class="u-submitButton">
                     <input type="hidden" name="article_type" value="2">
         			<button type="submit" onclick="add_talk_article();">发布</button>
-        			<button>取消</button>
+        			<button onclick="close_new_article();">取消</button>
         		</div>
         	</form>
         </section>
@@ -71,25 +71,55 @@
         </div>
 	</div>
 </div>
-<link rel="stylesheet" href="/speechcraft/css/index.css" />
-<script src="/speechcraft/js/index.js"></script>
+<link rel="stylesheet" href="/knowledgebase/css/index.css" />
+<script src="/knowledgebase/js/index.js"></script>
 <script src="/static/js/PopUp.js"></script>
 <script>
     var pop = new pop("#speechcraft-add-class-content","/knowledgebase/speech_craft/add_class_page",".speechcraft-add-class");
 </script>
-<script charset="utf-8" src="/speechcraft/js/kindeditor-all.js"></script>
-<script charset="utf-8" src="/speechcraft/js/zh-CN.js"></script>
+<script charset="utf-8" src="/knowledgebase/js/kindeditor-all.js"></script>
+<script charset="utf-8" src="/knowledgebase/js/zh-CN.js"></script>
 <script>
-    var editor;
-    KindEditor.ready(function(K) {
-        editor = K.create('textarea[name="article_text"]', {
-            resizeType : 1,
-            allowPreviewEmoticons : false,
-            allowImageUpload : false,
-            items : [
-                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
-                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
-                'insertunorderedlist']
-        });
-    },true);
+	var editor;
+	KindEditor.ready(function(K) {
+		editor = K.create('#knowledgebase_speechcraft_new_editor', {
+			resizeType : 1,
+			allowPreviewEmoticons : false,
+			allowImageUpload : false,
+			items : [
+				'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+				'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+				'insertunorderedlist']
+		});
+	},true);
+
+    function add_talk_article(){
+    editor.sync();
+    var new_article_data = $(".new_article_form").serialize();
+    var url = '/knowledgebase/speech_craft/addArticle';
+    // console.log(new_article_data);
+    $.ajax({
+        url: url,
+        type: 'post',
+        data: new_article_data,
+        dataType: 'json',
+        success: function(data) {
+            // alert(data.data);
+            if(data.status) {
+                alert(data.info);
+                loadPage("/knowledgebase/speech_craft/index", "speech-databasefr");
+            }else {
+                alert(data.message);
+            }
+        },
+        error: function() {
+            alert("添加失败!");
+        }
+    });
+}
+
+function close_new_article(){
+    loadPage("/knowledgebase/speech_craft/index", "speech-databasefr");
+}
+
 </script>
