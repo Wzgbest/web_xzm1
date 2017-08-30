@@ -66,6 +66,7 @@ $(".knowledgebase_company_library_index .library-list .lib-reply .reply-now .rep
 			if (data.status) {
 				alert(data.info);
 				sel.parent(".reply-operator").parent("li").parent(".reply-now").siblings(".reply-ago").append(content); 
+				sel.parent(".reply-operator").parent("li").parent(".reply-now").siblings(".reply-ago").children('li').last().attr("comment_id",data.data);
 			}else{
 				alert(data.info);
 			}
