@@ -18,13 +18,12 @@ t = 10;
 for(var i = 0; i < t; i++) {
 	$("#myModaltwo .table").append(content2);
 }
-
+//猜输赢弹出框添加ul
 var content3 = "<ul class='number2'><li></li><li></li><li></li></ul>";
-//$("#myModalone .table").append(content);
 var t;
-t = 10;
+t = 2;
 for(var i = 0; i < t; i++) {
-	$("#myModalsix .table").append(content3);
+	$("#myModalsix .list").append(content3);
 }
 //领红包
 //$(".dv1 .grade .get").click(function() {
@@ -142,13 +141,14 @@ $(".dv1 .right .give .guess").click(function() {
 	$(this).remove()
 	$(".give").append(n);
 })
+
+//点赞
 $(".dv1 .right .comment .add").click(function() {
 	var self = this;
 	var qw = $(this).attr('index_img');
 	var task_id = $(this).attr('task_id');
 	console.log($(this).siblings(".yi"));
 				var p = parseInt($(this).siblings().text());
-			
 				var i = parseInt(qw);
 				if(i % 2){
 					task_like(task_id,true,function(data){
@@ -160,32 +160,55 @@ $(".dv1 .right .comment .add").click(function() {
 					task_like(task_id,false,function(data){
 						$(self).attr('src', '/task/img/zan.png');
 						var q = p - 1;
-	//					$(".dv1 .right .comment .yi").text(q)
 						$(self).siblings().text(q);
 					});
 				}
 				i++;
 				$(this).attr('index_img', i)
-//				console.log($('.dv1 .right .comment .add').attr('index_img'))
 
 })
-$(".dv3 .right .like .right .add").click(function() {
 
-	var qw = $('.dv3 .right .like .right .add').attr('index_img');
-				
-				var i = parseInt(qw);
-				if(i % 2){
-					$('.dv3 .right .like .right .add').attr('src', '/task/img/praise.png');
-					
+$(".dv3 .up .like .right .add").click(function() {
+	var self = this;
+	var jt = $(this).attr('index_img');
+	var task_id = $(this).attr('task_id');
+	console.log($(this).siblings(".yi"));
+				var x = parseInt($(this).siblings(".yi").text());
+				var j = parseInt(jt);
+				if(j % 2){
+					task_like(task_id,true,function(data){
+						$(self).attr('src', '/task/img/praise.png');
+						var y = x + 1;
+						$(self).siblings(".yi").text(y);
+					});
 				}else {
-					$('.dv3 .right .like .right .add').attr('src', '/task/img/zan.png');
-				
+					task_like(task_id,false,function(data){
+						$(self).attr('src', '/task/img/zan.png');
+						var y = x - 1;
+						$(self).siblings(".yi").text(y);
+					});
 				}
-				i++;
-				$('.dv3 .right .like .right .add').attr('index_img', i)
-//				console.log($('.dv3 .right .like .right .add').attr('index_img'))
+				j++;
+				$(this).attr('index_img', j)
 
 })
+//$(".dv3 .up .like .right .add").click(function() {
+//
+//	var qw = $('.dv3 .up .like .right .add').attr('index_img');
+//				
+//				var i = parseInt(qw);
+//				if(i % 2){
+//					$('.dv3 .up .like .right .add').attr('src', '/task/img/praise.png');
+//					
+//				}else {
+//					$('.dv3 .up .like .right .add').attr('src', '/task/img/zan.png');
+//				
+//				}
+//				i++;
+//				$('.dv3 .up .like .right .add').attr('index_img', i)
+//
+//
+//})
 
 function task_like(id,like,fun){
 	var post_data = "id="+id;
@@ -242,10 +265,30 @@ $(".dv4 .parcel .hezi select").change(function(){
 	}
 })
 
-
+//新建tab切换
 $("article .dv4 .xuanze input").click(function(){
 					var index=$(this).attr("index")
 					$("article .dv4 .tab").css("display","none");
 					$("article .dv4 .tab").eq($(this).attr("index")).css("display",'block')
 				})
 
+//跳转到新页面
+$(".task .xinjian").click(function(){
+	//alert(1)
+	javascript:loadPage('/task/going_task/new_task.html','public-taskfr');
+})
+
+
+//评论
+$(".dv3 .up .right p").click(function(){
+	//alert(1)
+	var pinglun=null;
+	var sk=$(".dv3 .up textarea").val();	
+	$(".speek").text(sk);
+	pinglun="<div class='one'><img src='/task/img/man.png'/><div><p><span class='name'>刘美娜</span><span>:</span><span class='speek'></span></p><p class='reply'><span>2分钟前</span></p></div></div>"
+	
+	alert(sk)
+	$(".dv3 .down .review").prepend(pinglun);
+
+	
+})
