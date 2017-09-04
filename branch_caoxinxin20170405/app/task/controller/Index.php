@@ -100,7 +100,30 @@ class Index extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
 
+        $employeeTaskM = new EmployeeTaskModel($this->corp_id);
+        $taskTargetM = new TaskTargetModel($this->corp_id);
+        $taskRewardM = new TaskRewardModel($this->corp_id);
+        $taskTakeM = new TaskTakeModel($this->corp_id);
+
+        $taskInfo = $employeeTaskM->getTaskInfo($id);
+        if(empty($taskInfo)){
+            $result['info'] = "未找到任务！";
+            return json($result);
+        }
+
+        $taskTarget = $taskTargetM->findTaskTargetByTaskId($id);
+        $taskInfo["target"] = $taskTarget;
+
+        $taskReward = $taskRewardM->getTaskRewardListByTaskId($id);
+        $taskInfo["reward"] = $taskReward;
+
+        $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($id);
+        $taskInfo["take"] = $taskTakeEmployeeIds;
+
+        $result['data'] = $taskInfo;
         $result['status'] = 1;
         $result['info'] = "获取任务成功！";
         return json($result);
@@ -136,14 +159,13 @@ class Index extends Initialize{
         $uids = $taskTakeEmployeeIds;
         if(!in_array($uid,$uids)){
             $result['info'] = "未参与任务！";
-
             return json($result);
         }
-
         if($task_type>2){
             $result['info'] = "任务类型不符！";
             return json($result);
         }
+
         $taskTarget = $taskTargetM->findTaskTargetByTaskId($id);
         $target_type = $taskTarget["target_type"];
         $standard = $taskTarget["target_num"];
