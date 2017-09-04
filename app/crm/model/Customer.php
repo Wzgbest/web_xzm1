@@ -1476,10 +1476,14 @@ class Customer extends Base
             "cn.profile_correct",
             "cn.call_through",
             "cn.is_wait",
+            "count(scv.id) as need_sign_num",
         ];
         $customer = $this->model->table($this->table)->alias('c')
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance_visit scv','scv.sale_id = sc.id',"LEFT")
             ->where('c.id',$cid)
+            ->group("c.id")
             ->field($field)
             ->find();
         if(empty($customer)){
