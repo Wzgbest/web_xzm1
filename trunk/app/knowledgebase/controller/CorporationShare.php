@@ -230,6 +230,11 @@ class CorporationShare extends Initialize{
         }
         $save_money = intval($money*100);
         $time = time();
+        if ($userinfo['userinfo']['left_money'] < $save_money) {
+            $info['info'] = '账户余额不足';
+            $info['status'] = 5;
+            return json($info);
+        }
 
         $corporationShareModel = new CorporationShareModel($this->corp_id);
         $TipModel = new CorporationShareTip($this->corp_id);
@@ -284,7 +289,12 @@ class CorporationShare extends Initialize{
             $result['info'] = '打赏失败';
             return json($result);
         }
+
+        $telphone = $userinfo["telephone"];
+        $userinfo = $employM->getEmployeeByTel($telphone);
+        set_userinfo($this->corp_id,$telphone,$userinfo);
         $share_data = $corporationShareModel->getCorporationShareById($share_id);
+        
         $tipEmployeeList = $TipModel->getTipList($share_id);
         $myTipMoney = $TipModel->getMyTipMoney($uid,$share_id);
         $result['info'] = '打赏成功';
