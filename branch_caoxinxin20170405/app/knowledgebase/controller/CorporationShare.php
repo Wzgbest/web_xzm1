@@ -331,7 +331,7 @@ class CorporationShare extends Initialize{
         $share_id = input('share_id',0,'int');
         if (!$share_id) {
             $result['info'] = "动态id为0!";
-            return $result;
+            return json($result);
         }
 
         $corporationShareModel = new CorporationShareModel($this->corp_id);
@@ -340,37 +340,42 @@ class CorporationShare extends Initialize{
         $result['status'] = 1;
         $result['info'] = "删除成功!";
 
-        return $result;
+        return json($result);
     }
 
     public function delete_comment(){
         $result = ['status'=>0,'info'=>"删除评论失败!"];
 
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $comment_id = input('comment_id',0,'int');
         if (!$comment_id) {
             $result['info'] = "评论id不能为空";
-            return $result;
+            return json($result);
         }
 
         $corporationShareModel = new CorporationShareModel($this->corp_id);
-        $del_flag = $corporationShareModel->delOneCommentById($comment_id);
+        $del_flag = $corporationShareModel->delOneCommentById($comment_id,$uid);
         if ($del_flag) {
             $result['data'] = $del_flag;
             $result['status'] = 1;
             $result['info'] = "删除成功!";
         }
         
-        return $result;
+        return json($result);
     }
 
     public function index(){
 
         $num = input('num',100,'int');
         $last_id = input("last_id",0,"int");
+
+        $key_word = input('key_word','','string');
+        // var_dump($key_word);die();
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
         $corporationShareModel = new CorporationShareModel($this->corp_id);
-        $share_data = $corporationShareModel->getCorporationShare($uid,$num,$last_id);
+        $share_data = $corporationShareModel->getCorporationShare($uid,$num,$last_id,$key_word);
         $share_ids = array_column($share_data,"id");
         $corporationShareCommentModel = new CorporationShareCommentModel($this->corp_id);
         $share_comment_data = $corporationShareCommentModel->getAllCorporationShareComment($share_ids);

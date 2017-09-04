@@ -52,10 +52,14 @@ class CorporationShare extends Base{
      * @return array
      * @throws \think\Exception
      */
-    public function getCorporationShare($uid,$num=10,$last_id=0,$map=[]){
+    public function getCorporationShare($uid,$num=10,$last_id=0,$key='',$map=[]){
+        $mapStr = '';
         $order="cs.id desc";
         if($last_id){
             $map["cs.id"] = ["lt",$last_id];
+        }
+        if ($key) {
+            $mapStr = "csco.content like '%".$key."%'";
         }
         $corporationShareList = $this->model->table($this->table)->alias('cs')
             ->join($this->dbprefix.'corporation_share_content csco','cs.content_id = csco.id',"LEFT")
@@ -64,6 +68,7 @@ class CorporationShare extends Base{
             ->join($this->dbprefix.'corporation_share_like csl','cs.id = csl.share_id and csl.user_id='.$uid,"LEFT")
             ->join($this->dbprefix.'corporation_share_tip cst','cs.id = cst.share_id and cst.user_id='.$uid,"LEFT")
             ->where($map)
+            ->where($mapStr)
             ->order($order)
             ->limit($num)
             ->group("cs.id")
@@ -247,8 +252,8 @@ class CorporationShare extends Base{
      * @param  int $comment_id 评论id
      * @return [type]             [description]
      */
-    public function delOneCommentById($comment_id){
-        return $this->model->table($this->dbprefix.'corporation_share_comment')->where(['id'=>$comment_id])->delete();
+    public function delOneCommentById($comment_id,$uid){
+        return $this->model->table($this->dbprefix.'corporation_share_comment')->where(['id'=>$comment_id,'replyer_id'=>$uid])->delete();
     }
 
 }

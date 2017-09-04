@@ -8,8 +8,8 @@
         <section class="m-divBlock m-divBlock2">
         	<div class="m-filterNav">
                 <form class="search_form fl" onsubmit="return false;">
-                    <input type="text" name="" placeholder="请输入关键字" value=""/>
-                    <button class="u-btnSearch">查询</button>
+                    <input type="text" name="key_word" placeholder="请输入关键字" value=""/>
+                    <button class="u-btnSearch" onclick="search_share();">查询</button>
                 </form>
                 <div class="new-company-library fr" style="display: none;">
             		<i class="fa fa-plus"></i><span>新建</span>
@@ -180,6 +180,16 @@
 <link rel="stylesheet" href="/static/css/APlayer.min.css" />
 <script src="/knowledgebase/js/index.js"></script>
 <script src="/static/js/Aplayer.min.js"></script>
+<script type="text/javascript">
+	function search_share () {
+		var key_word = $("input[name='key_word']").val();
+	    // alert(key_word);return;
+	    var url = "/knowledgebase/corporation_share/index/key_word/"+key_word;
+	    var panel = 'company-libraryfr';
+	    loadPage(url,panel);
+		
+	}
+</script>
 <script>
 	var ap = new APlayer({ 
 		element: document.getElementById('player1'), 
