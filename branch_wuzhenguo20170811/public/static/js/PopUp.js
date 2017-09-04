@@ -1,5 +1,6 @@
 function pop(id,url,clicker){
     $(clicker).click(function(){
+    	console.log($(this));
     	$.ajax({
         	url: url,
         	type: 'get',
