@@ -26,7 +26,7 @@ function list_manage(from,target,url,p,num,max,in_column,sub){
     $("."+this.from+' .u-tabList input[type="checkbox"]').click(function(){
         self.select($(this).val(),$(this).attr("checked")!="checked");
     });
-    $("."+this.from+" .u-tabControlRow select").click(function(){
+    $("."+this.from+" .u-tabControlRow select").change(function(){
         var num = $(this).val();
         self.listNumChange(num);
     });

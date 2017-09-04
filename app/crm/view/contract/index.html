@@ -103,21 +103,7 @@
 						{/volist}
            	 		</div>
            	 	</div>
-           	 	<div class="u-tabControlRow">
-                	<span>显示行数</span>
-					<select>
-						<option value="5" {eq name="num" value="5"} selected="selected"{/eq}>5</option>
-						<option value="10" {eq name="num" value="10"} selected="selected"{/eq}>10</option>
-						<option value="20" {eq name="num" value="20"} selected="selected"{/eq}>20</option>
-					</select>
-					<span>{$start_num}-{$end_num}条/</span>
-					<span>共{$count}条</span>
-                	<button class="index_previous_page previous_page  disabled">上一页</button>
-                	<button class="index_next_page next_page  disabled">下一页</button>
-                	<span>前往</span>
-                	<input class="index_jump_page jump_page" type="text" />
-                	<span>页</span>
-            	</div>
+           	 	{include file="common@common/page"/}
         	</div>
         </section>
         <section id="create-contract" class="popUp hide">
