@@ -523,13 +523,14 @@ class SaleChance extends Base
      * @param $start_time int 开始时间
      * @param $end_time int 结束时间
      * @param $uids array 员工id数组
+     * @param $standard int 达标数量
      * @param $num int 数量
      * @param $page int 页
      * @param $map array 客户筛选条件
      * @return array|false
      * @throws \think\Exception
      */
-    public function getSaleChanceRanking($start_time,$end_time,$uids,$num=10,$page=0,$map=null){
+    public function getSaleChanceRanking($start_time,$end_time,$uids,$standard=0,$num=10,$page=0,$map=null){
         if(empty($uids)){
             return [];
         }
@@ -542,19 +543,19 @@ class SaleChance extends Base
         }
         $group="sc.employee_id";
         $order="num desc";
-        $callRecordRanking = $this->model->table($this->table)->alias('sc')
+        $rankingList = $this->model->table($this->table)->alias('sc')
             ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
             ->where($map)
             ->group($group)
             ->order($order)
-            ->limit($offset,$num)
-            ->field("e.id as employee_id,e.truename,count(sc.id) num")
+            //->limit($offset,$num)
+            ->field("e.id as employee_id,e.truename,count(sc.id) num,IF (count(sc.id) >= $standard, '1', '0') as is_standard")
             ->select();
-        //var_exp($callRecordRanking,'$callRecordRanking',1);
-        if($num==1&&$page==0&&$callRecordRanking){
-            $callRecordRanking = $callRecordRanking[0];
+        //var_exp($rankingList,'$rankingList',1);
+        if($num==1&&$page==0&&$rankingList){
+            $rankingList = $rankingList[0];
         }
-        return $callRecordRanking;
+        return $rankingList;
     }
 
 
@@ -570,46 +571,45 @@ class SaleChance extends Base
      * @return array|false
      * @throws \think\Exception
      */
-    public function getSaleChanceStandard($start_time,$end_time,$uids,$standard,$num=10,$page=0,$map=null){
+    public function getSaleChanceStandard($start_time,$end_time,$uids,$standard=0,$num=10,$page=0,$map=null){
         if(empty($uids)){
             return [];
         }
         $map["sc.create_time"][] = ["egt",$start_time];
         $map["sc.create_time"][] = ["elt",$end_time];
         $map["sc.employee_id"] = ["in",$uids];
-        $standard_map = "standard = ".$standard;
         $offset = 0;
         if($page){
             $offset = ($page-1)*$num;
         }
-        $order="sc.employee_id asc,sc.create_time asc";
-        $vl_order="standard_time asc";
-        $standard_order="standard_time asc";
+        $order="sc.employee_id asc,sc.id asc";
+        $vl_order="standard desc";
+        $standard_order="is_standard desc,standard_time asc,num desc";
         $subQuery = $this->model->table($this->table)->alias('sc')
             ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
             ->where($map)
             ->order($order)
             ->limit(999999)//2147483647?
-            ->field("sc.employee_id,e.truename,sc.create_time as standard_time")
+            ->field("e.id as employee_id,e.truename,sc.create_time")
             ->buildSql();
         //var_exp($subQuery,'$subQuery',1);
         $subQuery = $this->model->table($subQuery)->alias('sl')
-            ->join("(SELECT @prev := '', @n := 0) init",'sl.employee_id = sl.employee_id',"LEFT")
+            ->join("(SELECT @prev := '', @n := 0, @st := 0) init",'sl.employee_id = sl.employee_id',"LEFT")
             ->order($vl_order)
             ->limit(999999)//2147483647?
-            ->field("sl.*,@n := IF (sl.employee_id != @prev, '1', @n + 1) AS standard ,@prev := sl.employee_id AS ng")
+            ->field("sl.*,@n := IF (sl.employee_id != @prev, '1', @n + 1)+0 AS standard ,@st := IF (sl.employee_id != @prev, '0', @st) AS stre ,@prev := sl.employee_id AS ng ,@st := IF (@n = $standard, sl.create_time, @st) as standard_time")
             ->buildSql();
         //var_exp($subQuery,'$subQuery',1);
-        $callRecordRanking = $this->model->table($subQuery)->alias('v')
-            ->where($standard_map)
+        $standardList = $this->model->table($subQuery)->alias('v')
+            ->group("employee_id")
             ->order($standard_order)
-            ->limit($offset,$num)
-            ->field("employee_id,truename,standard_time")
+            //->limit($offset,$num)
+            ->field("employee_id,truename,standard as num,standard_time,IF (standard >= $standard, '1', '0') as is_standard")
             ->select();
-        //var_exp($callRecordRanking,'$callRecordRanking',1);
-        if($num==1&&$page==0&&$callRecordRanking){
-            $callRecordRanking = $callRecordRanking[0];
+        //var_exp($standardList,'$standardList',1);
+        if($num==1&&$page==0&&$standardList){
+            $standardList = $standardList[0];
         }
-        return $callRecordRanking;
+        return $standardList;
     }
 }

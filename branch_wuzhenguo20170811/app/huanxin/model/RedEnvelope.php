@@ -110,14 +110,17 @@ class RedEnvelope extends Base
 
     /**
      * 领取红包
-     * @param $red_id
-     * @param $user
+     * @param string $red_id
+     * @param int $user_id
+     * @param int $user_phone
+     * @param int $time
      * @return false|\PDOStatement|string|\think\Collection
      */
     public function fetchedRedEnvelope($red_id,$user_id,$user_phone,$time)
     {
         $map["redid"] = $red_id;
         $map["is_token"] = 0;
+        $data["took_user"] = ["in",[0,$user_id]];
         $data["is_token"] = 1;
         $data["took_user"] = $user_id;
         $data["took_telephone"] = $user_phone;
