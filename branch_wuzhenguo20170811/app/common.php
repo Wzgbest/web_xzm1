@@ -84,12 +84,15 @@ function get_cache_by_tel($telephone, $name){
 
 function set_telephone_by_cooike_flg($cooike_flg,$telephone){
     cache("cooike_flg_".$cooike_flg,$telephone);
-    return $telephone;
 }
 
 function get_telephone_by_cooike_flg($cooike_flg){
     $telephone = cache("cooike_flg_".$cooike_flg);
     return $telephone;
+}
+
+function del_telephone_by_cooike_flg($cooike_flg){
+    cache("cooike_flg_".$cooike_flg,null);
 }
 
 function create_cooike_flg($uid){
@@ -160,6 +163,8 @@ function logout(){
     if(!$telephone){
         return;
     }
+    $cooike_flg = get_cooike_flg();
+    del_telephone_by_cooike_flg($cooike_flg);
     set_cache_by_tel($telephone,'userinfo',null);
     cookie("xzmid",null);
 }
@@ -465,23 +470,23 @@ function getCommStatusName($comm_status){
     return $comm_status_name;
 }
 
-function getBelongsToManageName($resource_from){
-    $resource_from_name = null;
-    switch ($resource_from){
+function getBelongsToManageName($belongs_to){
+    $belongs_to_name = null;
+    switch ($belongs_to){
         case 1:
         case 2:
-        $resource_from_name = "未申领";
+        $belongs_to_name = "未申领";
             break;
         case 3:
-            $resource_from_name = "跟进中";
+            $belongs_to_name = "跟进中";
             break;
         case 4:
-            $resource_from_name = "待处理";
+            $belongs_to_name = "待处理";
             break;
         default:
-            $resource_from_name = "无";
+            $belongs_to_name = "无";
     }
-    return $resource_from_name;
+    return $belongs_to_name;
 }
 
 function getResourceFromName($resource_from){
@@ -501,22 +506,22 @@ function getResourceFromName($resource_from){
     }
     return $resource_from_name;
 }
-function getTakeTypeFromName($resource_from){
-    $resource_from_name = null;
-    switch ($resource_from){
+function getTakeTypeFromName($take_type){
+    $take_type_name = null;
+    switch ($take_type){
         case 1:
-            $resource_from_name = "转介绍";
+            $take_type_name = "转介绍";
             break;
         case 2:
-            $resource_from_name = "搜索";
+            $take_type_name = "搜索";
             break;
         case 3:
-            $resource_from_name = "购买";
+            $take_type_name = "购买";
             break;
         default:
-            $resource_from_name = "无";
+            $take_type_name = "无";
     }
-    return $resource_from_name;
+    return $take_type_name;
 }
 
 function getInColumnName($in_column){
