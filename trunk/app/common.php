@@ -9,6 +9,7 @@
 // | Author: 流年 <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 use think\Db;
+use think\Request;
 use app\common\model\UserCorporation;
 use app\common\model\Umessage;
 use app\common\model\Employee;
@@ -63,13 +64,58 @@ function check_auth ($rule,$uid) {
     }
 }
 
+function set_cache_by_corp($corp_id, $name, $data, $config=null){
+    cache("user_cache_".$corp_id."_".$name,$data,$config);
+}
+
+function get_cache_by_corp($corp_id, $name){
+    $data = cache("user_cache_".$corp_id."_".$name);
+    return $data;
+}
+
 function set_cache_by_tel($telephone, $name, $data, $config=null){
-    cache("user_cache_".$telephone."_".$name,$data);
+    cache("user_cache_".$telephone."_".$name,$data,$config);
 }
 
 function get_cache_by_tel($telephone, $name){
     $data = cache("user_cache_".$telephone."_".$name);
     return $data;
+}
+
+function set_telephone_by_cooike_flg($cooike_flg,$telephone){
+    cache("cooike_flg_".$cooike_flg,$telephone);
+    return $telephone;
+}
+
+function get_telephone_by_cooike_flg($cooike_flg){
+    $telephone = cache("cooike_flg_".$cooike_flg);
+    return $telephone;
+}
+
+function create_cooike_flg($uid){
+    $cooike_flg = '';
+    $agent = Request::instance()->header('user-agent');
+    $arr["uid"] = $uid;
+    $arr["agent"] = $agent;
+    $str = json_encode($arr,true);
+    //var_exp($str,'$str');
+    $cooike_flg = md5($str);
+    return $cooike_flg;
+}
+
+function get_cooike_flg(){
+    return cookie("xzmid");
+}
+
+function set_cooike_flg($uid){
+    $cooike_flg = create_cooike_flg($uid);
+    cookie("xzmid",$cooike_flg);
+}
+
+function check_cooike_flg($uid){
+    $get_cooike_flg = get_cooike_flg();
+    $create_cooike_flg = create_cooike_flg($uid);
+    return $get_cooike_flg==$create_cooike_flg;
 }
 
 function set_userinfo($corp_id,$telephone,$user_arr){
@@ -85,15 +131,37 @@ function set_userinfo($corp_id,$telephone,$user_arr){
         'role'=>$user_arr['role_name'],
         'userinfo'=>$user_arr,
     ];
-    session('userinfo',$userinfo);
+    set_cache_by_tel($telephone,'userinfo',$userinfo);
+    $create_cooike_flg = create_cooike_flg($user_arr['id']);
+    set_telephone_by_cooike_flg($create_cooike_flg,$telephone);
+    set_cooike_flg($user_arr['id']);
     return $userinfo;
 }
 function get_userinfo(){
-    $userinfo = session('userinfo');
+    $userinfo = [];
+    $telephone = 0;
+    $cooike_flg = get_cooike_flg();
+    if(!$cooike_flg){
+        return $userinfo;
+    }
+    $telephone = get_telephone_by_cooike_flg($cooike_flg);
+    if(!$telephone){
+    }
+    $userinfo = get_cache_by_tel($telephone,'userinfo');
     return $userinfo;
 }
 function logout(){
-    session(null);
+    $telephone = 0;
+    $cooike_flg = get_cooike_flg();
+    if(!$cooike_flg){
+        return;
+    }
+    $telephone = get_telephone_by_cooike_flg($cooike_flg);
+    if(!$telephone){
+        return;
+    }
+    set_cache_by_tel($telephone,'userinfo',null);
+    cookie("xzmid",null);
 }
 /**
  * 通过手机号获取用户id
@@ -711,11 +779,11 @@ function getBillStatusName($status){
 
 function getBusinessName($business){
     $corp_id = get_corpid();
-    $business_index = cache("user_cache_".$corp_id."_business");
+    $business_index = get_cache_by_corp($corp_id,"business");
     if(empty($business_index)){
         $businessModel = new \app\common\model\Business();
         $business_index = $businessModel->getBusinessArray();
-        cache("user_cache_".$corp_id."_business",$business_index);
+        set_cache_by_corp($corp_id,"business",$business_index,6000);
     }
     if(!isset($business_index[$business])){
         return false;

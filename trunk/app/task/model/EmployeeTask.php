@@ -25,20 +25,28 @@ class EmployeeTask extends Base{
      * @return arr          任务信息
      */
     public function getEmployeeById($task_id){
-
     	$employeeTaskInfo = $this->model->table($this->table)->where("id",$task_id)->find();
-
     	return $employeeTaskInfo;
-
     }
 
     /**
-     * 获取一条任务信息
+     * 添加一条任务信息
      * @param  array $data 任务信息
      * @return int 任务ID
      */
     public function addTask($data){
         return $this->model->table($this->table)->insertGetId($data);
+    }
+
+    /**
+     * 获取一条任务信息
+     * @param  int $id 任务ID
+     * @return array 任务信息
+     */
+    public function getTaskInfo($id){
+        return $this->model->table($this->table)
+            ->where("id",$id)
+            ->find();
     }
 
      /**
@@ -60,17 +68,17 @@ class EmployeeTask extends Base{
         }
 
         $employeeTaskList = $this->model->table($this->table)->alias('et')
-                            ->join($this->dbprefix.'employee e','e.id = et.create_employee',"LEFT")
-                            ->join($this->dbprefix.'employee_task_reward etr','etr.task_id = et.id',"LEFT")
-                            ->join($this->dbprefix.'employee_task_target ett','ett.task_id = et.id',"LEFT")
-                            ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
-                            ->where($map)
-                            ->where($mapStr)
-                            ->order($order)
-                            ->limit($num)
-                            ->group("et.id")
-                            ->field("et.*,e.telephone,e.truename,e.userpic,etr.reward_amount,etr.reward_num,etr.reward_type,etr.reward_method,ett.target_type,ett.target_customer,ett.target_appraiser,ett.target_num,case when etl.user_id>0 then 1 else 0 end as is_like")
-                            ->select();
+            ->join($this->dbprefix.'employee e','e.id = et.create_employee',"LEFT")
+            ->join($this->dbprefix.'employee_task_reward etr','etr.task_id = et.id',"LEFT")
+            ->join($this->dbprefix.'employee_task_target ett','ett.task_id = et.id',"LEFT")
+            ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
+            ->where($map)
+            ->where($mapStr)
+            ->order($order)
+            ->limit($num)
+            ->group("et.id")
+            ->field("et.*,e.telephone,e.truename,e.userpic,etr.reward_amount,etr.reward_num,etr.reward_type,etr.reward_method,ett.target_type,ett.target_customer,ett.target_appraiser,ett.target_num,case when etl.user_id>0 then 1 else 0 end as is_like")
+            ->select();
 
         return $employeeTaskList;
     }
