@@ -142,6 +142,9 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 		});
 	};
 	this.edit_update=function(id){
+        if(!this.check_form_html5($(this.panel_base+".newClientInfoForm").get(0).elements)){
+            return;
+        }
 		var panel = this.panel_base+' .customer_edit';
 		var edit_form_data = $(panel+" ."+this.from+"_edit").serialize();
 		edit_form_data += "&id="+id+"&fr="+this.from;
