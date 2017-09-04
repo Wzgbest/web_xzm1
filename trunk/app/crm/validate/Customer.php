@@ -14,7 +14,7 @@ class Customer extends Validate
 {
     protected $rule = [
         'customer_name' => ['require','regex'=>'/^[\x0391-\xFFE5]+$/'],
-        'telephone' => ['require','regex'=>'/^(?:(?:0\d{2,3}[- ]?[1-9]\d{6,7})|(?:(13[0-9]|15[012356789]|18[0236789]|14[5789])[0-9]{8}))$/'],
+        'telephone' => ['require','regex'=>'/^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}|17[0-9]{9}$|18[0-9]{9}$|^((0(10|2[0-9]|[3-9]\d{2}))[- ]?[1-9]\d{6,7})$|^400[0-9]{7}$/'],
         'resource_from' => 'require|number',
     ];
 
