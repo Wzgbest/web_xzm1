@@ -33,6 +33,7 @@ class Index extends Initialize{
     }
 
     public function test(){
+        $type = input("type",0,"int");
         $start_time = input("start_time",0,"int");
         $end_time = input("end_time",0,"int");
         $uids_str = input("uids","","string");
@@ -40,12 +41,27 @@ class Index extends Initialize{
         $num = input("num",0,"int");
         $page = input("page",1,"int");
         $uids = explode(",",$uids_str);
-//        $callRecordM = new CallRecord($this->corp_id);
-//        $callRecordData = $callRecordM->getCallRecordStandard($start_time,$end_time,$uids,$standard,$num,$page);
+        $data = [];
+        switch ($type){
+            case 1:
+                $callRecordM = new CallRecord($this->corp_id);
+                if($standard){
+                    $data = $callRecordM->getCallRecordStandard($start_time,$end_time,$uids,$standard,$num,$page);
+                }else{
+                    $data = $callRecordM->getCallRecordRanking($start_time,$end_time,$uids,$num,$page);
+                }
+            break;
+            case 2:
+                $saleChanceM = new SaleChance($this->corp_id);
+                if($standard){
+                    $data = $saleChanceM->getSaleChanceStandard($start_time,$end_time,$uids,$standard,$num,$page);
+                }else{
+                    $data = $saleChanceM->getSaleChanceRanking($start_time,$end_time,$uids,$num,$page);
+                }
+            break;
+        }
 
-        $saleChanceM = new SaleChance($this->corp_id);
-        $saleChanceData = $saleChanceM->getSaleChanceStandard($start_time,$end_time,$uids,$standard,$num,$page);
-        return json($saleChanceData);
+        return json($data);
     }
 
     public function get(){
