@@ -779,6 +779,16 @@ class Customer extends Initialize{
         $result['info'] = "获取客户信息成功！";
         return json($result);
     }
+    
+    public function getCustomerBusiness(){
+        $result = ['status'=>0 ,'info'=>"获取客户行业列表时发生错误！"];
+        $business = new Business($this->corp_id);
+        $business_list = $business->getAllBusiness();
+        $result['data'] = $business_list;
+        $result['status'] = 1;
+        $result['info'] = "获取客户行业列表成功！";
+        return json($result);
+    }
 
     protected function _getCustomerForInput($mode){
         // add customer page
