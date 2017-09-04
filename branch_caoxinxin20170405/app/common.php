@@ -84,12 +84,15 @@ function get_cache_by_tel($telephone, $name){
 
 function set_telephone_by_cooike_flg($cooike_flg,$telephone){
     cache("cooike_flg_".$cooike_flg,$telephone);
-    return $telephone;
 }
 
 function get_telephone_by_cooike_flg($cooike_flg){
     $telephone = cache("cooike_flg_".$cooike_flg);
     return $telephone;
+}
+
+function del_telephone_by_cooike_flg($cooike_flg){
+    cache("cooike_flg_".$cooike_flg,null);
 }
 
 function create_cooike_flg($uid){
@@ -160,6 +163,8 @@ function logout(){
     if(!$telephone){
         return;
     }
+    $cooike_flg = get_cooike_flg();
+    del_telephone_by_cooike_flg($cooike_flg);
     set_cache_by_tel($telephone,'userinfo',null);
     cookie("xzmid",null);
 }
