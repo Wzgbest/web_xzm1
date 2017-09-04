@@ -546,4 +546,208 @@ class SaleOrderContract extends Base{
             ->where($map)
             ->update($data);
     }
+
+
+
+    /**
+     * 查询商机数排名
+     * @param $start_time int 开始时间
+     * @param $end_time int 结束时间
+     * @param $uids array 员工id数组
+     * @param $standard int 达标数量
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $map array 客户筛选条件
+     * @return array|false
+     * @throws \think\Exception
+     */
+    public function getSaleOrderContractRanking($start_time,$end_time,$uids,$standard=0,$num=10,$page=0,$map=null){
+        if(empty($uids)){
+            return [];
+        }
+        $map["soc.create_time"][] = ["egt",$start_time];
+        $map["soc.create_time"][] = ["elt",$end_time];
+        $map["sc.employee_id"] = ["in",$uids];
+        $map["soc.status"] = 1;//通过
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+        $group="sc.employee_id";
+        $order="num desc";
+        $rankingList = $this->model->table($this->table)->alias('soc')
+            ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
+            ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
+            ->where($map)
+            ->group($group)
+            ->order($order)
+            //->limit($offset,$num)
+            ->field("e.id as employee_id,e.truename,count(soc.id) num,IF (count(soc.id) >= $standard, '1', '0') as is_standard")
+            ->select();
+        //var_exp($rankingList,'$rankingList',1);
+        if($num==1&&$page==0&&$rankingList){
+            $rankingList = $rankingList[0];
+        }
+        return $rankingList;
+    }
+
+
+    /**
+     * 查询商机数达标
+     * @param $start_time int 开始时间
+     * @param $end_time int 结束时间
+     * @param $uids array 员工id数组
+     * @param $standard int 标准
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $map array 客户筛选条件
+     * @return array|false
+     * @throws \think\Exception
+     */
+    public function getSaleOrderContractStandard($start_time,$end_time,$uids,$standard,$num=10,$page=0,$map=null){
+        if(empty($uids)){
+            return [];
+        }
+        $map["soc.create_time"][] = ["egt",$start_time];
+        $map["soc.create_time"][] = ["elt",$end_time];
+        $map["sc.employee_id"] = ["in",$uids];
+        $map["soc.status"] = 1;//通过
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+        $order="sc.employee_id asc,soc.create_time asc";
+        $vl_order="standard desc";
+        $standard_order="is_standard desc,standard_time asc,num desc";
+        $subQuery = $this->model->table($this->table)->alias('soc')
+            ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
+            ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
+            ->where($map)
+            ->order($order)
+            ->limit(999999)//2147483647?
+            ->field("e.id as employee_id,e.truename,soc.create_time")
+            ->buildSql();
+        //var_exp($subQuery,'$subQuery',1);
+        $subQuery = $this->model->table($subQuery)->alias('sl')
+            ->join("(SELECT @prev := '', @n := 0, @st := 0) init",'sl.employee_id = sl.employee_id',"LEFT")
+            ->order($vl_order)
+            ->limit(999999)//2147483647?
+            ->field("sl.*,@n := IF (sl.employee_id != @prev, '1', @n + 1)+0 AS standard ,@st := IF (sl.employee_id != @prev, '0', @st) AS stre ,@prev := sl.employee_id AS ng ,@st := IF (@n = $standard, sl.create_time, @st) as standard_time")
+            ->buildSql();
+        //var_exp($subQuery,'$subQuery',1);
+        $standardList = $this->model->table($subQuery)->alias('v')
+            ->group("employee_id")
+            ->order($standard_order)
+            //->limit($offset,$num)
+            ->field("employee_id,truename,standard as num,standard_time,IF (standard >= $standard, '1', '0') as is_standard")
+            ->select();
+        //var_exp($standardList,'$standardList',1);
+        if($num==1&&$page==0&&$standardList){
+            $standardList = $standardList[0];
+        }
+        return $standardList;
+    }
+
+
+
+
+
+    /**
+     * 查询商机数排名
+     * @param $start_time int 开始时间
+     * @param $end_time int 结束时间
+     * @param $uids array 员工id数组
+     * @param $standard int 达标数量
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $map array 客户筛选条件
+     * @return array|false
+     * @throws \think\Exception
+     */
+    public function getOrderMoneyRanking($start_time,$end_time,$uids,$standard=0,$num=10,$page=0,$map=null){
+        if(empty($uids)){
+            return [];
+        }
+        $map["soc.create_time"][] = ["egt",$start_time];
+        $map["soc.create_time"][] = ["elt",$end_time];
+        $map["sc.employee_id"] = ["in",$uids];
+        $map["soc.status"] = 1;//通过
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+        $group="sc.employee_id";
+        $order="num desc";
+        $rankingList = $this->model->table($this->table)->alias('soc')
+            ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
+            ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
+            ->where($map)
+            ->group($group)
+            ->order($order)
+            //->limit($offset,$num)
+            ->field("e.id as employee_id,e.truename,sum(soc.order_money) num,IF (sum(soc.order_money) >= $standard, '1', '0') as is_standard")
+            ->select();
+        //var_exp($rankingList,'$rankingList',1);
+        if($num==1&&$page==0&&$rankingList){
+            $rankingList = $rankingList[0];
+        }
+        return $rankingList;
+    }
+
+
+    /**
+     * 查询商机数达标
+     * @param $start_time int 开始时间
+     * @param $end_time int 结束时间
+     * @param $uids array 员工id数组
+     * @param $standard int 标准
+     * @param $num int 数量
+     * @param $page int 页
+     * @param $map array 客户筛选条件
+     * @return array|false
+     * @throws \think\Exception
+     */
+    public function getOrderMoneyStandard($start_time,$end_time,$uids,$standard,$num=10,$page=0,$map=null){
+        if(empty($uids)){
+            return [];
+        }
+        $map["soc.create_time"][] = ["egt",$start_time];
+        $map["soc.create_time"][] = ["elt",$end_time];
+        $map["sc.employee_id"] = ["in",$uids];
+        $map["soc.status"] = 1;//通过
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+        $order="sc.employee_id asc,soc.create_time asc";
+        $vl_order="standard desc";
+        $standard_order="is_standard desc,standard_time asc,num desc";
+        $subQuery = $this->model->table($this->table)->alias('soc')
+            ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
+            ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
+            ->where($map)
+            ->order($order)
+            ->limit(999999)//2147483647?
+            ->field("soc.order_money,e.id as employee_id,e.truename,soc.create_time")
+            ->buildSql();
+        //var_exp($subQuery,'$subQuery',1);
+        $subQuery = $this->model->table($subQuery)->alias('sl')
+            ->join("(SELECT @prev := '', @n := 0, @st := 0) init",'sl.employee_id = sl.employee_id',"LEFT")
+            ->order($vl_order)
+            ->limit(999999)//2147483647?
+            ->field("sl.*,@n := IF (sl.employee_id != @prev, order_money , @n + order_money)+0 AS standard ,@st := IF (sl.employee_id != @prev, '0', @st) AS stre ,@prev := sl.employee_id AS ng ,@st := IF (@n > $standard, IF (@st = 0, sl.create_time, @st), @st) as standard_time")
+            ->buildSql();
+        //var_exp($subQuery,'$subQuery',1);
+        $standardList = $this->model->table($subQuery)->alias('v')
+            ->group("employee_id")
+            ->order($standard_order)
+            //->limit($offset,$num)
+            ->field("employee_id,truename,standard as num,standard_time,IF (standard >= $standard, '1', '0') as is_standard")
+            ->select();
+        //var_exp($standardList,'$standardList',1);
+        if($num==1&&$page==0&&$standardList){
+            $standardList = $standardList[0];
+        }
+        return $standardList;
+    }
 }
