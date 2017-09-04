@@ -175,6 +175,7 @@ function customer_add(from,target,list_manage){
 	};
 	this.add_sale_chance=function(next_status){
 		var add_customer_sale_chance_from_data = $(this.panel_base+" .m-form .newClientSaleChanceForm").serialize();
+		console.log(add_customer_sale_chance_from_data);
 		add_customer_sale_chance_from_data += "&customer_id="+this.new_customer_id;
 		var url = '/crm/sale_chance/add';
 		if(this.new_customer_sale_chance_id>0){
