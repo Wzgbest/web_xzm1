@@ -23,7 +23,7 @@ class SpeechCraft extends Initialize{
         $key_word = input('key_word','','string');
         $class_id = input('class_id',0,'int');
         $article_type = $this->_speechCraftModel->getAllArticleType();
-        $all_article = $this->_speechCraftModel->getAllArticle($key_word,$class_id);
+        $all_article = $this->_speechCraftModel->getAllArticle($key_word,$class_id,1,100);
         // var_dump($all_article);die();
         $this->assign('article_type',$article_type);
         $this->assign('all_article',$all_article);

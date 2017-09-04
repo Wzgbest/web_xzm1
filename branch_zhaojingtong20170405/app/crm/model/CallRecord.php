@@ -53,13 +53,14 @@ class CallRecord extends Base{
      * @param $start_time int 开始时间
      * @param $end_time int 结束时间
      * @param $uids array 员工id数组
+     * @param $standard int 达标数量
      * @param $num int 数量
      * @param $page int 页
      * @param $map array 客户筛选条件
      * @return array|false
      * @throws \think\Exception
      */
-    public function getCallRecordRanking($start_time,$end_time,$uids,$num=10,$page=0,$map=null){
+    public function getCallRecordRanking($start_time,$end_time,$uids,$standard=0,$num=10,$page=0,$map=null){
         if(empty($uids)){
             return [];
         }
@@ -77,8 +78,8 @@ class CallRecord extends Base{
             ->where($map)
             ->group($group)
             ->order($order)
-            ->limit($offset,$num)
-            ->field("e.id as employee_id,e.truename,count(cr.id) num")
+            //->limit($offset,$num)
+            ->field("e.id as employee_id,e.truename,count(cr.id) num,IF (count(cr.id) >= $standard, '1', '0') as is_standard")
             ->select();
         //var_exp($callRecordRanking,'$callRecordRanking',1);
         if($num==1&&$page==0&&$callRecordRanking){
@@ -89,7 +90,7 @@ class CallRecord extends Base{
 
 
     /**
-     * 查询通话记录量达标
+     * 查询通话记录量达标次序
      * @param $start_time int 开始时间
      * @param $end_time int 结束时间
      * @param $uids array 员工id数组
@@ -100,41 +101,40 @@ class CallRecord extends Base{
      * @return array|false
      * @throws \think\Exception
      */
-    public function getCallRecordStandard($start_time,$end_time,$uids,$standard,$num=10,$page=0,$map=null){
+    public function getCallRecordStandard($start_time,$end_time,$uids,$standard=0,$num=10,$page=0,$map=null){
         if(empty($uids)){
             return [];
         }
         $map["cr.begin_time"][] = ["egt",$start_time];
         $map["cr.begin_time"][] = ["elt",$end_time];
         $map["cr.userid"] = ["in",$uids];
-        $standard_map = "standard = ".$standard;
         $offset = 0;
         if($page){
             $offset = ($page-1)*$num;
         }
-        $order="cr.userid asc,cr.begin_time asc";
-        $sl_order="standard_time asc";
-        $standard_order="standard_time asc";
+        $order="cr.userid asc,cr.id asc";
+        $sl_order="standard*1 desc";
+        $standard_order="is_standard desc,standard_time asc,num desc";
         $subQuery = $this->model->table($this->table)->alias('cr')
             ->join($this->dbprefix.'employee e','cr.userid = e.id',"LEFT")
             ->where($map)
             ->order($order)
             ->limit(999999)//2147483647?
-            ->field("e.id as employee_id,e.truename,cr.begin_time as standard_time")
+            ->field("e.id as employee_id,e.truename,cr.begin_time")
             ->buildSql();
         //var_exp($subQuery,'$subQuery',1);
         $subQuery = $this->model->table($subQuery)->alias('cl')
-            ->join("(SELECT @prev := '', @n := 0) init",'cl.employee_id = cl.employee_id',"LEFT")
+            ->join("(SELECT @prev := '', @n := 0, @st := 0) init",'cl.employee_id = cl.employee_id',"LEFT")
             ->order($sl_order)
             ->limit(999999)//2147483647?
-            ->field("cl.*,@n := IF (cl.employee_id != @prev, '1', @n + 1) AS standard ,@prev := cl.employee_id AS ng")
+            ->field("cl.*,@n := IF (cl.employee_id != @prev, '1', @n + 1)+0 AS standard ,@st := IF (cl.employee_id != @prev, '0', @st) AS stre ,@prev := cl.employee_id AS ng ,@st := IF (@n = $standard, cl.begin_time, @st) as standard_time")
             ->buildSql();
         //var_exp($subQuery,'$subQuery',1);
         $callRecordRanking = $this->model->table($subQuery)->alias('v')
-            ->where($standard_map)
+            ->group("employee_id")
             ->order($standard_order)
-            ->limit($offset,$num)
-            ->field("employee_id,truename,standard_time")
+            //->limit($offset,$num)
+            ->field("employee_id,truename,standard as num,standard_time,IF (standard >= $standard, '1', '0') as is_standard")
             ->select();
         //var_exp($callRecordRanking,'$callRecordRanking',1);
         if($num==1&&$page==0&&$callRecordRanking){
