@@ -346,6 +346,8 @@ class CorporationShare extends Initialize{
     public function delete_comment(){
         $result = ['status'=>0,'info'=>"删除评论失败!"];
 
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $comment_id = input('comment_id',0,'int');
         if (!$comment_id) {
             $result['info'] = "评论id不能为空";
@@ -353,7 +355,7 @@ class CorporationShare extends Initialize{
         }
 
         $corporationShareModel = new CorporationShareModel($this->corp_id);
-        $del_flag = $corporationShareModel->delOneCommentById($comment_id);
+        $del_flag = $corporationShareModel->delOneCommentById($comment_id,$uid);
         if ($del_flag) {
             $result['data'] = $del_flag;
             $result['status'] = 1;
