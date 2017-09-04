@@ -20,11 +20,42 @@ class TaskTarget extends Base{
     }
 
     /**
-     * 获取一条任务目标信息
+     * 添加一条任务目标信息
      * @param  array $data 任务信息
      * @return int 任务ID
      */
     public function addTaskTarget($data){
         return $this->model->table($this->table)->insertGetId($data);
+    }
+
+    /**
+     * 添加多条任务目标信息
+     * @param  array $datas 任务信息
+     * @return int 任务ID
+     */
+    public function addMutipleTaskTarget($datas){
+        return $this->model->table($this->table)->insertAll($datas);
+    }
+
+    /**
+     * 获取某个任务的所有目标信息
+     * @param  int $task_id 任务ID
+     * @return array 任务信息
+     */
+    public function findTaskTargetByTaskId($task_id){
+        return $this->model->table($this->table)
+            ->where("task_id",$task_id)
+            ->find();
+    }
+
+    /**
+     * 获取某个任务的所有目标信息
+     * @param  int $task_id 任务ID
+     * @return array 任务信息
+     */
+    public function getTaskTargetListByTaskId($task_id){
+        return $this->model->table($this->table)
+            ->where("task_id",$task_id)
+            ->select();
     }
 }

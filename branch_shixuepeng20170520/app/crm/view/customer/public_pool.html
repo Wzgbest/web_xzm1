@@ -61,21 +61,7 @@
                     {/volist}
                 </div>
             </div>
-            <div class="u-tabControlRow">
-                <span>显示行数</span>
-                <select>
-                    <option value="5" {eq name="num" value="5"} selected="selected"{/eq}>5</option>
-                    <option value="10" {eq name="num" value="10"} selected="selected"{/eq}>10</option>
-                    <option value="20" {eq name="num" value="20"} selected="selected"{/eq}>20</option>
-                </select>
-                <span>{$start_num}-{$end_num}条/</span>
-                <span>共{$count}条</span>
-                <button class="my_customer_previous_page previous_page {eq name='p' value='1'} disabled{/eq}">上一页</button>
-                <button class="my_customer_next_page next_page {eq name='p' value='$max_page'} disabled{/eq}">下一页</button>
-                <span>前往</span>
-                <input class="my_customer_jump_page jump_page" type="text" />
-                <span>页</span>
-            </div>
+            {include file="common@common/page"/}
         </section>
         <script src="/static/js/list_manage.js"></script>
         <script language="javascript">

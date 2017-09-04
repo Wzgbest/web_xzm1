@@ -20,11 +20,42 @@ class TaskReward extends Base{
     }
 
     /**
-     * 获取一条任务奖励信息
+     * 添加一条任务奖励信息
      * @param  array $data 任务信息
      * @return int 任务ID
      */
     public function addTaskReward($data){
         return $this->model->table($this->table)->insertGetId($data);
+    }
+
+    /**
+     * 添加多条任务奖励信息
+     * @param  array $datas 任务信息
+     * @return int 任务ID
+     */
+    public function addMutipleTaskReward($datas){
+        return $this->model->table($this->table)->insertAll($datas);
+    }
+
+    /**
+     * 获取某个任务的一条奖励信息
+     * @param  int $task_id 任务ID
+     * @return array 任务信息
+     */
+    public function findTaskRewardByTaskId($task_id){
+        return $this->model->table($this->table)
+            ->where("task_id",$task_id)
+            ->find();
+    }
+
+    /**
+     * 获取某个任务的所有奖励信息
+     * @param  int $task_id 任务ID
+     * @return array 任务信息
+     */
+    public function getTaskRewardListByTaskId($task_id){
+        return $this->model->table($this->table)
+            ->where("task_id",$task_id)
+            ->select();
     }
 }
