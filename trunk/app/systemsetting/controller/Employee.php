@@ -681,9 +681,12 @@ class Employee extends Initialize{
     // public function createAllUser(){
     //     $result = ['status'=>0,'info'=>"注册失败"];
     //     $huanxin = new HuanxinApi();
-    //     for ($i=1; $i<13 ; $i++) { 
-    //         $flg = $huanxin->updatePassword($this->corp_id,$this->corp_id."_".$i,md5($this->default_password));
-    //     }
+    //     $flg = $huanxin->updatePassword($this->corp_id,$this->corp_id."_".'72',md5($this->default_password));
+    //     $flg = $huanxin->updatePassword($this->corp_id,$this->corp_id."_".'85',md5($this->default_password));
+    //     $flg = $huanxin->updatePassword($this->corp_id,$this->corp_id."_".'90',md5($this->default_password));
+        // for ($i=1; $i<13 ; $i++) { 
+        //     $flg = $huanxin->updatePassword($this->corp_id,$this->corp_id."_".$i,md5($this->default_password));
+        // }
         // var_dump($users);die();
         // $users[] = ['username'=>$this->corp_id."_".'72','password'=>$this->default_password];
         // $users[] = ['username'=>$this->corp_id."_".'85','password'=>$this->default_password];
