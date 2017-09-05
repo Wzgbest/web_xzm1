@@ -110,7 +110,7 @@ class Login extends Controller
         $req_reg['percentage'] = $per;
         //$req_reg['totaluser'] = $data_all;
         $req_reg['structure'] = $structure;
-        $req_reg['loginname'] = $this->corp_id."_".$user_arr['id'];
+        $req_reg['loginname'] = $corp_id."_".$user_arr['id'];
         return json($req_reg);
     }
 }
