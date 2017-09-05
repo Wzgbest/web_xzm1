@@ -338,6 +338,8 @@ class CorporationShare extends Initialize{
     public function delete_share(){
         $result = ['status'=>0,'info'=>"删除动态失败!"];
 
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $share_id = input('share_id',0,'int');
         if (!$share_id) {
             $result['info'] = "动态id为0!";
@@ -345,10 +347,12 @@ class CorporationShare extends Initialize{
         }
 
         $corporationShareModel = new CorporationShareModel($this->corp_id);
-        $del_flag = $corporationShareModel->delOneShareById($share_id);
-        $result['data'] = $del_flag;
-        $result['status'] = 1;
-        $result['info'] = "删除成功!";
+        $del_flag = $corporationShareModel->delOneShareById($share_id,$uid);
+        if ($del_flag) {
+            $result['data'] = $del_flag;
+            $result['status'] = 1;
+            $result['info'] = "删除成功!";
+        }
 
         return json($result);
     }
@@ -489,5 +493,35 @@ class CorporationShare extends Initialize{
         $result['status'] = 1;
         $result['info'] = "发布成功！";
         return json($result);
+    }
+
+    public function reward(){
+        $share_id = input('share_id',0,'int');
+        // var_dump($share_id);die();
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $TipModel = new CorporationShareTip($this->corp_id);
+        $tipEmployeeList = $TipModel->getTipList($share_id);
+        $myTipMoney = $TipModel->getMyTipMoney($uid,$share_id);
+        $money = array_column($tipEmployeeList,'money');
+        $tip_total = array_sum($money);
+        $data["my_tip"] = $myTipMoney;
+        $data["tip_list"] = $tipEmployeeList;
+        $data['tip_total'] = $tip_total;
+        // var_dump($data);die();
+        $this->assign('uid',$uid);
+        $this->assign('data',$data);
+        return view();
+    }
+
+    public function pay(){
+        $money = input('money',0,'int');
+        if (!$money) {
+            $this->error("输入的金额有误!");
+        }
+        $userinfo = get_userinfo();
+        $this->assign('user_money',$userinfo["userinfo"]['left_money']);
+        $this->assign('money',$money);
+        return view();
     }
 }

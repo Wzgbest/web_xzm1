@@ -1,0 +1,43 @@
+<header>
+	<h1>打赏<i class="fa fa-close fa-2x pop-close-btn"></i></h1>
+</header>
+<div class="pop_content m-form">
+	<h2><i class="fa fa-cny color-yellow"></i><input type="text" class="pay-money" pattern="[/d]" placeholder="0" value="0" /></h2>
+	<h2>总打赏<span class="color-yellow">{$data.tip_total}</span>元（你打赏<span class="color-yellow">{$data.my_tip}</span>元）</h2>
+	<ul class="reward-record">
+		{volist name="data.tip_list" id="vo"}
+		
+		{if condition="$vo.user_id eq $uid"}
+		<li><span class="time">{$vo.tip_time|time_format}</span>&nbsp;&nbsp;<span class="rewarding-person color-yellow">你</span>&nbsp;&nbsp;<span class="color-yellow">打赏<span class="reward-money">{$vo.money}</span>元</span></li>
+		{else/}
+		<li><span class="time">{$vo.tip_time|time_format}</span>&nbsp;&nbsp;<span class="rewarding-person">{$vo.truename}</span>&nbsp;&nbsp;打赏<span class="reward-money">{$vo.money}</span>元</li>
+		{/if}
+		{/volist}
+	</ul>
+	<div class="u-submitButton">
+		<button class="pay-btn pop-close-btn">打赏</button>
+		<button class="pop-close-btn">取消</button>
+	</div>
+</div>
+<link rel="stylesheet" href="/static/css/popUp.css" />
+<script src="/knowledgebase/js/index.js"></script>
+<script>
+//验证字符串是否是数字
+function checkNumber(theObj) {
+  var reg = /^[0-9]+.?[0-9]*$/;
+  if (reg.test(theObj)) {
+    return true;
+  }
+  return false;
+}
+$(".knowledgebase_company_library_index .reward-pop .pay-btn").click(function(){
+	// var share_id = $(this).parents(".lib").attr("share_id");
+	var money = $(".knowledgebase_company_library_index .reward-pop .pay-money").val();
+	if (money == 0 ||　money < 0 || !checkNumber(money)) {
+		alert("请输入正确的金额进行打赏!");
+		return;
+	}
+	$(".knowledgebase_company_library_index .reward-pop").attr("money",money);
+	var pop = new popLoad(".knowledgebase_company_library_index .pay-pop","/knowledgebase/corporation_share/pay/money/"+money);
+});	
+</script>
