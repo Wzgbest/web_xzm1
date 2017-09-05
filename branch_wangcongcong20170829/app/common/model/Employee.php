@@ -186,8 +186,11 @@ class Employee extends Base{
             ->join($this->dbprefix.'role r','re.role_id = r.id')
             ->where('telephone','<>', $owner)
             ->group("e.id")
-            ->field('e.telephone,e.userpic,e.truename as nickname,GROUP_CONCAT( distinct re.role_id) as role')
+            ->field('e.id,e.telephone,e.userpic,e.truename as nickname,GROUP_CONCAT( distinct re.role_id) as role')
             ->select();
+        foreach ($owner_id as $key => $value) {
+            $owner_id[$key]['loginname'] = $this->corp_id."_".$value['id'];
+        }
         return $owner_id;
     }
 

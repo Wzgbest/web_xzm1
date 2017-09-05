@@ -297,7 +297,7 @@ class Api
 
         //更新环信密码
         $user_json = json_encode($user_info,true);
-        $update_uri = $this->uri."".$username."password";
+        $update_uri = $this->user_uri."/".$username."/password";
         $user_reg = $this->getMessage($update_uri,$user_json,$this->header,'put');
          $user_info = json_decode($user_reg, true);
         if (isset($user_info['error'])) {
