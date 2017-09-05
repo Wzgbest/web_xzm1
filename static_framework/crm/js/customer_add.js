@@ -143,6 +143,9 @@ function customer_add(from,target,list_manage){
 		});
 	};
 	this.add_contact=function(next_status){
+        if(!this.check_form_html5($(this.panel_base+" .m-form .newClientContactForm").get(0).elements)){
+            return;
+        }
 		var add_customer_contact_from_data = $(this.panel_base+" .m-form .newClientContactForm").serialize();
 		add_customer_contact_from_data += "&customer_id="+this.new_customer_id;
 		var url = '/crm/customer_contact/add';
@@ -174,6 +177,9 @@ function customer_add(from,target,list_manage){
 		});
 	};
 	this.add_sale_chance=function(next_status){
+        if(!this.check_form_html5($(this.panel_base+" .m-form .newClientSaleChanceForm").get(0).elements)){
+            return;
+        }
 		var add_customer_sale_chance_from_data = $(this.panel_base+" .m-form .newClientSaleChanceForm").serialize();
 		add_customer_sale_chance_from_data += "&customer_id="+this.new_customer_id;
 		var url = '/crm/sale_chance/add';
