@@ -135,19 +135,19 @@
                 </div>
                 <div>
                     <span class="cont">联系方式1</span>
-                    <input type="text" name="phone_first" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码"/>
+                    <input type="text" name="phone_first" pattern="^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}|17[0-9]{9}$|18[0-9]{9}$|^((0(10|2[0-9]|[3-9]\d{2}))[- ]?[1-9]\d{6,7})$|^400[0-9]{7}$" title="请输入电话号码" placeholder="请输入电话号码"/>
                     <span class="cont">联系方式2</span>
-                    <input type="text" name="phone_second" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码"/>
+                    <input type="text" name="phone_second" pattern="^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}|17[0-9]{9}$|18[0-9]{9}$|^((0(10|2[0-9]|[3-9]\d{2}))[- ]?[1-9]\d{6,7})$|^400[0-9]{7}$" title="请输入电话号码" placeholder="请输入电话号码"/>
                 </div>
                 <div>
                     <span class="cont">联系方式3</span>
-                    <input type="text" name="phone_third" pattern="[\d]{7,12}" title="请输入电话号码" placeholder="请输入电话号码"/>
+                    <input type="text" name="phone_third"  pattern="^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}|17[0-9]{9}$|18[0-9]{9}$|^((0(10|2[0-9]|[3-9]\d{2}))[- ]?[1-9]\d{6,7})$|^400[0-9]{7}$" title="请输入电话号码" placeholder="请输入电话号码"/>
                     <span class="cont">邮箱</span>
-                    <input type="email" name="email" placeholder="请输入邮箱"/>
+                    <input type="email" name="email" pattern="^[\w\+-]+(\.[\w\+-]+)*@[a-z\d-]+(\.[a-z\d-]+)*\.([a-z]{2,4})$" placeholder="请输入邮箱"/>
                 </div>
                 <div>
                     <span class="cont">QQ号</span>
-                    <input type="text" name="qqnum" pattern="[\d]{0,10}" title="请写正确格式" placeholder="请输入QQ号"/>
+                    <input type="text" name="qqnum" pattern="^[1-9]\d{4,}$" title="请写正确格式" placeholder="请输入QQ号"/>
                     <span class="cont">微信号</span>
                     <input type="text" name="wechat" pattern="[\d\D]{0,40}" title="最多填写40位字符" placeholder="请输入微信号"/>
                 </div>
@@ -216,7 +216,7 @@
             <div class="form3 hide">
                 <div>
                     <span class="cont"><span class="u-required">＊</span>销售机会</span>
-                    <input type="text" name="sale_name" placeholder="请输入销售机会" />
+                    <input type="text" name="sale_name" required="required" placeholder="请输入销售机会" />
                     <span class="cont"><span class="u-required">＊</span>对应业务</span>
                     <select name="business_id">
                                                 <option value="1">IT行业</option>
