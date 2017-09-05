@@ -367,6 +367,15 @@ class SaleChance extends Initialize{
         $result['info'] = "获取销售机会成功！";
         return json($result);
     }
+    public function get_business_flow_name(){
+        $result = ['status'=>0 ,'info'=>"获取工作流列表时发生错误！"];
+        $businessFlowItemLinkModel = new BusinessFlowItemLink($this->corp_id);
+        $business_flows = $businessFlowItemLinkModel->getAllBusinessFlowNameAndDefault();
+        $result["status"] = 1;
+        $result["info"] = "获取工作流设置成功!";
+        $result["data"] = $business_flows;
+        return json($result);
+    }
     protected function _getSaleChanceForInput($add_mode){
         // add sale chance page
         if($add_mode){
@@ -380,7 +389,7 @@ class SaleChance extends Initialize{
         $saleChance['associator_id'] = input('associator_id',0,'int');
 
         $saleChance['sale_name'] = input('sale_name');
-        $saleChance['sale_status'] = input('sale_status',1,'int');;
+        $saleChance['sale_status'] = input('sale_status',1,'int');
 
         $saleChance['guess_money'] = "".number_format(input('guess_money',0,'float'),2,".","");
         $saleChance['need_money'] = "".number_format(input('need_money',0,'float'),2,".","");
