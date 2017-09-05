@@ -283,7 +283,7 @@ class Employee extends Initialize{
                 $r = $role_empM->createMultipleRoleEmployee($role_data);
                 if ($id > 0 && $f > 0 && $b > 0 && $r > 0) {
                     //环信增加帐号
-                    $d = $huanxin->regUser($this->corp_id,$this->corp_id."_".$id,$this->default_password,$input['truename']);//TODO 测试注释掉
+                    $d = $huanxin->regUser($this->corp_id,$this->corp_id."_".$id,$input["password"],$input['truename']);//TODO 测试注释掉
                     //$d['status'] = true;//TODO 测试开启
                     if (!$d['status']) {
                         $employeeM->link->rollback();
@@ -680,19 +680,23 @@ class Employee extends Initialize{
 
     // public function createAllUser(){
     //     $result = ['status'=>0,'info'=>"注册失败"];
-
-    //     for ($i=1; $i<13 ; $i++) { 
-    //         $users[] = ['username'=>$this->corp_id."_".$i,'password'=>$this->default_password]; 
-    //     }
-    //     // var_dump($users);die();
     //     $huanxin = new HuanxinApi();
-
-    //     $flg = $huanxin->regMultiUser($this->corp_id,$users);
-
-    //     if ($flg['status']) {
-    //         $result['info'] = "注册成功";
-    //         $result['status'] = 1;
+    //     for ($i=1; $i<13 ; $i++) { 
+    //         $flg = $huanxin->updatePassword($this->corp_id,$this->corp_id."_".$i,md5($this->default_password));
     //     }
+        // var_dump($users);die();
+        // $users[] = ['username'=>$this->corp_id."_".'72','password'=>$this->default_password];
+        // $users[] = ['username'=>$this->corp_id."_".'85','password'=>$this->default_password];
+        // $users[] = ['username'=>$this->corp_id."_".'90','password'=>$this->default_password];
+        
+
+        // $flg = $huanxin->updatePassword($this->corp_id,$users);
+
+        // if ($flg['status']) {
+        //     $result['info'] = "注册成功";
+        //     $result['status'] = 1;
+        // }
+    //     $return['info'] = $flg;
     //     return $result;
 
     // }
