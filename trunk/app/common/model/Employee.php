@@ -230,14 +230,18 @@ class Employee extends Base{
      */
     public function getAllUsers()
     {
-        return $this->model->table($this->table)->alias('e')
+        $users = $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
             ->join($this->dbprefix.'role r','re.role_id = r.id')
             ->join($this->dbprefix.'structure_employee se','e.id = se.user_id')
             ->join($this->dbprefix.'structure s','se.struct_id = s.id')
             ->group("e.id")
-            ->field('e.telephone,e.userpic,e.truename as nickname,GROUP_CONCAT( distinct r.role_name) as occupation,GROUP_CONCAT( distinct se.struct_id) as struct_id,GROUP_CONCAT( distinct s.struct_name) as struct_name')
+            ->field('e.id,e.telephone,e.userpic,e.truename as nickname,GROUP_CONCAT( distinct r.role_name) as occupation,GROUP_CONCAT( distinct se.struct_id) as struct_id,GROUP_CONCAT( distinct s.struct_name) as struct_name')
             ->select();
+         foreach ($users as $key => $value) {
+            $users[$key]['loginname'] = $this->corp_id."_".$value['id'];
+        }   
+        return $users;
     }
 
     /**
