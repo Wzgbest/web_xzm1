@@ -38,6 +38,15 @@ class BusinessFlow extends Base{
         return $businessFlowSettingNameList;
     }
 
+    public function getAllBusinessFlowIdAndName(){
+        $businessFlowSettingNameList = $this->model
+            ->table($this->table)
+            ->order("id desc")
+            ->field(["id","business_flow_name"])
+            ->select();
+        return $businessFlowSettingNameList;
+    }
+
     public function getAllBusinessFlowByUserId($user_id){
         //TODO 根据用户和所属部门来查询业务流
         $businessFlowSettingList = $this->model

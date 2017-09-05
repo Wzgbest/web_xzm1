@@ -602,8 +602,7 @@ class Customer extends Base
             "cn.call_through",
             "cn.is_wait",
             //"'沟通状态' as comm_status",
-            //"sc.sale_name",
-            "scb.business_name as sale_biz_name",
+            "sc.sale_name",
             "(case when sc.sale_status<1 then 0 when sc.sale_status<4 then 0 else sc.guess_money end) as in_progress_guess_money",//all_guess_money
             "(case when sc.sale_status=5 then sc.final_money else 0 end) as win_final_money",//all_final_money
             "(case when sc.sale_status=5 then sc.payed_money else 0 end) as win_payed_money",//all_final_money
@@ -629,8 +628,7 @@ class Customer extends Base
             "call_through",
             "is_wait",
             //"comm_status",
-            //"group_concat(sale_name) as sale_names",
-            "group_concat(sale_biz_name) as sale_biz_names",
+            "group_concat(sale_name) as sale_names",
             "SUM(in_progress_guess_money) as all_guess_money",
             "SUM(win_final_money) as all_final_money",
             "SUM(win_payed_money) as all_payed_money",
@@ -669,7 +667,6 @@ class Customer extends Base
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'call_record cr','cr.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")//sc.employee_id = c.handle_man
-            ->join($this->dbprefix.'business scb','scb.id = sc.business_id',"LEFT")
             //->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")//ct.operator_id = c.handle_man
             ->where($map)
@@ -826,8 +823,7 @@ class Customer extends Base
             "cn.call_through",
             "cn.is_wait",
             //"'沟通状态' as comm_status",
-            //"sc.sale_name",
-            "scb.business_name as sale_biz_name",
+            "sc.sale_name",
             "(case when sc.sale_status<1 then 0 when sc.sale_status<4 then 0 else sc.guess_money end) as in_progress_guess_money",//all_guess_money
             "(case when sc.sale_status=5 then sc.final_money else 0 end) as win_final_money",//all_final_money
             "cc.contact_name",
@@ -851,8 +847,7 @@ class Customer extends Base
             "call_through",
             "is_wait",
             //"comm_status",
-            //"group_concat(sale_name) as sale_names",
-            "group_concat(sale_biz_name) as sale_biz_names",
+            "group_concat(sale_name) as sale_names",
             "SUM(in_progress_guess_money) as all_guess_money",
             "SUM(win_final_money) as all_final_money",
             "contact_name",
@@ -871,7 +866,6 @@ class Customer extends Base
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")//sc.employee_id = c.handle_man
-            ->join($this->dbprefix.'business scb','scb.id = sc.business_id',"LEFT")
             //->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")//ct.operator_id = c.handle_man
             ->where($map)
@@ -1036,8 +1030,7 @@ class Customer extends Base
             "cn.call_through",
             "cn.is_wait",
             //"'沟通状态' as comm_status",
-            //"sc.sale_name",
-            "scb.business_name as sale_biz_name",
+            "sc.sale_name",
             "(case when sc.sale_status<1 then 0 when sc.sale_status<4 then 0 else sc.guess_money end) as in_progress_guess_money",//all_guess_money
             "(case when sc.sale_status=5 then sc.final_money else 0 end) as win_final_money",//all_final_money
             "cc.contact_name",
@@ -1061,8 +1054,7 @@ class Customer extends Base
             "call_through",
             "is_wait",
             //"comm_status",
-            //"group_concat(sale_name) as sale_names",
-            "group_concat(sale_biz_name) as sale_biz_names",
+            "group_concat(sale_name) as sale_names",
             "SUM(in_progress_guess_money) as all_guess_money",
             "SUM(win_final_money) as all_final_money",
             "contact_name",
@@ -1091,7 +1083,6 @@ class Customer extends Base
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")//sc.employee_id = c.handle_man
-            ->join($this->dbprefix.'business scb','scb.id = sc.business_id',"LEFT")
             //->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")//ct.operator_id = c.handle_man
             ->where($map)
