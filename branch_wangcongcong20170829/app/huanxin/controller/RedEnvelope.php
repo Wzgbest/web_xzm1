@@ -111,6 +111,13 @@ class RedEnvelope
         if ($res >0 && $de >0 && $cash_rec > 0) {
             $redM->link->commit();
             write_log($r['userinfo']['id'],2,'用户创建红包成功,总金额'.$de_money.'分，共'.$num.'个',$r['corp_id']);
+
+            $telphone = $r["telephone"];
+            $corp_id = $r["corp_id"];
+            $employM = new Employee($corp_id);
+            $userinfo = $employM->getEmployeeByTel($telphone);
+            set_userinfo($corp_id,$telphone,$userinfo);
+
             $info['status'] = true;
             $info['message'] = '生成红包成功';
             $info['errnum'] = 0;

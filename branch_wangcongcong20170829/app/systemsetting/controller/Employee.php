@@ -283,7 +283,7 @@ class Employee extends Initialize{
                 $r = $role_empM->createMultipleRoleEmployee($role_data);
                 if ($id > 0 && $f > 0 && $b > 0 && $r > 0) {
                     //环信增加帐号
-                    $d = $huanxin->regUser($this->corp_id,$input['telephone'],$this->default_password,$input['truename']);//TODO 测试注释掉
+                    $d = $huanxin->regUser($this->corp_id,$this->corp_id."_".$id,$this->default_password,$input['truename']);//TODO 测试注释掉
                     //$d['status'] = true;//TODO 测试开启
                     if (!$d['status']) {
                         $employeeM->link->rollback();
@@ -562,20 +562,20 @@ class Employee extends Initialize{
 //                    删除部门员工表信息
                 $r = $role_empM->deleteMultipleRoleEmployee($user_ids);
                 //删除环信账户
-                $h = false;
-                if(count($tel_arr)==1){
-                    $result = $huanxin->deleteSingleHuanxinUser($tel_str);
-                    if(!isset($result['error'])){
-                        $h = true;
-                    }
-                }else{
-                    //环信不能删除指定的多个帐号,这个循环删除方法还未验证
-                    /*$result = $huanxin->deleteMultiHuanxinUser($tel_arr);
-                    if($result && count(array_column($result,"error"))<count($tel_arr)){
-                        $h = true;
-                    }*/
-                    $h = true;
-                }
+                $h = true;
+                // if(count($tel_arr)==1){
+                //     $result = $huanxin->deleteSingleHuanxinUser($tel_str);
+                //     if(!isset($result['error'])){
+                //         $h = true;
+                //     }
+                // }else{
+                //     //环信不能删除指定的多个帐号,这个循环删除方法还未验证
+                //     /*$result = $huanxin->deleteMultiHuanxinUser($tel_arr);
+                //     if($result && count(array_column($result,"error"))<count($tel_arr)){
+                //         $h = true;
+                //     }*/
+                //     $h = true;
+                // }
             }catch(\Exception $e){
                 $emp_delM->link->rollback();
                 UserCorporation::rollback();
@@ -649,13 +649,51 @@ class Employee extends Initialize{
         }
 
         $employeeM = new EmployeeModel($this->corp_id);
-        $flg = $employeeM->reSetPass($userinfo["telephone"],$new_password);
-        if(!$flg){
+        $huanxin = new HuanxinApi();
+        $employeeM->link->startTrans();
+
+        try {
+            $flg = $employeeM->reSetPass($userinfo["telephone"],$new_password);
+            if(!$flg){
+                $employeeM->link->rollback();
+                $result['info'] = "更新数据库密码失败!";
+                return json($result);
+            }
+            $flg = $huanxin->updatePassword($this->corp_id,$this->corp_id."_".$uids,$new_password);
+            if (!flg) {
+                  $employeeM->link->rollback();
+                    $result['info'] = "更新环信密码失败!";
+                    return json($result);
+            }
+            $employeeM->link->commit();
+        } catch (\Exception $e) {
+            $employeeM->link->rollback();
+            $info['info'] = $e->getMessage();
             return json($result);
         }
+        
 
         $result['status'] = 1;
         $result['info'] = "修改我的密码成功！";
         return json($result);
     }
+
+    // public function createAllUser(){
+    //     $result = ['status'=>0,'info'=>"注册失败"];
+
+    //     for ($i=1; $i<13 ; $i++) { 
+    //         $users[] = ['username'=>$this->corp_id."_".$i,'password'=>$this->default_password]; 
+    //     }
+    //     // var_dump($users);die();
+    //     $huanxin = new HuanxinApi();
+
+    //     $flg = $huanxin->regMultiUser($this->corp_id,$users);
+
+    //     if ($flg['status']) {
+    //         $result['info'] = "注册成功";
+    //         $result['status'] = 1;
+    //     }
+    //     return $result;
+
+    // }
 }
