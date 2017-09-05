@@ -740,6 +740,14 @@ class User extends Controller{
             if ($de > 0 && $in > 0 && $from_r >0 && $to_r > 0) {
                 $this->employM->link->commit();
                 write_log($chk_info['userinfo']['id'],3,'用户app转账成功，转至用户id'.$to_userinfo['id'].',转账金额'.$take_money.'分',$chk_info['corp_id']);
+
+                $userinfo = get_userinfo();
+                $telphone = $userinfo["telephone"];
+                $corp_id = $userinfo["corp_id"];
+                $employM = new Employee($corp_id);
+                $userinfo = $employM->getEmployeeByTel($telphone);
+                set_userinfo($corp_id,$telphone,$userinfo);
+
                 $info['status'] = true;
                 $info['errnum'] = 0;
                 $info['message'] = '转账成功';

@@ -293,6 +293,7 @@ class CorporationShare extends Initialize{
         $telphone = $userinfo["telephone"];
         $userinfo = $employM->getEmployeeByTel($telphone);
         set_userinfo($this->corp_id,$telphone,$userinfo);
+        
         $share_data = $corporationShareModel->getCorporationShareById($share_id);
         
         $tipEmployeeList = $TipModel->getTipList($share_id);
