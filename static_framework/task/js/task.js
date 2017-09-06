@@ -240,12 +240,6 @@ $("article .dv4 ul").toggleClass('point')
 	
 })
 
-//$(".dv4 .parcel .hezi select").change(function(){
-//	var a=$(".dv4 .parcel .hezi select").val()
-//
-//	$(".dv4 .parcel .right .b").text(a+'项目')
-//})
-
 //绑定change事件
 //获取select值
 //panduan
@@ -274,21 +268,38 @@ $("article .dv4 .xuanze input").click(function(){
 
 //跳转到新页面
 $(".task .xinjian").click(function(){
-	//alert(1)
+	
 	javascript:loadPage('/task/going_task/new_task.html','public-taskfr');
 })
+
+//评论跳转
+//$(".task .comment img.a").click(function(){
+//	alert(1)
+//
+//	loadPage('/task/going_task/new_task.html','public-taskfr');
+//})
+//function fenlei(id,url){
+//	this.id=id;
+//	this.url=url;
+//}
 
 
 //评论
 $(".dv3 .up .right p").click(function(){
 	//alert(1)
-	var pinglun=null;
+	var pinglun="";
 	var sk=$(".dv3 .up textarea").val();	
-	$(".speek").text(sk);
-	pinglun="<div class='one'><img src='/task/img/man.png'/><div><p><span class='name'>刘美娜</span><span>:</span><span class='speek'></span></p><p class='reply'><span>2分钟前</span></p></div></div>"
-	
-	alert(sk)
-	$(".dv3 .down .review").prepend(pinglun);
+	//$(".speek").text(sk);
+	//alert(sk)
 
+	pinglun+="<div class='one'><img src='/task/img/man.png'/><div>";
+	pinglun+="<p><span class='name'>刘美娜</span><span>:</span><span class='speek'>";
+	pinglun+=sk;
+	pinglun+="</span></p>";
+	pinglun+="<p class='reply'><span>2分钟前</span></p></div></div>";
+		$(".dv3 .down .review").prepend(pinglun);
 	
 })
+
+ 
+
