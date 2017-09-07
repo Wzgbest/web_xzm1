@@ -25,6 +25,8 @@
 		map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
 		function showInfo(e){
 			window.parent.$("#mapFrame").siblings("input[name='location']").val("("+e.point.lng+","+e.point.lat+")");
+			window.parent.$("#mapFrame").siblings("input[name='lng']").val(e.point.lng);
+			window.parent.$("#mapFrame").siblings("input[name='lat']").val(e.point.lat);
 		}
 		map.addEventListener("click", showInfo);
 	</script>
