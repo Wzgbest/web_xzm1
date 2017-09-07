@@ -500,3 +500,95 @@
 	/*margin: 60px auto;*/
 	padding-left: 200px !important;
 }
+/*弹出框*/
+
+.crm_customer .reveal-modal-bg {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	z-index: 100;
+	display: none;
+	top: 0;
+	left: 0;
+	background: rgba(00, 00, 00, 0.4)
+}
+
+.crm_customer .reveal-modal {
+	width: 590px;
+	height: 280px;
+	visibility: hidden;
+	top: 150px;
+	left: 50%;
+	margin-left: -300px;
+	position: absolute;
+	z-index: 101;
+	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+	-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+	background-color: #fff;
+}
+
+.crm_customer .reveal-modal .p1 {
+	width: 590px !important;
+	height: 50px !important;
+	background-color: #6b7a99;
+	font-size: 18px !important;
+	text-align: center;
+	line-height: 50px !important;
+	color: #fff;
+}
+.crm_customer .reveal-modal .p2 {
+	width: 590px;
+	font-size: 18px;
+	text-align: center;
+	line-height: 140px;
+	color: #666666;
+	display: inline-block;
+}
+
+.crm_customer .reveal-modal select {
+	width: 200px;
+	height: 30px;
+	margin-left: 10px;
+}
+
+.crm_customer #myModal .p5 input {
+	/*clear: both;*/
+	width: 50px;
+	height: 42px;
+}
+.crm_customer .reveal-modal .close-reveal-modal {
+	font-size: 32px;
+	line-height: 0.5;
+	position: absolute;
+	top: 15px;
+	right: 18px;
+	color: #fff;
+	text-shadow: 0 -1px 1px rbga(0, 0, 0, .6);
+	font-weight: bold;
+	cursor: pointer;
+}
+.crm_customer .reveal-modal .p5 {
+	width: 256px;
+	margin-top: 39px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.crm_customer .reveal-modal .p5 input {
+	width: 100px;
+	height: 41px;
+	border-radius: 10px;
+	background-color: #42a5f5;
+	color: #fff;
+	border: 1px solid #dcdcdc;
+}
+
+.crm_customer .reveal-modal .p5 button {
+	width: 100px;
+	height: 41px;
+	border-radius: 10px;
+	/*margin-right: 100px;*/
+	background-color: #fff;
+	border: 1px solid #dcdcdc;
+	margin-left: 50px;
+}
