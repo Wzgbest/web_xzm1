@@ -294,7 +294,6 @@ class SaleChance extends Base
             "sc.*",
             "scb.business_name",
             "e.truename as employee_name",
-            "ae.truename as associator_name",
             "scv.visit_time",
             "scv.create_time as visit_create_time",
             "scv.visit_place",
@@ -315,7 +314,6 @@ class SaleChance extends Base
             ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'business scb','scb.id = sc.business_id',"LEFT")
             ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
-            ->join($this->dbprefix.'employee ae','sc.associator_id = ae.id',"LEFT")
             ->join($this->dbprefix.'sale_chance_visit scv','scv.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'sale_order_contract soc','soc.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'sale_order_bill sob','sob.sale_id = sc.id',"LEFT")
