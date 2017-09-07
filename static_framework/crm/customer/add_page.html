@@ -89,11 +89,12 @@
                     <textarea name="address" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入详细地址"></textarea>
                 </div>
                 <div>
-                    <span class="cont">详细定位</span>
-                    <input type="text" name="location" placeholder="请点击地图进行坐标定位"/>
+                    <span class="cont u-area">详细定位</span>
+                    <!--<input type="text" name="location" placeholder="请点击地图进行坐标定位"/>-->
                     <input type="hidden" name="lng" />
                     <input type="hidden" name="lat" />
-                    <iframe id="mapFrame" src="/index/index/map.html"></iframe>
+                    <iframe id="mapFrame" name="mapFrame" src="/index/index/map.html"></iframe>
+                    
                 </div>
                 <div>
                     <span class="cont">公司官网</span>
@@ -284,6 +285,13 @@ $(".remark input").click(function(){
 		$(this).parent(".remark").siblings("textarea[name='remark']").append($(this).val());
 	}
 });*/
+$("#s_county").change(function(){
+	console.log($("#s_province").val()+$("#s_city").val()+$(this).val());
+	$("#mapFrame")[0].contentWindow.searchKey($("#s_province").val()+$("#s_city").val()+$(this).val());
+})
+$("textarea[name='address']").change(function(){
+	$("#mapFrame")[0].contentWindow.searchKey($("#s_province").val()+$("#s_city").val()+$("#s_county").val()+$(this).val());
+});
 $(document).on("click",".remark i.fa-pencil",function(){
 	$(this).siblings("input").removeAttr("readonly").focus().val("");
 	$(this).addClass("hide").siblings(".fa-check").removeClass("hide");
