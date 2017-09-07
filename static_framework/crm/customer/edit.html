@@ -76,24 +76,20 @@
             </div>
             <div>
                 <span class="cont">公司地址</span>
-                <select name="prov" class="u-3select">
-                    <option value="山东省"  selected="selected">山东省</option>
-                </select>
-                <select name="city" class="u-3select">
-                    <option value="潍坊市" >潍坊市</option>
-                </select>
-                <select name="dist" class="u-3select">
-                    <option value="潍城区"  selected="selected">潍城区</option>
-                </select>
+				<select id="s_province" name="s_province" class="u-3select"></select>
+				<select id="s_city" name="s_city" class="u-3select" ></select>
+				<select id="s_county" name="s_county" class="u-3select"></select>				
             </div>
             <div>
                 <span class="cont u-area">详细地址</span>
                 <textarea name="address" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入详细地址">潍坊市潍城区和平路胜利西街</textarea>
             </div>
             <div>
-                <span class="cont">详细定位</span>
-                <input type="text" name="location" placeholder="请点击地图进行坐标定位"/>
-                <iframe id="mapFrame" src="/index/index/map.html"></iframe>
+                <span class="cont u-area">详细定位</span>
+                <!--<input type="text" name="location" placeholder="请点击地图进行坐标定位"/>-->
+                <input type="hidden" name="lng" />
+                <input type="hidden" name="lat" />
+                <iframe id="mapFrame" name="mapFrame" src="/index/index/map.html"></iframe>                
             </div>
             <div>
                 <span class="cont">公司官网</span>
@@ -101,9 +97,9 @@
             </div>
             <div>
                 <span class="cont">备注</span>
-                <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                <span class="remark"><input type="text" class="remarker" value="有意向" readonly="readonly"/><i class="fa fa-pencil"></i><i class="fa fa-check hide"></i><i class="fa fa-close"></i></span>
+                <span class="remark"><input type="text" class="remarker" value="无意向" readonly="readonly"/><i class="fa fa-pencil"></i><i class="fa fa-check hide"></i><i class="fa fa-close"></i></span>
+                <span class="remark"><input type="text" class="remarker" value="网站建设意向" readonly="readonly"/><i class="fa fa-pencil"></i><i class="fa fa-check hide"></i><i class="fa fa-close"></i></span>
                 <span class="u-addRemark"><i class="fa fa-plus"></i></span>
                 <div class="clearfix"></div>
                 <span class="cont"></span>
@@ -117,3 +113,34 @@
         </section>
     </form>
 </section>
+<script class="resources library" src="/static/js/area.js" type="text/javascript"></script>
+<script type="text/javascript">_init_area();</script>
+<script>
+$("#s_county").change(function(){
+	console.log($("#s_province").val()+$("#s_city").val()+$(this).val());
+	$("#mapFrame")[0].contentWindow.searchKey($("#s_province").val()+$("#s_city").val()+$(this).val());
+})
+$("textarea[name='address']").change(function(){
+	$("#mapFrame")[0].contentWindow.searchKey($("#s_province").val()+$("#s_city").val()+$("#s_county").val()+$(this).val());
+});
+$(document).on("click",".remark i.fa-pencil",function(){
+	$(this).siblings("input").removeAttr("readonly").focus().val("");
+	$(this).addClass("hide").siblings(".fa-check").removeClass("hide");
+});
+$(document).on("click",".remark i.fa-close",function(){
+	$(this).parent(".remark").remove();
+});
+$(document).on("click",".remark i.fa-check",function(){
+	$(this).siblings("input").attr("readonly","readonly");
+	$(this).addClass("hide").siblings(".fa-pencil").removeClass("hide");
+});
+$(document).on("click",".remark input",function(){
+	if($(this).attr("readonly")){
+		$(this).parent(".remark").siblings("textarea[name='remark']").append($(this).val());
+	}
+});
+var txt = '<span class="remark"><input type="text" placeholder="请输入" /><i class="fa fa-pencil hide"></i><i class="fa fa-check"></i><i class="fa fa-close"></i></span>';
+$(".u-addRemark").click(function(){
+	$(this).before(txt).siblings(".remark").last().children("input").focus();
+});
+</script>
