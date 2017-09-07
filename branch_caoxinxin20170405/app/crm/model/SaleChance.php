@@ -332,12 +332,13 @@ class SaleChance extends Base
     }
 
     /**根据客户ID获取所有
+     * @param $uid int 员工id
      * @param $last_id int 最后一条销售机会id
      * @param $num int 客户id
      * @return false|\PDOStatement|int|\think\Collection
      * created by blu10ph
      */
-    public function getAllSaleChancesByLastId($last_id=null,$num=10){
+    public function getAllSaleChancesByLastId($uid,$last_id=null,$num=10){
         $field = [
             "sc.*",
             "c.customer_name",
@@ -354,7 +355,7 @@ class SaleChance extends Base
             "scv.visit_ok",
             "soc.status as order_status",
         ];
-        $map = [];
+        $map["employee_id"] = $uid;
         if($last_id){
             $map['sc.id'] = ["lt",$last_id];
         }

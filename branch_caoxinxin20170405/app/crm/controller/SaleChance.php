@@ -327,8 +327,10 @@ class SaleChance extends Initialize{
         $result = ['status'=>0 ,'info'=>"获取销售机会时发生错误！"];
         $last_id = input('last_id',0,'int');
         $num = input('num',10,'int');
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $saleChanceM = new SaleChanceModel($this->corp_id);
-        $SaleChancesData = $saleChanceM->getAllSaleChancesByLastId($last_id,$num);
+        $SaleChancesData = $saleChanceM->getAllSaleChancesByLastId($uid,$last_id,$num);
         $result['data'] = $SaleChancesData;
         $result['status'] = 1;
         $result['info'] = "获取销售机会成功！";
