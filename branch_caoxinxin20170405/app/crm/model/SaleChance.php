@@ -439,7 +439,15 @@ class SaleChance extends Base
      */
     public function getSaleChance($id)
     {
-        return $this->model->table($this->table)->where('id',$id)->find();
+        $field = [
+            "sc.*",
+            "e.truename as employee_name",
+        ];
+        return $this->model->table($this->table)->alias('sc')
+            ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
+            ->where('sc.id',$id)
+            ->field($field)
+            ->find();
     }
 
     /**更新
