@@ -29,6 +29,9 @@ class ParamRemark extends Base
     {
         return $this->model->table($this->table)->insert($data);
     }
+    public function addparamGetId($data){
+        return $this->model->table($this->table)->insertGetId($data);
+    }
 
     public function setParam($id,$data)
     {
