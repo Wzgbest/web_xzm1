@@ -294,7 +294,6 @@ class SaleChance extends Base
             "sc.*",
             "scb.business_name",
             "e.truename as employee_name",
-            "ae.truename as associator_name",
             "scv.visit_time",
             "scv.create_time as visit_create_time",
             "scv.visit_place",
@@ -315,7 +314,6 @@ class SaleChance extends Base
             ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'business scb','scb.id = sc.business_id',"LEFT")
             ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
-            ->join($this->dbprefix.'employee ae','sc.associator_id = ae.id',"LEFT")
             ->join($this->dbprefix.'sale_chance_visit scv','scv.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'sale_order_contract soc','soc.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'sale_order_bill sob','sob.sale_id = sc.id',"LEFT")
@@ -334,12 +332,13 @@ class SaleChance extends Base
     }
 
     /**根据客户ID获取所有
+     * @param $uid int 员工id
      * @param $last_id int 最后一条销售机会id
      * @param $num int 客户id
      * @return false|\PDOStatement|int|\think\Collection
      * created by blu10ph
      */
-    public function getAllSaleChancesByLastId($last_id=null,$num=10){
+    public function getAllSaleChancesByLastId($uid,$last_id=null,$num=10){
         $field = [
             "sc.*",
             "c.customer_name",
@@ -356,7 +355,7 @@ class SaleChance extends Base
             "scv.visit_ok",
             "soc.status as order_status",
         ];
-        $map = [];
+        $map["employee_id"] = $uid;
         if($last_id){
             $map['sc.id'] = ["lt",$last_id];
         }
@@ -440,7 +439,15 @@ class SaleChance extends Base
      */
     public function getSaleChance($id)
     {
-        return $this->model->table($this->table)->where('id',$id)->find();
+        $field = [
+            "sc.*",
+            "e.truename as employee_name",
+        ];
+        return $this->model->table($this->table)->alias('sc')
+            ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
+            ->where('sc.id',$id)
+            ->field($field)
+            ->find();
     }
 
     /**更新

@@ -43,21 +43,21 @@
                 </div>
                 <div>
                     <span class="cont">联系方式1：</span>
-                    <span class="cont-x telephone">{$vo.phone_first}<i class="fa fa-phone"></i><i class="fa fa-qq"></i><i class="fa fa-wechat active"></i><i class="fa fa-check-circle"></i></span>
+                    <span class="cont-x telephone">{$vo.phone_first}{notempty name="vo.phone_first"}<i class="fa fa-phone"></i>{/notempty}<!-- <i class="fa fa-qq"></i><i class="fa fa-wechat active"></i><i class="fa fa-check-circle"></i> --></span>
                     <span class="cont">联系方式2：</span>
-                    <span class="cont-x telephone">{$vo.phone_second}<i class="fa fa-phone"></i><i class="fa fa-qq active"></i><i class="fa fa-wechat"></i><i class="fa fa-check-circle"></i></span>
+                    <span class="cont-x telephone">{$vo.phone_second}{notempty name="vo.phone_second"}<i class="fa fa-phone"></i>{/notempty}<!-- <i class="fa fa-qq active"></i><i class="fa fa-wechat"></i><i class="fa fa-check-circle"></i> --></span>
                 </div>
                 <div>
                     <span class="cont">联系方式3：</span>
-                    <span class="cont-x telephone">{$vo.phone_third}<i class="fa fa-phone"></i><i class="fa fa-qq"></i><i class="fa fa-wechat"></i><i class="fa fa-question-circle"></i></span>
+                    <span class="cont-x telephone">{$vo.phone_third}{notempty name="vo.phone_third"}<i class="fa fa-phone"></i>{/notempty}<!-- <i class="fa fa-qq"></i><i class="fa fa-wechat"></i><i class="fa fa-question-circle"></i> --></span>
                     <span class="cont">邮箱：</span>
-                    <span class="cont-x number">{$vo.email}<i class="fa fa-envelope-o mar"></i></span>
+                    <span class="cont-x number">{$vo.email}{notempty name="vo.email"}<i class="fa fa-envelope-o mar"></i>{/notempty}</span>
                 </div>
                 <div>
                     <span class="cont">QQ号：</span>
-                    <span class="cont-x number">{$vo.qqnum}</span>
+                    <span class="cont-x number">{$vo.qqnum}{notempty name="vo.qqnum"}<i class="fa fa-qq active"></i>{/notempty}</span>
                     <span class="cont">微信号：</span>
-                    <span class="cont-x number">{$vo.wechat}</span>
+                    <span class="cont-x number">{$vo.wechat}{notempty name="vo.wechat"}<i class="fa fa-wechat active"></i>{/notempty}</span>
                 </div>
                 <div>
                     <span class="cont">部门：</span>
@@ -84,7 +84,7 @@
                 </div>
                 <div>
                     <span class="cont">介绍人：</span>
-                    <span class="cont-x telephone">{$vo.introducer}<i class="fa fa-phone"></i></span>
+                    <span class="cont-x telephone">{$vo.introducer}{notempty name="vo.introducer"}<i class="fa fa-phone"></i>{/notempty}</span>
                     <span class="cont">亲密程度：</span>
                     <span class="cont-x">
                         {switch	name="vo.close_degree"}
