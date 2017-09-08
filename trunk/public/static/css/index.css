@@ -50,6 +50,11 @@ aside dl dd{
 	line-height: 37px;
 	text-indent: 48px;
 }
+aside dl dd:hover{
+	background-color: #0c80df;
+	color: white;
+	transition: 0.2s;
+}
 .ddcurrent{
 	border-left: 2px solid #0c80df;
 	text-indent: 46px;

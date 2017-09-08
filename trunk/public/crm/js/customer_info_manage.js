@@ -155,7 +155,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
         }
         return true;
     };
-    
+
 	this.edit_update=function(id){
         if(!this.check_form_html5($(this.panel_base+" .newClientForm").get(0).elements)){
             return;
