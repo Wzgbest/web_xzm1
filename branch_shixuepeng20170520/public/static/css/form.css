@@ -67,16 +67,26 @@
 }
 .m-form .remark, .u-addRemark{
 	display: inline-block;
-	/*width: 85px;*/
 	height: 20px;
 	margin-left: 20px;
 	margin-bottom: 10px;
 	padding: 0 10px;
 	line-height: 20px !important;
-	/*text-align: center;*/
 	color: #b2b2b2;
 	border-radius: 3px;
 	box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+}
+.m-form .remark input{
+	border: none !important;
+    width: 80px !important;
+    text-align: center;
+    background-color: transparent;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #b2b2b2;
+    cursor: pointer;
 }
 .m-form .remark .fa{
 	margin-left: 10px;
@@ -87,6 +97,10 @@
 .m-form .remark:hover .fa-close{
 	color: #dc3014;
 }
+.m-form .remark:hover .fa-check{
+	color: #13ae6b;
+}
+
 .m-form .u-addRemark{
 	padding: 0 50px;
 	color: #42a5f5;
