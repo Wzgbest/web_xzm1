@@ -157,7 +157,7 @@
         </div>
     </div>
     <div id="my_customer_import" class="reveal-modal my_customer_import_ui">
-        <form class="my_customer_import_from" onsubmit="return false;" action="/index/import_file/upload/" method="post" enctype="multipart/form-data" target="my_customer_import_iframe">
+        <form class="my_customer_import_from" onsubmit="return false;" method="post" enctype="multipart/form-data">
             <p class="p1">批量导入</p>
             <p class="p2">
                 <img class="my_customer_import_templet_download" src="/static/images/file.jpg" />
@@ -171,7 +171,6 @@
             </p>
             <a class="close-reveal-modal">&#215;</a>
         </form>
-        <iframe id="my_customer_import_iframe" name="my_customer_import_iframe" style="display: none;" />
     </div>
 </div>
 <link rel="stylesheet" href="/crm/css/index.css"/>

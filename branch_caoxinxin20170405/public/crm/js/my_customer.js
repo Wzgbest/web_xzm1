@@ -29,9 +29,6 @@ $(my_customer_nav_base+" .customer_import").click(function(){
 $(my_customer_base+" .my_customer_import_ui .my_customer_import_templet_download").click(function(){
 	window.open("/download/templet/Customer.xlsx");
 });
-$(my_customer_base+" .my_customer_import_ui .my_customer_import_cancel_btn").click(function(){
-	$(my_customer_base+" .my_customer_import_ui").trigger('reveal:close');
-});
 $(my_customer_base+" .my_customer_import_ui .my_customer_import_submit_btn").click(function(){
 	var formData = new FormData($(my_customer_base+" .my_customer_import_ui .my_customer_import_from")[0]);
 	var url = "/index/import_file/upload/";
