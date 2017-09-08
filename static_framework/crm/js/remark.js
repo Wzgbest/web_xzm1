@@ -12,10 +12,11 @@ $(document).on("click",".remark i.fa-check",function(){
 });
 $(document).on("click",".remark input",function(){
     if($(this).attr("readonly")){
-        $(this).parent(".remark").siblings("textarea[name='remark']").append($(this).val());
+    	let tex = $(this).parent(".remark").siblings("textarea[name='remark']");
+        tex.val(tex.val()+$(this).val());
     }
 });
 var txt = '<span class="remark"><input type="text" placeholder="请输入" /><i class="fa fa-pencil hide"></i><i class="fa fa-check"></i><i class="fa fa-close"></i></span>';
-$(".u-addRemark").click(function(){
+$(document).on("click",".u-addRemark",function(){
     $(this).before(txt).siblings(".remark").last().children("input").focus();
 });

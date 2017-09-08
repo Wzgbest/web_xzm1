@@ -292,7 +292,7 @@ $("#s_county").change(function(){
 $("textarea[name='address']").change(function(){
 	$("#mapFrame")[0].contentWindow.searchKey($("#s_province").val()+$("#s_city").val()+$("#s_county").val()+$(this).val());
 });
-$(document).on("click",".remark i.fa-pencil",function(){
+/*$(document).on("click",".remark i.fa-pencil",function(){
 	$(this).siblings("input").removeAttr("readonly").focus().val("");
 	$(this).addClass("hide").siblings(".fa-check").removeClass("hide");
 });
@@ -311,5 +311,5 @@ $(document).on("click",".remark input",function(){
 var txt = '<span class="remark"><input type="text" placeholder="请输入" /><i class="fa fa-pencil hide"></i><i class="fa fa-check"></i><i class="fa fa-close"></i></span>';
 $(".u-addRemark").click(function(){
 	$(this).before(txt).siblings(".remark").last().children("input").focus();
-});
+});*/
 </script>
