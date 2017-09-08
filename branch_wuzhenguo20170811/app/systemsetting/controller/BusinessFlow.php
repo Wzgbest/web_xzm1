@@ -121,7 +121,16 @@ class BusinessFlow extends Initialize{
         //var_exp($link_data,'$link_data');
         return $link_data;
     }
-
+/*
+    public function get_list(){
+        $result = ['status'=>0 ,'info'=>"获取工作流列表时发生错误！"];
+        $business_flows = $this->_businessFlowModel->getAllBusinessFlow();
+        $result["status"] = 1;
+        $result["info"] = "获取工作流设置成功!";
+        $result["data"] = $business_flows;
+        return json($result);
+    }
+*/
     public function get(){
         $result = ['status'=>0 ,'info'=>"获取工作流设置时发生错误！"];
         $id = input("id");

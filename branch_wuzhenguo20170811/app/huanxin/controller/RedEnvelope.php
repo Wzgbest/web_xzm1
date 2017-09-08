@@ -112,8 +112,9 @@ class RedEnvelope
             $redM->link->commit();
             write_log($r['userinfo']['id'],2,'用户创建红包成功,总金额'.$de_money.'分，共'.$num.'个',$r['corp_id']);
 
-            $telphone = $r["telephone"];
-            $corp_id = $r["corp_id"];
+            $userinfo = get_userinfo();
+            $telphone = $userinfo["telephone"];
+            $corp_id = $userinfo["corp_id"];
             $employM = new Employee($corp_id);
             $userinfo = $employM->getEmployeeByTel($telphone);
             set_userinfo($corp_id,$telphone,$userinfo);

@@ -34,36 +34,44 @@ $(employee_list_nav_base+" .employee_import").click(function(){
 $(employee_list_base+" .employee_import_ui .employee_import_templet_download").click(function(){
 	window.open("/download/templet/Employee.xlsx");
 });
-$(employee_list_base+" #employee_import_iframe").load(function() {
-	var body = $(window.frames['employee_import_iframe'].document.body);
-	//console.log(body);
-	var upload_data = JSON.parse(body[0].textContent);
-	//console.log(upload_data);
-	if(upload_data==null){
-		alert("上传文件时发生错误!");
-	}
-	$(employee_list_base+" .employee_import_ui").trigger('reveal:close');
-	if (upload_data.status == "1") {
-		var file_id = upload_data.data[0].id;
-		$.ajax({
-			url: '/systemsetting/employee_import/importEmployee',
-			type: 'post',
-			data: "file_id="+file_id,
-			dataType: 'json',
-			success: function(data) {
-				//console.log(data);
+$(employee_list_base+" .employee_import_ui .employee_import_submit_btn").click(function(){
+	var formData = new FormData($(employee_list_base+" .employee_import_ui .employee_import_from")[0]);
+	var url = "/index/import_file/upload/";
+
+	$.ajax({
+		url: url,
+		type: 'POST',
+		dataType: 'json',
+		data: formData,
+		processData: false,  // 告诉jQuery不要去处理发送的数据
+		contentType: false,
+		success:function(data){
+			if (data.status!=1) {
 				alert(data.info);
-				if(data.status) {
-					employee_list_list_manage.reload_list();
-				}
-			},
-			error: function() {
-				alert("导入员工时发生错误!");
+				return;
 			}
-		});
-	}else{
-		alert(data.info);
-	}
+			var file_id = data.data[0].id;
+			$.ajax({
+				url: '/systemsetting/employee_import/importEmployee',
+				type: 'post',
+				data: "file_id="+file_id,
+				dataType: 'json',
+				success: function(data) {
+					//console.log(data);
+					alert(data.info);
+					if(data.status) {
+						employee_list_list_manage.reload_list();
+					}
+				},
+				error: function() {
+					alert("导入员工时发生错误!");
+				}
+			});
+		},
+		error:function(){
+			alert("上传文件失败!");
+		}
+	});
 });
 $(employee_list_base+" .employee_import_ui .employee_import_cancel_btn").click(function(){
 	$(employee_list_base+" .employee_import_ui").trigger('reveal:close');
