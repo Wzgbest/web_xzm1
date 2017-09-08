@@ -28,7 +28,6 @@ $(document).on("click",".remark i.fa-close",function(){
 });
 $(document).on("click",".remark i.fa-check",function(){
     var that=$(this);
-    that.siblings("input").attr("readonly","readonly");
     var id=$(this).siblings("input").attr('data-id')||'';//id有值编辑，未定义则新增
     var title=$(this).siblings("input").val();
     if(!title)
@@ -36,6 +35,7 @@ $(document).on("click",".remark i.fa-check",function(){
         alert('请输入标签名称');
         return false;
     }
+    that.siblings("input").attr("readonly","readonly");
     $.ajax({
         url: '/crm/customer_remark/edit',
         type: 'post',
