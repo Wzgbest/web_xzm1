@@ -285,6 +285,32 @@ class Api
     }
 
     /**
+     * 修改用户的环信密码
+     * @param  string $corp_id  公司代号
+     * @param  string $username 用户名称
+     * @param  string $password 密码
+     * @return [type]           [description]
+     */
+    public function updatePassword($corp_id,$username,$newpassword){
+        $info = ['status'=>false,'message'=>'更新环信密码失败'];
+        $user_info['newpassword'] = $newpassword;
+
+        //更新环信密码
+        $user_json = json_encode($user_info,true);
+        $update_uri = $this->user_uri."/".$username."/password";
+        $user_reg = $this->getMessage($update_uri,$user_json,$this->header,'put');
+         $user_info = json_decode($user_reg, true);
+        if (isset($user_info['error'])) {
+            $info['message'] = $this->getError($user_info['error']);
+        } else {
+            $info['status'] = true;
+            $info['message'] = '环信用户密码更新成功';
+        }
+    
+        return $info;
+    }
+
+    /**
      * 在环信中批量注册employee表中账号
      * @param $corp_id 公司代号
      * @param $users [
