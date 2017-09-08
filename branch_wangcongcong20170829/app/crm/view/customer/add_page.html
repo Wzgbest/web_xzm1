@@ -240,9 +240,9 @@
                 </div>
                 <div>
                     <span class="cont">备注</span>
-                    <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                    <span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                    <span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                    {volist name="param_list" id="v"}
+                    <span class="remark"><input type="text" class="remarker" value="{$v.title}" data-id="{$v.id}" readonly="readonly"/><i class="fa fa-pencil"></i><i class="fa fa-check hide"></i><i class="fa fa-close"></i></span>
+                    {/volist}
                     <span class="u-addRemark"><i class="fa fa-plus"></i></span>
                     <div class="clearfix"></div>
                     <span class="cont"></span>
@@ -262,7 +262,6 @@
 <script type="text/javascript">_init_area();</script>
 <script>
     $("#s_county").change(function(){
-        console.log($("#s_province").val()+$("#s_city").val()+$(this).val());
         $("#mapFrame")[0].contentWindow.searchKey($("#s_province").val()+$("#s_city").val()+$(this).val());
     })
     $("textarea[name='address']").change(function(){
