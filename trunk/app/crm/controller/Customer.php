@@ -226,8 +226,7 @@ class Customer extends Initialize{
         $businessFlowModel = new BusinessFlowModel($this->corp_id);
         $business_flows = $businessFlowModel->getAllBusinessFlowByUserId($uid);
         $this->assign('business_flows',$business_flows);
-        $userinfo = get_userinfo();
-        $con['add_man']=array('in',array('0',$userinfo['userid']));
+        $con['add_man']=array('in',array('0',$uid));
         $paramModel=new ParamRemark($this->corp_id);
         $param_list = $paramModel->getAllParam($con);
         $this->assign("param_list",$param_list);
