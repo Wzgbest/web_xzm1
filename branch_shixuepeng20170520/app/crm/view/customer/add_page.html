@@ -43,9 +43,9 @@
                 </div>
                 <div>
                     <span class="cont"><span class="u-required">＊</span>联系电话</span>
-                    <input type="text" name="telephone" required="required" pattern="^(?:(?:0\d{2,3}[- ]?[1-9]\d{6,7})|(?:(13[0-9]|15[012356789]|18[0236789]|14[5789])[0-9]{8}))$" placeholder="手机号或xx-xx" title="请输入正确的联系方式" />
+                    <input type="text" name="telephone" required="required" pattern="^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}|17[0-9]{9}$|18[0-9]{9}$|^((0(10|2[0-9]|[3-9]\d{2}))[- ]?[1-9]\d{6,7})$|^400[0-9]{7}$" placeholder="手机号或xx-xx" title="请输入正确的联系方式" />
                     <span class="cont">获取途径</span>
-                    <select name="resource_from">
+                    <select name="take_type">
                         <option value="1">转介绍</option>
                         <option value="2">搜索</option>
                         <option value="3">购买</option>
@@ -93,7 +93,8 @@
                 </div>
                 <div>
                     <span class="cont">详细定位</span>
-                    <input type="text" name="address" placeholder="请输入写字楼、街道、公司名称"/>
+                    <input type="text" name="location" placeholder="请点击地图进行坐标定位"/>
+                    <iframe id="mapFrame" src="/index/index/map.html"></iframe>
                 </div>
                 <div>
                     <span class="cont">公司官网</span>
@@ -135,19 +136,19 @@
                 </div>
                 <div>
                     <span class="cont">联系方式1</span>
-                    <input type="text" name="phone_first" pattern="^(?:(?:0\d{2,3}[- ]?[1-9]\d{6,7})|(?:(13[0-9]|15[012356789]|18[0236789]|14[5789])[0-9]{8}))$" title="请输入电话号码" placeholder="请输入电话号码"/>
+                    <input type="text" name="phone_first" pattern="^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}|17[0-9]{9}$|18[0-9]{9}$|^((0(10|2[0-9]|[3-9]\d{2}))[- ]?[1-9]\d{6,7})$|^400[0-9]{7}$" title="请输入电话号码" placeholder="请输入电话号码"/>
                     <span class="cont">联系方式2</span>
-                    <input type="text" name="phone_second" pattern="^(?:(?:0\d{2,3}[- ]?[1-9]\d{6,7})|(?:(13[0-9]|15[012356789]|18[0236789]|14[5789])[0-9]{8}))$" title="请输入电话号码" placeholder="请输入电话号码"/>
+                    <input type="text" name="phone_second" pattern="^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}|17[0-9]{9}$|18[0-9]{9}$|^((0(10|2[0-9]|[3-9]\d{2}))[- ]?[1-9]\d{6,7})$|^400[0-9]{7}$" title="请输入电话号码" placeholder="请输入电话号码"/>
                 </div>
                 <div>
                     <span class="cont">联系方式3</span>
-                    <input type="text" name="phone_third" pattern="^(?:(?:0\d{2,3}[- ]?[1-9]\d{6,7})|(?:(13[0-9]|15[012356789]|18[0236789]|14[5789])[0-9]{8}))$" title="请输入电话号码" placeholder="请输入电话号码"/>
+                    <input type="text" name="phone_third" pattern="^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}|17[0-9]{9}$|18[0-9]{9}$|^((0(10|2[0-9]|[3-9]\d{2}))[- ]?[1-9]\d{6,7})$|^400[0-9]{7}$" title="请输入电话号码" placeholder="请输入电话号码"/>
                     <span class="cont">邮箱</span>
-                    <input type="email" name="email" placeholder="请输入邮箱"/>
+                    <input type="email" name="email" pattern="^[\w\+-]+(\.[\w\+-]+)*@[a-z\d-]+(\.[a-z\d-]+)*\.([a-z]{2,4})$" placeholder="请输入邮箱"/>
                 </div>
                 <div>
                     <span class="cont">QQ号</span>
-                    <input type="text" name="qqnum" pattern="[\d]{0,10}" title="请写正确格式" placeholder="请输入QQ号"/>
+                    <input type="text" name="qqnum" pattern="^[1-9]\d{4,}$" title="请写正确格式" placeholder="请输入QQ号"/>
                     <span class="cont">微信号</span>
                     <input type="text" name="wechat" pattern="[\d\D]{0,40}" title="最多填写40位字符" placeholder="请输入微信号"/>
                 </div>
@@ -216,11 +217,11 @@
             <div class="form3 hide">
                 <div>
                     <span class="cont"><span class="u-required">＊</span>销售机会</span>
-                    <input type="text" name="sale_name" placeholder="请输入销售机会" />
+                    <input type="text" name="sale_name" required="required" placeholder="请输入销售机会" />
                     <span class="cont"><span class="u-required">＊</span>对应业务</span>
                     <select name="business_id">
-                        {volist name="business_list" id="vo"}
-                        <option value="{$vo.id}">{$vo.business_name}</option>
+                        {volist name="business_flows" id="vo"}
+                        <option value="{$vo.id}">{$vo.business_flow_name}</option>
                         {/volist}
                     </select>
                 </div>

@@ -584,11 +584,11 @@ class Customer extends Base
                 $listOrder = [$order=>"all_guess_money"];
                 break;
         }
-        $subOrder["cr.id"] = "desc";//电话
         $subOrder["sc.id"] = "desc";//商机
         $subOrder["cn.id"] = "desc";//沟通状态
-        $subOrder["ct.id"] = "desc";//客户跟踪
         $subOrder["cc.id"] = "desc";//联系人
+        //$subOrder["cr.id"] = "desc";//电话
+        //$subOrder["ct.id"] = "desc";//客户跟踪
 
         //固定显示字段
         $subField = [
@@ -602,24 +602,20 @@ class Customer extends Base
             "cn.call_through",
             "cn.is_wait",
             //"'沟通状态' as comm_status",
-            //"sc.sale_name",
-            "scb.business_name as sale_biz_name",
-            "(case when sc.sale_status<1 then 0 when sc.sale_status<4 then 0 else sc.guess_money end) as in_progress_guess_money",//all_guess_money
+            "sc.sale_name",
+            "(case when sc.sale_status<1 then 0 when sc.sale_status>4 then 0 else sc.guess_money end) as in_progress_guess_money",//all_guess_money
             "(case when sc.sale_status=5 then sc.final_money else 0 end) as win_final_money",//all_final_money
             "(case when sc.sale_status=5 then sc.payed_money else 0 end) as win_payed_money",//all_final_money
             "cc.contact_name",
             "IFNULL(cc.phone_first,c.telephone) as phone_first",
-            "ct.create_time as last_trace_time",
-            "cr.begin_time as last_call_time",
             "c.take_time",//领取时间
             "'' as contract_due_time",
             "cn.wait_alarm_time as remind_time",
             //"'所在列' as in_column",
             "sc.sale_status",
-            "ct.id ct_id",
         ];
         $listField = [
-            "id",
+            "l.id",
             "customer_name",
             "take_type",
             "grade",
@@ -629,15 +625,12 @@ class Customer extends Base
             "call_through",
             "is_wait",
             //"comm_status",
-            //"group_concat(sale_name) as sale_names",
-            "group_concat(sale_biz_name) as sale_biz_names",
-            "SUM(in_progress_guess_money) as all_guess_money",
-            "SUM(win_final_money) as all_final_money",
-            "SUM(win_payed_money) as all_payed_money",
+            "group_concat(sale_name) as sale_names",
+            "SUM(in_progress_guess_money)/count(l.id) as all_guess_money",
+            "SUM(win_final_money)/count(l.id) as all_final_money",
+            "SUM(win_payed_money)/count(l.id) as all_payed_money",
             "contact_name",
             "phone_first",
-            "last_trace_time",
-            "last_call_time",
             "take_time",
             "contract_due_time",
             "remind_time",
@@ -645,11 +638,13 @@ class Customer extends Base
             when tend_to = 0 then 6 
             when is_wait = 0 then 5 
             when sale_status = 0 then 7 
-            when ct_id = '' or ct_id is null then 2 
-            when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >".$to_halt_day_max." then 4 
-            when FLOOR((unix_timestamp()-last_trace_time)/60/60/24) >3 then 1 else 3 end ) as in_column",
+            when ct.id = '' or ct.id is null then 2 
+            when FLOOR((unix_timestamp()-ct.create_time)/60/60/24) >".$to_halt_day_max." then 4 
+            when FLOOR((unix_timestamp()-ct.create_time)/60/60/24) >3 then 1 else 3 end ) as in_column",
             "sale_status",
-            "ct_id",
+            "ct.id ct_id",
+            "ct.create_time as last_trace_time",
+            "cr.begin_time as last_call_time",
         ];
         /*
         //动态显示字段:获取途径
@@ -667,11 +662,8 @@ class Customer extends Base
         $subQuery = $this->model->table($this->table)->alias('c')
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
-            ->join($this->dbprefix.'call_record cr','cr.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")//sc.employee_id = c.handle_man
-            ->join($this->dbprefix.'business scb','scb.id = sc.business_id',"LEFT")
             //->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
-            ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")//ct.operator_id = c.handle_man
             ->where($map)
             ->order($subOrder)
             ->field($subField)
@@ -679,6 +671,8 @@ class Customer extends Base
         //var_exp($subQuery,'$subQuery',1);
         $customerQuery = $this->model
             ->table($subQuery." l")
+            ->join($this->dbprefix.'customer_trace ct','ct.customer_id = l.id',"LEFT")//ct.operator_id = c.handle_man
+            ->join($this->dbprefix.'call_record cr','cr.customer_id = l.id',"LEFT")
             ->group("id")
             ->order($listOrder)
             ->having($having);
@@ -826,9 +820,8 @@ class Customer extends Base
             "cn.call_through",
             "cn.is_wait",
             //"'沟通状态' as comm_status",
-            //"sc.sale_name",
-            "scb.business_name as sale_biz_name",
-            "(case when sc.sale_status<1 then 0 when sc.sale_status<4 then 0 else sc.guess_money end) as in_progress_guess_money",//all_guess_money
+            "sc.sale_name",
+            "(case when sc.sale_status<1 then 0 when sc.sale_status>4 then 0 else sc.guess_money end) as in_progress_guess_money",//all_guess_money
             "(case when sc.sale_status=5 then sc.final_money else 0 end) as win_final_money",//all_final_money
             "cc.contact_name",
             "cc.phone_first",
@@ -851,8 +844,7 @@ class Customer extends Base
             "call_through",
             "is_wait",
             //"comm_status",
-            //"group_concat(sale_name) as sale_names",
-            "group_concat(sale_biz_name) as sale_biz_names",
+            "group_concat(sale_name) as sale_names",
             "SUM(in_progress_guess_money) as all_guess_money",
             "SUM(win_final_money) as all_final_money",
             "contact_name",
@@ -871,7 +863,6 @@ class Customer extends Base
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")//sc.employee_id = c.handle_man
-            ->join($this->dbprefix.'business scb','scb.id = sc.business_id',"LEFT")
             //->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")//ct.operator_id = c.handle_man
             ->where($map)
@@ -1036,9 +1027,8 @@ class Customer extends Base
             "cn.call_through",
             "cn.is_wait",
             //"'沟通状态' as comm_status",
-            //"sc.sale_name",
-            "scb.business_name as sale_biz_name",
-            "(case when sc.sale_status<1 then 0 when sc.sale_status<4 then 0 else sc.guess_money end) as in_progress_guess_money",//all_guess_money
+            "sc.sale_name",
+            "(case when sc.sale_status<1 then 0 when sc.sale_status>4 then 0 else sc.guess_money end) as in_progress_guess_money",//all_guess_money
             "(case when sc.sale_status=5 then sc.final_money else 0 end) as win_final_money",//all_final_money
             "cc.contact_name",
             "cc.phone_first",
@@ -1061,8 +1051,7 @@ class Customer extends Base
             "call_through",
             "is_wait",
             //"comm_status",
-            //"group_concat(sale_name) as sale_names",
-            "group_concat(sale_biz_name) as sale_biz_names",
+            "group_concat(sale_name) as sale_names",
             "SUM(in_progress_guess_money) as all_guess_money",
             "SUM(win_final_money) as all_final_money",
             "contact_name",
@@ -1091,7 +1080,6 @@ class Customer extends Base
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")//sc.employee_id = c.handle_man
-            ->join($this->dbprefix.'business scb','scb.id = sc.business_id',"LEFT")
             //->join($this->dbprefix.'contract_applied ca','ca.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'customer_trace ct','ct.customer_id = c.id',"LEFT")//ct.operator_id = c.handle_man
             ->where($map)
@@ -1476,10 +1464,14 @@ class Customer extends Base
             "cn.profile_correct",
             "cn.call_through",
             "cn.is_wait",
+            "count(scv.id) as need_sign_num",
         ];
         $customer = $this->model->table($this->table)->alias('c')
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance_visit scv','scv.sale_id = sc.id',"LEFT")
             ->where('c.id',$cid)
+            ->group("c.id")
             ->field($field)
             ->find();
         if(empty($customer)){

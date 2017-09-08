@@ -100,7 +100,30 @@ class Index extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
 
+        $employeeTaskM = new EmployeeTaskModel($this->corp_id);
+        $taskTargetM = new TaskTargetModel($this->corp_id);
+        $taskRewardM = new TaskRewardModel($this->corp_id);
+        $taskTakeM = new TaskTakeModel($this->corp_id);
+
+        $taskInfo = $employeeTaskM->getTaskInfo($id);
+        if(empty($taskInfo)){
+            $result['info'] = "未找到任务！";
+            return json($result);
+        }
+
+        $taskTarget = $taskTargetM->findTaskTargetByTaskId($id);
+        $taskInfo["target"] = $taskTarget;
+
+        $taskReward = $taskRewardM->getTaskRewardListByTaskId($id);
+        $taskInfo["reward"] = $taskReward;
+
+        $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($id);
+        $taskInfo["take"] = $taskTakeEmployeeIds;
+
+        $result['data'] = $taskInfo;
         $result['status'] = 1;
         $result['info'] = "获取任务成功！";
         return json($result);
@@ -136,14 +159,13 @@ class Index extends Initialize{
         $uids = $taskTakeEmployeeIds;
         if(!in_array($uid,$uids)){
             $result['info'] = "未参与任务！";
-
             return json($result);
         }
-
         if($task_type>2){
             $result['info'] = "任务类型不符！";
             return json($result);
         }
+
         $taskTarget = $taskTargetM->findTaskTargetByTaskId($id);
         $target_type = $taskTarget["target_type"];
         $standard = $taskTarget["target_num"];
@@ -215,7 +237,10 @@ class Index extends Initialize{
         }
         $reward_str = input("reward");
         $reward_arr = json_decode($reward_str,true);
-        $index_max = 0;
+        $verify_arr = [];
+        /* 数组校验名次序列方法,弃用
+        $index_max = 1;
+        */
         foreach ($reward_arr as $reward_item){
             $task_reward_info['reward_type'] = $reward_type;
             $task_reward_info['reward_method'] = $reward_method;
@@ -223,12 +248,38 @@ class Index extends Initialize{
             if($reward_item["reward_end"]<$reward_item["reward_start"]){
                 return [];
             }
+            /* 数组校验名次序列方法,弃用
+            for($i=$reward_item["reward_start"];$i<=$reward_item["reward_end"];$i++){
+                $verify_arr[$i]=1;
+            }
             $index_max = ($index_max<$reward_item["reward_end"])?$reward_item["reward_end"]:$index_max;
+            */
+            if(isset($verify_arr[$reward_item["reward_start"]])){
+                return [];
+            }
+            $verify_arr[$reward_item["reward_start"]] = $reward_item["reward_end"];
             $task_reward_info['reward_start'] = $reward_item["reward_start"];
             $task_reward_info['reward_end'] = $reward_item["reward_end"];
             $task_reward_info['reward_num'] = $reward_item["reward_end"]-$reward_item["reward_start"]+1;
             $task_reward_infos["list"][] = $task_reward_info;
-            $task_reward_infos["All_reward_amount"] = $task_reward_info['reward_num']*$task_reward_info['reward_amount'];
+            $task_reward_infos["all_reward_amount"] += $task_reward_info['reward_num']*$task_reward_info['reward_amount'];
+        }
+        /* 数组校验名次序列方法,弃用
+        for($i=1;$i<=$index_max;$i++){
+            if($verify_arr[$i]!=1){
+                return [];
+            }
+        }
+        */
+
+        //var_exp($verify_arr,'$verify_arr');
+        $verify_idx = 0;
+        for($i=0;$i<count($verify_arr);$i++){
+            $verify_idx++;
+            if(!isset($verify_arr[$verify_idx])){
+                return [];
+            }
+            $verify_idx = $verify_arr[$verify_idx];
         }
         return $task_reward_infos;
     }
@@ -244,12 +295,14 @@ class Index extends Initialize{
             $result['info'] = '分配规则参数错误';
             return json($result);
         }
+        //var_exp($taskRewardInfos,'$taskRewardInfos',1);
         $taskTakeInfos[] = [
             "take_employee"=>$uid,
             "take_time"=>$time
         ];
+        $public_uids = explode(",",$taskInfo["public_to_take"]);
         if($taskInfo["task_type"]==1){
-            foreach ($taskInfo["public_to_take"] as $employee_id){
+            foreach ($public_uids as $employee_id){
                 $taskTakeInfos[] = [
                     "take_employee"=>$employee_id,
                     "take_time"=>$time
@@ -272,6 +325,20 @@ class Index extends Initialize{
         //TODO 冻结金额计算
 
         $save_money = intval($money*100);
+        //var_exp($userinfo,'$userinfo',1);
+        if($taskInfo["task_type"]==1) {
+            if ($userinfo['userinfo']['corp_left_money'] < $save_money) {
+                $info['info'] = '企业余额不足';
+                $info['status'] = 5;
+                return json($info);
+            }
+        }else{
+            if ($userinfo['userinfo']['left_money'] < $save_money) {
+                $info['info'] = '账户余额不足';
+                $info['status'] = 5;
+                return json($info);
+            }
+        }
 
         $employeeTaskM = new EmployeeTaskModel($this->corp_id);
         $taskTargetM = new TaskTargetModel($this->corp_id);
@@ -293,10 +360,10 @@ class Index extends Initialize{
                 exception('提交任务目标失败!');
             }
 
-            foreach ($taskRewardInfos as $taskRewardInfo) {
+            foreach ($taskRewardInfos["list"] as &$taskRewardInfo) {
                 $taskRewardInfo['task_id'] = $taskId;
             }
-            $taskRewardId = $taskRewardM->addMutipleTaskReward($taskRewardInfos);
+            $taskRewardId = $taskRewardM->addMutipleTaskReward($taskRewardInfos["list"]);
             if (!$taskRewardId) {
                 exception('提交任务目标失败!');
             }
@@ -311,16 +378,26 @@ class Index extends Initialize{
             }
 
 
-            $employee_data['corp_left_money'] = ['exp',"corp_left_money - $save_money"];
-            $employee_data['corp_frozen_money'] = ['exp',"corp_frozen_money + $save_money"];
-            $employee_map["corp_left_money"] = ["egt",$save_money];
-            $tip_from_user = $employM->setEmployeeSingleInfo($userinfo["telephone"],$employee_data,$employee_map);
-            if (!$tip_from_user) {
-                exception("更新用户公司余额发生错误!");
+            if($taskInfo["task_type"]==1) {
+                $employee_data['corp_left_money'] = ['exp',"corp_left_money - $save_money"];
+                $employee_data['corp_frozen_money'] = ['exp',"corp_frozen_money + $save_money"];
+                $employee_map["corp_left_money"] = ["egt",$save_money];
+                $tip_from_user = $employM->setEmployeeSingleInfo($userinfo["telephone"],$employee_data,$employee_map);
+                if (!$tip_from_user) {
+                    exception("更新企业余额发生错误!");
+                }
+            }else{
+                $employee_data['left_money'] = ['exp',"left_money - $save_money"];
+                $employee_data['frozen_money'] = ['exp',"frozen_money + $save_money"];
+                $employee_map["left_money"] = ["egt",$save_money];
+                $tip_from_user = $employM->setEmployeeSingleInfo($userinfo["telephone"],$employee_data,$employee_map);
+                if (!$tip_from_user) {
+                    exception("更新账户余额发生错误!");
+                }
             }
 
             $order_data = [
-                'money_type'=>2,
+                'money_type'=>($taskInfo["task_type"]==1)?2:1,
                 'userid'=>$uid,
                 'take_money'=> -$save_money,
                 'status'=>1,
@@ -332,12 +409,22 @@ class Index extends Initialize{
                 exception("添加交易记录发生错误!");
             }
 
-            $de_corp_money["corp_reserved_money"] = ['exp',"corp_reserved_money - $save_money"];
-            $de_corp_money["corp_reserved_forzen_money"] = ['exp',"corp_reserved_forzen_money + $save_money"];
-            $de_corp_mone_map["corp_reserved_money"] = ["egt",$save_money];
-            $de_corp_money_flg = Corporation::setCorporationInfo($this->corp_id,$de_corp_money,$de_corp_mone_map);
-            if (!$de_corp_money_flg) {
-                exception("更新公司保留额度发生错误!");
+            if($taskInfo["task_type"]==1) {
+                $de_corp_money["corp_reserved_money"] = ['exp', "corp_reserved_money - $save_money"];
+                $de_corp_money["corp_reserved_forzen_money"] = ['exp', "corp_reserved_forzen_money + $save_money"];
+                $de_corp_mone_map["corp_reserved_money"] = ["egt", $save_money];
+                $de_corp_money_flg = Corporation::setCorporationInfo($this->corp_id, $de_corp_money, $de_corp_mone_map);
+                if (!$de_corp_money_flg) {
+                    exception("更新企业保留额度发生错误!");
+                }
+            }else{
+                $de_corp_money["corp_left_money"] = ['exp', "corp_left_money - $save_money"];
+                $de_corp_money["corp_left_forzen_money"] = ['exp', "corp_left_forzen_money + $save_money"];
+                $de_corp_mone_map["corp_left_money"] = ["egt", $save_money];
+                $de_corp_money_flg = Corporation::setCorporationInfo($this->corp_id, $de_corp_money, $de_corp_mone_map);
+                if (!$de_corp_money_flg) {
+                    exception("更新企业账户额度发生错误!");
+                }
             }
 
             $employeeTaskM->link->commit();
@@ -347,6 +434,11 @@ class Index extends Initialize{
             $result['info'] = $ex->getMessage();
             return json($result);
         }
+
+        $telphone = $userinfo["telephone"];
+        $userinfo = $employM->getEmployeeByTel($telphone);
+        set_userinfo($this->corp_id,$telphone,$userinfo);
+        
         $result['status'] = 1;
         $result['info'] = "新建任务成功！";
         return json($result);

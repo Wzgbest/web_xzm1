@@ -78,6 +78,18 @@ class BusinessFlowItemLink extends Base{
         return $businessFlowItemLinkList;
     }
 
+    public function getAllBusinessFlowNameAndDefault(){
+        $businessFlowSettingNameList = $this->model->table($this->table)->alias('bfil')
+            ->join($this->dbprefix.'business_flow_item bfi','bfi.id = bfil.item_id',"LEFT")
+            ->join($this->dbprefix.'business_flow_setting bfs','bfs.id = bfil.setting_id',"LEFT")
+            ->where("order_num",1)
+            ->table($this->table)
+            ->order("bfs.id desc")
+            ->field(["bfs.id","bfs.business_flow_name","bfi.id item_id","bfi.item_name"])
+            ->select();
+        return $businessFlowSettingNameList;
+    }
+
     /**
      * 添加单个业务流项目
      * @param $data

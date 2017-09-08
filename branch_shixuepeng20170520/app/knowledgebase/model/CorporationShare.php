@@ -181,14 +181,14 @@ class CorporationShare extends Base{
      * @param  int $share_id 动态id
      * @return [type]           [description]
      */
-    public function delOneShareById($share_id){
+    public function delOneShareById($share_id,$uid){
         $flg = false;
         $is_have = false;
         $shareInfo = $this->getCorporationShareById($share_id);
         $content_id = $shareInfo['content_id'];
         try{
             $this->link->startTrans();
-            $flg = $this->model->table($this->table)->where(['id'=>$share_id])->delete();
+            $flg = $this->model->table($this->table)->where(['id'=>$share_id,'userid'=>$uid])->delete();
             if (!$flg) {
                 exception("删除任务失败!");
             }

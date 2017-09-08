@@ -239,3 +239,38 @@
 	width: 100%;
 	height: 100%;
 }
+.reward-pop h2,.pay-pop h2,.pay-pop h3{
+	text-align: center;
+}
+.pay-pop h2{
+	font-size: 36px;
+}
+.pay-pop h3{
+	font-size: 14px;
+	color: #CCCCCC;
+}
+.pay-pop input[type="password"]{
+	box-sizing: content-box;
+	width: 234px;
+	height: 35px;
+	padding-left:16px ;
+	/*margin: 0 64px 12px 20px;*/
+	border: 1px solid #e5e5e5;
+}
+.reward-pop .reward-record{
+	width: 700px !important;
+	border: 1px solid #eee;
+	height: 200px;
+	margin: 20px auto;
+	overflow-y: scroll;
+}
+.reward-pop .reward-record li{
+	line-height: 35px;
+	font-size: 14px;
+	padding-left: 20px;
+}
+.reward-pop .reward-record .rewarding-person{
+	width: 100px;
+	margin-left: 30px;
+	display: inline-block;
+}
