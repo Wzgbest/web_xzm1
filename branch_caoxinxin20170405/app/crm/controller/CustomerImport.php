@@ -12,6 +12,7 @@ use app\common\controller\Initialize;
 use app\crm\model\Customer as CustomerModel;
 use app\crm\model\CustomerImportRecord as CustomerImportRecordModel;
 use app\crm\model\CustomerImportFail;
+use app\common\model\Business;
 
 class CustomerImport extends Initialize{
     var $paginate_list_rows = 10;
@@ -170,6 +171,7 @@ class CustomerImport extends Initialize{
         //获取批次
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
+        $time = time();
         $customerImport = new CustomerImportRecordModel($this->corp_id);
         $record = $customerImport->getNewImportCustomerRecord($uid);
         if(!$record){
@@ -178,6 +180,11 @@ class CustomerImport extends Initialize{
         }
         //var_exp($record,'$record',1);
         $batch = $record['batch'];
+
+
+        $businessModel = new Business();
+        $business_index = $businessModel->getBusinessIdx();
+        //var_exp($business_index,'$business_index',1);
 
         //校验数据
         $success_num = 0;
@@ -193,7 +200,10 @@ class CustomerImport extends Initialize{
                 $customer['telephone'] = $item['telephone'];
                 $customer['add_man'] = $uid;
                 $customer['add_batch'] = $item['batch'];
-                $customer['field'] = $item['field'];
+                $customer['add_time'] = $time;
+                $customer['handle_man'] = $import_to==3?$uid:0;
+                $customer['belongs_to'] = $import_to;
+                $customer['field1'] = isset($business_index[$item['field']])?$business_index[$item['field']]:0;
                 $customer['lat'] = isset($location[0])?:0;
                 $customer['lng'] = isset($location[1])?:0;
                 $customer['address'] = $item['address'];
