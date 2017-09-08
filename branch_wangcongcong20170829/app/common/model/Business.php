@@ -28,6 +28,10 @@ class Business extends Base
     {
         return $this->model->table($this->table)->column("business_name","id");
     }
+    public function getBusinessIdx()
+    {
+        return $this->model->table($this->table)->column("id","business_name");
+    }
 
     public function addBusiness($data)
     {

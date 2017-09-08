@@ -21,6 +21,10 @@ class Index extends Controller
         return view();
     }
 
+    public function map(){
+        return view();
+    }
+
     public function developing(){
         return view();
     }

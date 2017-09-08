@@ -81,7 +81,7 @@ function customer_add(from,target,list_manage){
 				self.new_customer_show(data,self.panel_base);
 			},
 			error:function(){
-				alert("获取联系人失败!");
+				alert("加载新建客户界面失败!");
 			}
 		});
 	};
