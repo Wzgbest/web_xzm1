@@ -83,9 +83,11 @@
                     <textarea name="address" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入详细地址"></textarea>
                 </div>
                 <div>
-                    <span class="cont">详细定位</span>
-                    <input type="text" name="location" placeholder="请点击地图进行坐标定位"/>
-                    <iframe id="mapFrame" src="/index/index/map.html"></iframe>
+                    <span class="cont u-area">详细定位</span>
+                    <!--<input type="text" name="location" placeholder="请点击地图进行坐标定位"/>-->
+                    <input type="hidden" name="lng" />
+                    <input type="hidden" name="lat" />
+                    <iframe id="mapFrame" name="mapFrame" src="/index/index/map.html"></iframe>
                 </div>
                 <div>
                     <span class="cont">公司官网</span>
@@ -93,9 +95,9 @@
                 </div>
                 <div>
                     <span class="cont">备注</span>
-                    <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                    <span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                    <span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                    {volist name="param_list" id="v"}
+                    <span class="remark"><input type="text" class="remarker" value="{$v.title}" data-id="{$v.id}" readonly="readonly"/><i class="fa fa-pencil"></i><i class="fa fa-check hide"></i><i class="fa fa-close"></i></span>
+                    {/volist}
                     <span class="u-addRemark"><i class="fa fa-plus"></i></span>
                     <div class="clearfix"></div>
                     <span class="cont"></span>
