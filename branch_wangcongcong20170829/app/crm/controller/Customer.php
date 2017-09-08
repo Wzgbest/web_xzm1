@@ -815,6 +815,7 @@ class Customer extends Initialize{
         $customer['customer_name'] = input('customer_name','','string');
         $customer['telephone'] = input('telephone','','string');
 
+        $customer['resource_from'] = input('resource_from',0,'int');
         $customer['take_type'] = input('take_type',0,'int');
         $customer['grade'] = input('grade','','string');
 
