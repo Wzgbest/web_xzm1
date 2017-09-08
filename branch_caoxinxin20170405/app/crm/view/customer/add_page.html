@@ -220,8 +220,8 @@
                     <input type="text" name="sale_name" required="required" placeholder="请输入销售机会" />
                     <span class="cont"><span class="u-required">＊</span>对应业务</span>
                     <select name="business_id">
-                        {volist name="business_list" id="vo"}
-                        <option value="{$vo.id}">{$vo.business_name}</option>
+                        {volist name="business_flows" id="vo"}
+                        <option value="{$vo.id}">{$vo.business_flow_name}</option>
                         {/volist}
                     </select>
                 </div>

@@ -92,9 +92,9 @@
                         <li>{$vo.grade}</li>
                         <li>{$vo.comm_status|getCommStatusName}</li>
                         <li>{$vo.sale_names}</li>
-                        <li>{$vo.all_guess_money}元</li>
-                        <li>{$vo.all_final_money}元</li>
-                        <li>{$vo.all_payed_money}元</li>
+                        <li>{$vo.all_guess_money|number_format=2,".",""}元</li>
+                        <li>{$vo.all_final_money|number_format=2,".",""}元</li>
+                        <li>{$vo.all_payed_money|number_format=2,".",""}元</li>
                         <li>{$vo.contact_name}</li>
                         <li class="u-tabLinkWay">{$vo.phone_first}<i class="fa fa-phone"></i></li>
                         <li>{$vo.last_trace_time|day_format}</li>

@@ -21,6 +21,7 @@ use app\common\model\Employee as EmployeeModel;
 use app\crm\model\SaleChance as SaleChanceModel;
 use app\crm\model\CustomerContact as CustomerContactModel;
 use app\crm\model\CustomerTrace as CustomerTraceModel;
+use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
 
 class Customer extends Initialize{
     var $paginate_list_rows = 10;
@@ -215,10 +216,16 @@ class Customer extends Initialize{
         return $info_array;
     }
     public function add_page(){
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $this->assign("fr",input('fr'));
         $business = new Business($this->corp_id);
         $business_list = $business->getAllBusiness();
         $this->assign("business_list",$business_list);
+        $businessFlowModel = new BusinessFlowModel($this->corp_id);
+        $business_flows = $businessFlowModel->getAllBusinessFlowByUserId($uid);
+        //var_exp($business_flows,'$business_flows',1);
+        $this->assign('business_flows',$business_flows);
         $userinfo = get_userinfo();
         $truename = $userinfo["truename"];
         $this->assign("truename",$truename);
