@@ -9,6 +9,7 @@
 namespace app\crm\controller;
 
 use app\common\controller\Initialize;
+use app\common\model\ParamRemark;
 use app\crm\model\Customer as CustomerModel;
 use app\crm\model\CustomerContact;
 use app\crm\model\SaleChance;
@@ -211,7 +212,6 @@ class Customer extends Initialize{
         $info_array["customer_trace_num"] = $customer_trace_num;
         $business = new Business($this->corp_id);
         $business_list = $business->getBusinessArray();
-        //var_exp($business_list,'$business_list',1);
         $info_array["business_array"] = $business_list;
         return $info_array;
     }
@@ -221,12 +221,16 @@ class Customer extends Initialize{
         $this->assign("fr",input('fr'));
         $business = new Business($this->corp_id);
         $business_list = $business->getAllBusiness();
+
         $this->assign("business_list",$business_list);
         $businessFlowModel = new BusinessFlowModel($this->corp_id);
         $business_flows = $businessFlowModel->getAllBusinessFlowByUserId($uid);
-        //var_exp($business_flows,'$business_flows',1);
         $this->assign('business_flows',$business_flows);
         $userinfo = get_userinfo();
+        $con['add_man']=array('in',array('0',$userinfo['userid']));
+        $paramModel=new ParamRemark($this->corp_id);
+        $param_list = $paramModel->getAllParam($con);
+        $this->assign("param_list",$param_list);
         $truename = $userinfo["truename"];
         $this->assign("truename",$truename);
         return view();
@@ -811,6 +815,7 @@ class Customer extends Initialize{
         $customer['customer_name'] = input('customer_name','','string');
         $customer['telephone'] = input('telephone','','string');
 
+        $customer['resource_from'] = input('resource_from',0,'int');
         $customer['take_type'] = input('take_type',0,'int');
         $customer['grade'] = input('grade','','string');
 
