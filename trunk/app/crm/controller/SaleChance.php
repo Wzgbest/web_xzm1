@@ -163,6 +163,7 @@ class SaleChance extends Initialize{
     public function add_page(){
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
+        $truename = $userinfo["truename"];
         $this->assign("fr",input('fr'));
         $this->assign("customer_id",input('customer_id',0,"int"));
         $businessFlowModel = new BusinessFlowModel($this->corp_id);
@@ -171,6 +172,7 @@ class SaleChance extends Initialize{
         $this->assign('business_flows',$business_flows);
         $sale_chance["prepay_time"]=time();
         $this->assign('sale_chance',$sale_chance);
+        $this->assign('true_name',$truename);
         return view();
     }
     protected function _showSaleChanceEdit(){
@@ -325,8 +327,10 @@ class SaleChance extends Initialize{
         $result = ['status'=>0 ,'info'=>"获取销售机会时发生错误！"];
         $last_id = input('last_id',0,'int');
         $num = input('num',10,'int');
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $saleChanceM = new SaleChanceModel($this->corp_id);
-        $SaleChancesData = $saleChanceM->getAllSaleChancesByLastId($last_id,$num);
+        $SaleChancesData = $saleChanceM->getAllSaleChancesByLastId($uid,$last_id,$num);
         $result['data'] = $SaleChancesData;
         $result['status'] = 1;
         $result['info'] = "获取销售机会成功！";
@@ -386,7 +390,7 @@ class SaleChance extends Initialize{
             $saleChance['business_id'] = input('business_id',0,'int');
             $saleChance['create_time'] = time();
         }
-        $saleChance['associator_id'] = input('associator_id',0,'int');
+        $saleChance['associator_id'] = input('associator_id','','string');
 
         $saleChance['sale_name'] = input('sale_name');
         $saleChance['sale_status'] = input('sale_status',1,'int');
@@ -432,6 +436,7 @@ class SaleChance extends Initialize{
 
         try{
             $saleChanceM->link->startTrans();
+            //var_exp($saleChance,'$saleChance',1);
             $saleChanceId = $saleChanceM->addSaleChance($saleChance);
 
             $customerM = new CustomerTraceModel($this->corp_id);

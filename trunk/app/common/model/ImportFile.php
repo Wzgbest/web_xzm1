@@ -38,18 +38,20 @@ class ImportFile extends Base{
         if(is_array($files)) {
             foreach ($files as $key => $file) {
                 $value = $this->getUploadFileInfo($file,$type,$fileHashData);
+                if(!$value){
+                    return false;
+                }
                 $infos[] = $value;
             }
         }else{
             $value = $this->getUploadFileInfo($files,$type,$fileHashData);
+            if(!$value){
+                return false;
+            }
             $infos[] = $value;
         }
         //var_exp($infos,'$infos',1);
-        if($infos){
-            return $infos;
-        }else{
-            return false;
-        }
+        return $infos;
     }
     /**
      * 处理文件
