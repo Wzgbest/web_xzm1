@@ -235,14 +235,14 @@
                     <span class="cont">负责人</span>
                     <span class="cont">{$truename}</span>
                     <span class="cont">协助人</span>
-                    <select name="associator_id">
-                        <option value="0">无</option>
-                    </select>
+                    <input type="text" placeholder="请输入协助人电话" name="associator_id" />
                 </div>
                 <div>
                     <span class="cont">商机状态</span>
-                    <select name="sale_status">
-                        <option></option>
+                    <select class="sale-chance-status_selecter">
+                        <option value="1">有意向</option>
+                        <optgroup label="预约拜访"></optgroup>
+                        <optgroup label="成单申请"></optgroup>
                     </select>
                 </div>
                 <div>
