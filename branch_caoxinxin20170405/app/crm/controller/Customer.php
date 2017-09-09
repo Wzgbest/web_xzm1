@@ -783,7 +783,7 @@ class Customer extends Initialize{
         //TODO 读取权限验证
         try{
             $customerM = new CustomerModel($this->corp_id);
-            $customerData = $customerM->getCustomer($id);
+            $customerData = $customerM->getCustomerAndHaveVisit($id);
             $result['data'] = $customerData;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();

@@ -1468,6 +1468,42 @@ class Customer extends Base
             "cn.profile_correct",
             "cn.call_through",
             "cn.is_wait",
+        ];
+        $customer = $this->model->table($this->table)->alias('c')
+            ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
+            ->where('c.id',$cid)
+            ->group("c.id")
+            ->field($field)
+            ->find();
+        if(empty($customer)){
+            return null;
+        }
+        $customer['comm_status'] = getCommStatusByArr([
+            "tend_to"=>$customer['tend_to'],
+            "phone_correct"=>$customer['phone_correct'],
+            "profile_correct"=>$customer['profile_correct'],
+            "call_through"=>$customer['call_through'],
+            "is_wait"=> $customer['is_wait'],
+        ]);
+        $customer['lat'] = "".number_format($customer['lat'],6,".","");
+        $customer['lng'] = "".number_format($customer['lng'],6,".","");
+        return $customer;
+    }
+
+    /**
+     * 查询单个客户信息包含是否需要签到
+     * @param $cid int 客户id
+     * @return int|string
+     * created by blu10ph
+     */
+    public function getCustomerAndHaveVisit($cid){
+        $field = [
+            "c.*",
+            "cn.tend_to",
+            "cn.phone_correct",
+            "cn.profile_correct",
+            "cn.call_through",
+            "cn.is_wait",
             "sum(CASE WHEN bfiln.item_id = 3 THEN 1 ELSE 0 END) AS need_sign_num",
             "group_concat(distinct (CASE WHEN bfiln.item_id = 3 THEN sc.id END)) AS sale_id",
         ];
