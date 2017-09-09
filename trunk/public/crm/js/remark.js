@@ -5,7 +5,13 @@ $(document).on("click",".remark i.fa-pencil",function(){
 });
 $(document).on("click",".remark i.fa-close",function(){
     var that=$(this);
-    var id=$(this).siblings("input").attr('data-id');//需要删除的标签id
+    var id=$(this).siblings("input").attr('data-id')||'';//需要删除的标签id
+    if(!id)
+    {
+        //未输入标签保存到表的可直接移除
+        that.parent(".remark").remove();
+        return;
+    }
     $.ajax({
         url: '/crm/customer_remark/delete',
         type: 'post',
@@ -33,7 +39,8 @@ $(document).on("click",".remark i.fa-check",function(){
     if(!title)
     {
         alert('请输入标签名称');
-        return false;
+        that.siblings("input").removeAttr("readonly").focus();
+        return;
     }
     that.siblings("input").attr("readonly","readonly");
     $.ajax({
