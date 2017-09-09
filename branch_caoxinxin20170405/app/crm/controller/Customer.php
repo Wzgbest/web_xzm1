@@ -52,9 +52,6 @@ class Customer extends Initialize{
             $customerM = new CustomerModel($this->corp_id);
             $customers_count = $customerM->getManageCustomerCount($filter,$order,$direction);
             $this->assign("count",$customers_count);
-            $business = new Business($this->corp_id);
-            $business_list = $business->getAllBusiness();
-            $this->assign("business_list",$business_list);
         }catch (\Exception $ex){
             $this->error($ex->getMessage());
         }
@@ -106,9 +103,9 @@ class Customer extends Initialize{
             $this->assign("count",$customers_count);
             $listCount = $customerM->getColumnNum($uid,$filter);
             $this->assign("listCount",$listCount);
-            $business = new Business($this->corp_id);
-            $business_list = $business->getAllBusiness();
-            $this->assign("business_list",$business_list);
+            $businessFlowModel = new BusinessFlowModel($this->corp_id);
+            $business_flows = $businessFlowModel->getAllBusinessFlowByUserId($uid);
+            $this->assign('business_flows',$business_flows);
         }catch (\Exception $ex){
             $this->error($ex->getMessage());
         }
@@ -182,13 +179,6 @@ class Customer extends Initialize{
                 $this->error($ex->getMessage());
             }
         }
-        try{
-            $business = new Business($this->corp_id);
-            $business_list = $business->getAllBusiness();
-            $this->assign("business_list",$business_list);
-        }catch (\Exception $ex){
-            $this->error($ex->getMessage());
-        }
         $max_page = ceil($customers_count/$num);
         $this->assign("p",$p);
         $this->assign("num",$num);
@@ -236,7 +226,6 @@ class Customer extends Initialize{
         $this->assign("fr",input('fr'));
         $business = new Business($this->corp_id);
         $business_list = $business->getAllBusiness();
-
         $this->assign("business_list",$business_list);
         $businessFlowModel = new BusinessFlowModel($this->corp_id);
         $business_flows = $businessFlowModel->getAllBusinessFlowByUserId($uid);

@@ -495,6 +495,9 @@ class SaleChance extends Base
      * created by blu10ph
      */
     public function getNAmeAndMoneyByCustomerIds($customer_ids){
+        if(empty($customer_ids)){
+            return [];
+        }
         $map["sc.customer_id"] = ["in",$customer_ids];
         return $this->model->table($this->table)->alias('sc')
             ->where($map)
