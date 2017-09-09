@@ -489,6 +489,19 @@ class SaleChance extends Base
             ->column("SUM(final_money)","customer_id");
     }
 
+    /**获取对应客户的商机名称和金额总额
+     * @param $customer_ids array 客户ID列表
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by blu10ph
+     */
+    public function getNAmeAndMoneyByCustomerIds($customer_ids){
+        $map["sc.customer_id"] = ["in",$customer_ids];
+        return $this->model->table($this->table)->alias('sc')
+            ->where($map)
+            ->group("sc.customer_id")
+            ->column("group_concat(case when sc.sale_status>0 and sc.sale_status<5 then sc.sale_name end) as sale_names,sum(case when sc.sale_status<1 then 0 when sc.sale_status>4 then 0 else sc.guess_money end) as all_guess_money,sum(case when sc.sale_status=5 then sc.final_money else 0 end) as all_final_money,sum(case when sc.sale_status=5 then sc.payed_money else 0 end) as all_payed_money","customer_id");
+    }
+
     /**作废
      * @param $id int 客户商机id
      * @param $uid int 用户id
