@@ -79,15 +79,6 @@
                 <select id="s_province" name="prov" class="u-3select"></select>
                     <select id="s_city" name="city" class="u-3select" ></select>
                     <select id="s_county" name="dist" class="u-3select"></select>
-                <!-- <select name="prov" class="u-3select">
-                    <option value="山东省" {eq name='customer.prov' value='山东省'} selected="selected"{/eq}>山东省</option>
-                </select>
-                <select name="city" class="u-3select">
-                    <option value="潍坊市" {eq name='customer.city' value='1'} selected="selected"{/eq}>潍坊市</option>
-                </select>
-                <select name="dist" class="u-3select">
-                    <option value="潍城区" {eq name='customer.dist' value='潍城区'} selected="selected"{/eq}>潍城区</option>
-                </select> -->
             </div>
             <div>
                 <span class="cont u-area">详细地址</span>
@@ -103,13 +94,13 @@
             </div>
             <div>
                 <span class="cont">备注</span>
-                <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                {volist name="param_array" id="v" key="k"}
+                <span class="remark"><input type="text" class="remarker" value="{$v}" data-id="{$k}" readonly="readonly"/><i class="fa fa-pencil"></i><i class="fa fa-check hide"></i><i class="fa fa-close"></i></span>
+                {/volist}
                 <span class="u-addRemark"><i class="fa fa-plus"></i></span>
                 <div class="clearfix"></div>
                 <span class="cont"></span>
-                <textarea name="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注">{$customer.remark}</textarea>
+                <textarea name="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
             </div>
             <div class="u-submitButton">
                 <button class="save customer_edit_save">保存</button>
@@ -123,26 +114,4 @@
 <script type="text/javascript">
 var opt0 = ["{$customer.prov}","{$customer.city}","{$customer.dist}"];//初始值
 _init_area();
-</script>
-<script>
-$(document).on("click",".remark i.fa-pencil",function(){
-    $(this).siblings("input").removeAttr("readonly").focus().val("");
-    $(this).addClass("hide").siblings(".fa-check").removeClass("hide");
-});
-$(document).on("click",".remark i.fa-close",function(){
-    $(this).parent(".remark").remove();
-});
-$(document).on("click",".remark i.fa-check",function(){
-    $(this).siblings("input").attr("readonly","readonly");
-    $(this).addClass("hide").siblings(".fa-pencil").removeClass("hide");
-});
-$(document).on("click",".remark input",function(){
-    if($(this).attr("readonly")){
-        $(this).parent(".remark").siblings("textarea[name='remark']").append($(this).val());
-    }
-});
-var txt = '<span class="remark"><input type="text" placeholder="请输入" /><i class="fa fa-pencil hide"></i><i class="fa fa-check"></i><i class="fa fa-close"></i></span>';
-$(".u-addRemark").click(function(){
-    $(this).before(txt).siblings(".remark").last().children("input").focus();
-});
 </script>

@@ -10,6 +10,10 @@ namespace app\crm\controller;
 use app\common\controller\Initialize;
 use app\common\model\ParamRemark;
 class CustomerRemark extends Initialize{
+    /**
+     * 标签的新增和编辑
+     * @return \think\response\Json
+     */
     public function edit(){
         $id=request()->param('id');
         $title=request()->param('title');
@@ -42,6 +46,11 @@ class CustomerRemark extends Initialize{
         }
         return json($redata);
     }
+
+    /**
+     * 标签删除
+     * @return \think\response\Json
+     */
     public function delete(){
         $id=request()->param('id');
         $redata['success']=false;
