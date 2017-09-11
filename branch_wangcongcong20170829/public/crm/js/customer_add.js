@@ -158,20 +158,20 @@ function customer_add(from,target,list_manage){
 	this.add_contact=function(next_status){
 		if(next_status!=1)
 		{
-            if(!this.check_form_html5($(this.panel_base+" .m-form .newClientContactForm").get(0).elements)){
-                return;
-            }
-            var add_customer_contact_from_data = $(this.panel_base+" .m-form .newClientContactForm").serialize();
-            add_customer_contact_from_data += "&customer_id="+this.new_customer_id;
-            var url = '/crm/customer_contact/add';
-            if(this.new_customer_contact_id>0){
-                url = '/crm/customer_contact/update';
-                add_customer_contact_from_data += "&id="+this.new_customer_contact_id;
-            }
             //console.log(add_customer_contact_from_data);
-			if(($('.newClientContactForm input[name="contact_name"]').val() || $('.newClientContactForm input[name="phone_first"]').val() || $('.newClientContactForm input[name="phone_second"]').val() || $('.newClientContactForm input[name="phone_third"]').val()) || next_status==0)
+			if(($('.newClientContactForm input[name="contact_name"]').val() || $('.newClientContactForm input[name="phone_first"]').val() || $('.newClientContactForm input[name="phone_second"]').val() || $('.newClientContactForm input[name="phone_third"]').val()) || next_status==0 || next_status==3)
 			{
 				//填写联系人后的下一步可以后台提交，否则直接跳过。点保存按钮可以后台提交
+                if(!this.check_form_html5($(this.panel_base+" .m-form .newClientContactForm").get(0).elements)){
+                    return;
+                }
+                var add_customer_contact_from_data = $(this.panel_base+" .m-form .newClientContactForm").serialize();
+                add_customer_contact_from_data += "&customer_id="+this.new_customer_id;
+                var url = '/crm/customer_contact/add';
+                if(this.new_customer_contact_id>0){
+                    url = '/crm/customer_contact/update';
+                    add_customer_contact_from_data += "&id="+this.new_customer_contact_id;
+                }
                 $.ajax({
                     url: url,
                     type: 'post',
