@@ -684,6 +684,7 @@ class Customer extends Base
             ->field($listField)
             ->select();
         //var_exp($customerList,'$customerList',1);
+        //var_exp($this->model->getLastSql(),'$customerListSql');
         //具体的值处理
         foreach ($customerList as &$customer){
             $customer['comm_status'] = getCommStatusByArr([
@@ -1464,16 +1465,20 @@ class Customer extends Base
             "cn.profile_correct",
             "cn.call_through",
             "cn.is_wait",
-            "count(scv.id) as need_sign_num",
+            "sum(CASE WHEN bfiln.item_id = 3 THEN 1 ELSE 0 END) AS need_sign_num",
+            "group_concat(distinct (CASE WHEN bfiln.item_id = 3 THEN sc.id END)) AS sale_id",
         ];
         $customer = $this->model->table($this->table)->alias('c')
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")
-            ->join($this->dbprefix.'sale_chance_visit scv','scv.sale_id = sc.id',"LEFT")
+            ->join($this->dbprefix.'business_flow_item_link bfil','bfil.setting_id = sc.business_id and sc.sale_status=bfil.item_id',"LEFT")
+            ->join($this->dbprefix.'business_flow_item_link bfiln','bfiln.setting_id = sc.business_id and bfiln.order_num = bfil.order_num+1 and bfiln.item_id=3',"LEFT")
             ->where('c.id',$cid)
             ->group("c.id")
             ->field($field)
             ->find();
+        //->select(false);
+        //var_exp($customer,'$customer',1);
         if(empty($customer)){
             return null;
         }
@@ -1484,6 +1489,11 @@ class Customer extends Base
             "call_through"=>$customer['call_through'],
             "is_wait"=> $customer['is_wait'],
         ]);
+        if(!empty($customer['sale_id'])){
+            $customer['sale_id'] = explode(",",$customer['sale_id']);
+        }else{
+            $customer['sale_id'] = [];
+        }
         $customer['lat'] = "".number_format($customer['lat'],6,".","");
         $customer['lng'] = "".number_format($customer['lng'],6,".","");
         return $customer;

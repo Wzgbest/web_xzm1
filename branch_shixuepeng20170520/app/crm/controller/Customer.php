@@ -194,6 +194,8 @@ class Customer extends Initialize{
         if(!$id){
             $this->error("参数错误！");
         }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $info_array = [];
         $info_array["id"] = $id;
         $this->assign("fr",input('fr'));
@@ -213,6 +215,10 @@ class Customer extends Initialize{
         $business = new Business($this->corp_id);
         $business_list = $business->getBusinessArray();
         $info_array["business_array"] = $business_list;
+        $con['add_man']=array('in',array('0',$uid));
+        $paramModel=new ParamRemark($this->corp_id);
+        $param_array = $paramModel->getParamArray($con);
+        $info_array["param_array"] = $param_array;
         return $info_array;
     }
     public function add_page(){
@@ -226,8 +232,7 @@ class Customer extends Initialize{
         $businessFlowModel = new BusinessFlowModel($this->corp_id);
         $business_flows = $businessFlowModel->getAllBusinessFlowByUserId($uid);
         $this->assign('business_flows',$business_flows);
-        $userinfo = get_userinfo();
-        $con['add_man']=array('in',array('0',$userinfo['userid']));
+        $con['add_man']=array('in',array('0',$uid));
         $paramModel=new ParamRemark($this->corp_id);
         $param_list = $paramModel->getAllParam($con);
         $this->assign("param_list",$param_list);
