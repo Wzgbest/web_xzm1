@@ -330,10 +330,13 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				var sale_chance_panel = panel+" .clientInfoSaleChance";
 				$(sale_chance_panel+" .new-sale-chance").click(function(){
 					self.sale_chance_add(self.id);
+                    $(sale_chance_panel+" .new-sale-chance").addClass("hide");
+
 				});
 				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_edit").click(function(){
 					var edit_id = $(this).parent().siblings(":input").val();
 					self.sale_chance_edit(edit_id,0);
+                    $(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_edit").addClass("hide");
 				});
 				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_invalid").click(function(){
 					var edit_id = $(this).parent().siblings(":input").val();
@@ -378,9 +381,12 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				$(sale_chance_panel+" .new-sale-chance").after(data);
 				$(new_sale_chance_panel+" .sale_chance_add_save").click(function(){
 					self.sale_chance_add_send(self.id);
+                    $(".clientInfoSaleChance .new-sale-chance").removeClass("hide");
+
 				});
 				$(new_sale_chance_panel+" .sale_chance_add_cancel").click(function(){
 					$(new_sale_chance_panel).remove();
+                    $(".clientInfoSaleChance .new-sale-chance").removeClass("hide");
 				});
 			},
 			error:function(){
@@ -482,6 +488,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				});
 				$(edit_sale_chance_panel+" .sale_chance_edit_cancel").click(function(){
 					$(sale_chance_panel+" .sale-chance-record-"+id).removeClass("hide");
+                    $(".clientInfoSaleChance .sale-chance-record .sale_chance_edit").removeClass("hide");
 					$(edit_sale_chance_panel).remove();
 				});
 			},
