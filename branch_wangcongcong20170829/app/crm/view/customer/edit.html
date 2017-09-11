@@ -94,9 +94,9 @@
             </div>
             <div>
                 <span class="cont">备注</span>
-                {volist name="param_array" id="v" key="k"}
+                {foreach name="param_array" item="v" key="k"}
                 <span class="remark"><input type="text" class="remarker" value="{$v}" data-id="{$k}" readonly="readonly"/><i class="fa fa-pencil"></i><i class="fa fa-check hide"></i><i class="fa fa-close"></i></span>
-                {/volist}
+                {/foreach}
                 <span class="u-addRemark"><i class="fa fa-plus"></i></span>
                 <div class="clearfix"></div>
                 <span class="cont"></span>
