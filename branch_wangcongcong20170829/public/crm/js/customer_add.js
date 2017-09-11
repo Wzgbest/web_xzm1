@@ -27,44 +27,57 @@ function customer_add(from,target,list_manage){
 		});
 		//表单1按钮
 		$(panel+" .add_customer .newClient .m-form .newClientInfoForm .add_new_customer").click(function(){
+			//保存并添加下一位客户
 			self.add_customer(0);
 		});
 		$(panel+" .add_customer .newClient .m-form .newClientInfoForm .save_customer").click(function(){
+			//保存
 			self.add_customer(3);
 		});
 		$(panel+" .add_customer .newClient .m-form .newClientInfoForm .add_customer_next").click(function(){
+			//下一步
 			self.add_customer(2);
 		});
 		$(panel+" .add_customer .newClient .m-form .newClientInfoForm .add_customer_cancel").click(function(){
+			//取消
 			self.removeNewClient();
 		});
 		//表单2按钮
 		$(panel+" .add_customer .newClient .m-form .newClientContactForm .add_contact_new_customer").click(function(){
+			//保存并添加下一位客户
 			self.add_contact(0);
 		});
 		$(panel+" .add_customer .newClient .m-form .newClientContactForm .save_customer_contact").click(function(){
+			//保存
 			self.add_contact(3);
 		});
 		$(panel+" .add_customer .newClient .m-form .newClientContactForm .add_customer_contact_previous").click(function(){
+			//上一步
 			self.add_contact(1);
 		});
 		$(panel+" .add_customer .newClient .m-form .newClientContactForm .add_customer_contact_next").click(function(){
+			//下一步
 			self.add_contact(2);
 		});
 		$(panel+" .add_customer .newClient .m-form .newClientContactForm .add_customer_cancel").click(function(){
+            //取消
 			self.removeNewClient();
 		});
 		//表单3按钮
 		$(panel+" .add_customer .newClient .m-form .newClientSaleChanceForm .add_sale_chance_new_customer").click(function(){
+            //保存并添加下一位
 			self.add_sale_chance(0);
 		});
 		$(panel+" .add_customer .newClient .m-form .newClientSaleChanceForm .save_sale_chance").click(function(){
+            //保存
 			self.add_sale_chance(3);
 		});
 		$(panel+" .add_customer .newClient .m-form .newClientSaleChanceForm .add_sale_chance_previous").click(function(){
+            //上一步
 			self.add_sale_chance(1);
 		});
 		$(panel+" .add_customer .newClient .m-form .newClientSaleChanceForm .add_customer_cancel").click(function(){
+            //取消
 			self.removeNewClient();
 		});
 	};
@@ -143,73 +156,96 @@ function customer_add(from,target,list_manage){
 		});
 	};
 	this.add_contact=function(next_status){
-        if(!this.check_form_html5($(this.panel_base+" .m-form .newClientContactForm").get(0).elements)){
-            return;
-        }
-		var add_customer_contact_from_data = $(this.panel_base+" .m-form .newClientContactForm").serialize();
-		add_customer_contact_from_data += "&customer_id="+this.new_customer_id;
-		var url = '/crm/customer_contact/add';
-		if(this.new_customer_contact_id>0){
-			url = '/crm/customer_contact/update';
-			add_customer_contact_from_data += "&id="+this.new_customer_contact_id;
-		}
-		//console.log(add_customer_contact_from_data);
-		$.ajax({
-			url: url,
-			type: 'post',
-			data: add_customer_contact_from_data,
-			success: function(data) {
-				if(data.status) {
-					if(self.new_customer_contact_id==0) {
-						self.new_customer_contact_id = data.data;
-					}
-					if(next_status==0 || next_status==3){
-						alert("保存成功!");
-					}
-					self.next_status(next_status,self.pre_customer,self.next_sale_chance);
-				}else{
-					alert(data.info);
-				}
-			},
-			error: function() {
-				alert("保存失败!");
+		if(next_status!=1)
+		{
+            if(!this.check_form_html5($(this.panel_base+" .m-form .newClientContactForm").get(0).elements)){
+                return;
+            }
+            var add_customer_contact_from_data = $(this.panel_base+" .m-form .newClientContactForm").serialize();
+            add_customer_contact_from_data += "&customer_id="+this.new_customer_id;
+            var url = '/crm/customer_contact/add';
+            if(this.new_customer_contact_id>0){
+                url = '/crm/customer_contact/update';
+                add_customer_contact_from_data += "&id="+this.new_customer_contact_id;
+            }
+            //console.log(add_customer_contact_from_data);
+			if(($('.newClientContactForm input[name="contact_name"]').val() || $('.newClientContactForm input[name="phone_first"]').val() || $('.newClientContactForm input[name="phone_second"]').val() || $('.newClientContactForm input[name="phone_third"]').val()) || next_status==0)
+			{
+				//填写联系人后的下一步可以后台提交，否则直接跳过。点保存按钮可以后台提交
+                $.ajax({
+                    url: url,
+                    type: 'post',
+                    data: add_customer_contact_from_data,
+                    success: function(data) {
+                        if(data.status) {
+                            if(self.new_customer_contact_id==0) {
+                                self.new_customer_contact_id = data.data;
+                            }
+                            if(next_status==0 || next_status==3){
+                                alert("保存成功!");
+                            }
+                            self.next_status(next_status,self.pre_customer,self.next_sale_chance);
+                        }else{
+                            alert(data.info);
+                        }
+                    },
+                    error: function() {
+                        alert("保存失败!");
+                    }
+                });
 			}
-		});
+			else
+			{
+                self.next_status(next_status,self.pre_customer,self.next_sale_chance);
+			}
+		}
+		else
+		{
+            self.next_status(next_status,self.pre_customer,self.next_sale_chance);
+		}
 	};
 	this.add_sale_chance=function(next_status){
-        if(!this.check_form_html5($(this.panel_base+" .m-form .newClientSaleChanceForm").get(0).elements)){
-            return;
-        }
-		var add_customer_sale_chance_from_data = $(this.panel_base+" .m-form .newClientSaleChanceForm").serialize();
-		console.log(add_customer_sale_chance_from_data);
-		add_customer_sale_chance_from_data += "&customer_id="+this.new_customer_id;
-		var url = '/crm/sale_chance/add';
-		if(this.new_customer_sale_chance_id>0){
-			url = '/crm/sale_chance/update';
-			add_customer_sale_chance_from_data += "&id="+this.new_customer_sale_chance_id;
+		if(next_status!=1)
+		{
+            //保存当前表单，1时为上一步，0表示保存并添加下一位，3表示保存
+            if(!this.check_form_html5($(this.panel_base+" .m-form .newClientSaleChanceForm").get(0).elements)){
+                return;
+            }
+            var add_customer_sale_chance_from_data = $(this.panel_base+" .m-form .newClientSaleChanceForm").serialize();
+            console.log(add_customer_sale_chance_from_data);
+            add_customer_sale_chance_from_data += "&customer_id="+this.new_customer_id;
+            var url = '/crm/sale_chance/add';
+            if(this.new_customer_sale_chance_id>0){
+                url = '/crm/sale_chance/update';
+                add_customer_sale_chance_from_data += "&id="+this.new_customer_sale_chance_id;
+            }
+            //console.log(add_customer_sale_chance_from_data);
+            $.ajax({
+                url: url,
+                type: 'post',
+                data: add_customer_sale_chance_from_data,
+                success: function(data) {
+                    if(data.status) {
+                        if(self.new_customer_sale_chance_id==0) {
+                            self.new_customer_sale_chance_id = data.data;
+                        }
+                        if(next_status==0 || next_status==3){
+                            alert("保存成功!");
+                        }
+                        self.next_status(next_status,self.pre_contact,self.removeNewClient);
+                    }else{
+                        alert(data.info);
+                    }
+                },
+                error: function() {
+                    alert("保存失败!");
+                }
+            });
 		}
-		//console.log(add_customer_sale_chance_from_data);
-		$.ajax({
-			url: url,
-			type: 'post',
-			data: add_customer_sale_chance_from_data,
-			success: function(data) {
-				if(data.status) {
-					if(self.new_customer_sale_chance_id==0) {
-						self.new_customer_sale_chance_id = data.data;
-					}
-					if(next_status==0 || next_status==3){
-						alert("保存成功!");
-					}
-					self.next_status(next_status,self.pre_contact,self.removeNewClient);
-				}else{
-					alert(data.info);
-				}
-			},
-			error: function() {
-				alert("保存失败!");
-			}
-		});
+		else
+		{
+            self.next_status(next_status,self.pre_contact,self.removeNewClient);
+		}
 	};
 	//next_status 0:新建;1:上一页;2:下一页;3:退出;
 	//func_previous 上一页的方法
