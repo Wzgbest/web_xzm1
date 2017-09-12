@@ -303,6 +303,8 @@ class SaleChance extends Initialize{
             $contracts = $contractAppliedModel->getAllContractNoAndType($uid,null,$status);
             //var_exp($contracts,'$contracts',1);
             $this->assign('contract_list',$contracts);
+            $this->assign('empty','<option value="" class="empty">无</option>');
+
             $contract_type_index = [];
             foreach($contracts as $contract){
                 $contract_type_index[$contract["id"]] = $contract["contract_type_name"];

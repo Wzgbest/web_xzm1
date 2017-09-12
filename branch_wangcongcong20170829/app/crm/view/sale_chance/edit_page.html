@@ -76,7 +76,7 @@
             <div>
                 <span class="cont">合同编号</span>
                 <select name="contract_id" class="contract_no_selecter">
-                    {volist name="contract_list" id="vo" key="key"}
+                    {volist name="contract_list" id="vo" key="key" empty="$empty"}
                         <option value="{$key-1}" {eq name='saleOrderContractData.contract_id' value='$key-1'} selected="selected"{/eq}>{$vo.contract_no}</option>
                     {/volist}
                 </select>
