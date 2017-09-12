@@ -21,6 +21,7 @@ use app\systemsetting\model\BusinessFlowItemLink;
 use app\common\model\RoleEmployee as RoleEmployeeModel;
 use app\crm\model\Contract as ContractAppliedModel;
 use app\crm\model\CustomerTrace as CustomerTraceModel;
+use app\common\model\ParamRemark;
 
 class SaleChance extends Initialize{
     protected $_activityBusinessFlowItem = [1,2,4];
@@ -173,6 +174,12 @@ class SaleChance extends Initialize{
         $sale_chance["prepay_time"]=time();
         $this->assign('sale_chance',$sale_chance);
         $this->assign('true_name',$truename);
+
+        $con['add_man']=array('in',array('0',$uid));
+        $paramModel=new ParamRemark($this->corp_id);
+        $param_list = $paramModel->getAllParam($con);//标签备注列表
+        $this->assign("param_list",$param_list);
+
         return view();
     }
     protected function _showSaleChanceEdit(){
@@ -323,6 +330,14 @@ class SaleChance extends Initialize{
     }
     public function edit_page(){
         $this->_showSaleChanceEdit();
+
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $con['add_man']=array('in',array('0',$uid));
+        $paramModel=new ParamRemark($this->corp_id);
+        $param_list = $paramModel->getAllParam($con);//标签备注列表
+        $this->assign("param_list",$param_list);
+
         return view();
     }
     public function get_all_list(){

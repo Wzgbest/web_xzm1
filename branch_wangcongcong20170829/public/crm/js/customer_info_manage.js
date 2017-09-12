@@ -207,10 +207,12 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				self.show_panel(panel,data);
 				$(panel+" .page-info .addClientInfoLinkman").click(function(){
 					self.contact_add(self.id);
+                    $(panel+" .page-info .addClientInfoLinkman").addClass("hide");
 				});
 				$(panel+" .page-info .linkman .editlinkman").click(function(){
 					var edit_id = $(this).children(":input").val();
 					self.contact_edit(edit_id);
+                    $(".editlinkman").addClass("hide");
 				});
 			},
 			error:function(){
@@ -231,9 +233,11 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				$(panel+' .contact_add_panel').removeClass("hide");
 				$(panel+" .contact_add_panel .customer_contact_add_save").click(function(){
 					self.contact_add_send(self.id);
+                    $(panel+" .page-info .addClientInfoLinkman").removeClass("hide");
 				});
 				$(panel+" .contact_add_panel .customer_contact_add_cancel").click(function(){
 					$(panel+" .contact_add_panel").addClass("hide");
+                    $(panel+" .page-info .addClientInfoLinkman").removeClass("hide");
 				});
 			},
 			error:function(){
@@ -282,10 +286,12 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				$(panel+' .'+self.from+'_contact_'+id).before(html);
 				$(panel+" .contact_edit_panel .customer_contact_edit_save").click(function(){
 					self.contact_edit_update(id,self.id);
+                    $(".editlinkman").removeClass("hide");
 				});
 				$(panel+" .contact_edit_panel .customer_contact_edit_cancel").click(function(){
 					$(panel+" .contact_edit_panel_"+id).addClass("hide");
 					$(panel+' .'+self.from+'_contact_'+id).removeClass("hide");
+                    $(".editlinkman").removeClass("hide");
 				});
 			},
 			error:function(){
