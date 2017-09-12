@@ -54,8 +54,12 @@ class TaskGuess extends Base{
         	->join($this->dbprefix.'employee e','e.id = etg.guess_take_employee',"LEFT")
             ->group("etg.guess_take_employee")
             ->where($map)
-            ->field("sum(etg.guess_money) money,e.truename,e.telephone,e.userpic")
-            ->select();
+            ->field("sum(etg.guess_money) money,e.id as user_id,e.truename,e.telephone,e.userpic")
+            ->find();
         return $myTipMoney;
+    }
+
+    public function getLastGuessInfo($uid,$task_id){
+    	return $this->model->table($this->table)->where(['guess_employee'=>$uid,'task_id'=>$task_id])->field("guess_take_employee")->find();
     }
 }

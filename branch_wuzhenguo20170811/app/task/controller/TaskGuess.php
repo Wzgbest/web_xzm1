@@ -63,6 +63,12 @@ class TaskGuess extends Initialize{
             $result['info'] = "没有任务信息";
             return json($result);
         }
+        $last_employee_id = $taskGussModel->getLastGuessInfo($uid,$task_id);
+        if ($last_employee_id['guess_take_employee'] && $last_employee_id['guess_take_employee'] != $take_employee_id) {
+            $result['info'] = "已经猜过其他人了";
+            return json($result);
+        }
+
         $flg = false;
         $taskGussModel->link->startTrans();
         try {
@@ -70,7 +76,6 @@ class TaskGuess extends Initialize{
             $flg = $taskGussModel->guess($uid,$take_employee_id,$task_id,$money);
             if (!$flg) {
                 exception("添加猜输赢记录失败");
-                $taskGussModel->link->rollback();
             }
             $tip_from_user = $employM->setEmployeeSingleInfo($userinfo["telephone"],['left_money'=>['exp',"left_money - $save_money"]],["left_money"=>["egt",$save_money]]);
             if (!$tip_from_user) {
@@ -88,7 +93,7 @@ class TaskGuess extends Initialize{
                 exception("添加猜输赢交易记录发生错误!");
             }
             $taskGussModel->link->commit();
-        } catch (\Exception $e) {
+        } catch (\Exception $ex) {
             $taskGussModel->link->rollback();
             $result['info'] = '猜输赢失败!';
             return json($result);
@@ -106,7 +111,7 @@ class TaskGuess extends Initialize{
         $result['data']["guess_list"] = $guessList;
         return json($result);
     }
-    
+
     public function get_list(){
     }
     public function get(){
