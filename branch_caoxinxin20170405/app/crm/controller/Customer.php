@@ -9,7 +9,6 @@
 namespace app\crm\controller;
 
 use app\common\controller\Initialize;
-use app\common\model\ParamRemark;
 use app\crm\model\Customer as CustomerModel;
 use app\crm\model\CustomerContact;
 use app\crm\model\SaleChance;
@@ -23,6 +22,7 @@ use app\crm\model\SaleChance as SaleChanceModel;
 use app\crm\model\CustomerContact as CustomerContactModel;
 use app\crm\model\CustomerTrace as CustomerTraceModel;
 use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
+use app\common\model\ParamRemark;
 
 class Customer extends Initialize{
     var $paginate_list_rows = 10;
@@ -199,6 +199,8 @@ class Customer extends Initialize{
         if(!$id){
             $this->error("参数错误！");
         }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $info_array = [];
         $info_array["id"] = $id;
         $this->assign("fr",input('fr'));
@@ -218,6 +220,10 @@ class Customer extends Initialize{
         $business = new Business($this->corp_id);
         $business_list = $business->getBusinessArray();
         $info_array["business_array"] = $business_list;
+        $con['add_man']=array('in',array('0',$uid));
+        $paramModel=new ParamRemark($this->corp_id);
+        $param_array = $paramModel->getParamArray($con);
+        $info_array["param_array"] = $param_array;
         return $info_array;
     }
     public function add_page(){
