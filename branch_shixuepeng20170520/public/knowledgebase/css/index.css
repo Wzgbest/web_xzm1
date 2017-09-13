@@ -274,3 +274,30 @@
 	margin-left: 30px;
 	display: inline-block;
 }
+.knowledgebase_speechcraft_detail{
+
+}
+.knowledgebase_speechcraft_detail .detail{
+	position: relative;
+}
+.knowledgebase_speechcraft_detail .u-btnBack{
+	width: 60px;
+    height: 25px;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    z-index: 99;
+    border-radius: 12.5px;
+    line-height: 25px;
+    margin-left: 10px;
+    text-align: center;
+    color: white;
+    border: none;
+    background-color: #42a5f5;
+}
+.knowledgebase_speechcraft_detail h3{
+	color: #ccc;
+	font-weight: normal;
+	font-size: 14px;
+	margin-top: 10px;
+}
