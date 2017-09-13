@@ -43,13 +43,13 @@
                         <option value="D" {present name='filter.grade'}{eq name='filter.grade' value='D'} selected="selected"{/eq}{/present}>D</option>
                     </select>
                     <select name="sale_chance">
-                        <option value="">商机</option>
+                        <option value="">销售机会</option>
                         {volist name="business_flows" id="vo"}
                         <option value="{$vo.id}" {present name='filter.sale_chance'}{eq name='filter.sale_chance' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.business_flow_name}</option>
                         {/volist}
                     </select>
                     <select name="comm_status">
-                        <option value="">沟通状态</option>
+                        <option value="">沟通结果</option>
                         <option value="1" {present name='filter.comm_status'}{eq name='filter.comm_status' value='1'} selected="selected"{/eq}{/present}>无意向</option>
                         <option value="2" {present name='filter.comm_status'}{eq name='filter.comm_status' value='2'} selected="selected"{/eq}{/present}>号码无效</option>
                         <option value="3" {present name='filter.comm_status'}{eq name='filter.comm_status' value='3'} selected="selected"{/eq}{/present}>资料有误</option>
@@ -69,8 +69,8 @@
                         <li>客户名称<i class="fa fa-caret-down"></i></li>
                         <li>获取途径</li>
                         <li>客户级别<i class="fa fa-unsorted"></i></li>
-                        <li>沟通状态<i class="fa fa-unsorted"></i></li>
-                        <li>商机</li>
+                        <li>沟通结果<i class="fa fa-unsorted"></i></li>
+                        <li>销售机会</li>
                         <li>预计成单金额<i class="fa fa-unsorted"></i></li>
                         <li>成单金额</li>
                         <li>已交金额</li>
