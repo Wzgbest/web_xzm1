@@ -1,7 +1,22 @@
-{$article.article_name}
-{$article.article_edit_time|time_format}
-{if condition="$article.article_type == 1"}
-{$article.article_text}
-{else/}
-{$article.article_url}
-{/if}
+<link rel="stylesheet" href="/knowledgebase/css/index.css" />
+<div class="knowledgebase knowledgebase_speechcraft knowledgebase_speechcraft_detail">
+	<div class="detail_panel detail">
+		<button class="u-btnBack" onclick="backLastPage()">返回</button>
+		<div class="m-divBlock">
+			<h1>{$article.article_name}</h1>
+			<h3><span class="color-blue2">吴振国 </span>发布于 {$article.article_edit_time|time_format}</h3>
+		</div>
+		<div class="m-divBlock">
+			{if condition="$article.article_type == 1"}
+			{$article.article_text}
+			{else/}
+			{$article.article_url}
+			{/if}
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function backLastPage(argument) {
+		loadPage("/knowledgebase/speech_craft/index",'speech-databasefr')
+	}
+</script>

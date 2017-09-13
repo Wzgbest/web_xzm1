@@ -8,7 +8,7 @@
     </header>
     <div class="m-formBox m-form">
         <div class="process">
-            <div class="circle state1"><span>客户信息</span></div>
+            <div class="circle state1 current"><span>客户信息</span></div>
             <div class="rect line1"></div>
             <div class="circle state2"><span>联系人信息</span></div>
             <div class="rect line2"></div>
@@ -31,8 +31,14 @@
                     </select>
                 </div>
                 <div>
-                    <span class="cont">联系人</span>
-                    <input type="text" name="contact_name" pattern="[\S]{0,10}" placeholder="请输入联系人名称" title="只可填写10位以内字符"/>
+                    <!-- <span class="cont">联系人</span>
+                    <input type="text" name="contact_name" pattern="[\S]{0,10}" placeholder="请输入联系人名称" title="只可填写10位以内字符"/> -->
+                    <span class="cont">获取途径</span>
+                    <select name="take_type">
+                        <option value="1">转介绍</option>
+                        <option value="2">搜索</option>
+                        <option value="3">购买</option>
+                    </select>
                     <span class="cont">客户级别</span>
                     <select name="grade">
                         <option value="A">A</option>
@@ -44,12 +50,12 @@
                 <div>
                     <span class="cont"><span class="u-required">＊</span>联系电话</span>
                     <input type="text" name="telephone" required="required" pattern="^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}|17[0-9]{9}$|18[0-9]{9}$|^((0(10|2[0-9]|[3-9]\d{2}))[- ]?[1-9]\d{6,7})$|^400[0-9]{7}$" placeholder="手机号或xx-xx" title="请输入正确的联系方式" />
-                    <span class="cont">获取途径</span>
+                    <!-- <span class="cont">获取途径</span>
                     <select name="take_type">
                         <option value="1">转介绍</option>
                         <option value="2">搜索</option>
                         <option value="3">购买</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div>
                     <span class="cont">客户行业</span>
@@ -79,8 +85,9 @@
                     <select id="s_county" name="dist" class="u-3select"></select>
                 </div>
                 <div>
-                    <span class="cont u-area">详细地址</span>
-                    <textarea name="address" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入详细地址"></textarea>
+                    <span class="cont">详细地址</span>
+                    <input type="text" name="address" pattern="[\d\D]{0,40}" title="最多可填写40个字符" placeholder="请输入详细地址"/>
+                    <!-- <textarea name="address" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入详细地址"></textarea> -->
                 </div>
                 <div>
                     <span class="cont u-area">详细定位</span>
@@ -170,17 +177,21 @@
                     </select>
                 </div>
                 <div>
-                    <span class="cont">介绍人</span>
-                    <input type="text" name="introducer" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入介绍人"/>
+                    <!-- <span class="cont">介绍人</span>
+                    <input type="text" name="introducer" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入介绍人"/> -->
                     <span class="cont">亲密程度</span>
                     <select name="close_degree">
                         <option value="0">不亲密</option>
                         <option value="1">亲密</option>
                     </select>
-                </div>
-                <div>
                     <span class="cont">生日</span>
                     <input type="date" name="birthday" />
+                </div>
+                <div>
+                    <!-- <span class="cont">生日</span>
+                    <input type="date" name="birthday" /> -->
+                    <span class="cont">介绍人</span>
+                    <input type="text" name="introducer" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入介绍人"/>
                 </div>
                 <div>
                     <span class="cont u-area">爱好</span>
@@ -261,10 +272,24 @@
 <script class="resources library" src="/static/js/area.js" type="text/javascript"></script>
 <script type="text/javascript">_init_area();</script>
 <script>
+    let interal;
     $("#s_county").change(function(){
         $("#mapFrame")[0].contentWindow.searchKey($("#s_province").val()+$("#s_city").val()+$(this).val());
     })
-    $("textarea[name='address']").change(function(){
+    $(".newClient input[name='address']").change(function(){
         $("#mapFrame")[0].contentWindow.searchKey($("#s_province").val()+$("#s_city").val()+$("#s_county").val()+$(this).val());
     });
+    /*定时搜索，阉割
+    $(".newClient input[name='address']").focus(function(){
+        interal = setInterval(func,5000);
+    });
+    $(".newClient input[name='address']").blur(function(){
+        clearInterval(interal); 
+        $("#mapFrame")[0].contentWindow.searchKey($("#s_province").val()+$("#s_city").val()+$("#s_county").val()+$(".newClient input[name='address']").val());
+    });
+    
+    function func(){
+         $("#mapFrame")[0].contentWindow.searchKey($("#s_province").val()+$("#s_city").val()+$("#s_county").val()+$(".newClient input[name='address']").val());
+         console.log(1);
+    }*/
 </script>
