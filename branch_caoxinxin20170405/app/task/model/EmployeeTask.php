@@ -147,11 +147,11 @@ class EmployeeTask extends Base{
         //var_exp($standardTaskList,'$standardTaskList',1);
         return $standardTaskList;
     }
-    public function getAllOverTimeTaskId($time){
+    public function getAllOverTimeTask($time){
         $map["task_end_time"] = ["lt",$time];
-        $map["status"] = ["eq",2];
+        $map["status"] = 2;
         $order = "et.id asc";
-        $field = ["et.id"];
+        $field = ["et.*"];
         $standardTaskList = $this->model->table($this->table)->alias('et')
             ->where($map)
             ->order($order)
@@ -170,5 +170,14 @@ class EmployeeTask extends Base{
             ->column("re.is_token","ett.take_employee");
         return $employeeTaskInfo;
     }
-
+    public function setTaskStatus($ids,$from_status,$to_status){
+        $map["id"] = ["in",$ids];
+        $map["status"] = $from_status;
+        $data["status"] = $to_status;
+        $updateTaskResult = $this->model->table($this->table)
+            ->where($map)
+            ->data($data)
+            ->update();
+        return $updateTaskResult;
+    }
 }

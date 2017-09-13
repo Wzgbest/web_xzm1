@@ -53,6 +53,7 @@ class EmployeeTask extends Command{
                 $taskRewardM = new TaskRewardModel($corp_id);
                 $taskTakeM = new TaskTakeModel($corp_id);
                 try{
+                    $employeeTaskM->link->startTrans();
                     //var_exp($corp_id,'$corp_id');
                     //var_exp($standard_task_id,'$standard_task_id');
                     $taskInfo = $employeeTaskM->getTaskInfo($id);
@@ -142,7 +143,9 @@ class EmployeeTask extends Command{
                         var_exp($redEnvelopeInfos,'$redEnvelopeInfos');
                         $success_task_ids[] = $id;
                     }
+                    $employeeTaskM->link->commit();
                 }catch(\Exception $ex){
+                    $employeeTaskM->link->rollback();
                     //print_r($ex->getTrace());
                     $output_info_str .= "ETSAOT->error:".$ex->getMessage().";";
                 }
@@ -151,6 +154,22 @@ class EmployeeTask extends Command{
 
         foreach ($all_task_infos["over_time"] as $corp_id=>$over_time_task_id){
             $employeeTaskM = new EmployeeTaskModel($corp_id);
+            $overTimeTaskInfo = $employeeTaskM->getAllOverTimeTask($time);
+            if(!empty($overTimeTaskId)){
+                $overTimeTaskIds = array_column($overTimeTaskInfo,"id");
+                try{
+                    $employeeTaskM->link->startTrans();
+
+                    $updateTaskResult = $employeeTaskM->setTaskStatus($overTimeTaskIds,2,3);
+                    if (!$updateTaskResult) {
+                        exception("更新超时任务为结算中发生错误!");
+                    }
+
+                    $employeeTaskM->link->commit();
+                }catch(\Exception $ex){
+                    $employeeTaskM->link->rollback();
+                }
+            }
         }
 
         $output_info_str .= "ETSAOT->time:".$time.";success:".count($success_task_ids).";error:".count($error_task_ids).";";
