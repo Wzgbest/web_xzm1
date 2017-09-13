@@ -76,7 +76,7 @@
             <div>
                 <span class="cont">合同编号</span>
                 <select name="contract_id" class="contract_no_selecter">
-                    {volist name="contract_list" id="vo" key="key"}
+                    {volist name="contract_list" id="vo" key="key" empty="$empty"}
                         <option value="{$key-1}" {eq name='saleOrderContractData.contract_id' value='$key-1'} selected="selected"{/eq}>{$vo.contract_no}</option>
                     {/volist}
                 </select>
@@ -173,13 +173,13 @@
         <div class="sale-chance-intentional">
             <div>
                 <span class="cont">备注</span>
-                <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                <span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                {volist name="param_list" id="v"}
+                <span class="remark"><input type="text" class="remarker" value="{$v.title}" data-id="{$v.id}" readonly="readonly"/><i class="fa fa-pencil"></i><i class="fa fa-check hide"></i><i class="fa fa-close"></i></span>
+                {/volist}
                 <span class="u-addRemark"><i class="fa fa-plus"></i></span>
                 <div class="clearfix"></div>
                 <span class="cont"></span>
-                <textarea name="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注">{$sale_chance.remark}</textarea>
+                <textarea name="remark" style="resize:both;" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注">{$sale_chance.remark}</textarea>
             </div>
         </div>
 
