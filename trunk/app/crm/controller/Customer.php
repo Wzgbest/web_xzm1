@@ -9,7 +9,6 @@
 namespace app\crm\controller;
 
 use app\common\controller\Initialize;
-use app\common\model\ParamRemark;
 use app\crm\model\Customer as CustomerModel;
 use app\crm\model\CustomerContact;
 use app\crm\model\SaleChance;
@@ -23,6 +22,7 @@ use app\crm\model\SaleChance as SaleChanceModel;
 use app\crm\model\CustomerContact as CustomerContactModel;
 use app\crm\model\CustomerTrace as CustomerTraceModel;
 use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
+use app\common\model\ParamRemark;
 
 class Customer extends Initialize{
     var $paginate_list_rows = 10;
