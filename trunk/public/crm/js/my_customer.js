@@ -141,3 +141,4 @@ $(my_customer_nav_base+" .release_customers").click(function(){
 		}
 	});
 });
+/*新建客户中的顶部状态*/
