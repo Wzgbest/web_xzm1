@@ -101,7 +101,7 @@
                     <span class="u-addRemark"><i class="fa fa-plus"></i></span>
                     <div class="clearfix"></div>
                     <span class="cont"></span>
-                    <textarea name="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
+                    <textarea name="remark" style="resize:both;" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
                 </div>
                 <div>
                     <span class="cont">保存到</span>
@@ -121,15 +121,15 @@
         <form class="newClientForm newClientContactForm {$fr}newClientContactForm" onsubmit="return false;">
             <div class="form2 hide">
                 <div>
-                    <span class="cont">联系人姓名</span>
-                    <input type="text" name="contact_name" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入联系人姓名" />
+                    <span class="cont"><span class="u-required">＊</span>联系人</span>
+                    <input type="text" name="contact_name" required="required" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入联系人姓名" />
                     <span class="cont">性别</span>
                     <input type="radio" name="sex" value="male"/>男
                     <input type="radio" name="sex" value="famale"/>女
                 </div>
                 <div>
-                    <span class="cont">联系方式1</span>
-                    <input type="text" name="phone_first" pattern="^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}|17[0-9]{9}$|18[0-9]{9}$|^((0(10|2[0-9]|[3-9]\d{2}))[- ]?[1-9]\d{6,7})$|^400[0-9]{7}$" title="请输入电话号码" placeholder="请输入电话号码"/>
+                    <span class="cont"><span class="u-required">＊</span>联系方式1</span>
+                    <input type="text" name="phone_first" required="required" pattern="^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}|17[0-9]{9}$|18[0-9]{9}$|^((0(10|2[0-9]|[3-9]\d{2}))[- ]?[1-9]\d{6,7})$|^400[0-9]{7}$" title="请输入电话号码" placeholder="请输入电话号码"/>
                     <span class="cont">联系方式2</span>
                     <input type="text" name="phone_second" pattern="^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}|17[0-9]{9}$|18[0-9]{9}$|^((0(10|2[0-9]|[3-9]\d{2}))[- ]?[1-9]\d{6,7})$|^400[0-9]{7}$" title="请输入电话号码" placeholder="请输入电话号码"/>
                 </div>
@@ -194,7 +194,7 @@
                     <span class="u-addRemark"><i class="fa fa-plus"></i></span>
                     <div class="clearfix"></div>
                     <span class="cont"></span>
-                    <textarea name="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
+                    <textarea name="remark" style="resize:both;" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
                 </div>
                 <div class="u-submitButton">
                     <button class="add_contact_new_customer">保存并添加下一客户</button>
@@ -240,13 +240,13 @@
                 </div>
                 <div>
                     <span class="cont">备注</span>
-                    <span class="remark">有意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                    <span class="remark">无意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                    <span class="remark">网站建设意向<i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
+                    {volist name="param_list" id="v"}
+                    <span class="remark"><input type="text" class="remarker" value="{$v.title}" data-id="{$v.id}" readonly="readonly"/><i class="fa fa-pencil"></i><i class="fa fa-check hide"></i><i class="fa fa-close"></i></span>
+                    {/volist}
                     <span class="u-addRemark"><i class="fa fa-plus"></i></span>
                     <div class="clearfix"></div>
                     <span class="cont"></span>
-                    <textarea name="remark" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
+                    <textarea name="remark" style="resize:both;" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
                 </div>
                 <div class="u-submitButton">
                     <button class="add_sale_chance_new_customer">保存并添加下一客户</button>
@@ -262,7 +262,6 @@
 <script type="text/javascript">_init_area();</script>
 <script>
     $("#s_county").change(function(){
-        console.log($("#s_province").val()+$("#s_city").val()+$(this).val());
         $("#mapFrame")[0].contentWindow.searchKey($("#s_province").val()+$("#s_city").val()+$(this).val());
     })
     $("textarea[name='address']").change(function(){
