@@ -45,7 +45,7 @@ class EmployeeTask extends Base{
      */
     public function getTaskInfo($id){
         return $this->model->table($this->table)
-            ->where("id",$id)
+            ->where("id=".$id)
             ->find();
     }
 
@@ -116,19 +116,61 @@ class EmployeeTask extends Base{
             $map['et.status'] = 5;
         }
         $myTaskList = $this->model->table($this->table)->alias('et')
-        ->join($this->dbprefix.'employee eown','eown.id = et.create_employee',"LEFT")
-        ->join($this->dbprefix.'employee_task_take ett',"ett.task_id = et.id and ett.take_employee = '$uid'","LEFT")
-        ->join($this->dbprefix.'employee_task_reward etr','etr.task_id = et.id',"LEFT")
-        ->join($this->dbprefix.'employee_task_target ettar','ettar.task_id = et.id',"LEFT")
-        ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
-        ->join($this->dbprefix.'employee_task_tip ettip',"ettip.task_id = et.id and ettip.tip_employee = '$uid'","LEFT")
-        ->where($map)
-        ->order($order)
-        ->limit($num)
-        ->group('et.id')
-        ->field("et.*,eown.telephone as own_telephone,eown.truename as own_truename,eown.userpic as own_userpic,ett.take_employee,ett.take_time,etr.reward_type,etr.reward_method,etr.reward_amount,etr.reward_num,ettar.target_type,ettar.target_num,ettar.target_customer,ettar.target_appraiser,case when etl.user_id>0 then 1 else 0 end as is_like,ettip.tip_employee,ettip.tip_money,ettip.tip_time")
-        ->select();
+            ->join($this->dbprefix.'employee eown','eown.id = et.create_employee',"LEFT")
+            ->join($this->dbprefix.'employee_task_take ett',"ett.task_id = et.id and ett.take_employee = '$uid'","LEFT")
+            ->join($this->dbprefix.'employee_task_reward etr','etr.task_id = et.id',"LEFT")
+            ->join($this->dbprefix.'employee_task_target ettar','ettar.task_id = et.id',"LEFT")
+            ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
+            ->join($this->dbprefix.'employee_task_tip ettip',"ettip.task_id = et.id and ettip.tip_employee = '$uid'","LEFT")
+            ->join($this->dbprefix.'red_envelope re',"re.task_id = et.id and re.type = 3 and re.took_user = ".$uid,"LEFT")
+            ->where($map)
+            ->order($order)
+            ->limit($num)
+            ->group('et.id')
+            ->field("et.*,eown.telephone as own_telephone,eown.truename as own_truename,eown.userpic as own_userpic,ett.take_employee,ett.take_time,etr.reward_type,etr.reward_method,etr.reward_amount,etr.reward_num,ettar.target_type,ettar.target_num,ettar.target_customer,ettar.target_appraiser,case when etl.user_id>0 then 1 else 0 end as is_like,ettip.tip_employee,ettip.tip_money,ettip.tip_time,re.redid,re.is_token")
+            ->select();
 
         return $myTaskList;
     }
+    public function getAllStandardTaskId($time){
+        $map["task_type"] = ["eq",1];
+        $map["task_method"] = ["eq",1];
+        $map["task_start_time"] = ["elt",$time];
+        $map["task_end_time"] = ["egt",$time];
+        $map["status"] = ["eq",2];
+        $order = "et.id asc";
+        $field = ["et.id"];
+        $standardTaskList = $this->model->table($this->table)->alias('et')
+            ->where($map)
+            ->order($order)
+            ->group('et.id')
+            ->field($field)
+            ->select();
+        //var_exp($standardTaskList,'$standardTaskList',1);
+        return $standardTaskList;
+    }
+    public function getAllOverTimeTaskId($time){
+        $map["task_end_time"] = ["lt",$time];
+        $map["status"] = ["eq",2];
+        $order = "et.id asc";
+        $field = ["et.id"];
+        $standardTaskList = $this->model->table($this->table)->alias('et')
+            ->where($map)
+            ->order($order)
+            ->group('et.id')
+            ->field($field)
+            ->select();
+        return $standardTaskList;
+    }
+    public function getStandardTaskInfoById($id){
+        $map["et.id"] = $id;
+        $employeeTaskInfo = $this->model->table($this->table)->alias('et')
+            ->join($this->dbprefix.'employee_task_take ett',"ett.task_id = et.id","LEFT")
+            ->join($this->dbprefix.'red_envelope re',"re.task_id = et.id and re.type = 3 and re.took_user = ett.take_employee","LEFT")
+            ->where($map)
+            ->group('ett.take_employee')
+            ->column("re.is_token","ett.take_employee");
+        return $employeeTaskInfo;
+    }
+
 }

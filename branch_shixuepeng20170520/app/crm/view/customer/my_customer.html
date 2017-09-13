@@ -44,8 +44,8 @@
                     </select>
                     <select name="sale_chance">
                         <option value="">商机</option>
-                        {volist name="business_list" id="vo"}
-                        <option value="{$vo.id}" {present name='filter.sale_chance'}{eq name='filter.sale_chance' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.business_name}</option>
+                        {volist name="business_flows" id="vo"}
+                        <option value="{$vo.id}" {present name='filter.sale_chance'}{eq name='filter.sale_chance' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.business_flow_name}</option>
                         {/volist}
                     </select>
                     <select name="comm_status">
@@ -174,4 +174,3 @@
     </div>
 </div>
 <link rel="stylesheet" href="/crm/css/index.css"/>
-<script src="/crm/js/remark.js"></script>

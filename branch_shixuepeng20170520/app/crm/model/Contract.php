@@ -85,7 +85,7 @@ class Contract extends Base{
         if($type){
             $map["ca.contract_type"] = $type;
         }
-        $map["c.status"] = ["egt",1];
+        $map["c.status"] = ["in",array(5,8)];
 
         //排序
         if($direction!="desc" && $direction!="asc"){

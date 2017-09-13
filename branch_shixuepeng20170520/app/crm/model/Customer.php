@@ -602,16 +602,17 @@ class Customer extends Base
             "cn.call_through",
             "cn.is_wait",
             //"'沟通状态' as comm_status",
-            "sc.sale_name",
-            "(case when sc.sale_status<1 then 0 when sc.sale_status>4 then 0 else sc.guess_money end) as in_progress_guess_money",//all_guess_money
-            "(case when sc.sale_status=5 then sc.final_money else 0 end) as win_final_money",//all_final_money
-            "(case when sc.sale_status=5 then sc.payed_money else 0 end) as win_payed_money",//all_final_money
+            //"'' as sale_name",
+            //"0 as in_progress_guess_money",//all_guess_money
+            //"0 as win_final_money",//all_final_money
+            //"0 as win_payed_money",//all_payed_money
             "cc.contact_name",
             "IFNULL(cc.phone_first,c.telephone) as phone_first",
             "c.take_time",//领取时间
             "'' as contract_due_time",
             "cn.wait_alarm_time as remind_time",
             //"'所在列' as in_column",
+            "sc.id as sale_id",
             "sc.sale_status",
         ];
         $listField = [
@@ -625,10 +626,10 @@ class Customer extends Base
             "call_through",
             "is_wait",
             //"comm_status",
-            "group_concat(sale_name) as sale_names",
-            "SUM(in_progress_guess_money)/count(l.id) as all_guess_money",
-            "SUM(win_final_money)/count(l.id) as all_final_money",
-            "SUM(win_payed_money)/count(l.id) as all_payed_money",
+            "'' as sale_names",
+            "0 as all_guess_money",
+            "0 as all_final_money",
+            "0 as all_payed_money",
             "contact_name",
             "phone_first",
             "take_time",
@@ -832,6 +833,7 @@ class Customer extends Base
             "cn.wait_alarm_time as remind_time",
             //"'所在列' as in_column",
             "sc.sale_status",
+            "sc.id as sale_id",
             "ct.id ct_id",
         ];
         $listField = [
@@ -845,7 +847,7 @@ class Customer extends Base
             "call_through",
             "is_wait",
             //"comm_status",
-            "group_concat(sale_name) as sale_names",
+            "group_concat(sale_name ORDER BY l.sale_id DESC) as sale_names",
             "SUM(in_progress_guess_money) as all_guess_money",
             "SUM(win_final_money) as all_final_money",
             "contact_name",
@@ -1039,6 +1041,7 @@ class Customer extends Base
             "cn.wait_alarm_time as remind_time",
             //"'所在列' as in_column",
             "sc.sale_status",
+            "sc.id assale_id",
             "ct.id ct_id",
         ];
         $listField = [
@@ -1052,7 +1055,7 @@ class Customer extends Base
             "call_through",
             "is_wait",
             //"comm_status",
-            "group_concat(sale_name) as sale_names",
+            "group_concat(sale_name ORDER BY l.sale_id DESC) as sale_names",
             "SUM(in_progress_guess_money) as all_guess_money",
             "SUM(win_final_money) as all_final_money",
             "contact_name",
@@ -1458,6 +1461,42 @@ class Customer extends Base
      * created by blu10ph
      */
     public function getCustomer($cid){
+        $field = [
+            "c.*",
+            "cn.tend_to",
+            "cn.phone_correct",
+            "cn.profile_correct",
+            "cn.call_through",
+            "cn.is_wait",
+        ];
+        $customer = $this->model->table($this->table)->alias('c')
+            ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
+            ->where('c.id',$cid)
+            ->group("c.id")
+            ->field($field)
+            ->find();
+        if(empty($customer)){
+            return null;
+        }
+        $customer['comm_status'] = getCommStatusByArr([
+            "tend_to"=>$customer['tend_to'],
+            "phone_correct"=>$customer['phone_correct'],
+            "profile_correct"=>$customer['profile_correct'],
+            "call_through"=>$customer['call_through'],
+            "is_wait"=> $customer['is_wait'],
+        ]);
+        $customer['lat'] = "".number_format($customer['lat'],6,".","");
+        $customer['lng'] = "".number_format($customer['lng'],6,".","");
+        return $customer;
+    }
+
+    /**
+     * 查询单个客户信息包含是否需要签到
+     * @param $cid int 客户id
+     * @return int|string
+     * created by blu10ph
+     */
+    public function getCustomerAndHaveVisit($cid){
         $field = [
             "c.*",
             "cn.tend_to",

@@ -13,6 +13,7 @@ use app\crm\model\CustomerContact as CustomerContactModel;
 use app\crm\model\SaleChance;
 use app\crm\model\CustomerTrace;
 use app\crm\model\CustomerTrace as CustomerTraceModel;
+use app\common\model\ParamRemark;
 
 class CustomerContact extends Initialize{
     public function index(){
@@ -43,6 +44,13 @@ class CustomerContact extends Initialize{
         return view();
     }
     public function add_page(){
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $con['add_man']=array('in',array('0',$uid));
+        $paramModel=new ParamRemark($this->corp_id);
+        $param_list = $paramModel->getAllParam($con);//标签备注列表
+        $this->assign("param_list",$param_list);
+
         $this->assign("fr",input('fr'));
         $this->assign("customer_id",input('customer_id',0,"int"));
         return view();
@@ -53,6 +61,14 @@ class CustomerContact extends Initialize{
             $this->error("参数错误！");
         }
         $this->assign("id",$id);
+
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $con['add_man']=array('in',array('0',$uid));
+        $paramModel=new ParamRemark($this->corp_id);
+        $param_list = $paramModel->getAllParam($con);//标签备注列表
+        $this->assign("param_list",$param_list);
+
         $this->assign("fr",input('fr'));
         $customerM = new CustomerContactModel($this->corp_id);
         $customer_contactData = $customerM->getCustomerContact($id);

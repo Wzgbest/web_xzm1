@@ -66,7 +66,7 @@ $(document).on("click",".remark i.fa-check",function(){
         }
     });
 });
-
+$(".remark input").off("click");//解绑点击事件
 $(document).on("click",".remark input",function(){
     if($(this).attr("readonly")){
         var tex = $(this).parent(".remark").siblings("textarea[name='remark']");
