@@ -11,4 +11,5 @@
 
 return [
     'app\common\command\BackOverTimeRedEnvelope',
+    'app\common\command\EmployeeTask',
 ];

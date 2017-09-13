@@ -45,7 +45,7 @@ class EmployeeTask extends Base{
      */
     public function getTaskInfo($id){
         return $this->model->table($this->table)
-            ->where("id=".$id)
+            ->where("id",$id)
             ->find();
     }
 
@@ -139,13 +139,11 @@ class EmployeeTask extends Base{
         $map["task_end_time"] = ["egt",$time];
         $map["status"] = ["eq",2];
         $order = "et.id asc";
-        $field = ["et.id"];
         $standardTaskList = $this->model->table($this->table)->alias('et')
             ->where($map)
             ->order($order)
             ->group('et.id')
-            ->field($field)
-            ->select();
+            ->column("et.id");
         //var_exp($standardTaskList,'$standardTaskList',1);
         return $standardTaskList;
     }
