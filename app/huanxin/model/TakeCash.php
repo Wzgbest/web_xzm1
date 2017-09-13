@@ -23,7 +23,7 @@ class TakeCash extends Base
      */
     public function addOrderNumber($data)
     {
-        return $this->model->table($this->table)->insert($data);
+        return $this->model->table($this->table)->insertGetId($data);
     }
 
     /**

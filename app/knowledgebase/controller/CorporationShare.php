@@ -521,7 +521,7 @@ class CorporationShare extends Initialize{
             $this->error("输入的金额有误!");
         }
         $userinfo = get_userinfo();
-        $this->assign('user_money',$userinfo["userinfo"]['left_money']);
+        $this->assign('user_money',$userinfo["userinfo"]['left_money']/100);
         $this->assign('money',$money);
         return view();
     }
