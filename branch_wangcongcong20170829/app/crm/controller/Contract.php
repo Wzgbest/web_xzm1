@@ -195,6 +195,7 @@ class Contract extends Initialize{
             $last_contract_json[6] = $value["contract_apply_6"];
             $last_contract_json_arr[$value["contract_type"]] = $last_contract_json;
         }
+//        var_exp($last_contract_json_arr,'$last_contract_json_arr',1);
         $this->assign('last_contract_list_json',json_encode($last_contract_json_arr,true));
 
         $role_employee_index = [];

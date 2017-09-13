@@ -74,7 +74,7 @@
 		var a = $(this).val();
 		//value在contract_type_list_json里面对应的类
 		var b = contract_type_list_json[a];
-		var applied= last_contract_list_json[a];
+		var applied= last_contract_list_json[a]||'';
 		//一个简单变量
 		var c ;
 		//计数器d
@@ -88,13 +88,15 @@
 				//当前属性值在role_employee_index里对应的数组
 				var arr = role_employee_index[b[c]];
 				$(".main-content").eq(row).find(".exam-man-s").eq(d).html("<option>请选择</option>");
+                var selected='';
 				for(var i=0;i<arr.length;i++){
-                    var selected='';
-				    if(applied && applied[i+1]==arr[i].user_id)
+				    if(applied && applied[d+1]==arr[i].user_id)
 					{
-					    selected="selected";
+                        selected="selected";
+
 					}
 					$(".main-content").eq(row).find(".exam-man-s").eq(d).append("<option value='"+arr[i].user_id+"'"+selected+">"+arr[i].truename+"</option>");
+                    selected='';
 				}
 				d++;
 			}else{
