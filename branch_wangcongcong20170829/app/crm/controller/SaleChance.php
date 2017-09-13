@@ -778,7 +778,7 @@ class SaleChance extends Initialize{
         return $save_flg;
     }
     public function sign_in_page(){
-        $saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
+        $saleChanceVisitM = new SaleChanceModel($this->corp_id);
         $saleChanseVisitWaitList = $saleChanceVisitM->getAllSaleChanceVisitWait();
         //var_exp($saleChanseVisitWaitList,'$saleChanseVisitWaitList',1);
         $this->assign('wait_list',$saleChanseVisitWaitList);

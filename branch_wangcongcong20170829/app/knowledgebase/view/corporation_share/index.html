@@ -39,7 +39,7 @@
 	        	<ul class="lib-operator">
 	        		<li class="comment"><i class="fa fa-commenting"></i><span>评论</span></li>
 	        		<li {eq name="vo.is_like" value="1" } class="praise active" {else/} class="praise" {/eq}><i class="fa fa-thumbs-up"></i><span>赞</span></li>	        		
-	        		<li class="reward"{eq name="vo.is_tip" value="1" }{else/}{/eq}><i class="fa fa-dollar"></i><span>打赏</span></li>
+	        		<li {eq name="vo.is_tip" value="1" } class="reward active" {else/} class="reward" {/eq}><i class="fa fa-dollar"></i><span>打赏</span></li>
 	        		<div class="clearfix"></div>
 	        	</ul>
 	        	<div class="clearfix"></div>
@@ -118,7 +118,7 @@
 	        	<ul class="lib-operator">
 	        		<li class="comment"><i class="fa fa-commenting"></i><span>评论</span></li>
 	        		<li {eq name="vo.is_like" value="1" } class="praise active" {else/} class="praise" {/eq}><i class="fa fa-thumbs-up"></i><span>赞</span></li>	        		
-	        		<li class="reward" {eq name="vo.is_tip" value="1" }{else/}{/eq}><i class="fa fa-dollar"></i><span>打赏</span></li>
+	        		<li {eq name="vo.is_tip" value="1" } class="reward active" {else/} class="reward" {/eq}><i class="fa fa-dollar"></i><span>打赏</span></li>
 	        		<div class="clearfix"></div>
 	        	</ul>
 	        	<div class="clearfix"></div>

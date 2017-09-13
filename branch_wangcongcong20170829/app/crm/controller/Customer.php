@@ -52,9 +52,6 @@ class Customer extends Initialize{
             $customerM = new CustomerModel($this->corp_id);
             $customers_count = $customerM->getManageCustomerCount($filter,$order,$direction);
             $this->assign("count",$customers_count);
-            $business = new Business($this->corp_id);
-            $business_list = $business->getAllBusiness();
-            $this->assign("business_list",$business_list);
         }catch (\Exception $ex){
             $this->error($ex->getMessage());
         }
@@ -85,15 +82,30 @@ class Customer extends Initialize{
         try{
             $customerM = new CustomerModel($this->corp_id);
             $customers_data = $customerM->getSelfCustomer($uid,$num,$p,$filter,$field,$order,$direction);
+            $customer_ids = array_column($customers_data,"id");
+            $saleChanceM = new SaleChanceModel($this->corp_id);
+            $saleChanceInfos = $saleChanceM->getNAmeAndMoneyByCustomerIds($customer_ids);
+            //var_exp($saleChanceInfos,'$saleChanceInfos');
+            //var_exp($customers_data,'$customers_data');
+            foreach ($customers_data as &$customers){
+                if(isset($saleChanceInfos[$customers["id"]])){
+                    $saleChanceInfo = $saleChanceInfos[$customers["id"]];
+                    $customers["sale_names"] = $saleChanceInfo["sale_names"];
+                    $customers["all_guess_money"] = $saleChanceInfo["all_guess_money"];
+                    $customers["all_final_money"] = $saleChanceInfo["all_final_money"];
+                    $customers["all_payed_money"] = $saleChanceInfo["all_payed_money"];
+                }
+            }
+            //var_exp($customers_data,'$customers_data');
             $this->assign("listdata",$customers_data);
             $customerM = new CustomerModel($this->corp_id);
             $customers_count = $customerM->getSelfCustomerCount($uid,$filter,$order,$direction);
             $this->assign("count",$customers_count);
             $listCount = $customerM->getColumnNum($uid,$filter);
             $this->assign("listCount",$listCount);
-            $business = new Business($this->corp_id);
-            $business_list = $business->getAllBusiness();
-            $this->assign("business_list",$business_list);
+            $businessFlowModel = new BusinessFlowModel($this->corp_id);
+            $business_flows = $businessFlowModel->getAllBusinessFlowByUserId($uid);
+            $this->assign('business_flows',$business_flows);
         }catch (\Exception $ex){
             $this->error($ex->getMessage());
         }
@@ -167,13 +179,6 @@ class Customer extends Initialize{
                 $this->error($ex->getMessage());
             }
         }
-        try{
-            $business = new Business($this->corp_id);
-            $business_list = $business->getAllBusiness();
-            $this->assign("business_list",$business_list);
-        }catch (\Exception $ex){
-            $this->error($ex->getMessage());
-        }
         $max_page = ceil($customers_count/$num);
         $this->assign("p",$p);
         $this->assign("num",$num);
@@ -227,7 +232,6 @@ class Customer extends Initialize{
         $this->assign("fr",input('fr'));
         $business = new Business($this->corp_id);
         $business_list = $business->getAllBusiness();
-
         $this->assign("business_list",$business_list);
         $businessFlowModel = new BusinessFlowModel($this->corp_id);
         $business_flows = $businessFlowModel->getAllBusinessFlowByUserId($uid);
@@ -785,7 +789,7 @@ class Customer extends Initialize{
         //TODO 读取权限验证
         try{
             $customerM = new CustomerModel($this->corp_id);
-            $customerData = $customerM->getCustomer($id);
+            $customerData = $customerM->getCustomerAndHaveVisit($id);
             $result['data'] = $customerData;
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
