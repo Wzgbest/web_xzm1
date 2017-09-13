@@ -10,18 +10,14 @@
 namespace app\task\controller;
 
 use app\common\controller\Initialize;
-use app\crm\model\SaleOrderContract;
+use app\common\model\Employee;
+use app\huanxin\model\TakeCash;
+use app\common\model\Corporation;
 use app\task\model\EmployeeTask as EmployeeTaskModel;
 use app\task\model\TaskTarget as TaskTargetModel;
 use app\task\model\TaskReward as TaskRewardModel;
 use app\task\model\TaskTake as TaskTakeModel;
-use app\common\model\Employee;
-use app\huanxin\model\TakeCash;
-use app\common\model\Corporation;
-use app\crm\model\CallRecord;
-use app\crm\model\SaleChance;
-use app\crm\model\SaleChanceVisit;
-use app\crm\model\Customer;
+use app\task\service\EmployeeTask as EmployeeTaskService;
 
 class Index extends Initialize{
     var $paginate_list_rows = 10;
@@ -36,61 +32,23 @@ class Index extends Initialize{
     public function add_page(){
     }
 
-
-    public function _getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$standard=0,$num=20,$page=1){
-        $data = [];
-        switch ($target_type){
-            case 1:
-                $callRecordM = new CallRecord($this->corp_id);
-                if($task_method==1){
-                    $data = $callRecordM->getCallRecordStandard($start_time,$end_time,$uids,$standard,$num,$page);
-                }else{
-                    $data = $callRecordM->getCallRecordRanking($start_time,$end_time,$uids,$standard,$num,$page);
-                }
-            break;
-            case 2:
-                $saleChanceM = new SaleChance($this->corp_id);
-                if($task_method==1){
-                    $data = $saleChanceM->getSaleChanceStandard($start_time,$end_time,$uids,$standard,$num,$page);
-                }else{
-                    $data = $saleChanceM->getSaleChanceRanking($start_time,$end_time,$uids,$standard,$num,$page);
-                }
-            break;
-            case 3:
-                $saleOrderContractM = new SaleOrderContract($this->corp_id);
-                if($task_method==1){
-                    $data = $saleOrderContractM->getOrderMoneyStandard($start_time,$end_time,$uids,$standard,$num,$page);
-                }else{
-                    $data = $saleOrderContractM->getOrderMoneyRanking($start_time,$end_time,$uids,$standard,$num,$page);
-                }
-            break;
-            case 4:
-                $saleOrderContractM = new SaleOrderContract($this->corp_id);
-                if($task_method==1){
-                    $data = $saleOrderContractM->getSaleOrderContractStandard($start_time,$end_time,$uids,$standard,$num,$page);
-                }else{
-                    $data = $saleOrderContractM->getSaleOrderContractRanking($start_time,$end_time,$uids,$standard,$num,$page);
-                }
-            break;
-            case 5:
-                $saleChanceVisitM = new SaleChanceVisit($this->corp_id);
-                if($task_method==1){
-                    $data = $saleChanceVisitM->getSaleChanceVisitStandard($start_time,$end_time,$uids,$standard,$num,$page);
-                }else{
-                    $data = $saleChanceVisitM->getSaleChanceVisitRanking($start_time,$end_time,$uids,$standard,$num,$page);
-                }
-            break;
-            case 6:
-                $customerM = new Customer($this->corp_id);
-                if($task_method==1){
-                    $data = $customerM->getCustomerStandard($start_time,$end_time,$uids,$standard,$num,$page);
-                }else{
-                    $data = $customerM->getCustomerRanking($start_time,$end_time,$uids,$standard,$num,$page);
-                }
-            break;
+    public function getTaskTakeAndStandardInfo(){
+        $result = ['status'=>0 ,'info'=>"获取任务时发生错误！"];
+        $id = input('id',0,'int');
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
         }
+        $employeeTaskM = new EmployeeTaskModel($this->corp_id);
+        $taskInfo = $employeeTaskM->getStandardTaskInfoById($id);
+        $result['data'] = $taskInfo;
+        $result['status'] = 1;
+        $result['info'] = "获取任务成功！";
+        return json($result);
+    }
 
-        return $data;
+    public function _getEmployeeGuessMoneyList($id,$uids){
+        return [];
     }
 
     public function get(){
@@ -119,6 +77,10 @@ class Index extends Initialize{
 
         $taskReward = $taskRewardM->getTaskRewardListByTaskId($id);
         $taskInfo["reward"] = $taskReward;
+        $taskInfo["all_reward_amount"] = 0;
+        foreach ($taskReward as $reward_item){
+            $taskInfo["all_reward_amount"] += $reward_item['reward_num']*$reward_item['reward_amount'];
+        }
 
         $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($id);
         $taskInfo["take"] = $taskTakeEmployeeIds;
@@ -143,7 +105,7 @@ class Index extends Initialize{
 
         $employeeTaskM = new EmployeeTaskModel($this->corp_id);
         $taskTargetM = new TaskTargetModel($this->corp_id);
-        //$taskRewardM = new TaskRewardModel($this->corp_id);
+        $taskRewardM = new TaskRewardModel($this->corp_id);
         $taskTakeM = new TaskTakeModel($this->corp_id);
         $taskInfo = $employeeTaskM->getTaskInfo($id);
         if(empty($taskInfo)){
@@ -187,15 +149,48 @@ class Index extends Initialize{
         ];
         var_exp($getRankingListParams,'$getRankingListParams');
         */
+        $employeeTaskService = new EmployeeTaskService();
+        $rankingdata = $employeeTaskService->getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$standard,$num,$page);
 
-        $rankingdata = $this->_getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$standard,$num,$page);
+        if($task_type=2){
+            $guessdata = $this->_getEmployeeGuessMoneyList($id,$uids);
+            foreach ($rankingdata as &$ranking_item){
+                if(isset($guessdata[$ranking_item["employee_id"]])){
+                    $ranking_item["guess"] = $guessdata[$ranking_item["employee_id"]];
+                }else{
+                    $ranking_item["guess"] = 0;
+                }
+            }
+        }
 
+        $taskReward = $taskRewardM->getTaskRewardListByTaskId($id);
+        $reward_idx_arr = [];
+        $reward_idx_max = 0;
+        foreach ($taskReward as $reward_item){
+            $reward_idx_arr[$reward_item["reward_start"]] = $reward_item;
+            if($reward_item["reward_end"]>$reward_idx_max){
+                $reward_idx_max = $reward_item["reward_end"];
+            }
+        }
+        $reward_idx = 0;
+        $self_idx = -1;
+        for($ranking_index=1;$ranking_index<=count($rankingdata);$ranking_index++){
+            if(isset($reward_idx_arr[$ranking_index])){
+                $reward_idx = $ranking_index;
+            }
+            $rankingdata[$ranking_index-1]["reward_money"] = $reward_idx_arr[$reward_idx]["reward_amount"];
 
-        $result['data'] = $rankingdata;
+            if($rankingdata[$ranking_index-1]["employee_id"]==$uid){
+                $self_idx = $ranking_index-1;
+            }
+        }
+
+        $result['data'] = ["self_idx"=>$self_idx,"list"=>$rankingdata];
         $result['status'] = 1;
         $result['info'] = "获取任务排行成功！";
         return json($result);
     }
+
     protected function _getTaskForInput($uid){
         $task_info['task_name'] = input("task_name","","string");
         $task_info['task_start_time'] = input("task_start_time",0,"strtotime");
