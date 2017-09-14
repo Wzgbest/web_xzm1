@@ -662,4 +662,20 @@ class Contract extends Base{
         $map["status"] = 5;
         return $this->model->table($this->dbprefix."contract")->where($map)->update($data);
     }
+    //上次合同申请的申请人
+    public function getLastApply($con){
+        $subQuery=$this->model
+            ->table($this->table)
+            ->where($con)
+            ->field("contract_type,contract_apply_1,contract_apply_2,contract_apply_3,contract_apply_4,contract_apply_5,contract_apply_6")
+            ->order("update_time","DESC")
+            ->buildSql();
+        //var_exp($subQuery,'$subQuery',1);
+        $lastAppliedList = $this->model
+            ->table($subQuery." l")
+            ->group("contract_type")
+            ->select();
+        return $lastAppliedList;
+        //return $this->model->table($this->table)->where($con)->field("contract_type,contract_apply_1,contract_apply_2,contract_apply_3,contract_apply_4,contract_apply_5,contract_apply_6")->order("update_time","DESC")->group("contract_type")->select();
+    }
 }
