@@ -181,7 +181,7 @@ $(struct_item_list_panel).on('click',".add_item .add_item_remove",function(){
 
 structure_tree.listen("editFun",function(id){
     console.log("hleditFun",id);
-    var node_item_panel = struct_item_list_panel+" .node"+id+" .node_item:first";
+    var node_item_panel = struct_item_list_panel+" .node"+id+" .node_item"+id;
     //console.log($(node_item_panel+" .node_name"));
     var edit_item_text = $(node_item_panel+" .node_name").text();
     $(node_item_panel+" .node_head").addClass("hide");
