@@ -221,14 +221,15 @@
 	transform: translateX(-50%);
 }
 .knowledgebase_company_library_index .library-list .lib-content .pic-list{
-	display: flex;
+	/*display: flex;*/
 	margin-top: 20px;
-	flex-flow: row;
+	/*flex-flow: row;*/
 }
 .knowledgebase_company_library_index .library-list .lib-content .pic-list li{
 	width: 100px;
 	height: 100px;
-	flex: 1;
+	float: left;
+	/*flex: 1;*/
 	margin-right: 20px;
 	opacity: 0.4;
 }
@@ -296,6 +297,9 @@
     border: none;
     background-color: #42a5f5;
 }
+.knowledgebase_speechcraft_detail h1{
+	font-size: 24px;
+}
 .knowledgebase_speechcraft_detail h3{
 	color: #ccc;
 	font-weight: normal;
@@ -304,4 +308,9 @@
 }
 .color-blue2{
 	color: #42A5F5;
+}
+@media screen and (max-width: 640px) {
+	.knowledgebase_speechcraft_detail .u-btnBack{
+		display: none !important;
+	}
 }
