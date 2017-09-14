@@ -7,4 +7,8 @@ class GoingTask
     {
         return view();
     }
+    public function direct_participation()
+    {
+        return view();
+    }
 }

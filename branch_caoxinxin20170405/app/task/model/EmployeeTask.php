@@ -133,11 +133,11 @@ class EmployeeTask extends Base{
         return $myTaskList;
     }
     public function getAllStandardTaskId($time){
-        $map["task_type"] = ["eq",1];
-        $map["task_method"] = ["eq",1];
-        $map["task_start_time"] = ["elt",$time];
-        $map["task_end_time"] = ["egt",$time];
-        $map["status"] = ["eq",2];
+        $map["et.task_type"] = ["eq",1];
+        $map["et.task_method"] = ["eq",1];
+        $map["et.task_start_time"] = ["elt",$time];
+        $map["et.task_end_time"] = ["egt",$time];
+        $map["et.status"] = ["eq",2];
         $order = "et.id asc";
         $standardTaskList = $this->model->table($this->table)->alias('et')
             ->where($map)
@@ -148,8 +148,9 @@ class EmployeeTask extends Base{
         return $standardTaskList;
     }
     public function getAllOverTimeTask($time){
-        $map["task_end_time"] = ["lt",$time];
-        $map["status"] = 2;
+        $map["et.task_end_time"] = ["lt",$time];
+        $map["et.type"] = ["in",[1,2,3]];
+        $map["et.status"] = 2;
         $order = "et.id asc";
         $field = ["et.*"];
         $standardTaskList = $this->model->table($this->table)->alias('et')
@@ -171,10 +172,10 @@ class EmployeeTask extends Base{
         return $employeeTaskInfo;
     }
     public function setTaskStatus($ids,$from_status,$to_status){
-        $map["id"] = ["in",$ids];
-        $map["status"] = $from_status;
-        $data["status"] = $to_status;
-        $updateTaskResult = $this->model->table($this->table)
+        $map["et.id"] = ["in",$ids];
+        $map["et.status"] = $from_status;
+        $data["et.status"] = $to_status;
+        $updateTaskResult = $this->model->table($this->table)->alias('et')
             ->where($map)
             ->data($data)
             ->update();
