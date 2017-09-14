@@ -212,6 +212,22 @@
 }
 .knowledgebase_company_library_index .library-list .lib-content .pic-show{
 	height: 400px;
+	position: relative;
+}
+.knowledgebase_company_library_index .library-list .lib-content .pic-show .pack-up-btn{
+	width: 60px;
+    height: 25px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    z-index: 99;
+    border-radius: 12.5px;
+    line-height: 25px;
+    margin-left: 10px;
+    text-align: center;
+    color: white;
+    border: none;
+    background-color: #42a5f5;
 }
 .knowledgebase_company_library_index .library-list .lib-content .pic-show img{
 	height: 100%;
