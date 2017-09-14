@@ -62,16 +62,19 @@
 	var len1 = exm.length;
 	var contract_type_list_json = '{$contract_type_list_json}';
 	var role_employee_index = '{$role_employee_index}';
+	var last_contract_list_json='{$last_contract_list_json}';
 	contract_type_list_json = JSON.parse(contract_type_list_json);
 	role_employee_index = JSON.parse(role_employee_index);
+    last_contract_list_json = JSON.parse(last_contract_list_json);
 	//合同类型选择事件
 	$(document).on("change","#create-apply-container .type-class",function(){
 		//点击的是哪一行的select
 		var row = $(this).parents(".main-content").index();
 		//改变后的合同类型的value
-		var a = $(this).val()
+		var a = $(this).val();
 		//value在contract_type_list_json里面对应的类
 		var b = contract_type_list_json[a];
+		var applied= last_contract_list_json[a]||'';
 		//一个简单变量
 		var c ;
 		//计数器d
@@ -85,8 +88,15 @@
 				//当前属性值在role_employee_index里对应的数组
 				var arr = role_employee_index[b[c]];
 				$(".main-content").eq(row).find(".exam-man-s").eq(d).html("<option>请选择</option>");
-				for(var i=0;i<arr.length;i++){					
-					$(".main-content").eq(row).find(".exam-man-s").eq(d).append("<option value="+arr[i].user_id+">"+arr[i].truename+"</option>");
+                var selected='';
+				for(var i=0;i<arr.length;i++){
+				    if(applied && applied[d+1]==arr[i].user_id)
+					{
+                        selected="selected";
+
+					}
+					$(".main-content").eq(row).find(".exam-man-s").eq(d).append("<option value='"+arr[i].user_id+"'"+selected+">"+arr[i].truename+"</option>");
+                    selected='';
 				}
 				d++;
 			}else{
