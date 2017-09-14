@@ -82,7 +82,11 @@ class SpeechCraft extends Base{
     	if (!$id) {
     		return [];
     	}
-    	$articleInfo = $this->model->table($this->table)->where(['id'=>$id])->find();
+    	$articleInfo = $this->model->table($this->table)->alias('tt')
+        ->join($this->dbprefix.'employee e','e.id = tt.add_user','LEFT')
+        ->where(['tt.id'=>$id])
+        ->field('tt.*,e.truename,e.telephone,e.userpic')
+        ->find();
     	return $articleInfo;
     }
 }

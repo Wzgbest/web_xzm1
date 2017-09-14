@@ -151,6 +151,7 @@ class Contract extends Initialize{
     public function contract_apply(){
         $contractSettingModel = new ContractModel($this->corp_id);
         $contracts = $contractSettingModel->getAllContract();
+
         //var_exp($contracts,'$contracts',1);
         $this->assign('contract_type_list',$contracts);
         $contract_json_arr = [];
@@ -178,14 +179,37 @@ class Contract extends Initialize{
         $role_empM = new RoleEmployeeModel($this->corp_id);
         $employeeNameList = $role_empM->getEmployeeNameListbyRole($role_ids);
         //var_exp($employeeNameList,'$employeeNameList',1);
+
+        $contractAppliedM = new ContractAppliedModel($this->corp_id);
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $con['employee_id']=$uid;
+        $lastAppliedList=$contractAppliedM->getLastApply($con);
+        $last_contract_json_arr = [];
+        foreach($lastAppliedList as $value){
+            $last_contract_json[1] = $value["contract_apply_1"];
+            $last_contract_json[2] = $value["contract_apply_2"];
+            $last_contract_json[3] = $value["contract_apply_3"];
+            $last_contract_json[4] = $value["contract_apply_4"];
+            $last_contract_json[5] = $value["contract_apply_5"];
+            $last_contract_json[6] = $value["contract_apply_6"];
+            $last_contract_json_arr[$value["contract_type"]] = $last_contract_json;
+        }
+//        var_exp($last_contract_json_arr,'$last_contract_json_arr',1);
+        $this->assign('last_contract_list_json',json_encode($last_contract_json_arr,true));
+
         $role_employee_index = [];
         foreach($employeeNameList as $employeeinfo){
             $role_id = $employeeinfo["role_id"];
             unset($employeeinfo["role_id"]);
             $role_employee_index[$role_id][] = $employeeinfo;
         }
+
         //var_exp($role_employee_index,'$role_employee_index',1);
         $this->assign('role_employee_index',json_encode($role_employee_index,true));
+
+
+
         return view();
     }
     public function get_log(){
