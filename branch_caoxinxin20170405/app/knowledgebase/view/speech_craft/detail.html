@@ -4,7 +4,7 @@
 		<button class="u-btnBack" onclick="backLastPage()">返回</button>
 		<div class="m-divBlock">
 			<h1>{$article.article_name}</h1>
-			<h3><span class="color-blue2">吴振国 </span>发布于 {$article.article_edit_time|time_format}</h3>
+			<h3><span class="color-blue2">{$article.truename} </span>发布于 {$article.article_edit_time|time_format}</h3>
 		</div>
 		<div class="m-divBlock">
 			{if condition="$article.article_type == 1"}

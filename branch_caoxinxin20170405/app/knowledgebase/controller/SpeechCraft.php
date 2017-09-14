@@ -51,6 +51,8 @@ class SpeechCraft extends Initialize{
     public function addArticle(){
         $result = ['status'=>0,'info'=>"添加文章失败!"];
 
+        $userinfo = get_userinfo();
+        $uid = $userinfo['userid'];
         $data = [];
         $data['article_name'] = input('article_name','',"string");
         $data['article_type'] = input('article_type',1,"int");
@@ -67,6 +69,7 @@ class SpeechCraft extends Initialize{
         $data['article_release_time'] = input('article_release_time','',"string");
         $data['article_creat_time'] = time();
         $data['article_edit_time'] = time();
+        $data['add_user'] = $uid;
         // var_dump(input('post.'));
         // var_dump($data);die();
         if (empty($data['article_name'])) {
