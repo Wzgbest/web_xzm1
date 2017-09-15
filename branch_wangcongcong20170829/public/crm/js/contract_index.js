@@ -14,13 +14,13 @@ $("#frames #my-contractfr .my_contract .u-tabList .u-tabOperation .retract").cli
 		data: "id="+id,
 		success: function(data) {
 			//console.log(data);
-			alert(data.info);
+            layer.msg(data.info,{icon:1});
 			if(data.status) {
 				my_customer_list_manage.reload_list();
 			}
 		},
 		error: function() {
-			alert("撤回合同申请时发生错误!");
+            layer.msg('撤回合同申请时发生错误!',{icon:2});
 		}
 	});
 });

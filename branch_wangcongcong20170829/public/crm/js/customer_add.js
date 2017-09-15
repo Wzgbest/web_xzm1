@@ -94,7 +94,7 @@ function customer_add(from,target,list_manage){
 				self.new_customer_show(data,self.panel_base);
 			},
 			error:function(){
-				alert("加载新建客户界面失败!");
+                layer.msg('加载新建客户界面失败!',{icon:2});
 			}
 		});
 	};
@@ -143,15 +143,15 @@ function customer_add(from,target,list_manage){
 						self.new_customer_id = data.data;
 					}
 					if(next_status==0 || next_status==3){
-						alert(data.info);
+                        layer.msg(data.info,{icon:1});
 					}
 					self.next_status(next_status,self.removeNewClient,self.next_contact);
 				}else{
-					alert(data.info);
+                    layer.msg(data.info,{icon:1});
 				}
 			},
 			error: function() {
-				alert("保存失败!");
+                layer.msg('保存失败!',{icon:2});
 			}
 		});
 	};
@@ -182,15 +182,15 @@ function customer_add(from,target,list_manage){
                                 self.new_customer_contact_id = data.data;
                             }
                             if(next_status==0 || next_status==3){
-                                alert("保存成功!");
+                                layer.msg('保存成功!',{icon:1});
                             }
                             self.next_status(next_status,self.pre_customer,self.next_sale_chance);
                         }else{
-                            alert(data.info);
+                            layer.msg(data.info,{icon:1});
                         }
                     },
                     error: function() {
-                        alert("保存失败!");
+                        layer.msg('保存失败!',{icon:2});
                     }
                 });
 			}
@@ -230,15 +230,15 @@ function customer_add(from,target,list_manage){
                             self.new_customer_sale_chance_id = data.data;
                         }
                         if(next_status==0 || next_status==3){
-                            alert("保存成功!");
+                            layer.msg('保存成功!',{icon:1});
                         }
                         self.next_status(next_status,self.pre_contact,self.removeNewClient);
                     }else{
-                        alert(data.info);
+                        layer.msg(data.info,{icon:1});
                     }
                 },
                 error: function() {
-                    alert("保存失败!");
+                    layer.msg('保存失败!',{icon:2});
                 }
             });
 		}

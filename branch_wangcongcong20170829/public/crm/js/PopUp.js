@@ -9,7 +9,7 @@ function pop(id,url,clicker){
             	$(id).removeClass("hide");
         	},
         	error: function() {
-            	alert("加载失败!");
+                layer.msg('加载失败!',{icon:2});
         	}
     	});   	
     });
@@ -24,13 +24,13 @@ function popLoad(id,url){
     	async: false,
     	success: function(data) {
 			if(data.status==0){
-				alert(data.info);
+				layer.msg(data.info,{icon:1});
 			}
         	$(id).html(data);
         	$(id).removeClass("hide");
     	},
     	error: function() {
-        	alert("加载失败!");
+            layer.msg('加载失败!',{icon:2});
     	}
 	});   	
     $(document).on('click', id+" .pop-close-btn", function() {

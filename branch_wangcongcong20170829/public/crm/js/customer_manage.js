@@ -21,13 +21,13 @@ $(customer_manage_nav_base+" .delete").click(function(){
         data: ids,
         success: function(data) {
             //console.log(data);
-            alert(data.info);
+            layer.msg(data.info,{icon:1});
             if(data.status) {
                 customer_manage_list_manage.reload_list();
             }
         },
         error: function() {
-            alert("删除客户时发生错误!");
+            layer.msg('删除客户时发生错误!',{icon:2});
         }
     });
 });
@@ -44,13 +44,13 @@ $(customer_manage_nav_base+" .change_customers_to_employee").click(function(){
         data: ids,
         success: function(data) {
             //console.log(data);
-            alert(data.info);
+            layer.msg(data.info,{icon:1});
             if(data.status) {
                 customer_manage_list_manage.reload_list();
             }
         },
         error: function() {
-            alert("重分客户时发生错误!");
+            layer.msg('重分客户时发生错误!',{icon:2});
         }
     });
 });
@@ -67,13 +67,13 @@ $(customer_manage_nav_base+" .change_customers_visible_range").click(function(){
         data: ids,
         success: function(data) {
             //console.log(data);
-            alert(data.info);
+            layer.msg(data.info,{icon:1});
             if(data.status) {
                 customer_manage_list_manage.reload_list();
             }
         },
         error: function() {
-            alert("更改可见范围时发生错误!");
+            layer.msg('更改可见范围时发生错误!',{icon:2});
         }
     });
 });
@@ -90,13 +90,13 @@ $(customer_manage_nav_base+" .imposed_release_customers").click(function(){
         data: ids,
         success: function(data) {
             //console.log(data);
-            alert(data.info);
+            layer.msg(data.info,{icon:1});
             if(data.status) {
                 customer_manage_list_manage.reload_list();
             }
         },
         error: function() {
-            alert("强制释放客户时发生错误!");
+            layer.msg('强制释放客户时发生错误!',{icon:2});
         }
     });
 });
