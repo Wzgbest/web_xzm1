@@ -30,7 +30,7 @@ class Contract extends Initialize{
         try{
             $contractAppliedModel = new ContractAppliedModel($this->corp_id);
             $contractApplieds = $contractAppliedModel->getVerificationContractApplied($uid,$num,$p,$filter,$field,$order,$direction);
-            //var_exp($contractApplieds,'$contractApplieds',1);
+//            var_exp($contractApplieds,'$contractApplieds',1);
             $this->assign('list_data',$contractApplieds);
             $customers_count = $contractAppliedModel->getVerificationContractAppliedCount($uid,$filter);
             $this->assign("count",$customers_count);

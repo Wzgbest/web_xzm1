@@ -80,7 +80,7 @@ function tree(config) {
             }
             html+='<div node_id="'+node_item["id"]+'" class="node node'+node_item["id"];
             html+=class_str+'" node_id="'+node_item["id"]+'">';
-            html+='<div class="node_item">';
+            html+='<div class="node_item node_item'+node_item["id"]+'">';
             html+=plus_str;
             html+='<span class="node_name">'+node_item["struct_name"]+'</span>';
             if(node_item["id"]!=1){

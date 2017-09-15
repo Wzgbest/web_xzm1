@@ -22,13 +22,13 @@ $("#frames #verification-indexfr .verification_sale_chance .u-tabList .u-tabOper
         data: data,
         success: function(data) {
             //console.log(data);
-            alert(data.info);
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 verification_sale_chance_list_manage.reload_list();
             }
         },
         error: function() {
-            alert("通过成单申请时发生错误!");
+            layer.msg('通过成单申请时发生错误!',{icon:2});
         }
     });
 });
@@ -46,13 +46,13 @@ $("#frames #verification-indexfr .verification_sale_chance .u-tabList .u-tabOper
         data: data,
         success: function(data) {
             //console.log(data);
-            alert(data.info);
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 verification_sale_chance_list_manage.reload_list();
             }
         },
         error: function() {
-            alert("驳回成单申请时发生错误!");
+            layer.msg('驳回成单申请时发生错误!',{icon:2});
         }
     });
 });

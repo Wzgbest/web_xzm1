@@ -34,7 +34,7 @@ $(".knowledgebase_company_library_index .reward-pop .pay-btn").click(function(){
 	// var share_id = $(this).parents(".lib").attr("share_id");
 	var money = $(".knowledgebase_company_library_index .reward-pop .pay-money").val();
 	if (money == 0 ||　money < 0 || !checkNumber(money)) {
-		alert("请输入正确的金额进行打赏!");
+        layer.msg('请输入正确的金额进行打赏!',{icon:5});
 		return;
 	}
 	$(".knowledgebase_company_library_index .reward-pop").attr("money",money);

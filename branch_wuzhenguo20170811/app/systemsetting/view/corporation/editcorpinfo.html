@@ -74,13 +74,13 @@
                 dataType: 'json',
                 success: function(data) {
                     //console.log(data);
-                    alert(data.message);
+                    layer.msg(data.message,{icon:data.status==1?1:2});
                     if(data.status) {
                         loadPage("{:url('/systemsetting/corporation/showcorpinfo')}","company-informationfr");
                     }
                 },
                 error: function() {
-                    alert("保存公司信息发生错误!");
+                    layer.msg('保存公司信息发生错误!',{icon:2});
                 },
             });
         });

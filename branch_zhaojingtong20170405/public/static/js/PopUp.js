@@ -10,7 +10,7 @@ function pop(id,url,clicker){
             	$(id).removeClass("hide");
         	},
         	error: function() {
-            	alert("加载失败!");
+                layer.msg('加载失败!',{icon:2});
         	}
     	});   	
     });
@@ -28,7 +28,7 @@ function popLoad(id,url){
         	$(id).removeClass("hide");
     	},
     	error: function() {
-        	alert("加载失败!");
+            layer.msg('加载失败!',{icon:2});
     	}
 	});   	
     $(document).on('click', id+" .pop-close-btn", function() {

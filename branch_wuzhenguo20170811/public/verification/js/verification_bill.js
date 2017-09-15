@@ -30,13 +30,13 @@ $("#frames #verification-billfr .verification_bill .u-tabList .u-tabOperation .a
         data: data,
         success: function(data) {
             //console.log(data);
-            alert(data.info);
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 verification_bill_list_manage.reload_list();
             }
         },
         error: function() {
-            alert("通过发票申请时发生错误!");
+            layer.msg('通过发票申请时发生错误!',{icon:2});
         }
     });
 });
@@ -54,13 +54,13 @@ $("#frames #verification-billfr .verification_bill .u-tabList .u-tabOperation .r
         data: data,
         success: function(data) {
             //console.log(data);
-            alert(data.info);
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 verification_bill_list_manage.reload_list();
             }
         },
         error: function() {
-            alert("驳回发票申请时发生错误!");
+            layer.msg('驳回发票申请时发生错误!',{icon:2});
         }
     });
 });
@@ -77,13 +77,13 @@ $("#frames #verification-billfr .verification_bill .u-tabList .u-tabOperation .r
         data: data,
         success: function(data) {
             //console.log(data);
-            alert(data.info);
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 verification_bill_list_manage.reload_list();
             }
         },
         error: function() {
-            alert("驳回发票申请时发生错误!");
+            layer.msg('驳回发票申请时发生错误!',{icon:2});
         }
     });
 });

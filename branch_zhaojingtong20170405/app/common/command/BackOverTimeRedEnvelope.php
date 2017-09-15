@@ -68,7 +68,7 @@ class BackOverTimeRedEnvelope extends Command{
                     $redM->link->commit();
                     $success_red_ids[] = $red_id;
                     write_log($from_user,2,'收到返还的超时红包，id为'.$red_id.'返还金额'.$money.'分',$corp_id);
-                }catch(\Exception $e){
+                }catch(\Exception $ex){
                     $redM->link->rollback();
                     $error_red_ids[] = $red_id;
                     write_log($from_user,2,'返还超时红包失败，id为'.$red_id.'返还金额'.$money.'分',$corp_id);

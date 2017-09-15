@@ -147,6 +147,20 @@ class Employee extends Base{
     }
 
     /**
+     * 设置用户信息
+     * @param $eid 员工id
+     * @param $data
+     * @param $map
+     * @return int|string
+     * @throws \think\Exception
+     * created by messhair
+     */
+    public function setEmployeeSingleInfoById($eid,$data,$map=null)
+    {
+        return $this->model->table($this->table)->where('id',$eid)->where($map)->update($data);
+    }
+
+    /**
      * 取出employee表中所有未开通环信的账号
      * @return array
      * created by messhair

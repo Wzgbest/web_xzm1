@@ -23,11 +23,11 @@ $(document).on("click",".remark i.fa-close",function(){
             }
             else
             {
-                alert(data.msg);
+                layer.msg(data.msg,{icon:2});
             }
         },
         error: function() {
-            alert("申请时发生错误!");
+            layer.msg('申请时发生错误!',{icon:2});
         }
     });
 
@@ -38,7 +38,7 @@ $(document).on("click",".remark i.fa-check",function(){
     var title=$(this).siblings("input").val();
     if(!title)
     {
-        alert('请输入标签名称');
+        layer.msg('请输入标签名称!',{icon:2});
         that.siblings("input").removeAttr("readonly").focus();
         return;
     }
@@ -58,11 +58,11 @@ $(document).on("click",".remark i.fa-check",function(){
             }
             else
             {
-                alert(data.msg);
+                layer.msg(data.msg,{icon:2});
             }
         },
         error: function() {
-            alert("申请时发生错误!");
+            layer.msg('申请时发生错误!',{icon:2});
         }
     });
 });

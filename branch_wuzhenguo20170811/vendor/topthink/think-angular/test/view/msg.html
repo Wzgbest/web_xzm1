@@ -25,15 +25,15 @@
             var email = $('input[name=email]').val();
             var msg = $('textarea[name=msg]').val();
             if (!name) {
-                alert('请输入你的名字');
+                layer.msg('请输入你的名字!',{icon:2});
                 return false;
             }
             if (!email) {
-                alert('请输入你的邮箱');
+                layer.msg('请输入你的邮箱!',{icon:2});
                 return false;
             }
             if (!msg) {
-                alert('请输入你的建议');
+                layer.msg('请输入你的建议!',{icon:2});
                 return false;
             }
             var data = {
@@ -43,12 +43,12 @@
             };
             $.post('http://app.zhaishuaigan.cn/api/feedback/add', data, function(result) {
                 if (result.code === 0) {
-                    alert('反馈成功');
+                    layer.msg('反馈成功!',{icon:1});
                     $('input[name=name]').val('');
                     $('input[name=email]').val('');
                     $('textarea[name=msg]').val('');
                 } else {
-                    alert(result.msg);
+                    layer.msg(result.msg,{icon:2});
                 }
             });
             return false;

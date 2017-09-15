@@ -93,7 +93,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				});
 			},
 			error:function(){
-				alert("获取客户概要失败!");
+				layer.msg('获取客户概要失败!',{icon:2});
 			}
 		});
 	};
@@ -113,7 +113,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				});
 			},
 			error:function(){
-				alert("获取客户信息失败!");
+                layer.msg('获取客户信息失败!',{icon:2});
 			}
 		});
 	};
@@ -137,7 +137,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				});
 			},
 			error:function(){
-				alert("获取客户信息失败!");
+                layer.msg('获取客户信息失败!',{icon:2});
 			}
 		});
 	};
@@ -173,13 +173,13 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
-				alert(data.info);
+                layer.msg(data.info,{icon:data.status==1?1:2});
 				if(data.status) {
 					self.edit_updated_show();
 				}
 			},
 			error: function() {
-				alert("保存客户信息时发生错误!");
+                layer.msg('保存客户信息时发生错误!',{icon:2});
 			}
 		});
 	};
@@ -216,7 +216,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				});
 			},
 			error:function(){
-				alert("获取联系人失败!");
+                layer.msg('获取联系人失败!',{icon:2});
 			}
 		});
 	};
@@ -241,7 +241,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				});
 			},
 			error:function(){
-				alert("获取客户信息失败!");
+                layer.msg('获取客户信息失败!',{icon:2});
 			}
 		});
 	};
@@ -259,13 +259,13 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
-				alert(data.info);
+                layer.msg(data.info,{icon:data.status==1?1:2});
 				if(data.status) {
 					self.contact_show(self.id);
 				}
 			},
 			error: function() {
-				alert("保存客户信息时发生错误!");
+				layer.msg('保存客户信息时发生错误!',{icon:2});
 			}
 		});
 	};
@@ -295,7 +295,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				});
 			},
 			error:function(){
-				alert("获取客户信息失败!");
+                layer.msg('获取客户信息失败!',{icon:2});
 			}
 		});
 	};
@@ -312,13 +312,13 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
-				alert(data.info);
+                layer.msg(data.info,{icon:data.status==1?1:2});
 				if(data.status) {
 					self.contact_show(customer_id);
 				}
 			},
 			error: function() {
-				alert("保存客户信息时发生错误!");
+                layer.msg('保存客户信息时发生错误!',{icon:2});
 			}
 		});
 	};
@@ -369,7 +369,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				}
 			},
 			error:function(){
-				alert("获取销售机会失败!");
+                layer.msg('获取销售机会失败!',{icon:2});
 			}
 		});
 	};
@@ -396,7 +396,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				});
 			},
 			error:function(){
-				alert("获取销售机会添加失败!");
+                layer.msg('获取销售机会添加失败!',{icon:2});
 			}
 		});
 	};
@@ -415,13 +415,13 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
-				alert(data.info);
+                layer.msg(data.info,{icon:data.status==1?1:2});
 				if(data.status) {
 					self.sale_chance_show(customer_id);
 				}
 			},
 			error: function() {
-				alert("保存销售机会时发生错误!");
+                layer.msg('保存销售机会时发生错误!',{icon:2});
 			}
 		});
 	};
@@ -499,7 +499,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				});
 			},
 			error:function(){
-				alert("获取销售机会编辑失败!");
+                layer.msg('获取销售机会编辑失败!',{icon:2});
 			}
 		});
 	};
@@ -520,13 +520,13 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
-				alert(data.info);
+                layer.msg(data.info,{icon:data.status==1?1:2});
 				if(data.status) {
 					self.sale_chance_show(customer_id);
 				}
 			},
 			error: function() {
-				alert("保存销售机会时发生错误!");
+                layer.msg('保存销售机会时发生错误!',{icon:2});
 			}
 		});
 	};
@@ -545,13 +545,13 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
-				alert(data.info);
+                layer.msg(data.info,{icon:data.status==1?1:2});
 				if(data.status) {
 					self.sale_chance_show(customer_id);
 				}
 			},
 			error: function() {
-				alert("作废商机时发生错误!");
+                layer.msg('作废商机时发生错误!',{icon:2});
 			}
 		});
 	};
@@ -570,13 +570,13 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
-				alert(data.info);
+                layer.msg(data.info,{icon:data.status==1?1:2});
 				if(data.status) {
 					self.sale_chance_show(customer_id);
 				}
 			},
 			error: function() {
-				alert("撤回成单申请时发生错误!");
+                layer.msg('撤回成单申请时发生错误!',{icon:2});
 			}
 		});
 	};
@@ -595,13 +595,13 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
-				alert(data.info);
+                layer.msg(data.info,{icon:data.status==1?1:2});
 				if(data.status) {
 					self.sale_chance_show(customer_id);
 				}
 			},
 			error: function() {
-				alert("撤回发票申请时发生错误!");
+                layer.msg('撤回发票申请时发生错误!',{icon:2});
 			}
 		});
 	};
@@ -627,7 +627,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				});
 			},
 			error:function(){
-				alert("获取客户跟踪信息失败!");
+                layer.msg('获取客户跟踪信息失败!',{icon:2});
 			}
 		});
 	};
@@ -644,13 +644,13 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
-				alert(data.info);
+                layer.msg(data.info,{icon:data.status==1?1:2});
 				if(data.status) {
 					self.trace_show(customer_id);
 				}
 			},
 			error: function() {
-				alert("保存客户跟踪信息时发生错误!");
+                layer.msg('保存客户跟踪信息时发生错误!',{icon:2});
 			}
 		});
 	};

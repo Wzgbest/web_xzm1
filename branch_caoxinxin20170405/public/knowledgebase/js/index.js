@@ -27,6 +27,10 @@ $(".knowledgebase_company_library_index .library-list .lib-content .pic-list li 
 	$(this).parent("li").addClass("current").siblings("li").removeClass("current");
 	$(this).parent("li").parent("ul").siblings(".pic-show").children("img").attr("src",$(this).attr("src"));
 })
+$(".knowledgebase_company_library_index .library-list .lib-content .pic-show .pack-up-btn").click(function(){
+	console.log(1);
+	$(this).parent(".pic-show").addClass("hide").siblings(".pic-list").addClass("hide").siblings(".pic-grid").removeClass("hide");
+});
 //评论
 var comment = {
 	state:false,
@@ -64,15 +68,15 @@ $(".knowledgebase_company_library_index .library-list .lib-reply .reply-now .rep
 		data: {'share_id': share_id,'comment_id':comment_id,'reply_content':txt},
 		success:function(data){
 			if (data.status) {
-				alert(data.info);
+				layer.msg(data.info,{icon:data.status==1?1:2});
 				sel.parent(".reply-operator").parent("li").parent(".reply-now").siblings(".reply-ago").append(content); 
 				sel.parent(".reply-operator").parent("li").parent(".reply-now").siblings(".reply-ago").children('li').last().attr("comment_id",data.data);
 			}else{
-				alert(data.info);
+				layer.msg(data.info,{icon:data.status==1?1:2});
 			}
 		},
 		error:function() {
-			alert("评论失败!");
+            layer.msg('评论失败!',{icon:2});
 		},
 	});
 	
@@ -118,14 +122,14 @@ $(".knowledgebase_company_library_index .library-list .lib-operator .praise").cl
 		data: {'share_id': share_id, 'not_like':not_like},
 		success:function(data){
 			if (data.status) {
-				alert(data.info);
+				layer.msg(data.info,{icon:data.status==1?1:2});
 				own.toggleClass("active");
 			}else{
-				alert(data.info);
+				layer.msg(data.info,{icon:data.status==1?1:2});
 			}
 		},
 		error:function(){
-			alert("点赞失败!");
+            layer.msg('点赞失败!',{icon:2});
 		},
 	});
 	

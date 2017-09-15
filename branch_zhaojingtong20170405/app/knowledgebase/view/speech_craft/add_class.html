@@ -16,7 +16,7 @@
 		var class_name = $("#article_class").val();
 		// alert(class_name);
 		if (!class_name) {
-			alert("请输入分类名称!");
+            layer.msg('请输入分类名称!',{icon:2});
 			return;
 		}
 		var data = "type_name="+class_name;
@@ -28,13 +28,13 @@
 			data: data,
 			success: function(data) {
 				if (data.status) {
-					alert(data.info);
+					layer.msg(data.info,{icon:data.status==1?1:2});
 					$("#popUp").children().remove();
 					loadPage("/knowledgebase/speech_craft/add_article", "speech-databasefr");
 				}
 			},
 			error: function() {
-				alert("添加分类失败!");
+                layer.msg('添加分类失败!',{icon:2});
 			}
 		});
 		

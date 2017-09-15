@@ -26,7 +26,7 @@ $(employee_list_nav_base+" .employee_import").click(function(){
 			$('#frames #staff-managementfr .sys_employee_list .employee_import_record').removeClass("hide");
 		},
 		error:function(){
-			alert("获取导入员工信息失败!");
+            layer.msg('获取导入员工信息失败!',{icon:2});
 		}
 	});
 });
@@ -47,7 +47,7 @@ $(employee_list_base+" .employee_import_ui .employee_import_submit_btn").click(f
 		contentType: false,
 		success:function(data){
 			if (data.status!=1) {
-				alert(data.info);
+				layer.msg(data.info,{icon:data.status==1?1:2});
 				return;
 			}
 			var file_id = data.data[0].id;
@@ -58,18 +58,18 @@ $(employee_list_base+" .employee_import_ui .employee_import_submit_btn").click(f
 				dataType: 'json',
 				success: function(data) {
 					//console.log(data);
-					alert(data.info);
+					layer.msg(data.info,{icon:data.status==1?1:2});
 					if(data.status) {
 						employee_list_list_manage.reload_list();
 					}
 				},
 				error: function() {
-					alert("导入员工时发生错误!");
+                    layer.msg('导入员工时发生错误!',{icon:2});
 				}
 			});
 		},
 		error:function(){
-			alert("上传文件失败!");
+            layer.msg('上传文件失败!',{icon:2});
 		}
 	});
 });
@@ -123,13 +123,13 @@ $(employee_list_base+" .employee_delete_ui .employee_delete_ok_btn").click(funct
 		dataType: 'json',
 		success: function(data) {
 			//console.log(data);
-			alert(data.message);
+            layer.msg(data.message,{icon:data.status==1?1:2});
 			if(data.status) {
 				employee_list_list_manage.reload_list();
 			}
 		},
 		error: function() {
-			alert("删除员工时发生错误!");
+            layer.msg('删除员工时发生错误!',{icon:2});
 		}
 	});
 });
@@ -158,7 +158,7 @@ function employee_list_show(id){
 			$('#frames #'+panel).removeClass("hide");
 		},
 		error:function(){
-			alert("获取员工信息失败!");
+            layer.msg('获取员工信息失败!',{icon:2});
 		}
 	});
 }
@@ -176,7 +176,7 @@ function employee_list_edit(id,status){
 			$('#frames #'+panel).removeClass("hide");
 		},
 		error:function(){
-			alert("获取员工信息失败!");
+            layer.msg('获取员工信息失败!',{icon:2});
 		}
 	});
 }
@@ -191,13 +191,13 @@ function employee_list_edit_update(id){
 		dataType: 'json',
 		success: function(data) {
 			//console.log(data);
-			alert(data.message);
+            layer.msg(data.message,{icon:data.status==1?1:2});
 			if(data.status) {
 				employee_list_list_manage.reload_list();
 			}
 		},
 		error: function() {
-			alert("保存员工信息时发生错误!");
+            layer.msg('保存员工信息时发生错误!',{icon:2});
 		},
 	});
 }
@@ -244,13 +244,13 @@ function employee_list_add_employee(){
 		data: employee_list_add_employee_from_data,
 		dataType: 'json',
 		success: function(data) {
-			alert(data.message);
+			layer.msg(data.message,{icon:data.status==1?1:2});
 			if(data.status) {
 				employee_list_list_manage.reload_list();
 			}
 		},
 		error: function() {
-			alert("保存失败!");
+            layer.msg('保存失败!',{icon:2});
 		}
 	});
 }

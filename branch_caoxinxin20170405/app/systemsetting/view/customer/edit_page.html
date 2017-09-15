@@ -95,7 +95,7 @@
             dataType: 'json',
             success: function(data) {
                 //console.log(data);
-                alert(data.info);
+                layer.msg(data.info,{icon:data.status==1?1:2});
                 if(data.status) {
                     loadPage("/systemsetting/customer/index","customer-settingfr");
                 }
