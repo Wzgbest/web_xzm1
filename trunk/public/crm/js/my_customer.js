@@ -6,13 +6,13 @@ $("#frames #myclietsfr .crm_my_customer .my_customer .u-tabList .u-tabOperation 
 		data: "ids="+id,
 		success: function(data) {
 			//console.log(data);
-			alert(data.info);
+            layer.msg(data.info,{icon:data.status==1?1:2});
 			if(data.status) {
 				my_customer_list_manage.reload_list();
 			}
 		},
 		error: function() {
-			alert("释放客户时发生错误!");
+            layer.msg('释放客户时发生错误!',{icon:2});
 		}
 	});
 });
@@ -42,7 +42,7 @@ $(my_customer_base+" .my_customer_import_ui .my_customer_import_submit_btn").cli
 		contentType: false,
 		success:function(data){
 			if (data.status!=1) {
-				alert(data.info);
+                layer.msg(data.info,{icon:data.status==1?1:2});
 				return;
 			}
 			var file_id = data.data[0].id;
@@ -53,18 +53,18 @@ $(my_customer_base+" .my_customer_import_ui .my_customer_import_submit_btn").cli
 				dataType: 'json',
 				success: function(data) {
 					//console.log(data);
-					alert(data.info);
+                    layer.msg(data.info,{icon:data.status==1?1:2});
 					if(data.status) {
 						my_customer_list_manage.reload_list();
 					}
 				},
 				error: function() {
-					alert("导入员工时发生错误!");
+                    layer.msg('导入员工时发生错误!',{icon:2});
 				}
 			});
 		},
 		error:function(){
-			alert("上传文件失败!");
+            layer.msg('上传文件失败!',{icon:2});
 		}
 	});
 });
@@ -85,13 +85,13 @@ $(my_customer_nav_base+" .exportCustomer").click(function(){
 		data: ids,
 		success: function(data) {
 			//console.log(data);
-			alert(data.info);
+            layer.msg(data.info,{icon:data.status==1?1:2});
 			if(data.status) {
 				my_customer_list_manage.reload_list();
 			}
 		},
 		error: function() {
-			alert("导出客户时发生错误!");
+            layer.msg('导出客户时发生错误!',{icon:2});
 		}
 	});
 });
@@ -108,13 +108,13 @@ $(my_customer_nav_base+" .send_customer_group_message").click(function(){
 		data: ids,
 		success: function(data) {
 			//console.log(data);
-			alert(data.info);
+			layer.msg(data.info,{icon:data.status==1?1:2});
 			if(data.status) {
 				my_customer_list_manage.reload_list();
 			}
 		},
 		error: function() {
-			alert("群发短信时发生错误!");
+            layer.msg('群发短信时发生错误!',{icon:2});
 		}
 	});
 });
@@ -131,13 +131,13 @@ $(my_customer_nav_base+" .release_customers").click(function(){
 		data: ids,
 		success: function(data) {
 			//console.log(data);
-			alert(data.info);
+            layer.msg(data.info,{icon:data.status==1?1:2});
 			if(data.status) {
 				my_customer_list_manage.reload_list();
 			}
 		},
 		error: function() {
-			alert("释放客户时发生错误!");
+            layer.msg('释放客户时发生错误!',{icon:2});
 		}
 	});
 });

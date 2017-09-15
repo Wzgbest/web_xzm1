@@ -259,7 +259,7 @@ $(document).ready(function() {
             $('#indexfr').html(data);
         },
         error: function() {
-            alert("简报加载失败!");
+            layer.msg('简报加载失败!',{icon:2});
         }
     });
 });
