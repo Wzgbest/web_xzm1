@@ -113,17 +113,17 @@
         }
         var bill_type = $(bill_item_list_panel+" input[name=bill_type]").val();
         if(bill_type==""){
-            alert("未填写发票类型!");
+            layer.msg('未填写发票类型!',{icon:2});
             return;
         }
         var product_type = $(bill_item_list_panel+" input[name=product_type]").val();
         if(product_type==""){
-            alert("未填写产品类型!");
+            layer.msg('未填写产品类型!',{icon:2});
             return;
         }
         var bank_type = $(bill_item_list_panel+" input[name=bank_type]").val();
         if(bank_type==""){
-            alert("未填写打款银行类型!");
+            layer.msg('未填写打款银行类型!',{icon:2});
             return;
         }
         var form_bill_setting_data = $(".form_bill_setting").serialize();
@@ -135,7 +135,7 @@
             dataType: 'json',
             success: function(data) {
                 //console.log(data);
-                alert(data.info);
+                layer.msg(data.info,{icon:data.status==1?1:2});
                 if(data.status) {
                     loadPage("/systemsetting/bill/index","bill-settingfr");
                 }

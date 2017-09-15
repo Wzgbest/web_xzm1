@@ -30,7 +30,7 @@ function customer_import(panel,type){
                 });
             },
             error:function(){
-                alert("获取客户导入信息失败!");
+                layer.msg('获取客户导入信息失败!',{icon:2});
             }
         });
     };
