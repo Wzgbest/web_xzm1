@@ -67,7 +67,7 @@
 	role_employee_index = JSON.parse(role_employee_index);
     last_contract_list_json = JSON.parse(last_contract_list_json);
 	//合同类型选择事件
-	$(".create-apply-container").on("change",".type-class",function(){
+	$("#create-apply-container").on("change",".type-class",function(){
 		//点击的是哪一行的select
 		var row = $(this).parents(".main-content").index();
 		//改变后的合同类型的value
