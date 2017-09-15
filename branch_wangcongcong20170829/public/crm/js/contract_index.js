@@ -14,7 +14,7 @@ $("#frames #my-contractfr .my_contract .u-tabList .u-tabOperation .retract").cli
 		data: "id="+id,
 		success: function(data) {
 			//console.log(data);
-            layer.msg(data.info,{icon:1});
+            layer.msg(data.info,{icon:data.status==1?1:2});
 			if(data.status) {
 				my_customer_list_manage.reload_list();
 			}

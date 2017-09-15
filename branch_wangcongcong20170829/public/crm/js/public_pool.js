@@ -6,7 +6,7 @@ $("#high-seafr .anonymous_pool .u-tabList .u-tabOperation .take_public_customer"
         data: "ids="+id,
         success: function(data) {
             //console.log(data);
-            layer.msg(data.info,{icon:1});
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 my_customer_list_manage.reload_list();
             }
@@ -38,7 +38,7 @@ $(public_pool_nav_base+" .delete").click(function(){
         data: ids,
         success: function(data) {
             //console.log(data);
-            layer.msg(data.info,{icon:1});
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 public_pool_list_manage.reload_list();
             }
@@ -61,7 +61,7 @@ $(public_pool_nav_base+" .change_customers_visible_range").click(function(){
         data: ids,
         success: function(data) {
             //console.log(data);
-            layer.msg(data.info,{icon:1});
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 public_pool_list_manage.reload_list();
             }

@@ -29,7 +29,7 @@ function loadStructEmployeeTable(id){
             $(".structure_list .top .add").removeClass("hide");
         },
         error:function(){
-            alert("获取成员失败!");
+            layer.msg('获取成员失败!',{icon:2});
         }
     });
 }
@@ -47,7 +47,7 @@ $(".structure_list .top .add").click(function(){
                 $(struct_add_employee_panel).reveal("{data-animation:'fade'}");
             },
             error:function(){
-                alert("获取员工信息失败!");
+                layer.msg('获取员工信息失败!',{icon:2});
             }
         });
     }
@@ -77,14 +77,14 @@ $(struct_add_employee_panel+" .add_employee_ok").click(function(){
             dataType:"json",
             success: function(data) {
                 //console.log(data);
-                alert(data.message);
+                layer.msg(data.message,{icon:data.status==1?1:2});
                 if(data.status) {
                     $(struct_add_employee_panel).trigger('reveal:close');
                     loadStructEmployeeTable(struct_id);
                 }
             },
             error: function() {
-                alert("添加部门员工时发生错误!");
+                layer.msg('添加部门员工时发生错误!',{icon:2});
             }
         });
     }
@@ -165,13 +165,13 @@ $(struct_item_list_panel).on('click',".add_item .add_item_check",function(){
         dataType:"json",
         success: function(data) {
             //console.log(data);
-            alert(data.info);
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 loadPage("/systemsetting/structure/index","division-managementfr");
             }
         },
         error: function() {
-            alert("添加部门时发生错误!");
+            layer.msg('添加部门时发生错误!',{icon:2});
         }
     });
 });
@@ -206,13 +206,13 @@ $(struct_item_list_panel).on('click',".node_item .edit_item_check",function(){
         dataType:"json",
         success: function(data) {
             //console.log(data);
-            alert(data.message);
+            layer.msg(data.message,{icon:data.status==1?1:2});
             if(data.status) {
                 loadPage("/systemsetting/structure/index","division-managementfr");
             }
         },
         error: function() {
-            alert("编辑部门名时发生错误!");
+            layer.msg('编辑部门名时发生错误!',{icon:2});
         }
     });
 });
@@ -246,11 +246,11 @@ structure_tree.listen("delFun",function(id){
                     structure_tree_del_struct_id = id;
                     $(struct_del_panel_temp).reveal("{data-animation:'fade'}");
                 }else{
-                    alert(data.message);
+                    layer.msg(data.message,{icon:data.status==1?1:2});
                 }
             },
             error: function() {
-                alert("删除部门时发生错误!");
+                layer.msg('删除部门时发生错误!',{icon:2});
             }
         });
     }
@@ -276,13 +276,13 @@ function deleteStructure(struct_id,trans){
         dataType:"json",
         success: function(data) {
             //console.log(data);
-            alert(data.message);
+            layer.msg(data.message,{icon:data.status==1?1:2});
             if(data.status) {
                 loadPage("/systemsetting/structure/index","division-managementfr");
             }
         },
         error: function() {
-            alert("删除部门时发生错误!");
+            layer.msg('删除部门时发生错误!',{icon:2});
         }
     });
 }
@@ -296,13 +296,13 @@ function struct_list_employee_del(struct_id,employee_id){
         dataType:"json",
         data:"group="+struct_id+"&user_id="+employee_id,
         success:function (data) {
-            alert(data.message);
+            layer.msg(data.message,{icon:data.status==1?1:2});
             if(data.status){
                 loadStructEmployeeTable(struct_id);
             }
         },
         error:function(){
-            alert("移除员工部门失败!");
+            layer.msg('移除员工部门失败!',{icon:2});
         }
     });
 }
@@ -337,14 +337,14 @@ function struct_list_employee_move_to(struct_id,employee_id,to_struct_id){
         dataType:"json",
         data:"group="+struct_id+"&user_id="+employee_id+"&to_group="+to_struct_id,
         success:function (data) {
-            alert(data.message);
+            layer.msg(data.message,{icon:data.status==1?1:2});
             if(data.status){
                 loadStructEmployeeTable(struct_id);
                 $(struct_list_panel_base+" .structure_move").trigger('reveal:close');
             }
         },
         error:function(){
-            alert("转移员工部门失败!");
+            layer.msg('转移员工部门失败!',{icon:2});
         }
     });
 }

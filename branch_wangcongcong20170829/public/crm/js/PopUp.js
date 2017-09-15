@@ -24,7 +24,7 @@ function popLoad(id,url){
     	async: false,
     	success: function(data) {
 			if(data.status==0){
-				layer.msg(data.info,{icon:1});
+				layer.msg(data.info,{icon:data.status==1?1:2});
 			}
         	$(id).html(data);
         	$(id).removeClass("hide");

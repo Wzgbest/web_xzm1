@@ -21,7 +21,7 @@ $(customer_manage_nav_base+" .delete").click(function(){
         data: ids,
         success: function(data) {
             //console.log(data);
-            layer.msg(data.info,{icon:1});
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 customer_manage_list_manage.reload_list();
             }
@@ -44,7 +44,7 @@ $(customer_manage_nav_base+" .change_customers_to_employee").click(function(){
         data: ids,
         success: function(data) {
             //console.log(data);
-            layer.msg(data.info,{icon:1});
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 customer_manage_list_manage.reload_list();
             }
@@ -67,7 +67,7 @@ $(customer_manage_nav_base+" .change_customers_visible_range").click(function(){
         data: ids,
         success: function(data) {
             //console.log(data);
-            layer.msg(data.info,{icon:1});
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 customer_manage_list_manage.reload_list();
             }
@@ -90,7 +90,7 @@ $(customer_manage_nav_base+" .imposed_release_customers").click(function(){
         data: ids,
         success: function(data) {
             //console.log(data);
-            layer.msg(data.info,{icon:1});
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 customer_manage_list_manage.reload_list();
             }

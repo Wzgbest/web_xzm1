@@ -173,7 +173,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
-				layer.msg(data.info,{icon:1});
+                layer.msg(data.info,{icon:data.status==1?1:2});
 				if(data.status) {
 					self.edit_updated_show();
 				}
@@ -259,7 +259,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
-                layer.msg(data.info,{icon:1});
+                layer.msg(data.info,{icon:data.status==1?1:2});
 				if(data.status) {
 					self.contact_show(self.id);
 				}
@@ -312,7 +312,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
-                layer.msg(data.info,{icon:1});
+                layer.msg(data.info,{icon:data.status==1?1:2});
 				if(data.status) {
 					self.contact_show(customer_id);
 				}
@@ -415,7 +415,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
-                layer.msg(data.info,{icon:1});
+                layer.msg(data.info,{icon:data.status==1?1:2});
 				if(data.status) {
 					self.sale_chance_show(customer_id);
 				}
@@ -520,7 +520,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
-                layer.msg(data.info,{icon:1});
+                layer.msg(data.info,{icon:data.status==1?1:2});
 				if(data.status) {
 					self.sale_chance_show(customer_id);
 				}
@@ -545,7 +545,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
-                layer.msg(data.info,{icon:1});
+                layer.msg(data.info,{icon:data.status==1?1:2});
 				if(data.status) {
 					self.sale_chance_show(customer_id);
 				}
@@ -570,7 +570,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
-                layer.msg(data.info,{icon:1});
+                layer.msg(data.info,{icon:data.status==1?1:2});
 				if(data.status) {
 					self.sale_chance_show(customer_id);
 				}
@@ -595,7 +595,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
-                layer.msg(data.info,{icon:1});
+                layer.msg(data.info,{icon:data.status==1?1:2});
 				if(data.status) {
 					self.sale_chance_show(customer_id);
 				}
@@ -644,7 +644,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			dataType: 'json',
 			success: function(data) {
 				//console.log(data);
-                layer.msg(data.info,{icon:1});
+                layer.msg(data.info,{icon:data.status==1?1:2});
 				if(data.status) {
 					self.trace_show(customer_id);
 				}

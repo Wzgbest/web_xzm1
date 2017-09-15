@@ -24,14 +24,14 @@
 			data: {'share_id': id,'money': money,'paypassword': pw},
 			success:function(data){
 				if (data.status) {
-					alert(data.info);
+					layer.msg(data.info,{icon:data.status==1?1:2});
 					$(".knowledgebase_company_library_index .pay-pop").children().remove();
 				}else {
-					alert(data.info);
+					layer.msg(data.info,{icon:data.status==1?1:2});
 				}
 			},
 			error:function(){
-				alert("打赏失败!")
+                layer.msg('打赏失败!',{icon:2});
 			},
 		});		
 	});	

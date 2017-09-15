@@ -6,7 +6,7 @@ $("#frames #myclietsfr .crm_my_customer .my_customer .u-tabList .u-tabOperation 
 		data: "ids="+id,
 		success: function(data) {
 			//console.log(data);
-            layer.msg(data.info,{icon:1});
+            layer.msg(data.info,{icon:data.status==1?1:2});
 			if(data.status) {
 				my_customer_list_manage.reload_list();
 			}
@@ -42,7 +42,7 @@ $(my_customer_base+" .my_customer_import_ui .my_customer_import_submit_btn").cli
 		contentType: false,
 		success:function(data){
 			if (data.status!=1) {
-                layer.msg(data.info,{icon:1});
+                layer.msg(data.info,{icon:data.status==1?1:2});
 				return;
 			}
 			var file_id = data.data[0].id;
@@ -53,7 +53,7 @@ $(my_customer_base+" .my_customer_import_ui .my_customer_import_submit_btn").cli
 				dataType: 'json',
 				success: function(data) {
 					//console.log(data);
-                    layer.msg(data.info,{icon:1});
+                    layer.msg(data.info,{icon:data.status==1?1:2});
 					if(data.status) {
 						my_customer_list_manage.reload_list();
 					}
@@ -85,7 +85,7 @@ $(my_customer_nav_base+" .exportCustomer").click(function(){
 		data: ids,
 		success: function(data) {
 			//console.log(data);
-            layer.msg(data.info,{icon:1});
+            layer.msg(data.info,{icon:data.status==1?1:2});
 			if(data.status) {
 				my_customer_list_manage.reload_list();
 			}
@@ -108,7 +108,7 @@ $(my_customer_nav_base+" .send_customer_group_message").click(function(){
 		data: ids,
 		success: function(data) {
 			//console.log(data);
-			layer.msg(data.info,{icon:1});
+			layer.msg(data.info,{icon:data.status==1?1:2});
 			if(data.status) {
 				my_customer_list_manage.reload_list();
 			}
@@ -131,7 +131,7 @@ $(my_customer_nav_base+" .release_customers").click(function(){
 		data: ids,
 		success: function(data) {
 			//console.log(data);
-            layer.msg(data.info,{icon:1});
+            layer.msg(data.info,{icon:data.status==1?1:2});
 			if(data.status) {
 				my_customer_list_manage.reload_list();
 			}

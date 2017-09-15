@@ -38,7 +38,7 @@ function loadRuleManage(role_id){
             $(panel).html(data);
         },
         error:function(){
-            alert("获取权限失败!");
+            layer.msg('获取权限失败!',{icon:2});
         }
     });
 }
@@ -55,7 +55,7 @@ function loadRoleEmployeeTable(role_id){
             $(panel).html(data);
         },
         error:function(){
-            alert("获取成员失败!");
+            layer.msg('获取成员失败!',{icon:2});
         }
     });
 }
@@ -75,7 +75,7 @@ $(".systemsetting_role .top .add").click(function(){
                 $(role_add_employee_panel).reveal("{data-animation:'fade'}");
             },
             error:function(){
-                alert("获取员工信息失败!");
+                layer.msg('获取员工信息失败!',{icon:2});
             }
         });
     }
@@ -104,14 +104,14 @@ $(role_add_employee_panel+" .add_employee_ok").click(function(){
             dataType:"json",
             success: function(data) {
                 //console.log(data);
-                alert(data.message);
+                layer.msg(data.message,{icon:data.status==1?1:2});
                 if(data.status) {
                     $(role_add_employee_panel).trigger('reveal:close');
                     loadRoleEmployeeTable(role_id);
                 }
             },
             error: function() {
-                alert("添加职位时发生错误!");
+                layer.msg('添加职位时发生错误!',{icon:2});
             }
         });
     }
@@ -148,13 +148,13 @@ $(role_item_list_panel).on('click',".add_item .add_item_check",function(){
         dataType:"json",
         success: function(data) {
             //console.log(data);
-            alert(data.message);
+            layer.msg(data.message,{icon:data.status==1?1:2});
             if(data.status) {
                 loadPage("/systemsetting/role/index","role-managementfr");
             }
         },
         error: function() {
-            alert("添加职位时发生错误!");
+            layer.msg('添加职位时发生错误!',{icon:2});
         }
     });
 });
@@ -200,13 +200,13 @@ $(role_item_list_panel).on('click',".role_item .edit_item_check",function(){
         dataType:"json",
         success: function(data) {
             //console.log(data);
-            alert(data.message);
+            layer.msg(data.message,{icon:data.status==1?1:2});
             if(data.status) {
                 loadPage("/systemsetting/role/index","role-managementfr");
             }
         },
         error: function() {
-            alert("编辑职位名时发生错误!");
+            layer.msg('编辑职位名时发生错误!',{icon:2});
         }
     });
 });
@@ -228,13 +228,13 @@ $(".systemsetting_role .content .dv1 .del").click(function(){
         dataType:"json",
         success: function(data) {
             //console.log(data);
-            alert(data.message);
+            layer.msg(data.message,{icon:data.status==1?1:2});
             if(data.status) {
                 loadPage("/systemsetting/role/index","role-managementfr");
             }
         },
         error: function() {
-            alert("删除职位时发生错误!");
+            layer.msg('删除职位时发生错误!',{icon:2});
         }
     });
 });
@@ -254,7 +254,7 @@ function role_list_employee_show(id){
             });
         },
         error:function(){
-            alert("获取员工信息失败!");
+            layer.msg('获取员工信息失败!',{icon:2});
         }
     });
 }
@@ -267,13 +267,13 @@ function role_list_employee_del(role_id,user_id){
         dataType:"json",
         data:"role_id="+role_id+"&user_id="+user_id,
         success:function (data) {
-            alert(data.message);
+            layer.msg(data.message,{icon:data.status==1?1:2});
             if(data.status){
                 loadRoleEmployeeTable(role_id);
             }
         },
         error:function(){
-            alert("移除员工职位失败!");
+            layer.msg('移除员工职位失败!',{icon:2});
         }
     });
 }

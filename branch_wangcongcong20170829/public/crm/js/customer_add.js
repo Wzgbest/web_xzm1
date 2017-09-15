@@ -143,11 +143,11 @@ function customer_add(from,target,list_manage){
 						self.new_customer_id = data.data;
 					}
 					if(next_status==0 || next_status==3){
-                        layer.msg(data.info,{icon:1});
+                        layer.msg(data.info,{icon:data.status==1?1:2});
 					}
 					self.next_status(next_status,self.removeNewClient,self.next_contact);
 				}else{
-                    layer.msg(data.info,{icon:1});
+                    layer.msg(data.info,{icon:data.status==1?1:2});
 				}
 			},
 			error: function() {
@@ -186,7 +186,7 @@ function customer_add(from,target,list_manage){
                             }
                             self.next_status(next_status,self.pre_customer,self.next_sale_chance);
                         }else{
-                            layer.msg(data.info,{icon:1});
+                            layer.msg(data.info,{icon:data.status==1?1:2});
                         }
                     },
                     error: function() {
@@ -234,7 +234,7 @@ function customer_add(from,target,list_manage){
                         }
                         self.next_status(next_status,self.pre_contact,self.removeNewClient);
                     }else{
-                        layer.msg(data.info,{icon:1});
+                        layer.msg(data.info,{icon:data.status==1?1:2});
                     }
                 },
                 error: function() {
