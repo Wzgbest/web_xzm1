@@ -17,9 +17,8 @@ use app\crm\model\Customer;
 
 class EmployeeTask{
     protected $corp_id;
-    public function _initialize(){
-        $userinfo = get_userinfo();
-        $this->corp_id = $userinfo["corp_id"];
+    public function __construct($corp_id=null){
+        $this->corp_id = $corp_id;
     }
     public function getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$standard=0,$num=20,$page=1){
         $data = [];
