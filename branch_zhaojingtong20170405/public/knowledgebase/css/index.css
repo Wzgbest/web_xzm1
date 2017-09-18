@@ -235,6 +235,7 @@
 	position: relative;
 	left: 50%;
 	transform: translateX(-50%);
+	cursor: url(/knowledgebase/img/small.png);
 }
 .knowledgebase_company_library_index .library-list .lib-content .pic-list{
 	/*display: flex;*/

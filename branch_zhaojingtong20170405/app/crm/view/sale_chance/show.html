@@ -84,11 +84,11 @@
                 <span class="cont-max-max">预计成单时间：</span>
                 <span class="cont-x">{$vo.prepay_time|day_format}</span>
             </div>
-            <div>
-                <span class="cont">负责人：</span>
-                <span class="cont-x">{$vo.employee_name}</span>
+            <div>                
                 <span class="cont">协助人：</span>
                 <span class="cont-x telephone">{$vo.associator_id}<i class="fa fa-phone"></i></span>
+                <span class="cont">负责人：</span>
+                <span class="cont-x">{$vo.employee_name}</span>
             </div>
             <div>
                 <span class="cont">客户状态：</span>
@@ -104,9 +104,14 @@
                     <span class="cont">拜访地点：</span>
                     <span class="cont-x">{$vo.visit_place}</span>
                 </div>
-                <div>
+                <!-- <div>
                     <span class="cont">&nbsp;</span>
                     <img src="/systemsetting/images/map.jpg" />
+                </div> -->
+                <div>
+                    <span class="cont u-area">详细定位</span>
+                    <!--<input type="text" name="location" placeholder="请点击地图进行坐标定位"/>-->
+                    <iframe id="mapFrame" name="mapFrame" data-lng="115" data-lat="30" src="/index/index/map.html"></iframe>
                 </div>
                 <div>
                     <span class="cont">结伴提醒：</span>
