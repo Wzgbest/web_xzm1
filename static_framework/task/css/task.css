@@ -201,8 +201,11 @@ article .dv1 .left {
 	width: 114px;
 	height: 220px;
 	float: left;
-}
 
+}
+article .dv1 .left .border-right{
+	border-right:1px solid #e6e6e6;
+}
 article .dv1 .img1 {
 	margin-left: -8px;
 	display: block;
@@ -256,7 +259,7 @@ article .dv1 .left p:nth-of-type(2) {
 article .dv1 .left p:nth-of-type(3) {
 	margin-top: 8px;
 	width: 114px;
-	height: 14px;
+	height: 16px;
 	font-size: 14px;
 	text-align: center;
 	color: #ff9945;
