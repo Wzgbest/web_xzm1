@@ -293,7 +293,6 @@ $(".dv4 .parcel .hezi select").change(function(){
 
 
 
-
 //新建tab切换
 //$("article .dv4 .xuanze input").click(function(){
 //					var index=$(this).attr("index")
@@ -317,8 +316,13 @@ $("article .dv4 .xuanze input").click(function(){
 
 //跳转到新页面
 $(".task .xinjian").click(function(){
-	
+//	alert(1)
 	javascript:loadPage('/task/going_task/new_task.html','public-taskfr');
+})
+//点击跳转详情页
+$('.xiangqing').click(function(){
+
+	javascript:loadPage('/task/going_task/incentive_details.html','public-taskfr');
 })
 
 //评论跳转
