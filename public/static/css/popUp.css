@@ -100,7 +100,10 @@
 .popUpClose i{
 	font-size: 1.6em;
 }
-
+/**/
+#create-contract.popUp .pop_content .main>div{
+	text-align: left !important;
+}
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
 #popUpContent{
