@@ -47,18 +47,18 @@ for(var i = 0; i < t; i++) {
 //
 //})
 //$(".dv1 .grade .p1").removeClass("get")
+//领红包
 	$(".dv1 .grade .get").hide();
 	$(".dv1 .mengceng").addClass("m_c");
-	var a = '<img src="/task/img/redPacket.png" class="picture"/>';
-	$(".mengceng").append(a);
-	$('.picture').click(function() {
+//	var picture = '<img src="/task/img/redPacket.png" class="picture"/>';
+//	$(".dv1 .mengceng").append(picture);
+	$('.dv1 .mengceng .picture').click(function() {
 
 		$(this).parent().removeClass("m_c")
-		$(this).remove()
+		$(this).remove();
 
-		$(".dv1 .grade .get").show()
-		$(".dv1 .grade .get").addClass('p1').removeClass("p2").text("已领取100元")
-
+		$(".dv1 .grade .get").show();
+		$(".dv1 .grade .get").addClass('p1').removeClass("p2").text("已领取100元");
 	})
 //领小红包
 $("article .dv2 .left .box img").click(function() {
@@ -235,9 +235,40 @@ function task_like(id,like,fun){
 }
 //新建里边点击加号ul显示
 $("article .dv4 .parcel .add").click(function(){
-
-$("article .dv4 ul").toggleClass('point')
+console.log("add");
 	
+var num1=parseInt($('.num1').val());
+var num2=parseInt($('.num2').val());
+var num3=parseInt($('.num3').val());
+
+var neirong="<li>第<span>"+num1+"</span>~<span>"+num2+"</span>名，各奖励<span>"+num3+"</span>元<i class='fa fa-edit'></i><i class='fa fa-trash-o'></i></li>"
+
+$("article .dv4 ul").prepend(neirong);
+	
+	var s=0;
+
+var max_num2=0;
+$("article .dv4 ul li:not(:last)").each(function(){
+//console.log(parseInt($(this).children("span:eq(1)").text()));
+	
+	
+	var num1=parseInt($(this).children("span:eq(0)").text());
+	var num2=parseInt($(this).children("span:eq(1)").text());
+	var num3=parseInt($(this).children("span:eq(2)").text());
+
+	var i=num2-num1+1;
+	s=s+i*num3;
+	
+//	var arr=[];
+//	arr.push($(this).num2)
+//	alert(arr)
+	if(max_num2<num2){
+		max_num2=num2
+	}
+})
+	$("article .dv4 ul .largest").text(max_num2);
+    $("article .dv4 ul .total").text(s);//总计的钱
+
 })
 
 //绑定change事件
@@ -259,12 +290,30 @@ $(".dv4 .parcel .hezi select").change(function(){
 	}
 })
 
+
+
+
+
 //新建tab切换
+//$("article .dv4 .xuanze input").click(function(){
+//					var index=$(this).attr("index")
+//					$("article .dv4 .tab").css("display","none");
+//					$("article .dv4 .tab").eq($(this).attr("index")).css("display",'block')
+//				})
+
 $("article .dv4 .xuanze input").click(function(){
-					var index=$(this).attr("index")
-					$("article .dv4 .tab").css("display","none");
-					$("article .dv4 .tab").eq($(this).attr("index")).css("display",'block')
-				})
+	
+		if($(this).parent(".choice").index()==1){
+			$("article .dv4 .tab1").css("display","none");
+			$("article .dv4 .tab2").css("display","block");
+		}else{
+			$("article .dv4 .tab1").css("display","block");
+			$("article .dv4 .tab2").css("display","none");
+		}
+					
+	})
+
+
 
 //跳转到新页面
 $(".task .xinjian").click(function(){
