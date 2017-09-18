@@ -1,11 +1,13 @@
 //电话点击
 $("#nav-call").click(function(){
+    $(this).addClass("current");
 	clicker($(this));
 	$(".phone-box").removeClass("hide");
 	phoneWidth = $(".phone-box").width()+10;
 	changeFramesSize();
 });
 $(".phone-box i.fa-close").click(function(){
+    $("#nav-call").removeClass("current");
 	$(".phone-box").addClass("hide");
 	phoneWidth = 0;
 	$("#phone-number").val("");

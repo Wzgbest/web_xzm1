@@ -200,7 +200,7 @@
 	margin-top: 20px;
 	padding-left: 30px;
 }
-.newClient #mapFrame{
+#mapFrame{
 	display: inline-block;
     width: 675px;
     height: 400px;
@@ -210,7 +210,7 @@
     margin-bottom: 12px;
     padding-left: 20px;
 }
-.newClient input[name='address']{
+.newClient input[name='address'],.sale-chance input[name='visit_place']{
 	width: 657px;
 }
 /************************************************************************/

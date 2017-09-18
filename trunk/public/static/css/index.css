@@ -128,9 +128,12 @@ aside dl i{
 	border-right: 1px solid #384951;
 	height: 30px;
 	float: left;
-	margin: 5px 0;
-	padding: 0 10px;
+	margin:  0;
+	padding: 4.5px 10px;
 	cursor: pointer;
+}
+#r-nav>div.current{
+	background-color: #313f47;
 }
 #r-nav>div:last-child{
 	border: none;
@@ -213,6 +216,91 @@ section#subt{
 #frames .hid{
 	display: none;
 }
+
+/**/
+.message-box{
+	width: 480px;
+	height: 505px;
+	border: 1px solid #f0f0f0;
+	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.2);
+	border-radius: 10px;
+	position: fixed;
+	z-index: 999;
+	right: 12px;
+	top: 39px;
+	background-color: #fefefe;
+	overflow: hidden;
+}
+
+.message-box .message-class{
+	width: 28%;
+	float: left;
+	height: 100%;
+	box-sizing:border-box;
+	border-right: 1px solid #e5e5e5;
+	background-color: #f2f6fd;
+	padding-top: 12px;
+}
+.message-box .message-class h4{
+	text-align: center;
+	border-bottom: 1px solid #eee;
+	line-height: 32px;
+	cursor: pointer;
+}
+.message-box .message-class h4.current{
+	background-color: #dee6fa;
+}
+.message-box .message-content{
+	width: 72%;
+	float: right;
+	height: 100%;
+}
+.message-box .message-content-header{
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	background-color: #f7e0c3;
+	font-size: 14px;
+}
+.message-box .message-content-container{
+	height: 425px;
+	box-sizing:border-box;
+	padding: 0 12px;
+	overflow-y: auto;
+}
+.message-box .message-content-container li{
+	height: 64px;
+	padding-right: 70px;
+	border-bottom: 1px solid #eee;
+	padding-top: 20px;
+	cursor: pointer;
+	position: relative;
+}
+.message-box .message-content-container li:hover{
+	color: #42a5f5;
+}
+.message-box .message-content-container li span{
+	color: red;
+	display: none;
+}
+.message-box .message-content-container li.current span{
+	display: inline;
+}
+.message-content-container-time{
+	color: #808080 !important;
+	position: absolute;
+	right: 0;
+	bottom: 10px;
+	font-size: 10px;
+}
+.message-box .message-content-footer{
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	background-color: #f7e0c3;
+	font-size: 14px;
+}
+
 /*电话盒子*/
 .phone-box{
 	width: 396px;
