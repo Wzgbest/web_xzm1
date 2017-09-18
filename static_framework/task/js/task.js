@@ -129,12 +129,11 @@ $(".dv1 .right .give .task").click(function() {
 	$(this).remove()
 	$(".give").append("<p class='cute'>任务进行中</p>");
 })
-//$(".dv1 .right .stimulate .task").click(function() {
-//
-//	$(this).remove()
-//	$(".stimulate").append("<p class='cute'>任务进行中</p>");
-//
-//})
+$(".dv1 .right .give .get_reward").click(function() {
+
+	$(this).addClass("get_succeed").removeClass("p2").text("领取成功");
+
+})
 $(".dv1 .right .give .guess").click(function() {
 	var n="<p class='cute'>猜输赢进行中</p>"
 	$(this).siblings().remove();

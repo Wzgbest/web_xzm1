@@ -204,6 +204,10 @@ article .dv1 .left {
 
 }
 article .dv1 .left .border-right{
+	width: 114px;
+	padding-bottom: 8px;
+	padding-top: 8px;
+	margin-top: 16px;
 	border-right:1px solid #e6e6e6;
 }
 article .dv1 .img1 {
@@ -212,7 +216,7 @@ article .dv1 .img1 {
 }
 
 article .dv1 .left p:nth-of-type(1) {
-	margin-top: 24px;
+	/*margin-top: 24px;*/
 	width: 114px;
 	height: 14px;
 	font-size: 14px;
@@ -1404,6 +1408,14 @@ article .dv1 .right .give .cute{
 	margin-top: 100px;
 	margin-left: 0px;
 	font-size: 18px;
+}
+article .dv1 .right .give .get_succeed{
+	color:#999999;
+	text-align: center;
+	margin-top: 30px;
+	margin-left: 0px;
+	font-size: 18px;
+
 }
 article .dv1 .right .stimulate .cute{
 	color:#999999;
