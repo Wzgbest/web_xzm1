@@ -6,13 +6,13 @@ $("#high-seafr .anonymous_pool .u-tabList .u-tabOperation .take_customer").click
         data: "ids="+id,
         success: function(data) {
             //console.log(data);
-            alert(data.info);
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 my_customer_list_manage.reload_list();
             }
         },
         error: function() {
-            alert("申领客户时发生错误!");
+            layer.msg('申领客户时发生错误!',{icon:2});
         }
     });
 });
@@ -38,13 +38,13 @@ $(anonymous_pool_nav_base+" .delete").click(function(){
         data: ids,
         success: function(data) {
             //console.log(data);
-            alert(data.info);
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 anonymous_pool_list_manage.reload_list();
             }
         },
         error: function() {
-            alert("删除客户时发生错误!");
+            layer.msg('删除客户时发生错误!',{icon:2});
         }
     });
 });
@@ -61,13 +61,13 @@ $(anonymous_pool_nav_base+" .change_customers_visible_range").click(function(){
         data: ids,
         success: function(data) {
             //console.log(data);
-            alert(data.info);
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 anonymous_pool_list_manage.reload_list();
             }
         },
         error: function() {
-            alert("更改可见范围时发生错误!");
+            layer.msg('更改可见范围时发生错误!',{icon:2});
         }
     });
 });

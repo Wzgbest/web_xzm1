@@ -1039,21 +1039,16 @@ function write_customer_log ($userid,$customerid,$remark,$saleid=null) {
 
 /**
  * 生成随机红包
- * @param $total 总金额 单位元，3.33
- * @param $num  个数
- * @param $redtype 红包类型 1运气红包  2普通红包
+ * @param float $total 总金额 单位元，3.33
+ * @param int $num 个数
+ * @parame int $redtype 红包类型 1运气红包 2普通红包 3任务红包
  * @param float $min 最小红包金额
  * @return array
  * created by messhair
  */
 function get_red_bonus ($total,$num,$redtype,$min=0.01) {
     $arr= array();
-    if ($redtype == 2) {
-        $each_money = $total/$num;
-        for($i =0;$i<$num;$i++){
-            $arr[$i] = number_format($each_money,2,'.','');
-        }
-    } elseif ($redtype ==1) {
+    if ($redtype ==1) {
         for ($i=1;$i<$num;$i++) {
             $safe_total=($total-($num-$i)*$min)/($num-$i);
             $safe_total = $safe_total<$min ?$min:$safe_total;
@@ -1063,6 +1058,11 @@ function get_red_bonus ($total,$num,$redtype,$min=0.01) {
             $arr[].=$money;
         }
         $arr[].=number_format($total, 2, '.', '');
+    } else {
+        $each_money = $total/$num;
+        for($i =0;$i<$num;$i++){
+            $arr[$i] = number_format($each_money,2,'.','');
+        }
     }
     shuffle($arr);
     return $arr;

@@ -14,13 +14,13 @@ $("#frames #my-billfr .my_bill .u-tabList .u-tabOperation .retract").click(funct
         data: "id="+id,
         success: function(data) {
             //console.log(data);
-            alert(data.info);
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 my_customer_list_manage.reload_list();
             }
         },
         error: function() {
-            alert("撤回发票申请时发生错误!");
+            layer.msg('撤回发票申请时发生错误!',{icon:2});
         }
     });
 });

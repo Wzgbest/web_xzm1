@@ -77,12 +77,12 @@
             contentType: false,
             success:function(data){
                 if (data.status) {
-                    alert(data.info);
+                    layer.msg(data.info,{icon:data.status==1?1:2});
                     loadPage("/knowledgebase/corporation_share/index", "company-libraryfr");
                 }
             },
             error:function(){
-                alert("发布动态失败!");
+                layer.msg('发布动态失败!',{icon:2});
             }
         });
         

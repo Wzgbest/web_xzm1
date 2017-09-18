@@ -22,13 +22,13 @@ $("#frames #verification-contractfr .verification_contract .u-tabList .u-tabOper
         data: data,
         success: function(data) {
             //console.log(data);
-            alert(data.info);
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 verification_contract_list_manage.reload_list();
             }
         },
         error: function() {
-            alert("通过合同申请时发生错误!");
+            layer.msg('通过合同申请时发生错误!',{icon:2});
         }
     });
 });
@@ -46,13 +46,13 @@ $("#frames #verification-contractfr .verification_contract .u-tabList .u-tabOper
         data: data,
         success: function(data) {
             //console.log(data);
-            alert(data.info);
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 verification_contract_list_manage.reload_list();
             }
         },
         error: function() {
-            alert("驳回合同申请时发生错误!");
+            layer.msg('驳回合同申请时发生错误!',{icon:2});
         }
     });
 });
@@ -70,13 +70,13 @@ $("#frames #verification-contractfr .verification_contract .u-tabList .u-tabOper
         data: data,
         success: function(data) {
             //console.log(data);
-            alert(data.info);
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 verification_contract_list_manage.reload_list();
             }
         },
         error: function() {
-            alert("作废时发生错误!");
+            layer.msg('作废时发生错误!',{icon:2});
         }
     });
 });
@@ -94,13 +94,13 @@ $("#frames #verification-contractfr .verification_contract .u-tabList .u-tabOper
         data: data,
         success: function(data) {
             //console.log(data);
-            alert(data.info);
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 verification_contract_list_manage.reload_list();
             }
         },
         error: function() {
-            alert("作废时发生错误!");
+            layer.msg('作废时发生错误!',{icon:2});
         }
     });
 });
@@ -118,13 +118,13 @@ $("#frames #verification-contractfr .verification_contract .u-tabList .u-tabOper
         data: data,
         success: function(data) {
             //console.log(data);
-            alert(data.info);
+            layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
                 verification_contract_list_manage.reload_list();
             }
         },
         error: function() {
-            alert("作废时发生错误!");
+            layer.msg('作废时发生错误!',{icon:2});
         }
     });
 });

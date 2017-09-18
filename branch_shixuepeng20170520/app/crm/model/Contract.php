@@ -140,7 +140,7 @@ class Contract extends Base{
 
         $field = [
             'ca.*',
-            'GROUP_CONCAT(co.contract_no) as contract_no',
+            'GROUP_CONCAT(distinct co.contract_no) as contract_no',
             'co.status as contract_status',
             'cs.contract_name as contract_type_name',
             "sc.sale_name",
@@ -333,7 +333,7 @@ class Contract extends Base{
 
         $field = [
             'ca.*',
-            'GROUP_CONCAT(co.contract_no) as contract_no',
+            'GROUP_CONCAT(distinct co.contract_no) as contract_no',
             'co.id as contract_id',
             'co.status as contract_status',
             'cs.contract_name as contract_type_name',

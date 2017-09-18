@@ -67,7 +67,7 @@
 	role_employee_index = JSON.parse(role_employee_index);
     last_contract_list_json = JSON.parse(last_contract_list_json);
 	//合同类型选择事件
-	$(document).on("change","#create-apply-container .type-class",function(){
+	$("#create-apply-container").on("change",".type-class",function(){
 		//点击的是哪一行的select
 		var row = $(this).parents(".main-content").index();
 		//改变后的合同类型的value
@@ -119,7 +119,7 @@
 			div.innerHTML = t;
 			document.getElementById("create-apply-container").appendChild(div);
 		}else{
-			alert("不能再添加了");
+            layer.msg('不能再添加了!',{icon:2});
 		}		
 	});
 	function Contract(type,num,apply_num){
@@ -149,13 +149,13 @@
 	        type: 'post',
 	        data: "contract_apply="+JSON.stringify(arry),
 	        success: function(data) {
-	            alert(data.info);
+	            layer.msg(data.info,{icon:data.status==1?1:2});
 				if(data.status==1){
 					$("#create-contract").children().remove();
 				}
 	        },
 	        error: function() {
-	            alert("申请时发生错误!");
+                layer.msg('申请时发生错误!',{icon:2});
 	        }
 	    });
 

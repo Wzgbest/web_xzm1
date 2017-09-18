@@ -40,7 +40,7 @@ class Index extends Initialize{
             return json($result);
         }
         $employeeTaskM = new EmployeeTaskModel($this->corp_id);
-        $taskInfo = $employeeTaskM->getStandardTaskInfoById($id);
+        $taskInfo = $employeeTaskM->getTaskInfo($id);
         $result['data'] = $taskInfo;
         $result['status'] = 1;
         $result['info'] = "获取任务成功！";
@@ -149,7 +149,7 @@ class Index extends Initialize{
         ];
         var_exp($getRankingListParams,'$getRankingListParams');
         */
-        $employeeTaskService = new EmployeeTaskService();
+        $employeeTaskService = new EmployeeTaskService($this->corp_id);
         $rankingdata = $employeeTaskService->getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$standard,$num,$page);
 
         if($task_type=2){

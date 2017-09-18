@@ -7,4 +7,8 @@ class TaskHall
     {
         return view();
     }
+    public function hot_task()
+    {
+        return view();
+    }
 }

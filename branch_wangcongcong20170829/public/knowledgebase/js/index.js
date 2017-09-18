@@ -27,6 +27,10 @@ $(".knowledgebase_company_library_index .library-list .lib-content .pic-list li 
 	$(this).parent("li").addClass("current").siblings("li").removeClass("current");
 	$(this).parent("li").parent("ul").siblings(".pic-show").children("img").attr("src",$(this).attr("src"));
 })
+$(".knowledgebase_company_library_index .library-list .lib-content .pic-show .pack-up-btn").click(function(){
+	console.log(1);
+	$(this).parent(".pic-show").addClass("hide").siblings(".pic-list").addClass("hide").siblings(".pic-grid").removeClass("hide");
+});
 //评论
 var comment = {
 	state:false,
