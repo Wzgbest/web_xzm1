@@ -483,8 +483,7 @@ class Index extends Initialize{
     public function take(){
         $result = ['status'=>0 ,'info'=>"参与任务失败!"];
         $task_id = input('task_id',0,"int");
-        $id = input('id',0,'int');
-        if(!$id){
+        if(!$task_id){
             $result['info'] = "参数错误！";
             return json($result);
         }
@@ -494,7 +493,7 @@ class Index extends Initialize{
 
         $employeeTaskM = new EmployeeTaskModel($this->corp_id);
         $taskTakeM = new TaskTakeModel($this->corp_id);
-        $taskInfo = $employeeTaskM->getTaskInfo($id);
+        $taskInfo = $employeeTaskM->getTaskInfo($task_id);
         if(empty($taskInfo)){
             $result['info'] = "未找到任务！";
             return json($result);
