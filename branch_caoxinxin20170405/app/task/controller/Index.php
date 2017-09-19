@@ -500,12 +500,12 @@ class Index extends Initialize{
             return json($result);
         }
         $start_time = $taskInfo["task_start_time"];
-        if($start_time>$time){
+        if($taskInfo["status"]<2 || $start_time>$time){
             $result['info'] = "任务未开始！";
             return json($result);
         }
         $end_time = $taskInfo["task_end_time"];
-        if($end_time<$time){
+        if($taskInfo["status"]>2 || $end_time<$time){
             $result['info'] = "任务已结束！";
             return json($result);
         }

@@ -69,11 +69,11 @@ class TaskGuess extends Initialize{
             $result['info'] = "任务类型不符";
             return json($result);
         }
-        if($task_data["status"]<2){
+        if($task_data["status"]<2 || $task_data["task_start_time"]>$time){
             $result['info'] = "任务未开始!";
             return json($result);
         }
-        if($task_data["status"]>2){
+        if($task_data["status"]>2 || $task_data["task_end_time"]<$time){
             $result['info'] = "任务过期!";
             return json($result);
         }
