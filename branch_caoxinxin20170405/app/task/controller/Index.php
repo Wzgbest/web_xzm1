@@ -42,12 +42,12 @@ class Index extends Initialize{
         }
         $employeeTaskM = new EmployeeTaskModel($this->corp_id);
         $taskInfo = $employeeTaskM->getTaskInfo($id);
-        $result['data'] = $taskInfo;
+        $result['data']["taskInfo"] = $taskInfo;
         $taskGuessM = new TaskGuessModel($this->corp_id);
-        $guessTakeInfoList = $taskGuessM->getEmployeeGuessMoneyList($id);
-        $result['data'] = $guessTakeInfoList;
-        $guessTakeInfoList = $taskGuessM->getGuessEmployeeMoneyList($id);
-        $result['data'] = $guessTakeInfoList;
+        $employeeGuessTakeInfoList = $taskGuessM->getEmployeeGuessMoneyList($id);
+        $result['data']["employeeGuessTakeInfoList"] = $employeeGuessTakeInfoList;
+        $guessEmployeeTakeInfoList = $taskGuessM->getGuessEmployeeMoneyList($id);
+        $result['data']["guessEmployeeTakeInfoList"] = $guessEmployeeTakeInfoList;
         $result['status'] = 1;
         $result['info'] = "获取任务成功！";
         return json($result);
@@ -220,7 +220,7 @@ class Index extends Initialize{
         $task_info['public_to_view'] = input("public_to_view","","string");
         $task_info['create_employee'] = $uid;
         $task_info['create_time'] = time();
-        $task_info['status'] = 1;
+        $task_info['status'] = 2;
         return $task_info;
     }
     protected function _getTaskTargetForInput(){
@@ -530,6 +530,18 @@ class Index extends Initialize{
         $uids = $taskTakeEmployeeIds;
         if(in_array($uid,$uids)){
             $result['info'] = "已参与任务！";
+            return json($result);
+        }
+        $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($id);
+        $uids = $taskTakeEmployeeIds;
+        if(in_array($uid,$uids)){
+            $result['info'] = "已参与任务！";
+            return json($result);
+        }
+        $taskGussModel = new TaskGuessModel($this->corp_id);
+        $last_employee_id = $taskGussModel->getLastGuessInfo($uid,$task_id);
+        if ($last_employee_id['guess_take_employee']) {
+            $result['info'] = "已经参与过猜输赢了,不能加入任务";
             return json($result);
         }
 

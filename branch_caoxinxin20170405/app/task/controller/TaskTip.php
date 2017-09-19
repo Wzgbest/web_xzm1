@@ -63,6 +63,14 @@ class TaskTip extends Initialize{
             $result['info'] = '未找到任务';
             return json($result);
         }
+        if($task_data["status"]<2){
+            $result['info'] = "任务未开始!";
+            return json($result);
+        }
+        if($task_data["status"]>2){
+            $result['info'] = "任务过期!";
+            return json($result);
+        }
         $flg = false;
         $TipModel->link->startTrans();
         try{
