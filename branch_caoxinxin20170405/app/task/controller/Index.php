@@ -536,6 +536,18 @@ class Index extends Initialize{
             $result['info'] = "已参与任务！";
             return json($result);
         }
+        if($task_type>1) {
+            $taskRewardM = new TaskRewardModel($this->corp_id);
+            $taskReward = $taskRewardM->getTaskRewardListByTaskId($task_id);
+            $taskTakeNumMax = 0;
+            foreach ($taskReward as $reward_item) {
+                $taskTakeNumMax += $reward_item['reward_num'];
+            }
+            if(count($taskTakeEmployeeIds)>=$taskTakeNumMax){
+                $result['info'] = "参与任务人数已满！";
+                return json($result);
+            }
+        }
         $taskGussModel = new TaskGuessModel($this->corp_id);
         $last_employee_id = $taskGussModel->getLastGuessInfo($uid,$task_id);
         if ($last_employee_id['guess_take_employee']) {
