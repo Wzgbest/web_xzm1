@@ -17,6 +17,7 @@ use app\task\model\EmployeeTask as EmployeeTaskModel;
 use app\task\model\TaskTarget as TaskTargetModel;
 use app\task\model\TaskReward as TaskRewardModel;
 use app\task\model\TaskTake as TaskTakeModel;
+use app\task\model\TaskGuess as TaskGuessModel;
 use app\task\service\EmployeeTask as EmployeeTaskService;
 
 class Index extends Initialize{
@@ -42,13 +43,20 @@ class Index extends Initialize{
         $employeeTaskM = new EmployeeTaskModel($this->corp_id);
         $taskInfo = $employeeTaskM->getTaskInfo($id);
         $result['data'] = $taskInfo;
+        $taskGuessM = new TaskGuessModel($this->corp_id);
+        $guessTakeInfoList = $taskGuessM->getEmployeeGuessMoneyList($id);
+        $result['data'] = $guessTakeInfoList;
+        $guessTakeInfoList = $taskGuessM->getGuessEmployeeMoneyList($id);
+        $result['data'] = $guessTakeInfoList;
         $result['status'] = 1;
         $result['info'] = "获取任务成功！";
         return json($result);
     }
 
     public function _getEmployeeGuessMoneyList($id,$uids){
-        return [];
+        $taskGuessM = new TaskGuessModel($this->corp_id);
+        $guessTakeInfoList = $taskGuessM->getGuessEmployeeMoneyList($id);
+        return $guessTakeInfoList;
     }
 
     public function get(){
@@ -156,9 +164,11 @@ class Index extends Initialize{
             $guessdata = $this->_getEmployeeGuessMoneyList($id,$uids);
             foreach ($rankingdata as &$ranking_item){
                 if(isset($guessdata[$ranking_item["employee_id"]])){
-                    $ranking_item["guess"] = $guessdata[$ranking_item["employee_id"]];
+                    $ranking_item["guess_money"] = $guessdata[$ranking_item["employee_id"]]["money"];
+                    $ranking_item["guess_num"] = $guessdata[$ranking_item["employee_id"]]["guess_employee_num"];
                 }else{
-                    $ranking_item["guess"] = 0;
+                    $ranking_item["guess_money"] = 0;
+                    $ranking_item["guess_num"] = 0;
                 }
             }
         }
@@ -222,13 +232,14 @@ class Index extends Initialize{
     }
     protected function _getTaskRewardForInput($task_method){
         $task_reward_infos["all_reward_amount"] = 0;
+        $task_reward_infos["reward_max_num"] = 0;
         $reward_type = 1;
         if($task_method==1||$task_method==3) {
             $reward_type = 2;
         }
-        $reward_method = 4;
+        $reward_method = 1;
         if($task_method==1) {
-            $reward_method = 1;
+            $reward_method = 4;
         }
         $reward_str = input("reward");
         $reward_arr = json_decode($reward_str,true);
@@ -257,7 +268,7 @@ class Index extends Initialize{
             $task_reward_info['reward_end'] = $reward_item["reward_end"];
             $task_reward_info['reward_num'] = $reward_item["reward_end"]-$reward_item["reward_start"]+1;
             $task_reward_infos["list"][] = $task_reward_info;
-            $task_reward_infos["all_reward_amount"] += $task_reward_info['reward_num']*$task_reward_info['reward_amount'];
+            $task_reward_infos["reward_max_num"] = ($task_reward_infos["reward_max_num"]<$reward_item["reward_end"])?$reward_item["reward_end"]:$task_reward_infos["reward_max_num"];
         }
         /* 数组校验名次序列方法,弃用
         for($i=1;$i<=$index_max;$i++){
@@ -284,6 +295,26 @@ class Index extends Initialize{
         $uid = $userinfo["userid"];
         $time = time();
         $taskInfo = $this->_getTaskForInput($uid);
+        //统计周期时间校验
+        if($taskInfo["task_start_time"]>=$taskInfo["task_end_time"]){
+            $result['info'] = '统计周期时间错误';
+            return json($result);
+        }
+        //PK任务 加入时间校验
+        if($taskInfo["task_type"]==2){
+            $takeTimeFlg = false;
+            if(
+                ($taskInfo["task_start_time"]<=$taskInfo["task_take_start_time"]) &&
+                ($taskInfo["task_take_start_time"]<$taskInfo["task_take_end_time"]) &&
+                ($taskInfo["task_take_end_time"]<=$taskInfo["task_end_time"])
+            ){
+                $takeTimeFlg = true;
+            }
+            if(!$takeTimeFlg){
+                $result['info'] = '加入时间错误';
+                return json($result);
+            }
+        }
         $taskTargetInfo = $this->_getTaskTargetForInput();
         $taskRewardInfos = $this->_getTaskRewardForInput($taskInfo["task_method"]);
         if(empty($taskRewardInfos)){
@@ -291,6 +322,7 @@ class Index extends Initialize{
             return json($result);
         }
         //var_exp($taskRewardInfos,'$taskRewardInfos',1);
+        $taskInfo["reward_max_num"] = $taskRewardInfos["reward_max_num"];
         $taskTakeInfos[] = [
             "take_employee"=>$uid,
             "take_time"=>$time
@@ -307,6 +339,7 @@ class Index extends Initialize{
 
         //TODO 检验和判断
         $money = $taskRewardInfos["all_reward_amount"];
+        $taskInfo["reward_count"] = $money;
         $paypassword = input('paypassword');
         if(empty($money)||empty($paypassword)){
             $result['info'] = '参数错误';

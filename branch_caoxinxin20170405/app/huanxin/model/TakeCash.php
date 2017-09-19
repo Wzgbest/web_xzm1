@@ -27,6 +27,16 @@ class TakeCash extends Base
     }
 
     /**
+     * 添加订单信息
+     * @param $datas
+     * @return int|string
+     */
+    public function addMutipleOrderNumber($datas)
+    {
+        return $this->model->table($this->table)->insertAll($datas);
+    }
+
+    /**
      * 查询交易信息
      * @param $user
      * @return int|string
