@@ -1,5 +1,7 @@
 <link rel="stylesheet" href="/task/css/task.css" />
 <link rel="stylesheet" href="/task/css/hsCheckData.css" />
+<script src="/task/js/adddate.js"></script>
+<script src="/task/js/payPwd.js"></script>
 <div class="task">
 	<header>
 		<div id="top">
@@ -93,10 +95,12 @@
 					<img src="/task/img/star.png" />
 					<span>领取周期</span>
 					<!--<input type="text" placeholder="请填写日期" />-->
-					<input type="datetime-local" style="line-height: 35px;" />
+					<!--<input type="datetime-local" style="line-height: 35px;" />-->
+					<input type="text" value="" maxlength="100" id="Text4" onclick="SelectDate(this,'yyyy-MM-dd hh:mm:ss')" placeholder="请填写日期"/>
 					<span class="set">到</span>
 					<!--<input type="text" placeholder="请填写日期" />-->
-					<input type="datetime-local" style="line-height: 35px;" />
+					<!--<input type="datetime-local" style="line-height: 35px;" />-->
+					<input type="text" value="" maxlength="100" id="Text4" onclick="SelectDate(this,'yyyy-MM-dd hh:mm:ss')" placeholder="请填写日期"/>
 				</div>
 			</div>
 			<div class="parcel">
@@ -104,10 +108,11 @@
 					<img src="/task/img/star.png" />
 					<span>统计周期</span>
 					<!--<input type="text" placeholder="请填写日期" />-->
-					<input type="datetime-local" style="line-height: 35px;" />
+					<!--<input type="datetime-local" style="line-height: 35px;" />-->
+					<input type="text" value="" maxlength="100" id="Text4" onclick="SelectDate(this,'yyyy-MM-dd hh:mm:ss')" placeholder="请填写日期"/>
 					<span class="set">到</span>
 					<!--<input type="text" placeholder="请填写日期" />-->
-					<input type="datetime-local" style="line-height: 35px;" />
+					<input type="text" value="" maxlength="100" id="Text4" onclick="SelectDate(this,'yyyy-MM-dd hh:mm:ss')" placeholder="请填写日期"/>
 				</div>
 			</div>
 			<div class="last">
@@ -131,20 +136,18 @@
 				<input type="text" placeholder="80.00" />
 			</div>
 			<p class="bar">账户余额:<span>20</span>元,余额不足请<a href="#">充值</a></p>
-			<div class="mima">
-				
-				<div class="sun">
-					<input type="password" />
-					<input type="password" />
-					<input type="password" />
-					<input type="password" />
-					<input type="password" />
-					<input type="password" />
+			<div class="mima" id="payPwd">
+				<div class="box">
+					<div class="flex-1 item"><input maxlength="1" type="tel"></div>
+					<div class="flex-1 item"><input maxlength="1" type="tel"></div>
+					<div class="flex-1 item"><input maxlength="1" type="tel"></div>
+					<div class="flex-1 item"><input maxlength="1" type="tel"></div>
+					<div class="flex-1 item"><input maxlength="1" type="tel"></div>
+					<div class="flex-1 item"><input maxlength="1" type="tel"></div>
 				</div>
 				<div class="moon">
 					<a href="#">忘记密码？</a>
 				</div>
-				
 			</div>
 			<div class="mianmi">
 				<input type="checkbox" />
@@ -166,6 +169,20 @@
 	<script src="/task/js/cityData.js"></script>
 <script src="/task/js/hsCheckData.js"></script>
 <script>
+	$(function(){
+		$("#payPwd").payPwd({
+			max:6,
+			type:"password",
+			callback:function(arr) {
+				console.log(arr);
+				$("#inputtype").html(arr);
+			}
+		})
+	})
+
+		
+	
+	
 	$('#cityDanXuan').hsCheckData({
 		isShowCheckBox: false, //默认为false
 		data: cityData

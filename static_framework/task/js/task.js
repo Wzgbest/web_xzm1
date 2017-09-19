@@ -314,9 +314,15 @@ $("article .dv4 .xuanze input").click(function(){
 
 
 //跳转到新页面
-$(".task .xinjian").click(function(){
-//	alert(1)
+function a(){
+	
+	javascript:loadPage('/task/going_task/new_task.html','my-taskfr');
 	javascript:loadPage('/task/going_task/new_task.html','public-taskfr');
+	javascript:loadPage('/task/going_task/new_task.html','task-histroyfr');
+}
+$(".task .xinjian").click(function(){
+
+	a();
 })
 //点击跳转详情页
 $('.xiangqing').click(function(){

@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="/task/css/task.css" />
 <link rel="stylesheet" href="/task/css/hsCheckData.css" />
-
+<script src="/task/js/adddate.js"></script>
 <div class="task">
 	<header>
 		<div id="top">
@@ -170,9 +170,11 @@
 					<div class="normal">
 						<img src="/task/img/star.png" />
 						<span>统计周期</span>
-						<input type="datetime-local" style="line-height: 35px;" />
+						<!--<input type="datetime-local" style="line-height: 35px;" />-->
+						<input type="text" value="" maxlength="100" id="Text4" onclick="SelectDate(this,'yyyy-MM-dd hh:mm:ss')" placeholder="请填写日期"/>
 						<span class="set">到</span>
-						<input type="datetime-local" style="line-height: 35px;" />
+						<!--<input type="datetime-local" style="line-height: 35px;" />-->
+						<input type="text" value="" maxlength="100" id="Text4" onclick="SelectDate(this,'yyyy-MM-dd hh:mm:ss')" placeholder="请填写日期"/>
 					</div>
 				</div>
 				<div class="last">

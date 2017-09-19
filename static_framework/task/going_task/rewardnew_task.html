@@ -1,5 +1,7 @@
 <link rel="stylesheet" href="/task/css/task.css" />
 <link rel="stylesheet" href="/task/css/hsCheckData.css" />
+<script src="/task/js/adddate.js"></script>
+<script src="/task/js/payPwd.js"></script>
 <div class="task">
 	<header>
 		<div id="top">
@@ -48,7 +50,7 @@
 			</div>
 			<div class="parcel">
 				<div class="left hezi">
-					<img src="/task/img/star.png" style="margin-top: -20px;"/>
+					<img src="/task/img/star.png" style="margin-top: -20px;" />
 					<span style="vertical-align: top;">面向群体</span>
 					<!--<select>
 						<option>李文璐、王大宝、张三等</option>
@@ -56,7 +58,7 @@
 						<option>刘大宝等</option>
 					</select>-->
 					<!--<div id="cityMR2" style="width:233px;padding-right:10px;overflow: hidden;" ></div>-->
-					<div id="cityMR2" style="width:225px;padding-right:10px;overflow: hidden;padding-left: 20px;" >
+					<div id="cityMR2" style="width:225px;padding-right:10px;overflow: hidden;padding-left: 20px;">
 					</div>
 				</div>
 				<div class="right hezi">
@@ -92,10 +94,12 @@
 					<img src="/task/img/star.png" />
 					<span>领取周期</span>
 					<!--<input type="text" placeholder="请填写日期" />-->
-					<input type="datetime-local" style="line-height: 35px;" />
+					<!--<input type="datetime-local" style="line-height: 35px;" />-->
+					<input type="text" value="" maxlength="100" id="Text4" onclick="SelectDate(this,'yyyy-MM-dd hh:mm:ss')" placeholder="请填写日期" />
 					<span class="set">到</span>
 					<!--<input type="text" placeholder="请填写日期" />-->
-					<input type="datetime-local" style="line-height: 35px;" />
+					<!--<input type="datetime-local" style="line-height: 35px;" />-->
+					<input type="text" value="" maxlength="100" id="Text4" onclick="SelectDate(this,'yyyy-MM-dd hh:mm:ss')" placeholder="请填写日期" />
 				</div>
 			</div>
 			<div class="parcel">
@@ -103,10 +107,12 @@
 					<img src="/task/img/star.png" />
 					<span>统计周期</span>
 					<!--<input type="text" placeholder="请填写日期" />-->
-					<input type="datetime-local" style="line-height: 35px;" />
+					<!--<input type="datetime-local" style="line-height: 35px;" />-->
+					<input type="text" value="" maxlength="100" id="Text4" onclick="SelectDate(this,'yyyy-MM-dd hh:mm:ss')" placeholder="请填写日期" />
 					<span class="set">到</span>
 					<!--<input type="text" placeholder="请填写日期" />-->
-					<input type="datetime-local" style="line-height: 35px;" />
+					<!--<input type="datetime-local" style="line-height: 35px;" />-->
+					<input type="text" value="" maxlength="100" id="Text4" onclick="SelectDate(this,'yyyy-MM-dd hh:mm:ss')" placeholder="请填写日期" />
 				</div>
 			</div>
 			<div class="last">
@@ -130,28 +136,20 @@
 				<input type="text" placeholder="00.00" />
 			</div>
 			<p class="bar">账户金额:<span>100</span>元</p>
-			<div class="mima">
-				<!--<ul>
-					<li>1</li>
-					<li>2</li>
-					<li>3</li>
-					<li>4</li>
-					<li>5</li>
-					<li>6</li>
-				</ul>-->
-				<div class="sun">
-					<input type="password" />
-					<input type="password" />
-					<input type="password" />
-					<input type="password" />
-					<input type="password" />
-					<input type="password" />
+			<div class="mima" id="payPwd">
+				<div class="box">
+					<div class="flex-1 item"><input maxlength="1" type="tel"></div>
+					<div class="flex-1 item"><input maxlength="1" type="tel"></div>
+					<div class="flex-1 item"><input maxlength="1" type="tel"></div>
+					<div class="flex-1 item"><input maxlength="1" type="tel"></div>
+					<div class="flex-1 item"><input maxlength="1" type="tel"></div>
+					<div class="flex-1 item"><input maxlength="1" type="tel"></div>
 				</div>
 				<div class="moon">
 					<a href="#">忘记密码？</a>
 				</div>
-				
 			</div>
+			
 			<div class="mianmi">
 				<input type="checkbox" />
 				<span>小额免密支付?</span>
@@ -170,25 +168,39 @@
 
 	<script type="text/javascript" src="/task/js/task.js"></script>
 	<script src="/task/js/cityData.js"></script>
-<script src="/task/js/hsCheckData.js"></script>
-<script>
-	$('#cityDanXuan').hsCheckData({
-		isShowCheckBox: false, //默认为false
-		data: cityData
-	});
-	$('#cityDuoXuan').hsCheckData({
-		isShowCheckBox: true, //默认为false
-		minCheck: 0, //默认为0，不限最少选择个数
-		maxCheck: 6, //默认为0，不限最多选择个数
-		data: cityData
-	});
-	$('#cityMR').hsCheckData({
-		isShowCheckBox: true,
-		data: cityData,
-		defText: '销售一部-张三'
-	});
-	$('#cityMR2').hsCheckData({
-		isShowCheckBox: true,
-		data: cityData
-	});
-</script>
+	<script src="/task/js/hsCheckData.js"></script>
+	<script>
+
+	$(function(){
+		$("#payPwd").payPwd({
+			max:6,
+			type:"password",
+			callback:function(arr) {
+				console.log(arr);
+				$("#inputtype").html(arr);
+			}
+		})
+	})
+
+		
+		
+		$('#cityDanXuan').hsCheckData({
+			isShowCheckBox: false, //默认为false
+			data: cityData
+		});
+		$('#cityDuoXuan').hsCheckData({
+			isShowCheckBox: true, //默认为false
+			minCheck: 0, //默认为0，不限最少选择个数
+			maxCheck: 6, //默认为0，不限最多选择个数
+			data: cityData
+		});
+		$('#cityMR').hsCheckData({
+			isShowCheckBox: true,
+			data: cityData,
+			defText: '销售一部-张三'
+		});
+		$('#cityMR2').hsCheckData({
+			isShowCheckBox: true,
+			data: cityData
+		});
+	</script>
