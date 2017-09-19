@@ -268,10 +268,13 @@ class Index extends Initialize{
                 $task_reward_info['reward_start'] = 1;
                 $task_reward_info['reward_end'] = 1;
                 $task_reward_info['reward_num'] = 0;
+                $task_reward_infos["all_reward_amount"] += $task_reward_info['reward_amount'];
             }else{
                 $task_reward_info['reward_start'] = $reward_item["reward_start"];
                 $task_reward_info['reward_end'] = $reward_item["reward_end"];
                 $task_reward_info['reward_num'] = $reward_item["reward_end"]-$reward_item["reward_start"]+1;
+
+                $task_reward_infos["all_reward_amount"] += $task_reward_info['reward_num']*$task_reward_info['reward_amount'];
             }
             $task_reward_infos["list"][] = $task_reward_info;
             $task_reward_infos["reward_max_num"] = ($task_reward_infos["reward_max_num"]<$reward_item["reward_end"])?$reward_item["reward_end"]:$task_reward_infos["reward_max_num"];
@@ -348,7 +351,7 @@ class Index extends Initialize{
         $taskInfo["reward_count"] = $money;
         $paypassword = input('paypassword');
         if(empty($money)||empty($paypassword)){
-            $result['info'] = '参数错误';
+            $result['info'] = '参数错误!';
             return json($result);
         }
         if (md5($paypassword) != $userinfo['userinfo']['pay_password']) {
@@ -445,7 +448,7 @@ class Index extends Initialize{
 
             if($taskInfo["task_type"]==1) {
                 $de_corp_money["corp_reserved_money"] = ['exp', "corp_reserved_money - $save_money"];
-                $de_corp_money["corp_reserved_forzen_money"] = ['exp', "corp_reserved_forzen_money + $save_money"];
+                $de_corp_money["corp_reserved_frozen_money"] = ['exp', "corp_reserved_frozen_money + $save_money"];
                 $de_corp_mone_map["corp_reserved_money"] = ["egt", $save_money];
                 $de_corp_money_flg = Corporation::setCorporationInfo($this->corp_id, $de_corp_money, $de_corp_mone_map);
                 if (!$de_corp_money_flg) {
@@ -453,7 +456,7 @@ class Index extends Initialize{
                 }
             }else{
                 $de_corp_money["corp_left_money"] = ['exp', "corp_left_money - $save_money"];
-                $de_corp_money["corp_left_forzen_money"] = ['exp', "corp_left_forzen_money + $save_money"];
+                $de_corp_money["corp_frozen_money"] = ['exp', "corp_frozen_money + $save_money"];
                 $de_corp_mone_map["corp_left_money"] = ["egt", $save_money];
                 $de_corp_money_flg = Corporation::setCorporationInfo($this->corp_id, $de_corp_money, $de_corp_mone_map);
                 if (!$de_corp_money_flg) {
@@ -507,12 +510,12 @@ class Index extends Initialize{
             return json($result);
         }
         $take_start_time = $taskInfo["task_take_start_time"];
-        if($take_start_time>$time){
+        if($take_start_time>0&&$take_start_time>$time){
             $result['info'] = "任务加入未开始！";
             return json($result);
         }
         $take_end_time = $taskInfo["task_take_end_time"];
-        if($take_end_time<$time){
+        if($take_end_time>0&&$take_end_time<$time){
             $result['info'] = "任务加入已结束！";
             return json($result);
         }

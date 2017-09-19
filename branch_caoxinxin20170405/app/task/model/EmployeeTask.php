@@ -149,7 +149,7 @@ class EmployeeTask extends Base{
     }
     public function getAllOverTimeTask($time){
         $map["et.task_end_time"] = ["lt",$time];
-        $map["et.type"] = ["in",[1,2,3]];
+        $map["et.task_type"] = ["in",[1,2,3]];
         $map["et.status"] = 2;
         $order = "et.id asc";
         $field = ["et.*"];
