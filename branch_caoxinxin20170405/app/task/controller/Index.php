@@ -332,10 +332,13 @@ class Index extends Initialize{
         }
         //var_exp($taskRewardInfos,'$taskRewardInfos',1);
         $taskInfo["reward_max_num"] = $taskRewardInfos["reward_max_num"];
-        $taskTakeInfos[] = [
-            "take_employee"=>$uid,
-            "take_time"=>$time
-        ];
+        $taskTakeInfos = [];
+        if($taskInfo["task_type"]==2){
+            $taskTakeInfos[] = [
+                "take_employee"=>$uid,
+                "take_time"=>$time
+            ];
+        }
         $public_uids = explode(",",$taskInfo["public_to_take"]);
         if($taskInfo["task_type"]==1){
             foreach ($public_uids as $employee_id){
@@ -405,13 +408,15 @@ class Index extends Initialize{
                 exception('提交任务目标失败!');
             }
 
-            foreach ($taskTakeInfos as &$taskTakeInfo) {
-                $taskTakeInfo['task_id'] = $taskId;
-            }
-            $taskTakeM = new TaskTakeModel($this->corp_id);
-            $taskTakeId = $taskTakeM->addMutipleTaskTake($taskTakeInfos);
-            if(!$taskTakeId){
-                exception('提交任务参与信息失败!');
+            if(!empty($taskTakeInfos)){
+                foreach ($taskTakeInfos as &$taskTakeInfo) {
+                    $taskTakeInfo['task_id'] = $taskId;
+                }
+                $taskTakeM = new TaskTakeModel($this->corp_id);
+                $taskTakeId = $taskTakeM->addMutipleTaskTake($taskTakeInfos);
+                if(!$taskTakeId){
+                    exception('提交任务参与信息失败!');
+                }
             }
 
 
@@ -519,19 +524,13 @@ class Index extends Initialize{
             return json($result);
         }
         $task_type = $taskInfo["task_type"];
-        $public_take_uids = $taskInfo["public_to_take"];
+        $public_take_uids = explode(",",$taskInfo["public_to_take"]);
         if(!in_array($uid,$public_take_uids)){
             $result['info'] = "不在参与任务范围内！";
             return json($result);
         }
 
-        $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($id);
-        $uids = $taskTakeEmployeeIds;
-        if(in_array($uid,$uids)){
-            $result['info'] = "已参与任务！";
-            return json($result);
-        }
-        $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($id);
+        $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($task_id);
         $uids = $taskTakeEmployeeIds;
         if(in_array($uid,$uids)){
             $result['info'] = "已参与任务！";
@@ -545,7 +544,7 @@ class Index extends Initialize{
         }
 
         $money = 0;
-        if($task_type<3){
+        if($task_type==2){
             $money = 0+input('money');
             $paypassword = input('paypassword');
             if(empty($task_id)||empty($money)||empty($paypassword)){
@@ -567,8 +566,8 @@ class Index extends Initialize{
                 return json($info);
             }
         }
-        $taskTakeInfos[] = [
-            "take_id"=>$task_id,
+        $taskTakeInfo = [
+            "task_id"=>$task_id,
             "take_employee"=>$uid,
             "take_time"=>$time
         ];
@@ -576,7 +575,7 @@ class Index extends Initialize{
         $employM = new Employee($this->corp_id);
         try{
             $employeeTaskM->link->startTrans();
-            $takeFlg = $taskTakeM->addTaskTake($taskTakeInfos);
+            $takeFlg = $taskTakeM->addTaskTake($taskTakeInfo);
             if(!$takeFlg){
                 exception("参与任务发生错误!");
             }
@@ -605,9 +604,11 @@ class Index extends Initialize{
             return json($result);
         }
 
-        $telphone = $userinfo["telephone"];
-        $userinfo = $employM->getEmployeeByTel($telphone);
-        set_userinfo($this->corp_id,$telphone,$userinfo);
+        if($task_type==2) {
+            $telphone = $userinfo["telephone"];
+            $userinfo = $employM->getEmployeeByTel($telphone);
+            set_userinfo($this->corp_id, $telphone, $userinfo);
+        }
 
         $result['info'] = '参与任务成功';
         $result['status'] = 1;

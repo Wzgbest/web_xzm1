@@ -283,25 +283,45 @@ class EmployeeTask extends Command{
                     $target_type = $taskTarget["target_type"];
                     $standard = $taskTarget["target_num"];
 
-                    $employeeTaskService = new EmployeeTaskService($corp_id);
-                    $rankingdata = $employeeTaskService->getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$standard,20,1);
-                    var_exp($rankingdata,'$rankingdata');
-
-                    $haveRedEnvelopeInfo = $employeeTaskM->getStandardTaskInfoById($id);
-                    var_exp($haveRedEnvelopeInfo,'$haveRedEnvelopeInfo');
-
-                    //计算已经发送的红包和需要发送的红包
-                    //任务红包
+                    //有任务红包的员工
+                    $rankingdata = [];
                     $needRedEnvelopeEmployeeId = [];
-                    foreach ($rankingdata as $key=>$rankingitem){
-                        if(!isset($haveRedEnvelopeInfo[$rankingitem["employee_id"]])){
-                            continue;
+                    $haveRedEnvelopeNum = 0;
+                    $sentRedEnvelopeMoney = 0;
+
+                    if($task_type<3) {
+                        $employeeTaskService = new EmployeeTaskService($corp_id);
+                        $rankingdata = $employeeTaskService->getRankingList($target_type, $task_method, $start_time, $end_time, $uids, $standard, 20, 1);
+                        var_exp($rankingdata, '$rankingdata');
+
+                        $haveRedEnvelopeInfo = $employeeTaskM->getStandardTaskInfoById($id);
+                        var_exp($haveRedEnvelopeInfo, '$haveRedEnvelopeInfo');
+
+                        foreach ($haveRedEnvelopeInfo as $haveRedEnvelopeEmployee) {
+                            if (!empty($haveRedEnvelopeEmployee["redid"])) {
+                                $haveRedEnvelopeNum++;
+                                $sentRedEnvelopeMoney = $sentRedEnvelopeMoney + $haveRedEnvelopeEmployee["money"];
+                            }
                         }
-                        if($rankingitem["is_standard"] && empty($haveRedEnvelopeInfo[$rankingitem["employee_id"]]["redid"])){
-                            $needRedEnvelopeEmployeeId[$key] = $rankingitem["employee_id"];
+                        var_exp($haveRedEnvelopeNum, '$haveRedEnvelopeNum');
+                        var_exp($sentRedEnvelopeMoney, '$sentRedEnvelopeMoney');
+
+                        //计算已经发送的红包和需要发送的红包
+                        foreach ($rankingdata as $key => $rankingitem) {
+                            if (!isset($haveRedEnvelopeInfo[$rankingitem["employee_id"]])) {
+                                continue;
+                            }
+                            if ($rankingitem["is_standard"] && empty($haveRedEnvelopeInfo[$rankingitem["employee_id"]]["redid"])) {
+                                $needRedEnvelopeEmployeeId[$key] = $rankingitem["employee_id"];
+                            }
+                        }
+                        var_exp($needRedEnvelopeEmployeeId, '$needRedEnvelopeEmployeeId_over_time');
+                    }elseif ($task_type==3){
+                        $needRedEnvelopeEmployeeId = $taskTakeM->getTaskTakeIdsByTaskId($id);
+                        for($i=0;$i<count($needRedEnvelopeEmployeeId);$i++){
+                            $rankingdata[] = ["employee_id"=>$needRedEnvelopeEmployeeId[$i]];
                         }
                     }
-                    var_exp($needRedEnvelopeEmployeeId,'$needRedEnvelopeEmployeeId_over_time');
 
                     if(!empty($needRedEnvelopeEmployeeId)){
                         $taskReward = $taskRewardM->getTaskRewardListByTaskId($id);
@@ -353,20 +373,10 @@ class EmployeeTask extends Command{
                             }
                         }
                         $needRedEnvelopeEmployeeNum = count($redEnvelopeInfos);
+                        var_exp($needRedEnvelopeEmployeeNum,'$needRedEnvelopeEmployeeNum');
                         var_exp($redEnvelopeInfos,'$redEnvelopeInfos_task');
 
-                        $haveRedEnvelopeNum = 0;
-                        $sentRedEnvelopeMoney = 0;
-                        foreach ($haveRedEnvelopeInfo as $haveRedEnvelopeEmployee){
-                            if(!empty($haveRedEnvelopeEmployee["redid"])){
-                                $haveRedEnvelopeNum++;
-                                $sentRedEnvelopeMoney = $sentRedEnvelopeMoney+$haveRedEnvelopeEmployee["money"];
-                            }
-                        }
                         $allHaveTipRedEnvelopeEmployeeNum = $haveRedEnvelopeNum+$needRedEnvelopeEmployeeNum;
-                        var_exp($needRedEnvelopeEmployeeNum,'$needRedEnvelopeEmployeeNum');
-                        var_exp($haveRedEnvelopeNum,'$haveRedEnvelopeNum');
-                        var_exp($sentRedEnvelopeMoney,'$sentRedEnvelopeMoney');
 
                         //打赏红包
                         $allTipMoney = $taskInfo["tip_count"];
