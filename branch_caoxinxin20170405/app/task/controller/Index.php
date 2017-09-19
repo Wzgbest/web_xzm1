@@ -471,4 +471,126 @@ class Index extends Initialize{
         $result['info'] = "新建任务成功！";
         return json($result);
     }
+    public function take(){
+        $result = ['status'=>0 ,'info'=>"参与任务失败!"];
+        $task_id = input('task_id',0,"int");
+        $id = input('id',0,'int');
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $time = time();
+
+        $employeeTaskM = new EmployeeTaskModel($this->corp_id);
+        $taskTakeM = new TaskTakeModel($this->corp_id);
+        $taskInfo = $employeeTaskM->getTaskInfo($id);
+        if(empty($taskInfo)){
+            $result['info'] = "未找到任务！";
+            return json($result);
+        }
+        $start_time = $taskInfo["task_start_time"];
+        if($start_time>$time){
+            $result['info'] = "任务未开始！";
+            return json($result);
+        }
+        $end_time = $taskInfo["task_end_time"];
+        if($end_time<$time){
+            $result['info'] = "任务已结束！";
+            return json($result);
+        }
+        $take_start_time = $taskInfo["task_take_start_time"];
+        if($take_start_time>$time){
+            $result['info'] = "任务加入未开始！";
+            return json($result);
+        }
+        $take_end_time = $taskInfo["task_take_end_time"];
+        if($take_end_time<$time){
+            $result['info'] = "任务加入已结束！";
+            return json($result);
+        }
+        $task_type = $taskInfo["task_type"];
+        $public_take_uids = $taskInfo["public_to_take"];
+        if(!in_array($uid,$public_take_uids)){
+            $result['info'] = "不在参与任务范围内！";
+            return json($result);
+        }
+
+        $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($id);
+        $uids = $taskTakeEmployeeIds;
+        if(in_array($uid,$uids)){
+            $result['info'] = "已参与任务！";
+            return json($result);
+        }
+
+        $money = 0;
+        if($task_type<3){
+            $money = 0+input('money');
+            $paypassword = input('paypassword');
+            if(empty($task_id)||empty($money)||empty($paypassword)){
+                $result['info'] = '参数错误';
+                return json($result);
+            }
+            $userinfo = get_userinfo();
+            $uid = $userinfo["userid"];
+            if (md5($paypassword) != $userinfo['userinfo']['pay_password']) {
+                $result['info'] = '支付密码错误';
+                $result['status'] = 6;
+                return json($result);
+            }
+            $save_money = intval($money*100);
+            $time = time();
+            if ($userinfo['userinfo']['left_money'] < $save_money) {
+                $info['info'] = '账户余额不足';
+                $info['status'] = 5;
+                return json($info);
+            }
+        }
+        $taskTakeInfos[] = [
+            "take_id"=>$task_id,
+            "take_employee"=>$uid,
+            "take_time"=>$time
+        ];
+
+        $employM = new Employee($this->corp_id);
+        try{
+            $employeeTaskM->link->startTrans();
+            $takeFlg = $taskTakeM->addTaskTake($taskTakeInfos);
+            if(!$takeFlg){
+                exception("参与任务发生错误!");
+            }
+            if($task_type==2) {
+                $cashM = new TakeCash($this->corp_id);
+                $tip_from_user = $employM->setEmployeeSingleInfo($userinfo["telephone"], ['left_money' => ['exp', "left_money - $save_money"]], ["left_money" => ["egt", $save_money]]);
+                if (!$tip_from_user) {
+                    exception("更新参与任务更新余额发生错误!");
+                }
+                $order_data = [
+                    'userid' => $userinfo['userinfo']['id'],
+                    'take_money' => -$save_money,
+                    'status' => 1,
+                    'took_time' => $time,
+                    'remark' => '参与任务'
+                ];
+                $tip_from_cash_rec = $cashM->addOrderNumber($order_data);
+                if (!$tip_from_cash_rec) {
+                    exception("添加参与任务交易记录发生错误!");
+                }
+            }
+            $employeeTaskM->link->commit();
+        }catch(\Exception $ex){
+            $employeeTaskM->link->rollback();
+            $result['info'] = '参与任务失败';
+            return json($result);
+        }
+
+        $telphone = $userinfo["telephone"];
+        $userinfo = $employM->getEmployeeByTel($telphone);
+        set_userinfo($this->corp_id,$telphone,$userinfo);
+
+        $result['info'] = '参与任务成功';
+        $result['status'] = 1;
+        return json($result);
+    }
 }
