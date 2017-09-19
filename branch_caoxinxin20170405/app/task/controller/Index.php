@@ -233,9 +233,9 @@ class Index extends Initialize{
     protected function _getTaskRewardForInput($task_method){
         $task_reward_infos["all_reward_amount"] = 0;
         $task_reward_infos["reward_max_num"] = 0;
-        $reward_type = 1;
-        if($task_method==1||$task_method==3) {
-            $reward_type = 2;
+        $reward_type = 2;
+        if($task_method==2) {
+            $reward_type = 1;
         }
         $reward_method = 1;
         if($task_method==1) {
@@ -264,9 +264,15 @@ class Index extends Initialize{
                 return [];
             }
             $verify_arr[$reward_item["reward_start"]] = $reward_item["reward_end"];
-            $task_reward_info['reward_start'] = $reward_item["reward_start"];
-            $task_reward_info['reward_end'] = $reward_item["reward_end"];
-            $task_reward_info['reward_num'] = $reward_item["reward_end"]-$reward_item["reward_start"]+1;
+            if($task_method==2){
+                $task_reward_info['reward_start'] = 1;
+                $task_reward_info['reward_end'] = 1;
+                $task_reward_info['reward_num'] = 0;
+            }else{
+                $task_reward_info['reward_start'] = $reward_item["reward_start"];
+                $task_reward_info['reward_end'] = $reward_item["reward_end"];
+                $task_reward_info['reward_num'] = $reward_item["reward_end"]-$reward_item["reward_start"]+1;
+            }
             $task_reward_infos["list"][] = $task_reward_info;
             $task_reward_infos["reward_max_num"] = ($task_reward_infos["reward_max_num"]<$reward_item["reward_end"])?$reward_item["reward_end"]:$task_reward_infos["reward_max_num"];
         }
