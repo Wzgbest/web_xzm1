@@ -272,7 +272,7 @@ article .dv1 .left p:nth-of-type(3) {
 
 article .dv1 .center {
 	/*width: 785px;*/
-	width: 77%;
+	width: 74%;
 	height: 220px;
 	float: left;
 }
@@ -289,7 +289,7 @@ article .dv1 .center .theme {
 
 article .dv1 .right {
 	/*width: 138px;*/
-	width: 12%;
+	width: 14%;
 	height: 220px;
 	float: left;
 	/*position: relative;*/
