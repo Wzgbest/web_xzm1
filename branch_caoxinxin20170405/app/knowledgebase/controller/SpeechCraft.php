@@ -45,6 +45,15 @@ class SpeechCraft extends Initialize{
         return view('add_class');
     }
 
+    public function get_article_type(){
+        $result = ['status'=>0,'info'=>"获取文章分类失败!"];
+        $article_type = $this->_speechCraftModel->getAllArticleType();
+        $result['data'] =$article_type;
+        $result['status'] = 1;
+        $result['info'] = "获取文章分类成功!";
+        return json($result);
+    }
+
     /*
     添加文章
      */
