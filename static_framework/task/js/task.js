@@ -54,7 +54,7 @@ for(var i = 0; i < t; i++) {
 //	$(".dv1 .mengceng").append(picture);
 	$('.dv1 .mengceng .picture').click(function() {
 
-		$(this).parent().removeClass("m_c")
+		$(this).parent().removeClass("m_c");
 		$(this).remove();
 
 		$(".dv1 .grade .get").show();
@@ -143,7 +143,7 @@ $(".dv1 .right .give .guess").click(function() {
 })
 
 //点赞
-$(".dv1 .right .comment .add").click(function() {
+$(".dv1 .right .comment .add").click(function(){
 	var self = this;
 	var qw = $(this).attr('index_img');
 	var task_id = $(this).attr('task_id');
@@ -244,10 +244,8 @@ var num3=parseInt($('.num3').val());
 var neirong="<li>第<span>"+num1+"</span>~<span>"+num2+"</span>名，各奖励<span>"+num3+"</span>元<i class='fa fa-edit'></i><i class='fa fa-trash-o trash'></i></li>"
 
 $("article .dv4 ul").prepend(neirong);
-	
-	var s=0;
+var s=0;
 var max_num2=0;
-
 
 $("article .dv4 ul li:not(:last)").each(function(){
 
@@ -264,7 +262,6 @@ $("article .dv4 ul li:not(:last)").each(function(){
 })
 	$("article .dv4 ul .largest").text(max_num2);
     $("article .dv4 ul .total").text(s);//总计的钱
-
 })
 //$("article .dv4 ul li .trash").click(function(){
 //
@@ -316,18 +313,17 @@ $("article .dv4 .xuanze input").click(function(){
 	})
 
 
-
 //跳转到新页面
-function a(){
-	
-	javascript:loadPage('/task/going_task/new_task.html','my-taskfr');
-	javascript:loadPage('/task/going_task/new_task.html','public-taskfr');
-	javascript:loadPage('/task/going_task/new_task.html','task-histroyfr');
-}
-$(".task .xinjian").click(function(){
-
-	a();
-})
+//function a(){
+//	
+//	javascript:loadPage('/task/going_task/new_task.html','my-taskfr');
+//	javascript:loadPage('/task/going_task/new_task.html','public-taskfr');
+//	javascript:loadPage('/task/going_task/new_task.html','task-histroyfr');
+//}
+//$(".task .xinjian").click(function(){
+//
+//	a();
+//})
 //点击跳转详情页
 $('.xiangqing').click(function(){
 
