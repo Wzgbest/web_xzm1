@@ -135,10 +135,11 @@ $(".dv1 .right .give .get_reward").click(function() {
 
 })
 $(".dv1 .right .give .guess").click(function() {
-	var n="<p class='cute'>猜输赢进行中</p>"
+	var n="<p class='win'>猜输赢进行中</p>"
 	$(this).siblings().remove();
 	$(this).remove()
 	$(".give").append(n);
+	$(".give").css("width","132")
 })
 
 //点赞
@@ -240,27 +241,23 @@ var num1=parseInt($('.num1').val());
 var num2=parseInt($('.num2').val());
 var num3=parseInt($('.num3').val());
 
-var neirong="<li>第<span>"+num1+"</span>~<span>"+num2+"</span>名，各奖励<span>"+num3+"</span>元<i class='fa fa-edit'></i><i class='fa fa-trash-o'></i></li>"
+var neirong="<li>第<span>"+num1+"</span>~<span>"+num2+"</span>名，各奖励<span>"+num3+"</span>元<i class='fa fa-edit'></i><i class='fa fa-trash-o trash'></i></li>"
 
 $("article .dv4 ul").prepend(neirong);
 	
 	var s=0;
-
 var max_num2=0;
+
+
 $("article .dv4 ul li:not(:last)").each(function(){
-//console.log(parseInt($(this).children("span:eq(1)").text()));
-	
-	
+
 	var num1=parseInt($(this).children("span:eq(0)").text());
 	var num2=parseInt($(this).children("span:eq(1)").text());
 	var num3=parseInt($(this).children("span:eq(2)").text());
 
 	var i=num2-num1+1;
 	s=s+i*num3;
-	
-//	var arr=[];
-//	arr.push($(this).num2)
-//	alert(arr)
+
 	if(max_num2<num2){
 		max_num2=num2
 	}
@@ -269,6 +266,13 @@ $("article .dv4 ul li:not(:last)").each(function(){
     $("article .dv4 ul .total").text(s);//总计的钱
 
 })
+//$("article .dv4 ul li .trash").click(function(){
+//
+//	$(this).parent().remove();
+//	
+//})
+
+
 
 //绑定change事件
 //获取select值
