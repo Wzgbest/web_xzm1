@@ -11,6 +11,7 @@ namespace app\task\controller;
 
 use app\common\controller\Initialize;
 use app\task\model\EmployeeTask as EmployeeTaskModel;
+use app\task\model\TaskTake as TaskTakeModel;
 use app\task\model\TaskTarget as TaskTargetModel;
 use app\task\model\TaskReward as TaskRewardModel;
 use app\task\model\TaskGuess as TaskGuessModel;
@@ -32,7 +33,7 @@ class TaskGuess extends Initialize{
         $result = ['status'=>0,'info'=>'猜输赢失败!'];
 
         $task_id = input('task_id',0,'int');
-        $take_employee_id = input('take_id',0,'int');
+        $take_employee_id = input('take_employee_id',0,'int');
         $paypassword = input('paypassword');
         $money = 0 + input('money');
         $userinfo = get_userinfo();
@@ -55,12 +56,31 @@ class TaskGuess extends Initialize{
 
         $taskGussModel = new TaskGuessModel($this->corp_id);
         $employeeModel = new EmployeeTaskModel($this->corp_id);
+        $taskTakeM = new TaskTakeModel($this->corp_id);
         $employM = new Employee($this->corp_id);
         $cashM = new TakeCash($this->corp_id);
 
         $task_data = $employeeModel->getEmployeeById($task_id);
         if (empty($task_data)) {
             $result['info'] = "没有任务信息";
+            return json($result);
+        }
+        if($task_data["task_type"]!=2){
+            $result['info'] = "任务类型不符";
+            return json($result);
+        }
+        if($task_data["status"]<2 || $task_data["task_start_time"]>$time){
+            $result['info'] = "任务未开始!";
+            return json($result);
+        }
+        if($task_data["status"]>2 || $task_data["task_end_time"]<$time){
+            $result['info'] = "任务过期!";
+            return json($result);
+        }
+
+        $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($task_id);
+        if(in_array($uid,$taskTakeEmployeeIds)){
+            $result['info'] = "已经加入过任务了,不能参与猜输赢";
             return json($result);
         }
         $last_employee_id = $taskGussModel->getLastGuessInfo($uid,$task_id);

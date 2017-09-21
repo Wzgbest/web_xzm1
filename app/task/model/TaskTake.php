@@ -56,6 +56,7 @@ class TaskTake extends Base{
     public function getTaskTakeIdsByTaskId($task_id){
         return $this->model->table($this->table)
             ->where("task_id",$task_id)
+            ->order("id asc")
             ->column("take_employee");
     }
 }

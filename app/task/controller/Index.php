@@ -17,6 +17,7 @@ use app\task\model\EmployeeTask as EmployeeTaskModel;
 use app\task\model\TaskTarget as TaskTargetModel;
 use app\task\model\TaskReward as TaskRewardModel;
 use app\task\model\TaskTake as TaskTakeModel;
+use app\task\model\TaskGuess as TaskGuessModel;
 use app\task\service\EmployeeTask as EmployeeTaskService;
 
 class Index extends Initialize{
@@ -41,14 +42,21 @@ class Index extends Initialize{
         }
         $employeeTaskM = new EmployeeTaskModel($this->corp_id);
         $taskInfo = $employeeTaskM->getTaskInfo($id);
-        $result['data'] = $taskInfo;
+        $result['data']["taskInfo"] = $taskInfo;
+        $taskGuessM = new TaskGuessModel($this->corp_id);
+        $employeeGuessTakeInfoList = $taskGuessM->getEmployeeGuessMoneyList($id);
+        $result['data']["employeeGuessTakeInfoList"] = $employeeGuessTakeInfoList;
+        $guessEmployeeTakeInfoList = $taskGuessM->getGuessEmployeeMoneyList($id);
+        $result['data']["guessEmployeeTakeInfoList"] = $guessEmployeeTakeInfoList;
         $result['status'] = 1;
         $result['info'] = "获取任务成功！";
         return json($result);
     }
 
     public function _getEmployeeGuessMoneyList($id,$uids){
-        return [];
+        $taskGuessM = new TaskGuessModel($this->corp_id);
+        $guessTakeInfoList = $taskGuessM->getGuessEmployeeMoneyList($id);
+        return $guessTakeInfoList;
     }
 
     public function get(){
@@ -156,9 +164,11 @@ class Index extends Initialize{
             $guessdata = $this->_getEmployeeGuessMoneyList($id,$uids);
             foreach ($rankingdata as &$ranking_item){
                 if(isset($guessdata[$ranking_item["employee_id"]])){
-                    $ranking_item["guess"] = $guessdata[$ranking_item["employee_id"]];
+                    $ranking_item["guess_money"] = $guessdata[$ranking_item["employee_id"]]["money"];
+                    $ranking_item["guess_num"] = $guessdata[$ranking_item["employee_id"]]["guess_employee_num"];
                 }else{
-                    $ranking_item["guess"] = 0;
+                    $ranking_item["guess_money"] = 0;
+                    $ranking_item["guess_num"] = 0;
                 }
             }
         }
@@ -210,7 +220,7 @@ class Index extends Initialize{
         $task_info['public_to_view'] = input("public_to_view","","string");
         $task_info['create_employee'] = $uid;
         $task_info['create_time'] = time();
-        $task_info['status'] = 1;
+        $task_info['status'] = 2;
         return $task_info;
     }
     protected function _getTaskTargetForInput(){
@@ -222,13 +232,14 @@ class Index extends Initialize{
     }
     protected function _getTaskRewardForInput($task_method){
         $task_reward_infos["all_reward_amount"] = 0;
-        $reward_type = 1;
-        if($task_method==1||$task_method==3) {
-            $reward_type = 2;
+        $task_reward_infos["reward_max_num"] = 0;
+        $reward_type = 2;
+        if($task_method==2) {
+            $reward_type = 1;
         }
-        $reward_method = 4;
+        $reward_method = 1;
         if($task_method==1) {
-            $reward_method = 1;
+            $reward_method = 4;
         }
         $reward_str = input("reward");
         $reward_arr = json_decode($reward_str,true);
@@ -253,11 +264,20 @@ class Index extends Initialize{
                 return [];
             }
             $verify_arr[$reward_item["reward_start"]] = $reward_item["reward_end"];
-            $task_reward_info['reward_start'] = $reward_item["reward_start"];
-            $task_reward_info['reward_end'] = $reward_item["reward_end"];
-            $task_reward_info['reward_num'] = $reward_item["reward_end"]-$reward_item["reward_start"]+1;
+            if($task_method==2){
+                $task_reward_info['reward_start'] = 1;
+                $task_reward_info['reward_end'] = 1;
+                $task_reward_info['reward_num'] = 0;
+                $task_reward_infos["all_reward_amount"] += $task_reward_info['reward_amount'];
+            }else{
+                $task_reward_info['reward_start'] = $reward_item["reward_start"];
+                $task_reward_info['reward_end'] = $reward_item["reward_end"];
+                $task_reward_info['reward_num'] = $reward_item["reward_end"]-$reward_item["reward_start"]+1;
+
+                $task_reward_infos["all_reward_amount"] += $task_reward_info['reward_num']*$task_reward_info['reward_amount'];
+            }
             $task_reward_infos["list"][] = $task_reward_info;
-            $task_reward_infos["all_reward_amount"] += $task_reward_info['reward_num']*$task_reward_info['reward_amount'];
+            $task_reward_infos["reward_max_num"] = ($task_reward_infos["reward_max_num"]<$reward_item["reward_end"])?$reward_item["reward_end"]:$task_reward_infos["reward_max_num"];
         }
         /* 数组校验名次序列方法,弃用
         for($i=1;$i<=$index_max;$i++){
@@ -284,6 +304,26 @@ class Index extends Initialize{
         $uid = $userinfo["userid"];
         $time = time();
         $taskInfo = $this->_getTaskForInput($uid);
+        //统计周期时间校验
+        if($taskInfo["task_start_time"]>=$taskInfo["task_end_time"]){
+            $result['info'] = '统计周期时间错误';
+            return json($result);
+        }
+        //PK任务 加入时间校验
+        if($taskInfo["task_type"]==2){
+            $takeTimeFlg = false;
+            if(
+                ($taskInfo["task_start_time"]<=$taskInfo["task_take_start_time"]) &&
+                ($taskInfo["task_take_start_time"]<$taskInfo["task_take_end_time"]) &&
+                ($taskInfo["task_take_end_time"]<=$taskInfo["task_end_time"])
+            ){
+                $takeTimeFlg = true;
+            }
+            if(!$takeTimeFlg){
+                $result['info'] = '加入时间错误';
+                return json($result);
+            }
+        }
         $taskTargetInfo = $this->_getTaskTargetForInput();
         $taskRewardInfos = $this->_getTaskRewardForInput($taskInfo["task_method"]);
         if(empty($taskRewardInfos)){
@@ -291,10 +331,14 @@ class Index extends Initialize{
             return json($result);
         }
         //var_exp($taskRewardInfos,'$taskRewardInfos',1);
-        $taskTakeInfos[] = [
-            "take_employee"=>$uid,
-            "take_time"=>$time
-        ];
+        $taskInfo["reward_max_num"] = $taskRewardInfos["reward_max_num"];
+        $taskTakeInfos = [];
+        if($taskInfo["task_type"]==2){
+            $taskTakeInfos[] = [
+                "take_employee"=>$uid,
+                "take_time"=>$time
+            ];
+        }
         $public_uids = explode(",",$taskInfo["public_to_take"]);
         if($taskInfo["task_type"]==1){
             foreach ($public_uids as $employee_id){
@@ -307,9 +351,10 @@ class Index extends Initialize{
 
         //TODO 检验和判断
         $money = $taskRewardInfos["all_reward_amount"];
+        $taskInfo["reward_count"] = $money;
         $paypassword = input('paypassword');
         if(empty($money)||empty($paypassword)){
-            $result['info'] = '参数错误';
+            $result['info'] = '参数错误!';
             return json($result);
         }
         if (md5($paypassword) != $userinfo['userinfo']['pay_password']) {
@@ -363,13 +408,15 @@ class Index extends Initialize{
                 exception('提交任务目标失败!');
             }
 
-            foreach ($taskTakeInfos as &$taskTakeInfo) {
-                $taskTakeInfo['task_id'] = $taskId;
-            }
-            $taskTakeM = new TaskTakeModel($this->corp_id);
-            $taskTakeId = $taskTakeM->addMutipleTaskTake($taskTakeInfos);
-            if(!$taskTakeId){
-                exception('提交任务参与信息失败!');
+            if(!empty($taskTakeInfos)){
+                foreach ($taskTakeInfos as &$taskTakeInfo) {
+                    $taskTakeInfo['task_id'] = $taskId;
+                }
+                $taskTakeM = new TaskTakeModel($this->corp_id);
+                $taskTakeId = $taskTakeM->addMutipleTaskTake($taskTakeInfos);
+                if(!$taskTakeId){
+                    exception('提交任务参与信息失败!');
+                }
             }
 
 
@@ -406,7 +453,7 @@ class Index extends Initialize{
 
             if($taskInfo["task_type"]==1) {
                 $de_corp_money["corp_reserved_money"] = ['exp', "corp_reserved_money - $save_money"];
-                $de_corp_money["corp_reserved_forzen_money"] = ['exp', "corp_reserved_forzen_money + $save_money"];
+                $de_corp_money["corp_reserved_frozen_money"] = ['exp', "corp_reserved_frozen_money + $save_money"];
                 $de_corp_mone_map["corp_reserved_money"] = ["egt", $save_money];
                 $de_corp_money_flg = Corporation::setCorporationInfo($this->corp_id, $de_corp_money, $de_corp_mone_map);
                 if (!$de_corp_money_flg) {
@@ -414,7 +461,7 @@ class Index extends Initialize{
                 }
             }else{
                 $de_corp_money["corp_left_money"] = ['exp', "corp_left_money - $save_money"];
-                $de_corp_money["corp_left_forzen_money"] = ['exp', "corp_left_forzen_money + $save_money"];
+                $de_corp_money["corp_frozen_money"] = ['exp', "corp_frozen_money + $save_money"];
                 $de_corp_mone_map["corp_left_money"] = ["egt", $save_money];
                 $de_corp_money_flg = Corporation::setCorporationInfo($this->corp_id, $de_corp_money, $de_corp_mone_map);
                 if (!$de_corp_money_flg) {
@@ -436,6 +483,147 @@ class Index extends Initialize{
         
         $result['status'] = 1;
         $result['info'] = "新建任务成功！";
+        return json($result);
+    }
+    public function take(){
+        $result = ['status'=>0 ,'info'=>"参与任务失败!"];
+        $task_id = input('task_id',0,"int");
+        if(!$task_id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $time = time();
+
+        $employeeTaskM = new EmployeeTaskModel($this->corp_id);
+        $taskTakeM = new TaskTakeModel($this->corp_id);
+        $taskInfo = $employeeTaskM->getTaskInfo($task_id);
+        if(empty($taskInfo)){
+            $result['info'] = "未找到任务！";
+            return json($result);
+        }
+        $start_time = $taskInfo["task_start_time"];
+        if($taskInfo["status"]<2 || $start_time>$time){
+            $result['info'] = "任务未开始！";
+            return json($result);
+        }
+        $end_time = $taskInfo["task_end_time"];
+        if($taskInfo["status"]>2 || $end_time<$time){
+            $result['info'] = "任务已结束！";
+            return json($result);
+        }
+        $take_start_time = $taskInfo["task_take_start_time"];
+        if($take_start_time>0&&$take_start_time>$time){
+            $result['info'] = "任务加入未开始！";
+            return json($result);
+        }
+        $take_end_time = $taskInfo["task_take_end_time"];
+        if($take_end_time>0&&$take_end_time<$time){
+            $result['info'] = "任务加入已结束！";
+            return json($result);
+        }
+        $task_type = $taskInfo["task_type"];
+        $public_take_uids = explode(",",$taskInfo["public_to_take"]);
+        if(!in_array($uid,$public_take_uids)){
+            $result['info'] = "不在参与任务范围内！";
+            return json($result);
+        }
+
+        $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($task_id);
+        $uids = $taskTakeEmployeeIds;
+        if(in_array($uid,$uids)){
+            $result['info'] = "已参与任务！";
+            return json($result);
+        }
+        if($task_type>1) {
+            $taskRewardM = new TaskRewardModel($this->corp_id);
+            $taskReward = $taskRewardM->getTaskRewardListByTaskId($task_id);
+            $taskTakeNumMax = 0;
+            foreach ($taskReward as $reward_item) {
+                $taskTakeNumMax += $reward_item['reward_num'];
+            }
+            if(count($taskTakeEmployeeIds)>=$taskTakeNumMax){
+                $result['info'] = "参与任务人数已满！";
+                return json($result);
+            }
+        }
+        $taskGussModel = new TaskGuessModel($this->corp_id);
+        $last_employee_id = $taskGussModel->getLastGuessInfo($uid,$task_id);
+        if ($last_employee_id['guess_take_employee']) {
+            $result['info'] = "已经参与过猜输赢了,不能加入任务";
+            return json($result);
+        }
+
+        $money = 0;
+        if($task_type==2){
+            $money = 0+input('money');
+            $paypassword = input('paypassword');
+            if(empty($task_id)||empty($money)||empty($paypassword)){
+                $result['info'] = '参数错误';
+                return json($result);
+            }
+            $userinfo = get_userinfo();
+            $uid = $userinfo["userid"];
+            if (md5($paypassword) != $userinfo['userinfo']['pay_password']) {
+                $result['info'] = '支付密码错误';
+                $result['status'] = 6;
+                return json($result);
+            }
+            $save_money = intval($money*100);
+            $time = time();
+            if ($userinfo['userinfo']['left_money'] < $save_money) {
+                $info['info'] = '账户余额不足';
+                $info['status'] = 5;
+                return json($info);
+            }
+        }
+        $taskTakeInfo = [
+            "task_id"=>$task_id,
+            "take_employee"=>$uid,
+            "take_time"=>$time
+        ];
+
+        $employM = new Employee($this->corp_id);
+        try{
+            $employeeTaskM->link->startTrans();
+            $takeFlg = $taskTakeM->addTaskTake($taskTakeInfo);
+            if(!$takeFlg){
+                exception("参与任务发生错误!");
+            }
+            if($task_type==2) {
+                $cashM = new TakeCash($this->corp_id);
+                $tip_from_user = $employM->setEmployeeSingleInfo($userinfo["telephone"], ['left_money' => ['exp', "left_money - $save_money"]], ["left_money" => ["egt", $save_money]]);
+                if (!$tip_from_user) {
+                    exception("更新参与任务更新余额发生错误!");
+                }
+                $order_data = [
+                    'userid' => $userinfo['userinfo']['id'],
+                    'take_money' => -$save_money,
+                    'status' => 1,
+                    'took_time' => $time,
+                    'remark' => '参与任务'
+                ];
+                $tip_from_cash_rec = $cashM->addOrderNumber($order_data);
+                if (!$tip_from_cash_rec) {
+                    exception("添加参与任务交易记录发生错误!");
+                }
+            }
+            $employeeTaskM->link->commit();
+        }catch(\Exception $ex){
+            $employeeTaskM->link->rollback();
+            $result['info'] = '参与任务失败';
+            return json($result);
+        }
+
+        if($task_type==2) {
+            $telphone = $userinfo["telephone"];
+            $userinfo = $employM->getEmployeeByTel($telphone);
+            set_userinfo($this->corp_id, $telphone, $userinfo);
+        }
+
+        $result['info'] = '参与任务成功';
+        $result['status'] = 1;
         return json($result);
     }
 }
