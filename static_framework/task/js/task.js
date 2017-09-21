@@ -168,7 +168,7 @@ $(".dv1 .right .comment .add").click(function(){
 
 })
 
-$(".dv3 .up .like .right .add").click(function() {
+$(".dv3 .up .like .right .add").click(function(){
 	var self = this;
 	var jt = $(this).attr('index_img');
 	var task_id = $(this).attr('task_id');
