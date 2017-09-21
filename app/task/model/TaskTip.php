@@ -20,7 +20,7 @@ class TaskTip extends Base{
     }
 
     /**
-     * 获取所有的评论
+     * 获取所有的打赏
      * @param  arr $task_ids 任务id
      * @param  arr $map      条件
      * @param  string $order    排序
