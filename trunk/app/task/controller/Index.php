@@ -18,6 +18,7 @@ use app\task\model\TaskTarget as TaskTargetModel;
 use app\task\model\TaskReward as TaskRewardModel;
 use app\task\model\TaskTake as TaskTakeModel;
 use app\task\model\TaskGuess as TaskGuessModel;
+use app\task\model\TaskComment as TaskCommentModel;
 use app\task\service\EmployeeTask as EmployeeTaskService;
 
 class Index extends Initialize{
@@ -73,6 +74,7 @@ class Index extends Initialize{
         $taskTargetM = new TaskTargetModel($this->corp_id);
         $taskRewardM = new TaskRewardModel($this->corp_id);
         $taskTakeM = new TaskTakeModel($this->corp_id);
+        $taskCommentModel = new TaskCommentModel($this->corp_id);
 
         $taskInfo = $employeeTaskM->getTaskInfo($id);
         if(empty($taskInfo)){
@@ -92,6 +94,9 @@ class Index extends Initialize{
 
         $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($id);
         $taskInfo["take"] = $taskTakeEmployeeIds;
+
+        $task_comment = $taskCommentModel->getAllTaskComment($id);
+        $taskInfo["comment"] = $task_comment;
 
         $result['data'] = $taskInfo;
         $result['status'] = 1;
@@ -124,15 +129,15 @@ class Index extends Initialize{
         $end_time = $taskInfo["task_end_time"];
         $task_type = $taskInfo["task_type"];
         $task_method = $taskInfo["task_method"];
+        if($task_type>2){
+            $result['info'] = "任务类型不符！";
+            return json($result);
+        }
 
         $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($id);
         $uids = $taskTakeEmployeeIds;
         if(!in_array($uid,$uids)){
             $result['info'] = "未参与任务！";
-            return json($result);
-        }
-        if($task_type>2){
-            $result['info'] = "任务类型不符！";
             return json($result);
         }
 
