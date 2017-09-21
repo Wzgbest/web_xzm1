@@ -201,12 +201,14 @@ class EmployeeTask extends Base{
         }
         $listOrder = [$order=>$direction];//聚合后排序
         $map_str = " find_in_set($uid,public_to_view) ";
-        $employee_task_list=$this->model->table($this->viewTable)->field($field)->where($map_str)->where($map)->order($listOrder)->limit($offset,$num)->select();
+//        $employee_task_list=$this->model->table($this->viewTable)->field($field)->where($map_str)->where($map)->order($listOrder)->limit($offset,$num)->select();
+        $employee_task_list=$this->model->table($this->viewTable)->field($field)->where($map_str)->where($map)->order($listOrder)->select();
         return $employee_task_list;
 
     }
 
     /**
+     * 热门任务，PK任务，激励任务，悬赏任务的数量
      * @param 当前用户的id
      * @param string 查询的列
      * @param array 筛选条件
@@ -216,6 +218,19 @@ class EmployeeTask extends Base{
         $map_str = " find_in_set($uid,public_to_view) ";
         $employee_task_count=$this->model->table($this->table)->field($field)->where($map_str)->where($map)->find();
         return $employee_task_count;
+    }
+
+    /**
+     * 历史任务模块参与的任务数量
+     * @param $uid
+     * @param string $field
+     * @param array $map
+     * @return array|false|\PDOStatement|string|\think\Model
+     */
+    public function getHistoricalTaskCount($uid,$field='*',$map=[]){
+        $map_str = " find_in_set($uid,public_to_view) ";
+        $historical_task_count=$this->model->table($this->viewTable)->field($field)->where($map_str)->where($map)->count(1);
+        return $historical_task_count;
 
     }
 }

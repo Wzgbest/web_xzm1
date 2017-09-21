@@ -94,7 +94,7 @@ class EmployeeTask extends Initialize{
 	}
 
     /**
-     * 任务大厅里的任务
+     * 任务大厅里的任务列表数据
      */
 	public function get_task_list(){
         $result = ['status'=>0,'info'=>"获取列表时失败!"];
@@ -140,6 +140,85 @@ class EmployeeTask extends Initialize{
     }
     public function hot_task_load(){
         $this->get_task_list();
+        return view();
+    }
+
+    /**
+     * 历史任务 进行中的任务列表数据
+     */
+    public function get_historical_task_list($map){
+        $result = ['status'=>0,'info'=>"获取列表时失败!"];
+
+        $num = input('num',10,'int');
+        $p = input("p",1,"int");
+        $part_type = input('task_type',0,'int');//任务参与类型，1直接参与，2间接参与，3我发起的
+        $order_name=input('order_name','','string');
+
+        $user_info = get_userinfo();
+        $uid = $user_info['userid'];
+
+        if(!$part_type)
+        {
+            $part_type=1;
+        }
+        switch($part_type){
+            case 1:
+                //直接参与，报名参加的
+                $map['take_employees']=array('IN',$uid);
+                break;
+            case 2:
+                //间接参与 打赏的
+                $map['tip_employees']=array('IN',$uid);
+                break;
+            case 3:
+                //发起的
+                $map['create_employee']=$uid;
+                break;
+        }
+
+        if($order_name){
+            $order=$order_name;
+        }
+        else{
+            $order='id';
+        }
+        $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
+        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field='*',$order,$direction="desc",$map);
+        $con['task_end_time']=$map['task_end_time'];
+        $con['take_employees']=array('IN',$uid);
+        $count1=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con);
+        unset($con['take_employees']);
+        $con['tip_employees']=array('IN',$uid);
+        $count2=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con);
+        unset($con['tip_employees']);
+        $con['create_employee']=$uid;
+        $count3=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con);
+        $task_count=array(
+            '1'=>$count1,
+            '2'=>$count2,
+            '3'=>$count3
+        );
+        $this->assign('task_list',$task_list);
+        $this->assign('task_count',$task_count);
+    }
+    public function historical_task(){
+        $map['task_end_time']=array('lt',time());
+        $this->get_historical_task_list($map);
+        return view();
+    }
+    public function historical_task_load(){
+        $map['task_end_time']=array('lt',time());
+        $this->get_historical_task_list($map);
+        return view();
+    }
+    public function direct_participation(){
+        $map['task_end_time']=array('egt',time());
+        $this->get_historical_task_list($map);
+        return view();
+    }
+    public function direct_participation_load(){
+        $map['task_end_time']=array('egt',time());
+        $this->get_historical_task_list($map);
         return view();
     }
 

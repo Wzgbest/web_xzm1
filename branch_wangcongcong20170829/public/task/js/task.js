@@ -4,13 +4,17 @@ $(".nav li").click(function() {
     $(".nav li").removeClass("flow");
     $(this).addClass("flow");
     task_type=$(this).attr('data-id');
-    var url="/task/employee_task/hot_task_load";
-    loadPagebypost(url,{'task_type':task_type,'order_name':order_name},'hot_task');
+    var method=$(this).parents('div').attr('class')||'';
+    var panel=method.replace('_load','');
+    var url="/task/employee_task/"+method;
+    loadPagebypost(url,{'task_type':task_type,'order_name':order_name},panel);
 });
 $(".classify p").click(function() {
     order_name=$(this).attr('data-id');
-    var url="/task/employee_task/hot_task_load";
-    loadPagebypost(url,{'order_name':order_name,'task_type':task_type},'hot_task');
+    var method=$(this).parents("div .sort").parents('div').attr('class');
+    var panel=method.replace('_load','');
+    var url="/task/employee_task/"+method;
+    loadPagebypost(url,{'order_name':order_name,'task_type':task_type},panel);
 });
 
 var content = "<ul class='number2'><li></li><li></li><li></li><li></li><li></li></ul>";
@@ -57,19 +61,18 @@ for(var i = 0; i < t; i++) {
 //
 //})
 //$(".dv1 .grade .p1").removeClass("get")
+//领红包
 $(".dv1 .grade .get").hide();
 $(".dv1 .mengceng").addClass("m_c");
-var a = '<img src="/task/img/redPacket.png" class="picture"/>';
-$(".mengceng").append(a);
-$('.picture').click(function() {
-
+//	var picture = '<img src="/task/img/redPacket.png" class="picture"/>';
+//	$(".dv1 .mengceng").append(picture);
+$('.direct_participation_load').on('click','.picture',function(){
     $(this).parent().removeClass("m_c")
     $(this).remove()
 
     $(".dv1 .grade .get").show()
     $(".dv1 .grade .get").addClass('p1').removeClass("p2").text("已领取100元")
-
-})
+});
 //领小红包
 $("article .dv2 .left .box img").click(function() {
 
@@ -104,7 +107,7 @@ $(function() {
     })
 })
 
-//点击span时加.motai 
+//点击span时加.motai
 $('.grade .show_ranking_task').click(function() {
     $(this).parent().parent().siblings('.motai').addClass('motai1');
     $(this).parents().addClass("change");
@@ -139,21 +142,21 @@ $(".dv1 .right .give .task").click(function() {
     $(this).remove()
     $(".give").append("<p class='cute'>任务进行中</p>");
 })
-//$(".dv1 .right .stimulate .task").click(function() {
-//
-//	$(this).remove()
-//	$(".stimulate").append("<p class='cute'>任务进行中</p>");
-//
-//})
+$(".dv1 .right .give .get_reward").click(function() {
+
+    $(this).addClass("get_succeed").removeClass("p2").text("领取成功");
+
+})
 $(".dv1 .right .give .guess").click(function() {
-    var n="<p class='cute'>猜输赢进行中</p>"
+    var n="<p class='win'>猜输赢进行中</p>"
     $(this).siblings().remove();
     $(this).remove()
     $(".give").append(n);
+    $(".give").css("width","132")
 })
 
 //点赞
-$(".dv1 .right .comment .add").click(function() {
+$(".dv1 .right .comment .add").click(function(){
     var self = this;
     var qw = $(this).attr('index_img');
     var task_id = $(this).attr('task_id');
@@ -205,14 +208,14 @@ $(".dv3 .up .like .right .add").click(function() {
 //$(".dv3 .up .like .right .add").click(function() {
 //
 //	var qw = $('.dv3 .up .like .right .add').attr('index_img');
-//				
+//
 //				var i = parseInt(qw);
 //				if(i % 2){
 //					$('.dv3 .up .like .right .add').attr('src', '/task/img/praise.png');
-//					
+//
 //				}else {
 //					$('.dv3 .up .like .right .add').attr('src', '/task/img/zan.png');
-//				
+//
 //				}
 //				i++;
 //				$('.dv3 .up .like .right .add').attr('index_img', i)
@@ -245,10 +248,41 @@ function task_like(id,like,fun){
 }
 //新建里边点击加号ul显示
 $("article .dv4 .parcel .add").click(function(){
+    console.log("add");
 
-    $("article .dv4 ul").toggleClass('point')
+    var num1=parseInt($('.num1').val());
+    var num2=parseInt($('.num2').val());
+    var num3=parseInt($('.num3').val());
 
+    var neirong="<li>第<span>"+num1+"</span>~<span>"+num2+"</span>名，各奖励<span>"+num3+"</span>元<i class='fa fa-edit'></i><i class='fa fa-trash-o trash'></i></li>"
+
+    $("article .dv4 ul").prepend(neirong);
+    var s=0;
+    var max_num2=0;
+
+    $("article .dv4 ul li:not(:last)").each(function(){
+
+        var num1=parseInt($(this).children("span:eq(0)").text());
+        var num2=parseInt($(this).children("span:eq(1)").text());
+        var num3=parseInt($(this).children("span:eq(2)").text());
+
+        var i=num2-num1+1;
+        s=s+i*num3;
+
+        if(max_num2<num2){
+            max_num2=num2
+        }
+    })
+    $("article .dv4 ul .largest").text(max_num2);
+    $("article .dv4 ul .total").text(s);//总计的钱
 })
+//$("article .dv4 ul li .trash").click(function(){
+//
+//	$(this).parent().remove();
+//
+//})
+
+
 
 //绑定change事件
 //获取select值
@@ -269,18 +303,44 @@ $(".dv4 .parcel .hezi select").change(function(){
     }
 })
 
+
 //新建tab切换
+//$("article .dv4 .xuanze input").click(function(){
+//					var index=$(this).attr("index")
+//					$("article .dv4 .tab").css("display","none");
+//					$("article .dv4 .tab").eq($(this).attr("index")).css("display",'block')
+//				})
+
 $("article .dv4 .xuanze input").click(function(){
-    var index=$(this).attr("index")
-    $("article .dv4 .tab").css("display","none");
-    $("article .dv4 .tab").eq($(this).attr("index")).css("display",'block')
+
+    if($(this).parent(".choice").index()==1){
+        $("article .dv4 .tab1").css("display","none");
+        $("article .dv4 .tab2").css("display","block");
+    }else{
+        $("article .dv4 .tab1").css("display","block");
+        $("article .dv4 .tab2").css("display","none");
+    }
+
 })
+
 
 //跳转到新页面
-$(".task .xinjian").click(function(){
-
-    javascript:loadPage('/task/going_task/new_task.html','public-taskfr');
-})
+//function a(){
+//	if()
+//	javascript:loadPage('/task/going_task/new_task.html','my-taskfr');
+//	javascript:loadPage('/task/going_task/new_task.html','public-taskfr');
+//	javascript:loadPage('/task/going_task/new_task.html','task-histroyfr');
+//}
+//$(".task .xinjian").click(function(){
+//
+////	javascript:loadPage('/task/going_task/new_task.html','task-histroyfr');
+//a();
+//})
+////点击跳转详情页
+//$('.xiangqing').click(function(){
+//
+//	javascript:loadPage('/task/going_task/incentive_details.html','public-taskfr');
+//})
 
 //评论跳转
 //$(".task .comment img.a").click(function(){
@@ -311,5 +371,30 @@ $(".dv3 .up .right p").click(function(){
 
 })
 
- 
+
+
+function skip(from,target,comment){
+    this.from =from;
+    this.target=target;
+    this.comment=comment;
+    var self = this;
+
+    $("."+this.from+" header .xinjian ").click(function(){
+
+        loadPage('/task/going_task/new_task.html',self.target);
+    });
+    $("."+this.from+" article .dv1 .comment .comment_pk").click(function(){
+
+        loadPage('/task/going_task/PK_details.html',self.comment);
+    });
+    $("."+this.from+" article .dv1 .comment .comment_incentive").click(function(){
+
+        loadPage('/task/going_task/incentive_details.html',self.comment);
+    });
+    $("."+this.from+" article .dv1 .comment .comment_reward").click(function(){
+
+        loadPage('/task/going_task/rewardnew_details.html',self.comment);
+    });
+
+}
 
