@@ -1,9 +1,16 @@
+var task_type='';
+var order_name='';
 $(".nav li").click(function() {
     $(".nav li").removeClass("flow");
     $(this).addClass("flow");
-    var task_type=$(this).attr('data-id');
+    task_type=$(this).attr('data-id');
     var url="/task/employee_task/hot_task_load";
-    loadPagebypost(url,{'task_type':task_type},'hot_task');
+    loadPagebypost(url,{'task_type':task_type,'order_name':order_name},'hot_task');
+});
+$(".classify p").click(function() {
+    order_name=$(this).attr('data-id');
+    var url="/task/employee_task/hot_task_load";
+    loadPagebypost(url,{'order_name':order_name,'task_type':task_type},'hot_task');
 });
 
 var content = "<ul class='number2'><li></li><li></li><li></li><li></li><li></li></ul>";

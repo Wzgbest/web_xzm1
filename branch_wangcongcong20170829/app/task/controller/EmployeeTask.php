@@ -102,16 +102,22 @@ class EmployeeTask extends Initialize{
         $num = input('num',10,'int');
         $p = input("p",1,"int");
         $task_type = input('task_type',0,'int');
+        $order_name=input('order_name','','string');
 
         $map=[];
-        if($task_type)
-        {
-            $map['task_type']=$task_type;
+        if($task_type){
+            $map['task_type']=$task_type;//任务类型
+        }
+        if($order_name){
+            $order=$order_name;
+        }
+        else{
+            $order='id';
         }
         $user_info = get_userinfo();
         $uid = $user_info['userid'];
         $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
-        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field='*',$order="id",$direction="desc",$map);
+        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field='*',$order,$direction="desc",$map);
         $countField=["
         count(1) as `0`,
         sum((case when task_type = 1 then 1 else 0 end)) as `1`,
