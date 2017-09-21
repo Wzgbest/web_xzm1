@@ -110,4 +110,15 @@ class Structure extends Base
     {
         return $this->model->table($this->table)->where('id','in',$ids)->delete();
     }
+
+    /**
+     * 跟新部门群组id
+     * @param  [type] $structureid 部门id
+     * @param  [type] $groupid     群组id
+     * @return [type]              [description]
+     */
+    public function upGroupId($structureid,$groupid){
+        $data['groupid'] = $groupid;
+        return $this->model->table($this->table)->where(['id'=>$structureid])->update($data);
+    }
 }
