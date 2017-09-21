@@ -19,6 +19,7 @@ use app\task\model\TaskReward as TaskRewardModel;
 use app\task\model\TaskTake as TaskTakeModel;
 use app\task\model\TaskGuess as TaskGuessModel;
 use app\task\model\TaskComment as TaskCommentModel;
+use app\task\model\TaskTip as TaskTipModel;
 use app\task\service\EmployeeTask as EmployeeTaskService;
 
 class Index extends Initialize{
@@ -75,28 +76,29 @@ class Index extends Initialize{
         $taskRewardM = new TaskRewardModel($this->corp_id);
         $taskTakeM = new TaskTakeModel($this->corp_id);
         $taskCommentModel = new TaskCommentModel($this->corp_id);
+        $employM = new Employee($this->corp_id);
 
-        $taskInfo = $employeeTaskM->getTaskInfo($id);
+        $taskInfo = $employeeTaskM->getTaskMoreInfo($uid,$id);
         if(empty($taskInfo)){
             $result['info'] = "未找到任务！";
             return json($result);
         }
+        $taskInfo["public_to_take_name"] = $employM->getEmployeeNameByUserids($taskInfo["public_to_take"]);
 
         $taskTarget = $taskTargetM->findTaskTargetByTaskId($id);
-        $taskInfo["target"] = $taskTarget;
-
-        $taskReward = $taskRewardM->getTaskRewardListByTaskId($id);
-        $taskInfo["reward"] = $taskReward;
-        $taskInfo["all_reward_amount"] = 0;
-        foreach ($taskReward as $reward_item){
-            $taskInfo["all_reward_amount"] += $reward_item['reward_num']*$reward_item['reward_amount'];
-        }
-
+        $taskInfo["target_type"] = $taskTarget["target_type"];
+        $taskInfo["target_num"] = $taskTarget["target_num"];
+        $taskInfo["target_appraiser_name"] = $employM->getEmployeeNameByUserids($taskTarget["target_appraiser"]);
+        
         $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($id);
         $taskInfo["take"] = $taskTakeEmployeeIds;
 
+        $taskReward = $taskRewardM->getTaskRewardListByTaskId($id);
+        $taskInfo["reward"] = $taskReward;
+
         $task_comment = $taskCommentModel->getAllTaskComment($id);
         $taskInfo["comment"] = $task_comment;
+
 
         $result['data'] = $taskInfo;
         $result['status'] = 1;
@@ -204,6 +206,34 @@ class Index extends Initialize{
         $result['status'] = 1;
         $result['info'] = "获取任务排行成功！";
         return json($result);
+    }
+    public function get_customer(){
+        $result = ['status'=>0 ,'info'=>"获取任务排行时发生错误！"];
+        $id = input('id',0,'int');
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        //$time = time();
+
+        $employeeTaskM = new EmployeeTaskModel($this->corp_id);
+        $taskInfo = $employeeTaskM->getTaskInfo($id);
+        if(empty($taskInfo)){
+            $result['info'] = "未找到任务！";
+            return json($result);
+        }
+        $task_type = $taskInfo["task_type"];
+        if($task_type!=3){
+            $result['info'] = "任务类型不符！";
+            return json($result);
+        }
+        $taskTargetM = new TaskTargetModel($this->corp_id);
+        $taskTarget = $taskTargetM->findTaskTargetByTaskId($id);
+        $customer_id = $taskTarget["target_customer"];
+
+        //TODO 获取客户信息
     }
 
     protected function _getTaskForInput($uid){

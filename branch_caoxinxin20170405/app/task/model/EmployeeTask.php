@@ -50,6 +50,22 @@ class EmployeeTask extends Base{
             ->find();
     }
 
+    /**
+     * 获取一条任务信息
+     * @param  int $uid 用户ID
+     * @param  int $task_id 任务ID
+     * @return array 任务信息
+     */
+    public function getTaskMoreInfo($uid,$task_id){
+        return $this->model->table($this->table)->alias('et')
+            ->join($this->dbprefix.'employee e','e.id = et.create_employee',"LEFT")
+            ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
+            ->where("et.id",$task_id)
+            ->group("et.id")
+            ->field("et.*,e.telephone,e.truename,e.userpic,case when etl.user_id>0 then 1 else 0 end as is_like")
+            ->find();
+    }
+
      /**
      * 获取任务列表
      * @param  int $uid     用户id

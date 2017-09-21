@@ -69,7 +69,7 @@ class EmployeeTask extends Initialize{
 	}
 
 	/**
-	 * 我的直接参与任务列表
+	 * 我的任务列表
 	 * @return arr 任务列表
 	 */
 	public function myTaskList(){
