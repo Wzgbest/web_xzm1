@@ -29,7 +29,7 @@ class EmployeeTask extends Initialize{
 		$uid = $user_info['userid'];
 		$employeeTaskModel = new EmployeeTaskModel($this->corp_id);
 		$task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$last_id,$task_type);
-		var_exp($task_list);
+		//var_exp($task_list);
 		/*
 			不需要直接获取用户的评论，可以点击后在获取用户评论
 			暂时用不到
