@@ -291,8 +291,6 @@ $(".dv4 .parcel .hezi select").change(function(){
 })
 
 
-
-
 //新建tab切换
 //$("article .dv4 .xuanze input").click(function(){
 //					var index=$(this).attr("index")
@@ -315,20 +313,21 @@ $("article .dv4 .xuanze input").click(function(){
 
 //跳转到新页面
 //function a(){
-//	
+//	if()
 //	javascript:loadPage('/task/going_task/new_task.html','my-taskfr');
 //	javascript:loadPage('/task/going_task/new_task.html','public-taskfr');
 //	javascript:loadPage('/task/going_task/new_task.html','task-histroyfr');
 //}
 //$(".task .xinjian").click(function(){
 //
-//	a();
+////	javascript:loadPage('/task/going_task/new_task.html','task-histroyfr');
+//a();
 //})
-//点击跳转详情页
-$('.xiangqing').click(function(){
-
-	javascript:loadPage('/task/going_task/incentive_details.html','public-taskfr');
-})
+////点击跳转详情页
+//$('.xiangqing').click(function(){
+//
+//	javascript:loadPage('/task/going_task/incentive_details.html','public-taskfr');
+//})
 
 //评论跳转
 //$(".task .comment img.a").click(function(){
@@ -360,4 +359,29 @@ $(".dv3 .up .right p").click(function(){
 })
 
  
+ 
+ function skip(from,target,comment){
+ 	 this.from =from;
+	 this.target=target;
+	 this.comment=comment;
+ 	 var self = this;
+ 	 
+ 	 $("."+this.from+" header .xinjian ").click(function(){
+
+       loadPage('/task/going_task/new_task.html',self.target);
+    });
+    $("."+this.from+" article .dv1 .comment .comment_pk").click(function(){
+
+       loadPage('/task/going_task/PK_details.html',self.comment);
+    });
+    $("."+this.from+" article .dv1 .comment .comment_incentive").click(function(){
+
+       loadPage('/task/going_task/incentive_details.html',self.comment);
+    });
+    $("."+this.from+" article .dv1 .comment .comment_reward").click(function(){
+
+       loadPage('/task/going_task/rewardnew_details.html',self.comment);
+    });
+    
+ }
 
