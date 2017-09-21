@@ -201,7 +201,13 @@ class EmployeeTask extends Base{
         }
         $listOrder = [$order=>$direction];//聚合后排序
         $map_str = " find_in_set($uid,public_to_view) ";
-        $employee_task_list=$this->model->table($this->viewTable)->field($field)->where($map_str)->where($map)->order($listOrder)->limit($offset,$num)->select();
+        $employee_task_list=$this->model->table($this->viewTable)
+            ->field($field)
+            ->where($map_str)
+            ->where($map)
+            ->order($listOrder)
+            ->limit($offset,$num)
+            ->select();
         return $employee_task_list;
 
     }
