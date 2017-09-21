@@ -1214,6 +1214,23 @@ article .dv2 .left .box ul{
 	margin-left: 0;
 	margin-right: 0;
 }
+article .dv2 .left .box ul li i{
+	display: inline-block;
+	width: 2px;
+	height: 14px;
+	vertical-align: middle;
+	background-color: #cccccc;
+}
+article .dv2 .left .box ul li .nohelp{
+	color:#77b8ff;
+	margin-right: 5px;
+	
+}
+article .dv2 .left .box ul li .helped{
+	color:#77b8ff;
+	margin-left: 6px;
+	
+}
 article .dv2 .left .box ul:hover{
 	background-color: #e1ebf9;
 }

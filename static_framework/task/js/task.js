@@ -380,7 +380,7 @@ $(".dv3 .up .right p").click(function(){
     });
     $("."+this.from+" article .dv1 .comment .comment_reward").click(function(){
 
-       loadPage('/task/going_task/rewardnew_details.html',self.comment);
+       loadPage('/task/going_task/reward_details.html',self.comment);
     });
     
  }
