@@ -148,7 +148,7 @@ class Employee extends Base{
 
     /**
      * 设置用户信息
-     * @param $eid 员工id
+     * @param $eid int 员工id
      * @param $data
      * @param $map
      * @return int|string

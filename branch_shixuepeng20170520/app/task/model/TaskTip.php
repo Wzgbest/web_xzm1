@@ -105,4 +105,27 @@ class TaskTip extends Base{
             ->select();
         return $employeeList;
     }
+
+    public function getTipMoneyList($task_id){
+        $map["ett.task_id"] = $task_id;
+        $order="ett.id desc";
+        $employeeList = $this->model->table($this->table)->alias('ett')
+            ->where($map)
+            ->order($order)
+            ->group("ett.id")
+            ->field("ett.*")
+            ->select();
+        return $employeeList;
+    }
+
+    public function getAllTipMoneyById($task_id){
+        $map["ett.task_id"] = $task_id;
+        $order="ett.id desc";
+        $allTipMoney = $this->model->table($this->table)->alias('ett')
+            ->where($map)
+            ->order($order)
+            ->group("ett.id")
+            ->sum("ett.tip_money");
+        return $allTipMoney;
+    }
 }

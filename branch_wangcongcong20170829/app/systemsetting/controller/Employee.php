@@ -703,4 +703,19 @@ class Employee extends Initialize{
     //     return $result;
 
     // }
+    
+    public function testGroup(){
+        $result = ['status'=>0,'info'=>"注册失败"];
+
+        $huanxin = new HuanxinApi();
+        $member = [$this->corp_id."_".'1',$this->corp_id."_".'3'];
+        $groupname = '测试创建群组';
+        $desc = '群组测试';
+        $owner = $this->corp_id."_".'6';
+        $data['groupname'] = '换个名字试试';
+        $data = $huanxin->deleteUserFromMoreGroup($owner,['27603478052865','1505351559861','1505178045833']);
+        $result['data'] = $data;
+
+        return $result;
+    }
 }

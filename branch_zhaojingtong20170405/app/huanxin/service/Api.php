@@ -6,6 +6,7 @@
 namespace app\huanxin\service;
 
 use app\common\model\Employee;
+use app\common\model\Structure;
 
 class Api
 {
@@ -17,6 +18,7 @@ class Api
     private $access_token = array();
     private $user_uri = 'https://a1.easemob.com/1107161108178376/zhuowin/users';
     private $add_user_uri = 'https://a1.easemob.com/1107161108178376/zhuowin/users/{owner_username}/contacts/users/{friend_username}';
+    private $group_uri = 'https://a1.easemob.com/1107161108178376/zhuowin/chatgroups';
 
     public function __construct()
     {
@@ -341,8 +343,235 @@ class Api
         return $info;
     }
 
+    /**
+     * 环信创建群组
+     * @param  array   $members      群组成员，此属性为可选的，但是如果加了此项，数组元素至少一个（注：群主jma1不需要写入到members里面）
+     * @param  [type]  $groupname    群组名称，此属性为必须的
+     * @param  [type]  $desc         群组描述，此属性为必须的
+     * @param  boolean $public       是否是公开群，此属性为必须的
+     * @param  integer $maxusers     群组成员最大数（包括群主），值为数值类型，默认值200，最大值2000，此属性为可选的
+     * @param  boolean $members_only 加入群是否需要群主或者群管理员审批，默认是false
+     * @param  boolean $allowinvites 是否允许群成员邀请别人加入此群。 true：允许群成员邀请人加入此群，false：只有群主或者管理员才可以往群里加人
+     * @param  [type]  $owner        群组的管理员，此属性为必须的
+     * @return [type]                [description]
+     */
+    public function createGroup($corp_id,$structureid,$members=[],$groupname,$desc,$owner,$public=false,$maxusers=200,$members_only=false,$allowinvites=false){
+        $info = ['status'=>0,'message'=>'创建群组失败'];
+
+        if (!$groupname || !$desc || !$owner) {
+            $info['message'] = '参数有误';
+            return $info;
+        }
+
+        $body['groupname'] = $groupname;
+        $body['desc'] = $desc;
+        $body['public'] = $public;
+        $body['maxusers'] = $maxusers;
+        $body['members_only'] = $members_only;
+        $body['allowinvites'] = $allowinvites;
+        $body['owner'] = $owner;
+        $body['members'] = $members;
+
+        $body_json = json_encode($body,true);
+        $group_info = $this->getMessage($this->group_uri,$body_json,$this->header,'post');
+        $group = json_decode($group_info,true);
+        if (isset($group['error'])) {
+            $info['message'] = $group['error_description'];
+        } else {
+            $group_id = $group['data']['groupid'];//
+            $a = $this->updateGroupId($corp_id,$structureid,$group_id);
+            if ($a > 0) {
+                $info['message'] = '群组注册成功';
+                $info['status'] = 1;
+            }else{
+                $info['message'] = '群组注册失败';
+            }
+            
+        }
+
+        return $info;
+    }
+
+    /**
+     * 更新群组信息
+     * @param  [type] $groupinfo 跟新信息
+     *  "groupname", //群组名称，修改时值不能包含斜杠（"/"）。
+        "description" //群组描述，修改时值不能包含斜杠（"/"）。
+        "maxusers"//群组成员最大数（包括群主），值为数值类型
+     * @return [type]          [description]
+     */
+    public function updateGroupInfo($groupid,$groupinfo=[]){
+        $info = ['status'=>0,'message'=>'跟新信息失败'];
+
+        if (!$groupid || !$groupinfo) {
+            $info['message'] = '参数错误';
+            return $info;
+        }
+        $res_json = json_encode($groupinfo,true);
+        $uri = $this->group_uri.'/'.$groupid;
+        $request_info = $this->getMessage($uri,$res_json,$this->header,'put');
+        $result_info = json_decode($request_info,true);
+
+        if (isset($result_info['error'])) {
+            $info['message'] = $result_info['error_description'];
+        }else{
+            $info['status'] = 1;
+            $info['message'] = '更新成功';
+            $info['data']  = $result_info['data'];
+        }
+
+        return $info;
+
+    }
+
+    /**
+     * 删除部门群组
+     * @param  [type] $groupid 群组id
+     * @return [type]          [description]
+     */
+    public function deleteGroup($groupid){
+        $info = ['status'=>0,'message'=>'删除失败'];
+
+        $uri = $this->group_uri."/".$groupid;
+        $request_info = $this->getMessage($uri,'',$this->header,'delete');
+        $result_info = json_decode($request_info,true);
+
+        if (isset($result_info['error'])) {
+            $info['message'] = $result_info['error_description'];
+        }else{
+            $info['status'] = 1;
+            $info['message'] = '删除成功';
+            $info['data']  = $result_info['data'];
+        }
+
+        return $info;
+    }
+
+    /**
+     * 群组添加单个员工
+     * @param  $groupid  群组id   
+     * @param [type] $username 用户环信名
+     */
+    public function addOneEmployee($groupid='',$username=''){
+        if (!$groupid || !$username) {
+            $info['status'] = 0;
+            $info['message'] = '参数错误';
+            return $info;
+        }
+
+        $uri = $this->group_uri."/".$groupid."/users/".$username;
+        $request_info = $this->getMessage($uri,'',$this->header,'post');
+        $result_info = json_decode($request_info,true);
+
+        if (isset($result_info['error'])) {
+            $info['status'] = 0;
+            $info['message'] = '员工添加失败';
+            $info['error'] = $result_info['error'];
+        }else{
+            $info['status'] = 1;
+            $info['message'] = '员工添加成功';
+            $info['data'] = $result_info['data'];
+        }
+
+        return $info;
+    }
+
+    /**
+     * 删除单个群组成员
+     * @param  [type] $groupid  群组id
+     * @param  [type] $username 员工环信名
+     * @return [type]           [description]
+     */
+    public function deleteOneEmployee($groupid='',$username=''){
+        if (!$groupid || !$username) {
+            $info['status'] = 0;
+            $info['message'] = '参数错误';
+            return $info;
+        }
+
+        $uri = $this->group_uri."/".$groupid."/users/".$username;
+        $request_info = $this->getMessage($uri,'',$this->header,'delete');
+        $result_info = json_decode($request_info,true);
+
+        if (isset($result_info['error'])) {
+            $info['status'] = 0;
+            $info['message'] = '员工删除失败';
+            $info['error'] = $result_info['error'];
+        }else{
+            $info['status'] = 1;
+            $info['message'] = '员工删除成功';
+            $info['data'] = $result_info['data'];
+        }
+
+        return $info;
+    }
+
+    /**
+     * 一个员工从多个群组中删除
+     * @param  string $username 员工环信名称
+     * @param  array  $groupids 群组数组
+     * @return [type]           [description]
+     */
+    public function addUserFromMoreGroup($username='',$groupids=[]){
+
+        if (!$username || !$groupids) {
+            $info['status'] = 0;
+            $info['message'] = '参数错误';
+            return $info;
+        }
+
+        foreach ($groupids as $key => $value) {
+            $result = $this->addOneEmployee($value,$username);
+            if (isset($result['error'])) {
+                $info[$value]['error'] = $result['error'];
+                $info[$value]['message'] = '该群添加失败'; 
+                $info[$value]['status'] = 0;
+            }else{
+                $info[$value]['status'] = 1;
+                $info[$value]['message'] = '该群添加成功';
+                $info[$value]['data'] = $result['data'];
+            }
+
+            sleep(3);
+        }
+
+        return $info;
+    }
+
+    /**
+     * 一个员工从多个群组中删除
+     * @param  string $username 员工环信名称
+     * @param  array  $groupids 群组数组
+     * @return [type]           [description]
+     */
+    public function deleteUserFromMoreGroup($username='',$groupids=[]){
+
+        if (!$username || !$groupids) {
+            $info['status'] = 0;
+            $info['message'] = '参数错误';
+            return $info;
+        }
+
+        foreach ($groupids as $key => $value) {
+            $result = $this->deleteOneEmployee($value,$username);
+            if (isset($result['error'])) {
+                $info[$value]['error'] = $result['error'];
+                $info[$value]['message'] = '该群删除失败'; 
+                $info[$value]['status'] = 0;
+            }else{
+                $info[$value]['status'] = 1;
+                $info[$value]['message'] = '该群删除成功';
+                $info[$value]['data'] = $result['data'];
+            }
+
+            sleep(3);
+        }
+
+        return $info;
+    }
+
     private function updateImRegInfoToDataBase($corp_id,$user_arr){
-//            更改employee表注册成功
+    //更改employee表注册成功
         $user_up = array();
         foreach ($user_arr as $key => $val) {
             foreach ($val as $k => $v) {
@@ -353,6 +582,18 @@ class Api
         }
         $employee = new Employee($corp_id);
         return $employee->saveIm($user_up);
+    }
+
+    /**
+     * 更新表中部门群组id
+     * @param  [type] $corp_id     [description]
+     * @param  [type] $structureid [description]
+     * @param  [type] $groupid     [description]
+     * @return [type]              [description]
+     */
+    private function updateGroupId($corp_id,$structureid,$groupid){
+        $structure = new Structure($corp_id);
+        return $structure->upGroupId($structureid,$groupid);
     }
 
     /**

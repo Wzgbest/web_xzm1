@@ -150,7 +150,7 @@ class EmployeeTask extends Base{
     }
     public function getAllOverTimeTask($time){
         $map["et.task_end_time"] = ["lt",$time];
-        $map["et.type"] = ["in",[1,2,3]];
+        $map["et.task_type"] = ["in",[1,2,3]];
         $map["et.status"] = 2;
         $order = "et.id asc";
         $field = ["et.*"];
@@ -169,7 +169,7 @@ class EmployeeTask extends Base{
             ->join($this->dbprefix.'red_envelope re',"re.task_id = et.id and re.type = 3 and re.took_user = ett.take_employee","LEFT")
             ->where($map)
             ->group('ett.take_employee')
-            ->column("re.is_token","ett.take_employee");
+            ->column("re.redid,re.is_token,re.money","ett.take_employee");
         return $employeeTaskInfo;
     }
     public function setTaskStatus($ids,$from_status,$to_status){

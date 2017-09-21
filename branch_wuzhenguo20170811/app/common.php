@@ -1620,3 +1620,39 @@ function saveExcelToPath($data, $sheet = false,$filename=null,$path=null) {
     $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
     $objWriter->save($path);
 }
+
+/**
+ * pk项目类型对应的名称
+ * @param pk项目类型
+ * @return mixed
+ */
+function get_target_type_name($value){
+    //1:通话数,2:商机数,3:成交额,4:成单数,5:拜访数,6:新增客户数,7:悬赏拜访对象
+    $type_name = null;
+    switch ($value){
+        case 1:
+            $type_name = "通话数";
+            break;
+        case 2:
+            $type_name = "商机数";
+            break;
+        case 3:
+            $type_name = "成交额";
+            break;
+        case 4:
+            $type_name = "成单数";
+            break;
+        case 5:
+            $type_name = "拜访数";
+            break;
+        case 6:
+            $type_name = "新增客户数";
+            break;
+        case 7:
+            $type_name = "悬赏拜访对象";
+            break;
+        default:
+            $type_name = "无";
+    }
+    return $type_name;
+}

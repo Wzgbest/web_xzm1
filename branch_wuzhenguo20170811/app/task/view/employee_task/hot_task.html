@@ -1,0 +1,195 @@
+<link rel="stylesheet" href="/task/css/task.css" />
+
+<div class="task">
+	<header>
+		<ul class="nav">
+			<li  data-id="0" class="flow">
+				<div>热门任务（<span>{$task_count.0}</span>）</div>
+			</li>
+			<li id="awaitComClients" data-id="2">
+				<div>PK任务（<span>{$task_count.2}</span>）</div>
+			</li>
+			<li  data-id="1">
+				<div>激励任务（<span>{$task_count.1}</span>）</div>
+			</li>
+			<li data-id="3">
+				<div>悬赏任务（<span>{$task_count.3}</span>）</div>
+			</li>
+		</ul>
+		<div class="sort">
+			<img src="/task/img/sort.png" />
+			<p>排序</p>
+			<div class="classify">
+				<p>按时间</p>
+				<p>按奖金</p>
+				<p>按热度</p>
+			</div>
+		</div>
+		<div class="xinjian">
+			<i class="fa fa-plus fa-2x"></i>
+			<p>新建任务</p>
+		</div>
+	</header>
+
+	<article id="hot_task">
+        {include file="employee_task/hot_task_load"/}
+	</article>
+
+	<div id="myModalsix" class="reveal-modal reveal_six">
+		<p class="p1">猜输赢</p>
+		<ul class="number1">
+			<li>姓名</li>
+			<li>部门</li>
+			<li></li>
+
+		</ul>
+		<div class="list">
+
+			<ul class="number2">
+				<li>李晓芬</li>
+				<li>销售一部</li>
+				<li>
+					<span class="fill">下注</span>
+				</li>
+
+			</ul>
+			<ul class="number2">
+				<li>秦昊</li>
+				<li>销售五部</li>
+				<li>
+					<span class="fill">下注</span>
+				</li>
+			</ul>
+			<ul class="number2">
+				<li>李晓芬</li>
+				<li>销售一部</li>
+				<li>
+					<span class="fill">下注</span>
+				</li>
+
+			</ul>
+			<ul class="number2">
+				<li>秦昊</li>
+				<li>销售五部</li>
+				<li>
+					<span class="fill">下注</span>
+				</li>
+			</ul>
+			<ul class="number2">
+				<li>秦昊</li>
+				<li>销售五部</li>
+				<li>
+					<span class="fill">下注</span>
+				</li>
+			</ul>
+			<ul class="number2">
+				<li>秦昊</li>
+				<li>销售五部</li>
+				<li>
+					<span class="fill">下注</span>
+				</li>
+			</ul>
+			<ul class="number2">
+				<li>秦昊</li>
+				<li>销售五部</li>
+				<li>
+					<span class="fill">下注</span>
+				</li>
+			</ul>
+		</div>
+		<p class="compare">最近下注（当前下注池为<span class="orange">2233</span>元）</p>
+		<ul class="list_head">
+			<li>姓名</li>
+			<li>部门</li>
+			<li>猜输赢支持</li>
+		</ul>
+		<div class="box">
+
+			<ul>
+				<li>张亮</li>
+				<li>销售一部</li>
+				<li><span>7</span>人支持<span>100</span>元</li>
+			</ul>
+			<ul>
+				<li>张三</li>
+				<li>销售一部</li>
+				<li><span>8</span>人支持<span>90</span>元</li>
+			</ul>
+			<ul>
+				<li>张三</li>
+				<li>销售一部</li>
+				<li><span>5</span>人支持<span>80</span>元</li>
+			</ul>
+			<ul>
+				<li>张三</li>
+				<li>销售一部</li>
+				<li><span>8</span>人支持<span>90</span>元</li>
+			</ul>
+			<ul>
+				<li>张三</li>
+				<li>销售一部</li>
+				<li><span>6</span>人支持<span>100</span>元</li>
+			</ul>
+			<ul>
+				<li>张三</li>
+				<li>销售一部</li>
+				<li><span>8</span>人支持<span>90</span>元</li>
+			</ul>
+			<a class="close-reveal-modal">&#215;</a>
+		</div>
+	</div>
+
+	<div id="myModalseven" class="reveal-modal reveal_seven">
+
+		<p class="p1">打赏</p>
+		<div class="money">
+			<span>￥</span>
+			<input type="text" placeholder="00.00" />
+		</div>
+		<p class="bar">总共打赏<span class="orange">200</span>元（你已打赏<span class="orange">50</span>元）</p>
+
+		<div class="mid">
+			<ul>
+				<li>02.12&nbsp;&nbsp;09:08</li>
+				<li>王梦瑶</li>
+				<li>打赏<span>5</span>元</li>
+			</ul>
+			<ul>
+				<li>02.12&nbsp;&nbsp;09:08</li>
+				<li>王梦瑶</li>
+				<li>打赏<span>5</span>元</li>
+			</ul>
+			<ul>
+				<li>02.12&nbsp;&nbsp;09:08</li>
+				<li class="orange">你</li>
+				<li class="orange">打赏<span>10</span>元</li>
+			</ul>
+			<ul>
+				<li>02.12&nbsp;&nbsp;09:08</li>
+				<li>王梦瑶</li>
+				<li>打赏<span>5</span>元</li>
+			</ul>
+			<ul>
+				<li>02.12&nbsp;&nbsp;09:08</li>
+				<li>王梦瑶</li>
+				<li>打赏<span>5</span>元</li>
+			</ul>
+			<ul>
+				<li>02.12&nbsp;&nbsp;09:08</li>
+				<li class="orange">你</li>
+				<li class="orange">打赏<span>10</span>元</li>
+			</ul>
+
+		</div>
+		<div class="import">
+			<div class="decide">
+				<p>继续打赏</p>
+				<p>取消</p>
+			</div>
+		</div>
+		<a class="close-reveal-modal">&#215;</a>
+	</div>
+
+</div>
+<script type="text/javascript" src="/task/js/task.js"></script>
+<script src="/knowledgebase/js/index.js"></script>
