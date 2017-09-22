@@ -1,9 +1,20 @@
+var task_type='';
+var order_name='';
 $(".nav li").click(function() {
     $(".nav li").removeClass("flow");
     $(this).addClass("flow");
-    var task_type=$(this).attr('data-id');
-    var url="/task/employee_task/hot_task_load";
-    loadPagebypost(url,{'task_type':task_type},'hot_task');
+    task_type=$(this).attr('data-id');
+    var method=$(this).parents('div').attr('class')||'';
+    var panel=method.replace('_load','');
+    var url="/task/employee_task/"+method;
+    loadPagebypost(url,{'task_type':task_type,'order_name':order_name},panel);
+});
+$(".classify p").click(function() {
+    order_name=$(this).attr('data-id');
+    var method=$(this).parents("div .sort").parents('div').attr('class');
+    var panel=method.replace('_load','');
+    var url="/task/employee_task/"+method;
+    loadPagebypost(url,{'order_name':order_name,'task_type':task_type},panel);
 });
 
 var content = "<ul class='number2'><li></li><li></li><li></li><li></li><li></li></ul>";
@@ -50,19 +61,18 @@ for(var i = 0; i < t; i++) {
 //
 //})
 //$(".dv1 .grade .p1").removeClass("get")
+//领红包
 $(".dv1 .grade .get").hide();
 $(".dv1 .mengceng").addClass("m_c");
-var a = '<img src="/task/img/redPacket.png" class="picture"/>';
-$(".mengceng").append(a);
-$('.picture').click(function() {
-
+//	var picture = '<img src="/task/img/redPacket.png" class="picture"/>';
+//	$(".dv1 .mengceng").append(picture);
+$('.direct_participation_load').on('click','.picture',function(){
     $(this).parent().removeClass("m_c")
     $(this).remove()
 
     $(".dv1 .grade .get").show()
     $(".dv1 .grade .get").addClass('p1').removeClass("p2").text("已领取100元")
-
-})
+});
 //领小红包
 $("article .dv2 .left .box img").click(function() {
 
@@ -97,7 +107,7 @@ $(function() {
     })
 })
 
-//点击span时加.motai 
+//点击span时加.motai
 $('.grade .show_ranking_task').click(function() {
     $(this).parent().parent().siblings('.motai').addClass('motai1');
     $(this).parents().addClass("change");
@@ -132,25 +142,25 @@ $(".dv1 .right .give .task").click(function() {
     $(this).remove()
     $(".give").append("<p class='cute'>任务进行中</p>");
 })
-//$(".dv1 .right .stimulate .task").click(function() {
-//
-//	$(this).remove()
-//	$(".stimulate").append("<p class='cute'>任务进行中</p>");
-//
-//})
+$(".dv1 .right .give .get_reward").click(function() {
+
+    $(this).addClass("get_succeed").removeClass("p2").text("领取成功");
+
+})
 $(".dv1 .right .give .guess").click(function() {
-    var n="<p class='cute'>猜输赢进行中</p>"
+    var n="<p class='win'>猜输赢进行中</p>"
     $(this).siblings().remove();
     $(this).remove()
     $(".give").append(n);
+    $(".give").css("width","132")
 })
 
 //点赞
-$(".dv1 .right .comment .add").click(function() {
+$(".task").on('click','img.add',function(){
     var self = this;
     var qw = $(this).attr('index_img');
+    console.log(qw);
     var task_id = $(this).attr('task_id');
-    console.log($(this).siblings(".yi"));
     var p = parseInt($(this).siblings().text());
     var i = parseInt(qw);
     if(i % 2){
@@ -168,8 +178,7 @@ $(".dv1 .right .comment .add").click(function() {
     }
     i++;
     $(this).attr('index_img', i)
-
-})
+});
 
 $(".dv3 .up .like .right .add").click(function() {
     var self = this;
@@ -198,14 +207,14 @@ $(".dv3 .up .like .right .add").click(function() {
 //$(".dv3 .up .like .right .add").click(function() {
 //
 //	var qw = $('.dv3 .up .like .right .add').attr('index_img');
-//				
+//
 //				var i = parseInt(qw);
 //				if(i % 2){
 //					$('.dv3 .up .like .right .add').attr('src', '/task/img/praise.png');
-//					
+//
 //				}else {
 //					$('.dv3 .up .like .right .add').attr('src', '/task/img/zan.png');
-//				
+//
 //				}
 //				i++;
 //				$('.dv3 .up .like .right .add').attr('index_img', i)
@@ -219,20 +228,20 @@ function task_like(id,like,fun){
         post_data+="&unlike=1";
     }
     $.ajax({
-        url: '/task/task_like/like',
+        url: '/task/employee_task/task_like',
         type: 'post',
         data: post_data,
         dataType:"json",
         success: function(data) {
             console.log(data);
-            if(data.status == 1) {
+            if(data.success == 1) {
                 fun(data);
             }else{
-                alert(data.info);
+                console.log(data.msg,{icon:2});
             }
         },
         error: function() {
-            alert("操作出现错误!");
+            console.log('操作出现错误',{icon:2});
         },
     });
 }
@@ -262,22 +271,10 @@ $("article .dv4 .parcel .add").click(function(){
         if(max_num2<num2){
             max_num2=num2
         }
-    });
+    })
     $("article .dv4 ul .largest").text(max_num2);
     $("article .dv4 ul .total").text(s);//总计的钱
 })
-
-// 评论跳转
-// $(".task .comment .commont_img").click(function(){
-//     var id = $(this).attr("task_id");
-// 	loadPage('/task/going_task/PK_details/id/'+id,'task-hallfr');
-// });
-
-
-//function fenlei(id,url){
-//	this.id=id;
-//	this.url=url;
-//}
 
 
 //评论
