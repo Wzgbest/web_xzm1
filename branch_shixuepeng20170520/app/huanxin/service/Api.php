@@ -507,7 +507,7 @@ class Api
     }
 
     /**
-     * 一个员工从多个群组中删除
+     * 一个员工添加到多个群组中
      * @param  string $username 员工环信名称
      * @param  array  $groupids 群组数组
      * @return [type]           [description]
@@ -568,6 +568,71 @@ class Api
         }
 
         return $info;
+    }
+
+    /**
+     * 批量添加员工
+     * @param [type] $groupid 群组id
+     * @param array  $users   员工名称 $this->corpro_id.$userid
+     */
+    public function addAllUsers($groupid,$usernames=[]){
+
+        if (!$groupid || !$usernames) {
+            $info['status'] = 0;
+            $info['message'] = '参数错误';
+        }
+
+        $uri = $this->group_uri."/".$groupid."/users";
+        $request['usernames'] = $usernames; 
+        $request_json = json_encode($request,true);
+        $result = $this->getMessage($uri,$request_json,$this->header,'post');
+        $result_json = json_decode($result,true);
+
+        if (isset($result_json['error'])) {
+            $info['status'] = 0;
+            $info['error'] = $result_json['error'];
+            $info['message'] = '添加失败';
+        }else{
+            $info['status'] = 1;
+            $info['data'] = $result_json['data'];
+            $info['message'] = '添加成功';
+        }
+
+        return $info;
+
+    }
+
+    /**
+     * 批量删除用户
+     * @param  [type] $groupid   群组id
+     * @param  [type] $usernames 删除姓名数组
+     * @return [type]            [description]
+     */
+    public function deleteAllUsers($groupid,$usernames=[]){
+        if (!$groupid || !$usernames) {
+                $info['status'] = 0;
+                $info['message'] = '参数错误';
+            }    
+
+            $uri = $this->group_uri."/".$groupid."/users/";
+            foreach ($usernames as $key => $value) {
+                $uri .= $value.",";
+            }
+            $result_info = $this->getMessage($uri,'',$this->header,'delete');
+            $result_json = json_decode($result_info,true);
+
+            if (isset($result_json['error'])) {
+                $info['error'] = $result_json['error'];
+                $info['status'] = 0;
+                $info['message'] = '删除失败';
+            }else{
+                $info['data'] = $result_json['data'];
+                $info['status'] = 1;
+                $info['message'] = '删除成功';
+            }
+
+            return $info;
+
     }
 
     private function updateImRegInfoToDataBase($corp_id,$user_arr){

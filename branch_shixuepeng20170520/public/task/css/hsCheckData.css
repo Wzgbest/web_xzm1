@@ -8,13 +8,13 @@
     border-radius: 2px;
     line-height: 30px;
     padding-left: 10px;
-    background-image: url(img/nc.png);
+    background-image: url(/task/img/nc.png);
     background-repeat: no-repeat;
     background-position: 98% 50%;
 }
 
 .hsCjeckData_check {
-    background-image: url(img/yc.png);
+    background-image: url(/task/img/yc.png);
 }
 
 .hcd_main_border {
@@ -42,7 +42,7 @@
     border-radius: 2px;
     padding: 4px 6px;
     font-size: 14px;
-    background-image: url(img/filter.png);
+    background-image: url(/task/img/filter.png);
     background-repeat: no-repeat;
     background-position: 98% 50%;
 }
@@ -73,7 +73,7 @@
             }
 
 .exsitChild {
-    background-image: url(img/close.png);
+    background-image: url(/task/img/close.png);
     background-repeat: no-repeat;
     background-position: 0 0;
     display: inline-block;
@@ -83,7 +83,7 @@
 }
 
 .exsitChild_check {
-    background-image: url(img/open.png);
+    background-image: url(/task/img/open.png);
 }
 
 .ec {

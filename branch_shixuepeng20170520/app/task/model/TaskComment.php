@@ -59,12 +59,12 @@ class TaskComment extends Base{
         }
         $map['task_id'] = ['in',$task_ids];
         $employeeTaskCommentList = $this->model->table($this->table)->alias('etc')
-                                    ->join($this->dbprefix.'employee rp','rp.task_id = etc.id',"LETF")
-                                    ->join($this->dbprefix.'employee rv','rv.task_id = etc.id',"LETF")
-                                    ->where($map)
-                                    ->order($order)
-                                    ->field("etc.*,rp.telephone as replayer_telephone,rp.truename as replayer_truename,rp.userpic as replayer_pic,rv.telephone as reviewer_telephone,rv.truename as reviewer_truename,rv.pic as reviewer_pic")
-                                    ->select();
+            ->join($this->dbprefix.'employee rp','rp.id = etc.replayer_id',"LEFT")
+            ->join($this->dbprefix.'employee rv','rv.id = etc.reviewer_id',"LEFT")
+            ->where($map)
+            ->order($order)
+            ->field("etc.*,rp.telephone as replayer_telephone,rp.truename as replayer_truename,rp.userpic as replayer_pic,rv.telephone as reviewer_telephone,rv.truename as reviewer_truename,rv.userpic as reviewer_pic")
+            ->select();
 
         return $employeeTaskCommentList;
     }

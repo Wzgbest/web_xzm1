@@ -12,6 +12,17 @@ use app\common\controller\Initialize;
 use app\task\model\TaskComment as TaskCommentModel;
 
 class TaskComment extends Initialize{
+	public function show(){
+		$id = input('id',0,'int');
+		if(!$id){
+			$this->error("参数错误");
+		}
+		$taskCommentModel = new TaskCommentModel($this->corp_id);
+		$commont_list = $taskCommentModel->getAllTaskComment($id);
+		//var_exp($commont_list,'$commont_list');
+		$this->assign('commont_list',$commont_list);
+		return view();
+	}
 	/**
 	 * 发表任务评论借口
 	 */

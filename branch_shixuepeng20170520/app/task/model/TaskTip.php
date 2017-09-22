@@ -20,7 +20,7 @@ class TaskTip extends Base{
     }
 
     /**
-     * 获取所有的评论
+     * 获取所有的打赏
      * @param  arr $task_ids 任务id
      * @param  arr $map      条件
      * @param  string $order    排序
@@ -30,13 +30,13 @@ class TaskTip extends Base{
     	if (empty($task_ids)) {
     		return [];
     	}
-    	$map['task_id'] = ['in',$task_ids];
+    	$map['ett.task_id'] = ['in',$task_ids];
 
     	$task_tip_list = $this->model->table($this->table)->alias('ett')
-    	->join($this->dbprefix.'emloyee e','e.id = ett.tip_employee',"LETF")
+    	->join($this->dbprefix.'employee e','e.id = ett.tip_employee',"LEFT")
     	->where($map)
     	->order($order)
-    	->field("ett.*,e.telephone,e.truename,e.pic")
+    	->field("ett.*,e.telephone,e.truename,e.userpic")
     	->select();
 
     	return $task_tip_list;

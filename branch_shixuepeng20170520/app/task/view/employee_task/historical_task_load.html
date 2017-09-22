@@ -36,7 +36,7 @@
                     <p class="small">面向群体</p>
                     <p class="very big"><?php $array=explode(',',$vo['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共<?php echo count($array) ?>人，已参与{$vo.partin_count}人）</p>
                     <div class="flotage">
-                        {notempty name="array"}{volist name="array" id="v"}<span>{$v}</span>{/volist}{/notempty}
+                        {volist name="array" id="v"}<span>{$v}</span>{/volist}
                     </div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="very">
                     <p class="small">当前名次</p>
-                    <p class="big">第0名</p>
+                    <p class="big">第26名</p>
 
                 </div>
             </div>
@@ -66,14 +66,14 @@
     </div>
     <div class="right">
         <div class="within">
-            <div class="stimulate">
-
-                <p class="p2">打赏</p>
+            <div class="give">
+                <p class="p3">任务失败</p>
+                <p class="p2">查看详情</p>
 
             </div>
             <div class="comment">
                 <div>
-                    <img src="/task/img/comment.png" class="comment_pk" task_id="1" />
+                    <img src="/task/img/comment.png" />
                     <span>{$vo.comment_count}</span>
                 </div>
                 <div style="text-align: right;">
@@ -90,7 +90,7 @@
 </div>
 {/eq}
 {eq name="vo.task_type" value="2"}
-<div class="dv1">
+<div class="dv1 a">
     <div class="left">
         <img src="/task/img/task.png" class="img1" />
         <div class="border-right">
@@ -132,11 +132,10 @@
                     <p class="big">
                         {eq name="vo.reward_type" value="2"}{$vo.reward_amount}{/eq}
                         {eq name="vo.reward_type" value="1"}{$vo.reward_amount/$vo.partin_count|floor}{/eq}
-
                         元
                     </p>
                 </div>
-                <div class="very  flo">
+                <div class="very flo">
                     <p class="small">面向群体</p>
                     <p class="very big"><?php $array=explode(',',$vo['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共<?php echo count($array) ?>人，已参与{$vo.partin_count}人）</p>
                     <div class="flotage">
@@ -148,19 +147,14 @@
     </div>
     <div class="right">
         <div class="within">
-            <div class="active">
-                <p class="p2">领任务</p>
-                <p class="p2">
-                    <span class="big-link" data-reveal-id="myModalsix" data-animation="fade">猜输赢</span>
-                </p>
-                <p class="p2">
-                    <span class="big-link" data-reveal-id="myModalseven" data-animation="fade">打赏</span>
-                </p>
-            </div>
+            <div class="give">
+                <p class="p2">继续打赏</p>
 
+                <p class="p2">查看详情</p>
+            </div>
             <div class="comment">
                 <div>
-                    <img src="/task/img/comment.png" class="comment_pk" task_id="1" />
+                    <img src="/task/img/comment.png" class="a"/>
                     <span>{$vo.comment_count}</span>
                 </div>
                 <div style="text-align: right;">
@@ -222,13 +216,13 @@
     <div class="right">
         <div class="within">
             <div class="give">
-                <p class="p2 get_reward">领任务</p>
+                <p class="p2">继续打赏</p>
 
-                <p class="p2">打赏</p>
+                <p class="p2">查看详情</p>
             </div>
             <div class="comment">
                 <div>
-                    <img src="/task/img/comment.png" class="comment_pk" task_id="1" />
+                    <img src="/task/img/comment.png" />
                     <span>{$vo.comment_count}</span>
                 </div>
                 <div style="text-align: right;">

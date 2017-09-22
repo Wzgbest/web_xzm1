@@ -26,24 +26,26 @@
 		</div>-->
 	</header>
 
+	<form class="new_task_form" onsubmit="return false;">
 	<article>
 		<div class="dv4">
 			<div class="parcel">
 				<div class="left hezi">
 					<img src="/task/img/star.png" />
 					<span>任务类型</span>
-					<select>
+					<select name="task_type">
+						<option value="3">悬赏任务</option>
 						<option value="2">PK任务</option>
 						<option value="1">激励任务</option>
-						<option value="3">悬赏任务</option>
+
 					</select>
 				</div>
 				<div class="right hezi">
 					<img src="/task/img/star.png" />
 					<span>任务名称</span>
-					<input type="text" placeholder="最佳通话能手" />
+					<input type="text" name="task_name" placeholder="最佳通话能手" />
 				</div>
-				
+
 			</div>
 			<div class="parcel">
 				<div class="left hezi">
@@ -55,13 +57,13 @@
 						<option>刘大宝等</option>
 					</select>-->
 					<!--<div id="cityMR2" style="width:233px;padding-right:10px;overflow: hidden;" ></div>-->
-					<div id="cityMR2" style="width:225px;padding-right:10px;overflow: hidden;padding-left: 20px;" >
+					<div id="cityMR2" class="public_to_take" style="width:225px;padding-right:10px;overflow: hidden;padding-left: 20px;" >
 					</div>
 				</div>
 				<div class="right hezi">
 					<img src="/task/img/star.png" />
-					<span>PK项目</span>
-					<select>
+					<span>悬赏项目</span>
+					<select name="target_type">
 						<option>有效通话数</option>
 						<option>商机数</option>
 						<option>成交额</option>
@@ -74,29 +76,27 @@
 			<div class="parcel">
 				<div class="left hezi">
 					<img src="/task/img/star.png" />
-					<span>PK人数</span>
-					<input type="text" placeholder="2"/>
+					<span>悬赏人数</span>
+					<input type="text" name="reward_num" placeholder="2" />
 					<span>人</span>
 				</div>
 				<div class="right hezi">
 					<img src="/task/img/star.png" />
-					<span>PK金额</span>
-					<input type="text" placeholder="20"/>
+					<span>悬赏金额</span>
+					<input type="text" name="reward_amount" placeholder="20" />
 					<span>元/人</span>
 				</div>
 			</div>
-			
-		
-			
+
 			<div class="parcel">
 				<div class="normal">
 					<img src="/task/img/star.png" />
 					<span>领取周期</span>
 					<!--<input type="text" placeholder="请填写日期" />-->
-					<input type="datetime-local" style="line-height: 35px;" />
+					<input type="datetime-local" name="task_take_start_time" style="line-height: 35px;" />
 					<span class="set">到</span>
 					<!--<input type="text" placeholder="请填写日期" />-->
-					<input type="datetime-local" style="line-height: 35px;" />
+					<input type="datetime-local" name="task_take_end_time" style="line-height: 35px;" />
 				</div>
 			</div>
 			<div class="parcel">
@@ -104,85 +104,51 @@
 					<img src="/task/img/star.png" />
 					<span>统计周期</span>
 					<!--<input type="text" placeholder="请填写日期" />-->
-					<input type="datetime-local" style="line-height: 35px;" />
+					<input type="datetime-local" name="task_start_time" value="{$now_time}" style="line-height: 35px;" />
 					<span class="set">到</span>
 					<!--<input type="text" placeholder="请填写日期" />-->
-					<input type="datetime-local" style="line-height: 35px;" />
+					<input type="datetime-local" name="task_end_time" value="{$now_time}" style="line-height: 35px;" />
 				</div>
 			</div>
 			<div class="last">
 				<span>任务说明</span>
-				<textarea placeholder="请输入任务说明内容"></textarea>
-				<p>发布规则：任务期间自动向任务最高者发布</p>
+				<textarea placeholder="请输入任务说明内容" name="content"></textarea>
+				<p>发布规则：任务期间自动向任务最高者发布&nbsp;&nbsp;&nbsp;&nbsp;你将支付<span class="orange">80</span>元作为PK金</p>
 			</div>
 			<div class="issue">
-				<p>
-					<span class="big-link" data-reveal-id="myModalnine" data-animation="fade">发布</span>
-				</p>
-				<p>取消</p>
+				<p class="new_task_submit">发布</p>
+				<p class="new_task_cancel">取消</p>
 			</div>
-		</div>
-		
-				<div id="myModalnine" class="reveal-modal reveal_nine">
-
-			<p class="p1">支付</p>
-			<div class="money">
-				<span>￥</span>
-				<input type="text" placeholder="80.00" />
-			</div>
-			<p class="bar">账户余额:<span>20</span>元,余额不足请<a href="#">充值</a></p>
-			<div class="mima">
-				
-				<div class="sun">
-					<input type="password" />
-					<input type="password" />
-					<input type="password" />
-					<input type="password" />
-					<input type="password" />
-					<input type="password" />
-				</div>
-				<div class="moon">
-					<a href="#">忘记密码？</a>
-				</div>
-				
-			</div>
-			<div class="mianmi">
-				<input type="checkbox" />
-				<span>小额免密支付?</span>
-				<p class="tishi">金额小于100元，无需输入密码</p>
-			</div>
-
-			<div class="import">
-				<div class="decide">
-					<p>支付</p>
-					<p>取消</p>
-				</div>
-			</div>
-			<a class="close-reveal-modal">&#215;</a>
 		</div>
 	</article>
+	</form>
+
+	<div class="pay-pop popUp hide">
+	</div>
 
 	<script type="text/javascript" src="/task/js/task.js"></script>
-	<script src="/task/js/cityData.js"></script>
-<script src="/task/js/hsCheckData.js"></script>
-<script>
-	$('#cityDanXuan').hsCheckData({
-		isShowCheckBox: false, //默认为false
-		data: cityData
-	});
-	$('#cityDuoXuan').hsCheckData({
-		isShowCheckBox: true, //默认为false
-		minCheck: 0, //默认为0，不限最少选择个数
-		maxCheck: 6, //默认为0，不限最多选择个数
-		data: cityData
-	});
-	$('#cityMR').hsCheckData({
-		isShowCheckBox: true,
-		data: cityData,
-		defText: '北京-上海-汕头'
-	});
-	$('#cityMR2').hsCheckData({
-		isShowCheckBox: true,
-		data: cityData
-	});
-</script>
+	<script src="/static/js/PopUp.js"></script>
+	<script src="/task/index/employee_data"></script>
+	<script src="/task/js/hsCheckData.js"></script>
+	<script>
+		$('#cityDanXuan').hsCheckData({
+			isShowCheckBox: false, //默认为false
+			data: cityData
+		});
+		$('#cityDuoXuan').hsCheckData({
+			isShowCheckBox: true, //默认为false
+			minCheck: 0, //默认为0，不限最少选择个数
+			maxCheck: 6, //默认为0，不限最多选择个数
+			data: cityData
+		});
+		$('#cityMR').hsCheckData({
+			isShowCheckBox: true,
+			data: cityData,
+			defText: '销售一部-张三'
+		});
+		$('#cityMR2').hsCheckData({
+			isShowCheckBox: true,
+			data: cityData
+		});
+		new new_task_form("{$fr}");
+	</script>
