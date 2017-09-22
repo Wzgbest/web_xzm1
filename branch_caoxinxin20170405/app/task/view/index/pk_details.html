@@ -147,7 +147,16 @@
 					<p class="title">打赏详情</p>
 
 				</div>
-				<p class="explain">任务已得到奖金<span class="orange">200</span>元<span class="gray">（你已打赏50元）</span></p>
+				<p class="explain">任务已得到奖金
+					<span class="orange">{$all_tip_money}</span>元
+					<span class="gray">
+						{gt name="my_tip_money" value="0"}
+							（你已打赏{$my_tip_money}元）
+						{else/}
+							（你还未进行打赏）
+						{/gt}
+					</span>
+				</p>
 				<span class="rate">继续打赏</span>
 				<div class="particulars">
 					<ul>
@@ -379,7 +388,14 @@
 				<span>￥</span>
 				<input type="text" class="tip_money" placeholder="00.00" />
 			</div>
-			<p class="bar">总共打赏<span class="orange">200</span>元（你已打赏<span class="orange">50</span>元）</p>
+
+			<p class="bar">总共打赏<span class="orange">{$all_tip_money}</span>元
+				{gt name="my_tip_money" value="0"}
+					（你已打赏<span class="orange">{$my_tip_money}</span>元）
+				{else/}
+					（你还未进行打赏）
+				{/gt}
+			</p>
 
 			<div class="mid">
 				<ul>
