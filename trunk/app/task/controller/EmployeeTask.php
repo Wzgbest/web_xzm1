@@ -28,39 +28,7 @@ class EmployeeTask extends Initialize{
 		$user_info = get_userinfo();
 		$uid = $user_info['userid'];
 		$employeeTaskModel = new EmployeeTaskModel($this->corp_id);
-		$task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$last_id,$task_type);
-		//var_exp($task_list);
-		/*
-			不需要直接获取用户的评论，可以点击后在获取用户评论
-			暂时用不到
-		 */
-		// $task_ids = array_column($task_list,"id");
-		// $taskCommentModel = new TaskCommentModel($this->corp_id);
-		// $task_list_comment = $taskCommentModel->getAllTaskComment($task_ids);
-
-		// 	//评论分组
-		// $task_data_arr = [];
-		// foreach($task_list_comment as $task_comment){
-		// 		$task_data_arr[$task_comment['task_id']][] = $task_comment;
-		// 	}
-		// foreach ($task_list as $key => $value) {
-		// 	if (isset($task_data_arr[$value['id']])) {
-		// 		$task_list[$key]['comment_list'] = $task_data_arr[$value['id']];
-		// 	}else{
-		// 		$task_list[$key]['comment_list'] = [];
-		// 	}
-		// }
-
-
-		//======获取打赏金额
-		//======有直接的字段存总的打赏数
-		// $taskTipModel = new TaskTip($this->corp_id);
-		// $task_tip = $taskTipModel->getEmloyeeTaskTip($task_ids);
-		// $tip_data_arr = [];
-		// foreach ($task_tip as $one_task_tip){
-  //           $tip_data_arr[$one_task_tip["share_id"]][] = $one_task_tip;
-  //       }
-
+		$task_list = $employeeTaskModel->getEmployeeTaskAndRedEnvelopeList($uid,$num,$last_id,$task_type);
 		$result['data'] = $task_list;
 		$result['status'] = 1;
 		$result['info'] = "获取成功!";

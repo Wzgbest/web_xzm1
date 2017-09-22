@@ -1,0 +1,13 @@
+{volist name="tip_list" id="vo"}
+    <ul>
+        <li>{$vo["tip_time"]|time_format="m.d"}&nbsp;{$vo["tip_time"]|time_format="i:s"}</li>
+        <li class="orange">
+            {eq name="vo['tip_employee']" value="$uid"}
+                你
+            {else/}
+                {$vo["truename"]}
+            {/eq}
+        </li>
+        <li>打赏<span>{$vo["tip_money"]}</span>元</li>
+    </ul>
+{/volist}
