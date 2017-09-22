@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="/task/css/task.css" />
+
+<div class="task">
+    <div class="direct_participation_load">
+        <header>
+            <ul class="nav">
+                <li class="flow" data-id="1">
+                    <div>直接参与（<span>{$task_count.1}</span>）</div>
+                </li>
+                <li data-id="2">
+                    <div>间接参与（<span>{$task_count.2}</span>）</div>
+                </li>
+                <li data-id="3">
+                    <div>我发起的（<span>{$task_count.3}</span>）</div>
+                </li>
+            </ul>
+            <div class="sort">
+                <img src="/task/img/sort.png" />
+                <p>排序</p>
+                <div class="classify">
+                    <p data-id="create_time">按时间</p>
+                    <p data-id="reward_amount">按奖金</p>
+                    <p data-id="like_count">按热度</p>
+                </div>
+            </div>
+            <div class="xinjian">
+                <i class="fa fa-plus fa-2x"></i>
+                <p>新建任务</p>
+            </div>
+        </header>
+
+        <article id="direct_participation">
+            {include file="employee_task/direct_participation_load"/}
+        </article>
+    </div>
+</div>
+<script type="text/javascript" src="/task/js/task.js"></script>
+<script>
+    new skip("direct_participation","public-taskfr","public-taskfr")
+</script>
