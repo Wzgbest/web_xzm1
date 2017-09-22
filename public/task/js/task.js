@@ -238,49 +238,42 @@ function task_like(id,like,fun){
 }
 //新建里边点击加号ul显示
 $("article .dv4 .parcel .add").click(function(){
+    console.log("add");
 
-    $("article .dv4 ul").toggleClass('point')
+    var num1=parseInt($('.num1').val());
+    var num2=parseInt($('.num2').val());
+    var num3=parseInt($('.num3').val());
 
+    var neirong="<li>第<span>"+num1+"</span>~<span>"+num2+"</span>名，各奖励<span>"+num3+"</span>元<i class='fa fa-edit'></i><i class='fa fa-trash-o trash'></i></li>"
+
+    $("article .dv4 ul").prepend(neirong);
+    var s=0;
+    var max_num2=0;
+
+    $("article .dv4 ul li:not(:last)").each(function(){
+
+        var num1=parseInt($(this).children("span:eq(0)").text());
+        var num2=parseInt($(this).children("span:eq(1)").text());
+        var num3=parseInt($(this).children("span:eq(2)").text());
+
+        var i=num2-num1+1;
+        s=s+i*num3;
+
+        if(max_num2<num2){
+            max_num2=num2
+        }
+    });
+    $("article .dv4 ul .largest").text(max_num2);
+    $("article .dv4 ul .total").text(s);//总计的钱
 })
 
-//绑定change事件
-//获取select值
-//panduan
-//tiaozhuan
-$(".dv4 .parcel .hezi select").change(function(){
-    var val=$(".dv4 .parcel .hezi select").val();
-//	alert(val)
+// 评论跳转
+// $(".task .comment .commont_img").click(function(){
+//     var id = $(this).attr("task_id");
+// 	loadPage('/task/going_task/PK_details/id/'+id,'task-hallfr');
+// });
 
-    if(val==1){
-        javascript:loadPage('/task/going_task/new_task.html','public-taskfr');
-    };
-    if(val==2){
-        javascript:loadPage('/task/going_task/PKnew_task.html','public-taskfr');
-    };
-    if(val==3){
-        javascript:loadPage('/task/going_task/rewardnew_task.html','public-taskfr');
-    }
-})
 
-//新建tab切换
-$("article .dv4 .xuanze input").click(function(){
-    var index=$(this).attr("index")
-    $("article .dv4 .tab").css("display","none");
-    $("article .dv4 .tab").eq($(this).attr("index")).css("display",'block')
-})
-
-//跳转到新页面
-$(".task .xinjian").click(function(){
-
-    javascript:loadPage('/task/going_task/new_task.html','public-taskfr');
-})
-
-//评论跳转
-//$(".task .comment img.a").click(function(){
-//	alert(1)
-//
-//	loadPage('/task/going_task/new_task.html','public-taskfr');
-//})
 //function fenlei(id,url){
 //	this.id=id;
 //	this.url=url;
@@ -304,5 +297,134 @@ $(".dv3 .up .right p").click(function(){
 
 })
 
- 
 
+//新建tab切换
+$("article .dv4 .xuanze input").click(function(){
+    $(this).parent().siblings().children("input[type='radio']").attr("checked",false);
+    $(this).parent().siblings().children("input[type='radio']").prop("checked",false);
+    $(this).attr("checked",true);
+    $(this).prop("checked",true);
+    if($(this).parent(".choice").index()==1){
+        $("article .dv4 .tab1").css("display","none");
+        $("article .dv4 .tab2").css("display","block");
+    }else{
+        $("article .dv4 .tab1").css("display","block");
+        $("article .dv4 .tab2").css("display","none");
+    }
+
+});
+
+
+function new_task_form(load_table){
+    this.load_table = load_table;
+    console.log("load_table");
+    console.log(load_table);
+    var self = this;
+
+    //绑定change事件
+    //获取select值
+    //panduan
+    //tiaozhuan
+    $("#"+self.load_table+" .dv4 .parcel .hezi select").change(function(){
+        var val=$(".dv4 .parcel .hezi select").val();
+        console.log(val);
+
+        if(val==1){
+            loadPage('/task/index/new_task/fr/'+self.load_table,self.load_table);
+        }else if(val==2){
+            loadPage('/task/index/PKnew_task/fr/'+self.load_table,self.load_table);
+        }else if(val==3){
+            loadPage('/task/index/rewardnew_task/fr/'+self.load_table,self.load_table);
+        }
+    });
+
+    $("#"+self.load_table+" .task .issue .new_task_submit").click(function(){
+        console.log("new_task_submit");
+        var form_sel = "#"+self.load_table+" .task .new_task_form";
+        // var new_task_form_data = $(form_sel+"").serializeArray();
+        // console.log(new_task_form_data);
+        var task_type = $(form_sel+" [name='task_type']").val();
+        console.log('task_type',task_type);
+        var task_name = $(form_sel+" [name='task_name']").val();
+        console.log('task_name',task_name);
+        if(task_name==''){
+            layer.msg('请输入任务名称!',{icon:2});
+            return;
+        }
+
+        var money = 0;
+        if(task_type==1){
+            var task_method = $(form_sel+" [name='task_method'][checked]").val();
+            console.log('task_method',task_method);
+
+            var target_num = $(form_sel+" [name='target_num']").val();
+            console.log('target_num',target_num);
+            if(target_num==''){
+                layer.msg('请输入达标要求!',{icon:2});
+                return;
+            }
+
+            if(task_method==1 || task_method==3){
+                var s=0;
+                var max_num2=0;
+                $("#"+self.load_table+" .task article .dv4 ul li:not(:last)").each(function(){
+                    var num1=parseInt($(this).children("span:eq(0)").text());
+                    var num2=parseInt($(this).children("span:eq(1)").text());
+                    var num3=parseInt($(this).children("span:eq(2)").text());
+                    var i=num2-num1+1;
+                    s=s+i*num3;
+                    if(max_num2<num2){
+                        max_num2=num2
+                    }
+                });
+                money = s;
+                console.log('s',s);
+            }else if(task_method==2){
+                money = $(form_sel+" [name='reward_amount']").val();
+            }
+        }else if(task_type==2){
+            money = $(form_sel+" [name='reward_amount']").val();
+        }else if(task_type==3){
+            var num = $(form_sel+" [name='reward_num']").val();
+            var amount = $(form_sel+" [name='reward_amount']").val();
+            money = num*amount;
+        }
+        console.log('money',money);
+        if(money<=0){
+            layer.msg('奖金必须大于0!',{icon:2});
+            return;
+        }
+        var public_to_take_str = $(form_sel+" .public_to_take").attr("data-id");
+        if(public_to_take_str==''){
+            layer.msg('请选择面向群体!',{icon:2});
+            return;
+        }
+        var pop = new popLoad("#"+self.load_table+" .task .pay-pop","/task/index/pay/money/"+money+"/fr/"+self.load_table);
+    });
+}
+
+
+function skip(from,target,comment){
+    this.from =from;
+    this.target=target;
+    this.comment=comment;
+    var self = this;
+
+    $("."+this.from+" header .xinjian ").click(function(){
+
+        loadPage('/task/index/new_task/fr/'+self.target,self.target);
+    });
+    $("."+this.from+" article .dv1 .comment .comment_pk").click(function(){
+
+        loadPage('/task/going_task/PK_details.html',self.comment);
+    });
+    $("."+this.from+" article .dv1 .comment .comment_incentive").click(function(){
+
+        loadPage('/task/going_task/incentive_details.html',self.comment);
+    });
+    $("."+this.from+" article .dv1 .comment .comment_reward").click(function(){
+
+        loadPage('/task/going_task/reward_details.html',self.comment);
+    });
+
+}

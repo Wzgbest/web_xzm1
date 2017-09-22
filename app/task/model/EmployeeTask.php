@@ -74,31 +74,32 @@ class EmployeeTask extends Base{
      * @param  int $task_type 任务类型
      * @return arr          任务列表
      */
-//    public function getEmployeeTaskList($uid,$num=10,$last_id=0,$task_type=0,$map=[]){
-//        $order = "et.id desc";
-//        $mapStr = "find_in_set('".$uid."',et.public_to_view)";
-//        if ($task_type) {
-//            $map['et.task_type'] = $task_type;
-//        }
-//        if($last_id){
-//            $map["et.id"] = ["lt",$last_id];
-//        }
-//
-//        $employeeTaskList = $this->model->table($this->table)->alias('et')
-//            ->join($this->dbprefix.'employee e','e.id = et.create_employee',"LEFT")
-//            ->join($this->dbprefix.'employee_task_reward etr','etr.task_id = et.id',"LEFT")
-//            ->join($this->dbprefix.'employee_task_target ett','ett.task_id = et.id',"LEFT")
-//            ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
-//            ->where($map)
-//            ->where($mapStr)
-//            ->order($order)
-//            ->limit($num)
-//            ->group("et.id")
-//            ->field("et.*,e.telephone,e.truename,e.userpic,etr.reward_amount,etr.reward_num,etr.reward_type,etr.reward_method,ett.target_type,ett.target_customer,ett.target_appraiser,ett.target_num,case when etl.user_id>0 then 1 else 0 end as is_like")
-//            ->select();
-//
-//        return $employeeTaskList;
-//    }
+    public function getEmployeeTaskAndRedEnvelopeList($uid,$num=10,$last_id=0,$task_type=0,$map=[]){
+        $order = "et.id desc";
+        $mapStr = "find_in_set('".$uid."',et.public_to_view)";
+        if ($task_type) {
+            $map['et.task_type'] = $task_type;
+        }
+        if($last_id){
+            $map["et.id"] = ["lt",$last_id];
+        }
+
+        $employeeTaskList = $this->model->table($this->table)->alias('et')
+            ->join($this->dbprefix.'employee e','e.id = et.create_employee',"LEFT")
+            ->join($this->dbprefix.'employee_task_reward etr','etr.task_id = et.id',"LEFT")
+            ->join($this->dbprefix.'employee_task_target ett','ett.task_id = et.id',"LEFT")
+            ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
+            ->join($this->dbprefix.'red_envelope re',"re.task_id = et.id and re.type = 3 and re.took_user = ".$uid,"LEFT")
+            ->where($map)
+            ->where($mapStr)
+            ->order($order)
+            ->limit($num)
+            ->group("et.id")
+            ->field("et.*,e.telephone,e.truename,e.userpic,etr.reward_amount,etr.reward_num,etr.reward_type,etr.reward_method,ett.target_type,ett.target_customer,ett.target_appraiser,ett.target_num,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token")
+            ->select();
+
+        return $employeeTaskList;
+    }
 
     /**
      * 我的直接参与的任务
