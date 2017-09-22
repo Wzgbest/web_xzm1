@@ -63,6 +63,106 @@ class Index extends Initialize{
         $this->assign('money',$money);
         return view();
     }
+    public function get_ranking_page(){
+        $id = input('id',0,'int');
+        if(!$id){
+            $this->error("参数错误");
+        }
+        $num = input("num",20,"int");
+        $page = input("page",1,"int");
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        //$time = time();
+
+        $employeeTaskM = new EmployeeTaskModel($this->corp_id);
+        $taskTargetM = new TaskTargetModel($this->corp_id);
+        $taskRewardM = new TaskRewardModel($this->corp_id);
+        $taskTakeM = new TaskTakeModel($this->corp_id);
+        $taskInfo = $employeeTaskM->getTaskInfo($id);
+        if(empty($taskInfo)){
+            $result['info'] = "未找到任务！";
+            return json($result);
+        }
+        $start_time = $taskInfo["task_start_time"];
+        $end_time = $taskInfo["task_end_time"];
+        $task_type = $taskInfo["task_type"];
+        $task_method = $taskInfo["task_method"];
+        if($task_type>2){
+            $result['info'] = "任务类型不符！";
+            return json($result);
+        }
+        $this->assign('task_type',$task_type);
+
+        $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($id);
+        $uids = $taskTakeEmployeeIds;
+        if(!in_array($uid,$uids)){
+            $result['info'] = "未参与任务！";
+            return json($result);
+        }
+
+        $taskTarget = $taskTargetM->findTaskTargetByTaskId($id);
+        $target_type = $taskTarget["target_type"];
+        $standard = $taskTarget["target_num"];
+        if($task_method>4){
+            $result['info'] = "任务类型不相符！";
+            return json($result);
+        }
+
+        /*
+        $getRankingListParams = [
+            '$target_type'=>$target_type,
+            '$task_method'=>$task_method,
+            '$start_time'=>$start_time,
+            '$end_time'=>$end_time,
+            '$uids'=>$uids,
+            '$standard'=>$standard,
+            '$num'=>$num,
+            '$page'=>$page,
+        ];
+        var_exp($getRankingListParams,'$getRankingListParams');
+        */
+        $employeeTaskService = new EmployeeTaskService($this->corp_id);
+        $rankingdata = $employeeTaskService->getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$standard,$num,$page);
+
+        if($task_type=2){
+            $guessdata = $this->_getEmployeeGuessMoneyList($id,$uids);
+            foreach ($rankingdata as &$ranking_item){
+                if(isset($guessdata[$ranking_item["employee_id"]])){
+                    $ranking_item["guess_money"] = $guessdata[$ranking_item["employee_id"]]["money"];
+                    $ranking_item["guess_num"] = $guessdata[$ranking_item["employee_id"]]["guess_employee_num"];
+                }else{
+                    $ranking_item["guess_money"] = 0;
+                    $ranking_item["guess_num"] = 0;
+                }
+            }
+        }
+
+        $taskReward = $taskRewardM->getTaskRewardListByTaskId($id);
+        $reward_idx_arr = [];
+        $reward_idx_max = 0;
+        foreach ($taskReward as $reward_item){
+            $reward_idx_arr[$reward_item["reward_start"]] = $reward_item;
+            if($reward_item["reward_end"]>$reward_idx_max){
+                $reward_idx_max = $reward_item["reward_end"];
+            }
+        }
+        $reward_idx = 0;
+        $self_idx = -1;
+        for($ranking_index=1;$ranking_index<=count($rankingdata);$ranking_index++){
+            if(isset($reward_idx_arr[$ranking_index])){
+                $reward_idx = $ranking_index;
+            }
+            $rankingdata[$ranking_index-1]["reward_money"] = $reward_idx_arr[$reward_idx]["reward_amount"];
+
+            if($rankingdata[$ranking_index-1]["employee_id"]==$uid){
+                $self_idx = $ranking_index-1;
+            }
+        }
+
+        $this->assign('self_idx',$self_idx);
+        $this->assign('rankingdata',$rankingdata);
+        return view();
+    }
     public function employee_data(){
         $result = 'var cityData=';
         $result_arr = [];
