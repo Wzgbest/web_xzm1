@@ -1,0 +1,8 @@
+<p class="p1">支付</p>
+<h2 class=" color-yellow"><i class="fa fa-cny"></i><span class="money-total">{$money}</span></h2>
+<h3>账户余额：<span>{$user_money}</span>元{if condition="$user_money<$money"}，余额不足请<span class="color-blue">充值</span>{/if}</h3>
+<h2><input type="password" class="pay_password"/></h2>
+<div class="u-submitButton">
+    <button class="pop-submit-btn">支付</button>
+    <button class="pop-close-btn">取消</button>
+</div>
