@@ -1,12 +1,13 @@
 <link rel="stylesheet" href="/task/css/task.css" />
 
 <div class="task hot_task">
+	<div class="hot_task_load">
 	<header>
-		<ul class="nav">
+		<ul class="nav" >
 			<li  data-id="0" class="flow">
 				<div>热门任务（<span>{$task_count.0}</span>）</div>
 			</li>
-			<li id="awaitComClients" data-id="2">
+			<li data-id="2">
 				<div>PK任务（<span>{$task_count.2}</span>）</div>
 			</li>
 			<li  data-id="1">
@@ -20,9 +21,9 @@
 			<img src="/task/img/sort.png" />
 			<p>排序</p>
 			<div class="classify">
-				<p>按时间</p>
-				<p>按奖金</p>
-				<p>按热度</p>
+				<p data-id="create_time">按时间</p>
+				<p data-id="reward_amount">按奖金</p>
+				<p data-id="like_count">按热度</p>
 			</div>
 		</div>
 		<div class="xinjian">
@@ -189,7 +190,7 @@
 		</div>
 		<a class="close-reveal-modal">&#215;</a>
 	</div>
-
+	</div>
 </div>
 <script type="text/javascript" src="/task/js/task.js"></script>
 <script src="/knowledgebase/js/index.js"></script>
