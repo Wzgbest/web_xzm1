@@ -21,6 +21,7 @@ use app\task\model\TaskGuess as TaskGuessModel;
 use app\task\model\TaskComment as TaskCommentModel;
 use app\task\model\TaskTip as TaskTipModel;
 use app\task\service\EmployeeTask as EmployeeTaskService;
+use app\common\model\Structure;
 
 class Index extends Initialize{
     var $paginate_list_rows = 10;
@@ -32,7 +33,71 @@ class Index extends Initialize{
     }
     public function show(){
     }
-    public function add_page(){
+    protected function _new_task_default(){
+        $this->assign("fr",input('fr','','string'));
+        $userinfo = get_userinfo();
+        $this->assign('user_money',$userinfo["userinfo"]['left_money']/100);
+        $time = time();
+        $this->assign('now_time',time_format_html5($time));
+    }
+    public function new_task(){
+        $this->_new_task_default();
+        return view();
+    }
+    public function PKnew_task(){
+        $this->_new_task_default();
+        return view();
+    }
+    public function rewardnew_task(){
+        $this->_new_task_default();
+        return view();
+    }
+    public function pay(){
+        $money = input('money',0,'int');
+        if (!$money) {
+            $this->error("输入的金额有误!");
+        }
+        $this->assign("fr",input('fr','','string'));
+        $userinfo = get_userinfo();
+        $this->assign('user_money',$userinfo["userinfo"]['left_money']/100);
+        $this->assign('money',$money);
+        return view();
+    }
+    public function employee_data(){
+        $result = 'var cityData=';
+        $result_arr = [];
+        $structureModel = new Structure($this->corp_id);
+        $employM = new Employee($this->corp_id);
+        $structure = $structureModel->getAllStructure();
+        $friendsInfo = $employM->getAllUsers();
+//        var_exp($structure,'$structure');
+//        var_exp($friendsInfo,'$friendsInfo');
+        $structure_idx = [];
+        foreach($structure as $structure_item){
+            $structure_item["child"] = [];
+            $structure_idx[$structure_item["id"]] = $structure_item;
+        }
+
+        foreach($friendsInfo as $friend_info){
+            $struct_arr = explode(",",$friend_info["struct_id"]);
+            foreach($struct_arr as $struct){
+                if(isset($structure_idx[$struct])){
+                    $structure_idx[$struct]["child"][] = [$friend_info["id"]=>$friend_info["nickname"]];
+                }
+            }
+        }
+        //var_exp($structure_idx,'$structure_idx');
+        foreach ($structure_idx as $structure_item){
+            //var_exp($structure_item,'$structure_item');
+            $result_item = [
+                $structure_item["id"]=>$structure_item["struct_name"],
+                "childCity"=>$structure_item["child"]
+            ];
+            $result_arr[] = $result_item;
+        }
+        //var_exp($result_arr,'$result_arr');
+        $result .= json_encode($result_arr,true).";";
+        echo $result;
     }
 
     public function getTaskTakeAndStandardInfo(){
@@ -258,10 +323,15 @@ class Index extends Initialize{
         $task_info['status'] = 2;
         return $task_info;
     }
-    protected function _getTaskTargetForInput(){
+    protected function _getTaskTargetForInput($task_method){
         $task_target_info['target_type'] = input("target_type",0,"int");
         $task_target_info['target_num'] = input("target_num",0,"int");
         $task_target_info['target_customer'] = input("target_customer",0,"int");
+        if($task_method==5){
+            if($task_target_info['target_customer']<=0){
+                //return [];
+            }
+        }
         $task_target_info['target_appraiser'] = input("target_appraiser","","string");
         return $task_target_info;
     }
@@ -359,7 +429,11 @@ class Index extends Initialize{
                 return json($result);
             }
         }
-        $taskTargetInfo = $this->_getTaskTargetForInput();
+        $taskTargetInfo = $this->_getTaskTargetForInput($taskInfo["task_method"]);
+        if(empty($taskTargetInfo)){
+            $result['info'] = '任务目标参数错误';
+            return json($result);
+        }
         $taskRewardInfos = $this->_getTaskRewardForInput($taskInfo["task_method"]);
         if(empty($taskRewardInfos)){
             $result['info'] = '分配规则参数错误';

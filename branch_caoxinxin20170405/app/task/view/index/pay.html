@@ -1,0 +1,148 @@
+<header>
+    <h1>支付<i class="fa fa-close fa-2x pop-close-btn"></i></h1>
+</header>
+<div class="pop_content m-form pay-content">
+    <h2 class=" color-yellow"><i class="fa fa-cny"></i><span class="money-total">{$money}</span></h2>
+    <h3>账户余额：<span>{$user_money}</span>元{if condition="$user_money<$money"}，余额不足请<span class="color-blue">充值</span>{/if}</h3>
+    <h2><input type="password"/></h2>
+    <div class="u-submitButton">
+        <button class="pop-submit-btn">支付</button>
+        <button class="pop-close-btn">取消</button>
+    </div>
+</div>
+<link rel="stylesheet" href="/crm/css/popUp.css">
+<script type="text/javascript">
+    $("#{$fr} .pay-pop .pop-submit-btn").click(function(){
+        var form_sel = "#{$fr} .task .new_task_form";
+        var task_name = $(form_sel+" [name='task_name']").val();
+        console.log('task_name',task_name);
+        if(task_name==''){
+            layer.msg('请输入任务名称!',{icon:2});
+            return;
+        }
+        var pw = $("#{$fr} .pay-pop input[type='password']").val();
+        if(pw==''){
+            layer.msg('请输入密码!',{icon:2});
+            return;
+        }
+        console.log('$(form_sel)',$(form_sel));
+        var new_task_form_data = $(form_sel).serialize();
+        console.log(new_task_form_data);
+        var task_type = $(form_sel+" [name='task_type']").val();
+        console.log('task_type',task_type);
+
+        //TODO 生成reward,public_to_take,public_to_view
+        var reward_array = [];
+        var reward = '';
+        var public_to_take = '';
+        var public_to_view = '';
+        var money = 0;
+        if(task_type==1){
+            var task_method = $(form_sel+" [name='task_method'][checked]").val();
+            console.log('task_method',task_method);
+
+            var target_num = $(form_sel+" [name='target_num']").val();
+            console.log('target_num',target_num);
+            if(target_num==''){
+                layer.msg('请输入达标要求!',{icon:2});
+                return;
+            }
+
+            if(task_method==1 || task_method==3){
+                var s=0;
+                var max_num2=0;
+                $(form_sel+" article .dv4 ul li:not(:last)").each(function(){
+                    var num1=parseInt($(this).children("span:eq(0)").text());
+                    var num2=parseInt($(this).children("span:eq(1)").text());
+                    var num3=parseInt($(this).children("span:eq(2)").text());
+                    var i=num2-num1+1;
+                    s=s+i*num3;
+                    if(max_num2<num2){
+                        max_num2=num2
+                    }
+                    var reward_object = {
+                            reward_start:num1,
+                            reward_end:num2,
+                            reward_amount:num3
+                    };
+                    reward_array.push(reward_object);
+                });
+                money = s;
+                console.log('s',s);
+            }else if(task_method==2){
+                money = $(form_sel+" [name='reward_amount']").val();
+                var reward_object = {
+                    reward_start:1,
+                    reward_end:1,
+                    reward_amount:money
+                };
+                reward_array.push(reward_object);
+            }
+        }else if(task_type==2){
+            var num = $(form_sel+" [name='reward_num']").val();
+            money = $(form_sel+" [name='reward_amount']").val();
+            var reward_object = {
+                reward_start:1,
+                reward_end:num,
+                reward_amount:money
+            };
+            reward_array.push(reward_object);
+        }else if(task_type==3){
+            var num = $(form_sel+" [name='reward_num']").val();
+            var amount = $(form_sel+" [name='reward_amount']").val();
+            money = num*amount;
+            var reward_object = {
+                reward_start:1,
+                reward_end:num,
+                reward_amount:amount
+            };
+            reward_array.push(reward_object);
+        }
+        //console.log('reward_array',reward_array);
+        reward = JSON.stringify(reward_array);
+        console.log('money',money);
+        if(money<=0){
+            layer.msg('奖金必须大于0!',{icon:2});
+            return;
+        }
+        var public_to_take_str = $(form_sel+" .public_to_take").attr("data-id");
+        if(public_to_take_str==''){
+            layer.msg('请选择面向群体!',{icon:2});
+            return;
+        }
+        var public_to_take_arr = public_to_take_str.split("-");
+        public_to_take = public_to_take_arr.join(",");
+        public_to_view = public_to_take;
+        new_task_form_data+="&paypassword="+pw
+                +"&reward="+reward
+                +"&public_to_take="+public_to_take
+                +"&public_to_view="+public_to_view;
+        console.log(new_task_form_data);
+        $.ajax({
+            url: '/task/index/add',
+            type: 'POST',
+            dataType: 'json',
+            data: new_task_form_data,
+            success:function(data){
+                if (data.status==1) {
+                    layer.msg(data.info,{icon:data.status==1?1:2});
+                    var fr = "{$fr}";
+                    var url = "";
+                    if(fr=="task-hallfr"){
+                        url = '/task/employee_task/hot_task.html';
+                    }else if(fr=="going-task"){
+                        url = '/task/going_task/direct_participation.html';
+                    }else if(fr=="historical-task"){
+                        url = '/task/historical_task/direct.html';
+                    }
+                    loadPage(url,fr);
+                }else {
+                    layer.msg(data.info,{icon:data.status==1?1:2});
+                }
+            },
+            error:function(){
+                layer.msg('打赏失败!',{icon:2});
+            },
+        });
+    });
+</script>
