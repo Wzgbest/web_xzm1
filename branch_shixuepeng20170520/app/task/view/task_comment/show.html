@@ -1,21 +1,18 @@
-<div class="review">
-    {volist name="commont_list" id="vo"}
-
-        <div class="one">
-            <img src="{$vo['replayer_pic']}" />
-            <div>
-                <p>
-                    <span class="name">{$vo["replayer_truename"]}</span>
-                    {gt name="vo['reviewer_id']" value="0"}
-                    回复 <span class="name">{$vo["reviewer_truename"]}</span>
-                    {/gt}
-                    <span>:</span>
-                    <span>{$vo["replay_content"]}</span>
-                </p>
-                <p class="reply">
-                    <span>{$vo["comment_time"]|time_format}</span>
-                </p>
-            </div>
+{volist name="commont_list" id="vo"}
+    <div class="one">
+        <img src="{$vo['replayer_pic']}" />
+        <div>
+            <p>
+                <span class="name">{$vo["replayer_truename"]}</span>
+                {gt name="vo['reviewer_id']" value="0"}
+                回复 <span class="name">{$vo["reviewer_truename"]}</span>
+                {/gt}
+                <span>:</span>
+                <span>{$vo["replay_content"]}</span>
+            </p>
+            <p class="reply">
+                <span>{$vo["comment_time"]|time_format}</span>
+            </p>
         </div>
-    {/volist}
-</div>
+    </div>
+{/volist}
