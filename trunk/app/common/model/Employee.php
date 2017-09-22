@@ -83,6 +83,27 @@ class Employee extends Base{
     }
 
     /**
+     * 按员工ids查询员工姓名
+     * @param $user_ids
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
+     */
+    public function getEmployeeAndstructureByUserids($user_ids)
+    {
+        if(empty($user_ids)){
+            return [];
+        }
+        return $this->model->table($this->table)->alias('e')
+            ->join($this->dbprefix.'role_employee re','e.id = re.user_id')
+            ->join($this->dbprefix.'role r','re.role_id = r.id')
+            ->join($this->dbprefix.'structure_employee se','se.user_id = e.id')
+            ->join($this->dbprefix.'structure s','se.struct_id = s.id')
+            ->where('e.id',"in",$user_ids)
+            ->group("e.id")
+            ->column('e.*,case when `e`.`status` = -1 then `e`.`status` else `e`.`on_duty` end as on_duty,GROUP_CONCAT( distinct r.role_name) as role_name,GROUP_CONCAT( distinct re.role_id) as role_id,GROUP_CONCAT( distinct s.struct_name) as struct_name,GROUP_CONCAT( distinct se.struct_id) as struct_id',"e.id");
+    }
+
+    /**
      * 查询非当前角色
      * @param $role_id
      * @return false|\PDOStatement|string|\think\Collection

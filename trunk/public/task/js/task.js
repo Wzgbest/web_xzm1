@@ -64,8 +64,8 @@ for(var i = 0; i < t; i++) {
 //领红包
 $(".dv1 .grade .get").hide();
 $(".dv1 .mengceng").addClass("m_c");
-//	var picture = '<img src="/task/img/redPacket.png" class="picture"/>';
-//	$(".dv1 .mengceng").append(picture);
+var picture = '<img src="/task/img/redPacket.png" class="picture"/>';
+$(".dv1 .mengceng").append(picture);
 $('.direct_participation_load').on('click','.picture',function(){
     $(this).parent().removeClass("m_c")
     $(this).remove()
@@ -134,45 +134,6 @@ $('.grade .show_ranking_reward').click(function(){
         $('.grade .show_ranking_reward').parent().parent().siblings('.motai').removeClass('motai1');
         $('.grade .show_ranking_reward').parents().removeClass("change");
     });
-});
-
-//间接参与，重置P标签
-$(".dv1 .right .give .task").click(function() {
-    $(this).siblings().remove();
-    $(this).remove()
-    $(".give").append("<p class='cute'>任务进行中</p>");
-})
-$(".task").on('click','.get_reward',function(){
-    var that=$(this);
-    var type=that.attr('task-type');
-    var money=that.attr('task-money');
-    var task_id=that.attr('data-id');
-    if(type==2)
-    {
-        //需要弹出支付页面
-        var pop = new popLoad("#hot_task_fr .pay-pop","/task/employee_task/pk_pay/money/"+money);
-        return;
-    }
-    else
-    {
-        //提交领取任务接口
-        $.ajax({
-            url: '/task/index/take',
-            type: 'post',
-            data: {'task_id':task_id},
-            success: function(data) {
-                layer.msg(data.info,{icon:data.status==1?1:2});
-                if(data.status)
-                {
-                    //领取成功
-                    that.addClass("get_succeed").removeClass("p2").text("已领取");
-                }
-            },
-            error: function() {
-                layer.msg('申请时发生错误!',{icon:2});
-            }
-        });
-    }
 });
 
 //点赞
@@ -329,17 +290,205 @@ $("article .dv4 .xuanze input").click(function(){
 
 });
 
+function task_tip(id,tip_money,paypassword,callback){
+    $.ajax({
+        url: '/task/task_tip/tip/task_id/'+id+'/money/'+tip_money+'/paypassword/'+paypassword,
+        type: 'post',
+        data: {'task_id':id,"money":tip_money,"paypassword":paypassword},
+        success: function(data) {
+            callback(data);
+        },
+        error: function() {
+            layer.msg('打赏支付出现错误',{icon:2});
+        }
+    });
+}
+function task_take(id,paypassword,callback){
+    //提交领取任务接口
+    $.ajax({
+        url: '/task/index/take',
+        type: 'post',
+        data: {'task_id':id,"paypassword":paypassword},
+        success: function(data) {
+            callback(data);
+        },
+        error: function() {
+            layer.msg('申请时发生错误!',{icon:2});
+        }
+    });
+}
+function task_guess(task_id,employee_id,guess_money,paypassword,callback){
+    //提交领取任务接口
+    $.ajax({
+        url: '/task/task_guess/guess',
+        type: 'post',
+        data: {'task_id':task_id,"take_employee_id":employee_id,"money":guess_money,"paypassword":paypassword},
+        success: function(data) {
+            callback(data);
+        },
+        error: function() {
+            layer.msg('申请时发生错误!',{icon:2});
+        }
+    });
+}
+
+function task_add(new_task_form_data,callback){
+    $.ajax({
+        url: '/task/index/add',
+        type: 'POST',
+        dataType: 'json',
+        data: new_task_form_data,
+        success:function(data){
+            callback(data);
+        },
+        error:function(){
+            layer.msg('打赏失败!',{icon:2});
+        }
+    });
+}
 
 function new_task_form(load_table){
     this.load_table = load_table;
     console.log("load_table");
     console.log(load_table);
+    this.paypassword = '';
     var self = this;
 
-    //绑定change事件
-    //获取select值
-    //panduan
-    //tiaozhuan
+    this.get_form_data=function(){
+        console.log("get_form_data");
+        var form_sel = "#"+self.load_table+" .task .new_task_form";
+        var task_name = $(form_sel+" [name='task_name']").val();
+        console.log('task_name',task_name);
+        if(task_name==''){
+            layer.msg('请输入任务名称!',{icon:2});
+            return false;
+        }
+        console.log('$(form_sel)',$(form_sel));
+        var new_task_form_data = $(form_sel).serialize();
+        console.log(new_task_form_data);
+        var task_type = $(form_sel+" [name='task_type']").val();
+        console.log('task_type',task_type);
+
+        var reward_array = [];
+        var reward = '';
+        var public_to_take = '';
+        var public_to_view = '';
+        var money = 0;
+        if(task_type==1){
+            var task_method = $(form_sel+" [name='task_method'][checked]").val();
+            console.log('task_method',task_method);
+
+            var target_num = $(form_sel+" [name='target_num']").val();
+            console.log('target_num',target_num);
+            if(target_num==''){
+                layer.msg('请输入达标要求!',{icon:2});
+                return false;
+            }
+
+            if(task_method==1 || task_method==3){
+                var s=0;
+                var max_num2=0;
+                $(form_sel+" article .dv4 ul li:not(:last)").each(function(){
+                    var num1=parseInt($(this).children("span:eq(0)").text());
+                    var num2=parseInt($(this).children("span:eq(1)").text());
+                    var num3=parseInt($(this).children("span:eq(2)").text());
+                    var i=num2-num1+1;
+                    s=s+i*num3;
+                    if(max_num2<num2){
+                        max_num2=num2
+                    }
+                    var reward_object = {
+                        reward_start:num1,
+                        reward_end:num2,
+                        reward_amount:num3
+                    };
+                    reward_array.push(reward_object);
+                });
+                money = s;
+                console.log('s',s);
+            }else if(task_method==2){
+                money = $(form_sel+" [name='reward_amount']").val();
+                var reward_object = {
+                    reward_start:1,
+                    reward_end:1,
+                    reward_amount:money
+                };
+                reward_array.push(reward_object);
+            }
+        }else if(task_type==2){
+            var num = $(form_sel+" [name='reward_num']").val();
+            money = $(form_sel+" [name='reward_amount']").val();
+            var reward_object = {
+                reward_start:1,
+                reward_end:num,
+                reward_amount:money
+            };
+            reward_array.push(reward_object);
+        }else if(task_type==3){
+            var num = $(form_sel+" [name='reward_num']").val();
+            var amount = $(form_sel+" [name='reward_amount']").val();
+            money = num*amount;
+            var reward_object = {
+                reward_start:1,
+                reward_end:num,
+                reward_amount:amount
+            };
+            reward_array.push(reward_object);
+        }
+        //console.log('reward_array',reward_array);
+        reward = JSON.stringify(reward_array);
+        console.log('money',money);
+        if(money<=0){
+            layer.msg('奖金必须大于0!',{icon:2});
+            return false;
+        }
+        var public_to_take_str = $(form_sel+" .public_to_take").attr("data-id");
+        if(public_to_take_str==''){
+            layer.msg('请选择面向群体!',{icon:2});
+            return false;
+        }
+        var public_to_take_arr = public_to_take_str.split("-");
+        public_to_take = public_to_take_arr.join(",");
+        public_to_view = public_to_take;
+        new_task_form_data+="&reward="+reward
+            +"&public_to_take="+public_to_take
+            +"&public_to_view="+public_to_view;
+        return {"money":money,"data":new_task_form_data};
+    };
+
+    this.add_task=function(paypassword){
+        if(paypassword==''){
+            layer.msg('请输入密码!',{icon:2});
+            return false;
+        }
+        var form_data = self.get_form_data();
+        console.log(form_data);
+        if(form_data===false){
+            return false;
+        }
+        var new_task_form_data = form_data.data+"&paypassword="+paypassword;
+        task_add(new_task_form_data,function(data){
+            if (data.status==1) {
+                layer.msg(data.info,{icon:data.status==1?1:2});
+                var fr = self.load_table;
+                var url = "";
+                if(fr=="task-hallfr"){
+                    url = '/task/employee_task/hot_task.html';
+                }else if(fr=="going-task"){
+                    url = '/task/going_task/direct_participation.html';
+                }else if(fr=="historical-task"){
+                    url = '/task/historical_task/direct.html';
+                }
+                loadPage(url,fr);
+            }else {
+                layer.msg(data.info,{icon:data.status==1?1:2});
+            }
+        });
+    };
+
+    this.get_pay_password=function(){
+        return self.paypassword;
+    };
     $("#"+self.load_table+" .dv4 .parcel .hezi select").change(function(){
         var val=$(".dv4 .parcel .hezi select").val();
         console.log(val);
@@ -355,74 +504,88 @@ function new_task_form(load_table){
 
     $("#"+self.load_table+" .task .issue .new_task_submit").click(function(){
         console.log("new_task_submit");
-        var form_sel = "#"+self.load_table+" .task .new_task_form";
-        // var new_task_form_data = $(form_sel+"").serializeArray();
-        // console.log(new_task_form_data);
-        var task_type = $(form_sel+" [name='task_type']").val();
-        console.log('task_type',task_type);
-        var task_name = $(form_sel+" [name='task_name']").val();
-        console.log('task_name',task_name);
-        if(task_name==''){
-            layer.msg('请输入任务名称!',{icon:2});
+        var form_data = self.get_form_data();
+        console.log(form_data);
+        if(form_data===false){
             return;
         }
-
-        var money = 0;
-        if(task_type==1){
-            var task_method = $(form_sel+" [name='task_method'][checked]").val();
-            console.log('task_method',task_method);
-
-            var target_num = $(form_sel+" [name='target_num']").val();
-            console.log('target_num',target_num);
-            if(target_num==''){
-                layer.msg('请输入达标要求!',{icon:2});
-                return;
-            }
-
-            if(task_method==1 || task_method==3){
-                var s=0;
-                var max_num2=0;
-                $("#"+self.load_table+" .task article .dv4 ul li:not(:last)").each(function(){
-                    var num1=parseInt($(this).children("span:eq(0)").text());
-                    var num2=parseInt($(this).children("span:eq(1)").text());
-                    var num3=parseInt($(this).children("span:eq(2)").text());
-                    var i=num2-num1+1;
-                    s=s+i*num3;
-                    if(max_num2<num2){
-                        max_num2=num2
+        var money = form_data.money;
+        $.ajax({
+            url: "/task/index/pay/money/"+money+"/fr/"+self.load_table,
+            type: 'get',
+            success: function(data) {
+                console.log(data);
+                console.log($("#"+self.load_table+" .pay_ui"));
+                $("#"+self.load_table+" .pay_ui").html(data);
+                $("#"+self.load_table+" .pay_ui .payPwd").payPwd({
+                    max:6,
+                    type:"password",
+                    callback:function(paypassword) {
+                        self.paypassword = paypassword;
+                        self.add_task(paypassword);
                     }
                 });
-                money = s;
-                console.log('s',s);
-            }else if(task_method==2){
-                money = $(form_sel+" [name='reward_amount']").val();
+                $("#"+self.load_table+" .pay_ui").reveal("{data-animation:'fade'}");
+            },
+            error: function() {
+                layer.msg('加载支付出现错误',{icon:2});
             }
-        }else if(task_type==2){
-            money = $(form_sel+" [name='reward_amount']").val();
-        }else if(task_type==3){
-            var num = $(form_sel+" [name='reward_num']").val();
-            var amount = $(form_sel+" [name='reward_amount']").val();
-            money = num*amount;
-        }
-        console.log('money',money);
-        if(money<=0){
-            layer.msg('奖金必须大于0!',{icon:2});
-            return;
-        }
-        var public_to_take_str = $(form_sel+" .public_to_take").attr("data-id");
-        if(public_to_take_str==''){
-            layer.msg('请选择面向群体!',{icon:2});
-            return;
-        }
-        var pop = new popLoad("#"+self.load_table+" .task .pay-pop","/task/index/pay/money/"+money+"/fr/"+self.load_table);
+        });
+    });
+    $("#"+self.load_table+" .pay_ui").on("click",".pop-submit-btn",function(){
+        console.log("pop-submit-btn");
+        self.add_task(self.get_pay_password());
     });
 }
 
 
 function skip(target){
     this.target=target;
+    this.now_sel_id = 0;
+    this.now_sel_type = 0;
+    this.now_sel_employee = 0;
+    this.paypassword = '';
     var self = this;
+    var task_list_sel = "#"+self.target+" .task";
 
+    this.pay=function(paypassword){
+        self.paypassword = '';
+        if(self.now_sel_type=='tip'){
+            var money = $(task_list_sel+" .tip_ui .tip_money").val();
+            console.log("money",money);
+            task_tip(self.now_sel_id,money,paypassword,function(data){
+                //console.log(data);
+                layer.msg(data.info,{icon:data.status==1?1:2});
+                if(data.status==1){
+                    $(task_list_sel+" .pay_ui").trigger('reveal:close');
+                    //TODO 成功打赏
+                }
+            });
+        }else if(self.now_sel_type=='take'){
+            task_take(self.now_sel_id,paypassword,function(data){
+                //console.log(data);
+                layer.msg(data.info,{icon:data.status==1?1:2});
+                if(data.status==1){
+                    $(task_list_sel+" .pay_ui").trigger('reveal:close');
+                    //TODO 成功加入任务
+                }
+            });
+        }else if(self.now_sel_type=='guess'){
+            var money = $(task_list_sel+" .pay_ui .pay_money").val();
+            console.log("money",money);
+            task_guess(self.now_sel_id,self.now_sel_employee,money,paypassword,function(data){
+                //console.log(data);
+                layer.msg(data.info,{icon:data.status==1?1:2});
+                if(data.status==1){
+                    $(task_list_sel+" .pay_ui").trigger('reveal:close');
+                    //TODO 提交猜输赢成功
+                }
+            });
+        }
+    };
+    this.get_pay_password=function(){
+        return self.paypassword;
+    };
     $("#"+self.target+" header .xinjian ").click(function(){
         loadPage('/task/index/new_task/fr/'+self.target,self.target);
     });
@@ -430,6 +593,190 @@ function skip(target){
         var id = $(this).attr("task_id");
         console.log(id);
         loadPage('/task/index/show/id/'+id+'/fr/'+self.target,self.target);
+    });
+    $("#"+self.target+" article").on("click",".right .get_reward",function(){
+        var type=$(this).attr('task-type');
+        var money=$(this).attr('task-money');
+        var task_id=$(this).attr('data-id');
+        if(type==2){
+            self.now_sel_id = task_id;
+            self.now_sel_type = 'take';
+            $.ajax({
+                url: '/task/index/pay/money/'+money,
+                type: 'get',
+                success: function(data) {
+                    //console.log(data);
+                    //console.log($(task_list_sel+" .tip_ui .mid"));
+                    $(task_list_sel+" .pay_ui").html(data);
+                    $(task_list_sel+" .pay_ui .payPwd").payPwd({
+                        max:6,
+                        type:"password",
+                        callback:function(paypassword) {
+                            self.paypassword = paypassword;
+                            self.pay(paypassword);
+                        }
+                    });
+                    $(task_list_sel+" .pay_ui").reveal("{data-animation:'fade'}");
+                    $(task_list_sel+" .tip_ui").trigger('reveal:close');
+                },
+                error: function() {
+                    layer.msg('加载参与任务支付出现错误',{icon:2});
+                }
+            });
+        }else{
+            task_take(self.now_sel_id,"",function(data){
+                //console.log(data);
+                layer.msg(data.info,{icon:data.status==1?1:2});
+                if(data.status==1){
+                    //TODO 成功加入任务
+                }
+            });
+        }
+    });
+    $("#"+self.target+" article").on("click",".right .guess",function(){
+        console.log("guess");
+        var id = $(this).attr("task_id");
+        self.now_sel_id = id;
+        self.now_sel_type = 'guess';
+        console.log(id);
+        $.ajax({
+            url: '/task/task_guess/show_guess_ui/task_id/'+id,
+            type: 'get',
+            success: function(data) {
+                //console.log(data);
+                //console.log($(task_list_sel+" .guess_ui"));
+                $(task_list_sel+" .guess_ui").html(data);
+                $(task_list_sel+" .guess_ui").reveal("{data-animation:'fade'}");
+                $.ajax({
+                    url: '/task/task_guess/show/task_id/'+id,
+                    type: 'get',
+                    success: function(data) {
+                        //console.log(data);
+                        //console.log($(task_list_sel+" .guess_ui .box"));
+                        $(task_list_sel+" .guess_ui .box").html(data);
+                    },
+                    error: function() {
+                        layer.msg('加载已下注列表出现错误',{icon:2});
+                    }
+                });
+            },
+            error: function() {
+                layer.msg('加载猜输赢出现错误',{icon:2});
+            }
+        });
+    });
+    $(task_list_sel+" .guess_ui").on("click",".list .fill",function() {
+        console.log("guess_sel");
+        var task_id = $(this).attr("task_id");
+        var employee_id = $(this).attr("employee_id");
+        self.now_sel_id = task_id;
+        self.now_sel_type = 'guess';
+        self.now_sel_employee = employee_id;
+        console.log("employee_id",employee_id);
+        $.ajax({
+            url: '/task/index/pay/type/1',
+            type: 'get',
+            success: function(data) {
+                //console.log(data);
+                //console.log($(task_details_sel+" .tip_ui .mid"));
+                $(task_list_sel+" .pay_ui").html(data);
+                $(task_list_sel+" .pay_ui .payPwd").payPwd({
+                    max:6,
+                    type:"password",
+                    callback:function(paypassword) {
+                        self.paypassword = paypassword;
+                        self.pay(paypassword);
+                    }
+                });
+                $(task_list_sel+" .pay_ui").reveal("{data-animation:'fade'}");
+                $(task_list_sel+" .guess_ui").trigger('reveal:close');
+            },
+            error: function() {
+                layer.msg('加载打赏支付出现错误',{icon:2});
+            }
+        });
+    });
+    $("#"+self.target+" article").on("click",".right .tip",function(){
+        console.log("tip");
+        var id = $(this).attr("task_id");
+        self.now_sel_id = id;
+        self.now_sel_type = 'tip';
+        console.log(id);
+        $.ajax({
+            url: '/task/task_tip/show_tip_ui/id/'+id,
+            type: 'get',
+            success: function(data) {
+                //console.log(data);
+                //console.log($(task_list_sel+" .tip_ui"));
+                $(task_list_sel+" .tip_ui").html(data);
+                $(task_list_sel+" .tip_ui").reveal("{data-animation:'fade'}");
+                $.ajax({
+                    url: '/task/task_tip/show/id/'+id,
+                    type: 'get',
+                    success: function(data) {
+                        //console.log(data);
+                        //console.log($(task_list_sel+" .tip_ui .mid"));
+                        $(task_list_sel+" .tip_ui .mid").html(data);
+                    },
+                    error: function() {
+                        layer.msg('加载已打赏列表出现错误',{icon:2});
+                    }
+                });
+            },
+            error: function() {
+                layer.msg('加载打赏出现错误',{icon:2});
+            }
+        });
+    });
+    $(task_list_sel+" .tip_ui").on("click",".decide .tip_go",function() {
+        console.log("tip_go");
+        var tip_money = $(task_list_sel+" .tip_ui .tip_money").val();
+        console.log("tip_money",tip_money);
+        $.ajax({
+            url: '/task/index/pay/money/'+tip_money,
+            type: 'get',
+            success: function(data) {
+                //console.log(data);
+                //console.log($(task_list_sel+" .tip_ui .mid"));
+                $(task_list_sel+" .pay_ui").html(data);
+                $(task_list_sel+" .pay_ui .payPwd").payPwd({
+                    max:6,
+                    type:"password",
+                    callback:function(paypassword) {
+                        self.paypassword = paypassword;
+                        self.pay(paypassword);
+                    }
+                });
+                $(task_list_sel+" .pay_ui").reveal("{data-animation:'fade'}");
+                $(task_list_sel+" .tip_ui").trigger('reveal:close');
+            },
+            error: function() {
+                layer.msg('加载打赏支付出现错误',{icon:2});
+            }
+        });
+    });
+    $(task_list_sel+" .tip_ui").on("click",".decide .tip_cancel",function() {
+        console.log("tip_cancel");
+        $(task_list_sel+" .tip_ui").trigger('reveal:close');
+    });
+    $(task_list_sel+" .pay_ui").on("click",".pop-submit-btn",function() {
+        console.log("tip_submit");
+        var money = $(task_list_sel+" .pay_ui .pay_money").val();
+        if(money<=0){
+            layer.msg('金额不能小于0',{icon:2});
+            return false;
+        }
+        var paypassword = self.get_pay_password();
+        console.log("paypassword",paypassword);
+        if(paypassword==''){
+            layer.msg('请输入完整密码!',{icon:2});
+            return false;
+        }
+        self.pay(paypassword);
+    });
+    $(task_list_sel+" .pay_ui").on("click",".pop-close-btn",function() {
+        console.log("tip_cancel");
+        $(task_list_sel+" .pay_ui").trigger('reveal:close');
     });
 }
 
@@ -439,6 +786,9 @@ function task_details(load_table,id,type){
     this.load_table = load_table;
     this.id = id;
     this.type = type;
+    this.now_sel_type = '';
+    this.now_sel_employee = 0;
+    this.paypassword = '';
     var self = this;
     var task_details_sel = "#"+self.load_table+" .task_details";
 
@@ -484,76 +834,223 @@ function task_details(load_table,id,type){
             }
         });
     };
+    this.pay=function(paypassword){
+        self.paypassword = '';
+        if(self.now_sel_type=='tip'){
+            var money = $(task_details_sel+" .tip_ui .tip_money").val();
+            console.log("money",money);
+            task_tip(self.id,money,paypassword,function(data){
+                //console.log(data);
+                layer.msg(data.info,{icon:data.status==1?1:2});
+                if(data.status==1){
+                    $(task_details_sel+" .pay_ui").trigger('reveal:close');
+                    //TODO 成功打赏
+                }
+            });
+        }else if(self.now_sel_type=='take'){
+            task_take(self.id,paypassword,function(data){
+                //console.log(data);
+                layer.msg(data.info,{icon:data.status==1?1:2});
+                if(data.status==1){
+                    $(task_details_sel+" .pay_ui").trigger('reveal:close');
+                    //TODO 成功加入任务
+                }
+            });
+        }else if(self.now_sel_type=='guess'){
+            var money = $(task_details_sel+" .pay_ui .pay_money").val();
+            console.log("money",money);
+            task_guess(self.id,self.now_sel_employee,money,paypassword,function(data){
+                //console.log(data);
+                layer.msg(data.info,{icon:data.status==1?1:2});
+                if(data.status==1){
+                    $(task_details_sel+" .pay_ui").trigger('reveal:close');
+                    //TODO 提交猜输赢成功
+                }
+            });
+        }
+    };
+    this.get_pay_password=function(){
+        return self.paypassword;
+    };
+
     if(self.type!=3){
         self.update_ranking();
     }
     self.update_tip();
     self.update_commont();
 
-    $(task_details_sel+" .right .give .guess").click(function() {
-        console.log("guess");
-        $(task_details_sel+" .guess_ui").reveal("{data-animation:'fade'}");
+    $(task_details_sel+" .right .task").click(function() {
+        console.log("task");
+        if(self.type==2){
+            self.now_sel_type = 'take';
+            var money=$(this).attr('task-money');
+            console.log("money",money);
+            $.ajax({
+                url: '/task/index/pay/money/'+money,
+                type: 'get',
+                success: function(data) {
+                    //console.log(data);
+                    //console.log($(task_details_sel+" .tip_ui .mid"));
+                    $(task_details_sel+" .pay_ui").html(data);
+                    $(task_details_sel+" .pay_ui .payPwd").payPwd({
+                        max:6,
+                        type:"password",
+                        callback:function(paypassword) {
+                            self.paypassword = paypassword;
+                            self.pay(paypassword);
+                        }
+                    });
+                    $(task_details_sel+" .pay_ui").reveal("{data-animation:'fade'}");
+                    $(task_details_sel+" .tip_ui").trigger('reveal:close');
+                },
+                error: function() {
+                    layer.msg('加载参与任务支付出现错误',{icon:2});
+                }
+            });
+        }else{
+            task_take(self.now_sel_id,"",function(data){
+                //console.log(data);
+                layer.msg(data.info,{icon:data.status==1?1:2});
+                if(data.status==1){
+                    //TODO 成功加入任务
+                }
+            });
+        }
     });
-    $(task_details_sel+" .right .rate").click(function() {
-        console.log("rate");
+    $(task_details_sel+" .right .guess").click(function() {
+        console.log("guess");
+        self.now_sel_type = 'guess';
         $.ajax({
-            url: '/task/task_tip/show/id/'+self.id,
+            url: '/task/task_guess/show_guess_ui/task_id/'+self.id,
             type: 'get',
             success: function(data) {
                 //console.log(data);
-                //console.log($(task_details_sel+" .tip_ui .mid"));
-                $(task_details_sel+" .tip_ui .mid").html(data);
-                $(task_details_sel+" .tip_ui").reveal("{data-animation:'fade'}");
+                //console.log($(task_list_sel+" .guess_ui"));
+                $(task_details_sel+" .guess_ui").html(data);
+                $(task_details_sel+" .guess_ui").reveal("{data-animation:'fade'}");
+                $.ajax({
+                    url: '/task/task_guess/show/task_id/'+self.id,
+                    type: 'get',
+                    success: function(data) {
+                        //console.log(data);
+                        //console.log($(task_list_sel+" .guess_ui .box"));
+                        $(task_details_sel+" .guess_ui .box").html(data);
+                    },
+                    error: function() {
+                        layer.msg('加载已下注列表出现错误',{icon:2});
+                    }
+                });
             },
             error: function() {
-                layer.msg('加载打赏出现错误',{icon:2});
+                layer.msg('加载猜输赢出现错误',{icon:2});
             }
         });
     });
-    $(task_details_sel+" .tip_ui .decide .tip_go").click(function() {
-        console.log("tip_go");
-        var tip_money = $(task_details_sel+" .tip_ui .tip_money").val();
-        console.log("tip_money",tip_money);
+    $(task_details_sel+" .guess_ui").on("click",".list .fill",function() {
+        console.log("guess_sel");
+        var employee_id = $(this).attr("employee_id");
+        self.now_sel_type = 'guess';
+        self.now_sel_employee = employee_id;
+        console.log("employee_id",employee_id);
         $.ajax({
-            url: '/task/index/pay_details/money/'+tip_money,
+            url: '/task/index/pay/type/1',
             type: 'get',
             success: function(data) {
                 //console.log(data);
                 //console.log($(task_details_sel+" .tip_ui .mid"));
                 $(task_details_sel+" .pay_ui").html(data);
+                $(task_details_sel+" .pay_ui .payPwd").payPwd({
+                    max:6,
+                    type:"password",
+                    callback:function(paypassword) {
+                        self.paypassword = paypassword;
+                        self.pay(paypassword);
+                    }
+                });
                 $(task_details_sel+" .pay_ui").reveal("{data-animation:'fade'}");
-                $(task_details_sel+" .tip_ui").trigger('reveal:close');
-                $(task_details_sel+" .pay_ui .pop-submit-btn").click(function() {
-                    console.log("tip_submit");
-                    var paypassword = $(task_details_sel+" .pay_ui .pay_password").val();
-                    $.ajax({
-                        url: '/task/task_tip/tip/task_id/'+self.id+'/money/'+tip_money+'/paypassword/'+paypassword,
-                        type: 'get',
-                        success: function(data) {
-                            //console.log(data);
-                            layer.msg(data.info,{icon:data.status==1?1:2});
-                            if(data.status==1){
-                                $(task_details_sel+" .pay_ui").trigger('reveal:close');
-                                self.update_tip();
-                            }
-                        },
-                        error: function() {
-                            layer.msg('打赏支付出现错误',{icon:2});
-                        }
-                    });
-                });
-                $(task_details_sel+" .pay_ui .pop-close-btn").click(function() {
-                    console.log("tip_cancel");
-                    $(task_details_sel+" .pay_ui").trigger('reveal:close');
-                });
+                $(task_details_sel+" .guess_ui").trigger('reveal:close');
             },
             error: function() {
                 layer.msg('加载打赏支付出现错误',{icon:2});
             }
         });
     });
-    $(task_details_sel+" .tip_ui .decide .tip_cancel").click(function() {
+    $(task_details_sel+" .right .rate").click(function() {
+        console.log("rate");
+        $.ajax({
+            url: '/task/task_tip/show_tip_ui/id/'+self.id,
+            type: 'get',
+            success: function(data) {
+                //console.log(data);
+                //console.log($(task_details_sel+" .tip_ui"));
+                $(task_details_sel+" .tip_ui").html(data);
+                $(task_details_sel+" .tip_ui").reveal("{data-animation:'fade'}");
+                $.ajax({
+                    url: '/task/task_tip/show/id/'+self.id,
+                    type: 'get',
+                    success: function(data) {
+                        //console.log(data);
+                        //console.log($(task_details_sel+" .tip_ui .mid"));
+                        $(task_details_sel+" .tip_ui .mid").html(data);
+                    },
+                    error: function() {
+                        layer.msg('加载打赏出现错误',{icon:2});
+                    }
+                });
+            },
+            error: function() {
+                layer.msg('加载打赏出现错误',{icon:2});
+            }
+        });
+    });
+    $(task_details_sel+" .tip_ui").on("click",".decide .tip_go",function() {
+        console.log("tip_go");
+        self.now_sel_type = 'tip';
+        var tip_money = $(task_details_sel+" .tip_ui .tip_money").val();
+        console.log("tip_money",tip_money);
+        $.ajax({
+            url: '/task/index/pay/money/'+tip_money,
+            type: 'get',
+            success: function(data) {
+                //console.log(data);
+                //console.log($(task_details_sel+" .tip_ui .mid"));
+                $(task_details_sel+" .pay_ui").html(data);
+                $(task_details_sel+" .pay_ui .payPwd").payPwd({
+                    max:6,
+                    type:"password",
+                    callback:function(paypassword) {
+                        self.paypassword = paypassword;
+                        self.pay(paypassword);
+                    }
+                });
+                $(task_details_sel+" .pay_ui").reveal("{data-animation:'fade'}");
+                $(task_details_sel+" .tip_ui").trigger('reveal:close');
+            },
+            error: function() {
+                layer.msg('加载打赏支付出现错误',{icon:2});
+            }
+        });
+    });
+    $(task_details_sel+" .tip_ui").on("click",".decide .tip_cancel",function() {
         console.log("tip_cancel");
         $(task_details_sel+" .tip_ui").trigger('reveal:close');
+    });
+    $(task_details_sel+" .pay_ui").on("click",".pop-submit-btn",function() {
+        console.log("tip_submit");
+        var money = $(task_details_sel+" .pay_ui .pay_money").val();
+        if(money<=0){
+            layer.msg('金额不能小于0',{icon:2});
+            return false;
+        }
+        var paypassword = self.get_pay_password();
+        if(paypassword==''){
+            layer.msg('请输入完整密码!',{icon:2});
+            return false;
+        }
+        self.pay(paypassword);
+    });
+    $(task_details_sel+" .pay_ui").on("click",".pop-close-btn",function() {
+        console.log("tip_cancel");
+        $(task_details_sel+" .pay_ui").trigger('reveal:close');
     });
 }
