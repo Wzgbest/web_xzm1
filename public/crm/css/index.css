@@ -76,7 +76,7 @@
 	background-color: #ecf0f5;
 }
 .crm_customer .m-filterNav{
-	width: 960px;
+	width: 1060px;
 	margin-left: 4px;
 }
 .crm_customer .m-filterNav select{
@@ -603,4 +603,35 @@
 	background-color: #fff;
 	border: 1px solid #dcdcdc;
 	margin-left: 50px;
+}
+/*客户详情-编辑销售机会*/
+.edit-sale-chance{
+
+}
+.edit-sale-chance .sale-chance-apply-contract{
+	position: relative;
+	background-color: #f7f7f7;
+    padding: 10px 40px;
+    margin: 0 0 20px -40px;
+}
+.edit-sale-chance .sale-chance-apply-contract .controler{
+	position: absolute;
+	right: 40px;
+	top: 20px;
+}
+.edit-sale-chance .sale-chance-apply-contract .controler .fa{
+	color: #999;
+}
+.edit-sale-chance .sale-chance-apply-contract .add{
+	display: inline-block;
+}
+.edit-sale-chance .sale-chance-apply-contract .add .fa:hover{
+	color: #42A5F5;
+}
+.edit-sale-chance .sale-chance-apply-contract .delete .fa:hover{
+	color: #ef5350;
+}
+.edit-sale-chance .sale-chance-apply-contract .delete{
+	display: inline-block;
+	margin-left: 10px;
 }
