@@ -83,7 +83,7 @@
             <div class="comment">
                 <div class="comment_incentive">
                     <!--<a href="incentive_details.html"><img src="/task/img/comment.png" /></a>-->
-                    <img src="/task/img/comment.png" />
+                    <img src="/task/img/comment.png" class="task_details comment_incentive" task_id="{$vo.id}" />
                     <span>{$vo.comment_count}</span>
                 </div>
                 <div style="text-align: right;">
@@ -168,7 +168,7 @@
                 <div class="comment">
                     <input type="hidden" value="1" />
                     <div class="comment_pk">
-                        <img src="/task/img/comment.png" class="xiangqing"/>
+                        <img src="/task/img/comment.png" class="task_details xiangqing comment_pk" task_id="{$vo.id}" />
                         <span>{$vo.comment_count}</span>
                     </div>
                     <div style="text-align: right;">
@@ -238,7 +238,7 @@
             </div>
             <div class="comment">
                 <div class="comment_reward">
-                    <img src="/task/img/comment.png" />
+                    <img src="/task/img/comment.png" class="task_details comment_reward" task_id="{$vo.id}" />
                     <span>{$vo.comment_count}</span>
                 </div>
                 <div style="text-align: right;">

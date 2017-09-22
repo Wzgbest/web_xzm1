@@ -437,29 +437,18 @@ function new_task_form(load_table){
 }
 
 
-function skip(from,target,comment){
-    this.from =from;
+function skip(target){
     this.target=target;
-    this.comment=comment;
     var self = this;
 
-    $("."+this.from+" header .xinjian ").click(function(){
-
+    $("#"+self.target+" header .xinjian ").click(function(){
         loadPage('/task/index/new_task/fr/'+self.target,self.target);
     });
-    $("."+this.from+" article .dv1 .comment .comment_pk").click(function(){
+    $("#"+self.target+" article").on("click",".dv1 .comment .task_details",function(){
         var id = $(this).attr("task_id");
+        console.log(id);
         loadPage('/task/index/show/id/'+id+'/fr/'+self.target,self.target);
     });
-    $("."+this.from+" article .dv1 .comment .comment_incentive").click(function(){
-        var id = $(this).attr("task_id");
-        loadPage('/task/index/show/id/'+id+'/fr/'+self.target,self.target);
-    });
-    $("."+this.from+" article .dv1 .comment .comment_reward").click(function(){
-        var id = $(this).attr("task_id");
-        loadPage('/task/index/show/id/'+id+'/fr/'+self.target,self.target);
-    });
-
 }
 
 
