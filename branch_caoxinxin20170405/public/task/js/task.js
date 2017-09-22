@@ -412,16 +412,76 @@ function skip(from,target,comment){
         loadPage('/task/index/new_task/fr/'+self.target,self.target);
     });
     $("."+this.from+" article .dv1 .comment .comment_pk").click(function(){
-
-        loadPage('/task/going_task/PK_details.html',self.comment);
+        var id = $(this).attr("task_id");
+        loadPage('/task/index/show/id/'+id+'/fr/'+self.target,self.target);
     });
     $("."+this.from+" article .dv1 .comment .comment_incentive").click(function(){
-
-        loadPage('/task/going_task/incentive_details.html',self.comment);
+        var id = $(this).attr("task_id");
+        loadPage('/task/index/show/id/'+id+'/fr/'+self.target,self.target);
     });
     $("."+this.from+" article .dv1 .comment .comment_reward").click(function(){
-
-        loadPage('/task/going_task/reward_details.html',self.comment);
+        var id = $(this).attr("task_id");
+        loadPage('/task/index/show/id/'+id+'/fr/'+self.target,self.target);
     });
 
+}
+
+
+
+function task_details(load_table,id,type){
+    this.load_table = load_table;
+    this.id = id;
+    this.type = type;
+    var self = this;
+
+    if(self.type!=3){
+        $.ajax({
+            url: '/task/index/get_ranking_page/id/'+self.id,
+            type: 'get',
+            success: function(data) {
+                //console.log(data);
+                //console.log($("#"+self.load_table+" .task_details .left .box"));
+                $("#"+self.load_table+" .task_details .left .box").html(data);
+            },
+            error: function() {
+                layer.msg('加载排行榜出现错误',{icon:2});
+            }
+        });
+    }
+    $.ajax({
+        url: '/task/index/get_ranking_page/id/'+self.id,
+        type: 'get',
+        success: function(data) {
+            //console.log(data);
+            //console.log($("#"+self.load_table+" .task_details .left .box"));
+            $("#"+self.load_table+" .task_details .left .box").html(data);
+        },
+        error: function() {
+            layer.msg('加载排行榜出现错误',{icon:2});
+        }
+    });
+    $.ajax({
+        url: '/task/task_tip/show/id/'+self.id,
+        type: 'get',
+        success: function(data) {
+            //console.log(data);
+            //console.log($("#"+self.load_table+" .task_details .right .particulars"));
+            $("#"+self.load_table+" .task_details .right .particulars").html(data);
+        },
+        error: function() {
+            layer.msg('加载打赏出现错误',{icon:2});
+        }
+    });
+    $.ajax({
+        url: '/task/task_comment/show/id/'+self.id,
+        type: 'get',
+        success: function(data) {
+            //console.log(data);
+            //console.log($("#"+self.load_table+" .task_details .down .review"));
+            $("#"+self.load_table+" .task_details .down .review").html(data);
+        },
+        error: function() {
+            layer.msg('加载评论出现错误',{icon:2});
+        }
+    });
 }

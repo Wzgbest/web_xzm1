@@ -24,7 +24,7 @@
                     <p class="small">统计周期</p>
                     <p class="big">{$vo.task_start_time|date="Y.m.d",###}-{$vo.task_end_time|date="Y.m.d",###}</p>
                 </div>
-                <div>
+                <div>comment_pk
                     <p class="small">考核项目</p>
                     <p class="big">{$vo.target_type|get_target_type_name}</p>
                 </div>
@@ -73,7 +73,7 @@
             </div>
             <div class="comment">
                 <div>
-                    <img src="/task/img/comment.png" />
+                    <img src="/task/img/comment.png" class="comment_incentive" task_id="{$vo.id}" />
                     <span>{$vo.comment_count}</span>
                 </div>
                 <div style="text-align: right;">
@@ -154,7 +154,7 @@
             </div>
             <div class="comment">
                 <div>
-                    <img src="/task/img/comment.png" class="a"/>
+                    <img src="/task/img/comment.png" class="a comment_pk" task_id="{$vo.id}" />
                     <span>{$vo.comment_count}</span>
                 </div>
                 <div style="text-align: right;">
@@ -222,7 +222,7 @@
             </div>
             <div class="comment">
                 <div>
-                    <img src="/task/img/comment.png" />
+                    <img src="/task/img/comment.png"  class="comment_reward" task_id="{$vo.id}" />
                     <span>{$vo.comment_count}</span>
                 </div>
                 <div style="text-align: right;">
