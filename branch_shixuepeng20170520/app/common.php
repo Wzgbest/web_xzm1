@@ -858,8 +858,8 @@ function minutes_format_html5($time = NULL) {
     $time = $time === NULL ? time() : intval ( $time );
     return time_format($time,'Y-m-d')."T".time_format($time,'H:i');
 }
-function day_format($time = NULL) {
-    return time_format ( $time, 'Y-m-d' );
+function day_format($time = NULL, $format = 'Y-m-d') {
+    return time_format ( $time, $format );
 }
 function hour_format($time = NULL) {
     return time_format ( $time, 'H:i' );
