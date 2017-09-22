@@ -25,7 +25,53 @@ class TaskGuess extends Initialize{
         parent::__construct();
         $this->paginate_list_rows = config("paginate.list_rows");
     }
+    public function show_guess_ui(){
+        $task_id = input('task_id',0,'int');
+        if(!$task_id){
+            $this->error("参数错误");
+        }
+        $this->assign('task_id',$task_id);
+        $taskGuessM = new TaskGuessModel($this->corp_id);
+        $task_all_guess_money = $taskGuessM->getTaskAllGuessMoney($task_id);
+        $this->assign('task_all_guess_money',$task_all_guess_money);
+        $taskTakeM = new TaskTakeModel($this->corp_id);
+        $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($task_id);
+        $employM = new Employee($this->corp_id);
+        $employee_infos = $employM->getEmployeeAndstructureByUserids($taskTakeEmployeeIds);
+        $take_list = [];
+        foreach ($taskTakeEmployeeIds as $eid){
+            if(isset($employee_infos[$eid])){
+                $take_item["employee_id"] = $eid;
+                $take_item["truename"] = $employee_infos[$eid]["truename"];
+                $take_item["struct_name"] = $employee_infos[$eid]["struct_name"];
+                $take_list[] = $take_item;
+            }
+        }
+        $this->assign('take_list',$take_list);
+        return view();
+    }
     public function show(){
+        $task_id = input('task_id',0,'int');
+        if(!$task_id){
+            $this->error("参数错误");
+        }
+        $taskGuessM = new TaskGuessModel($this->corp_id);
+        $guessTakeInfoList = $taskGuessM->getGuessEmployeeMoneyList($task_id);
+        //var_exp($guessTakeInfoList,'$guessTakeInfoList');
+        $employee_ids = array_column($guessTakeInfoList,"guess_take_employee");
+        //var_exp($employee_ids,'$employee_ids');
+        $employM = new Employee($this->corp_id);
+        $employee_infos = $employM->getEmployeeAndstructureByUserids($employee_ids);
+        //var_exp($employee_infos,'$employee_infos');
+        foreach ($guessTakeInfoList as &$guessTakeInfo){
+            if(isset($employee_infos[$guessTakeInfo["guess_take_employee"]])){
+                $guessTakeInfo["truename"] = $employee_infos[$guessTakeInfo["guess_take_employee"]]["truename"];
+                $guessTakeInfo["struct_name"] = $employee_infos[$guessTakeInfo["guess_take_employee"]]["struct_name"];
+            }
+        }
+        //var_exp($guessTakeInfoList,'$guessTakeInfoList');
+        $this->assign('guess_list',$guessTakeInfoList);
+        return view();
     }
 
 
