@@ -745,12 +745,14 @@ class Index extends Initialize{
             $result['info'] = "已参与任务！";
             return json($result);
         }
+        $taskTakeNumMax = 0;
+        $taskTakeAmountMax = 0;
         if($task_type>1) {
             $taskRewardM = new TaskRewardModel($this->corp_id);
             $taskReward = $taskRewardM->getTaskRewardListByTaskId($task_id);
-            $taskTakeNumMax = 0;
             foreach ($taskReward as $reward_item) {
                 $taskTakeNumMax += $reward_item['reward_num'];
+                $taskTakeAmountMax += $reward_item['reward_amount'];
             }
             if(count($taskTakeEmployeeIds)>=$taskTakeNumMax){
                 $result['info'] = "参与任务人数已满！";
@@ -764,9 +766,8 @@ class Index extends Initialize{
             return json($result);
         }
 
-        $money = 0;
+        $money = $taskTakeAmountMax;
         if($task_type==2){
-            $money = 0+input('money');
             $paypassword = input('paypassword');
             if(empty($task_id)||empty($money)||empty($paypassword)){
                 $result['info'] = '参数错误';
