@@ -25,6 +25,18 @@ class TaskTip extends Initialize{
         $this->paginate_list_rows = config("paginate.list_rows");
     }
     public function show(){
+        $id = input('id',0,'int');
+        if(!$id){
+            $this->error("参数错误");
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $TipModel = new TaskTipModel($this->corp_id);
+        $tip_list = $TipModel->getEmloyeeTaskTip($id);
+        //var_exp($tip_list,'$tip_list');
+        $this->assign('tip_list',$tip_list);
+        $this->assign('uid',$uid);
+        return view();
     }
 
     /*

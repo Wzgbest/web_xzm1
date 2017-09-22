@@ -50,6 +50,22 @@ class EmployeeTask extends Base{
             ->find();
     }
 
+    /**
+     * 获取一条任务信息
+     * @param  int $uid 用户ID
+     * @param  int $task_id 任务ID
+     * @return array 任务信息
+     */
+    public function getTaskMoreInfo($uid,$task_id){
+        return $this->model->table($this->table)->alias('et')
+            ->join($this->dbprefix.'employee e','e.id = et.create_employee',"LEFT")
+            ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
+            ->where("et.id",$task_id)
+            ->group("et.id")
+            ->field("et.*,e.telephone,e.truename,e.userpic,case when etl.user_id>0 then 1 else 0 end as is_like")
+            ->find();
+    }
+
      /**
      * 获取任务列表
      * @param  int $uid     用户id
@@ -58,31 +74,32 @@ class EmployeeTask extends Base{
      * @param  int $task_type 任务类型
      * @return arr          任务列表
      */
-//    public function getEmployeeTaskList($uid,$num=10,$last_id=0,$task_type=0,$map=[]){
-//        $order = "et.id desc";
-//        $mapStr = "find_in_set('".$uid."',et.public_to_view)";
-//        if ($task_type) {
-//            $map['et.task_type'] = $task_type;
-//        }
-//        if($last_id){
-//            $map["et.id"] = ["lt",$last_id];
-//        }
-//
-//        $employeeTaskList = $this->model->table($this->table)->alias('et')
-//            ->join($this->dbprefix.'employee e','e.id = et.create_employee',"LEFT")
-//            ->join($this->dbprefix.'employee_task_reward etr','etr.task_id = et.id',"LEFT")
-//            ->join($this->dbprefix.'employee_task_target ett','ett.task_id = et.id',"LEFT")
-//            ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
-//            ->where($map)
-//            ->where($mapStr)
-//            ->order($order)
-//            ->limit($num)
-//            ->group("et.id")
-//            ->field("et.*,e.telephone,e.truename,e.userpic,etr.reward_amount,etr.reward_num,etr.reward_type,etr.reward_method,ett.target_type,ett.target_customer,ett.target_appraiser,ett.target_num,case when etl.user_id>0 then 1 else 0 end as is_like")
-//            ->select();
-//
-//        return $employeeTaskList;
-//    }
+    public function getEmployeeTaskAndRedEnvelopeList($uid,$num=10,$last_id=0,$task_type=0,$map=[]){
+        $order = "et.id desc";
+        $mapStr = "find_in_set('".$uid."',et.public_to_view)";
+        if ($task_type) {
+            $map['et.task_type'] = $task_type;
+        }
+        if($last_id){
+            $map["et.id"] = ["lt",$last_id];
+        }
+
+        $employeeTaskList = $this->model->table($this->table)->alias('et')
+            ->join($this->dbprefix.'employee e','e.id = et.create_employee',"LEFT")
+            ->join($this->dbprefix.'employee_task_reward etr','etr.task_id = et.id',"LEFT")
+            ->join($this->dbprefix.'employee_task_target ett','ett.task_id = et.id',"LEFT")
+            ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
+            ->join($this->dbprefix.'red_envelope re',"re.task_id = et.id and re.type = 3 and re.took_user = ".$uid,"LEFT")
+            ->where($map)
+            ->where($mapStr)
+            ->order($order)
+            ->limit($num)
+            ->group("et.id")
+            ->field("et.*,e.telephone,e.truename,e.userpic,etr.reward_amount,etr.reward_num,etr.reward_type,etr.reward_method,ett.target_type,ett.target_customer,ett.target_appraiser,ett.target_num,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token")
+            ->select();
+
+        return $employeeTaskList;
+    }
 
     /**
      * 我的直接参与的任务
@@ -201,12 +218,16 @@ class EmployeeTask extends Base{
         }
         $listOrder = [$order=>$direction];//聚合后排序
         $map_str = " find_in_set($uid,public_to_view) ";
-        $employee_task_list=$this->model->table($this->viewTable)->field($field)->where($map_str)->where($map)->order($listOrder)->limit($offset,$num)->select();
+//        $employee_task_list=$this->model->table($this->viewTable)->field($field)->where($map_str)->where($map)->order($listOrder)->limit($offset,$num)->select();
+        $employee_task_list=$this->model->table($this->viewTable)->alias('et')
+            ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
+            ->field($field)->where($map_str)->where($map)->order($listOrder)->select();
         return $employee_task_list;
 
     }
 
     /**
+     * 热门任务，PK任务，激励任务，悬赏任务的数量
      * @param 当前用户的id
      * @param string 查询的列
      * @param array 筛选条件
@@ -216,6 +237,47 @@ class EmployeeTask extends Base{
         $map_str = " find_in_set($uid,public_to_view) ";
         $employee_task_count=$this->model->table($this->table)->field($field)->where($map_str)->where($map)->find();
         return $employee_task_count;
+    }
 
+    /**
+     * 历史任务模块参与的任务数量
+     * @param $uid
+     * @param string $field
+     * @param array $map
+     * @return array|false|\PDOStatement|string|\think\Model
+     */
+    public function getHistoricalTaskCount($uid,$field='*',$map=[]){
+        $map_str = " find_in_set($uid,public_to_view) ";
+        $historical_task_count=$this->model->table($this->viewTable)->field($field)->where($map_str)->where($map)->count(1);
+        return $historical_task_count;
+
+    }
+
+    /**
+     * 赞
+     * @param $map
+     */
+    public function addLike($map){
+        $map['like_time']=time();
+        $result=$this->model->table($this->dbprefix.'employee_task_like')->insert($map);
+        if($result)
+        {
+            $this->model->table($this->table)->where('id', $map['task_id'])
+                ->setInc('like_count');
+        }
+        return $result;
+    }
+    /**
+     * 取消赞
+     * @param $map
+     */
+    public function delLike($map){
+        $result=$this->model->table($this->dbprefix.'employee_task_like')->where($map)->delete();
+        if($result)
+        {
+            $this->model->table($this->table)->where('id', $map['task_id'])
+                ->setDec('like_count');
+        }
+        return $result;
     }
 }

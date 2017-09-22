@@ -28,39 +28,7 @@ class EmployeeTask extends Initialize{
 		$user_info = get_userinfo();
 		$uid = $user_info['userid'];
 		$employeeTaskModel = new EmployeeTaskModel($this->corp_id);
-		$task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$last_id,$task_type);
-		var_exp($task_list);
-		/*
-			不需要直接获取用户的评论，可以点击后在获取用户评论
-			暂时用不到
-		 */
-		// $task_ids = array_column($task_list,"id");
-		// $taskCommentModel = new TaskCommentModel($this->corp_id);
-		// $task_list_comment = $taskCommentModel->getAllTaskComment($task_ids);
-
-		// 	//评论分组
-		// $task_data_arr = [];
-		// foreach($task_list_comment as $task_comment){
-		// 		$task_data_arr[$task_comment['task_id']][] = $task_comment;
-		// 	}
-		// foreach ($task_list as $key => $value) {
-		// 	if (isset($task_data_arr[$value['id']])) {
-		// 		$task_list[$key]['comment_list'] = $task_data_arr[$value['id']];
-		// 	}else{
-		// 		$task_list[$key]['comment_list'] = [];
-		// 	}
-		// }
-
-
-		//======获取打赏金额
-		//======有直接的字段存总的打赏数
-		// $taskTipModel = new TaskTip($this->corp_id);
-		// $task_tip = $taskTipModel->getEmloyeeTaskTip($task_ids);
-		// $tip_data_arr = [];
-		// foreach ($task_tip as $one_task_tip){
-  //           $tip_data_arr[$one_task_tip["share_id"]][] = $one_task_tip;
-  //       }
-
+		$task_list = $employeeTaskModel->getEmployeeTaskAndRedEnvelopeList($uid,$num,$last_id,$task_type);
 		$result['data'] = $task_list;
 		$result['status'] = 1;
 		$result['info'] = "获取成功!";
@@ -69,7 +37,7 @@ class EmployeeTask extends Initialize{
 	}
 
 	/**
-	 * 我的直接参与任务列表
+	 * 我的任务列表
 	 * @return arr 任务列表
 	 */
 	public function myTaskList(){
@@ -94,7 +62,7 @@ class EmployeeTask extends Initialize{
 	}
 
     /**
-     * 任务大厅里的任务
+     * 任务大厅里的任务列表数据
      */
 	public function get_task_list(){
         $result = ['status'=>0,'info'=>"获取列表时失败!"];
@@ -102,16 +70,22 @@ class EmployeeTask extends Initialize{
         $num = input('num',10,'int');
         $p = input("p",1,"int");
         $task_type = input('task_type',0,'int');
+        $order_name=input('order_name','','string');
 
         $map=[];
-        if($task_type)
-        {
-            $map['task_type']=$task_type;
+        if($task_type){
+            $map['task_type']=$task_type;//任务类型
+        }
+        if($order_name){
+            $order=$order_name;
+        }
+        else{
+            $order='id';
         }
         $user_info = get_userinfo();
         $uid = $user_info['userid'];
         $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
-        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field='*',$order="id",$direction="desc",$map);
+        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like',$order,$direction="desc",$map);
         $countField=["
         count(1) as `0`,
         sum((case when task_type = 1 then 1 else 0 end)) as `1`,
@@ -135,6 +109,127 @@ class EmployeeTask extends Initialize{
     public function hot_task_load(){
         $this->get_task_list();
         return view();
+    }
+
+    /**
+     * 历史任务 进行中的任务列表数据
+     */
+    public function get_historical_task_list($map){
+        $result = ['status'=>0,'info'=>"获取列表时失败!"];
+
+        $num = input('num',10,'int');
+        $p = input("p",1,"int");
+        $part_type = input('task_type',0,'int');//任务参与类型，1直接参与，2间接参与，3我发起的
+        $order_name=input('order_name','','string');
+
+        $user_info = get_userinfo();
+        $uid = $user_info['userid'];
+
+        if(!$part_type)
+        {
+            $part_type=1;
+        }
+        switch($part_type){
+            case 1:
+                //直接参与，报名参加的
+                $map['take_employees']=array('IN',$uid);
+                break;
+            case 2:
+                //间接参与 打赏的
+                $map['tip_employees']=array('IN',$uid);
+                break;
+            case 3:
+                //发起的
+                $map['create_employee']=$uid;
+                break;
+        }
+
+        if($order_name){
+            $order=$order_name;
+        }
+        else{
+            $order='id';
+        }
+        $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
+        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like',$order,$direction="desc",$map);
+        $con['task_end_time']=$map['task_end_time'];
+        $con['take_employees']=array('IN',$uid);
+        $count1=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con);
+        unset($con['take_employees']);
+        $con['tip_employees']=array('IN',$uid);
+        $count2=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con);
+        unset($con['tip_employees']);
+        $con['create_employee']=$uid;
+        $count3=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con);
+        $task_count=array(
+            '1'=>$count1,
+            '2'=>$count2,
+            '3'=>$count3
+        );
+        $this->assign('task_list',$task_list);
+        $this->assign('task_count',$task_count);
+    }
+
+    /**
+     * 历史任务
+     * @return \think\response\View
+     */
+    public function historical_task(){
+        $map['task_end_time']=array('lt',time());
+        $this->get_historical_task_list($map);
+        return view();
+    }
+    public function historical_task_load(){
+        $map['task_end_time']=array('lt',time());
+        $this->get_historical_task_list($map);
+        return view();
+    }
+
+    /**
+     * 进行中的任务
+     * @return \think\response\View
+     */
+    public function direct_participation(){
+        $map['task_end_time']=array('egt',time());
+        $this->get_historical_task_list($map);
+        return view();
+    }
+    public function direct_participation_load(){
+        $map['task_end_time']=array('egt',time());
+        $this->get_historical_task_list($map);
+        return view();
+    }
+
+    /**
+     * 赞与取消赞
+     */
+    public function task_like(){
+        $task_id=input('id');//任务id
+        $unlike=input('unlike');//是否是取消赞
+        $user_info = get_userinfo();
+        $uid = $user_info['userid'];//操作员工id
+        $con['task_id']=$task_id;
+        $con['user_id']=$uid;
+        $redata['success']=false;
+        $redata['msg']='操作失败';
+        $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
+        if($task_id){
+            if($unlike){
+                //取消赞 执行删除操作
+                $result=$employeeTaskModel->delLike($con);
+            }
+            else{
+                //赞
+                $result=$employeeTaskModel->addLike($con);
+            }
+            if($result)
+            {
+                $redata['success']=true;
+                $redata['msg']='操作成功';
+            }
+        }
+        return json($redata);
+
     }
 
 }

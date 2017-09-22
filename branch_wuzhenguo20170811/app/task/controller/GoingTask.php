@@ -7,6 +7,18 @@ class GoingTask
     {
         return view();
     }
+    public function PKnew_task()
+    {
+        return view();
+    }
+    public function rewardnew_task()
+    {
+        return view();
+    }
+    public function PK_details()
+    {
+        return view();
+    }
     public function pk_ranking()
     {
         return view();
