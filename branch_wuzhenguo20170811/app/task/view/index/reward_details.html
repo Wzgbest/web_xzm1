@@ -8,7 +8,7 @@
 					<div>间接参与（<span>7</span>）</div>
 				</li>
 				<i class="fa fa-angle-right fa-2x"></i>
-				<span class="span-info">激励任务详情</span>
+				<span class="span-info">悬赏任务详情</span>
 			</ul>
 		</div>
 		
@@ -20,7 +20,7 @@
 				<img src="/task/img/reward_task.png" class="img1" />
 				<div class="border-right">
 					<p>发布人</p>
-					<div class="name">{$task_info["truename"]}
+					<div class="name">{$task_info.truename}
 						<div class="roll">
 							<img src="/task/img/phone.png" />
 							<img src="/task/img/note.png" />
@@ -36,22 +36,22 @@
 					<div class="details">
 						<div class="len">
 							<p class="small">任务领取截止时间</p>
-							<p class="big">{$task_info["task_take_start_time"]|day_format='Y.m.d'}/{$task_info["task_take_end_time"]|day_format='Y.m.d'}</p>
+							<p class="big">{$task_info.task_take_end_time|date="Y.m.d/H:m:s",###}{$task_info["task_take_start_time"]|day_format='Y.m.d'}/{$task_info["task_take_end_time"]|day_format='Y.m.d'}</p>
 						</div>
 
 						<div class="very">
 							<p class="small">对应客户</p>
-							<p class="very big  blue">山东中呼信息科技有限公司</p>
+							<p class="very big  blue">{$task_info.customer_name}</p>
 						</div>
 					</div>
 					<div class="details">
 						<div class="len">
 							<p class="small">求助上限人数</p>
-							<p class="big">8人</p>
+							<p class="big">{$task_info.reward_num}人</p>
 						</div>
 						<div class="very">
 							<p class="small">悬赏金</p>
-							<p class="big">10元/人</p>
+							<p class="big">{$task_info.reward_amount}元/人</p>
 						</div>
 
 					</div>
@@ -64,18 +64,18 @@
 
 						<p class="p2">打赏</p>
 					</div>
-					<div class="comment">
-						<div class="comment_reward">
-							<a href="#speek_three">
-								<img src="/task/img/comment.png" />
-							</a>
-							<span>38</span>
-						</div>
-						<div style="text-align: right;">
-							<img src="/task/img/zan.png" class="add" task_id="1" index_img="1" />
-							<span class="yi">23</span>
-						</div>
-					</div>
+					<!--<div class="comment">-->
+						<!--<div class="comment_reward">-->
+							<!--<a href="#speek_three">-->
+								<!--<img src="/task/img/comment.png" />-->
+							<!--</a>-->
+							<!--<span>38</span>-->
+						<!--</div>-->
+						<!--<div style="text-align: right;">-->
+							<!--<img src="/task/img/zan.png" class="add" task_id="1" index_img="1" />-->
+							<!--<span class="yi">23</span>-->
+						<!--</div>-->
+					<!--</div>-->
 				</div>
 			</div>
 		</div>
@@ -156,7 +156,13 @@
 						{/gt}
 					</span>
 				</p>
-				<p class="rate">继续打赏</p>
+				<p class="rate">
+					{gt name="my_tip_money" value="0"}
+					继续打赏
+					{else/}
+					打赏
+					{/gt}
+				</p>
 				<div class="particulars">
 					<ul>
 						<li>02.06&nbsp;17:20</li>
@@ -194,22 +200,24 @@
 			</div>
 		</div>
 		<div class="dv3">
-			<p class="title">评论<span>（10）</span></p>
-			<div id="speek_three">
-				<div class="up">
+			<p class="title">评论<span>（{$task_info.comment_count}）</span></p>
+			<div class="up">
 				<!--<input type="text" placeholder="回复刘大宝" />-->
-				<textarea placeholder="回复刘大宝："></textarea>
+				<textarea placeholder="请输入评论" class="content"></textarea>
 				<div class="like">
 					<div class="left">
-						<img src="task/img/face.png" />
+						<img src="/task/img/face.png" />
 					</div>
 					<div class="right">
-						<p>评论</p>
-						<img src="task/img/zan.png" class="add" index_img="1" />
-						<span class="yi">123</span>
+						<p data-id="{$task_info.id}" now-truename="{$truename}">评论</p>
+						{eq name="task_info.is_like" value="1"}
+						<img src="/task/img/praise.png" class="add" task_id="{$task_info.id}" index_img="2"/>
+						{else/}
+						<img src="/task/img/zan.png" class="add" task_id="{$task_info.id}" index_img="1"/>
+						{/eq}
+						<span class="yi">{$task_info.like_count}</span>
 					</div>
 				</div>
-			</div>
 			</div>
 			<div class="down">
 				
@@ -441,7 +449,7 @@
 			<a class="close-reveal-modal">&#215;</a>
 		</div>
 
-		<div class="reveal-modal reveal_seven pay_ui pay-pop">
+		<div class="reveal-modal reveal_eight pay_ui pay-pop">
 		</div>
 	</article>
 

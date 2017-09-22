@@ -19,7 +19,7 @@
 			<div class="left">
 				<img src="/task/img/incentive_task.png" class="img1" />
 				<p>发布人</p>
-				<div class="name">{$task_info["truename"]}
+				<div class="name">{$task_info.truename}
 					<div class="roll">
 						<img src="/task/img/phone.png" />
 						<img src="/task/img/note.png" />
@@ -29,43 +29,43 @@
 				<p>预计奖金</p>
 			</div>
 			<div class="center">
-				<p class="theme">{$task_info["task_name"]}</p>
+				<p class="theme">{$task_info.task_name}</p>
 				<div>
 					<div class="details">
 						<div class="len">
 							<p class="small">统计周期</p>
-							<p class="big">{$task_info["task_start_time"]|day_format='Y.m.d'}-{$task_info["task_end_time"]|day_format='Y.m.d'}</p>
+							<p class="big">{$task_info.task_start_time|date="Y.m.d",###}-{$task_info.task_end_time|date="Y.m.d",###}</p>
 						</div>
 						<div>
 							<p class="small">考核项目</p>
-							<p class="big">有效通话数</p>
+							<p class="big">{$task_info.target_type|get_target_type_name}</p>
 						</div>
 						<div>
 							<p class="small">达标要求</p>
-							<p class="big">前10名</p>
+							<p class="big">前{$task_info.reward_end}名</p>
 						</div>
 						<div class="very  flo">
 							<p class="small">面向群体</p>
-							<p class="very big">销售中心等（100人）</p>
+							<p class="very big"><?php $array=explode(',',$task_info['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共<?php echo count($array) ?>人，已参与{$task_info.partin_count}人）</p>
 							<div class="flotage">
-								<span>张三</span>
-								<span>李四</span>
-								<span>王五</span>
+								{notempty name="array"}{volist name="array" id="v"}<span>{$v}</span>{/volist}{/notempty}
 							</div>
 						</div>
 					</div>
 					<div class="details">
 						<div class="len">
 							<p class="small">任务领取截止时间</p>
-							<p class="big">{$task_info["task_take_start_time"]|day_format='Y.m.d'}/{$task_info["task_take_end_time"]|day_format='Y.m.d'}</p>
+							<p class="big">{$task_info.task_take_end_time|date="Y.m.d/H:m:s",###}</p>
 						</div>
 						<div class="fu">
 							<p class="small">奖金</p>
-							<p class="big">100~300元/人</p>
+							<p class="big">{$task_info.re_amount}元/人</p>
+							<?php $rewardArray=explode(',',$task_info['ranking']); ?>
 							<div class="xuanfu">
-								<p><span>1-3</span>名<span>300</span>元/名</p>
-								<p><span>4-6</span>名<span>200</span>元/名</p>
-								<p><span>7-10</span>名<span>100</span>元/名</p>
+								{volist name="rewardArray" id="v1"}
+								<P><span>{$v1}</span></P>
+								{/volist}
+
 							</div>
 						</div>
 						<div class="very">
@@ -82,16 +82,16 @@
 					<p class="cute">任务进行中</p>
 
 				</div>
-				<div class="comment">
-					<div>
-						<img src="/task/img/comment.png" />
-						<span>38</span>
-					</div>
-					<div style="text-align: right;">
-						<img src="/task/img/zan.png" class="add" task_id="1" index_img="1" />
-						<span class="yi">23</span>
-					</div>
-				</div>
+				<!--<div class="comment">-->
+					<!--<div>-->
+						<!--<img src="/task/img/comment.png" />-->
+						<!--<span>38</span>-->
+					<!--</div>-->
+					<!--<div style="text-align: right;">-->
+						<!--<img src="/task/img/zan.png" class="add" task_id="1" index_img="1" />-->
+						<!--<span class="yi">23</span>-->
+					<!--</div>-->
+				<!--</div>-->
 			</div>
 		</div>
 		<div class="dv2">
@@ -170,7 +170,13 @@
 						{/gt}
 					</span>
 				</p>
-				<p class="rate">继续打赏</p>
+				<p class="rate">
+					{gt name="my_tip_money" value="0"}
+					继续打赏
+					{else/}
+					打赏
+					{/gt}
+				</p>
 				<div class="particulars">
 					<ul>
 						<li>02.06&nbsp;17:20</li>
@@ -208,18 +214,22 @@
 			</div>
 		</div>
 		<div class="dv3">
-			<p class="title">评论<span>（10）</span></p>
+			<p class="title">评论<span>（{$task_info.comment_count}）</span></p>
 			<div class="up">
 				<!--<input type="text" placeholder="回复刘大宝" />-->
-				<textarea placeholder="回复刘大宝："></textarea>
+				<textarea placeholder="请输入评论" class="content"></textarea>
 				<div class="like">
 					<div class="left">
 						<img src="/task/img/face.png" />
 					</div>
 					<div class="right">
-						<p>评论</p>
-						<img src="/task/img/zan.png" class="add" index_img="1" />
-						<span class="yi">123</span>
+						<p data-id="{$task_info.id}" now-truename="{$truename}">评论</p>
+						{eq name="task_info.is_like" value="1"}
+						<img src="/task/img/praise.png" class="add" task_id="{$task_info.id}" index_img="2"/>
+						{else/}
+						<img src="/task/img/zan.png" class="add" task_id="{$task_info.id}" index_img="1"/>
+						{/eq}
+						<span class="yi">{$task_info.like_count}</span>
 					</div>
 				</div>
 			</div>
@@ -453,7 +463,7 @@
 			<a class="close-reveal-modal">&#215;</a>
 		</div>
 
-		<div class="reveal-modal reveal_seven pay_ui pay-pop">
+		<div class="reveal-modal reveal_eight pay_ui pay-pop">
 		</div>
 	</article>
 
