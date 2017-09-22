@@ -65,6 +65,7 @@ class Index extends Initialize{
         $my_tip_money = $TipModel->getMyTipMoney($uid,$id);
         $this->assign('all_tip_money',$all_tip_money);
         $this->assign('my_tip_money',$my_tip_money);
+        $this->assign('truename',$userinfo["truename"]);
         return view($view_name);
     }
     protected function _new_task_default(){

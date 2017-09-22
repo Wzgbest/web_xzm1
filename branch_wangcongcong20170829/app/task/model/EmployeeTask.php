@@ -57,13 +57,18 @@ class EmployeeTask extends Base{
      * @return array 任务信息
      */
     public function getTaskMoreInfo($uid,$task_id){
-        return $this->model->table($this->table)->alias('et')
-            ->join($this->dbprefix.'employee e','e.id = et.create_employee',"LEFT")
+//        return $this->model->table($this->table)->alias('et')
+//            ->join($this->dbprefix.'employee e','e.id = et.create_employee',"LEFT")
+//            ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
+//            ->where("et.id",$task_id)
+//            ->group("et.id")
+//            ->field("et.*,e.telephone,e.truename,e.userpic,case when etl.user_id>0 then 1 else 0 end as is_like")
+//            ->find();
+        $map['et.id']=$task_id;
+        $field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like';
+        return $this->model->table($this->viewTable)->alias('et')
             ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
-            ->where("et.id",$task_id)
-            ->group("et.id")
-            ->field("et.*,e.telephone,e.truename,e.userpic,case when etl.user_id>0 then 1 else 0 end as is_like")
-            ->find();
+            ->field($field)->where($map)->find();
     }
 
      /**

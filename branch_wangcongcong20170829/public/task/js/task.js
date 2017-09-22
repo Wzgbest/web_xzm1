@@ -295,20 +295,38 @@ $("article .dv4 .parcel .add").click(function(){
 })
 
 
-//评论
+//评论..评论
 $(".dv3 .up .right p").click(function(){
-    //alert(1)
-    var pinglun="";
-    var sk=$(".dv3 .up textarea").val();
-    //$(".speek").text(sk);
-    //alert(sk)
+    var that=$(this);
+    var content=that.parents('div.like').prev('.content').val();
+    var task_id=that.attr('data-id');
+    var comment_id=0;
+    var truename=that.attr('now-truename');
+    $.ajax({
+        url:'/task/task_comment/addTaskComment',
+        type: 'post',
+        data:{'task_id':task_id,'replay_content':content,'comment_id':comment_id },
+        success:function(data){
+            layer.msg(data.info,{icon:data.status==1?1:2});
+            if(data.status){
+                //评论成功
+                //alert(1)
+                var pinglun="";
+                // var sk=$(".dv3 .up textarea").val();
+                //$(".speek").text(sk);
+                //alert(sk)
 
-    pinglun+="<div class='one'><img src='/task/img/man.png'/><div>";
-    pinglun+="<p><span class='name'>刘美娜</span><span>:</span><span class='speek'>";
-    pinglun+=sk;
-    pinglun+="</span></p>";
-    pinglun+="<p class='reply'><span>2分钟前</span></p></div></div>";
-    $(".dv3 .down .review").prepend(pinglun);
+                pinglun+="<div class='one'><img src='/task/img/man.png'/><div>";
+                pinglun+="<p><span class='name'>"+truename+"</span><span>:</span><span class='speek'>";
+                pinglun+=content;
+                pinglun+="</span></p>";
+                pinglun+="<p class='reply'><span>刚刚</span></p></div></div>";
+                $(".dv3 .down .review").prepend(pinglun);
+            }
+
+        }
+    });
+
 
 })
 

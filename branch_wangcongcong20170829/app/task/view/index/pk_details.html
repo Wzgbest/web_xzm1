@@ -19,7 +19,7 @@
 			<div class="left">
 				<img src="/task/img/task.png" class="img1" />
 				<p>发布人</p>
-				<div class="name">{$task_info["truename"]}
+				<div class="name">{$task_info.truename}
 					<div class="roll">
 						<img src="/task/img/phone.png" />
 						<img src="/task/img/note.png" />
@@ -29,38 +29,40 @@
 				<p>预计奖金</p>
 			</div>
 			<div class="center">
-				<p class="theme">{$task_info["task_name"]}</p>
+				<p class="theme">{$task_info.task_name}</p>
 				<div>
 					<div class="details">
 						<div class="len">
 							<p class="small">统计周期</p>
-							<p class="big">{$task_info["task_start_time"]|day_format='Y.m.d'}-{$task_info["task_end_time"]|day_format='Y.m.d'}</p>
+							<p class="big">{$task_info.task_start_time|date="Y.m.d",###}-{$task_info.task_end_time|date="Y.m.d",###}</p>
 						</div>
 						<div>
 							<p class="small">PK项目</p>
-							<p class="big">通话数</p>
+							<p class="big">通话数{$task_info.target_type|get_target_type_name}</p>
 						</div>
 						<div class="very">
 							<p class="small">鉴定人</p>
-							<p class="very big">张涛、李志</p>
+							<p class="very big">{$task_info.appraiser_truename}</p>
 						</div>
 					</div>
 					<div class="details">
 						<div class="len">
 							<p class="small">任务领取截止时间</p>
-							<p class="big">{$task_info["task_take_start_time"]|day_format='Y.m.d'}/{$task_info["task_take_end_time"]|day_format='Y.m.d'}</p>
+							<p class="big">{$task_info.task_take_end_time|date="Y.m.d/H:m:s",###}</p>
 						</div>
 						<div>
 							<p class="small">PK金额</p>
-							<p class="big">100元</p>
+							<p class="big">
+								{eq name="task_info.reward_type" value="2"}{$task_info.reward_amount}{/eq}
+								{eq name="task_info.reward_type" value="1"}{$task_info.reward_amount/$task_info.partin_count|floor}{/eq}
+								元
+							</p>
 						</div>
 						<div class="very flo">
 							<p class="small">面向群体</p>
-							<p class="big">张三、李四等（共10人，已参与2人）</p>
+							<p class="big"><?php $array=explode(',',$task_info['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共<?php echo count($array) ?>人，已参与{$task_info.partin_count}人）</p>
 							<div class="flotage">
-								<span>张三</span>
-								<span>李四</span>
-								<span>王五</span>
+								{notempty name="array"}{volist name="array" id="v"}<span>{$v}</span>{/volist}{/notempty}
 							</div>
 						</div>
 					</div>
@@ -72,16 +74,16 @@
 
 					<p class="p2 guess">猜输赢</p>
 				</div>
-				<div class="comment">
-					<div>
-						<img src="/task/img/comment.png" />
-						<span>38</span>
-					</div>
-					<div style="text-align: right;">
-						<img src="/task/img/zan.png" class="add" index_img="1" />
-						<span class="yi">23</span>
-					</div>
-				</div>
+				<!--<div class="comment">-->
+					<!--<div>-->
+						<!--<img src="/task/img/comment.png" />-->
+						<!--<span>38</span>-->
+					<!--</div>-->
+					<!--<div style="text-align: right;">-->
+						<!--<img src="/task/img/zan.png" class="add" index_img="1" />-->
+						<!--<span class="yi">23</span>-->
+					<!--</div>-->
+				<!--</div>-->
 			</div>
 		</div>
 		<div class="dv2">
@@ -195,18 +197,22 @@
 			</div>
 		</div>
 		<div class="dv3">
-			<p class="title">评论<span>（10）</span></p>
+			<p class="title">评论<span>（{$task_info.comment_count}）</span></p>
 			<div class="up">
 				<!--<input type="text" placeholder="回复刘大宝" />-->
-				<textarea placeholder="回复刘大宝："></textarea>
+				<textarea placeholder="请输入评论" class="content"></textarea>
 				<div class="like">
 					<div class="left">
 						<img src="/task/img/face.png" />
 					</div>
 					<div class="right">
-						<p>评论</p>
-						<img src="/task/img/zan.png" class="add" index_img="1" />
-						<span class="yi">123</span>
+						<p data-id="{$task_info.id}" now-truename="{$truename}">评论</p>
+						{eq name="task_info.is_like" value="1"}
+						<img src="/task/img/praise.png" class="add" task_id="{$task_info.id}" index_img="2"/>
+						{else/}
+						<img src="/task/img/zan.png" class="add" task_id="{$task_info.id}" index_img="1"/>
+						{/eq}
+						<span class="yi">{$task_info.like_count}</span>
 					</div>
 				</div>
 			</div>
