@@ -145,58 +145,40 @@ $(".dv1 .right .give .task").click(function() {
 $(".task").on('click','.get_reward',function(){
     var that=$(this);
     var type=that.attr('task-type');
+    var money=that.attr('task-money');
     var task_id=that.attr('data-id');
-    // if(type==2)
-    // {
-    //    //需要弹出支付页面
-    //     $.get("/task/employee_task/pk_pay",{task_type:type,task_id:task_id},function(str) {
-    //         console.log(str);
-    //         var index = layer.open({
-    //             type: 1,
-    //             area: ['500px', '400px'],
-    //             title: "支付",
-    //             scrollbar: false,
-    //             skin: "layui-layer-auto",
-    //             content: str,
-    //             btn: ['确认', '取消'],
-    //             yes: function() {
-    //                 layer.close(index);
-    //             },
-    //             btn2: function() {
-    //                 layer.close(index);
-    //             },
-    //             cancel: function() {
-    //                 layer.close(index);
-    //             }
-    //         });
-    //     });
-    // }
-    //提交领取任务接口
-    $.ajax({
-        url: '/task/index/take',
-        type: 'post',
-        data: {'task_id':task_id},
-        success: function(data) {
-            layer.msg(data.info,{icon:data.status==1?1:2});
-            if(data.status)
-            {
-                //领取成功
-                that.addClass("get_succeed").removeClass("p2").text("已领取");
+    if(type==2)
+    {
+        //需要弹出支付页面
+        var pop = new popLoad("#hot_task_fr .pay-pop","/task/employee_task/pk_pay/money/"+money);
+        return;
+    }
+    else
+    {
+        //提交领取任务接口
+        $.ajax({
+            url: '/task/index/take',
+            type: 'post',
+            data: {'task_id':task_id},
+            success: function(data) {
+                layer.msg(data.info,{icon:data.status==1?1:2});
+                if(data.status)
+                {
+                    //领取成功
+                    that.addClass("get_succeed").removeClass("p2").text("已领取");
+                }
+            },
+            error: function() {
+                layer.msg('申请时发生错误!',{icon:2});
             }
-        },
-        error: function() {
-            layer.msg('申请时发生错误!',{icon:2});
-        }
-    });
-
-
+        });
+    }
 });
 
 //点赞
 $(".task").on('click','img.add',function(){
     var self = this;
     var qw = $(this).attr('index_img');
-    console.log(qw);
     var task_id = $(this).attr('task_id');
     var p = parseInt($(this).siblings().text());
     var i = parseInt(qw);
@@ -460,7 +442,7 @@ function task_details(load_table,id,type){
     var self = this;
     var task_details_sel = "#"+self.load_table+" .task_details";
 
-    if(self.type!=3){
+    this.update_ranking=function(){
         $.ajax({
             url: '/task/index/get_ranking_page/id/'+self.id,
             type: 'get',
@@ -473,43 +455,40 @@ function task_details(load_table,id,type){
                 layer.msg('加载排行榜出现错误',{icon:2});
             }
         });
+    };
+    this.update_tip=function(){
+        $.ajax({
+            url: '/task/task_tip/show/id/'+self.id,
+            type: 'get',
+            success: function(data) {
+                //console.log(data);
+                //console.log($(task_details_sel+" .right .particulars"));
+                $(task_details_sel+" .right .particulars").html(data);
+            },
+            error: function() {
+                layer.msg('加载打赏出现错误',{icon:2});
+            }
+        });
+    };
+    this.update_commont=function(){
+        $.ajax({
+            url: '/task/task_comment/show/id/'+self.id,
+            type: 'get',
+            success: function(data) {
+                //console.log(data);
+                //console.log($(task_details_sel+" .down .review"));
+                $(task_details_sel+" .down .review").html(data);
+            },
+            error: function() {
+                layer.msg('加载评论出现错误',{icon:2});
+            }
+        });
+    };
+    if(self.type!=3){
+        self.update_ranking();
     }
-    $.ajax({
-        url: '/task/index/get_ranking_page/id/'+self.id,
-        type: 'get',
-        success: function(data) {
-            //console.log(data);
-            //console.log($(task_details_sel+" .left .box"));
-            $(task_details_sel+" .left .box").html(data);
-        },
-        error: function() {
-            layer.msg('加载排行榜出现错误',{icon:2});
-        }
-    });
-    $.ajax({
-        url: '/task/task_tip/show/id/'+self.id,
-        type: 'get',
-        success: function(data) {
-            //console.log(data);
-            //console.log($(task_details_sel+" .right .particulars"));
-            $(task_details_sel+" .right .particulars").html(data);
-        },
-        error: function() {
-            layer.msg('加载打赏出现错误',{icon:2});
-        }
-    });
-    $.ajax({
-        url: '/task/task_comment/show/id/'+self.id,
-        type: 'get',
-        success: function(data) {
-            //console.log(data);
-            //console.log($(task_details_sel+" .down .review"));
-            $(task_details_sel+" .down .review").html(data);
-        },
-        error: function() {
-            layer.msg('加载评论出现错误',{icon:2});
-        }
-    });
+    self.update_tip();
+    self.update_commont();
 
     $(task_details_sel+" .right .give .guess").click(function() {
         console.log("guess");
@@ -533,6 +512,45 @@ function task_details(load_table,id,type){
     });
     $(task_details_sel+" .tip_ui .decide .tip_go").click(function() {
         console.log("tip_go");
+        var tip_money = $(task_details_sel+" .tip_ui .tip_money").val();
+        console.log("tip_money",tip_money);
+        $.ajax({
+            url: '/task/index/pay_details/money/'+tip_money,
+            type: 'get',
+            success: function(data) {
+                //console.log(data);
+                //console.log($(task_details_sel+" .tip_ui .mid"));
+                $(task_details_sel+" .pay_ui").html(data);
+                $(task_details_sel+" .pay_ui").reveal("{data-animation:'fade'}");
+                $(task_details_sel+" .tip_ui").trigger('reveal:close');
+                $(task_details_sel+" .pay_ui .pop-submit-btn").click(function() {
+                    console.log("tip_submit");
+                    var paypassword = $(task_details_sel+" .pay_ui .pay_password").val();
+                    $.ajax({
+                        url: '/task/task_tip/tip/task_id/'+self.id+'/money/'+tip_money+'/paypassword/'+paypassword,
+                        type: 'get',
+                        success: function(data) {
+                            //console.log(data);
+                            layer.msg(data.info,{icon:data.status==1?1:2});
+                            if(data.status==1){
+                                $(task_details_sel+" .pay_ui").trigger('reveal:close');
+                                self.update_tip();
+                            }
+                        },
+                        error: function() {
+                            layer.msg('打赏支付出现错误',{icon:2});
+                        }
+                    });
+                });
+                $(task_details_sel+" .pay_ui .pop-close-btn").click(function() {
+                    console.log("tip_cancel");
+                    $(task_details_sel+" .pay_ui").trigger('reveal:close');
+                });
+            },
+            error: function() {
+                layer.msg('加载打赏支付出现错误',{icon:2});
+            }
+        });
     });
     $(task_details_sel+" .tip_ui .decide .tip_cancel").click(function() {
         console.log("tip_cancel");

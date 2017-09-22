@@ -39,6 +39,7 @@ class Index extends Initialize{
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
         //$time = time();
+        $this->assign('user_money',$userinfo["userinfo"]['left_money']/100);
         $this->assign("id",$id);
         $this->assign("fr",input('fr','','string'));
         $employeeTaskM = new EmployeeTaskModel($this->corp_id);
@@ -86,6 +87,17 @@ class Index extends Initialize{
         return view();
     }
     public function pay(){
+        $money = input('money',0,'int');
+        if (!$money) {
+            $this->error("输入的金额有误!");
+        }
+        $this->assign("fr",input('fr','','string'));
+        $userinfo = get_userinfo();
+        $this->assign('user_money',$userinfo["userinfo"]['left_money']/100);
+        $this->assign('money',$money);
+        return view();
+    }
+    public function pay_details(){
         $money = input('money',0,'int');
         if (!$money) {
             $this->error("输入的金额有误!");
