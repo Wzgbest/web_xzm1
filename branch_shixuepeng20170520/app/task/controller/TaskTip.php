@@ -24,6 +24,20 @@ class TaskTip extends Initialize{
         parent::__construct();
         $this->paginate_list_rows = config("paginate.list_rows");
     }
+    public function show_tip_ui(){
+        $id = input('id',0,'int');
+        if(!$id){
+            $this->error("参数错误");
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $TipModel = new TaskTipModel($this->corp_id);
+        $all_tip_money = $TipModel->getAllTipMoneyById($id);
+        $my_tip_money = $TipModel->getMyTipMoney($uid,$id);
+        $this->assign('all_tip_money',$all_tip_money);
+        $this->assign('my_tip_money',$my_tip_money);
+        return view();
+    }
     public function show(){
         $id = input('id',0,'int');
         if(!$id){
