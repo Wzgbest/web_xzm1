@@ -142,11 +142,55 @@ $(".dv1 .right .give .task").click(function() {
     $(this).remove()
     $(".give").append("<p class='cute'>任务进行中</p>");
 })
-$(".dv1 .right .give .get_reward").click(function() {
+$(".task").on('click','.get_reward',function(){
+    var that=$(this);
+    var type=that.attr('task-type');
+    var task_id=that.attr('data-id');
+    // if(type==2)
+    // {
+    //    //需要弹出支付页面
+    //     $.get("/task/employee_task/pk_pay",{task_type:type,task_id:task_id},function(str) {
+    //         console.log(str);
+    //         var index = layer.open({
+    //             type: 1,
+    //             area: ['500px', '400px'],
+    //             title: "支付",
+    //             scrollbar: false,
+    //             skin: "layui-layer-auto",
+    //             content: str,
+    //             btn: ['确认', '取消'],
+    //             yes: function() {
+    //                 layer.close(index);
+    //             },
+    //             btn2: function() {
+    //                 layer.close(index);
+    //             },
+    //             cancel: function() {
+    //                 layer.close(index);
+    //             }
+    //         });
+    //     });
+    // }
+    //提交领取任务接口
+    $.ajax({
+        url: '/task/index/take',
+        type: 'post',
+        data: {'task_id':task_id},
+        success: function(data) {
+            layer.msg(data.info,{icon:data.status==1?1:2});
+            if(data.status)
+            {
+                //领取成功
+                that.addClass("get_succeed").removeClass("p2").text("已领取");
+            }
+        },
+        error: function() {
+            layer.msg('申请时发生错误!',{icon:2});
+        }
+    });
 
-    $(this).addClass("get_succeed").removeClass("p2").text("领取成功");
 
-})
+});
 
 //点赞
 $(".task").on('click','img.add',function(){
@@ -226,7 +270,6 @@ function task_like(id,like,fun){
         data: post_data,
         dataType:"json",
         success: function(data) {
-            console.log(data);
             if(data.success == 1) {
                 fun(data);
             }else{
