@@ -1,6 +1,5 @@
 <link rel="stylesheet" href="/task/css/task.css" />
 <link rel="stylesheet" href="/task/css/hsCheckData.css" />
-<script src="/task/js/adddate.js"></script>
 <div class="task">
 	<header>
 		<div id="top">
@@ -233,9 +232,9 @@
 						<div class="normal">
 							<img src="/task/img/star.png" />
 							<span>统计周期</span>
-							<input type="datetime-local" name="task_start_time" value="{$now_time}" style="line-height: 35px;" />
+							<input type="text" value="" maxlength="100" name="task_start_time" value="{$now_time}" onclick="SelectDate(this,'yyyy-MM-dd hh:mm:ss')" placeholder="请填写日期" />
 							<span class="set">到</span>
-							<input type="datetime-local" name="task_end_time" value="{$now_time}" style="line-height: 35px;" />
+							<input type="text" value="" maxlength="100" name="task_end_time" value="{$now_time}" onclick="SelectDate(this,'yyyy-MM-dd hh:mm:ss')" placeholder="请填写日期" />
 						</div>
 					</div>
 					<div class="last">
@@ -252,13 +251,14 @@
 		</article>
 	</form>
 
-	<div class="pay-pop popUp hide">
+	<div class="reveal-modal reveal_eight pay_ui">
 	</div>
 
-	<script type="text/javascript" src="/task/js/task.js"></script>
 	<script src="/static/js/PopUp.js"></script>
+	<script type="text/javascript" src="/task/js/task.js"></script>
 	<script src="/task/index/employee_data"></script>
 	<script src="/task/js/hsCheckData.js"></script>
+	<script src="/task/js/adddate.js"></script>
 	<script>
 		$('#cityDanXuan').hsCheckData({
 			isShowCheckBox: false, //默认为false

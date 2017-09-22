@@ -70,7 +70,7 @@
 			</div>
 			<div class="right">
 				<div class="give">
-					<p class="p2 task">领任务</p>
+					<p class="p2 task" task-money="{$reward_amount}">领任务</p>
 
 					<p class="p2 guess">猜输赢</p>
 				</div>
@@ -159,7 +159,13 @@
 						{/gt}
 					</span>
 				</p>
-				<span class="rate">继续打赏</span>
+				<span class="rate">
+					{gt name="my_tip_money" value="0"}
+						继续打赏
+					{else/}
+						打赏
+					{/gt}
+				</span>
 				<div class="particulars">
 					<ul>
 						<li>02.06&nbsp;17:20</li>
@@ -388,64 +394,9 @@
 		</div>
 
 		<div class="reveal-modal reveal_seven tip_ui">
-
-			<p class="p1">打赏</p>
-			<div class="money">
-				<span>￥</span>
-				<input type="text" class="tip_money" placeholder="00.00" />
-			</div>
-
-			<p class="bar">总共打赏<span class="orange">{$all_tip_money}</span>元
-				{gt name="my_tip_money" value="0"}
-					（你已打赏<span class="orange">{$my_tip_money}</span>元）
-				{else/}
-					（你还未进行打赏）
-				{/gt}
-			</p>
-
-			<div class="mid">
-				<ul>
-					<li>02.12&nbsp;&nbsp;09:08</li>
-					<li>王梦瑶</li>
-					<li>打赏<span>5</span>元</li>
-				</ul>
-				<ul>
-					<li>02.12&nbsp;&nbsp;09:08</li>
-					<li>王梦瑶</li>
-					<li>打赏<span>5</span>元</li>
-				</ul>
-				<ul>
-					<li>02.12&nbsp;&nbsp;09:08</li>
-					<li class="orange">你</li>
-					<li class="orange">打赏<span>10</span>元</li>
-				</ul>
-				<ul>
-					<li>02.12&nbsp;&nbsp;09:08</li>
-					<li>王梦瑶</li>
-					<li>打赏<span>5</span>元</li>
-				</ul>
-				<ul>
-					<li>02.12&nbsp;&nbsp;09:08</li>
-					<li>王梦瑶</li>
-					<li>打赏<span>5</span>元</li>
-				</ul>
-				<ul>
-					<li>02.12&nbsp;&nbsp;09:08</li>
-					<li class="orange">你</li>
-					<li class="orange">打赏<span>10</span>元</li>
-				</ul>
-
-			</div>
-			<div class="import">
-				<div class="decide">
-					<p class="tip_go">继续打赏</p>
-					<p class="tip_cancel">取消</p>
-				</div>
-			</div>
-			<a class="close-reveal-modal">&#215;</a>
 		</div>
 
-		<div class="reveal-modal reveal_seven pay_ui pay-pop">
+		<div class="reveal-modal reveal_eight pay_ui pay-pop">
 		</div>
 	</article>
 

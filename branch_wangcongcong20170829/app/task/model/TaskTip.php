@@ -118,7 +118,7 @@ class TaskTip extends Base{
         $allTipMoney = $this->model->table($this->table)->alias('ett')
             ->where($map)
             ->order($order)
-            ->group("ett.id")
+            ->group("ett.task_id")
             ->sum("ett.tip_money");
         return $allTipMoney;
     }

@@ -66,6 +66,10 @@ class Index extends Initialize{
         $this->assign('all_tip_money',$all_tip_money);
         $this->assign('my_tip_money',$my_tip_money);
         $this->assign('truename',$userinfo["truename"]);
+        $taskRewardM = new TaskRewardModel($this->corp_id);
+        $taskReward = $taskRewardM->findTaskRewardByTaskId($id);
+        $reward_amount = $taskReward["reward_amount"];
+        $this->assign('reward_amount',$reward_amount);
         return view($view_name);
     }
     protected function _new_task_default(){
@@ -88,24 +92,17 @@ class Index extends Initialize{
         return view();
     }
     public function pay(){
+        $type = input('type',0,'int');
         $money = input('money',0,'int');
-        if (!$money) {
-            $this->error("输入的金额有误!");
+        if ($type==0) {
+            if (!$money) {
+                $this->error("输入的金额有误!");
+            }
         }
         $this->assign("fr",input('fr','','string'));
         $userinfo = get_userinfo();
         $this->assign('user_money',$userinfo["userinfo"]['left_money']/100);
-        $this->assign('money',$money);
-        return view();
-    }
-    public function pay_details(){
-        $money = input('money',0,'int');
-        if (!$money) {
-            $this->error("输入的金额有误!");
-        }
-        $this->assign("fr",input('fr','','string'));
-        $userinfo = get_userinfo();
-        $this->assign('user_money',$userinfo["userinfo"]['left_money']/100);
+        $this->assign('type',$type);
         $this->assign('money',$money);
         return view();
     }
