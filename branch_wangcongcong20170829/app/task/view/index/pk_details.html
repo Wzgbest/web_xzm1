@@ -1,0 +1,430 @@
+<link rel="stylesheet" href="/task/css/task.css" />
+
+<div class="task task_details">
+	<header>
+		<div id="top">
+			<ul class="firNav">
+				<li class="current">
+					<div>间接参与（<span>7</span>）</div>
+				</li>
+				<i class="fa fa-angle-right fa-2x"></i>
+				<span class="span-info">PK任务详情</span>
+			</ul>
+		</div>
+		
+	</header>
+
+	<article>
+		<div class="dv1">
+			<div class="left">
+				<img src="/task/img/task.png" class="img1" />
+				<p>发布人</p>
+				<div class="name">{$task_info["truename"]}
+					<div class="roll">
+						<img src="/task/img/phone.png" />
+						<img src="/task/img/note.png" />
+					</div>
+				</div>
+				<p>￥100</p>
+				<p>预计奖金</p>
+			</div>
+			<div class="center">
+				<p class="theme">{$task_info["task_name"]}</p>
+				<div>
+					<div class="details">
+						<div class="len">
+							<p class="small">统计周期</p>
+							<p class="big">{$task_info["task_start_time"]|time_format}-{$task_info["task_end_time"]|time_format}</p>
+						</div>
+						<div>
+							<p class="small">PK项目</p>
+							<p class="big">通话数</p>
+						</div>
+						<div class="very">
+							<p class="small">鉴定人</p>
+							<p class="very big">张涛、李志</p>
+						</div>
+					</div>
+					<div class="details">
+						<div class="len">
+							<p class="small">任务领取截止时间</p>
+							<p class="big">{$task_info["task_take_start_time"]|time_format}/{$task_info["task_take_end_time"]|time_format}</p>
+						</div>
+						<div>
+							<p class="small">PK金额</p>
+							<p class="big">100元</p>
+						</div>
+						<div class="very flo">
+							<p class="small">面向群体</p>
+							<p class="big">张三、李四等（共10人，已参与2人）</p>
+							<div class="flotage">
+								<span>张三</span>
+								<span>李四</span>
+								<span>王五</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="right">
+				<div class="give">
+					<p class="p2 task">领任务</p>
+
+					<p class="p2 guess">猜输赢</p>
+				</div>
+				<div class="comment">
+					<div>
+						<img src="/task/img/comment.png" />
+						<span>38</span>
+					</div>
+					<div style="text-align: right;">
+						<img src="/task/img/zan.png" class="add" index_img="1" />
+						<span class="yi">23</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="dv2">
+			<div class="left">
+				<div>
+					<p class="title">PK排行榜</p>
+					<ul class="list_head">
+						<li>名次</li>
+						<li>姓名</li>
+						<li>部门</li>
+						<li>通话次数</li>
+						<li>猜输赢支持</li>
+					</ul>
+					<div class="box">
+						<ul class="backdrop">
+							<li>1</li>
+							<li>张亮</li>
+							<li>销售一部</li>
+							<li><span>67</span>次</li>
+							<li><span>7</span>人支持<span>100</span>元</li>
+						</ul>
+						<ul>
+							<li>2</li>
+							<li>张三</li>
+							<li>销售一部</li>
+							<li><span>34</span>次</li>
+							<li><span>8</span>人支持<span>90</span>元</li>
+						</ul>
+						<ul>
+							<li>3</li>
+							<li>张三</li>
+							<li>销售一部</li>
+							<li><span>20</span>次</li>
+							<li><span>5</span>人支持<span>80</span>元</li>
+						</ul>
+						<ul>
+							<li>4</li>
+							<li>张三</li>
+							<li>销售一部</li>
+							<li><span>34</span>次</li>
+							<li><span>8</span>人支持<span>90</span>元</li>
+						</ul>
+						<ul>
+							<li>5</li>
+							<li>张三</li>
+							<li>销售一部</li>
+							<li><span>40</span>次</li>
+							<li><span>6</span>人支持<span>100</span>元</li>
+						</ul>
+						<ul>
+							<li>6</li>
+							<li>张三</li>
+							<li>销售一部</li>
+							<li><span>39</span>次</li>
+							<li><span>8</span>人支持<span>90</span>元</li>
+						</ul>
+					</div>
+					<p class="addition"><span class="red">已参与猜输赢</span>：你的任务已有<span class="orange">5</span>人支持，不要辜负他们的期望哦！</p>
+				</div>
+			</div>
+			<div class="right">
+				<div class="hezi">
+					<p class="title">打赏详情</p>
+
+				</div>
+				<p class="explain">任务已得到奖金<span class="orange">200</span>元<span class="gray">（你已打赏50元）</span></p>
+				<span class="rate">继续打赏</span>
+				<div class="particulars">
+					<ul>
+						<li>02.06&nbsp;17:20</li>
+						<li class="orange">你</li>
+						<li>打赏<span>10</span>元</li>
+					</ul>
+					<ul>
+						<li>02.06&nbsp;17:20</li>
+						<li>王梦瑶</li>
+						<li>打赏<span>5</span>元</li>
+					</ul>
+					<ul>
+						<li>02.06&nbsp;17:20</li>
+						<li class="orange">你</li>
+						<li>打赏<span>40</span>元</li>
+					</ul>
+					<ul>
+						<li>02.06&nbsp;17:20</li>
+						<li>王梦瑶</li>
+						<li>打赏<span>5</span>元</li>
+					</ul>
+
+					<ul>
+						<li>02.06&nbsp;17:20</li>
+						<li>王梦瑶</li>
+						<li>打赏<span>5</span>元</li>
+					</ul>
+					<ul>
+						<li>02.06&nbsp;17:20</li>
+						<li>王梦瑶</li>
+						<li>打赏<span>5</span>元</li>
+					</ul>
+
+				</div>
+			</div>
+		</div>
+		<div class="dv3">
+			<p class="title">评论<span>（10）</span></p>
+			<div class="up">
+				<!--<input type="text" placeholder="回复刘大宝" />-->
+				<textarea placeholder="回复刘大宝："></textarea>
+				<div class="like">
+					<div class="left">
+						<img src="/task/img/face.png" />
+					</div>
+					<div class="right">
+						<p>评论</p>
+						<img src="/task/img/zan.png" class="add" index_img="1" />
+						<span class="yi">123</span>
+					</div>
+				</div>
+			</div>
+			<div class="down">
+				
+
+				<div class="review">
+
+					<div class="one">
+						<img src="/task/img/man.png" />
+						<div>
+							<p>
+								<span class="name">刘美娜</span>
+								<span>:</span>
+								<span>我要第一了，你们要加油啊</span>
+							</p>
+							<p class="reply">
+								<span>2分钟前</span>
+
+							</p>
+						</div>
+					</div>
+					<div class="one">
+						<img src="/task/img/head_portrait.png" />
+						<div>
+							<p>
+								<span class="name">张萌</span>
+								<span>:</span>
+								<span>我要赢!我要赢!我要赢!我要赢!我要赢!我要赢!</span>
+							</p>
+							<p class="reply">
+								<span>12月23日&nbsp;21:31</span>
+							</p>
+						</div>
+					</div>
+					<div class="one">
+						<img src="/task/img/man.png" />
+						<div>
+							<p>
+								<span class="name">张萌</span>
+								<span>:</span>
+								<span>希望以后多多分享！非常棒的分享！</span>
+							</p>
+							<p class="reply">
+								<span>12月23日&nbsp;21:31</span>
+							</p>
+						</div>
+					</div>
+
+					<div class="one">
+						<img src="/task/img/head_portrait2.png" />
+						<div>
+							<p>
+								<span class="name">朱晓晓</span>
+								<span>:</span>
+								<span>喜欢你的分享</span>
+							</p>
+							<p class="reply">
+								<span>12月23日</span>
+								<span>21:31</span>
+							</p>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+			
+		</div>
+
+		<div class="reveal-modal reveal_six guess_ui">
+			<p class="p1">猜输赢</p>
+			<ul class="number1">
+				<li>姓名</li>
+				<li>部门</li>
+				<li></li>
+
+			</ul>
+			<div class="list">
+
+				<ul class="number2">
+					<li>李晓芬</li>
+					<li>销售一部</li>
+					<li>
+						<span class="fill">下注</span>
+					</li>
+
+				</ul>
+				<ul class="number2">
+					<li>秦昊</li>
+					<li>销售五部</li>
+					<li>
+						<span class="fill">下注</span>
+					</li>
+				</ul>
+				<ul class="number2">
+					<li>李晓芬</li>
+					<li>销售一部</li>
+					<li>
+						<span class="fill">下注</span>
+					</li>
+
+				</ul>
+				<ul class="number2">
+					<li>秦昊</li>
+					<li>销售五部</li>
+					<li>
+						<span class="fill">下注</span>
+					</li>
+				</ul>
+				<ul class="number2">
+					<li>秦昊</li>
+					<li>销售五部</li>
+					<li>
+						<span class="fill">下注</span>
+					</li>
+				</ul>
+				<ul class="number2">
+					<li>秦昊</li>
+					<li>销售五部</li>
+					<li>
+						<span class="fill">下注</span>
+					</li>
+				</ul>
+				<ul class="number2">
+					<li>秦昊</li>
+					<li>销售五部</li>
+					<li>
+						<span class="fill">下注</span>
+					</li>
+				</ul>
+			</div>
+			<p class="compare">最近下注（当前下注池为<span class="orange">2233</span>元）</p>
+			<ul class="list_head">
+				<li>姓名</li>
+				<li>部门</li>
+				<li>猜输赢支持</li>
+			</ul>
+			<div class="box">
+
+				<ul>
+					<li>张亮</li>
+					<li>销售一部</li>
+					<li><span>7</span>人支持<span>100</span>元</li>
+				</ul>
+				<ul>
+					<li>张三</li>
+					<li>销售一部</li>
+					<li><span>8</span>人支持<span>90</span>元</li>
+				</ul>
+				<ul>
+					<li>张三</li>
+					<li>销售一部</li>
+					<li><span>5</span>人支持<span>80</span>元</li>
+				</ul>
+				<ul>
+					<li>张三</li>
+					<li>销售一部</li>
+					<li><span>8</span>人支持<span>90</span>元</li>
+				</ul>
+				<ul>
+					<li>张三</li>
+					<li>销售一部</li>
+					<li><span>6</span>人支持<span>100</span>元</li>
+				</ul>
+				<ul>
+					<li>张三</li>
+					<li>销售一部</li>
+					<li><span>8</span>人支持<span>90</span>元</li>
+				</ul>
+				<a class="close-reveal-modal">&#215;</a>
+			</div>
+		</div>
+
+		<div class="reveal-modal reveal_seven tip_ui">
+
+			<p class="p1">打赏</p>
+			<div class="money">
+				<span>￥</span>
+				<input type="text" class="tip_money" placeholder="00.00" />
+			</div>
+			<p class="bar">总共打赏<span class="orange">200</span>元（你已打赏<span class="orange">50</span>元）</p>
+
+			<div class="mid">
+				<ul>
+					<li>02.12&nbsp;&nbsp;09:08</li>
+					<li>王梦瑶</li>
+					<li>打赏<span>5</span>元</li>
+				</ul>
+				<ul>
+					<li>02.12&nbsp;&nbsp;09:08</li>
+					<li>王梦瑶</li>
+					<li>打赏<span>5</span>元</li>
+				</ul>
+				<ul>
+					<li>02.12&nbsp;&nbsp;09:08</li>
+					<li class="orange">你</li>
+					<li class="orange">打赏<span>10</span>元</li>
+				</ul>
+				<ul>
+					<li>02.12&nbsp;&nbsp;09:08</li>
+					<li>王梦瑶</li>
+					<li>打赏<span>5</span>元</li>
+				</ul>
+				<ul>
+					<li>02.12&nbsp;&nbsp;09:08</li>
+					<li>王梦瑶</li>
+					<li>打赏<span>5</span>元</li>
+				</ul>
+				<ul>
+					<li>02.12&nbsp;&nbsp;09:08</li>
+					<li class="orange">你</li>
+					<li class="orange">打赏<span>10</span>元</li>
+				</ul>
+
+			</div>
+			<div class="import">
+				<div class="decide">
+					<p class="tip_go">继续打赏</p>
+					<p class="tip_cancel">取消</p>
+				</div>
+			</div>
+			<a class="close-reveal-modal">&#215;</a>
+		</div>
+	</article>
+
+	<script type="text/javascript" src="/task/js/task.js"></script>
+	<script type="text/javascript">
+		new task_details("{$fr}","{$id}","{$task_type}");
+	</script>

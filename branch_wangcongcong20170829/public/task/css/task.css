@@ -1398,6 +1398,8 @@ article .dv3 .down .review .one img{
 	margin-right: 12px;
 	vertical-align: middle;
 	float: left;
+	width:35px;
+	height:35px;
 }
 article .dv3 .down .review .one div{
 	width: 100%
