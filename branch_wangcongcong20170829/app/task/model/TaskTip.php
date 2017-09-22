@@ -73,7 +73,7 @@ class TaskTip extends Base{
         return $flg;
     }
 
-    public function getMyTipMoney($user_id,$task_id){
+    public function getMyTipMoney($user_id,$task_id=0){
         if($task_id){
             $map["ett.task_id"] = $task_id;
         }
@@ -82,13 +82,7 @@ class TaskTip extends Base{
         $myTipMoney = $this->model->table($this->table)->alias('ett')
             ->group("ett.tip_employee")
             ->where($map)
-            ->field("sum(ett.tip_money) money")
-            ->find();
-        if($myTipMoney&&isset($myTipMoney["tip_money"])){
-            $myTipMoney = $myTipMoney["tip_money"];
-        }else{
-            $myTipMoney = 0;
-        }
+            ->sum("ett.tip_money");
         return $myTipMoney;
     }
 
