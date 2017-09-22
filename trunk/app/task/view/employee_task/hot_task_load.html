@@ -68,7 +68,7 @@
         <div class="within">
             <div class="stimulate">
                 {if condition="in_array($uid,explode(',',$vo['public_to_take'])) && !in_array($uid,explode(',',$vo['take_employees'])) && $now_time < $vo['task_take_end_time'] "}
-                <p class="p2 get_reward" data-id="{$vo.id}" task-type="{$vo.task_type}">领任务</p>
+                <p class="p2 get_reward" data-id="{$vo.id}" task-type="{$vo.task_type}" task-money="{$vo.reward_amount}">领任务</p>
                 {elseif condition="in_array($uid,explode(',',$vo['take_employees']))" /}
                 <p>已领取</p>
                 {else /}
@@ -156,7 +156,7 @@
         <div class="within">
             <div class="active">
                 {if condition="in_array($uid,explode(',',$vo['public_to_take'])) && !in_array($uid,explode(',',$vo['take_employees'])) && $now_time < $vo['task_take_end_time'] "}
-                <p class="p2 get_reward">领任务</p>
+                <p class="p2 get_reward" data-id="{$vo.id}" task-type="{$vo.task_type}" task-money="{$vo.reward_amount}">领任务</p>
                 {elseif condition="in_array($uid,explode(',',$vo['take_employees']))" /}
                 <p>已领取</p>
                 {else /}
@@ -235,7 +235,7 @@
         <div class="within">
             <div class="give">
                 {if condition="in_array($uid,explode(',',$vo['public_to_take'])) && !in_array($uid,explode(',',$vo['take_employees'])) && $now_time < $vo['task_take_end_time'] "}
-                <p class="p2 get_reward">领任务</p>
+                <p class="p2 get_reward" data-id="{$vo.id}" task-type="{$vo.task_type}" task-money="{$vo.reward_amount}">领任务</p>
                 {elseif condition="in_array($uid,explode(',',$vo['take_employees']))" /}
                 <p>已领取</p>
                 {else /}
