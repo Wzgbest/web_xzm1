@@ -77,7 +77,11 @@
                     <span>{$vo.comment_count}</span>
                 </div>
                 <div style="text-align: right;">
-                    <img src="/task/img/zan.png" class="add" task_id="1" index_img="1"/>
+                    {eq name="vo.is_like" value="1"}
+                    <img src="/task/img/praise.png" class="add" task_id="{$vo.id}" index_img="2"/>
+                    {else/}
+                    <img src="/task/img/zan.png" class="add" task_id="{$vo.id}" index_img="1"/>
+                    {/eq}
                     <span class="yi">{$vo.like_count}</span>
                 </div>
             </div>
@@ -154,7 +158,11 @@
                     <span>{$vo.comment_count}</span>
                 </div>
                 <div style="text-align: right;">
-                    <img src="/task/img/zan.png" class="add" task_id="1" index_img="1"/>
+                    {eq name="vo.is_like" value="1"}
+                    <img src="/task/img/praise.png" class="add" task_id="{$vo.id}" index_img="2"/>
+                    {else/}
+                    <img src="/task/img/zan.png" class="add" task_id="{$vo.id}" index_img="1"/>
+                    {/eq}
                     <span class="yi">{$vo.like_count}</span>
                 </div>
             </div>
@@ -218,7 +226,11 @@
                     <span>{$vo.comment_count}</span>
                 </div>
                 <div style="text-align: right;">
-                    <img src="/task/img/zan.png" class="add" task_id="1" index_img="1"/>
+                    {eq name="vo.is_like" value="1"}
+                    <img src="/task/img/praise.png" class="add" task_id="{$vo.id}" index_img="2"/>
+                    {else/}
+                    <img src="/task/img/zan.png" class="add" task_id="{$vo.id}" index_img="1"/>
+                    {/eq}
                     <span class="yi">{$vo.like_count}</span>
                 </div>
             </div>

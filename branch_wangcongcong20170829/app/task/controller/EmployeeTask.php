@@ -117,7 +117,7 @@ class EmployeeTask extends Initialize{
         $user_info = get_userinfo();
         $uid = $user_info['userid'];
         $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
-        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field='*',$order,$direction="desc",$map);
+        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like',$order,$direction="desc",$map);
         $countField=["
         count(1) as `0`,
         sum((case when task_type = 1 then 1 else 0 end)) as `1`,
@@ -183,7 +183,7 @@ class EmployeeTask extends Initialize{
             $order='id';
         }
         $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
-        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field='*',$order,$direction="desc",$map);
+        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like',$order,$direction="desc",$map);
         $con['task_end_time']=$map['task_end_time'];
         $con['take_employees']=array('IN',$uid);
         $count1=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con);
@@ -201,6 +201,11 @@ class EmployeeTask extends Initialize{
         $this->assign('task_list',$task_list);
         $this->assign('task_count',$task_count);
     }
+
+    /**
+     * 历史任务
+     * @return \think\response\View
+     */
     public function historical_task(){
         $map['task_end_time']=array('lt',time());
         $this->get_historical_task_list($map);
@@ -211,6 +216,11 @@ class EmployeeTask extends Initialize{
         $this->get_historical_task_list($map);
         return view();
     }
+
+    /**
+     * 进行中的任务
+     * @return \think\response\View
+     */
     public function direct_participation(){
         $map['task_end_time']=array('egt',time());
         $this->get_historical_task_list($map);
@@ -220,6 +230,38 @@ class EmployeeTask extends Initialize{
         $map['task_end_time']=array('egt',time());
         $this->get_historical_task_list($map);
         return view();
+    }
+
+    /**
+     * 赞与取消赞
+     */
+    public function task_like(){
+        $task_id=input('id');//任务id
+        $unlike=input('unlike');//是否是取消赞
+        $user_info = get_userinfo();
+        $uid = $user_info['userid'];//操作员工id
+        $con['task_id']=$task_id;
+        $con['user_id']=$uid;
+        $redata['success']=false;
+        $redata['msg']='操作失败';
+        $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
+        if($task_id){
+            if($unlike){
+                //取消赞 执行删除操作
+                $result=$employeeTaskModel->delLike($con);
+            }
+            else{
+                //赞
+                $result=$employeeTaskModel->addLike($con);
+            }
+            if($result)
+            {
+                $redata['success']=true;
+                $redata['msg']='操作成功';
+            }
+        }
+        return json($redata);
+
     }
 
 }

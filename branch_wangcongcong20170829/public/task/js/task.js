@@ -156,11 +156,11 @@ $(".dv1 .right .give .guess").click(function() {
 })
 
 //点赞
-$(".dv1 .right .comment .add").click(function(){
+$(".task").on('click','img.add',function(){
     var self = this;
     var qw = $(this).attr('index_img');
+    console.log(qw);
     var task_id = $(this).attr('task_id');
-    console.log($(this).siblings(".yi"));
     var p = parseInt($(this).siblings().text());
     var i = parseInt(qw);
     if(i % 2){
@@ -178,8 +178,7 @@ $(".dv1 .right .comment .add").click(function(){
     }
     i++;
     $(this).attr('index_img', i)
-
-})
+});
 
 $(".dv3 .up .like .right .add").click(function() {
     var self = this;
@@ -229,20 +228,20 @@ function task_like(id,like,fun){
         post_data+="&unlike=1";
     }
     $.ajax({
-        url: '/task/task_like/like',
+        url: '/task/employee_task/task_like',
         type: 'post',
         data: post_data,
         dataType:"json",
         success: function(data) {
             console.log(data);
-            if(data.status == 1) {
+            if(data.success == 1) {
                 fun(data);
             }else{
-                alert(data.info);
+                console.log(data.msg,{icon:2});
             }
         },
         error: function() {
-            alert("操作出现错误!");
+            console.log('操作出现错误',{icon:2});
         },
     });
 }
