@@ -36,10 +36,13 @@ class Index extends Initialize{
         if(!$id){
             $this->error("参数错误");
         }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        //$time = time();
         $this->assign("id",$id);
         $this->assign("fr",input('fr','','string'));
         $employeeTaskM = new EmployeeTaskModel($this->corp_id);
-        $taskInfo = $employeeTaskM->getTaskInfo($id);
+        $taskInfo = $employeeTaskM->getTaskMoreInfo($uid,$id);
         if(empty($taskInfo)){
             $result['info'] = "未找到任务！";
             return json($result);
@@ -55,6 +58,7 @@ class Index extends Initialize{
             $view_name = "reward_details";
         }
         $this->assign('task_type',$task_type);
+        $this->assign('task_info',$taskInfo);
         return view($view_name);
     }
     protected function _new_task_default(){

@@ -147,13 +147,6 @@ $(".dv1 .right .give .get_reward").click(function() {
     $(this).addClass("get_succeed").removeClass("p2").text("领取成功");
 
 })
-$(".dv1 .right .give .guess").click(function() {
-    var n="<p class='win'>猜输赢进行中</p>"
-    $(this).siblings().remove();
-    $(this).remove()
-    $(".give").append(n);
-    $(".give").css("width","132")
-})
 
 //点赞
 $(".task").on('click','img.add',function(){
@@ -433,6 +426,7 @@ function task_details(load_table,id,type){
     this.id = id;
     this.type = type;
     var self = this;
+    var task_details_sel = "#"+self.load_table+" .task_details";
 
     if(self.type!=3){
         $.ajax({
@@ -440,8 +434,8 @@ function task_details(load_table,id,type){
             type: 'get',
             success: function(data) {
                 //console.log(data);
-                //console.log($("#"+self.load_table+" .task_details .left .box"));
-                $("#"+self.load_table+" .task_details .left .box").html(data);
+                //console.log($(task_details_sel+" .left .box"));
+                $(task_details_sel+" .left .box").html(data);
             },
             error: function() {
                 layer.msg('加载排行榜出现错误',{icon:2});
@@ -453,8 +447,8 @@ function task_details(load_table,id,type){
         type: 'get',
         success: function(data) {
             //console.log(data);
-            //console.log($("#"+self.load_table+" .task_details .left .box"));
-            $("#"+self.load_table+" .task_details .left .box").html(data);
+            //console.log($(task_details_sel+" .left .box"));
+            $(task_details_sel+" .left .box").html(data);
         },
         error: function() {
             layer.msg('加载排行榜出现错误',{icon:2});
@@ -465,8 +459,8 @@ function task_details(load_table,id,type){
         type: 'get',
         success: function(data) {
             //console.log(data);
-            //console.log($("#"+self.load_table+" .task_details .right .particulars"));
-            $("#"+self.load_table+" .task_details .right .particulars").html(data);
+            //console.log($(task_details_sel+" .right .particulars"));
+            $(task_details_sel+" .right .particulars").html(data);
         },
         error: function() {
             layer.msg('加载打赏出现错误',{icon:2});
@@ -477,11 +471,39 @@ function task_details(load_table,id,type){
         type: 'get',
         success: function(data) {
             //console.log(data);
-            //console.log($("#"+self.load_table+" .task_details .down .review"));
-            $("#"+self.load_table+" .task_details .down .review").html(data);
+            //console.log($(task_details_sel+" .down .review"));
+            $(task_details_sel+" .down .review").html(data);
         },
         error: function() {
             layer.msg('加载评论出现错误',{icon:2});
         }
+    });
+
+    $(task_details_sel+" .right .give .guess").click(function() {
+        console.log("guess");
+        $(task_details_sel+" .guess_ui").reveal("{data-animation:'fade'}");
+    });
+    $(task_details_sel+" .right .rate").click(function() {
+        console.log("rate");
+        $.ajax({
+            url: '/task/task_tip/show/id/'+self.id,
+            type: 'get',
+            success: function(data) {
+                //console.log(data);
+                //console.log($(task_details_sel+" .tip_ui .mid"));
+                $(task_details_sel+" .tip_ui .mid").html(data);
+                $(task_details_sel+" .tip_ui").reveal("{data-animation:'fade'}");
+            },
+            error: function() {
+                layer.msg('加载打赏出现错误',{icon:2});
+            }
+        });
+    });
+    $(task_details_sel+" .tip_ui .decide .tip_go").click(function() {
+        console.log("tip_go");
+    });
+    $(task_details_sel+" .tip_ui .decide .tip_cancel").click(function() {
+        console.log("tip_cancel");
+        $(task_details_sel+" .tip_ui").trigger('reveal:close');
     });
 }

@@ -19,7 +19,7 @@
 			<div class="left">
 				<img src="/task/img/incentive_task.png" class="img1" />
 				<p>发布人</p>
-				<div class="name">王大陆
+				<div class="name">{$task_info["truename"]}
 					<div class="roll">
 						<img src="/task/img/phone.png" />
 						<img src="/task/img/note.png" />
@@ -29,12 +29,12 @@
 				<p>预计奖金</p>
 			</div>
 			<div class="center">
-				<p class="theme">当日有效通话最多挑战</p>
+				<p class="theme">{$task_info["task_name"]}</p>
 				<div>
 					<div class="details">
 						<div class="len">
 							<p class="small">统计周期</p>
-							<p class="big">2017.01.02-2017.02.01</p>
+							<p class="big">{$task_info["task_start_time"]|time_format}-{$task_info["task_end_time"]|time_format}</p>
 						</div>
 						<div>
 							<p class="small">考核项目</p>
@@ -57,7 +57,7 @@
 					<div class="details">
 						<div class="len">
 							<p class="small">任务领取截止时间</p>
-							<p class="big">2017.05.02/15:00:00</p>
+							<p class="big">{$task_info["task_take_start_time"]|time_format}/{$task_info["task_take_end_time"]|time_format}</p>
 						</div>
 						<div class="fu">
 							<p class="small">奖金</p>
@@ -281,6 +281,161 @@
 			
 		</div>
 
+
+		<div class="reveal-modal reveal_six guess_ui">
+			<p class="p1">猜输赢</p>
+			<ul class="number1">
+				<li>姓名</li>
+				<li>部门</li>
+				<li></li>
+
+			</ul>
+			<div class="list">
+
+				<ul class="number2">
+					<li>李晓芬</li>
+					<li>销售一部</li>
+					<li>
+						<span class="fill">下注</span>
+					</li>
+
+				</ul>
+				<ul class="number2">
+					<li>秦昊</li>
+					<li>销售五部</li>
+					<li>
+						<span class="fill">下注</span>
+					</li>
+				</ul>
+				<ul class="number2">
+					<li>李晓芬</li>
+					<li>销售一部</li>
+					<li>
+						<span class="fill">下注</span>
+					</li>
+
+				</ul>
+				<ul class="number2">
+					<li>秦昊</li>
+					<li>销售五部</li>
+					<li>
+						<span class="fill">下注</span>
+					</li>
+				</ul>
+				<ul class="number2">
+					<li>秦昊</li>
+					<li>销售五部</li>
+					<li>
+						<span class="fill">下注</span>
+					</li>
+				</ul>
+				<ul class="number2">
+					<li>秦昊</li>
+					<li>销售五部</li>
+					<li>
+						<span class="fill">下注</span>
+					</li>
+				</ul>
+				<ul class="number2">
+					<li>秦昊</li>
+					<li>销售五部</li>
+					<li>
+						<span class="fill">下注</span>
+					</li>
+				</ul>
+			</div>
+			<p class="compare">最近下注（当前下注池为<span class="orange">2233</span>元）</p>
+			<ul class="list_head">
+				<li>姓名</li>
+				<li>部门</li>
+				<li>猜输赢支持</li>
+			</ul>
+			<div class="box">
+
+				<ul>
+					<li>张亮</li>
+					<li>销售一部</li>
+					<li><span>7</span>人支持<span>100</span>元</li>
+				</ul>
+				<ul>
+					<li>张三</li>
+					<li>销售一部</li>
+					<li><span>8</span>人支持<span>90</span>元</li>
+				</ul>
+				<ul>
+					<li>张三</li>
+					<li>销售一部</li>
+					<li><span>5</span>人支持<span>80</span>元</li>
+				</ul>
+				<ul>
+					<li>张三</li>
+					<li>销售一部</li>
+					<li><span>8</span>人支持<span>90</span>元</li>
+				</ul>
+				<ul>
+					<li>张三</li>
+					<li>销售一部</li>
+					<li><span>6</span>人支持<span>100</span>元</li>
+				</ul>
+				<ul>
+					<li>张三</li>
+					<li>销售一部</li>
+					<li><span>8</span>人支持<span>90</span>元</li>
+				</ul>
+				<a class="close-reveal-modal">&#215;</a>
+			</div>
+		</div>
+
+		<div class="reveal-modal reveal_seven tip_ui">
+
+			<p class="p1">打赏</p>
+			<div class="money">
+				<span>￥</span>
+				<input type="text" class="tip_money" placeholder="00.00" />
+			</div>
+			<p class="bar">总共打赏<span class="orange">200</span>元（你已打赏<span class="orange">50</span>元）</p>
+
+			<div class="mid">
+				<ul>
+					<li>02.12&nbsp;&nbsp;09:08</li>
+					<li>王梦瑶</li>
+					<li>打赏<span>5</span>元</li>
+				</ul>
+				<ul>
+					<li>02.12&nbsp;&nbsp;09:08</li>
+					<li>王梦瑶</li>
+					<li>打赏<span>5</span>元</li>
+				</ul>
+				<ul>
+					<li>02.12&nbsp;&nbsp;09:08</li>
+					<li class="orange">你</li>
+					<li class="orange">打赏<span>10</span>元</li>
+				</ul>
+				<ul>
+					<li>02.12&nbsp;&nbsp;09:08</li>
+					<li>王梦瑶</li>
+					<li>打赏<span>5</span>元</li>
+				</ul>
+				<ul>
+					<li>02.12&nbsp;&nbsp;09:08</li>
+					<li>王梦瑶</li>
+					<li>打赏<span>5</span>元</li>
+				</ul>
+				<ul>
+					<li>02.12&nbsp;&nbsp;09:08</li>
+					<li class="orange">你</li>
+					<li class="orange">打赏<span>10</span>元</li>
+				</ul>
+
+			</div>
+			<div class="import">
+				<div class="decide">
+					<p class="tip_go">继续打赏</p>
+					<p class="tip_cancel">取消</p>
+				</div>
+			</div>
+			<a class="close-reveal-modal">&#215;</a>
+		</div>
 	</article>
 
 	<script type="text/javascript" src="/task/js/task.js"></script>
