@@ -108,4 +108,13 @@ class TaskGuess extends Base{
             ->column("sum(etg.guess_money) money","etg.guess_employee");
         return $employeeMoneyList;
     }
+
+    public function getTaskAllGuessMoney($task_id){
+        $map["etg.task_id"] = $task_id;
+        $employeeMoneyList = $this->model->table($this->table)->alias('etg')
+            ->where($map)
+            ->group("etg.task_id")
+            ->sum("etg.guess_money");
+        return $employeeMoneyList;
+    }
 }
