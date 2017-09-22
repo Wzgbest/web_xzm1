@@ -6,6 +6,9 @@
             <div>
                 <p>
                     <span class="name">{$vo["replayer_truename"]}</span>
+                    {gt name="vo['reviewer_id']" value="0"}
+                    回复 <span class="name">{$vo["reviewer_truename"]}</span>
+                    {/gt}
                     <span>:</span>
                     <span>{$vo["replay_content"]}</span>
                 </p>
