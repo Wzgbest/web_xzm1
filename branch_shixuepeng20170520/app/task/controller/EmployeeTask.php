@@ -96,6 +96,8 @@ class EmployeeTask extends Initialize{
         $task_count=$employeeTaskModel->getEmployeeTaskCount($uid,$countField,$con=[]);
         $this->assign('task_list',$task_list);
         $this->assign('task_count',$task_count);
+        $this->assign('uid',$uid);
+        $this->assign('now_time',$this->request->time());
     }
     public function reward_task()
     {
@@ -168,6 +170,9 @@ class EmployeeTask extends Initialize{
         );
         $this->assign('task_list',$task_list);
         $this->assign('task_count',$task_count);
+        $this->assign('uid',$uid);
+        $this->assign('now_time',$this->request->time());
+
     }
 
     /**
@@ -230,6 +235,9 @@ class EmployeeTask extends Initialize{
         }
         return json($redata);
 
+    }
+    public function pk_pay(){
+        return view();
     }
 
 }
