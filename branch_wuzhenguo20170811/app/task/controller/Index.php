@@ -32,6 +32,34 @@ class Index extends Initialize{
     public function index(){
     }
     public function show(){
+        $id = input('id',0,'int');
+        if(!$id){
+            $this->error("参数错误");
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        //$time = time();
+        $this->assign("id",$id);
+        $this->assign("fr",input('fr','','string'));
+        $employeeTaskM = new EmployeeTaskModel($this->corp_id);
+        $taskInfo = $employeeTaskM->getTaskMoreInfo($uid,$id);
+        if(empty($taskInfo)){
+            $result['info'] = "未找到任务！";
+            return json($result);
+        }
+        $start_time = $taskInfo["task_start_time"];
+        $end_time = $taskInfo["task_end_time"];
+        $task_type = $taskInfo["task_type"];
+        $task_method = $taskInfo["task_method"];
+        $view_name = 'incentive_details';
+        if($task_type==2){
+            $view_name = "pk_details";
+        }else if($task_type==3){
+            $view_name = "reward_details";
+        }
+        $this->assign('task_type',$task_type);
+        $this->assign('task_info',$taskInfo);
+        return view($view_name);
     }
     protected function _new_task_default(){
         $this->assign("fr",input('fr','','string'));
