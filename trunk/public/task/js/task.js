@@ -61,27 +61,6 @@ for(var i = 0; i < t; i++) {
 //
 //})
 //$(".dv1 .grade .p1").removeClass("get")
-//领红包
-$(".dv1 .grade .get").hide();
-$(".dv1 .mengceng").addClass("m_c");
-var picture = '<img src="/task/img/redPacket.png" class="picture"/>';
-$(".dv1 .mengceng").append(picture);
-$('.direct_participation_load').on('click','.picture',function(){
-    $(this).parent().removeClass("m_c")
-    $(this).remove()
-
-    $(".dv1 .grade .get").show()
-    $(".dv1 .grade .get").addClass('p1').removeClass("p2").text("已领取100元")
-});
-//领小红包
-$("article .dv2 .left .box img").click(function() {
-
-    var a="<span class='two'>（100￥）</span>"
-    $(this).parent().append(a);
-    $(".turn").text("已领取")
-    $(this).remove();
-
-})
 
 
 //评论
@@ -604,15 +583,29 @@ function skip(target){
     this.get_pay_password=function(){
         return self.paypassword;
     };
-    $("#"+self.target+" header .xinjian ").click(function(){
+
+    //领红包
+    $(task_list_sel+" .dv1 .grade .get").hide();
+    $(task_list_sel+" .dv1 .mengceng").addClass("m_c");
+    var picture = '<img src="/task/img/redPacket.png" class="picture"/>';
+    $(task_list_sel+" .dv1 .mengceng").append(picture);
+    $(task_list_sel+" .direct_participation_load").on('click','.picture',function(){
+        $(this).parent().removeClass("m_c");
+        $(this).remove();
+
+        $(task_list_sel+" .dv1 .grade .get").show();
+        $(task_list_sel+" .dv1 .grade .get").addClass('p1').removeClass("p2").text("已领取100元");
+    });
+
+    $(task_list_sel+" header .xinjian ").click(function(){
         loadPage('/task/index/new_task/fr/'+self.target,self.target);
     });
-    $("#"+self.target+" article").on("click",".dv1 .comment .task_details",function(){
+    $(task_list_sel+" article").on("click",".dv1 .comment .task_details",function(){
         var id = $(this).attr("task_id");
         console.log(id);
         loadPage('/task/index/show/id/'+id+'/fr/'+self.target,self.target);
     });
-    $("#"+self.target+" article").on("click",".right .get_reward",function(){
+    $(task_list_sel+" article").on("click",".right .get_reward",function(){
         var type=$(this).attr('task-type');
         var money=$(this).attr('task-money');
         var task_id=$(this).attr('data-id');
@@ -651,7 +644,7 @@ function skip(target){
             });
         }
     });
-    $("#"+self.target+" article").on("click",".right .guess",function(){
+    $(task_list_sel+" article").on("click",".right .guess",function(){
         console.log("guess");
         var id = $(this).attr("task_id");
         self.now_sel_id = id;
@@ -714,7 +707,7 @@ function skip(target){
             }
         });
     });
-    $("#"+self.target+" article").on("click",".right .tip",function(){
+    $(task_list_sel+" article").on("click",".right .tip",function(){
         console.log("tip");
         var id = $(this).attr("task_id");
         self.now_sel_id = id;
@@ -897,6 +890,15 @@ function task_details(load_table,id,type){
     self.update_tip();
     self.update_commont();
 
+    //领小红包
+    $(task_details_sel+" article .dv2 .left .box img").click(function() {
+
+        var a="<span class='two'>（100￥）</span>";
+        $(this).parent().append(a);
+        $(task_details_sel+" .turn").text("已领取");
+        $(this).remove();
+
+    });
     $(task_details_sel+" .right .task").click(function() {
         console.log("task");
         if(self.type==2){
