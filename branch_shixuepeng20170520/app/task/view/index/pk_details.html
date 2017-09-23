@@ -58,9 +58,22 @@
 			</div>
 			<div class="right">
 				<div class="give">
-					<p class="p2 task" task-money="{$reward_amount}">领任务</p>
+					<!--<p class="p2 task" task-money="{$reward_amount}">领任务</p>-->
 
-					<p class="p2 guess">猜输赢</p>
+					<!--<p class="p2 guess">猜输赢</p>-->
+					{eq name="task_info.status" value="2"}
+					{if condition="in_array($uid,explode(',',$task_info['public_to_take'])) && !in_array($uid,explode(',',$task_info['take_employees'])) && $now_time < $task_info['task_take_end_time'] "}
+					<p class="p2 get_reward" data-id="{$task_info.id}" task-type="{$task_info.task_type}" task-money="{$task_info.reward_amount}">领任务</p>
+					{elseif condition="in_array($uid,explode(',',$task_info['take_employees']))" /}
+					<p>已参与</p>
+					{else /}
+					<p>报名已截止</p>
+					{/if}
+					{if condition="!in_array($uid,explode(',',$task_info['take_employees']))"}
+					<p class="p2 guess" task_id="{$task_info.id}">猜输赢</p>
+					{/if}
+					<p class="p2 tip" task_id="{$task_info.id}">打赏</p>
+					{/eq}
 				</div>
 				<!--<div class="comment">-->
 					<!--<div>-->
