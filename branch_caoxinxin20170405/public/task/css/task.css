@@ -458,7 +458,7 @@ article .dv1 .right .p2 {
 
 article .dv1 .comment {
 	/*position: relative;*/
-	/*position: absolute;*/
+	position: absolute;
 	/*right: 0;*/
 	bottom: 0;
 	height: 24px;
