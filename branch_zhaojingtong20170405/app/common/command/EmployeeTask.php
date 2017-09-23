@@ -235,7 +235,11 @@ class EmployeeTask extends Command{
                                 'remark' => '猜输赢任务失败退回'
                             ];
                             $order_datas[] = $order_add_data;
-                            $taskGuessAndTipMoneyEmployeeIdx[$taskTipInfo["tip_employee"]] += $taskTipInfo["tip_money"];
+                            if(isset($taskGuessAndTipMoneyEmployeeIdx[$taskTipInfo["tip_employee"]])){
+                                $taskGuessAndTipMoneyEmployeeIdx[$taskTipInfo["tip_employee"]] += $taskTipInfo["tip_money"];
+                            }else{
+                                $taskGuessAndTipMoneyEmployeeIdx[$taskTipInfo["tip_employee"]] = $taskTipInfo["tip_money"];
+                            }
                         }
 
                         //返还猜输赢记录
@@ -275,6 +279,7 @@ class EmployeeTask extends Command{
                                 exception("返还打赏猜输赢金额发生错误!");
                             }
                         }
+                        $employeeTaskM->link->commit();
                         continue;
                     }
 
@@ -497,13 +502,17 @@ class EmployeeTask extends Command{
                                         'remark' => '猜输赢任务失败退回'
                                     ];
                                     $order_datas[] = $order_add_data;
-                                    $taskGuessMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] += $taskGuessInfo["guess_money"];
+                                    if(isset($taskGuessMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]])){
+                                        $taskGuessMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] += $taskGuessInfo["guess_money"];
+                                    }else{
+                                        $taskGuessMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] = $taskGuessInfo["guess_money"];
+                                    }
                                 }
-
+                                //var_exp($taskGuessMoneyEmployeeIdx,'$taskGuessMoneyEmployeeIdx',1);
                                 //返还打赏猜输赢等用户额度
                                 foreach($taskGuessMoneyEmployeeIdx as $employee_id=>$money){
                                     $employeeInfo["left_money"] = ['exp',"left_money + $money"];
-                                    $update_user = $employeeM->setEmployeeSingleInfoById($employee_id,$employeeInfo,$employeeInfoMap);
+                                    $update_user = $employeeM->setEmployeeSingleInfoById($employee_id,$employeeInfo);
                                     if (!$update_user) {
                                         exception("返还打赏猜输赢金额发生错误!");
                                     }
