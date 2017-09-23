@@ -740,12 +740,14 @@ function task_list(target){
         if(i % 2){
              task_like(task_id,true,function(data){
                 console.log(task_id);
+             layer.msg('点赞成功',{icon:1});
              $(that).attr('src', '/task/img/praise.png');
              var q = p + 1;
              $(that).siblings().text(q);
          });
         }else {
             task_like(task_id,false,function(data){
+                layer.msg('取消点赞成功',{icon:1});
             $(that).attr('src', '/task/img/zan.png');
             var q = p - 1;
             $(that).siblings().text(q);
@@ -1048,12 +1050,14 @@ function task_details(load_table,id,type){
             console.log(j);
             if(j % 2){
                 task_like(task_id,true,function(data){
+                    layer.msg('点赞成功',{icon:1});
                     $(that).attr('src', '/task/img/praise.png');
                     var y = x + 1;
                     $(that).siblings(".yi").text(y);
                 });
             }else {
                 task_like(task_id,false,function(data){
+                    layer.msg('取消点赞成功',{icon:1});
                     $(that).attr('src', '/task/img/zan.png');
                     var y = x - 1;
                     $(that).siblings(".yi").text(y);
