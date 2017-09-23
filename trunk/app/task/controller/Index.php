@@ -23,6 +23,7 @@ use app\task\model\TaskTip as TaskTipModel;
 use app\task\service\EmployeeTask as EmployeeTaskService;
 use app\common\model\Structure;
 use app\huanxin\service\RedEnvelope as RedEnvelopeService;
+use app\huanxin\model\RedEnvelope as RedEnvelopeModel;;
 
 class Index extends Initialize{
     var $paginate_list_rows = 10;
@@ -192,6 +193,14 @@ class Index extends Initialize{
                 $reward_idx_max = $reward_item["reward_end"];
             }
         }
+
+        $redEnvelopeM = new RedEnvelopeModel($this->corp_id);
+        $redEnvelopeInfos = $redEnvelopeM->getRedEnvelopeByTaskAndUid($id,[]);
+        $redEnvelopeInfoIdx = [];
+        foreach ($redEnvelopeInfos as $redEnvelopeInfo){
+            $redEnvelopeInfoIdx[$redEnvelopeInfo["took_user"]][] = $redEnvelopeInfo;
+        }
+
         $reward_idx = 0;
         $self_idx = -1;
         for($ranking_index=1;$ranking_index<=count($rankingdata);$ranking_index++){
@@ -203,8 +212,23 @@ class Index extends Initialize{
             if($rankingdata[$ranking_index-1]["employee_id"]==$uid){
                 $self_idx = $ranking_index-1;
             }
+            if(isset($redEnvelopeInfoIdx[$rankingdata[$ranking_index-1]["employee_id"]])){
+                $rankingdata[$ranking_index-1]["red_info"] = $redEnvelopeInfoIdx[$rankingdata[$ranking_index-1]["employee_id"]];
+                $untook = 0;
+                foreach ($redEnvelopeInfoIdx[$rankingdata[$ranking_index-1]["employee_id"]] as $red_item){
+                    if($red_item["is_token"==0]){
+                        $untook = 1;
+                        break;
+                    }
+                }
+                $rankingdata[$ranking_index-1]["untook"] = $untook;
+            }else{
+                $rankingdata[$ranking_index-1]["red_info"] = 0;
+                $rankingdata[$ranking_index-1]["untook"] = 0;
+            }
         }
 
+        //var_exp($rankingdata,'$rankingdata',1);
         $this->assign('self_idx',$self_idx);
         $this->assign('rankingdata',$rankingdata);
         return view();
@@ -259,26 +283,6 @@ class Index extends Initialize{
         }
         $redEnvelopeS = new RedEnvelopeService($this->corp_id);
         $result = $redEnvelopeS->getRedEnvelope($red_id);
-        return json($result);
-    }
-
-    public function getTaskTakeAndStandardInfo(){
-        $result = ['status'=>0 ,'info'=>"获取任务时发生错误！"];
-        $id = input('id',0,'int');
-        if(!$id){
-            $result['info'] = "参数错误！";
-            return json($result);
-        }
-        $employeeTaskM = new EmployeeTaskModel($this->corp_id);
-        $taskInfo = $employeeTaskM->getTaskInfo($id);
-        $result['data']["taskInfo"] = $taskInfo;
-        $taskGuessM = new TaskGuessModel($this->corp_id);
-        $employeeGuessTakeInfoList = $taskGuessM->getEmployeeGuessMoneyList($id);
-        $result['data']["employeeGuessTakeInfoList"] = $employeeGuessTakeInfoList;
-        $guessEmployeeTakeInfoList = $taskGuessM->getGuessEmployeeMoneyList($id);
-        $result['data']["guessEmployeeTakeInfoList"] = $guessEmployeeTakeInfoList;
-        $result['status'] = 1;
-        $result['info'] = "获取任务成功！";
         return json($result);
     }
 
@@ -614,6 +618,8 @@ class Index extends Initialize{
             ];
         }
         $public_uids = explode(",",$taskInfo["public_to_take"]);
+        $public_uids = array_filter($public_uids);
+        $public_uids = array_unique($public_uids);
         if($taskInfo["task_type"]==1){
             foreach ($public_uids as $employee_id){
                 $taskTakeInfos[] = [
