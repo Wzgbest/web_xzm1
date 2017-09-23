@@ -1082,7 +1082,7 @@ function task_details(load_table,id,type){
             $.ajax({
                 url:'/task/task_comment/addTaskComment',
                 type: 'post',
-                data:{'task_id':task_id,'replay_content':content,'comment_id':comment_id },
+                data:{'task_id':task_id,'reply_content':content,'comment_id':comment_id },
                 success:function(data){
                     layer.msg(data.info,{icon:data.status==1?1:2});
                     if(data.status){
