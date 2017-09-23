@@ -71,6 +71,8 @@ class Index extends Initialize{
         $taskReward = $taskRewardM->findTaskRewardByTaskId($id);
         $reward_amount = $taskReward["reward_amount"];
         $this->assign('reward_amount',$reward_amount);
+        $this->assign('uid',$uid);
+        $this->assign('now_time',$this->request->time());
         return view($view_name);
     }
     protected function _new_task_default(){
