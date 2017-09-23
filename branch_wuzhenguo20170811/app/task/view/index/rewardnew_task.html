@@ -39,12 +39,12 @@
 					<img src="/task/img/star.png" />
 					<span>悬赏项目</span>
 					<select name="target_type">
-						<option>有效通话数</option>
-						<option>商机数</option>
-						<option>成交额</option>
-						<option>成单数</option>
-						<option>拜访数</option>
-						<option>新增客户数</option>
+						<option value="1">有效通话数</option>
+						<option value="2">商机数</option>
+						<option value="3">成交额</option>
+						<option value="4">成单数</option>
+						<option value="5">拜访数</option>
+						<option value="6">新增客户数</option>
 					</select>
 				</div>
 			</div>
@@ -94,7 +94,7 @@
 	</article>
 	</form>
 
-	<div class="reveal-modal reveal_eight pay_ui">
+	<div class="reveal-modal reveal_eight pay_ui pay-pop">
 	</div>
 
 	<script src="/static/js/PopUp.js"></script>
@@ -103,16 +103,6 @@
 	<script src="/task/js/hsCheckData.js"></script>
 	<script src="/task/js/adddate.js"></script>
 	<script>
-		$(function(){
-			$("#payPwd").payPwd({
-				max:6,
-				type:"password",
-				callback:function(arr) {
-					console.log(arr);
-					$("#inputtype").html(arr);
-				}
-			})
-		})
 		$('#cityDanXuan').hsCheckData({
 			isShowCheckBox: false, //默认为false
 			data: cityData
