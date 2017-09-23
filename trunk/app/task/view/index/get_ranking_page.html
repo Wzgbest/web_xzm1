@@ -1,5 +1,4 @@
 {eq name="task_type" value="1"}
-<div class="box">
     {egt name="self_idx" value="0"}
         <ul class="backdrop">
             <li>{$self_idx+1}</li>
@@ -40,29 +39,26 @@
             </ul>
         {/neq}
     {/volist}
-</div>
 {/eq}
 {eq name="task_type" value="2"}
-<div class="box">
     {egt name="self_idx" value="0"}
-    <ul class="backdrop">
-        <li>{$self_idx+1}</li>
-        <li>{$rankingdata[$self_idx]["truename"]}</li>
-        <li>销售一部</li>
-        <li><span>{$rankingdata[$self_idx]["num"]}</span>次</li>
-        <li><span>{$rankingdata[$self_idx]["guess_num"]}</span>人支持<span>{$rankingdata[$self_idx]["guess_money"]}</span>元</li>
-    </ul>
+        <ul class="backdrop">
+            <li>{$self_idx+1}</li>
+            <li>{$rankingdata[$self_idx]["truename"]}</li>
+            <li>销售一部</li>
+            <li><span>{$rankingdata[$self_idx]["num"]}</span>次</li>
+            <li><span>{$rankingdata[$self_idx]["guess_num"]}</span>人支持<span>{$rankingdata[$self_idx]["guess_money"]}</span>元</li>
+        </ul>
     {/egt}
     {volist name="rankingdata" id="vo" key="key"}
-    {neq name="self_idx" value="$key-1"}
-    <ul>
-        <li>{$key}</li>
-        <li>{$vo["truename"]}</li>
-        <li>销售一部</li>
-        <li><span>{$vo["num"]}</span>次</li>
-        <li><span>{$vo["guess_num"]}</span>人支持<span>{$vo["guess_money"]}</li>
-    </ul>
-    {/neq}
+        {neq name="self_idx" value="$key-1"}
+            <ul>
+                <li>{$key}</li>
+                <li>{$vo["truename"]}</li>
+                <li>销售一部</li>
+                <li><span>{$vo["num"]}</span>次</li>
+                <li><span>{$vo["guess_num"]}</span>人支持<span>{$vo["guess_money"]}</li>
+            </ul>
+        {/neq}
     {/volist}
-</div>
 {/eq}
