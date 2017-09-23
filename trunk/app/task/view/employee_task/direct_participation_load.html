@@ -101,7 +101,8 @@
 {/eq}
 {eq name="vo.task_type" value="2"}
 <div class="dv1">
-    <div class="mengceng" hongbao_id="1">
+    {eq name="vo.is_token" value="0"}
+    <div class="mengceng m_c" hongbao_id="{$vo.redid}">{/eq}
         <div class="left">
             <img src="/task/img/task.png" class="img1" />
             <div class="border-right">
@@ -158,9 +159,11 @@
         </div>
         <div class="right">
             <div class="within">
-                <div class="give grade">
+                <div class="give grade details">
                     <p class="p2">查看排名</p>
+                    {if condition="!in_array($uid,explode(',',$vo['take_employees']))"}
                     <p class="p2 guess" task_id="{$vo.id}">猜输赢</p>
+                    {/if}
                     <p class="p2 tip" task_id="{$vo.id}">打赏</p>
                 </div>
 
@@ -181,8 +184,9 @@
                 </div>
             </div>
         </div>
-        <!--<img src="/task/img/redPacket.png" class="picture"/>-->
-    </div>
+        {eq name="vo.is_token" value="0"}
+        <img src="/task/img/redPacket.png" class="picture"/>
+        </div>{/eq}
 </div>
 {/eq}
 {eq name="vo.task_type" value="3"}

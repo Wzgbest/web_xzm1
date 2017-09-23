@@ -67,7 +67,7 @@
     <div class="right">
         <div class="within">
             <div class="give">
-                <p class="p3">任务失败</p>
+                <!--<p class="p3">任务失败</p>-->
                 <p class="p2">查看详情</p>
             </div>
             <div class="comment">
@@ -90,6 +90,8 @@
 {/eq}
 {eq name="vo.task_type" value="2"}
 <div class="dv1 a">
+    {eq name="vo.is_token" value="0"}
+    <div class="mengceng m_c" hongbao_id="{$vo.redid}">{/eq}
     <div class="left">
         <img src="/task/img/task.png" class="img1" />
         <div class="border-right">
@@ -146,7 +148,7 @@
     </div>
     <div class="right">
         <div class="within">
-            <div class="give">
+            <div class="give details">
                 <p class="p2">查看详情</p>
             </div>
             <div class="comment">
@@ -165,6 +167,9 @@
             </div>
         </div>
     </div>
+    {eq name="vo.is_token" value="0"}
+    <img src="/task/img/redPacket.png" class="picture"/>
+    </div>{/eq}
 </div>
 {/eq}
 {eq name="vo.task_type" value="3"}
