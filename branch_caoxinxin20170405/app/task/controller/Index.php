@@ -256,7 +256,7 @@ class Index extends Initialize{
             return json($result);
         }
         $redEnvelopeS = new RedEnvelopeService($this->corp_id);
-            $result = $redEnvelopeS->getRedEnvelope($red_id);
+        $result = $redEnvelopeS->getRedEnvelope($red_id);
         return json($result);
     }
 
