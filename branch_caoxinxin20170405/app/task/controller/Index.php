@@ -216,7 +216,7 @@ class Index extends Initialize{
                 $rankingdata[$ranking_index-1]["red_info"] = $redEnvelopeInfoIdx[$rankingdata[$ranking_index-1]["employee_id"]];
                 $untook = 0;
                 foreach ($redEnvelopeInfoIdx[$rankingdata[$ranking_index-1]["employee_id"]] as $red_item){
-                    if($red_item["is_token"==0]){
+                    if($red_item["is_token"]==0){
                         $untook = 1;
                         break;
                     }
