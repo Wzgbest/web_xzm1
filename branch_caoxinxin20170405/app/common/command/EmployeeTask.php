@@ -279,6 +279,7 @@ class EmployeeTask extends Command{
                                 exception("返还打赏猜输赢金额发生错误!");
                             }
                         }
+                        $employeeTaskM->link->commit();
                         continue;
                     }
 
@@ -507,11 +508,11 @@ class EmployeeTask extends Command{
                                         $taskGuessMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] = $taskGuessInfo["guess_money"];
                                     }
                                 }
-
+                                //var_exp($taskGuessMoneyEmployeeIdx,'$taskGuessMoneyEmployeeIdx',1);
                                 //返还打赏猜输赢等用户额度
                                 foreach($taskGuessMoneyEmployeeIdx as $employee_id=>$money){
                                     $employeeInfo["left_money"] = ['exp',"left_money + $money"];
-                                    $update_user = $employeeM->setEmployeeSingleInfoById($employee_id,$employeeInfo,$employeeInfoMap);
+                                    $update_user = $employeeM->setEmployeeSingleInfoById($employee_id,$employeeInfo);
                                     if (!$update_user) {
                                         exception("返还打赏猜输赢金额发生错误!");
                                     }
@@ -605,8 +606,6 @@ class EmployeeTask extends Command{
         $trace_info_str .= var_exp($error_task_ids,'$error_task_ids','return',false).";";
         $trace_info_str .= "\r\n".$output_info_str;
         trace($trace_info_str);
-
-        echo $trace_info_str;
 
         $output->writeln($output_info_str);
     }
