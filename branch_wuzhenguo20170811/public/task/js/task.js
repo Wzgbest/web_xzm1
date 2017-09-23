@@ -460,17 +460,46 @@ function task_list(target){
     };
 
     //领红包
-    $(task_list_sel+" .dv1 .grade .get").hide();
-    $(task_list_sel+" .dv1 .mengceng").addClass("m_c");
-    var picture = '<img src="/task/img/redPacket.png" class="picture"/>';
-    $(task_list_sel+" .dv1 .mengceng").append(picture);
+    //$(task_list_sel+" .dv1 .grade .get").hide();
+    // $(task_list_sel+" .dv1 .mengceng").addClass("m_c");
+    // var picture = '<img src="/task/img/redPacket.png" class="picture"/>';
+    // $(task_list_sel+" .dv1 .mengceng").append(picture);
     $(task_list_sel+" .direct_participation_load").on('click','.picture',function(){
-        $(this).parent().removeClass("m_c");
-        $(this).remove();
-
-        $(task_list_sel+" .dv1 .grade .get").show();
-        $(task_list_sel+" .dv1 .grade .get").addClass('p1').removeClass("p2").text("已领取100元");
+        take_envelopes($(this),$(this).parent('.mengceng').attr('hongbao_id'));
     });
+    $(task_list_sel+" .hot_task_load").on('click','.picture',function(){
+        take_envelopes($(this),$(this).parent('.mengceng').attr('hongbao_id'));
+        // $(this).parent().removeClass("m_c");
+        // var text='<p class="get">已领取100元</p>';
+        // $(this).siblings('.right').children('.within').children('.active').prepend(text);
+        // $(this).remove();
+    });
+    $(task_list_sel+" .historical_task_load").on('click','.picture',function(){
+        take_envelopes($(this),$(this).parent('.mengceng').attr('hongbao_id'));
+    });
+    //领取PK红包 公共方法
+    function take_envelopes(that,id){
+        $.ajax({
+            url: '/task/index/getRedEnvelope',
+            type: 'post',
+            data: {'redid':id},
+            dataType:"json",
+            success: function(data) {
+                layer.msg(data.info,{icon:data.status==1?1:2});
+                if(data.status)
+                {
+                    //领取成功
+                    that.parent().removeClass("m_c");
+                    var text='<p class="get">已领取'+data.money+'</p>';
+                    that.siblings('.right').children('.within').children('.details').prepend(text);
+                    that.remove();
+                }
+            },
+            error: function() {
+                console.log('操作出现错误',{icon:2});
+            },
+        });
+    }
 
     $(task_list_sel+" header .xinjian ").click(function(){
         //loadPage('/task/index/new_task/fr/'+self.target,self.target);
