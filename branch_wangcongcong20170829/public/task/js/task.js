@@ -960,8 +960,8 @@ function task_details(load_table,id,type){
             }
         });
     });
-    $(task_details_sel+" .right .rate").click(function() {
-        console.log("rate");
+    $(task_details_sel+" .right .tip").click(function() {
+        console.log("tip");
         $.ajax({
             url: '/task/task_tip/show_tip_ui/id/'+self.id,
             type: 'get',
