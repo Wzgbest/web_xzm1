@@ -536,7 +536,7 @@ function new_task_form(load_table){
 }
 
 
-function skip(target){
+function task_list(target){
     this.target=target;
     this.now_sel_id = 0;
     this.now_sel_type = 0;
@@ -598,12 +598,44 @@ function skip(target){
     });
 
     $(task_list_sel+" header .xinjian ").click(function(){
-        loadPage('/task/index/new_task/fr/'+self.target,self.target);
+        //loadPage('/task/index/new_task/fr/'+self.target,self.target);
+        $.ajax({
+            url: '/task/index/new_task/fr/'+self.target,
+            type: 'get',
+            success: function(data) {
+                //console.log(data);
+                console.log($("#"+self.target+" .new_task_panel"));
+                console.log($("#"+self.target+" .new_task_panel .new_task_info_panel"));
+                $("#"+self.target+" .new_task_panel .new_task_info_panel").html(data);
+                $("#"+self.target+" .new_task_panel").removeClass("hide");
+            },
+            error: function() {
+                layer.msg('加载任务新建出现错误',{icon:2});
+            }
+        });
     });
     $(task_list_sel+" article").on("click",".dv1 .comment .task_details",function(){
         var id = $(this).attr("task_id");
         console.log(id);
-        loadPage('/task/index/show/id/'+id+'/fr/'+self.target,self.target);
+        //loadPage('/task/index/show/id/'+id+'/fr/'+self.target,self.target);
+
+        $.ajax({
+            url: '/task/index/show/id/'+id+'/fr/'+self.target,
+            type: 'get',
+            success: function(data) {
+                //console.log(data);
+                console.log($("#"+self.target+" .task_direct_panel"));
+                console.log($("#"+self.target+" .task_direct_panel .task_direct_info_panel"));
+                $("#"+self.target+" .task_direct_panel .task_direct_info_panel").html(data);
+                $("#"+self.target+" .task_direct_panel").removeClass("hide");
+            },
+            error: function() {
+                layer.msg('加载任务详情出现错误',{icon:2});
+            }
+        });
+    });
+    $("#"+self.target+" .task_info_panel .top .current").click(function(){
+        $("#"+self.target+" .task_info_panel").addClass("hide");
     });
     $(task_list_sel+" article").on("click",".right .get_reward",function(){
         var type=$(this).attr('task-type');
