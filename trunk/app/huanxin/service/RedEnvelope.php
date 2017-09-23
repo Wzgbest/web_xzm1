@@ -182,8 +182,8 @@ class RedEnvelope{
             $redM->link->commit();
             $info['status'] = 1;
             $info['info'] = '恭喜领取成功';
-            $info['money'] = $red_data['money'];;
-            $info['red_info'] = $already_arr;
+            $info['data']['money'] = $red_data['money'];;
+            $info['data']['red_info'] = $already_arr;
         }catch(\Exception $ex){
             $redM->link->rollback();
             //dump($ex->getTrace());exit;
