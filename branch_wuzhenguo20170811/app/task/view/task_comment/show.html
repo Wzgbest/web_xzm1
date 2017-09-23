@@ -1,9 +1,9 @@
 {volist name="commont_list" id="vo"}
     <div class="one">
-        <img src="{$vo['replyer_pic']}" />
+        <img src="{$vo['replayer_pic']}" />
         <div>
             <p>
-                <span class="name">{$vo["replyer_name"]}</span>
+                <span class="name_1" comment_id="{$vo['id']}">{$vo["replayer_name"]}</span>
                 {gt name="vo['reviewer_id']" value="0"}
                 回复 <span class="name">{$vo["reviewer_name"]}</span>
                 {/gt}
