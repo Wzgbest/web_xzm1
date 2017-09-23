@@ -468,6 +468,9 @@ class Index extends Initialize{
     }
     protected function _getTaskTargetForInput($task_method){
         $task_target_info['target_type'] = input("target_type",0,"int");
+        if($task_target_info['target_type']<=0){
+            return [];
+        }
         $task_target_info['target_num'] = input("target_num",0,"int");
         $task_target_info['target_customer'] = input("target_customer",0,"int");
         if($task_method==5){
