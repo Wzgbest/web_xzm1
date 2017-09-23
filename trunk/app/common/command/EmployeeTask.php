@@ -235,7 +235,11 @@ class EmployeeTask extends Command{
                                 'remark' => '猜输赢任务失败退回'
                             ];
                             $order_datas[] = $order_add_data;
-                            $taskGuessAndTipMoneyEmployeeIdx[$taskTipInfo["tip_employee"]] += $taskTipInfo["tip_money"];
+                            if(isset($taskGuessAndTipMoneyEmployeeIdx[$taskTipInfo["tip_employee"]])){
+                                $taskGuessAndTipMoneyEmployeeIdx[$taskTipInfo["tip_employee"]] += $taskTipInfo["tip_money"];
+                            }else{
+                                $taskGuessAndTipMoneyEmployeeIdx[$taskTipInfo["tip_employee"]] = $taskTipInfo["tip_money"];
+                            }
                         }
 
                         //返还猜输赢记录
@@ -497,7 +501,11 @@ class EmployeeTask extends Command{
                                         'remark' => '猜输赢任务失败退回'
                                     ];
                                     $order_datas[] = $order_add_data;
-                                    $taskGuessMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] += $taskGuessInfo["guess_money"];
+                                    if(isset($taskGuessMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]])){
+                                        $taskGuessMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] += $taskGuessInfo["guess_money"];
+                                    }else{
+                                        $taskGuessMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] = $taskGuessInfo["guess_money"];
+                                    }
                                 }
 
                                 //返还打赏猜输赢等用户额度
