@@ -607,6 +607,7 @@ function task_list(target){
                 console.log($("#"+self.target+" .new_task_panel"));
                 console.log($("#"+self.target+" .new_task_panel .new_task_info_panel"));
                 $("#"+self.target+" .new_task_panel .new_task_info_panel").html(data);
+                $("#"+self.target+" .task_list").addClass("hide");
                 $("#"+self.target+" .new_task_panel").removeClass("hide");
             },
             error: function() {
@@ -627,6 +628,7 @@ function task_list(target){
                 console.log($("#"+self.target+" .task_direct_panel"));
                 console.log($("#"+self.target+" .task_direct_panel .task_direct_info_panel"));
                 $("#"+self.target+" .task_direct_panel .task_direct_info_panel").html(data);
+                $("#"+self.target+" .task_list").addClass("hide");
                 $("#"+self.target+" .task_direct_panel").removeClass("hide");
             },
             error: function() {
@@ -636,6 +638,7 @@ function task_list(target){
     });
     $("#"+self.target+" .task_info_panel .top .current").click(function(){
         $("#"+self.target+" .task_info_panel").addClass("hide");
+        $("#"+self.target+" .task_list").removeClass("hide");
     });
     $(task_list_sel+" article").on("click",".right .get_reward",function(){
         var type=$(this).attr('task-type');
