@@ -22,6 +22,7 @@ use app\task\model\TaskComment as TaskCommentModel;
 use app\task\model\TaskTip as TaskTipModel;
 use app\task\service\EmployeeTask as EmployeeTaskService;
 use app\common\model\Structure;
+use app\huanxin\service\RedEnvelope as RedEnvelopeService;
 
 class Index extends Initialize{
     var $paginate_list_rows = 10;
@@ -241,6 +242,22 @@ class Index extends Initialize{
         //var_exp($result_arr,'$result_arr');
         $result .= json_encode($result_arr,true).";";
         echo $result;
+    }
+
+    public function getRedEnvelope(){
+        $result = ['status'=>0 ,'info'=>"获取任务红包时发生错误！"];
+        $red_id = input('redid',"",'string');
+        if(empty($red_id)){
+            $result["info"] = "红包ID不能为空";
+            return json($result);
+        }
+        if (!preg_match('/[0-9a-fA-F]{32}/',$red_id)) {
+            $result["info"] = "参数错误";
+            return json($result);
+        }
+        $redEnvelopeS = new RedEnvelopeService($this->corp_id);
+        $result = $redEnvelopeS->getRedEnvelope($red_id);
+        return json($result);
     }
 
     public function getTaskTakeAndStandardInfo(){
