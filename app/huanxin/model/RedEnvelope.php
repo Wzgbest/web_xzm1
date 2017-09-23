@@ -256,6 +256,7 @@ class RedEnvelope extends Base
             'redid',
             're.money',
             'is_token',
+            'took_user',
         ];
         return $this->model->table($this->table)->alias('re')
             ->join($this->dbprefix.'employee e','e.id = re.fromuser',"LEFT")
