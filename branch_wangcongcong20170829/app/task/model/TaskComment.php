@@ -63,7 +63,7 @@ class TaskComment extends Base{
             ->join($this->dbprefix.'employee rv','rv.id = etc.reviewer_id',"LEFT")
             ->where($map)
             ->order($order)
-            ->field("etc.*,etc.comment_time as commont_time,etc.replay_comment_id,rp.telephone as replyer_telephone,rp.truename as replyer_name,rp.userpic as replyer_pic,rv.telephone as reviewer_telephone,rv.truename as reviewer_name,rv.userpic as reviewer_pic")
+            ->field("etc.*,etc.replayer_id as replyer_id,etc.comment_time as commont_time,etc.replay_comment_id,rp.telephone as replyer_telephone,rp.truename as replyer_name,rp.userpic as replyer_pic,rv.telephone as reviewer_telephone,rv.truename as reviewer_name,rv.userpic as reviewer_pic")
             ->select();
 
         return $employeeTaskCommentList;
