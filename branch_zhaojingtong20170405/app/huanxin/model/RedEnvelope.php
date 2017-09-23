@@ -245,4 +245,23 @@ class RedEnvelope extends Base
             ->field($field)
             ->select();
     }
+
+    function getRedEnvelopeByTaskAndUid($task_id,$uids){
+        if(!empty($uids)){
+            $map["re.took_user"] = ["in",$uids];
+        }
+        $map["re.task_id"] = $task_id;
+        $field = [
+            're.id',
+            'redid',
+            're.money',
+            'is_token',
+            'took_user',
+        ];
+        return $this->model->table($this->table)->alias('re')
+            ->join($this->dbprefix.'employee e','e.id = re.fromuser',"LEFT")
+            ->where($map)
+            ->field($field)
+            ->select();
+    }
 }
