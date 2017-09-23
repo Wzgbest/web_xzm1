@@ -30,26 +30,26 @@ class TaskComment extends Initialize{
 		$result = ['status'=>0,'info'=>"评论任务时发生错误!"];
 
 		$task_id = input('task_id',0,"int");
-		$replay_content = input('replay_content',"","string");
-		if (empty($task_id) || empty($replay_content)) {
+		$reply_content = input('reply_content',"","string");
+		if (empty($task_id) || empty($reply_content)) {
 				exception("参数错误!");
 			}	
 
 		$userinfo = get_userinfo();
 		$uid = $userinfo['userid'];
-		$replayer_id = $uid;
+		$replyer_id = $uid;
 		$comment_id = input('comment_id',0,"int");
 		$reviewer_id = 0;
 		$taskCommentModel = new TaskCommentModel($this->corp_id);
 		if ($comment_id) {
-			$replay_comment = $taskCommentModel->getOneTaskComment($comment_id);
-			$reviewer_id = $replay_comment['replayer_id'];
+			$reply_comment = $taskCommentModel->getOneTaskComment($comment_id);
+			$reviewer_id = $reply_comment['replyer_id'];
 		}
 		$comment['task_id'] = $task_id;
-		$comment['replayer_id'] = $replayer_id;
-		$comment['replay_content'] = $replay_content;
+		$comment['replyer_id'] = $replyer_id;
+		$comment['reply_content'] = $reply_content;
 		$comment['reviewer_id'] = $reviewer_id;
-		$comment['replay_comment_id'] = $comment_id;
+		$comment['reply_comment_id'] = $comment_id;
 		$comment['comment_time'] = time();
 
 		$add_result = $taskCommentModel->creatTaskComment($comment);

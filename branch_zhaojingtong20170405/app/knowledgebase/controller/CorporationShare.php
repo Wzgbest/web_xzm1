@@ -155,8 +155,8 @@ class CorporationShare extends Initialize{
         $reviewer_id = 0;
         $corporationShareCommentModel = new CorporationShareCommentModel($this->corp_id);
         if($commont_id){
-            $replay_comment= $corporationShareCommentModel->getOneComment($commont_id);
-            $reviewer_id = $replay_comment["replyer_id"];
+            $reply_comment= $corporationShareCommentModel->getOneComment($commont_id);
+            $reviewer_id = $reply_comment["replyer_id"];
         }
         $comment["share_id"] = $share_id;
         $comment["replyer_id"] = $replyer_id;
