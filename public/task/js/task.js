@@ -432,7 +432,7 @@ function new_task_form(load_table){
             type: 'get',
             success: function(data) {
                 //console.log(data);
-                //console.log($("#"+self.load_table+" .pay_ui"));
+                console.log($("#"+self.load_table+" .pay_ui"));
                 $("#"+self.load_table+" .pay_ui").html(data);
                 $("#"+self.load_table+" .pay_ui .payPwd").payPwd({
                     max:6,
@@ -1047,7 +1047,7 @@ function task_details(load_table,id,type){
             type: 'get',
             success: function(data) {
                 //console.log(data);
-                //console.log($(task_details_sel+" .tip_ui .mid"));
+                //console.log($(task_details_sel+" .tip_ui"));
                 $(task_details_sel+" .pay_ui").html(data);
                 $(task_details_sel+" .pay_ui .payPwd").payPwd({
                     max:6,
