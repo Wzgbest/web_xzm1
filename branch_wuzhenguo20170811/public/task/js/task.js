@@ -63,29 +63,6 @@ for(var i = 0; i < t; i++) {
 //$(".dv1 .grade .p1").removeClass("get")
 
 
-//评论
-$('.comment .criticism').click(function() {
-    //	$(".comment .review").hide();先后消失
-    $(".comment .triangle img:nth-last-of-type(1)").css('display', 'inline-block');
-    $(".comment .review").css('display', 'block')
-})
-$(function() {
-    $(document).bind("click", function(e) {
-        var target = $(e.target); //表示当前对象，切记，如果没有e这个参数，即表示整个BODY对象
-        if(target.closest(".comment").length == 0) {
-            $(".comment .review").hide();
-        }
-    })
-})
-$(function() {
-    $(document).bind("click", function(e) {
-        var target = $(e.target); //表示当前对象，切记，如果没有e这个参数，即表示整个BODY对象
-        if(target.closest(".comment ").length == 0) {
-            $(".comment .triangle img:nth-last-of-type(1)").hide();
-        }
-    })
-})
-
 //点击span时加.motai
 $('.grade .show_ranking_task').click(function() {
     $(this).parent().parent().siblings('.motai').addClass('motai1');
@@ -114,72 +91,6 @@ $('.grade .show_ranking_reward').click(function(){
         $('.grade .show_ranking_reward').parents().removeClass("change");
     });
 });
-
-//点赞
-$(".task").on('click','img.add',function(){
-    var self = this;
-    var qw = $(this).attr('index_img');
-    var task_id = $(this).attr('task_id');
-    var p = parseInt($(this).siblings().text());
-    var i = parseInt(qw);
-    if(i % 2){
-        task_like(task_id,true,function(data){
-            $(self).attr('src', '/task/img/praise.png');
-            var q = p + 1;
-            $(self).siblings().text(q);
-        });
-    }else {
-        task_like(task_id,false,function(data){
-            $(self).attr('src', '/task/img/zan.png');
-            var q = p - 1;
-            $(self).siblings().text(q);
-        });
-    }
-    i++;
-    $(this).attr('index_img', i)
-});
-
-$(".dv3 .up .like .right .add").click(function() {
-    var self = this;
-    var jt = $(this).attr('index_img');
-    var task_id = $(this).attr('task_id');
-    console.log($(this).siblings(".yi"));
-    var x = parseInt($(this).siblings(".yi").text());
-    var j = parseInt(jt);
-    if(j % 2){
-        task_like(task_id,true,function(data){
-            $(self).attr('src', '/task/img/praise.png');
-            var y = x + 1;
-            $(self).siblings(".yi").text(y);
-        });
-    }else {
-        task_like(task_id,false,function(data){
-            $(self).attr('src', '/task/img/zan.png');
-            var y = x - 1;
-            $(self).siblings(".yi").text(y);
-        });
-    }
-    j++;
-    $(this).attr('index_img', j)
-
-})
-//$(".dv3 .up .like .right .add").click(function() {
-//
-//	var qw = $('.dv3 .up .like .right .add').attr('index_img');
-//
-//				var i = parseInt(qw);
-//				if(i % 2){
-//					$('.dv3 .up .like .right .add').attr('src', '/task/img/praise.png');
-//
-//				}else {
-//					$('.dv3 .up .like .right .add').attr('src', '/task/img/zan.png');
-//
-//				}
-//				i++;
-//				$('.dv3 .up .like .right .add').attr('index_img', i)
-//
-//
-//})
 
 function task_like(id,like,fun){
     var post_data = "id="+id;
@@ -232,42 +143,6 @@ $("article .dv4 .parcel .add").click(function(){
     })
     $("article .dv4 ul .largest").text(max_num2);
     $("article .dv4 ul .total").text(s);//总计的钱
-})
-
-
-//评论..评论
-$(".dv3 .up .right p").click(function(){
-    var that=$(this);
-    var content=that.parents('div.like').prev('.content').val();
-    var task_id=that.attr('data-id');
-    var comment_id=0;
-    var truename=that.attr('now-truename');
-    $.ajax({
-        url:'/task/task_comment/addTaskComment',
-        type: 'post',
-        data:{'task_id':task_id,'replay_content':content,'comment_id':comment_id },
-        success:function(data){
-            layer.msg(data.info,{icon:data.status==1?1:2});
-            if(data.status){
-                //评论成功
-                //alert(1)
-                var pinglun="";
-                // var sk=$(".dv3 .up textarea").val();
-                //$(".speek").text(sk);
-                //alert(sk)
-
-                pinglun+="<div class='one'><img src='/task/img/man.png'/><div>";
-                pinglun+="<p><span class='name'>"+truename+"</span><span>:</span><span class='speek'>";
-                pinglun+=content;
-                pinglun+="</span></p>";
-                pinglun+="<p class='reply'><span>刚刚</span></p></div></div>";
-                $(".dv3 .down .review").prepend(pinglun);
-            }
-
-        }
-    });
-
-
 })
 
 
@@ -824,6 +699,32 @@ function task_list(target){
         console.log("tip_cancel");
         $(task_list_sel+" .pay_ui").trigger('reveal:close');
     });
+
+    $(task_list_sel+" article").on("click",".right .add",function(){
+        var qw = $(this).attr('index_img');
+        var task_id = $(this).attr('task_id');
+        var p = parseInt($(this).siblings().text());
+        console.log(p);
+        var that = this;
+        console.log(that);
+        var i = parseInt(qw);
+        if(i % 2){
+             task_like(task_id,true,function(data){
+                console.log(task_id);
+             $(that).attr('src', '/task/img/praise.png');
+             var q = p + 1;
+             $(that).siblings().text(q);
+         });
+        }else {
+            task_like(task_id,false,function(data){
+            $(that).attr('src', '/task/img/zan.png');
+            var q = p - 1;
+            $(that).siblings().text(q);
+            });
+        }
+        i++;
+        $(this).attr('index_img', i)
+    });
 }
 
 
@@ -1108,4 +1009,66 @@ function task_details(load_table,id,type){
         console.log("tip_cancel");
         $(task_details_sel+" .pay_ui").trigger('reveal:close');
     });
+
+    $(task_details_sel+" .dv3").on("click",".right .add",function() {
+            var jt = $(this).attr('index_img');
+            var task_id = $(this).attr('task_id');
+            var x = parseInt($(this).siblings(".yi").text());
+            var j = parseInt(jt);
+            var that = this;
+            console.log(j);
+            if(j % 2){
+                task_like(task_id,true,function(data){
+                    $(that).attr('src', '/task/img/praise.png');
+                    var y = x + 1;
+                    $(that).siblings(".yi").text(y);
+                });
+            }else {
+                task_like(task_id,false,function(data){
+                    $(that).attr('src', '/task/img/zan.png');
+                    var y = x - 1;
+                    $(that).siblings(".yi").text(y);
+                });
+            }
+            j++;
+            $(this).attr('index_img', j);
+        });
+
+    $(task_details_sel+" .dv3").on("click",".down .one .comment",function() {
+           var name= $(this).siblings('div').children("p").children(".name_1").text();
+           var name_true = '回复:' + name;
+           $(this).parents('.dv3').children(".up").children(".content").attr('placeholder',name_true);
+           var comment_id= $(this).siblings('div').children("p").children(".name_1").attr('comment_id');
+            $(this).parents('.dv3').children(".up").children(".like").children('.right').children('p').attr({
+                'comment_id': comment_id,
+            });
+
+        });
+    $(task_details_sel+" .dv3").on("click",".up .right p",function() {
+            var that=$(this);
+            var content=that.parents('div.like').prev('.content').val();
+            var task_id=that.attr('data-id');
+            var comment_id=that.attr('comment_id');
+            var truename=that.attr('now-truename');
+            $.ajax({
+                url:'/task/task_comment/addTaskComment',
+                type: 'post',
+                data:{'task_id':task_id,'replay_content':content,'comment_id':comment_id },
+                success:function(data){
+                    layer.msg(data.info,{icon:data.status==1?1:2});
+                    if(data.status){
+                        //评论成功
+                         self.update_commont();
+                         that.removeAttr('comment_id');
+                         that.parents('.up').children('.content ').val('');
+                         that.parents('.up').children('.content ').attr('placeholder','请输入评论')
+                    }
+
+                }
+            });
+
+
+        });
+
+
 }
