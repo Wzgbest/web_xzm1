@@ -226,8 +226,8 @@ class RedEnvelope
             $result['status'] = true;
             $result['message'] = '恭喜领取成功';
             $result['errnum'] = 0;
-            $result['money'] = $getRedEnvelopeInfo['money'];
-            $result['red_info'] = $getRedEnvelopeInfo["red_info"];
+            $result['money'] = $getRedEnvelopeInfo['data']['money'];
+            $result['red_info'] = $getRedEnvelopeInfo['data']["red_info"];
         }else{
             $result['status'] = false;
             $result['message'] = $getRedEnvelopeInfo["info"];
