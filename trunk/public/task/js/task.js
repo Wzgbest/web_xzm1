@@ -519,7 +519,7 @@ function task_list(target){
             }
         });
     });
-    $(task_list_sel+" article").on("click",".dv1 .comment .task_details",function(){
+    $(task_list_sel+" article").on("click",".dv1 .task_details",function(){
         var id = $(this).attr("task_id");
         console.log(id);
         //loadPage('/task/index/show/id/'+id+'/fr/'+self.target,self.target);

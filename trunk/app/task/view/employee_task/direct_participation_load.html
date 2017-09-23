@@ -160,7 +160,7 @@
         <div class="right">
             <div class="within">
                 <div class="give grade details">
-                    <p class="p2">查看排名</p>
+                    <p class="p2 task_details" task_id="{$vo.id}">查看排名</p>
                     {if condition="!in_array($uid,explode(',',$vo['take_employees']))"}
                     <p class="p2 guess" task_id="{$vo.id}">猜输赢</p>
                     {/if}
