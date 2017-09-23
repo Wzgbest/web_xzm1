@@ -614,6 +614,8 @@ class Index extends Initialize{
             ];
         }
         $public_uids = explode(",",$taskInfo["public_to_take"]);
+        $public_uids = array_filter($public_uids);
+        $public_uids = array_unique($public_uids);
         if($taskInfo["task_type"]==1){
             foreach ($public_uids as $employee_id){
                 $taskTakeInfos[] = [
