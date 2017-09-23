@@ -598,6 +598,8 @@ class EmployeeTask extends Command{
         $trace_info_str .= "\r\n".$output_info_str;
         trace($trace_info_str);
 
+        echo $trace_info_str;
+
         $output->writeln($output_info_str);
     }
 }

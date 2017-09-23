@@ -366,11 +366,56 @@ function new_task_form(load_table){
         console.log(val);
 
         if(val==1){
-            loadPage('/task/index/new_task/fr/'+self.load_table,self.load_table);
+            $.ajax({
+                url: '/task/index/new_task/fr/'+self.load_table,
+                type: 'get',
+                success: function(data) {
+                    //console.log(data);
+                    //console.log($("#"+self.load_table+" .new_task_panel"));
+                    //console.log($("#"+self.load_table+" .new_task_panel .new_task_info_panel"));
+                    $("#"+self.load_table+" .new_task_panel .new_task_info_panel").html(data);
+                    $("#"+self.load_table+" .task_list").addClass("hide");
+                    $("#"+self.load_table+" .new_task_panel").removeClass("hide");
+                },
+                error: function() {
+                    layer.msg('加载任务新建出现错误',{icon:2});
+                }
+            });
+            //loadPage('/task/index/new_task/fr/'+self.load_table,self.load_table);
         }else if(val==2){
-            loadPage('/task/index/PKnew_task/fr/'+self.load_table,self.load_table);
+            $.ajax({
+                url: '/task/index/PKnew_task/fr/'+self.load_table,
+                type: 'get',
+                success: function(data) {
+                    //console.log(data);
+                    //console.log($("#"+self.load_table+" .new_task_panel"));
+                    //console.log($("#"+self.load_table+" .new_task_panel .new_task_info_panel"));
+                    $("#"+self.load_table+" .new_task_panel .new_task_info_panel").html(data);
+                    $("#"+self.load_table+" .task_list").addClass("hide");
+                    $("#"+self.load_table+" .new_task_panel").removeClass("hide");
+                },
+                error: function() {
+                    layer.msg('加载任务新建出现错误',{icon:2});
+                }
+            });
+            //loadPage('/task/index/PKnew_task/fr/'+self.load_table,self.load_table);
         }else if(val==3){
-            loadPage('/task/index/rewardnew_task/fr/'+self.load_table,self.load_table);
+            $.ajax({
+                url: '/task/index/rewardnew_task/fr/'+self.load_table,
+                type: 'get',
+                success: function(data) {
+                    //console.log(data);
+                    //console.log($("#"+self.load_table+" .new_task_panel"));
+                    //console.log($("#"+self.load_table+" .new_task_panel .new_task_info_panel"));
+                    $("#"+self.load_table+" .new_task_panel .new_task_info_panel").html(data);
+                    $("#"+self.load_table+" .task_list").addClass("hide");
+                    $("#"+self.load_table+" .new_task_panel").removeClass("hide");
+                },
+                error: function() {
+                    layer.msg('加载任务新建出现错误',{icon:2});
+                }
+            });
+            //loadPage('/task/index/rewardnew_task/fr/'+self.load_table,self.load_table);
         }
     });
 
@@ -386,8 +431,8 @@ function new_task_form(load_table){
             url: "/task/index/pay/money/"+money+"/fr/"+self.load_table,
             type: 'get',
             success: function(data) {
-                console.log(data);
-                console.log($("#"+self.load_table+" .pay_ui"));
+                //console.log(data);
+                //console.log($("#"+self.load_table+" .pay_ui"));
                 $("#"+self.load_table+" .pay_ui").html(data);
                 $("#"+self.load_table+" .pay_ui .payPwd").payPwd({
                     max:6,
@@ -407,6 +452,10 @@ function new_task_form(load_table){
     $("#"+self.load_table+" .pay_ui").on("click",".pop-submit-btn",function(){
         console.log("pop-submit-btn");
         self.add_task(self.get_pay_password());
+    });
+    $("#"+self.load_table+" .new_task_cancel").click(function(){
+        $("#"+self.load_table+" .task_info_panel").addClass("hide");
+        $("#"+self.load_table+" .task_list").removeClass("hide");
     });
 }
 
