@@ -532,7 +532,7 @@ class Api
                 $info[$value]['data'] = $result['data'];
             }
 
-            sleep(3);
+            usleep(3000000);
         }
 
         return $info;
@@ -564,7 +564,7 @@ class Api
                 $info[$value]['data'] = $result['data'];
             }
 
-            sleep(3);
+            usleep(3000000);
         }
 
         return $info;
