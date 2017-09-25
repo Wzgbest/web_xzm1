@@ -2,6 +2,8 @@
 {volist name="task_list" id="vo"}
 {eq name="vo.task_type" value="1"}
 <div class="dv1">
+    {eq name="vo.is_token" value="0"}
+    <div class="mengceng m_c" hongbao_id="{$vo.redid}">{/eq}
     <div class="left">
         <img src="/task/img/incentive_task.png" class="img1" />
         <div class="border-right">
@@ -24,7 +26,7 @@
                     <p class="small">统计周期</p>
                     <p class="big">{$vo.task_start_time|date="Y.m.d",###}-{$vo.task_end_time|date="Y.m.d",###}</p>
                 </div>
-                <div>comment_pk
+                <div>
                     <p class="small">考核项目</p>
                     <p class="big">{$vo.target_type|get_target_type_name}</p>
                 </div>
@@ -66,7 +68,7 @@
     </div>
     <div class="right">
         <div class="within">
-            <div class="give">
+            <div class="give details">
                 <!--<p class="p3">任务失败</p>-->
                 <p class="p2 task_details" task_id="{$vo.id}">查看详情</p>
             </div>
@@ -86,6 +88,9 @@
             </div>
         </div>
     </div>
+    {eq name="vo.is_token" value="0"}
+    <img src="/task/img/redPacket.png" class="picture"/>
+    </div>{/eq}
 </div>
 {/eq}
 {eq name="vo.task_type" value="2"}
@@ -174,6 +179,8 @@
 {/eq}
 {eq name="vo.task_type" value="3"}
 <div class="dv1">
+    {eq name="vo.is_token" value="0"}
+    <div class="mengceng m_c" hongbao_id="{$vo.redid}">{/eq}
     <div class="left">
         <img src="/task/img/reward_task.png" class="img1" />
         <div class="border-right">
@@ -217,7 +224,7 @@
     </div>
     <div class="right">
         <div class="within">
-            <div class="give">
+            <div class="give details">
                 <p class="p2 task_details" task_id="{$vo.id}">查看详情</p>
             </div>
             <div class="comment">
@@ -236,6 +243,9 @@
             </div>
         </div>
     </div>
+    {eq name="vo.is_token" value="0"}
+    <img src="/task/img/redPacket.png" class="picture"/>
+    </div>{/eq}
 </div>
 {/eq}
 {/volist}
