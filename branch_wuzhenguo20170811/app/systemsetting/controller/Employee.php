@@ -311,10 +311,10 @@ class Employee extends Initialize{
                     $info['message'] = '新增员工失败，或添加IM帐号失败';
                     return $info;
                 }
-            }catch (\Exception $e){
+            }catch (\Exception $ex){
                 $employeeM->link->rollback();
                 UserCorporation::rollback();
-                $info['message'] = $e->getMessage();
+                $info['message'] = $ex->getMessage();
                 return $info;
             }
         }
@@ -405,6 +405,10 @@ class Employee extends Initialize{
                 $struct_old_arr[] .=$val['struct_id'];
             }
 
+            //查找群组id
+            $group_id = $struct_empM->getGroupIdsByEmployee($user_id);
+            $user_name = $this->corp_id."_".$user_id;
+            // var_dump($group_id);die();
             $employeeM->link->startTrans();
             try{
                 //员工表修改信息
@@ -482,6 +486,13 @@ class Employee extends Initialize{
                     $role_del_res = $role_empM->deleteMultipleRoleEmployee($user_id,$role_delete_data);
                 } else {
                     $role_del_res = 1;
+                }
+
+                if ($input["on_duty"]==-1) {
+                    $delGroup = $huanxin->deleteUserFromMoreGroup($user_name,$group_id);
+                    if (isset($delGroup['error'])) {
+                        exception("删除群组员工失败");
+                    }
                 }
 
                 if ($em_res >= 0 && $res>0 && $del_res>0 && $role_res>0 && $role_del_res>0) {
@@ -704,18 +715,18 @@ class Employee extends Initialize{
 
     // }
     
-    // public function testGroup(){
-    //     $result = ['status'=>0,'info'=>"注册失败"];
+    public function testGroup(){
+        $result = ['status'=>0,'info'=>"注册失败"];
 
-    //     $huanxin = new HuanxinApi();
-    //     $member = [$this->corp_id."_".'1',$this->corp_id."_".'3'];
-    //     $groupname = '测试创建群组';
-    //     $desc = '群组测试';
-    //     $owner = $this->corp_id."_".'6';
-    //     $data['groupname'] = '换个名字试试';
-    //     $data = $huanxin->addAllUsers('27603478052865',[$this->corp_id."_".'4',$this->corp_id."_".'5',$this->corp_id."_".'6']);
-    //     $result['data'] = $data;
+        $huanxin = new HuanxinApi();
+        $member = [$this->corp_id."_".'1',$this->corp_id."_".'3'];
+        $groupname = '测试创建群组';
+        $desc = '群组测试';
+        $owner = $this->corp_id."_".'6';
+        $data['groupname'] = '换个名字试试';
+        $data = $huanxin->createGroup($this->corp_id,'6','销售二部','销售二部',$this->corp_id."_".'3');
+        $result['data'] = $data;
 
-    //     return $result;
-    // }
+        return $result;
+    }
 }
