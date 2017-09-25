@@ -406,9 +406,13 @@ class Employee extends Initialize{
             }
 
             //查找群组id
-            $group_id = $struct_empM->getGroupIdsByEmployee($user_id);
+            $struct_info = $struct_empM->getGroupIdsByEmployee($user_id);
             $user_name = $this->corp_id."_".$user_id;
-            // var_dump($group_id);die();
+            $group_id = [];
+            foreach ($struct_info as $one_struct) {
+                $group_id[] = $one_struct['groupid'];
+            }
+
             $employeeM->link->startTrans();
             try{
                 //员工表修改信息
@@ -689,44 +693,4 @@ class Employee extends Initialize{
         return json($result);
     }
 
-    // public function createAllUser(){
-    //     $result = ['status'=>0,'info'=>"注册失败"];
-    //     $huanxin = new HuanxinApi();
-    //     $flg = $huanxin->updatePassword($this->corp_id,$this->corp_id."_".'72',md5($this->default_password));
-    //     $flg = $huanxin->updatePassword($this->corp_id,$this->corp_id."_".'85',md5($this->default_password));
-    //     $flg = $huanxin->updatePassword($this->corp_id,$this->corp_id."_".'90',md5($this->default_password));
-        // for ($i=1; $i<13 ; $i++) { 
-        //     $flg = $huanxin->updatePassword($this->corp_id,$this->corp_id."_".$i,md5($this->default_password));
-        // }
-        // var_dump($users);die();
-        // $users[] = ['username'=>$this->corp_id."_".'72','password'=>$this->default_password];
-        // $users[] = ['username'=>$this->corp_id."_".'85','password'=>$this->default_password];
-        // $users[] = ['username'=>$this->corp_id."_".'90','password'=>$this->default_password];
-        
-
-        // $flg = $huanxin->updatePassword($this->corp_id,$users);
-
-        // if ($flg['status']) {
-        //     $result['info'] = "注册成功";
-        //     $result['status'] = 1;
-        // }
-    //     $return['info'] = $flg;
-    //     return $result;
-
-    // }
-    
-    public function testGroup(){
-        $result = ['status'=>0,'info'=>"注册失败"];
-
-        $huanxin = new HuanxinApi();
-        $member = [$this->corp_id."_".'1',$this->corp_id."_".'3'];
-        $groupname = '测试创建群组';
-        $desc = '群组测试';
-        $owner = $this->corp_id."_".'6';
-        $data['groupname'] = '换个名字试试';
-        $data = $huanxin->createGroup($this->corp_id,'6','销售二部','销售二部',$this->corp_id."_".'3');
-        $result['data'] = $data;
-
-        return $result;
-    }
 }

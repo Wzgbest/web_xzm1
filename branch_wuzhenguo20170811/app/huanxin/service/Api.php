@@ -282,6 +282,8 @@ class Api
             if ($b >0) {
                 $info['status'] = true;
                 $info['message'] = '注册环信用户成功';
+            }else{
+                $info['error'] = 1;
             }
         }
         return $info;
@@ -642,7 +644,10 @@ class Api
         foreach ($user_arr as $key => $val) {
             foreach ($val as $k => $v) {
                 if ($k == 'username') {
-                    $user_up[] .= $v;
+                    $ve = explode('_',$v);
+                    if (isset($ve[1])) {
+                        $user_up[] .= $ve[1];
+                    }
                 }
             }
         }
