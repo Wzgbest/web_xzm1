@@ -154,6 +154,7 @@ class EmployeeTask extends Initialize{
         }
         $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
         $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token,case when tg.guess_employee>0 then 1 else 0 end as is_guess',$order,$direction="desc",$map);
+//        var_exp($task_list);
         $con['task_end_time']=$map['task_end_time'];
         $con['take_employees']=array('IN',$uid);
         $count1=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con);
