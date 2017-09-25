@@ -3,6 +3,8 @@
 {volist name="task_list" id="vo"}
 {eq name="vo.task_type" value="1"}
 <div class="dv1">
+    {eq name="vo.is_token" value="0"}
+    <div class="mengceng m_c" hongbao_id="{$vo.redid}">{/eq}
     <div class="left">
         <img src="/task/img/incentive_task.png" class="img1" />
         <div class="border-right">
@@ -75,7 +77,7 @@
     </div>
     <div class="right">
         <div class="within">
-            <div class="give">
+            <div class="give details">
                 <p class="p2">终止任务</p>
                 <p class="p2 jili">查看详情</p>
                 <p class="p2 tip" task_id="{$vo.id}">打赏</p>
@@ -97,6 +99,9 @@
             </div>
         </div>
     </div>
+    {eq name="vo.is_token" value="0"}
+    <img src="/task/img/redPacket.png" class="picture"/>
+    </div>{/eq}
 </div>
 {/eq}
 {eq name="vo.task_type" value="2"}
@@ -191,6 +196,8 @@
 {/eq}
 {eq name="vo.task_type" value="3"}
 <div class="dv1">
+    {eq name="vo.is_token" value="0"}
+    <div class="mengceng m_c" hongbao_id="{$vo.redid}">{/eq}
     <div class="left">
         <img src="/task/img/reward_task.png" class="img1" />
         <div class="border-right">
@@ -234,7 +241,7 @@
     </div>
     <div class="right">
         <div class="within">
-            <div class="active">
+            <div class="active details">
                 <p class="p2">终止任务</p>
                 <p class="p2 xuanshang">查看详情</p>
                 <p class="p2 tip" task_id="{$vo.id}">打赏</p>
@@ -255,6 +262,9 @@
             </div>
         </div>
     </div>
+    {eq name="vo.is_token" value="0"}
+    <img src="/task/img/redPacket.png" class="picture"/>
+    </div>{/eq}
 </div>
 {/eq}
 {/volist}
