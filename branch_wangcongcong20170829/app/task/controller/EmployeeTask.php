@@ -85,7 +85,7 @@ class EmployeeTask extends Initialize{
         $user_info = get_userinfo();
         $uid = $user_info['userid'];
         $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
-        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token',$order,$direction="desc",$map);
+        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token,case when tg.guess_employee>0 then 1 else 0 end as is_guess',$order,$direction="desc",$map);
         $countField=["
         count(1) as `0`,
         sum((case when task_type = 1 then 1 else 0 end)) as `1`,
