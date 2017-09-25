@@ -361,7 +361,7 @@ function new_task_form(load_table){
     this.get_pay_password=function(){
         return self.paypassword;
     };
-    $("#"+self.load_table+" .dv4 .parcel .hezi select").change(function(){
+    $("#"+self.load_table+" .dv4 .parcel .hezi select[name='task_type']").change(function(){
         var val=$(".dv4 .parcel .hezi select").val();
         console.log(val);
 
@@ -453,7 +453,7 @@ function new_task_form(load_table){
         console.log("pop-submit-btn");
         self.add_task(self.get_pay_password());
     });
-    $("#"+self.load_table+" .new_task_cancel").click(function(){
+    $("#"+self.load_table+" .new_task_panel").on("click",".new_task_info_panel .new_task_cancel",function(){
         $("#"+self.load_table+" .task_info_panel").addClass("hide");
         $("#"+self.load_table+" .task_list").removeClass("hide");
     });
