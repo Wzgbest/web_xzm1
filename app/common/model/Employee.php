@@ -204,7 +204,7 @@ class Employee extends Base{
     {
         $data=['haveim'=>1];
         return $this->model->table($this->table)
-            ->where("telephone in ('".implode("','",$save_up)."')")
+            ->where("id in ('".implode("','",$save_up)."')")
             ->update($data);
     }
 

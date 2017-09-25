@@ -37,6 +37,7 @@ class StructureEmployee extends Base
         return $this->model->table($this->table)->where('user_id',$user_id)->field('struct_id')->select();
     }
 
+
     /**
      * 根据员工id获取部门ids
      * @param $user_ids array 员工id列表
@@ -135,6 +136,23 @@ class StructureEmployee extends Base
         return $this->model->table($this->table)->alias('a')
             ->join(config('database.prefix').'structure b','a.struct_id = b.id')
             ->field('a.struct_id,b.struct_name')
+            ->where('a.user_id',$user_id)
+            ->select();
+    }
+
+
+
+ /**
+     * 根据员工id获取群组id
+     * @param $user_id 员工id
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
+     */
+    public function getGroupIdsByEmployee($user_id)
+    {
+        return $this->model->table($this->table)->alias('a')
+            ->join(config('database.prefix').'structure b','a.struct_id = b.id')
+            ->field('b.groupid')
             ->where('a.user_id',$user_id)
             ->select();
     }
