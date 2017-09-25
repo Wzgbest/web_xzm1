@@ -419,7 +419,7 @@ class Employee extends Initialize{
                 $em_res = $employeeM->setSingleEmployeeInfobyId($user_id,$input);
 
                 //部门表修改信息，1,2,3 ---> 2,3,4 => 新增4,删除1
-                if ($input['is_leader'] == 1) {
+                //if ($input['is_leader'] == 1) {
                     $insert = array_diff($struct_ids,$struct_old_arr);//新添加的
                     $delete = array_diff($struct_old_arr,$struct_ids);//需要删除的
                     //有需要添加的
@@ -447,7 +447,7 @@ class Employee extends Initialize{
                     } else {
                         $del_res = 1;
                     }
-                } else {
+                /*} else {
                     //非领导
                     $struct_data['user_id'] = $user_id;
                     $struct_data['struct_id'] = $struct_ids[0];
@@ -456,7 +456,7 @@ class Employee extends Initialize{
                         $res =1;
                     }
                     $del_res = 1;
-                }
+                }*/
 
 
                 $role_old = $role_empM->getRoleIdsByEmployee($user_id);
@@ -513,6 +513,7 @@ class Employee extends Initialize{
             }catch (\Exception $ex){
                 $employeeM->link->rollback();
                 $info['message'] = $ex->getMessage();
+                //print_r($ex->getTrace());
                 return $info;
             }
         }
