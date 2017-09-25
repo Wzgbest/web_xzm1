@@ -274,6 +274,7 @@ class Api
         $user_info = json_decode($user_reg, true);
         if (isset($user_info['error'])) {
             $info['message'] = $this->getError($user_info['error']);
+            $info['error'] = $user_info['error'];
         } else {
             $user_arr = $user_info['entities'];//注册成功的用户
             //TODO 不应该在这里更新数据库,改为调用这个接口前开启数据库事务,先更新数据库,再请求这个接口,接口返回成功提交事务,失败回滚事务,保持一致性
@@ -281,6 +282,8 @@ class Api
             if ($b >0) {
                 $info['status'] = true;
                 $info['message'] = '注册环信用户成功';
+            }else{
+                $info['error'] = 1;
             }
         }
         return $info;
@@ -355,7 +358,7 @@ class Api
      * @param  [type]  $owner        群组的管理员，此属性为必须的
      * @return [type]                [description]
      */
-    public function createGroup($corp_id,$structureid,$members=[],$groupname,$desc,$owner,$public=false,$maxusers=200,$members_only=false,$allowinvites=false){
+    public function createGroup($corp_id,$structureid,$groupname,$desc,$owner,$members=[],$public=false,$maxusers=200,$members_only=false,$allowinvites=false){
         $info = ['status'=>0,'message'=>'创建群组失败'];
 
         if (!$groupname || !$desc || !$owner) {
@@ -641,7 +644,10 @@ class Api
         foreach ($user_arr as $key => $val) {
             foreach ($val as $k => $v) {
                 if ($k == 'username') {
-                    $user_up[] .= $v;
+                    $ve = explode('_',$v);
+                    if (isset($ve[1])) {
+                        $user_up[] .= $ve[1];
+                    }
                 }
             }
         }

@@ -47,7 +47,7 @@
             <div>
                 <span class="cont">拜访地点</span>
                 <!-- <input type="text" name="visit_place" placeholder="请输入地址" value="{$saleChancesVisitData.visit_place}" /> -->
-                <input type="text" name="visit_place" pattern="[\d\D]{0,40}" title="最多可填写40个字符" placeholder="请输入详细地址"/>
+                <input type="text" name="visit_place" pattern="[\d\D]{0,40}" title="最多可填写40个字符" placeholder="请输入详细地址" value="{$saleChancesVisitData.visit_place}" />
             </div>
             <!-- <div>
                 <span class="cont">&nbsp;</span>
@@ -57,9 +57,9 @@
             <div>
                 <span class="cont u-area">详细定位</span>
                 <!--<input type="text" name="location" placeholder="请点击地图进行坐标定位"/>-->
-                <input type="hidden" name="lng" />
-                <input type="hidden" name="lat" />
-                <iframe id="mapFrame" name="mapFrame" src="/index/index/map.html"></iframe>
+                <input type="hidden" name="lng" value="{$saleChancesVisitData.lng}"/>
+                <input type="hidden" name="lat" value="{$saleChancesVisitData.lat}"/>
+                <iframe id="mapFrame" name="mapFrame" data-lng="{$saleChancesVisitData.lng}" data-lat="{$saleChancesVisitData.lat}" data-edit="true" src="/index/index/map.html"></iframe>
             </div>
             <div>
                 <span class="cont">结伴提醒</span>

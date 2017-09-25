@@ -65,9 +65,10 @@ class EmployeeTask extends Base{
 //            ->field("et.*,e.telephone,e.truename,e.userpic,case when etl.user_id>0 then 1 else 0 end as is_like")
 //            ->find();
         $map['et.id']=$task_id;
-        $field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like';
+        $field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like,case when tg.guess_employee>0 then 1 else 0 end as is_guess';
         return $this->model->table($this->viewTable)->alias('et')
             ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
+            ->join($this->dbprefix.'employee_task_guess tg',"tg.task_id=et.id and tg.guess_employee=".$uid,"LEFT")
             ->field($field)->where($map)->find();
     }
 
@@ -226,7 +227,7 @@ class EmployeeTask extends Base{
 //        $employee_task_list=$this->model->table($this->viewTable)->field($field)->where($map_str)->where($map)->order($listOrder)->limit($offset,$num)->select();
         $employee_task_list=$this->model->table($this->viewTable)->alias('et')
             ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
-            ->join($this->dbprefix.'red_envelope re',"re.task_id = et.id and re.type = 3 and re.took_user = ".$uid,"LEFT")
+            ->join($this->dbprefix.'red_envelope re',"re.task_id = et.id and re.took_user = ".$uid,"LEFT")
             ->join($this->dbprefix.'employee_task_guess tg',"tg.task_id=et.id and tg.guess_employee=".$uid,"LEFT")
             ->field($field)->where($map_str)->where($map)->order($listOrder)->select();
         return $employee_task_list;
