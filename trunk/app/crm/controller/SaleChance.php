@@ -142,6 +142,16 @@ class SaleChance extends Initialize{
         $this->assign("fr",input('fr'));
         $saleChanceM = new SaleChanceModel($this->corp_id);
         $SaleChancesData = $saleChanceM->getAllSaleChancesByCustomerId($customer_id);
+        foreach ($SaleChancesData as &$SaleChances){
+            if(isset($SaleChances["location"])){
+                $location = explode(",",$SaleChances["location"]);
+                $SaleChances["lat"] = isset($location[0])&&!empty($location[0])?$location[0]:"36.7075";
+                $SaleChances["lng"] = isset($location[1])&&!empty($location[1])?$location[1]:"119.1324";
+            }else{
+                $SaleChances["lat"] = "36.7075";
+                $SaleChances["lng"] = "119.1324";
+            }
+        }
         //var_exp($SaleChancesData,'$SaleChancesData',1);
         $this->assign("sale_chance",$SaleChancesData);
         $customerContactM = new CustomerContact($this->corp_id);
@@ -239,6 +249,9 @@ class SaleChance extends Initialize{
                 $SaleChancesVisitData["partner_notice"] = 0;
                 $SaleChancesVisitData["add_note"] = 0;
             }
+            $location = explode(",",$SaleChancesVisitData["location"]);
+            $SaleChancesVisitData["lat"] = isset($location[0])&&!empty($location[0])?$location[0]:"36.7075";
+            $SaleChancesVisitData["lng"] = isset($location[1])&&!empty($location[1])?$location[1]:"119.1324";
             $this->assign('saleChancesVisitData',$SaleChancesVisitData);
             $show_visit = true;
         }
@@ -581,7 +594,12 @@ class SaleChance extends Initialize{
 
         $saleChanceVisit['visit_time'] = input('visit_time',0,'strtotime');
         $saleChanceVisit['visit_place'] = input('visit_place');
-        $saleChanceVisit['location'] = input('location','','string');
+        $saleChanceVisit['location'] = '';
+        $lat = input('lat','','string');
+        $lng = input('lng','','string');
+        if($lat&&$lng){
+            $saleChanceVisit['location'] = $lat.','.$lng;
+        }
 
         $saleChanceVisit['partner_notice'] = input('partner_notice',0,'int');
         $saleChanceVisit['add_note'] = input('add_note',0,'int');
