@@ -101,9 +101,7 @@ class RoleEmployee extends Base
     public function getRoleIdsByEmployee($userid)
     {
         $role = $this->model->table($this->table)->alias('re')
-            ->join(config('database.prefix').'role r','re.role_id = r.id')
-            ->join(config('database.prefix').'role_rule rr','rr.role_id = r.id','left')
-            ->field('GROUP_CONCAT( distinct re.role_id) as role_id')
+            ->field('re.role_id')
             ->where('re.user_id',$userid)
             ->select();
         return $role;
