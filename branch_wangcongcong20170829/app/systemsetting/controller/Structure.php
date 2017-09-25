@@ -10,6 +10,7 @@ use app\common\model\Employee as EmployeeModel;
 use app\common\model\Structure as StructureModel;
 use app\common\model\StructureEmployee as StructureEmployeeModel;
 use app\common\model\Role as RoleModel;
+use app\huanxin\service\Api as HuanxinApi;
 
 class Structure extends Initialize
 {
@@ -361,15 +362,35 @@ class Structure extends Initialize
         foreach ($user_ids_arr as $user_id){
             $item_data["user_id"] = $user_id;
             $structEmployees[] = $item_data;
+            $group_users[] = $this->corp_id."_".$user_id;
         }
         $employeeM = new StructureEmployeeModel($this->corp_id);
-        $res = $employeeM->addMultipleStructureEmployee($structEmployees);
-        if ($res >0) {
-            $info=[
-                'status' =>true,
-                'message' => '添加部门成员成功',
-            ];
+        $structModel = new StructureModel($this->corp_id);
+        $huanxin = new HuanxinApi();
+
+        $struct_info = $structModel->getStructureInfo($struct_id);
+        $group_id = $struct_info['groupid'];
+        $employeeM->link->startTrans();
+        try {
+            $res = $employeeM->addMultipleStructureEmployee($structEmployees);
+            if (!$res) {
+                exception("添加数据表失败");
+            }
+            $res = $huanxin->addAllUsers($group_id,$group_users);
+            if (isset($res['error'])) {
+                exception("添加环信群组失败");
+            }
+            $employeeM->link->commit();
+        } catch (\Exception $ex) {
+            $employeeM->link->rollback();
+            return $info;   
         }
+       
+        $info=[
+            'status' =>true,
+            'message' => '添加部门成员成功',
+        ];
+       
         return $info;
     }
 
@@ -381,7 +402,11 @@ class Structure extends Initialize
      * created by messhair
      */
     public function changeEmployeeStructure($user_id,$group,$to_group)
-    {
+    {   
+        $info = [
+                'status'=>false,
+                'message'=>'更换部门失败或未更换部门',
+            ];
         if($group==$to_group){
             return ['status'=>false,'message'=>'转移前后不能是同一部门!'];
         }
@@ -390,22 +415,46 @@ class Structure extends Initialize
         if (empty($st_res)) {
             return ['status'=>false,'message'=>'选择的部门不存在'];
         }
+        $struct_info = $struM->getStructureInfo($group);
+        $group_id = $struct_info['groupid'];
+        $struct_to_info = $struM->getStructureInfo($to_group);
+        $group_to_id = $struct_to_info['groupid'];
+        $user_name = $this->corp_id."_".$user_id;
         $employeeM = new StructureEmployeeModel($this->corp_id);
         $data = [
             'struct_id' => $to_group,
         ];
-        $res = $employeeM->setStructureEmployeeById($user_id,$group,$data);
-        if ($res >0) {
+        $huanxin = new HuanxinApi();
+        // var_dump($group_to_id);die();
+        $employeeM->link->startTrans();
+        try {
+            $res = $employeeM->setStructureEmployeeById($user_id,$group,$data);
+            if (!$res) {
+                $info['message'] = '更新更换部门数据表失败';
+                exception("更新更换部门数据表失败");
+            }
+            
+            $res = $huanxin->deleteOneEmployee($group_id,$user_name);
+            if (isset($res['error'])) {
+                $info['message'] = "删除环信群组员工失败";
+                exception("删除环信群组员工失败");
+            }
+            // var_dump($res);die();
+            $res = $huanxin->addOneEmployee($group_to_id,$user_name);
+            if (isset($res['error'])) {
+                $info['message'] = "添加环信群组员工失败";
+                exception("添加环信群组员工失败");
+            }
+            $employeeM->link->commit();
+        } catch (\Exception $ex) {
+            $employeeM->link->rollback();
+            return $info;
+        }
+        
             $info=[
                 'status' =>true,
                 'message' => '更换部门成功',
             ];
-        } else {
-            $info = [
-                'status'=>false,
-                'message'=>'更换部门失败或未更换部门'
-            ];
-        }
         return $info;
     }
 
@@ -418,22 +467,46 @@ class Structure extends Initialize
      */
     public function delEmployeeStructure($user_id,$group)
     {
-        $employeeM = new StructureEmployeeModel($this->corp_id);
-        $data = [
-            'struct_id' => $group,
-        ];
-        $res = $employeeM->deleteMultipleStructureEmployee($user_id,$data);
-        if ($res >0) {
-            $info=[
-                'status' =>true,
-                'message' => '删除部门成员成功',
-            ];
-        } else {
-            $info = [
+        $info = [
                 'status'=>false,
                 'message'=>'删除部门成员失败'
             ];
+        $employeeM = new StructureEmployeeModel($this->corp_id);
+        $structModel = new StructureModel($this->corp_id);
+        $huanxin = new HuanxinApi();
+
+        $struct_info = $structModel->getStructureInfo($group);
+        $group_id = $struct_info['groupid'];
+        $user_name = $this->corp_id."_".$user_id;
+        // var_dump($group_id);die();
+        $data = [
+            'struct_id' => $group,
+        ];
+        $employeeM->link->startTrans();
+        try {
+            $res = $employeeM->deleteMultipleStructureEmployee($user_id,$data);
+            if (!$res) {
+                $info['message'] = "数据表删除员工失败";
+                exception("数据表删除员工失败");
+            }
+
+            $res = $huanxin->deleteOneEmployee($group_id,$user_name);
+            if (isset($res['error'])) {
+                $info['message'] = "删除环信群组员工失败";
+                exception("删除环信群组员工失败");
+            }
+            $employeeM->link->commit();
+        } catch (\Exception $ex) {
+            $employeeM->link->rollback();
+            return $info;
         }
+        
+       
+        $info=[
+            'status' =>true,
+            'message' => '删除部门成员成功',
+        ];
+      
         return $info;
     }
 }
