@@ -468,6 +468,7 @@ function task_list(target){
     this.paypassword = '';
     var self = this;
     var task_list_sel = "#"+self.target+" .task";
+    console.log('lalala'+task_list_sel);
 
     this.pay=function(paypassword){
         self.paypassword = '';
@@ -526,7 +527,7 @@ function task_list(target){
     $(task_list_sel+" .historical_task_load").on('click','.picture',function(){
         take_envelopes($(this),$(this).parent('.mengceng').attr('hongbao_id'));
     });
-    //领取PK红包 公共方法
+    //领取红包 公共方法
     function take_envelopes(that,id){
         $.ajax({
             url: '/task/index/getRedEnvelope',
