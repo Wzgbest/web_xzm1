@@ -377,6 +377,8 @@ class Employee extends Initialize{
             if($input["on_duty"]==-1){
                 $input["on_duty"] = 1;
                 $input["status"] = -1;
+            }else{
+                $input["status"] = 1;
             }
             if(isset($input["status"]) && $input["status"] == -1){
                 $customerM = new CustomerModel($this->corp_id);
