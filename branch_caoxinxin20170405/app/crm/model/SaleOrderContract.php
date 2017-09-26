@@ -240,6 +240,9 @@ class SaleOrderContract extends Base{
             "sc.guess_money",
             "sc.need_money",
             "sc.payed_money",
+            "sc.final_money",
+            "GROUP_CONCAT(distinct soci.pay_money) as pay_money",
+            "GROUP_CONCAT(distinct soci.pay_name) as pay_name",
             "c.customer_name",
             "GROUP_CONCAT( distinct `s`.`struct_name`) as `struct_name`",
             "(case when sc.sale_status = 4 and soc.status = 0 then 1 
@@ -252,7 +255,8 @@ class SaleOrderContract extends Base{
         $sale_chance_list = $query
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
-            ->join($this->dbprefix.'contract co','co.id = soc.contract_id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract_item soci','soci.sale_order_id = soc.id',"LEFT")
+            ->join($this->dbprefix.'contract co','co.id = soci.contract_id',"LEFT")
             ->join($this->dbprefix.'contract_applied ca','ca.id = co.applied_id',"LEFT")
             ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
             ->join($this->dbprefix.'structure_employee se','se.user_id = e.id')
@@ -308,7 +312,8 @@ class SaleOrderContract extends Base{
         return $this->model->table($this->table)->alias('soc')
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
-            ->join($this->dbprefix.'contract co','co.id = soc.contract_id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract_item soci','soci.sale_order_id = soc.id',"LEFT")
+            ->join($this->dbprefix.'contract co','co.id = soci.contract_id',"LEFT")
             ->join($this->dbprefix.'contract_applied ca','ca.id = co.applied_id',"LEFT")
             ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
             ->join($this->dbprefix.'structure_employee se','se.user_id = e.id')
@@ -371,7 +376,8 @@ class SaleOrderContract extends Base{
         $customerQuery = $this->model->table($this->table)->alias('soc')
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
-            ->join($this->dbprefix.'contract co','co.id = soc.contract_id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract_item soci','soci.sale_order_id = soc.id',"LEFT")
+            ->join($this->dbprefix.'contract co','co.id = soci.contract_id',"LEFT")
             ->join($this->dbprefix.'contract_applied ca','ca.id = co.applied_id',"LEFT")
             ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
             ->join($this->dbprefix.'structure_employee se','se.user_id = e.id')
@@ -685,7 +691,7 @@ class SaleOrderContract extends Base{
             ->group($group)
             ->order($order)
             //->limit($offset,$num)
-            ->field("e.id as employee_id,e.truename,sum(soc.order_money) num,IF (sum(soc.order_money) >= $standard, '1', '0') as is_standard")
+            ->field("e.id as employee_id,e.truename,sum(sc.final_money) num,IF (sum(sc.final_money) >= $standard, '1', '0') as is_standard")
             ->select();
         //var_exp($rankingList,'$rankingList',1);
         if($num==1&&$page==0&&$rankingList){
@@ -728,14 +734,14 @@ class SaleOrderContract extends Base{
             ->where($map)
             ->order($order)
             ->limit(999999)//2147483647?
-            ->field("soc.order_money,e.id as employee_id,e.truename,soc.create_time")
+            ->field("sc.final_money,e.id as employee_id,e.truename,soc.create_time")
             ->buildSql();
         //var_exp($subQuery,'$subQuery',1);
         $subQuery = $this->model->table($subQuery)->alias('sl')
             ->join("(SELECT @prev := '', @n := 0, @st := 0) init",'sl.employee_id = sl.employee_id',"LEFT")
             ->order($vl_order)
             ->limit(999999)//2147483647?
-            ->field("sl.*,@n := IF (sl.employee_id != @prev, order_money , @n + order_money)+0 AS standard ,@st := IF (sl.employee_id != @prev, '0', @st) AS stre ,@prev := sl.employee_id AS ng ,@st := IF (@n > $standard, IF (@st = 0, sl.create_time, @st), @st) as standard_time")
+            ->field("sl.*,@n := IF (sl.employee_id != @prev, final_money , @n + final_money)+0 AS standard ,@st := IF (sl.employee_id != @prev, '0', @st) AS stre ,@prev := sl.employee_id AS ng ,@st := IF (@n > $standard, IF (@st = 0, sl.create_time, @st), @st) as standard_time")
             ->buildSql();
         //var_exp($subQuery,'$subQuery',1);
         $standardList = $this->model->table($subQuery)->alias('v')
