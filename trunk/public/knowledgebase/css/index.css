@@ -25,6 +25,63 @@
 	display: none;
 	margin-left: 10px;
 }
+.knowledgebase_speechcraft_index .speech-list li.manage-list-model{
+	height: 40px;
+	border-bottom: none;
+	padding: 0 20px;
+}
+.knowledgebase_speechcraft_index .speech-list li.manage-list-model .controler{
+	display: none;
+}
+.knowledgebase_speechcraft_index .speech-list li.manage-list-model h1{
+	font-size: 14px;
+	color: #4c4c4c;
+	display: inline-block;
+	line-height: 40px;
+	margin: 0 20px;
+}
+.knowledgebase_speechcraft_index .speech-list li.manage-list-model h2{
+	display: none;
+}
+.knowledgebase_speechcraft_index .speech-list li.manage-list-model h3{
+	display:inline-block;
+	line-height: 40px;
+	float: right;
+}
+.knowledgebase_speechcraft_index .speech-list li.manage-list-model select{
+	float: right;
+	width: 22px;
+	height: 30px;
+	margin: 5px 20px;
+	display: inline-block;
+}
+.knowledgebase_speechcraft_index .speech-list li select{
+	display: none;
+}
+.knowledgebase_speechcraft_index .speech-list li input[type="checkbox"]{
+	display: none;
+}
+.knowledgebase_speechcraft_index .speech-list li.manage-list-model input[type="checkbox"]{
+	display: inline-block;
+}
+.knowledgebase_speechcraft_index .batch-delete{
+	width: 80px;
+    height: 25px;
+    border-radius: 12.5px;
+    background-color: #42A5F5;
+    text-align: center;
+    line-height: 25px;
+    color: white;
+    margin: 5px 20px 0 20px;
+    cursor: pointer;
+    float:left;
+}
+.knowledgebase_speechcraft_index .no-list{
+	text-align: center;
+	margin-top: 100px;
+}    
+
+
 .knowledgebase_speechcraft_index .manageNav{
 	margin: 20px 0 0 20px; 
 }
