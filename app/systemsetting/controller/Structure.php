@@ -243,6 +243,7 @@ class Structure extends Initialize
     {
         $struM = new StructureModel($this->corp_id);
         $st_res = $struM->getStructureInfo($struct_id);
+        // var_dump($trans);die();
         if (empty($st_res)) {
             return ['status'=>false,'message'=>'选择的部门不存在'];
         }
@@ -254,6 +255,7 @@ class Structure extends Initialize
         $ids = implode(',',$ids);
 
         $employeeM = new StructureEmployeeModel($this->corp_id);
+        $huanxin = new HuanxinApi();
         $users = $employeeM->getEmployeeByStructIds($ids);
         if ($trans == 1) {
             //转移员工到默认组
@@ -274,9 +276,13 @@ class Structure extends Initialize
             }
 
             $d = $struM->deleteStructure($ids);
-            //var_exp($b,'$b');
-            var_exp($d,'$d');
-            if ($b>0 && $d>0) {
+            if (!empty($st_res['groupid'])) {
+                $del_group = $huanxin->deleteGroup($st_res['groupid']);
+            }else{
+                $del_group['status'] = 1;
+            }
+            
+            if ($b>0 && $d>0 && $del_group['status']) {
                 $employeeM->link->commit();
                 $info = [
                     'status' =>true,
@@ -309,9 +315,12 @@ class Structure extends Initialize
             }
 
             $d = $struM->deleteStructure($ids);
-            //var_exp($b,'$b');
-            //var_exp($d,'$d');
-            if ($b>0 && $d>0) {
+            if (!empty($st_res['groupid'])) {
+                $del_group = $huanxin->deleteGroup($st_res['groupid']);
+            }else{
+                $del_group['status'] = 1;
+            }
+            if ($b>0 && $d>0 && $del_group['status']) {
                 $employeeM->link->commit();
                 $info = [
                     'status' =>true,
