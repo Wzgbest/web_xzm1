@@ -206,8 +206,25 @@ class Employee extends Initialize{
         if ($request->isGet()) {
             return view();
         } elseif ($request->isPost()) {
-            $input = $request->param();
+            $input = array_intersect_key($request->param(),[
+                "telephone"=>"",
+                "truename"=>"",
+                "nickname"=>"",
+                "gender"=>"",
+                "wired_phone"=>"",
+                "part_phone"=>"",
+                "on_duty"=>"",
+                "worknum"=>"",
+                "is_leader"=>"",
+                "email"=>"",
+                "qqnum"=>"",
+                "wechat"=>"",
+                "struct_id"=>"",
+                "role"=>"",
+                "user_id"=>""
+            ]);
             $struct_ids = $input['struct_id'];
+            $structrues_id = $input['struct_id'];
             $role_ids = $input['role'];
             if(!$struct_ids || !$role_ids){
                 return [
@@ -240,6 +257,7 @@ class Employee extends Initialize{
             $input["create_time"] = time();
             $employeeM = new EmployeeModel($this->corp_id);
             $struct_empM = new StructureEmployee($this->corp_id);
+            $structM = new StructureModel($this->corp_id);
             $huanxin = new HuanxinApi();
             $info['status'] = false;
 
@@ -285,6 +303,7 @@ class Employee extends Initialize{
                     //环信增加帐号
                     $d = $huanxin->regUser($this->corp_id,$this->corp_id."_".$id,$input["password"],$input['truename']);//TODO 测试注释掉
                     //$d['status'] = true;//TODO 测试开启
+                    //var_dump($d,'$d',1);
                     if (!$d['status']) {
                         $employeeM->link->rollback();
                         UserCorporation::rollback();
@@ -292,13 +311,30 @@ class Employee extends Initialize{
                         $info['error'] = $d['error'];
                         return $info;
                     }
+                    
+                    $struct_ids = explode(",",$structrues_id);
+                    $insert_group = $structM->getStructureGroup($struct_ids);
+                    // var_dump($insert_group);die();
+                    if (count($insert_group) > 1) {
+                        $in_g = $huanxin->addUserFromMoreGroup($this->corp_id."_".$id,$insert_group);
+                    }else{
+                        $in_g = $huanxin->addOneEmployee($insert_group[0],$this->corp_id."_".$id);
+                    }
+                    if (!$in_g['status']) {
+                        $employeeM->link->rollback();
+                        UserCorporation::rollback();
+                        $info['message'] = '添加群组失败，请联系管理员';
+                        $info['error'] = $in_g['error'];
+                        return $info;
+                    }
+                    
                 } else {
                     $employeeM->link->rollback();
                     UserCorporation::rollback();
                     $info['message'] = '添加员工失败，联系管理员';
                     return $info;
                 }
-                if ($id > 0 && $f >0 && $d['status'] && $b > 0) {
+                if ($id > 0 && $f >0 && $d['status'] && $in_g['status'] && $b > 0) {
                     $employeeM->link->commit();
                     UserCorporation::commit();
                     return [
@@ -353,7 +389,23 @@ class Employee extends Initialize{
             $employee_info['role_info'] = $role_info;
             return $employee_info;
         } elseif ($request->isPost()) {
-            $input = $request->param();
+            $input = array_intersect_key($request->param(),[
+                "truename"=>"",
+                "nickname"=>"",
+                "gender"=>"",
+                "wired_phone"=>"",
+                "part_phone"=>"",
+                "on_duty"=>"",
+                "worknum"=>"",
+                "is_leader"=>"",
+                "email"=>"",
+                "qqnum"=>"",
+                "wechat"=>"",
+                "struct_id"=>"",
+                "role"=>"",
+                "user_id"=>""
+            ]);
+            // var_dump($input);die();
             $input["telephone"]=15888888888;
             $result = $this->validate($input,'Employee');
             unset($input["telephone"]);
@@ -398,6 +450,7 @@ class Employee extends Initialize{
             $employeeM = new EmployeeModel($this->corp_id);
             $struct_empM = new StructureEmployee($this->corp_id);
             $role_empM = new RoleEmployee($this->corp_id);
+            $structM = new StructureModel($this->corp_id);
             $huanxin = new HuanxinApi();
             $info['status'] = false;
             //取出旧设置的部门ids
@@ -414,7 +467,11 @@ class Employee extends Initialize{
             foreach ($struct_info as $one_struct) {
                 $group_id[] = $one_struct['groupid'];
             }
-
+            // var_dump(get_userinfo());die();
+            //查询当前员工在职离职状态
+            $userinfo = $employeeM->getEmployeeByUserid($user_id);
+            $user_status = $userinfo['status'];
+            // var_dump($user_status);die();
             $employeeM->link->startTrans();
             try{
                 //员工表修改信息
@@ -424,8 +481,7 @@ class Employee extends Initialize{
                 //if ($input['is_leader'] == 1) {
                     $insert = array_diff($struct_ids,$struct_old_arr);//新添加的
                     $delete = array_diff($struct_old_arr,$struct_ids);//需要删除的
-                //var_exp($insert,'$insert');
-                //var_exp($delete,'$delete');
+
                     //有需要删除的
                     if (!empty($delete)) {
                         $delete_data = [];
@@ -433,8 +489,27 @@ class Employee extends Initialize{
                             array_push($delete_data,$v);
                         }
                         $del_res = $struct_empM->deleteMultipleStructureEmployee($user_id,$delete_data);
+
+                        if ($input['status'] == 1 && $user_status == 1) {
+                            $delete_group = $structM->getStructureGroup($delete);
+                            if (!empty($delete_group)) {
+                                if (count($delete_group)>1) {
+                                    $result_info = $huanxin->deleteUserFromMoreGroup($user_name,$delete_group);
+                                }else{
+                                    $result_info = $huanxin->deleteOneEmployee($delete_group[0],$user_name);
+                                }
+                                if (!$result_info['status']) {
+                                    $del_hx = 0;
+                                }else{
+                                    $del_hx = 1;
+                                }
+                            }
+                        }else{
+                            $del_hx = 1;
+                        }
                     } else {
                         $del_res = 1;
+                        $del_hx = 1;
                     }
 
                     //有需要添加的
@@ -448,9 +523,28 @@ class Employee extends Initialize{
                         } else {
                             $res = $struct_empM->addStructureEmployee($insert_data[0]);
                         }
+                        if ($input['status'] == 1 && $user_status == 1) {
+                            $insert_group = $structM->getStructureGroup($insert);
+                            if (!empty($insert_group)) {
+                                if (count($insert_group)>1) {
+                                    $result_info = $huanxin->addUserFromMoreGroup($user_name,$insert_group);
+                                }else{
+                                    $result_info = $huanxin->addOneEmployee($insert_group[0],$user_name);
+                                }
+                                if (!$result_info['status']) {
+                                    $ad_hx = 0;
+                                }else{
+                                    $ad_hx = 1;
+                                }
+                            }
+                        }else{
+                            $ad_hx = 1;
+                        }
                     } else {
                         $res = 1;
+                        $ad_hx = 1;
                     }
+
                 /*} else {
                     //非领导
                     $struct_data['user_id'] = $user_id;
@@ -497,14 +591,41 @@ class Employee extends Initialize{
                     $role_res = 1;
                 }
 
-                if ($input["on_duty"]==-1) {
-                    $delGroup = $huanxin->deleteUserFromMoreGroup($user_name,$group_id);
-                    if (isset($delGroup['error'])) {
-                        exception("删除群组员工失败");
+                //设置离职时删除群组
+                if ($input["status"] == -1 && !empty($group_id)) {
+                    if (count($group_id)>1) {
+                        $del_group = $huanxin->deleteUserFromMoreGroup($user_name,$group_id);
+                    }else{
+                        $del_group = $huanxin->deleteOneEmployee($group_id[0],$user_name);
                     }
+                    if (!$del_group['status']) {
+                        $is_hx = 0;
+                    }else{
+                        $is_hx = 1;
+                    }
+                }else{
+                    $is_hx = 1;
                 }
 
-                if ($em_res >= 0 && $res>0 && $del_res>0 && $role_res>0 && $role_del_res>0) {
+                //离职设置在职时
+                if ($input["status"] == 1 && $user_status == -1) {
+                    $set_group = $structM->getStructureGroup($struct_ids);
+                    if (count($set_group)>1) {
+                        $result_info = $huanxin->addUserFromMoreGroup($user_name,$set_group);
+                    }else{
+                        $result_info = $huanxin->addOneEmployee($set_group[0],$user_name);
+                    }
+                    if (!$result_info['status']) {
+                        $set_hx = 0;
+                    }else{
+                        $set_hx = 1;
+                    }
+                }else{
+                    $set_hx = 1;
+                }
+                
+
+                if ($em_res >= 0 && $res>0 && $del_res>0 && $role_res>0 && $role_del_res>0 && $is_hx>0 && $ad_hx>0 && $del_hx>0 && $set_hx>0) {
                     $employeeM->link->commit();
                     return [
                         'status' => true,
@@ -518,7 +639,7 @@ class Employee extends Initialize{
             }catch (\Exception $ex){
                 $employeeM->link->rollback();
                 $info['message'] = $ex->getMessage();
-                print_r($ex->getTrace());
+                //print_r($ex->getTrace());
                 return $info;
             }
         }
