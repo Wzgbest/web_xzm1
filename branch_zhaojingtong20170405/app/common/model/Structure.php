@@ -49,6 +49,19 @@ class Structure extends Base
         return $this->model->table($this->table)->where('id',"in",$struct_ids)->column("struct_name","id");
     }
 
+
+    /**
+     * 根据部门id列表获取群组
+     * @param $struct_ids array 部门id
+     * @return array|false|\PDOStatement|string|\think\Model
+     * created by blu10ph
+     */
+    public function getStructureGroup($struct_ids)
+    {
+        return $this->model->table($this->table)->where('id',"in",$struct_ids)->column("groupid");
+    }
+
+
     /**
      *监察部门层级深度
      * @param $struct_pid int 部门id

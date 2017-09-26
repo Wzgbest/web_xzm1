@@ -517,6 +517,9 @@ class Api
      */
     public function addUserFromMoreGroup($username='',$groupids=[]){
 
+        $info['status'] = 1;
+        $info['message'] = '添加成功';
+
         if (!$username || !$groupids) {
             $info['status'] = 0;
             $info['message'] = '参数错误';
@@ -529,6 +532,8 @@ class Api
                 $info[$value]['error'] = $result['error'];
                 $info[$value]['message'] = '该群添加失败'; 
                 $info[$value]['status'] = 0;
+                $info['status'] = 0;
+                $info['message'] = '添加失败';
             }else{
                 $info[$value]['status'] = 1;
                 $info[$value]['message'] = '该群添加成功';
@@ -549,6 +554,9 @@ class Api
      */
     public function deleteUserFromMoreGroup($username='',$groupids=[]){
 
+        $info['status'] = 1;
+        $info['message'] = '删除成功';
+
         if (!$username || !$groupids) {
             $info['status'] = 0;
             $info['message'] = '参数错误';
@@ -561,6 +569,8 @@ class Api
                 $info[$value]['error'] = $result['error'];
                 $info[$value]['message'] = '该群删除失败'; 
                 $info[$value]['status'] = 0;
+                $info['status'] = 0;
+                $info['message'] = '删除失败';
             }else{
                 $info[$value]['status'] = 1;
                 $info[$value]['message'] = '该群删除成功';
