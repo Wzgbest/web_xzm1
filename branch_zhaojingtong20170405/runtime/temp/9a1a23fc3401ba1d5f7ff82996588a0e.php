@@ -1,3 +1,4 @@
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:70:"F:\myproject\webcall\public/../app/task\view\index\reward_details.html";i:1506412527;}*/ ?>
 <link rel="stylesheet" href="/task/css/task.css" />
 
 <div class="task task_details">
@@ -7,7 +8,7 @@
 				<img src="/task/img/reward_task.png" class="img1" />
 				<div class="border-right">
 					<p>发布人</p>
-					<div class="name">{$task_info.truename}
+					<div class="name"><?php echo $task_info['truename']; ?>
 						<div class="roll">
 							<img src="/task/img/phone.png" />
 							<img src="/task/img/note.png" />
@@ -18,27 +19,27 @@
 				</div>
 			</div>
 			<div class="center">
-				<p class="theme">{$task_info["task_name"]}</p>
+				<p class="theme"><?php echo $task_info["task_name"]; ?></p>
 				<div>
 					<div class="details">
 						<div class="len">
 							<p class="small">任务领取截止时间</p>
-							<p class="big">{$task_info.task_take_end_time|date="Y.m.d/H:m:s",###}{$task_info["task_take_start_time"]|day_format='Y.m.d'}/{$task_info["task_take_end_time"]|day_format='Y.m.d'}</p>
+							<p class="big"><?php echo date("Y.m.d/H:m:s",$task_info['task_take_end_time']); ?><?php echo day_format($task_info["task_take_start_time"],'Y.m.d'); ?>/<?php echo day_format($task_info["task_take_end_time"],'Y.m.d'); ?></p>
 						</div>
 
 						<div class="very">
 							<p class="small">帮跟客户</p>
-							<p class="very big  blue">{$task_info.customer_name}</p>
+							<p class="very big  blue"><?php echo $task_info['customer_name']; ?></p>
 						</div>
 					</div>
 					<div class="details">
 						<div class="len">
 							<p class="small">求助上限人数</p>
-							<p class="big">{$task_info.reward_num}人</p>
+							<p class="big"><?php echo $task_info['reward_num']; ?>人</p>
 						</div>
 						<div class="very">
 							<p class="small">悬赏金</p>
-							<p class="big">{$task_info.reward_amount}元/人</p>
+							<p class="big"><?php echo $task_info['reward_amount']; ?>元/人</p>
 						</div>
 
 					</div>
@@ -51,33 +52,31 @@
 			<div class="right">
         <div class="within">
             <div class="active details">
-                <!--{eq name="$task_info.status" value="2"}
-						
-						{if condition="in_array($uid,explode(',',$task_info['public_to_take'])) && !in_array($uid,explode(',',$task_info['take_employees'])) && $now_time < $task_info['task_take_end_time'] "}
-						<p class="p2 get_reward" data-id="{$task_info.id}" task-type="{$task_info.task_type}" task-money="{$task_info.reward_amount}">领任务</p>
-						{elseif condition="in_array($uid,explode(',',$task_info['take_employees']))" /}
+                <!--<?php if($task_info['status'] == '2'): if(in_array($uid,explode(',',$task_info['public_to_take'])) && !in_array($uid,explode(',',$task_info['take_employees'])) && $now_time < $task_info['task_take_end_time']): ?>
+						<p class="p2 get_reward" data-id="<?php echo $task_info['id']; ?>" task-type="<?php echo $task_info['task_type']; ?>" task-money="<?php echo $task_info['reward_amount']; ?>">领任务</p>
+						<?php elseif(in_array($uid,explode(',',$task_info['take_employees']))): ?>
 						<p>已参与</p>
-						{else /}
+						<?php else: ?>
 						<p>报名已截止</p>
-						{/if}
+						<?php endif; ?>
 						<p class="p2 tip" task_id="{task_info.id}">打赏</p>
-						{/eq}-->
+						<?php endif; ?>-->
                 <p class="p2">终止任务</p>
                 <p class="p2">打赏</p>
                 <p class="p2">领取</p>
             </div>
             <div class="comment">
                 <div>
-                    <img src="/task/img/comment.png" class="task_details comment_reward" task_id="{$task_info.id}" />
-                    <span>{$task_info.like_count}</span>
+                    <img src="/task/img/comment.png" class="task_details comment_reward" task_id="<?php echo $task_info['id']; ?>" />
+                    <span><?php echo $task_info['like_count']; ?></span>
                 </div>
                 <div style="text-align: right;">
-                    {eq name="$task_info.is_like" value="1"}
-                    <img src="/task/img/praise.png" class="add" task_id="{$task_info.id}" index_img="2"/>
-                    {else/}
-                    <img src="/task/img/zan.png" class="add" task_id="{$task_info.id}" index_img="1"/>
-                    {/eq}
-                    <span class="yi">{$task_info.like_count}</span>
+                    <?php if($task_info['is_like'] == '1'): ?>
+                    <img src="/task/img/praise.png" class="add" task_id="<?php echo $task_info['id']; ?>" index_img="2"/>
+                    <?php else: ?>
+                    <img src="/task/img/zan.png" class="add" task_id="<?php echo $task_info['id']; ?>" index_img="1"/>
+                    <?php endif; ?>
+                    <span class="yi"><?php echo $task_info['like_count']; ?></span>
                 </div>
             </div>
         </div>
@@ -111,28 +110,28 @@
 
 				</div>
 				<p class="explain">任务已得到奖金
-					<span class="orange">{$all_tip_money}</span>元
+					<span class="orange"><?php echo $all_tip_money; ?></span>元
 					<span class="gray">
-						{gt name="my_tip_money" value="0"}
-							（你已打赏{$my_tip_money}元）
-						{else/}
+						<?php if($my_tip_money > '0'): ?>
+							（你已打赏<?php echo $my_tip_money; ?>元）
+						<?php else: ?>
 							（你还未进行打赏）
-						{/gt}
+						<?php endif; ?>
 					</span>
 				</p>
 				<p class="rate tip">
-					{gt name="my_tip_money" value="0"}
+					<?php if($my_tip_money > '0'): ?>
 						继续打赏
-					{else/}
+					<?php else: ?>
 						打赏
-					{/gt}
+					<?php endif; ?>
 				</p>
 				<div class="particulars">
 				</div>
 			</div>
 		</div>
 		<div class="dv3">
-			<p class="title">评论<span>（{$task_info.comment_count}）</span></p>
+			<p class="title">评论<span>（<?php echo $task_info['comment_count']; ?>）</span></p>
 			<div class="up">
 				<!--<input type="text" placeholder="回复刘大宝" />-->
 				<textarea placeholder="请输入评论" class="content"></textarea>
@@ -141,13 +140,13 @@
 						<img src="/task/img/face.png" />
 					</div>
 					<div class="right">
-						<p data-id="{$task_info.id}" now-truename="{$truename}">评论</p>
-						{eq name="task_info.is_like" value="1"}
-						<img src="/task/img/praise.png" class="add" task_id="{$task_info.id}" index_img="2"/>
-						{else/}
-						<img src="/task/img/zan.png" class="add" task_id="{$task_info.id}" index_img="1"/>
-						{/eq}
-						<span class="yi">{$task_info.like_count}</span>
+						<p data-id="<?php echo $task_info['id']; ?>" now-truename="<?php echo $truename; ?>">评论</p>
+						<?php if($task_info['is_like'] == '1'): ?>
+						<img src="/task/img/praise.png" class="add" task_id="<?php echo $task_info['id']; ?>" index_img="2"/>
+						<?php else: ?>
+						<img src="/task/img/zan.png" class="add" task_id="<?php echo $task_info['id']; ?>" index_img="1"/>
+						<?php endif; ?>
+						<span class="yi"><?php echo $task_info['like_count']; ?></span>
 					</div>
 				</div>
 			</div>
@@ -170,5 +169,5 @@
 
 	<script type="text/javascript" src="/task/js/task.js"></script>
 	<script type="text/javascript">
-		new task_details("{$fr}","{$id}","{$task_type}");
+		new task_details("<?php echo $fr; ?>","<?php echo $id; ?>","<?php echo $task_type; ?>");
 	</script>

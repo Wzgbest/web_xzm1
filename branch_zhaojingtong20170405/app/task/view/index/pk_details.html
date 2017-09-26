@@ -6,6 +6,7 @@
 		<div class="dv1">
 			<div class="left">
 				<img src="/task/img/task.png" class="img1" />
+				<div class="border-right">
 				<p>发布人</p>
 				<div class="name">{$task_info.truename}
 					<div class="roll">
@@ -15,6 +16,7 @@
 				</div>
 				<p>￥100</p>
 				<p>预计奖金</p>
+				</div>
 			</div>
 			<div class="center">
 				<p class="theme">{$task_info.task_name}</p>
@@ -56,12 +58,14 @@
 					</div>
 				</div>
 			</div>
+			
+			
+			
+			
 			<div class="right">
-				<div class="give">
-					<!--<p class="p2 task" task-money="{$reward_amount}">领任务</p>-->
-
-					<!--<p class="p2 guess">猜输赢</p>-->
-					{eq name="task_info.status" value="2"}
+        <div class="within">
+            <div class="active details">
+                <!--{eq name="task_info.status" value="2"}
 					{if condition="in_array($uid,explode(',',$task_info['public_to_take'])) && !in_array($uid,explode(',',$task_info['take_employees'])) && $now_time < $task_info['task_take_end_time'] && $task_info['is_guess'] == 0 "}
 					<p class="p2 get_reward" data-id="{$task_info.id}" task-type="{$task_info.task_type}" task-money="{$task_info.reward_amount}">领任务</p>
 					{elseif condition="in_array($uid,explode(',',$task_info['take_employees']))" /}
@@ -73,19 +77,30 @@
 					<p class="p2 guess" task_id="{$task_info.id}">猜输赢</p>
 					{/if}
 					<p class="p2 tip" task_id="{$task_info.id}">打赏</p>
-					{/eq}
-				</div>
-				<!--<div class="comment">-->
-					<!--<div>-->
-						<!--<img src="/task/img/comment.png" />-->
-						<!--<span>38</span>-->
-					<!--</div>-->
-					<!--<div style="text-align: right;">-->
-						<!--<img src="/task/img/zan.png" class="add" index_img="1" />-->
-						<!--<span class="yi">23</span>-->
-					<!--</div>-->
-				<!--</div>-->
-			</div>
+					{/eq}-->
+			
+                <p class="p2">终止任务</p>
+                <p class="p2">打赏</p>
+				<p class="p2">领取</p>
+				<p class="p2">猜输赢</p>
+            </div>
+
+            <div class="comment">
+                <div>
+                    <img src="/task/img/comment.png" class="task_details comment_pk" task_id="{$task_info.id}" />
+                    <span>{$task_info.like_count}</span>
+                </div>
+                <div style="text-align: right;">
+                    {eq name="$task_info.is_like" value="1"}
+                    <img src="/task/img/praise.png" class="add" task_id="{$task_info.id}" index_img="2"/>
+                    {else/}
+                    <img src="/task/img/zan.png" class="add" task_id="{$task_info.id}" index_img="1"/>
+                    {/eq}
+                    <span class="yi">{$task_info.like_count}</span>
+                </div>
+            </div>
+        </div>
+    </div>
 		</div>
 		<div class="dv2">
 			<div class="left">
