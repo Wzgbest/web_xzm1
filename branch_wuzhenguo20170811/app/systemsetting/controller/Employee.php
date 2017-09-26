@@ -224,6 +224,7 @@ class Employee extends Initialize{
                 "user_id"=>""
             ]);
             $struct_ids = $input['struct_id'];
+            $structrues_id = $input['struct_id'];
             $role_ids = $input['role'];
             if(!$struct_ids || !$role_ids){
                 return [
@@ -256,6 +257,7 @@ class Employee extends Initialize{
             $input["create_time"] = time();
             $employeeM = new EmployeeModel($this->corp_id);
             $struct_empM = new StructureEmployee($this->corp_id);
+            $structM = new StructureModel($this->corp_id);
             $huanxin = new HuanxinApi();
             $info['status'] = false;
 
@@ -309,13 +311,30 @@ class Employee extends Initialize{
                         $info['error'] = $d['error'];
                         return $info;
                     }
+                    
+                    $struct_ids = explode(",",$structrues_id);
+                    $insert_group = $structM->getStructureGroup($struct_ids);
+                    // var_dump($insert_group);die();
+                    if (count($insert_group) > 1) {
+                        $in_g = $huanxin->addUserFromMoreGroup($this->corp_id."_".$id,$insert_group);
+                    }else{
+                        $in_g = $huanxin->addOneEmployee($insert_group[0],$this->corp_id."_".$id);
+                    }
+                    if (!$in_g['status']) {
+                        $employeeM->link->rollback();
+                        UserCorporation::rollback();
+                        $info['message'] = '添加群组失败，请联系管理员';
+                        $info['error'] = $in_g['error'];
+                        return $info;
+                    }
+                    
                 } else {
                     $employeeM->link->rollback();
                     UserCorporation::rollback();
                     $info['message'] = '添加员工失败，联系管理员';
                     return $info;
                 }
-                if ($id > 0 && $f >0 && $d['status'] && $b > 0) {
+                if ($id > 0 && $f >0 && $d['status'] && $in_g['status'] && $b > 0) {
                     $employeeM->link->commit();
                     UserCorporation::commit();
                     return [
