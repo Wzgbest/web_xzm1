@@ -249,6 +249,8 @@ class Structure extends Initialize
 
         $st_res_all = $struM->getAllStructure();
         $ids = deep_get_ids($st_res_all,$struct_id);
+        $ids[] = $struct_id;
+        //var_exp($ids,'$ids',1);
         $ids = implode(',',$ids);
 
         $employeeM = new StructureEmployeeModel($this->corp_id);
@@ -272,6 +274,8 @@ class Structure extends Initialize
             }
 
             $d = $struM->deleteStructure($ids);
+            //var_exp($b,'$b');
+            var_exp($d,'$d');
             if ($b>0 && $d>0) {
                 $employeeM->link->commit();
                 $info = [
@@ -281,7 +285,7 @@ class Structure extends Initialize
             } else {
                 $employeeM->link->rollback();
                 $info = [
-                    'status' =>true,
+                    'status' =>false,
                     'message' =>'操作失败'
                 ];
             }
@@ -305,6 +309,8 @@ class Structure extends Initialize
             }
 
             $d = $struM->deleteStructure($ids);
+            //var_exp($b,'$b');
+            //var_exp($d,'$d');
             if ($b>0 && $d>0) {
                 $employeeM->link->commit();
                 $info = [
@@ -314,7 +320,7 @@ class Structure extends Initialize
             } else {
                 $employeeM->link->rollback();
                 $info = [
-                    'status' =>true,
+                    'status' =>false,
                     'message' =>'操作失败'
                 ];
             }
