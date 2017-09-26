@@ -229,7 +229,7 @@ class EmployeeTask extends Base{
             ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
             ->join($this->dbprefix.'red_envelope re',"re.task_id = et.id and re.took_user = ".$uid,"LEFT")
             ->join($this->dbprefix.'employee_task_guess tg',"tg.task_id=et.id and tg.guess_employee=".$uid,"LEFT")
-            ->field($field)->where($map_str)->where($map)->order($listOrder)->select();
+            ->field($field)->where($map_str)->where($map)->group('et.id')->order($listOrder)->select();
         return $employee_task_list;
 
     }
