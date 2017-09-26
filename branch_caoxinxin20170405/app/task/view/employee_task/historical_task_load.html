@@ -30,22 +30,23 @@
                     <p class="small">考核项目</p>
                     <p class="big">{$vo.target_type|get_target_type_name}</p>
                 </div>
-                <div>
+                <!--<div>
                     <p class="small">达标要求</p>
                     <p class="big">前{$vo.reward_end}名</p>
-                </div>
-                <div class="very  flo">
+                </div>-->
+                
+            </div>
+            <div class="details">
+                <!--<div class="len">
+                    <p class="small">任务领取截止时间</p>
+                    <p class="big">{$vo.task_take_end_time|date="Y.m.d/H:m:s",###}</p>
+                </div>-->
+                <div class="len  flo">
                     <p class="small">面向群体</p>
                     <p class="very big"><?php $array=explode(',',$vo['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共<?php echo count($array) ?>人，已参与{$vo.partin_count}人）</p>
                     <div class="flotage">
                         {volist name="array" id="v"}<span>{$v}</span>{/volist}
                     </div>
-                </div>
-            </div>
-            <div class="details">
-                <div class="len">
-                    <p class="small">任务领取截止时间</p>
-                    <p class="big">{$vo.task_take_end_time|date="Y.m.d/H:m:s",###}</p>
                 </div>
                 <div class="fu">
                     <p class="small">奖金</p>
@@ -58,11 +59,11 @@
 
                     </div>
                 </div>
-                <div class="very">
+                <!--<div class="very">
                     <p class="small">当前名次</p>
                     <p class="big">第26名</p>
 
-                </div>
+                </div>-->
             </div>
         </div>
     </div>
