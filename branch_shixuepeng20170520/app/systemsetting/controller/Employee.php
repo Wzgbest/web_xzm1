@@ -424,21 +424,8 @@ class Employee extends Initialize{
                 //if ($input['is_leader'] == 1) {
                     $insert = array_diff($struct_ids,$struct_old_arr);//新添加的
                     $delete = array_diff($struct_old_arr,$struct_ids);//需要删除的
-                    //有需要添加的
-                    if (!empty($insert)) {
-                        $insert_data = [];
-                        foreach ($insert as $k=>$v) {
-                            array_push($insert_data,['user_id'=>$user_id,'struct_id'=>$v]);
-                        }
-                        if (count($insert_data) >1) {
-                            $res = $struct_empM->addMultipleStructureEmployee($insert_data);
-                        } else {
-                            $res = $struct_empM->addStructureEmployee($insert_data);
-                        }
-                    } else {
-                        $res = 1;
-                    }
-
+                //var_exp($insert,'$insert');
+                //var_exp($delete,'$delete');
                     //有需要删除的
                     if (!empty($delete)) {
                         $delete_data = [];
@@ -448,6 +435,21 @@ class Employee extends Initialize{
                         $del_res = $struct_empM->deleteMultipleStructureEmployee($user_id,$delete_data);
                     } else {
                         $del_res = 1;
+                    }
+
+                    //有需要添加的
+                    if (!empty($insert)) {
+                        $insert_data = [];
+                        foreach ($insert as $k=>$v) {
+                            array_push($insert_data,['user_id'=>$user_id,'struct_id'=>$v]);
+                        }
+                        if (count($insert_data) >1) {
+                            $res = $struct_empM->addMultipleStructureEmployee($insert_data);
+                        } else {
+                            $res = $struct_empM->addStructureEmployee($insert_data[0]);
+                        }
+                    } else {
+                        $res = 1;
                     }
                 /*} else {
                     //非领导
@@ -468,20 +470,6 @@ class Employee extends Initialize{
                 }
                 $role_insert = array_diff($role_ids,$role_old_arr);//新添加的
                 $role_delete = array_diff($role_old_arr,$role_ids);//需要删除的
-                //有需要添加的
-                if (!empty($role_insert)) {
-                    $role_insert_data = [];
-                    foreach ($role_insert as $k=>$v) {
-                        array_push($role_insert_data,['user_id'=>$user_id,'role_id'=>$v]);
-                    }
-                    if (count($role_insert_data) >1) {
-                        $role_res = $role_empM->createMultipleRoleEmployee($role_insert_data);
-                    } else {
-                        $role_res = $role_empM->createRoleEmployee($role_insert_data["0"]);
-                    }
-                } else {
-                    $role_res = 1;
-                }
 
                 //有需要删除的
                 if (!empty($role_delete)) {
@@ -492,6 +480,21 @@ class Employee extends Initialize{
                     $role_del_res = $role_empM->deleteMultipleRoleEmployee($user_id,$role_delete_data);
                 } else {
                     $role_del_res = 1;
+                }
+
+                //有需要添加的
+                if (!empty($role_insert)) {
+                    $role_insert_data = [];
+                    foreach ($role_insert as $k=>$v) {
+                        array_push($role_insert_data,['user_id'=>$user_id,'role_id'=>$v]);
+                    }
+                    if (count($role_insert_data) >1) {
+                        $role_res = $role_empM->createMultipleRoleEmployee($role_insert_data);
+                    } else {
+                        $role_res = $role_empM->createRoleEmployee($role_insert_data[0]);
+                    }
+                } else {
+                    $role_res = 1;
                 }
 
                 if ($input["on_duty"]==-1) {
@@ -515,7 +518,7 @@ class Employee extends Initialize{
             }catch (\Exception $ex){
                 $employeeM->link->rollback();
                 $info['message'] = $ex->getMessage();
-                //print_r($ex->getTrace());
+                print_r($ex->getTrace());
                 return $info;
             }
         }
