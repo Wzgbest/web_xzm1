@@ -30,22 +30,23 @@
                     <p class="small">考核项目</p>
                     <p class="big">{$vo.target_type|get_target_type_name}</p>
                 </div>
-                <div>
+                <!--<div>
                     <p class="small">达标要求</p>
                     <p class="big">前{$vo.reward_end}名</p>
-                </div>
-                <div class="very  flo">
+                </div>-->
+                
+            </div>
+            <div class="details">
+                <!--<div class="len">
+                    <p class="small">任务领取截止时间</p>
+                    <p class="big">{$vo.task_take_end_time|date="Y.m.d/H:m:s",###}</p>
+                </div>-->
+                <div class="len  flo">
                     <p class="small">面向群体</p>
                     <p class="very big"><?php $array=explode(',',$vo['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共<?php echo count($array) ?>人，已参与{$vo.partin_count}人）</p>
                     <div class="flotage">
                         {notempty name="array"}{volist name="array" id="v"}<span>{$v}</span>{/volist}{/notempty}
                     </div>
-                </div>
-            </div>
-            <div class="details">
-                <div class="len">
-                    <p class="small">任务领取截止时间</p>
-                    <p class="big">{$vo.task_take_end_time|date="Y.m.d/H:m:s",###}</p>
                 </div>
                 <div class="fu">
                     <p class="small">奖金</p>
@@ -58,18 +59,18 @@
 
                     </div>
                 </div>
-                <div class="very">
+                <!--<div class="very">
                     <p class="small">当前名次</p>
                     <p class="big">第0名</p>
 
-                </div>
+                </div>-->
             </div>
         </div>
     </div>
     <div class="right">
         <div class="within">
-            <div class="stimulate details">
-                {eq name="vo.status" value="2"}
+            <div class="active details">
+                <!--{eq name="vo.status" value="2"}
                 {if condition="in_array($uid,explode(',',$vo['public_to_take'])) && !in_array($uid,explode(',',$vo['take_employees'])) && $now_time < $vo['task_take_end_time'] "}
                 <p class="p2 get_reward" data-id="{$vo.id}" task-type="{$vo.task_type}" task-money="{$vo.reward_amount}">领任务</p>
                 {elseif condition="in_array($uid,explode(',',$vo['take_employees']))" /}
@@ -78,7 +79,9 @@
                 <p>报名已截止</p>
                 {/if}
                 <p class="p2 tip" task_id="{$vo.id}">打赏</p>
-                {/eq}
+                {/eq}-->
+                <p class="p2">终止任务</p>
+                <p class="p2">打赏</p>
             </div>
             <div class="comment">
                 <div>
@@ -106,7 +109,9 @@
     {eq name="vo.is_token" value="0"}
     <div class="mengceng m_c" hongbao_id="{$vo.redid}">{/eq}
     <div class="left">
+    	
         <img src="/task/img/task.png" class="img1" />
+        <div class="border-right">
         <div class="border-right">
             <p>发布人</p>
             <div class="name">{$vo.truename}
@@ -118,6 +123,7 @@
             <p>￥100</p>
             <p>预计奖金</p>
         </div>
+       </div>
     </div>
     <div class="center">
         <p class="theme">{$vo.task_name}</p>
@@ -163,7 +169,7 @@
     <div class="right">
         <div class="within">
             <div class="active details">
-                {eq name="vo.status" value="2"}
+                <!--{eq name="vo.status" value="2"}
                 {if condition="in_array($uid,explode(',',$vo['public_to_take'])) && !in_array($uid,explode(',',$vo['take_employees'])) && $now_time < $vo['task_take_end_time'] && $vo['is_guess'] == 0 "}
                 <p class="p2 get_reward" data-id="{$vo.id}" task-type="{$vo.task_type}" task-money="{$vo.reward_amount}">领任务</p>
                 {elseif condition="in_array($uid,explode(',',$vo['take_employees']))" /}
@@ -175,7 +181,11 @@
                 <p class="p2 guess" task_id="{$vo.id}">猜输赢</p>
                 {/if}
                 <p class="p2 tip" task_id="{$vo.id}">打赏</p>
-                {/eq}
+                {/eq}-->
+                <p class="p2">终止任务</p>
+                <p class="p2">打赏</p>
+				<p class="p2">领取</p>
+				<p class="p2">猜输赢</p>
             </div>
 
             <div class="comment">
@@ -227,7 +237,7 @@
                 </div>
 
                 <div class="very">
-                    <p class="small">对应客户</p>
+                    <p class="small">帮跟客户</p>
                     <p class="very big  blue">{$vo.customer_name}</p>
                 </div>
             </div>
@@ -246,8 +256,8 @@
     </div>
     <div class="right">
         <div class="within">
-            <div class="give details">
-                {eq name="vo.status" value="2"}
+            <div class="active details">
+                <!--{eq name="vo.status" value="2"}
                 {if condition="in_array($uid,explode(',',$vo['public_to_take'])) && !in_array($uid,explode(',',$vo['take_employees'])) && $now_time < $vo['task_take_end_time'] "}
                 <p class="p2 get_reward" data-id="{$vo.id}" task-type="{$vo.task_type}" task-money="{$vo.reward_amount}">领任务</p>
                 {elseif condition="in_array($uid,explode(',',$vo['take_employees']))" /}
@@ -256,7 +266,10 @@
                 <p>报名已截止</p>
                 {/if}
                 <p class="p2 tip" task_id="{$vo.id}">打赏</p>
-                {/eq}
+                {/eq}-->
+                <p class="p2">终止任务</p>
+                <p class="p2">打赏</p>
+                <p class="p2">领取</p>
             </div>
             <div class="comment">
                 <div>

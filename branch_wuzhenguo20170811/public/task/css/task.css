@@ -341,19 +341,19 @@ article .dv1 .details div .big {
 }
 
 article .dv1 .details .len p:nth-of-type(1) {
-	width: 182px;
+	width: 252px;
 }
 
 article .dv1 .details .len p:nth-of-type(2) {
-	width: 186px;
+	width: 260px;
 }
 
 article .dv1 .details .very p:nth-of-type(1) {
-	width: 232px;
+	width: 292px;
 }
 
 article .dv1 .details .very p:nth-of-type(2) {
-	width: 236px;
+	width: 286px;
 }
 article .dv1 .details .fu{
 	position: relative;
@@ -364,7 +364,7 @@ article .dv1 .details .fu .xuanfu{
 	position: absolute;
 	background-color: #fff;
 	z-index: 100;
-	box-shadow: 3px 3px 3px #9b9292;
+	box-shadow: 0 0 5px #9b9292;
 	padding-top: 5px;
 	padding-left: 20px;
 	top: 20px;
@@ -386,22 +386,24 @@ article .dv1 .center .details .flo {
 }
 
 article .dv1 .details .flotage {
-	width: 240px;
+	width: 260px;
 	height: 100px;
 	overflow-y: auto;
 	position: absolute;
-	padding-left: 40px;
-	padding-right: 40px;
+	padding-left: 20px;
 	background-color: #fff;
 	z-index: 100;
-	box-shadow: 3px 3px 3px #9b9292;
+	box-shadow: 0 0 5px #9b9292;
 	top: 20px;
 	left: -20px;
 	display: none;
 }
 
 article .dv1 .details .flotage span {
-	margin-right: 20px;
+	display: inline-block;
+	width: 60px;
+	height: 20px;
+	margin-right: 5px;
 }
 
 article .dv1 .details .flo:hover .flotage {
@@ -409,7 +411,7 @@ article .dv1 .details .flo:hover .flotage {
 }
 
 article .dv1 .active {
-	padding-top: 44px;
+	padding-top: 14px;
 	/*height: 136px;*/
 	margin:0 auto;
 	width: 92px;
@@ -419,7 +421,7 @@ article .dv1 .active {
 	margin-top: 40px;
 }*/
 article .dv1  .stimulate {
-	padding-top: 100px;
+	padding-top: 44px;
 	/*height: 136px;*/
 	margin:0 auto;
 	width: 92px;
@@ -1403,9 +1405,10 @@ article .dv3 .down .review .one{
 	width: 99%;
 	height: 35px;
 	margin-left: 6px;
-	padding-top: 15px;
+	padding-top: 10px;
 	padding-bottom: 15px;
 	border-bottom: 1px solid #cccccc;
+	position: relative;
 }
 article .dv3 .down .review .one:hover{
 	background-color: #f1f4f9;
@@ -1417,8 +1420,8 @@ article .dv3 .down .review .one img{
 	width:35px;
 	height:35px;
 }
-article .dv3 .down .review .one div{
-	width: 100%
+article .dv3 .down .review .one .comment_right{
+	width: 94%;
 	height: 35px;
 	float: left;
 	margin-left: 5px;
@@ -1433,13 +1436,25 @@ article .dv3 .down .review .one span{
 article .dv3 .down .reply span{
 	float: left;
 }
-article .dv3 .down .reply .play{
+/*article .dv3 .down .reply .play{
 	float: right;
 	display: block;
 	width: 100px ;
 	height: 18px;
 
+}*/
+article .dv3 .down .one .comment{
+	float: right;
+	display: block;
+	width: 40px;
+	height: 16px;
+	/*background-color: red;*/
+	position: absolute;
+	right: 60px;
+	bottom: 5px;
+
 }
+
 article .dv3 .down .reply .play span:nth-child(1){
 	padding: 0 10px;
 	border-right: 1px solid silver;
