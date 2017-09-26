@@ -468,7 +468,6 @@ function task_list(target){
     this.paypassword = '';
     var self = this;
     var task_list_sel = "#"+self.target+" .task";
-    console.log('lalala'+task_list_sel);
 
     this.pay=function(paypassword){
         self.paypassword = '';
@@ -571,17 +570,15 @@ function task_list(target){
     });
     $(task_list_sel+" article").on("click",".dv1 .task_details",function(){
         var id = $(this).attr("task_id");
-        console.log(id);
         //loadPage('/task/index/show/id/'+id+'/fr/'+self.target,self.target);
-
+        var nowflag=$(task_list_sel+" header ul li.flow div").text();
         $.ajax({
             url: '/task/index/show/id/'+id+'/fr/'+self.target,
             type: 'get',
             success: function(data) {
-                //console.log(data);
-                console.log($("#"+self.target+" .task_direct_panel"));
-                console.log($("#"+self.target+" .task_direct_panel .task_direct_info_panel"));
                 $("#"+self.target+" .task_direct_panel .task_direct_info_panel").html(data);
+                console.log($("#"+self.target+" .task_direct_panel header div ul li.current div").html());
+                $("#"+self.target+" .task_direct_panel header div ul li.current div").text(nowflag);
                 $("#"+self.target+" .task_list").addClass("hide");
                 $("#"+self.target+" .task_direct_panel").removeClass("hide");
             },
