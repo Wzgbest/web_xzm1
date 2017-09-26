@@ -175,6 +175,9 @@
 	margin: 60px auto;
 	padding-left: 100px;
 }
+button{
+	cursor: pointer;
+}
 .u-submitButton button{
 	padding:0 20px;
 	margin-right: 50px;

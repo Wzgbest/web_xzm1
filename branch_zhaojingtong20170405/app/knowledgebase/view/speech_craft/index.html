@@ -21,12 +21,15 @@
                 </form>
                 <div class="batch-manage fl">
                     <span class="out hide">退出</span>批量管理
+                </div>
+                <div class="batch-delete hide">
+                    批量删除
                 </div>               
             	<div class="clearfix"></div>
             </div>
         </section>
-        <div class="manageNav m-filterNav">
-            <input type="checkbox"/><span>全选</span>
+        <div class="manageNav m-filterNav hide" data-status="false">
+            <input type="checkbox" /><span>全选</span>
             <select>
                 <option>分类</option>
             </select>
@@ -37,27 +40,54 @@
         <ul class="speech-list">
             {volist name="all_article" id="vo"}
                 {eq name="vo.in_show" value="1"}
-                <li onclick="article_info_show('{$vo.id}');" {eq name="vo.in_top" value="1" }class="speech-hot"{/eq}>
+                <!-- onclick="article_info_show('{$vo.id}');" -->
+                <li class="" data-status = "true"; onclick="article_info_show('{$vo.id}',this);" {eq name="vo.in_top" value="1" }class="speech-hot"{/eq}>
+                    <input type="checkbox" />
                     <h1>{$vo.article_name}<span class="hot hide">置顶</span></h1>
-                    <h2 class="hide">{$vo.article_content}</h2>
+                    <h2>{$vo.article_content}</h2>
+                    <select class="delete-change-set">
+                        <option>   </option>
+                        <option value="1">删除话术</option>
+                        <option value="2">修改分类</option>
+                        <option value="3">设为置顶</option>
+                    </select>
                     <h3>更新时间：<span>{$vo.article_edit_time|time_format}</span></h3>
                     <div class="controler">
                         <div class="edit3"><i class="fa fa-file-text-o fa-2x"></i></div>
                         <div class="delete"><i class="fa fa-trash-o fa-2x"></i></div>
                     </div>
+
                 </li>
                 {/eq}
             {/volist}
         </ul>
-	</div>
+        <h2 class="no-list hide">该分类还未添加话术，您可以<span class="color-blue">添加话术</span>，也可以<span class="color-blue delete-speech-class">删除分类</span></h2>
+        <div class="popUp delete-change-set-container hide">
+            
+        </div>
+	</div>  
 </div>
 <link rel="stylesheet" href="/knowledgebase/css/index.css" />
+<link rel="stylesheet" href="/static/css/popUp.css" />
 <script src="/knowledgebase/js/index.js"></script>
 <script type="text/javascript">
-    function article_info_show(id){
-    var url = "/knowledgebase/speech_craft/show/id/"+id;
-    var panel = 'speech-databasefr';
-    loadPage(url,panel);
+    let status2 = true;
+    function article_info_show(id,t){   
+    if (status) {
+        var url = "/knowledgebase/speech_craft/show/id/"+id;
+        var panel = 'speech-databasefr';
+        loadPage(url,panel);
+    }else{
+        // console.log($(t).children("input[type='checkbox']").attr("checked"));
+        //选中操作---------------------
+        /*if($(t).attr("data-status")=="true"){
+            $(t).children("input[type='checkbox']").attr("checked","checked").prop("checked",true);
+            $(t).attr("data-status","false");
+        }else{
+            $(t).children("input[type='checkbox']").removeAttr("checked").prop("checked",false);
+            $(t).attr("data-status","true");
+        }*/
+    }
 }
 function search_article(){
     var key_word = $("input[name='key_word']").val();
@@ -73,7 +103,57 @@ function show_class_article(class_id){
     var url = "/knowledgebase/speech_craft/index/class_id/"+class_id;
     var panel = 'speech-databasefr';
     loadPage(url,panel);
-    console.log(class_id);
     $(".knowledgebase_speechcraft_index .in_column").eq(class_id).addClass("current").siblings().removeClass("current");
 }
+// 批量管理
+let status = true;
+$(".knowledgebase_speechcraft_index .batch-manage").click(function(){
+    if(status){
+        $(this).children(".out").removeClass("hide");
+        $(".knowledgebase_speechcraft_index .speech-list li").addClass("manage-list-model");
+        $(".knowledgebase_speechcraft_index .manageNav").removeClass("hide");
+        $(".knowledgebase_speechcraft_index .batch-delete").removeClass("hide");
+        status = !status;
+        status2 = true;
+        // 显示 no-list
+        if($(".knowledgebase_speechcraft_index .speech-list li").length==0){
+            $(".knowledgebase_speechcraft_index .no-list").removeClass("hide");
+        }
+    }else{
+        $(this).children(".out").addClass("hide");
+        $(".knowledgebase_speechcraft_index .speech-list li").removeClass("manage-list-model");
+        $(".knowledgebase_speechcraft_index .manageNav").addClass("hide");
+        $(".knowledgebase_speechcraft_index .batch-delete").addClass("hide");
+        status = !status;
+        status2 = false;
+        $(".knowledgebase_speechcraft_index .no-list").addClass("hide");
+    }    
+});
+//全选中操作
+$(".knowledgebase_speechcraft_index .manageNav input[type='checkbox']").click(function(){
+    if(status2){
+        $(".knowledgebase_speechcraft_index .speech-list li input[type='checkbox']").attr("checked","checked").prop("checked",true);
+        $(this).attr("checked","checked").prop("checked",true);
+        status2=!status2;
+    }else{
+        $(".knowledgebase_speechcraft_index .speech-list li input[type='checkbox']").removeAttr("checked").prop("checked",false);
+        $(this).removeAttr("checked").prop("checked",false);
+        status2=!status2;
+    }
+});
+</script>
+<script src="/static/js/PopUp.js"></script>
+<script>
+    $(".knowledgebase_speechcraft_index .delete-change-set").change(function(){
+        console.log($(this).val());
+        if($(this).val()==1){
+            let pop =  new popLoad("knowledgebase_speechcraft_index .delete-change-set-container","/knowledgebase/speech_craft/delete_speech_list/");
+        }else if($(this).val()==2){
+            let pop =  new popLoad("knowledgebase_speechcraft_index .delete-change-set-container","/knowledgebase/speech_craft/change_class/");
+        }
+    });
+    $(".knowledgebase_speechcraft_index .delete-speech-class").click(function(){
+        let pop =  new popLoad("knowledgebase_speechcraft_index .delete-change-set-container","/knowledgebase/speech_craft/delete_speech_class/");
+    });
+    // var pop1 = new popLoad("knowledgebase_speechcraft_index .delete-speech-list-container","/knowledgebase/speech_craft/delete_speech_list/",".knowledgebase_speechcraft_index .delete-speech-list");
 </script>
