@@ -65,10 +65,11 @@ class EmployeeTask extends Base{
 //            ->field("et.*,e.telephone,e.truename,e.userpic,case when etl.user_id>0 then 1 else 0 end as is_like")
 //            ->find();
         $map['et.id']=$task_id;
-        $field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like,case when tg.guess_employee>0 then 1 else 0 end as is_guess';
+        $field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like,case when tg.guess_employee>0 then 1 else 0 end as is_guess,case when ett.take_employee>0 then 1 else 0 end as is_take';
         return $this->model->table($this->viewTable)->alias('et')
             ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
             ->join($this->dbprefix.'employee_task_guess tg',"tg.task_id=et.id and tg.guess_employee=".$uid,"LEFT")
+            ->join($this->dbprefix.'employee_task_take ett','ett.task_id=et.id','LEFT')
             ->field($field)->where($map)->find();
     }
 
@@ -195,9 +196,12 @@ class EmployeeTask extends Base{
             ->column("re.redid,re.is_token,re.money","ett.take_employee");
         return $employeeTaskInfo;
     }
-    public function setTaskStatus($ids,$from_status,$to_status){
+    public function setTaskStatus($ids,$from_status='',$to_status){
         $map["et.id"] = ["in",$ids];
-        $map["et.status"] = $from_status;
+        if($from_status || $from_status==='0')
+        {
+            $map["et.status"] = $from_status;
+        }
         $data["et.status"] = $to_status;
         $updateTaskResult = $this->model->table($this->table)->alias('et')
             ->where($map)
@@ -229,6 +233,7 @@ class EmployeeTask extends Base{
             ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
             ->join($this->dbprefix.'red_envelope re',"re.task_id = et.id and re.took_user = ".$uid,"LEFT")
             ->join($this->dbprefix.'employee_task_guess tg',"tg.task_id=et.id and tg.guess_employee=".$uid,"LEFT")
+            ->join($this->dbprefix.'employee_task_take ett','ett.task_id=et.id','LEFT')
             ->field($field)->where($map_str)->where($map)->group('et.id')->order($listOrder)->select();
         return $employee_task_list;
 
@@ -262,7 +267,7 @@ class EmployeeTask extends Base{
     }
 
     /**
-     * 赞
+     * 点赞
      * @param $map
      */
     public function addLike($map){

@@ -70,18 +70,28 @@
     <div class="right">
         <div class="within">
             <div class="active details">
-                <!--{eq name="vo.status" value="2"}
-                {if condition="in_array($uid,explode(',',$vo['public_to_take'])) && !in_array($uid,explode(',',$vo['take_employees'])) && $now_time < $vo['task_take_end_time'] "}
-                <p class="p2 get_reward" data-id="{$vo.id}" task-type="{$vo.task_type}" task-money="{$vo.reward_amount}">领任务</p>
-                {elseif condition="in_array($uid,explode(',',$vo['take_employees']))" /}
-                <p>已参与</p>
-                {else /}
-                <p>报名已截止</p>
+                {eq name="vo.status" value="2"}
+                    {if condition="$now_time <= $vo['task_end_time']"}
+                        <p class="p2 tip" task_id="{$vo.id}">打赏</p>
+
+                        {eq name="uid" value="$vo['create_employee']"}
+                            {if condition="strtotime('-1 day') < $vo['create_time'] && $now_time < $vo['task_end_time'] "}
+                            <p class="p2 end_task" data-id="{$vo.id}">终止任务</p>
+                            {/if}
+                            <p>任务进行中</p>
+                        {/eq}
+
+                        {if condition="in_array($uid,explode(',',$vo['take_employees']))"}
+                        <p>正在参与任务</p>
+                        {/if}
+                    {/if}
+                {/eq}
+                {eq name="vo.status" value="0"}任务被终止{/eq}
+                {if condition="$now_time > $vo['task_end_time']"}
+                    <p>任务结束</p>
                 {/if}
-                <p class="p2 tip" task_id="{$vo.id}">打赏</p>
-                {/eq}-->
-                <p class="p2">终止任务</p>
-                <p class="p2">打赏</p>
+
+
             </div>
             <div class="comment">
                 <div>
@@ -169,23 +179,32 @@
     <div class="right">
         <div class="within">
             <div class="active details">
-                <!--{eq name="vo.status" value="2"}
-                {if condition="in_array($uid,explode(',',$vo['public_to_take'])) && !in_array($uid,explode(',',$vo['take_employees'])) && $now_time < $vo['task_take_end_time'] && $vo['is_guess'] == 0 "}
-                <p class="p2 get_reward" data-id="{$vo.id}" task-type="{$vo.task_type}" task-money="{$vo.reward_amount}">领任务</p>
-                {elseif condition="in_array($uid,explode(',',$vo['take_employees']))" /}
-                <p>已参与</p>
-                {else /}
-                <p>报名已截止</p>
+                {eq name="vo.status" value="2"}
+                    {if condition="$now_time <= $vo['task_end_time']"}
+                        <p class="p2 tip" task_id="{$vo.id}">打赏</p>
+                        {eq name="uid" value="$vo['create_employee']"}
+                            {if condition="$vo['is_take'] neq 1 && $now_time < $vo['task_end_time'] "}
+                                <p class="p2 end_task" data-id="{$vo.id}">终止任务</p>
+                            {/if}
+                        <p>任务进行中</p>
+                        {/eq}
+                        {if condition="in_array($uid,explode(',',$vo['public_to_take'])) && !in_array($uid,explode(',',$vo['take_employees'])) && $now_time < $vo['task_take_end_time'] && $vo['is_guess'] == 0 "}
+                            <p class="p2 get_reward" data-id="{$vo.id}" task-type="{$vo.task_type}" task-money="{$vo.reward_amount}">领取</p>
+                        {elseif condition="in_array($uid,explode(',',$vo['take_employees']))" /}
+                            <p>正在参与任务</p>
+                        {else /}
+                            <p>报名已截止</p>
+                        {/if}
+                        {if condition="!in_array($uid,explode(',',$vo['take_employees']))"}
+                            <p class="p2 guess" task_id="{$vo.id}">猜输赢</p>
+                        {/if}
+
+                    {/if}
+                {/eq}
+                {eq name="vo.status" value="0"}任务被终止{/eq}
+                {if condition="$now_time > $vo['task_end_time']"}
+                <p>任务结束</p>
                 {/if}
-                {if condition="!in_array($uid,explode(',',$vo['take_employees']))"}
-                <p class="p2 guess" task_id="{$vo.id}">猜输赢</p>
-                {/if}
-                <p class="p2 tip" task_id="{$vo.id}">打赏</p>
-                {/eq}-->
-                <p class="p2">终止任务</p>
-                <p class="p2">打赏</p>
-				<p class="p2">领取</p>
-				<p class="p2">猜输赢</p>
             </div>
 
             <div class="comment">
@@ -257,19 +276,28 @@
     <div class="right">
         <div class="within">
             <div class="active details">
-                <!--{eq name="vo.status" value="2"}
-                {if condition="in_array($uid,explode(',',$vo['public_to_take'])) && !in_array($uid,explode(',',$vo['take_employees'])) && $now_time < $vo['task_take_end_time'] "}
-                <p class="p2 get_reward" data-id="{$vo.id}" task-type="{$vo.task_type}" task-money="{$vo.reward_amount}">领任务</p>
-                {elseif condition="in_array($uid,explode(',',$vo['take_employees']))" /}
-                <p>已参与</p>
-                {else /}
-                <p>报名已截止</p>
+                {eq name="vo.status" value="2"}
+                    {if condition="$now_time <= $vo['task_end_time']"}
+                        <p class="p2 tip" task_id="{$vo.id}">打赏</p>
+                        {eq name="uid" value="$vo['create_employee']"}
+                            {if condition="$vo['is_take'] neq 1 && $now_time < $vo['task_end_time'] "}
+                            <p class="p2 end_task" data-id="{$vo.id}">终止任务</p>
+                            {/if}
+                            <p>任务进行中</p>
+                        {/eq}
+                        {if condition="in_array($uid,explode(',',$vo['public_to_take'])) && !in_array($uid,explode(',',$vo['take_employees'])) && $now_time < $vo['task_take_end_time'] && $vo['is_guess'] == 0 "}
+                            <p class="p2 get_reward" data-id="{$vo.id}" task-type="{$vo.task_type}" task-money="{$vo.reward_amount}">领取</p>
+                        {elseif condition="in_array($uid,explode(',',$vo['take_employees']))" /}
+                            <p>正在参与任务</p>
+                        {else /}
+                            <p>报名已截止</p>
+                        {/if}
+                    {/if}
+                {/eq}
+                {eq name="vo.status" value="0"}任务被终止{/eq}
+                {if condition="$now_time > $vo['task_end_time']"}
+                    <p>任务结束</p>
                 {/if}
-                <p class="p2 tip" task_id="{$vo.id}">打赏</p>
-                {/eq}-->
-                <p class="p2">终止任务</p>
-                <p class="p2">打赏</p>
-                <p class="p2">领取</p>
             </div>
             <div class="comment">
                 <div>
