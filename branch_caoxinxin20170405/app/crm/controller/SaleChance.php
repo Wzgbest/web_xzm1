@@ -284,18 +284,19 @@ class SaleChance extends Initialize{
                 $saleOrderContractData["contract_handle_6"] = '';
 
                 $saleOrderContractItem[] = [
-                    $saleOrderContractData["contract_id"] = 0,
-                    $saleOrderContractData["order_money"] = 0.00,
-                    $saleOrderContractData["pay_money"] = 0.00,
-                    $saleOrderContractData["pay_type"] = 0,
-                    $saleOrderContractData["pay_name"] = '',
-                    $saleOrderContractData["due_time"] = time(),
-                    $saleOrderContractData["need_bill"] = 0
+                    "contract_id"=>0,
+                    "order_money"=>0.00,
+                    "pay_money"=>0.00,
+                    "pay_type"=>0,
+                    "pay_name"=>'',
+                    "due_time"=>time(),
+                    "need_bill"=>0
                 ];
             }else{
                 $saleOrderContractItem = $saleOrderContractItemM->getContractItemBySaleId($id);
                 $inContractId = array_column($saleOrderContractItem,"contract_id");
             }
+            //var_exp($saleOrderContractItem,'$saleOrderContractItem',1);
             $this->assign('saleOrderContractData',$saleOrderContractData);
             $this->assign('saleOrderContractItem',$saleOrderContractItem);
             $businessFlowItemLink = $businessFlowItemLinkM->findItemLinkByItemId($SaleChancesData["business_id"],4);
@@ -552,9 +553,9 @@ class SaleChance extends Initialize{
             if($saleChance["sale_status"]==4){
                 $fine_save_flg = $this->_update_fine($id);
                 if($fine_save_flg["status"]!=1){
-                    //$result['info'] = "保存成单拜访信息失败！";
-                    //return json($result);
-                    exception("保存成单申请信息失败!");
+                    $result['info'] = $fine_save_flg['info'];
+                    return json($result);
+                    //exception("保存成单申请信息失败!");
                 }
                 $saleChance["need_money"] = $fine_save_flg["data"]["all_contract_money"];
                 $saleChance["payed_money"] = $fine_save_flg["data"]["all_pay_money"];

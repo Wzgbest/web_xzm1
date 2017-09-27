@@ -375,7 +375,6 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_edit").click(function(){
 					var edit_id = $(this).parent().siblings(":input").val();
 					self.sale_chance_edit(edit_id,0);
-                    $(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_edit").addClass("hide");
 				});
 				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_invalid").click(function(){
 					var edit_id = $(this).parent().siblings(":input").val();
@@ -469,6 +468,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			type:'get',
 			async:false,
 			success:function (data) {
+				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_edit").addClass("hide");
 				$(sale_chance_panel+" .sale-chance-record-"+id).addClass("hide");
 				$(sale_chance_panel+" .sale-chance-record-"+id).before(data);
 				$(sale_chance_panel+' .edit-sale-chance-'+id+" input:first").focus();
