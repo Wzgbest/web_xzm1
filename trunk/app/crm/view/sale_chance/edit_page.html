@@ -81,48 +81,52 @@
         {eq name='show_fine' value='1'}
         <div class="sale-chance sale-chance-finish {notin name='now_item' value='3,4'} hide{/notin}">
             <input type="hidden" name="refresh" value="{$refresh}" />
-            <div class="sale-chance-apply-contract">
-                <div class="controler">
-                    <div class="add"><i class="fa fa-plus-circle fa-2x"></i></div>
-                    <div class="delete"><i class="fa fa-trash-o fa-2x"></i></div>
-                </div>
-                <div>
-                    <span class="cont">合同编号</span>
-                    <select name="contract_id" class="contract_no_selecter">
-                        {volist name="contract_list" id="vo" key="key" empty="$empty"}
-                            <option value="{$key-1}" {eq name='saleOrderContractData.contract_id' value='$key-1'} selected="selected"{/eq}>{$vo.contract_no}</option>
-                        {/volist}
-                    </select>
-                    <input type="hidden"  value='{$contract_type_name_json}'/>
-                    <span class="cont">合同类型</span>
-                    <span class="cont-x contract_type">------</span>
-                </div>
-                <div>
-                    <span class="cont-max">实际成单金额</span>
-                    <input type="text" placeholder="请输入成单" name="order_money" value="{empty name='saleOrderContractData.order_money'}{$sale_chance.guess_money}{else/}{$saleOrderContractData.order_money}{/empty}" />
-                    <span class="cont">打款金额</span>
-                    <input type="text" placeholder="请输入打款金额" name="pay_money" value="{empty name='saleOrderContractData.pay_money'}{$sale_chance.guess_money}{else/}{$saleOrderContractData.pay_money}{/empty}" />
-                </div>
-                <div>
-                    <span class="cont">打款方名称</span>
-                    <input type="text" placeholder="请输入打款方名称" name="pay_name" value="{empty name='saleOrderContractData.pay_name'}{$customer.customer_name}{else/}{$saleOrderContractData.pay_name}{/empty}" />
-                    <span class="cont">打款方式</span>
-                    <div class="u-inlineRadio">
-                        <input type="radio" name="pay_type" {eq name='saleOrderContractData.pay_type' value='1'} checked="checked"{/eq} value="1"/>现金
-                        <input type="radio" name="pay_type" {neq name='saleOrderContractData.pay_type' value='2'} checked="checked"{/neq} value="2"/>银行转账
-                    </div>                    
-                </div>
-                <div>
-                    <span class="cont-max-max">预计合同到期时间</span>
-                    <input type="date" name="due_time" value="{$saleOrderContractData.due_time|day_format}" />
-                    <span class="cont">发票</span>
-                    <div class="u-inlineRadio">
-                        <input type="radio" name="need_bill" {eq name='saleOrderContractData.need_bill' value='1'} checked="checked"{/eq} value="1"/>是
-                        <input type="radio" name="need_bill" {neq name='saleOrderContractData.need_bill' value='1'} checked="checked"{/neq} value="0"/>否
+
+            {volist name="saleOrderContractItem" id="voc" key="keyc"}
+                <div class="sale-chance-apply-contract" index="{$keyc}">
+                    <div class="controler">
+                        <div class="add"><i class="fa fa-plus-circle fa-2x"></i></div>
+                        <div class="delete"><i class="fa fa-trash-o fa-2x"></i></div>
+                    </div>
+                    <div>
+                        <span class="cont">合同编号</span>
+                        <select name="contract_id" class="contract_no_selecter">
+                            {volist name="contract_list" id="vo" key="key" empty="$empty"}
+                                <option value="{$key-1}" {eq name='voc.contract_id' value='$key-1'} selected="selected"{/eq}>{$vo.contract_no}</option>
+                            {/volist}
+                        </select>
+                        <input type="hidden"  value='{$contract_type_name_json}'/>
+                        <span class="cont">合同类型</span>
+                        <span class="cont-x contract_type">------</span>
+                    </div>
+                    <div>
+                        <span class="cont-max">实际成单金额</span>
+                        <input type="text" placeholder="请输入成单" name="contract_money" value="{empty name='voc.contract_money'}{$sale_chance.guess_money}{else/}{$voc.contract_money}{/empty}" />
+                        <span class="cont">打款金额</span>
+                        <input type="text" placeholder="请输入打款金额" name="pay_money" value="{empty name='voc.pay_money'}{$sale_chance.guess_money}{else/}{$voc.pay_money}{/empty}" />
+                    </div>
+                    <div>
+                        <span class="cont">打款方名称</span>
+                        <input type="text" placeholder="请输入打款方名称" name="pay_name" value="{empty name='voc.pay_name'}{$customer.customer_name}{else/}{$voc.pay_name}{/empty}" />
+                        <span class="cont">打款方式</span>
+                        <div class="u-inlineRadio">
+                            <input type="radio" name="pay_type_{$keyc}" {eq name='voc.pay_type' value='1'} checked="checked"{/eq} value="1"/>现金
+                            <input type="radio" name="pay_type_{$keyc}" {neq name='voc.pay_type' value='1'} checked="checked"{/neq} value="2"/>银行转账
+                        </div>
+                        <input type="hidden" name="pay_bank" value="" />
+                    </div>
+                    <div>
+                        <span class="cont-max-max">预计合同到期时间</span>
+                        <input type="date" name="due_time" value="{$voc.due_time|day_format}" />
+                        <span class="cont">发票</span>
+                        <div class="u-inlineRadio">
+                            <input type="radio" name="need_bill_{$keyc}" {eq name='voc.need_bill' value='1'} checked="checked"{/eq} value="1"/>是
+                            <input type="radio" name="need_bill_{$keyc}" {neq name='voc.need_bill' value='1'} checked="checked"{/neq} value="0"/>否
+                        </div>
                     </div>
                 </div>
-            </div>
-            
+            {/volist}
+
             <div>
                 <span class="cont u-area">产品详情</span>
                 <textarea placeholder="请输入" name="prod_desc">{$saleOrderContractData.prod_desc}</textarea>
@@ -204,27 +208,3 @@
         </div>
     </form>
 </div>
-<script>
-    let interal;
-    $(".sale-chance input[name='visit_place']").change(function(){
-        $("#mapFrame")[0].contentWindow.searchKey($(this).val());
-    });
-    let count = 1;
-    $(".edit-sale-chance").on("click",".sale-chance-apply-contract .add",function(){
-        let a = $(this).parent().parent();//.sale-chance-apply-contract
-        let b = a.html();//
-        let c = '<div class="sale-chance-apply-contract">'+b+'</div>';
-        a.after(c);
-        count+=1;
-    });
-    $(".edit-sale-chance").on("click",".sale-chance-apply-contract .delete",function(){
-        let a = $(this).parent().parent();//.sale-chance-apply-contract
-        if(count>1){
-            a.remove();
-            count-=1;
-        }else{
-            alert("不能再删除了");
-        }
-       
-    });
-</script>

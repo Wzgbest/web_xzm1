@@ -133,12 +133,12 @@
                 </div>
                 <div>
                     <span class="cont">应收金额：</span>
-                    <span class="cont-x"><span class="number">{$vo.order_money}</span> 元</span>
+                    <span class="cont-x"><span class="number">{$vo.need_money}</span> 元</span>
                 </div>
                 <div>
                     <span class="cont">共缴纳：</span>
                     <span class="cont-x">
-                        <span class="number">{$vo.pay_money}</span> 元
+                        <span class="number">{$vo.payed_money}</span> 元
                     {eq name="vo.sale_status" value="5"}
                         {empty name="vo.bill_id"}
                             <span class="cont-in color-blue bill-apply">申请发票</span>

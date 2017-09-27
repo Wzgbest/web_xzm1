@@ -63,14 +63,16 @@ class Contract extends Base{
      * @param $sale_id int 销售机会id
      * @param $status array 状态
      * @param $type int 合同类型
+     * @param $in_id array 加入这些id的合同
      * @param $order string 排序字段
      * @param $direction string 排序顺序
      * @return array|false
      * @throws \think\Exception
      */
-    public function getAllContractNoAndType($user_id=null,$sale_id=null,$status=[],$type=null,$order="ca.id",$direction="desc"){
+    public function getAllContractNoAndType($user_id=null,$sale_id=null,$status=[],$type=null,$in_id=[],$order="ca.id",$direction="desc"){
         //筛选
         $map = [];
+        $in_id_map = [];
         if($user_id){
             $map["ca.employee_id"] = $user_id;
         }
@@ -79,13 +81,15 @@ class Contract extends Base{
         }else{
             $map["soc.sale_id"] = ["exp","is null"];
         }
-        if(!empty($type)){
+        if(!empty($status)){
             $map["ca.status"] = ["in",$status];
         }
         if($type){
             $map["ca.contract_type"] = $type;
         }
-        $map["c.status"] = ["in",array(5,8)];
+        if(!empty($in_id)){
+            $in_id_map["c.id"] = ["in",$in_id];
+        }
 
         //排序
         if($direction!="desc" && $direction!="asc"){
@@ -96,8 +100,10 @@ class Contract extends Base{
         $contractList = $this->model->table($this->dbprefix."contract")->alias('c')
             ->join($this->table.' ca','ca.id = c.applied_id',"LEFT")
             ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
-            ->join($this->dbprefix.'sale_order_contract soc','soc.contract_id = c.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract_item soci','soci.contract_id = c.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract soc','soc.id = soci.sale_order_id',"LEFT")
             ->where($map)
+            ->whereOr($in_id_map)
             ->order($order)
             ->column("c.contract_no,ca.contract_type,cs.contract_name as contract_type_name","c.id");
         return $contractList;
@@ -357,7 +363,8 @@ class Contract extends Base{
         $contractAppliedList = $this->model->table($this->table)->alias('ca')
             ->join($this->dbprefix.'contract co','co.applied_id = ca.id',"LEFT")
             ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
-            ->join($this->dbprefix.'sale_order_contract soc','soc.contract_id = co.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract_item soci','soci.contract_id = co.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract soc','soci.sale_order_id = soc.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'customer c','c.id = sc.customer_id',"LEFT")
             ->join($this->dbprefix.'employee e','ca.employee_id = e.id',"LEFT")
@@ -413,7 +420,8 @@ class Contract extends Base{
 
         $contractAppliedCount= $this->model->table($this->table)->alias('ca')
             ->join($this->dbprefix.'contract co','co.applied_id = ca.id',"LEFT")
-            ->join($this->dbprefix.'sale_order_contract soc','soc.contract_id = co.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract_item soci','soci.contract_id = co.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract soc','soc.id = soci.sale_order_id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'customer c','c.id = sc.customer_id',"LEFT")
             ->join($this->dbprefix.'employee e','ca.employee_id = e.id',"LEFT")
@@ -480,7 +488,8 @@ class Contract extends Base{
         $customerQuery = $this->model->table($this->table)->alias('ca')
             ->join($this->dbprefix.'contract co','co.applied_id = ca.id',"LEFT")
             ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
-            ->join($this->dbprefix.'sale_order_contract soc','soc.contract_id = co.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract_item soci','soci.contract_id = co.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract soc','soc.id = soci.sale_order_id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'customer c','c.id = sc.customer_id',"LEFT")
             ->join($this->dbprefix.'employee e','ca.employee_id = e.id',"LEFT")
