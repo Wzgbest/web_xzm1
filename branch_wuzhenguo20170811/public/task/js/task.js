@@ -162,6 +162,22 @@ $("article .dv4 .xuanze input").click(function(){
 
 });
 
+$("article .dv4 .xuanze input").click(function(){
+	
+    $(this).siblings("input[type='radio']").attr("checked",false);
+    $(this).siblings("input[type='radio']").prop("checked",false);
+    $(this).attr("checked",true);
+    $(this).prop("checked",true);
+    if($(this).index()==1){
+        $("article .dv4 .switch1").css("display","block");
+        $("article .dv4 .switch2").css("display","none");
+    }else{
+        $("article .dv4 .switch1").css("display","none");
+        $("article .dv4 .switch2").css("display","block");
+    }
+
+});
+
 function task_tip(id,tip_money,paypassword,callback){
     $.ajax({
         url: '/task/task_tip/tip/task_id/'+id+'/money/'+tip_money+'/paypassword/'+paypassword,
