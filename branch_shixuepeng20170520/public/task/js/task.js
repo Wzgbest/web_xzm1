@@ -114,6 +114,26 @@ function task_like(id,like,fun){
         },
     });
 }
+
+function task_end(id,fun){
+    var post_data = "task_id="+id;
+    $.ajax({
+        url: '/task/employee_task/task_end',
+        type: 'post',
+        data: post_data,
+        dataType:"json",
+        success: function(data) {
+            if(data.success == 1) {
+                fun(data);
+            }else{
+                console.log(data.msg,{icon:2});
+            }
+        },
+        error: function() {
+            console.log('操作出现错误',{icon:2});
+        },
+    });
+}
 //新建里边点击加号ul显示
 $("article .dv4 .parcel .add").click(function(){
     console.log("add");
@@ -593,7 +613,6 @@ function task_list(target){
             type: 'get',
             success: function(data) {
                 $("#"+self.target+" .task_direct_panel .task_direct_info_panel").html(data);
-                console.log($("#"+self.target+" .task_direct_panel header div ul li.current div").html());
                 $("#"+self.target+" .task_direct_panel header div ul li.current div").text(nowflag);
                 $("#"+self.target+" .task_list").addClass("hide");
                 $("#"+self.target+" .task_direct_panel").removeClass("hide");
@@ -819,6 +838,15 @@ function task_list(target){
         i++;
         $(this).attr('index_img', i)
     });
+
+    $(task_list_sel+" article").on("click",".right .end_task",function(){
+        // console.log('终止任务');
+        task_end($(this).attr('data-id'),function(data){
+            layer.msg(data.msg,{icon:data.success==true?1:2});
+        });
+    });
+
+
 }
 
 
@@ -1162,9 +1190,13 @@ function task_details(load_table,id,type){
 
                 }
             });
-
-
         });
+    $(task_details_sel+" article").on("click",".right .end_task",function(){
+        // console.log('终止任务');
+        task_end($(this).attr('data-id'),function(data){
+            layer.msg(data.msg,{icon:data.success==true?1:2});
+        });
+    });
 
 
 }
