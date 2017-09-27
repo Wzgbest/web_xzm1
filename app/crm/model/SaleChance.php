@@ -302,8 +302,8 @@ class SaleChance extends Base
             "scv.add_note",
             "scv.visit_ok",
             "soc.id as order_id",
-            "soc.order_money",
-            "soc.pay_money",
+            "sc.final_money as order_money",
+            "soci.pay_money",
             "soc.status as order_status",
             "sob.id as bill_id",
             "sob.status as bill_status",
@@ -316,8 +316,9 @@ class SaleChance extends Base
             ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
             ->join($this->dbprefix.'sale_chance_visit scv','scv.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'sale_order_contract soc','soc.sale_id = sc.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract_item soci','soci.sale_order_id = soc.id',"LEFT")
             ->join($this->dbprefix.'sale_order_bill sob','sob.sale_id = sc.id',"LEFT")
-            ->join($this->dbprefix.'contract co','co.id = soc.contract_id',"LEFT")
+            ->join($this->dbprefix.'contract co','co.id = soci.contract_id',"LEFT")
             ->join($this->dbprefix.'contract_applied ca','ca.id = co.applied_id',"LEFT")
             ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
             ->where('sc.customer_id',$customer_id)
