@@ -227,7 +227,7 @@ class EmployeeTask extends Base{
             $offset = ($page-1)*$num;
         }
         $listOrder = [$order=>$direction];//聚合后排序
-        $map_str = " find_in_set($uid,public_to_view) ";
+        $map_str = " find_in_set($uid,public_to_view) or create_employee=".$uid;
 //        $employee_task_list=$this->model->table($this->viewTable)->field($field)->where($map_str)->where($map)->order($listOrder)->limit($offset,$num)->select();
         $employee_task_list=$this->model->table($this->viewTable)->alias('et')
             ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
