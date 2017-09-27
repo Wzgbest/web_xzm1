@@ -232,7 +232,7 @@ class SaleOrderContract extends Base{
 
         $field = [
             "soc.*",
-            "co.contract_no",
+            "GROUP_CONCAT( distinct co.contract_no) as contract_no",
             "e.truename as employee_name",
             "sc.business_id",
             "sc.sale_name",
