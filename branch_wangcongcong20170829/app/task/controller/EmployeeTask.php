@@ -85,7 +85,7 @@ class EmployeeTask extends Initialize{
         $user_info = get_userinfo();
         $uid = $user_info['userid'];
         $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
-        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token,case when tg.guess_employee>0 then 1 else 0 end as is_guess',$order,$direction="desc",$map);
+        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token,case when tg.guess_employee>0 then 1 else 0 end as is_guess,case when ett.take_employee>0 then 1 else 0 end as is_take',$order,$direction="desc",$map);
         $countField=["
         count(1) as `0`,
         sum((case when task_type = 1 then 1 else 0 end)) as `1`,
@@ -98,6 +98,7 @@ class EmployeeTask extends Initialize{
         $this->assign('task_count',$task_count);
         $this->assign('uid',$uid);
         $this->assign('now_time',$this->request->time());
+//        var_exp($task_list);
     }
     public function reward_task()
     {
@@ -153,7 +154,7 @@ class EmployeeTask extends Initialize{
             $order='id';
         }
         $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
-        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token,case when tg.guess_employee>0 then 1 else 0 end as is_guess',$order,$direction="desc",$map);
+        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token,case when tg.guess_employee>0 then 1 else 0 end as is_guess,case when ett.take_employee>0 then 1 else 0 end as is_take',$order,$direction="desc",$map);
 //        var_exp($task_list);
         $con['task_end_time']=$map['task_end_time'];
         $con['take_employees']=array('IN',$uid);
@@ -235,7 +236,6 @@ class EmployeeTask extends Initialize{
             }
         }
         return json($redata);
-
     }
     public function pk_pay(){
         $money = input('money',0,'int');
@@ -247,6 +247,23 @@ class EmployeeTask extends Initialize{
         $this->assign('user_money',$userinfo["userinfo"]['left_money']/100);
         $this->assign('money',$money);
         return view();
+    }
+
+    /**
+     * 终止任务
+     */
+    public function task_end(){
+        $task_id=input('task_id',0,'int');
+        $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
+        $redata['success']=false;
+        $redata['msg']='操作失败';
+        $result=$employeeTaskModel->updateTaskStatus($task_id,0);//终止任务
+        if($result)
+        {
+            $redata['success']=true;
+            $redata['msg']='操作成功';
+        }
+        return json($redata);
     }
 
 }

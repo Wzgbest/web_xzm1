@@ -65,10 +65,11 @@ class EmployeeTask extends Base{
 //            ->field("et.*,e.telephone,e.truename,e.userpic,case when etl.user_id>0 then 1 else 0 end as is_like")
 //            ->find();
         $map['et.id']=$task_id;
-        $field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like,case when tg.guess_employee>0 then 1 else 0 end as is_guess';
+        $field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like,case when tg.guess_employee>0 then 1 else 0 end as is_guess,case when ett.take_employee>0 then 1 else 0 end as is_take';
         return $this->model->table($this->viewTable)->alias('et')
             ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
             ->join($this->dbprefix.'employee_task_guess tg',"tg.task_id=et.id and tg.guess_employee=".$uid,"LEFT")
+            ->join($this->dbprefix.'employee_task_take ett','ett.task_id=et.id','LEFT')
             ->field($field)->where($map)->find();
     }
 
@@ -229,6 +230,7 @@ class EmployeeTask extends Base{
             ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
             ->join($this->dbprefix.'red_envelope re',"re.task_id = et.id and re.took_user = ".$uid,"LEFT")
             ->join($this->dbprefix.'employee_task_guess tg',"tg.task_id=et.id and tg.guess_employee=".$uid,"LEFT")
+            ->join($this->dbprefix.'employee_task_take ett','ett.task_id=et.id','LEFT')
             ->field($field)->where($map_str)->where($map)->group('et.id')->order($listOrder)->select();
         return $employee_task_list;
 
@@ -262,7 +264,7 @@ class EmployeeTask extends Base{
     }
 
     /**
-     * 赞
+     * 点赞
      * @param $map
      */
     public function addLike($map){
@@ -287,5 +289,21 @@ class EmployeeTask extends Base{
                 ->setDec('like_count');
         }
         return $result;
+    }
+
+    /**
+     * 任务状态修改
+     * @param $ids
+     * @param $to_status
+     * @return int|string
+     */
+    public function updateTaskStatus($ids,$to_status){
+        $map["et.id"] = ["in",$ids];
+        $data["et.status"] = $to_status;
+        $updateTaskResult = $this->model->table($this->table)->alias('et')
+            ->where($map)
+            ->data($data)
+            ->update();
+        return $updateTaskResult;
     }
 }
