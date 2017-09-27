@@ -52,6 +52,7 @@ class Contract extends Initialize{
             //var_exp($status_list,'$status_list',1);
             $this->assign('apply_status_list',$apply_status_list);
         }catch (\Exception $ex){
+            print_r($ex->getTrace());die();
             $this->error($ex->getMessage());
         }
         $max_page = ceil($customers_count/$num);
