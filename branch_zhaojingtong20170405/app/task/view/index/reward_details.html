@@ -23,7 +23,7 @@
 					<div class="details">
 						<div class="len">
 							<p class="small">任务领取截止时间</p>
-							<p class="big">{$task_info.task_take_end_time|date="Y.m.d/H:m:s",###}{$task_info["task_take_start_time"]|day_format='Y.m.d'}/{$task_info["task_take_end_time"]|day_format='Y.m.d'}</p>
+							<p class="big">{$task_info.task_take_end_time|date="Y.m.d/H:m:s",###}</p>
 						</div>
 
 						<div class="very">
@@ -62,9 +62,28 @@
 						{/if}
 						<p class="p2 tip" task_id="{task_info.id}">打赏</p>
 						{/eq}-->
-                <p class="p2">终止任务</p>
-                <p class="p2">打赏</p>
-                <p class="p2">领取</p>
+				{eq name="task_info.status" value="2"}
+				{if condition="$now_time <= $task_info['task_end_time']"}
+				<p class="p2 tip" task_id="{$task_info.id}">打赏</p>
+				{eq name="uid" value="$task_info['create_employee']"}
+				{if condition="$task_info['is_take'] neq 1 && $now_time < $task_info['task_end_time'] "}
+				<p class="p2 end_task" data-id="{$task_info.id}">终止任务</p>
+				{/if}
+				<p>任务进行中</p>
+				{/eq}
+				{if condition="in_array($uid,explode(',',$task_info['public_to_take'])) && !in_array($uid,explode(',',$task_info['take_employees'])) && $now_time < $task_info['task_take_end_time'] && $task_info['is_guess'] == 0 "}
+				<p class="p2 get_reward" data-id="{$task_info.id}" task-type="{$task_info.task_type}" task-money="{$task_info.reward_amount}">领取</p>
+				{elseif condition="in_array($uid,explode(',',$task_info['take_employees']))" /}
+				<p>正在参与任务</p>
+				{else /}
+				<p>报名已截止</p>
+				{/if}
+				{/if}
+				{/eq}
+				{eq name="task_info.status" value="0"}任务被终止{/eq}
+				{if condition="$now_time > $task_info['task_end_time']"}
+				<p>任务结束</p>
+				{/if}
             </div>
             <div class="comment">
                 <div>

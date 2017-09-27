@@ -123,64 +123,66 @@
             {/in}
 
             {in name="vo.sale_status" value="4,5,6,8"}
-            <!--成单：应该显示的部分-->
-            <div class="sale-chance-finish-record">
-                <div>
-                    <span class="cont">合同类型：</span>
-                    <span class="cont-x">{$vo.contract_type_name}<span class="cont-in">收据类型：<span class="cont-in-x">普通收据</span></span></span>
-                    <span class="cont-max-max">合同/收据编号：</span>
-                    <span class="cont-x">{$vo.contract_no}</span>
-                </div>
-                <div>
-                    <span class="cont">应收金额：</span>
-                    <span class="cont-x"><span class="number">{$vo.need_money}</span> 元</span>
-                </div>
-                <div>
-                    <span class="cont">共缴纳：</span>
-                    <span class="cont-x">
-                        <span class="number">{$vo.payed_money}</span> 元
-                    {eq name="vo.sale_status" value="5"}
-                        {empty name="vo.bill_id"}
-                            <span class="cont-in color-blue bill-apply">申请发票</span>
-                        {else/}
-                            {switch	name="vo.bill_status"}
-                                {case value="0"}
-                                    <span class="cont-in color-blue bill-apply-retract">撤回发票申请</span>
-                                {/case}
-                                {case value="1"}
-                                    <span class="cont-in color-yellow">发票申请已通过</span>
-                                {/case}
-                                {case value="2"}
-                                    <span class="cont-in color-yellow bill-apply">发票申请已驳回</span>
-                                {/case}
-                                {case value="3"}
-                                    <span class="cont-in color-yellow bill-apply">发票申请已撤回</span>
-                                {/case}
-                                {case value="4"}
-                                    <span class="cont-in color-green">发票待领取</span>
-                                {/case}
-                                {case value="5"}
-                                    <span class="cont-in color-yellow">发票已领取</span>
-                                {/case}
-                                {case value="6"}
-                                    <span class="cont-in color-yellow">已作废</span>
-                                {/case}
-                                {case value="7"}
-                                    <span class="cont-in color-yellow">已收回</span>
-                                {/case}
-                                {case value="8"}
-                                    <span class="cont-in color-yellow">已提醒</span>
-                                {/case}
-                                {case value="9"}
-                                    <span class="cont-in color-yellow">已退款</span>
-                                {/case}
-                                {default /}
-                            {/switch}
-                        {/empty}
-                    {/eq}
-                    </span>
-                </div>
-            </div>
+                <!--成单：应该显示的部分-->
+                {volist name="vo['contract_arr']" id="voc"}
+                    <div class="sale-chance-finish-record">
+                        <div>
+                            <span class="cont">合同类型：</span>
+                            <span class="cont-x">{$voc.contract_type_name}<span class="cont-in">收据类型：<span class="cont-in-x">普通收据</span></span></span>
+                            <span class="cont-max-max">合同/收据编号：</span>
+                            <span class="cont-x">{$voc.contract_no}</span>
+                        </div>
+                        <div>
+                            <span class="cont">合同金额：</span>
+                            <span class="cont-x"><span class="number">{$voc.contract_money}</span> 元</span>
+                        </div>
+                        <div>
+                            <span class="cont">打款金额：</span>
+                            <span class="cont-x">
+                                <span class="number">{$voc.pay_money}</span> 元
+                            {eq name="vo.sale_status" value="5"}
+                                {empty name="voc.bill_id"}
+                                    <span class="cont-in color-blue bill-apply" contract_id="{$voc.contract_id}">申请发票</span>
+                                {else/}
+                                    {switch	name="voc.bill_status"}
+                                        {case value="0"}
+                                            <span class="cont-in color-blue bill-apply-retract">撤回发票申请</span>
+                                        {/case}
+                                        {case value="1"}
+                                            <span class="cont-in color-yellow">发票申请已通过</span>
+                                        {/case}
+                                        {case value="2"}
+                                            <span class="cont-in color-yellow bill-apply">发票申请已驳回</span>
+                                        {/case}
+                                        {case value="3"}
+                                            <span class="cont-in color-yellow bill-apply">发票申请已撤回</span>
+                                        {/case}
+                                        {case value="4"}
+                                            <span class="cont-in color-green">发票待领取</span>
+                                        {/case}
+                                        {case value="5"}
+                                            <span class="cont-in color-yellow">发票已领取</span>
+                                        {/case}
+                                        {case value="6"}
+                                            <span class="cont-in color-yellow">已作废</span>
+                                        {/case}
+                                        {case value="7"}
+                                            <span class="cont-in color-yellow">已收回</span>
+                                        {/case}
+                                        {case value="8"}
+                                            <span class="cont-in color-yellow">已提醒</span>
+                                        {/case}
+                                        {case value="9"}
+                                            <span class="cont-in color-yellow">已退款</span>
+                                        {/case}
+                                        {default /}
+                                    {/switch}
+                                {/empty}
+                            {/eq}
+                            </span>
+                        </div>
+                    </div>
+                {/volist}
             {/in}
 
             {egt name="vo.sale_status" value="1"}
