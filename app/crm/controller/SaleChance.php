@@ -143,6 +143,18 @@ class SaleChance extends Initialize{
         $this->assign("fr",input('fr'));
         $saleChanceM = new SaleChanceModel($this->corp_id);
         $SaleChancesData = $saleChanceM->getAllSaleChancesByCustomerId($customer_id);
+        //var_exp($SaleChancesData,'$SaleChancesData');
+
+        $sale_id_arr = array_column($SaleChancesData,"id");
+        $saleOrderContractItemM = new SaleOrderContractItem($this->corp_id);
+        $saleOrderContractItemArr = $saleOrderContractItemM->getContractItemBySaleIdArr($sale_id_arr);
+        $saleOrderContractItemIdx = [];
+        for($key=0;$key<count($saleOrderContractItemArr);$key++){
+            $saleOrderContractItem = $saleOrderContractItemArr[$key];
+            $saleOrderContractItemIdx[$saleOrderContractItem["sale_id"]][] = $saleOrderContractItem;
+        }
+        //$this->assign("sale_contract_idx",$saleOrderContractItemIdx);
+        //$this->assign("sale_contract_arr",$saleOrderContractItemArr);
         foreach ($SaleChancesData as &$SaleChances){
             if(isset($SaleChances["location"])){
                 $location = explode(",",$SaleChances["location"]);
@@ -152,9 +164,15 @@ class SaleChance extends Initialize{
                 $SaleChances["lat"] = "36.7075";
                 $SaleChances["lng"] = "119.1324";
             }
+            if(isset($saleOrderContractItemIdx[$SaleChances["id"]])){
+                $SaleChances["contract_arr"] = $saleOrderContractItemIdx[$SaleChances["id"]];
+            }else{
+                $SaleChances["contract_arr"] = [];
+            }
         }
         //var_exp($SaleChancesData,'$SaleChancesData',1);
         $this->assign("sale_chance",$SaleChancesData);
+
         $customerContactM = new CustomerContact($this->corp_id);
         $customer_contact_num = $customerContactM->getCustomerContactCount($customer_id);
         $this->assign("customer_contact_num",$customer_contact_num);

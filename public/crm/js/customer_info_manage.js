@@ -390,7 +390,8 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				});
 				$(panel+" .clientInfoSaleChance .sale-chance-record .bill-apply").click(function(){
 					var edit_id = $(this).parent().parent().parent().siblings(".z-recordState").children(".edit_id").val();
-					var pop = new popLoad("#create-bill","/crm/bill/bill_apply/sale_id/"+edit_id);
+					var contract_id = $(this).attr("contract_id");
+					var pop = new popLoad("#create-bill","/crm/bill/bill_apply/sale_id/"+edit_id+"/contract_id/"+contract_id);
 				});
 				$(panel+" .clientInfoSaleChance .sale-chance-record .bill-apply-retract").click(function(){
 					var edit_id = $(this).parent().parent().parent().siblings(".z-recordState").children(".edit_id").val();
