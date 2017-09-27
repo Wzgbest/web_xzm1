@@ -1102,6 +1102,7 @@ article .dv1 .center .details .ouside .inside {
 	border: 1px solid #e5e5e5;
 	border-radius: 10px;
 	margin-top: 0px;
+	cursor: pointer;
 }
 
 .reveal_seven .import .decide p:nth-child(1) {
@@ -1273,6 +1274,7 @@ article .dv2 .right .explain{
 	margin-bottom: 10px;
 }
 article .dv2 .right .rate{
+	cursor: pointer;
 	float: right;
 	width: 90px;
 	height: 32px;
@@ -1402,6 +1404,7 @@ article .dv3 .up .like .right p{
 }
 article .dv3 .up .like .right img{
 	vertical-align: middle;
+	cursor: pointer;
 }
 article .dv3 .up .like .right span{
 	vertical-align: middle;
@@ -1449,6 +1452,7 @@ article .dv3 .down .review .one span{
 }
 article .dv3 .down .reply span{
 	float: left;
+	color: #999999;
 }
 /*article .dv3 .down .reply .play{
 	float: right;
@@ -1462,13 +1466,18 @@ article .dv3 .down .one .comment{
 	display: block;
 	width: 40px;
 	height: 16px;
-	/*background-color: red;*/
+	cursor: pointer;
 	position: absolute;
 	right: 60px;
 	bottom: 5px;
 
 }
-
+article .dv3 .down .one .comment i{
+	color: #999999;
+}
+article .dv3 .down .one .comment span{
+	color: #999999;
+}
 article .dv3 .down .reply .play span:nth-child(1){
 	padding: 0 10px;
 	border-right: 1px solid silver;
@@ -1560,6 +1569,7 @@ article .dv4 .choice{
 	width: 90%;
 	height: 30px;
 	margin-top: 5px;
+	margin-bottom: 5px;
 }
 article .dv4 .choice  span{
 	font-size: 14px;
@@ -1597,6 +1607,13 @@ article .dv4 .parcel .len span{
 }
 article .dv4 .parcel .len .set{
 	margin-right: 0px;
+}
+article .dv4 .left_margin{
+	margin-left: 98px;
+}
+article .dv4 .space{
+	margin-left: 60px;
+	margin-bottom: 14px;
 }
 article .dv4 .parcel .len input{
 	width: 60px;
@@ -1726,6 +1743,9 @@ article .dv4 .issue p:nth-of-type(2){
 	cursor: pointer;
 }
 article .dv4 .tab2{
+	display: none;
+}
+article .dv4 .switch2{
 	display: none;
 }
 
