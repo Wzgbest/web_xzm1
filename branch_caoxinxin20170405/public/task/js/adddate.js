@@ -20,7 +20,7 @@ function SelectDate(obj,strFormat,x,y)
 { 
 
 leftX =(x == null) ? leftX : x; 
-topY =(y == null) ? topY : y;//自定义定位偏移量 2007-02-11 由 寒羽枫添加 
+topY =(y == null) ? topY: y;//自定义定位偏移量 2007-02-11 由 寒羽枫添加 
 if(document.getElementById("ContainerPanel")==null){InitContainerPanel();} 
 var date = new Date(); 
 var by = date.getFullYear()-50; //最小值 → 50 年前 
