@@ -95,6 +95,7 @@
                 {/if}
                 <p class="p2 jili">查看详情</p>
                 {/eq}
+                {eq name="vo.status" value="0"}任务被终止{/eq}
                 {if condition="$now_time > $vo['task_end_time']"}
                 <p>任务结束</p>
                 {/if}
@@ -210,6 +211,7 @@
                     {/if}
                     <p class="p2 task_details" task_id="{$vo.id}">查看排名</p>
                     {/eq}
+                    {eq name="vo.status" value="0"}任务被终止{/eq}
                     {if condition="$now_time > $vo['task_end_time']"}
                     <p>任务结束</p>
                     {/if}
@@ -307,6 +309,7 @@
                 {/if}
                 <p class="p2 xuanshang">查看详情</p>
                 {/eq}
+                {eq name="vo.status" value="0"}任务被终止{/eq}
                 {if condition="$now_time > $vo['task_end_time']"}
                 <p>任务结束</p>
                 {/if}

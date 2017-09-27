@@ -257,7 +257,7 @@ class EmployeeTask extends Initialize{
         $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
         $redata['success']=false;
         $redata['msg']='操作失败';
-        $result=$employeeTaskModel->updateTaskStatus($task_id,0);//终止任务
+        $result=$employeeTaskModel->setTaskStatus($task_id,'',0);//终止任务
         if($result)
         {
             $redata['success']=true;

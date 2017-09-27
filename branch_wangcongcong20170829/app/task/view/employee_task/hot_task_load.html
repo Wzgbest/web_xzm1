@@ -86,6 +86,7 @@
                         {/if}
                     {/if}
                 {/eq}
+                {eq name="vo.status" value="0"}任务被终止{/eq}
                 {if condition="$now_time > $vo['task_end_time']"}
                     <p>任务结束</p>
                 {/if}
@@ -200,6 +201,7 @@
 
                     {/if}
                 {/eq}
+                {eq name="vo.status" value="0"}任务被终止{/eq}
                 {if condition="$now_time > $vo['task_end_time']"}
                 <p>任务结束</p>
                 {/if}
@@ -292,6 +294,7 @@
                         {/if}
                     {/if}
                 {/eq}
+                {eq name="vo.status" value="0"}任务被终止{/eq}
                 {if condition="$now_time > $vo['task_end_time']"}
                     <p>任务结束</p>
                 {/if}

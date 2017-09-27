@@ -80,6 +80,7 @@
 				{/if}
 				{/if}
 				{/eq}
+				{eq name="task_info.status" value="0"}任务被终止{/eq}
 				{if condition="$now_time > $task_info['task_end_time']"}
 				<p>任务结束</p>
 				{/if}

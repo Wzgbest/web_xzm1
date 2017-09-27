@@ -196,9 +196,12 @@ class EmployeeTask extends Base{
             ->column("re.redid,re.is_token,re.money","ett.take_employee");
         return $employeeTaskInfo;
     }
-    public function setTaskStatus($ids,$from_status,$to_status){
+    public function setTaskStatus($ids,$from_status='',$to_status){
         $map["et.id"] = ["in",$ids];
-        $map["et.status"] = $from_status;
+        if($from_status || $from_status==='0')
+        {
+            $map["et.status"] = $from_status;
+        }
         $data["et.status"] = $to_status;
         $updateTaskResult = $this->model->table($this->table)->alias('et')
             ->where($map)
@@ -289,21 +292,5 @@ class EmployeeTask extends Base{
                 ->setDec('like_count');
         }
         return $result;
-    }
-
-    /**
-     * 任务状态修改
-     * @param $ids
-     * @param $to_status
-     * @return int|string
-     */
-    public function updateTaskStatus($ids,$to_status){
-        $map["et.id"] = ["in",$ids];
-        $data["et.status"] = $to_status;
-        $updateTaskResult = $this->model->table($this->table)->alias('et')
-            ->where($map)
-            ->data($data)
-            ->update();
-        return $updateTaskResult;
     }
 }
