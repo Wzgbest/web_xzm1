@@ -845,7 +845,7 @@ class Employee extends Initialize{
             $result['status'] = 1;
         }
 
-        return $result;
+        return json($result);
     }
 
 }

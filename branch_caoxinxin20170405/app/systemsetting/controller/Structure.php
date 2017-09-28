@@ -250,6 +250,13 @@ class Structure extends Initialize
 
         $st_res_all = $struM->getAllStructure();
         $ids = deep_get_ids($st_res_all,$struct_id);
+        if (!empty($ids)) {
+            $info = [
+                    'status' =>false,
+                    'message' =>'该部门下存在子部门无法删除'
+                ];
+                return $info;
+        }
         $ids[] = $struct_id;
         //var_exp($ids,'$ids',1);
         $ids = implode(',',$ids);
@@ -274,13 +281,12 @@ class Structure extends Initialize
                 $employeeM->link->startTrans();
                 $b = $employeeM->setStructureEmployeebyIds($user_ids,$data);
             }
-
-            $d = $struM->deleteStructure($ids);
             if (!empty($st_res['groupid'])) {
-                $del_group = $huanxin->deleteGroup($st_res['groupid']);
+                $del_group = $huanxin->deleteGroup($this->corp_id,$struct_id,$st_res['groupid']);
             }else{
                 $del_group['status'] = 1;
             }
+            $d = $struM->deleteStructure($ids);
             
             if ($b>0 && $d>0 && $del_group['status']) {
                 $employeeM->link->commit();
@@ -314,12 +320,13 @@ class Structure extends Initialize
                 $b = $employeeM->setStructureEmployeebyIds($user_ids,$data);
             }
 
-            $d = $struM->deleteStructure($ids);
             if (!empty($st_res['groupid'])) {
-                $del_group = $huanxin->deleteGroup($st_res['groupid']);
+                $del_group = $huanxin->deleteGroup($this->corp_id,$struct_id,$st_res['groupid']);
             }else{
                 $del_group['status'] = 1;
             }
+            $d = $struM->deleteStructure($ids);
+            
             if ($b>0 && $d>0 && $del_group['status']) {
                 $employeeM->link->commit();
                 $info = [
@@ -531,5 +538,36 @@ class Structure extends Initialize
         ];
       
         return $info;
+    }
+
+    /**
+     * 修改群名
+     */
+    public function editGroupName(){
+        $result = ['status'=>0,'info'=>"修改群名失败"];
+
+        $groupid = input('groupid','','string');
+        $group_name = input('group_name','','string');
+        $from_name = input('from_name','','string');
+        if (!$groupid || !$group_name || !$from_name) {
+            $result['info'] = "参数错误";
+            return $result;
+        }
+
+        $huanxin = new HuanxinApi();
+        $group_info['groupname'] = $group_name;
+        $target = [];
+        $target[] = $groupid;
+        $a = $huanxin->updateGroupInfo($groupid,$group_info);
+        $b = $huanxin->sendMessage('chatgroups',$target,$from_name."修改了群名称");
+        if (isset($a['error']) || isset($b['error'])) {
+            $result['error_1'] = $a['error'];
+            $result['error_2'] = $b['error'];
+        }else{
+            $result['status'] = 1;
+            $result['info'] = "修改成功";
+        }
+
+        return json($result);
     }
 }

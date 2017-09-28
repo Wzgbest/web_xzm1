@@ -19,6 +19,7 @@ class Api
     private $user_uri = 'https://a1.easemob.com/1107161108178376/zhuowin/users';
     private $add_user_uri = 'https://a1.easemob.com/1107161108178376/zhuowin/users/{owner_username}/contacts/users/{friend_username}';
     private $group_uri = 'https://a1.easemob.com/1107161108178376/zhuowin/chatgroups';
+    private $message_uri = 'https://a1.easemob.com/1107161108178376/zhuowin/messages';
 
     public function __construct()
     {
@@ -432,14 +433,14 @@ class Api
      * @param  [type] $groupid 群组id
      * @return [type]          [description]
      */
-    public function deleteGroup($groupid){
+    public function deleteGroup($corp_id,$struct_id,$groupid){
         $info = ['status'=>0,'message'=>'删除失败'];
 
         $uri = $this->group_uri."/".$groupid;
         $request_info = $this->getMessage($uri,'',$this->header,'delete');
         $result_info = json_decode($request_info,true);
-
-        if (isset($result_info['error'])) {
+        $b = $this->updateGroupId($corp_id,$struct_id,'');
+        if (isset($result_info['error']) || $b < 1) {
             $info['message'] = $result_info['error_description'];
         }else{
             $info['status'] = 1;
@@ -601,6 +602,7 @@ class Api
         if (!$groupid || !$usernames) {
             $info['status'] = 0;
             $info['message'] = '参数错误';
+            return $info;
         }
 
         $uri = $this->group_uri."/".$groupid."/users";
@@ -633,6 +635,7 @@ class Api
         if (!$groupid || !$usernames) {
                 $info['status'] = 0;
                 $info['message'] = '参数错误';
+                return $info;
             }    
 
             $uri = $this->group_uri."/".$groupid."/users/";
@@ -641,7 +644,6 @@ class Api
             }
             $result_info = $this->getMessage($uri,'',$this->header,'delete');
             $result_json = json_decode($result_info,true);
-
             if (isset($result_json['error'])) {
                 $info['error'] = $result_json['error'];
                 $info['status'] = 0;
@@ -655,6 +657,48 @@ class Api
             return $info;
 
     }
+
+    /**
+     * 发送消息
+     * @param  [type] $type   users 给用户发消息。chatgroups: 给群发消息，chatrooms: 给聊天室发消息
+     * @param  array  $target 注意这里需要用数组 给用户发送时数组元素是用户名 给群组发送时   数组元素是groupid
+     * @param  [type] $msg    消息内容
+     * @param  [type] $from   表示消息发送者 无此字段Server会默认设置为"from":"admin"
+     * @return [type]         [description]
+     */
+    public function sendMessage($type,$target=[],$msg,$from=''){
+        if (!$type || empty($target) || !$msg) {
+            $info['status'] = false;
+            $info['message'] = "参数传输错误";
+            return $info;
+        }
+
+        $req_arr = [];
+        $req_arr['target_type'] = $type;
+        $req_arr['target'] = $target;
+        $req_arr['msg']['type'] = "txt";
+        $req_arr['msg']['msg'] = $msg;
+
+        if ($from) {
+            $req_arr['from'] = $from;
+        }
+
+        $req_json = json_encode($req_arr,true);
+        $respons = $this->getMessage($this->message_uri,$req_json,$this->header,'post');
+        $res_json = json_decode($respons,true);
+        if (isset($res_json['error'])) {
+            $info['status'] = 0;
+            $info['message'] = "发送失败";
+            $info['error'] = $res_json['error'];
+        }else{
+            $info['status'] = 1;
+            $info['message'] = "发送成功";
+            $info['data'] = $res_json['data'];
+        }
+
+        return $info;
+    }
+
 
     private function updateImRegInfoToDataBase($corp_id,$user_arr){
     //更改employee表注册成功
