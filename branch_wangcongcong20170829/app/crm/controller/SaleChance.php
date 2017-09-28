@@ -267,6 +267,7 @@ class SaleChance extends Initialize{
                 $SaleChancesVisitData["visit_place"] = "";
                 $SaleChancesVisitData["partner_notice"] = 0;
                 $SaleChancesVisitData["add_note"] = 0;
+                $SaleChancesVisitData["location"] = '';
             }
             $location = explode(",",$SaleChancesVisitData["location"]);
             $SaleChancesVisitData["lat"] = isset($location[0])&&!empty($location[0])?$location[0]:"36.7075";
@@ -757,24 +758,25 @@ class SaleChance extends Initialize{
         //var_exp($contract_arr,'$contract_arr');
         $contract_id_arr = [];
         foreach ($contract_arr as $contract_item){
-            if($contract_item["contract_id"]<=0){
+            $contract_id = intval($contract_item["contract_id"]);
+            if($contract_id<=0){
                 $result["info"] = "合同未选择!";
                 return $result;
             }
-            if(in_array($contract_item["contract_id"],$contract_id_arr)){
+            if(in_array($contract_id,$contract_id_arr)){
                 $result["info"] = "合同重复选择!";
                 return $result;
             }
             $contract["sale_id"] = $sale_id;
             $contract["sale_order_id"] = $sale_order_id;
-            $contract["contract_id"] = $contract_item["contract_id"];
-            $contract["contract_money"] = $contract_item["contract_money"];
-            $contract["pay_money"] = $contract_item["pay_money"];
-            $contract["pay_name"] = $contract_item["pay_name"];
-            $contract["pay_type"] = $contract_item["pay_type"];
+            $contract["contract_id"] = $contract_id;
+            $contract["contract_money"] = "".number_format($contract_item["contract_money"],2,".","");
+            $contract["pay_money"] = "".number_format($contract_item["pay_money"],2,".","");
+            $contract["pay_name"] = filter_var($contract_item["pay_name"], filter_id("string"));
+            $contract["pay_type"] = intval($contract_item["pay_type"]);
             $contract["due_time"] = strtotime($contract_item["due_time"]);
-            $contract["need_bill"] = $contract_item["need_bill"];
-            $contract["pay_bank"] = isset($contract_item["pay_bank"])?$contract_item["pay_bank"]:"";
+            $contract["need_bill"] = intval($contract_item["need_bill"]);
+            $contract["pay_bank"] = isset($contract_item["pay_bank"])?filter_var($contract_item["pay_bank"], filter_id("string")):"";
             $contracts[] = $contract;
             $contract_id_arr[] = $contract_item["contract_id"];
         }
