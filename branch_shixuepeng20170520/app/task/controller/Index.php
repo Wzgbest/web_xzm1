@@ -23,7 +23,8 @@ use app\task\model\TaskTip as TaskTipModel;
 use app\task\service\EmployeeTask as EmployeeTaskService;
 use app\common\model\Structure;
 use app\huanxin\service\RedEnvelope as RedEnvelopeService;
-use app\huanxin\model\RedEnvelope as RedEnvelopeModel;;
+use app\huanxin\model\RedEnvelope as RedEnvelopeModel;
+use app\crm\model\Customer as CustomerModel;
 
 class Index extends Initialize{
     var $paginate_list_rows = 10;
@@ -82,6 +83,9 @@ class Index extends Initialize{
         $this->assign('user_money',$userinfo["userinfo"]['left_money']/100);
         $time = time();
         $this->assign('now_time',time_format_html5($time));
+        $customerModel=new CustomerModel($this->corp_id);
+        $customer_helpList=$customerModel->getMycustomerForHelpList($userinfo['userid']);
+        $this->assign('customer_helpList',$customer_helpList);
     }
     public function new_task(){
         $this->_new_task_default();
@@ -490,6 +494,9 @@ class Index extends Initialize{
     }
     protected function _getTaskTargetForInput($task_method){
         $task_target_info['target_type'] = input("target_type",0,"int");
+        if(in_array($task_method,[4,5])){
+            $task_target_info['target_type'] = $task_method+2;
+        }
         if($task_target_info['target_type']<=0){
             return [];
         }
@@ -500,7 +507,20 @@ class Index extends Initialize{
                 //return [];
             }
         }
-        $task_target_info['target_description'] = input("target_description","","string");
+        $task_target_info['target_method']=input("target_method","","int");
+
+        if($task_target_info['target_method']==1) {
+            $task_target_info['target_description']=input("target_description","","string");
+            if(empty($task_target_info['target_description'])){
+                return [];
+            }
+        }elseif($task_target_info['target_method']==2) {
+            $task_target_info['target_customer']=input("target_customer","","int");
+            if(!$task_target_info['target_customer']){
+                return [];
+            }
+        }
+        //var_exp($task_target_info,'$task_target_info',1);
         return $task_target_info;
     }
     protected function _getTaskRewardForInput($task_method){
@@ -516,6 +536,7 @@ class Index extends Initialize{
         }
         $reward_str = input("reward");
         $reward_arr = json_decode($reward_str,true);
+        //var_exp($reward_arr,'$reward_arr',1);
         $verify_arr = [];
         /* 数组校验名次序列方法,弃用
         $index_max = 1;
@@ -752,6 +773,7 @@ class Index extends Initialize{
             $result['data'] = $taskId;
         }catch (\Exception $ex){
             $employeeTaskM->link->rollback();
+            //print_r($ex->getTrace());die();
             $result['info'] = $ex->getMessage();
             return json($result);
         }

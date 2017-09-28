@@ -56,8 +56,8 @@
 				<div class='xuanze'>
 					<div class="choice">
 						<span>悬赏类型</span>
-						<input type="radio" checked="checked" index="0" name="help" value="1" /><span>帮忙跟进客户</span>
-						<input type="radio" index="1" name="help" value="2" /><span>其他需求</span>
+						<input type="radio" checked="checked" index="0" name="target_method" value="2" /><span>帮忙跟进客户</span>
+						<input type="radio" index="1" name="target_method" value="1" /><span>其他需求</span>
 					</div>
 				</div>
 				
@@ -65,7 +65,10 @@
 					<div class="parcel left_margin">
 						<div class="hezi">
 							<select name="target_customer">
-								<option value="0">选择要帮跟的客户</option>
+								<!--<option value="0">选择要帮跟的客户</option>-->
+								{volist name="customer_helpList" id="vo"}
+								<option value="{$vo.id}">{$vo.customer_name}</option>
+								{/volist}
 							</select>
 						</div>
 					</div>
@@ -73,7 +76,7 @@
 				
 				<div class="switch2">
 					<div class="last space">
-					<textarea placeholder="请输入需要帮助的任务描述" name="content"></textarea>
+					<textarea placeholder="请输入需要帮助的任务描述" name="target_description"></textarea>
 				</div>
 				</div>
 				
