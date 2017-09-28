@@ -328,25 +328,30 @@ class EmployeeTask extends Command{
                         }
                     }
 
+                    $redEnvelopeInfos = [];
+                    $redEnvelopeMoneys = 0;
                     if(!empty($needRedEnvelopeEmployeeId)){
                         $taskReward = $taskRewardM->getTaskRewardListByTaskId($id);
                         //var_exp($taskReward,'$taskReward');
-                        $redEnvelopeInfos = [];
-                        $redEnvelopeMoneys = 0;
                         foreach ($taskReward as $reward_item){
                             $reward_amount = $reward_item["reward_amount"];
-                            if($task_method==2){
-                                $reward_amount = bcdiv($reward_amount,count($needRedEnvelopeEmployeeId),2);
-                            }
                             $moreNum = 0;
-                            $mulTaskMoney = bcmul($reward_amount,count($needRedEnvelopeEmployeeId),2);
-                            $copmFlg = bccomp($mulTaskMoney,$reward_item["reward_amount"]);
-                            if($copmFlg>0){
-                                $moreNum = bcmul(bcsub($mulTaskMoney,$reward_item["reward_amount"],2),100,0);
-                                $reward_amount = bcsub($reward_amount,"0.01");
-                            }elseif($copmFlg<0){
-                                $moreNum = bcmul(bcsub($reward_item["reward_amount"],$reward_amount,2),100,0);
+                            if($reward_item["reward_type"]==1){
+                                $reward_amount = bcdiv($reward_amount,count($needRedEnvelopeEmployeeId),2);
+                                var_exp($reward_amount,'$reward_amount');
+                                $mulTaskMoney = bcmul($reward_amount,count($needRedEnvelopeEmployeeId),2);
+                                var_exp($mulTaskMoney,'$mulTaskMoney');
+                                $copmFlg = bccomp($mulTaskMoney,$reward_item["reward_amount"]);
+                                var_exp($copmFlg,'$copmFlg');
+                                if($copmFlg>0){
+                                    $moreNum = bcmul(bcsub($mulTaskMoney,$reward_item["reward_amount"],2),100,0);
+                                    $reward_amount = bcsub($reward_amount,"0.01");
+                                }elseif($copmFlg<0){
+                                    $moreNum = bcmul(bcsub($reward_item["reward_amount"],$mulTaskMoney,2),100,0);
+                                }
                             }
+                            var_exp($reward_amount,'$reward_amount');
+                            var_exp($moreNum,'$moreNum');
                             foreach ($needRedEnvelopeEmployeeId as $key=>$value){
                                 if(isset($redEnvelopeInfos[$value])){
                                     continue;
@@ -358,10 +363,10 @@ class EmployeeTask extends Command{
                                 ){
                                     //多的一分给第一名
                                     $tmp_reward_amount = 0;
-                                    if($task_method==2) {
+                                    if($reward_item["reward_type"]==1) {
                                         $tmp_reward_amount = ($key == 0) ? bcadd($reward_amount, bcmul($moreNum, "0.01", 2), 2) : $reward_amount;
                                     }else{
-                                        $tmp_reward_amount = $reward_item["reward_amount"];
+                                        $tmp_reward_amount = $reward_amount;
                                     }
                                     $redEnvelopeInfo["redid"] = md5(time().rand(1000,9999));
                                     $redEnvelopeInfo["type"] = 3;
@@ -381,49 +386,62 @@ class EmployeeTask extends Command{
                         var_exp($needRedEnvelopeEmployeeNum,'$needRedEnvelopeEmployeeNum');
                         var_exp($redEnvelopeInfos,'$redEnvelopeInfos_task');
 
-                        $allHaveTipRedEnvelopeEmployeeNum = $haveRedEnvelopeNum+$needRedEnvelopeEmployeeNum;
+                        //资金来往记录
+                        $order_datas = [];
 
-                        //打赏红包
+                        //打赏奖励
+                        $allHaveTipRewardEmployeeNum = $haveRedEnvelopeNum+$needRedEnvelopeEmployeeNum;
                         $allTipMoney = $taskInfo["tip_count"];
                         if($allTipMoney>0){
-                            //计算平均红包额度
-                            $tipRedEnvelopeMoney = 0;
-                            if($allHaveTipRedEnvelopeEmployeeNum>0){
-                                $tipRedEnvelopeMoney = bcdiv($allTipMoney,$allHaveTipRedEnvelopeEmployeeNum,2);
+                            //计算打赏平均奖励额度
+                            $tipRewardMoney = 0;
+                            if($allHaveTipRewardEmployeeNum>0){
+                                $tipRewardMoney = bcdiv($allTipMoney,$allHaveTipRewardEmployeeNum,2);
                             }
-                            //计算比平均红包额度多一分的数量
+                            //计算比平均奖励额度多一分的数量
                             $moreNum = 0;
-                            $mulTipMoney = bcmul($tipRedEnvelopeMoney,$allHaveTipRedEnvelopeEmployeeNum,2);
+                            $mulTipMoney = bcmul($tipRewardMoney,$allHaveTipRewardEmployeeNum,2);
                             $copmFlg = bccomp($mulTipMoney,$allTipMoney);
                             if($copmFlg>0){
                                 $moreNum = bcmul(bcsub($mulTipMoney,$allTipMoney,2),100,0);
-                                $tipRedEnvelopeMoney = bcsub($tipRedEnvelopeMoney,"0.01");
+                                $tipRewardMoney = bcsub($tipRewardMoney,"0.01");
                             }elseif($copmFlg<0){
                                 $moreNum = bcmul(bcsub($allTipMoney,$mulTipMoney,2),100,0);
                             }
-                            //根据排行榜和多一分数量生成红包
-                            for($i=0;$i<$allHaveTipRedEnvelopeEmployeeNum;$i++){
-                                //多的一分先到先得
-                                //$reward_amount = ($i-$moreNum>=0)?$tipRedEnvelopeMoney:bcadd($tipRedEnvelopeMoney,"0.01");
-                                //多的一分给第一名
-                                $reward_amount = $i==0?bcadd($tipRedEnvelopeMoney,bcmul($moreNum,"0.01",2),2):$tipRedEnvelopeMoney;
+                            $tipRewardInfos = [];
+                            //根据排行榜和多一分数量生成奖励
+                            for($i=0;$i<$allHaveTipRewardEmployeeNum;$i++){
+                                //多一分的先到先得
+                                //$reward_amount = ($i-$moreNum>=0)?$tipRewardMoney:bcadd($tipRewardMoney,"0.01");
+                                //多一分的全给第一名
+                                $reward_amount = $i==0?bcadd($tipRewardMoney,bcmul($moreNum,"0.01",2),2):$tipRewardMoney;
+                                $have_employee = $rankingdata[$i]["employee_id"];
 
-                                $redEnvelopeInfo["redid"] = md5(time().rand(1000,9999));
-                                $redEnvelopeInfo["type"] = 3;
-                                $redEnvelopeInfo["task_id"] = $id;
-                                $redEnvelopeInfo["fromuser"] = 0;
-                                $redEnvelopeInfo["money"] = $reward_amount;
-                                $redEnvelopeInfo["create_time"] = $time;
-                                $redEnvelopeInfo["total_money"] = $reward_amount;
-                                $redEnvelopeInfo["is_token"] = 0;
-                                $redEnvelopeInfo["took_user"] = $rankingdata[$i]["employee_id"];;
-                                $redEnvelopeInfos[] = $redEnvelopeInfo;
+                                //调试信息数组
+                                $tipRewardInfo["money"] = $reward_amount;
+                                $tipRewardInfo["have_user"] = $have_employee;
+                                $tipRewardInfos[] = $tipRewardInfo;
+
+                                $order_add_data = [
+                                    'userid'=>$have_employee,
+                                    'take_money'=> $reward_amount,
+                                    'status'=>1,
+                                    'took_time'=>$time,
+                                    'remark' => '参与任务获得打赏奖励',
+                                    'money_type'=>1
+                                ];
+                                $order_datas[] = $order_add_data;
+
+                                $employeeInfo["left_money"] = ['exp',"left_money + $reward_amount"];
+                                $update_user = $employeeM->setEmployeeSingleInfoById($have_employee,$employeeInfo);
+                                if (!$update_user) {
+                                    exception("发放打赏奖励发生错误!");
+                                }
                             }
-                            var_exp($redEnvelopeInfos,'$redEnvelopeInfos_task_tip');
+                            var_exp($tipRewardInfos,'$tipRewardInfos');
                         }
                         
                         //猜输赢红包
-                        $order_datas = [];
                         if($task_type==2 && isset($rankingdata[0])){
                             $win_employee = $rankingdata[0]["employee_id"];
                             $allGuessMoney = 0;
@@ -534,7 +552,7 @@ class EmployeeTask extends Command{
                         foreach($redEnvelopeInfos as $redEnvelopeInfo){
                             $order_data = [
                                 'userid'=>$taskInfo["create_employee"],
-                                'take_money'=> -$redEnvelopeInfo["money"],
+                                'take_money'=> "-".$redEnvelopeInfo["money"],
                                 'status'=>1,
                                 'took_time'=>$time,
                                 'remark' => '任务奖励发放'
@@ -546,6 +564,9 @@ class EmployeeTask extends Command{
                         }
                         //剩余金额
                         $balances = $taskInfo["reward_count"]-$redEnvelopeMoneys-$sentRedEnvelopeMoney;
+                        var_exp($redEnvelopeMoneys,'$redEnvelopeMoneys');
+                        var_exp($sentRedEnvelopeMoney,'$sentRedEnvelopeMoney');
+                        var_exp($balances,'$balances');
                         if($balances>0){
                             //增加非冻结
                             $order_data = [

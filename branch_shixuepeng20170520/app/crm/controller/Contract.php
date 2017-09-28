@@ -240,28 +240,28 @@ class Contract extends Initialize{
         $contract_applied_item["status"] = 0;
         $contract_applied_item["contract_apply_status"] = 1;
         foreach ($contract_apply as $apply){
-            if(empty($apply["type"])){
+            if(empty(intval($apply["type"]))){
                 $result['info'] = "合同类型不能为空！";
                 return json($result);
             }
-            $contract_applied_item["contract_type"] = $apply["type"];
-            if(empty($apply["num"])){
+            $contract_applied_item["contract_type"] = intval($apply["type"]);
+            if(empty(intval($apply["num"]))){
                 $result['info'] = "合同数量不能为空！";
                 return json($result);
             }
-            $contract_applied_item["contract_num"] = $apply["num"];
+            $contract_applied_item["contract_num"] = intval($apply["num"]);
             if(empty($apply["apply_1"])){
                 $result['info'] = "合同一审人不能为空！";
                 return json($result);
             }
             $contract_applied_item["contract_apply_1"] = $apply["apply_1"];
             $contract_applied_item["contract_apply_now"] = $apply["apply_1"];
-            $contract_setting = $contract_index[$apply["type"]];
+            $contract_setting = $contract_index[intval($apply["type"])];
             if(empty($contract_setting)){
                 $result['info'] = "参数错误！";
                 return json($result);
             }
-            $contract_num = $apply["num"];
+            $contract_num = intval($apply["num"]);
             if(!empty($contract_setting["max_apply"])&&$contract_num>$contract_setting["max_apply"]){
                 $result['info'] = $contract_setting["contract_name"]."类合同数量超过最大申请数！";
                 return json($result);
