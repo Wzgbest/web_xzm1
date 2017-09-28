@@ -477,15 +477,6 @@ class Index extends Initialize{
         $task_info['task_take_start_time'] = input("task_take_start_time",0,"strtotime");
         $task_info['task_take_end_time'] = input("task_take_end_time",0,"strtotime");
         $task_info['task_type'] = input("task_type",0,"int");
-        $task_info['target_method']=input("target_method");
-        if($task_info['target_method']==1)
-        {
-            $task_info['target_customer']=input("target_customer");
-        }
-        elseif($task_info['target_method']==2)
-        {
-            $task_info['target_description']=input("target_description");
-        }
         if($task_info['task_type']==2){
             $task_info['task_method'] = 4;
         }elseif($task_info['task_type']==3){
@@ -503,6 +494,9 @@ class Index extends Initialize{
     }
     protected function _getTaskTargetForInput($task_method){
         $task_target_info['target_type'] = input("target_type",0,"int");
+        if(in_array($task_method,[4,5])){
+            $task_target_info['target_type'] = $task_method+2;
+        }
         if($task_target_info['target_type']<=0){
             return [];
         }
@@ -513,7 +507,20 @@ class Index extends Initialize{
                 //return [];
             }
         }
-        $task_target_info['target_description'] = input("target_description","","string");
+        $task_target_info['target_method']=input("target_method","","int");
+
+        if($task_target_info['target_method']==1) {
+            $task_target_info['target_description']=input("target_description","","string");
+            if(empty($task_target_info['target_description'])){
+                return [];
+            }
+        }elseif($task_target_info['target_method']==2) {
+            $task_target_info['target_customer']=input("target_customer","","int");
+            if(!$task_target_info['target_customer']){
+                return [];
+            }
+        }
+        //var_exp($task_target_info,'$task_target_info',1);
         return $task_target_info;
     }
     protected function _getTaskRewardForInput($task_method){
@@ -529,6 +536,7 @@ class Index extends Initialize{
         }
         $reward_str = input("reward");
         $reward_arr = json_decode($reward_str,true);
+        //var_exp($reward_arr,'$reward_arr',1);
         $verify_arr = [];
         /* 数组校验名次序列方法,弃用
         $index_max = 1;
@@ -765,6 +773,7 @@ class Index extends Initialize{
             $result['data'] = $taskId;
         }catch (\Exception $ex){
             $employeeTaskM->link->rollback();
+            //print_r($ex->getTrace());die();
             $result['info'] = $ex->getMessage();
             return json($result);
         }
