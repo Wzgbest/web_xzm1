@@ -333,8 +333,8 @@ class Bill extends Initialize{
         }
 
         $bill_type = intval($bill_apply_arr["bill_type"]);
-        $product_type_arr = intval($bill_apply_arr["product_type"]);
         $tax_num = intval($bill_apply_arr["tax_num"]);
+        $product_type_arr = $bill_apply_arr["product_type"];
         $pay_way_arr = $bill_apply_arr["pay_way"];
         $handle_arr = $bill_apply_arr["handle"];
         if(
