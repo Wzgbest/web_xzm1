@@ -527,20 +527,25 @@ class Api
         }
 
         foreach ($groupids as $key => $value) {
-            $result = $this->addOneEmployee($value,$username);
-            if (isset($result['error'])) {
-                $info[$value]['error'] = $result['error'];
-                $info[$value]['message'] = '该群添加失败'; 
-                $info[$value]['status'] = 0;
-                $info['status'] = 0;
-                $info['message'] = '添加失败';
-            }else{
-                $info[$value]['status'] = 1;
-                $info[$value]['message'] = '该群添加成功';
-                $info[$value]['data'] = $result['data'];
-            }
+            if ($value) {
+                $result = $this->addOneEmployee($value,$username);
+                if (isset($result['error'])) {
+                    $info[$value]['error'] = $result['error'];
+                    $info[$value]['message'] = '该群添加失败'; 
+                    $info[$value]['status'] = 0;
+                    $info['status'] = 0;
+                    $info['message'] = '添加失败';
+                }else{
+                    $info[$value]['status'] = 1;
+                    $info[$value]['message'] = '该群添加成功';
+                    $info[$value]['data'] = $result['data'];
+                }
 
-            usleep(3000000);
+                usleep(3000000);
+           }else{
+            continue;
+           }
+            
         }
 
         return $info;
@@ -564,22 +569,25 @@ class Api
         }
 
         foreach ($groupids as $key => $value) {
-            $result = $this->deleteOneEmployee($value,$username);
-            if (isset($result['error'])) {
-                $info[$value]['error'] = $result['error'];
-                $info[$value]['message'] = '该群删除失败'; 
-                $info[$value]['status'] = 0;
-                $info['status'] = 0;
-                $info['message'] = '删除失败';
+            if ($value) {
+                $result = $this->deleteOneEmployee($value,$username);
+                if (isset($result['error'])) {
+                    $info[$value]['error'] = $result['error'];
+                    $info[$value]['message'] = '该群删除失败'; 
+                    $info[$value]['status'] = 0;
+                    $info['status'] = 0;
+                    $info['message'] = '删除失败';
+                }else{
+                    $info[$value]['status'] = 1;
+                    $info[$value]['message'] = '该群删除成功';
+                    $info[$value]['data'] = $result['data'];
+                }
+
+                usleep(3000000);
             }else{
-                $info[$value]['status'] = 1;
-                $info[$value]['message'] = '该群删除成功';
-                $info[$value]['data'] = $result['data'];
+                continue;
             }
-
-            usleep(3000000);
         }
-
         return $info;
     }
 

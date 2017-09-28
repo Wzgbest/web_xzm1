@@ -315,11 +315,11 @@ class Employee extends Initialize{
                     $struct_ids = explode(",",$structrues_id);
                     $insert_group = $structM->getStructureGroup($struct_ids);
                     // var_dump($insert_group);die();
-                    if (count($insert_group) > 1) {
+                    // if (count($insert_group) > 1) {
                         $in_g = $huanxin->addUserFromMoreGroup($this->corp_id."_".$id,$insert_group);
-                    }else{
-                        $in_g = $huanxin->addOneEmployee($insert_group[0],$this->corp_id."_".$id);
-                    }
+                    // }else{
+                    //     $in_g = $huanxin->addOneEmployee($insert_group[0],$this->corp_id."_".$id);
+                    // }
                     if (!$in_g['status']) {
                         $employeeM->link->rollback();
                         UserCorporation::rollback();
@@ -493,11 +493,11 @@ class Employee extends Initialize{
                         if ($input['status'] == 1 && $user_status == 1) {
                             $delete_group = $structM->getStructureGroup($delete);
                             if (!empty($delete_group)) {
-                                if (count($delete_group)>1) {
+                                // if (count($delete_group)>1) {
                                     $result_info = $huanxin->deleteUserFromMoreGroup($user_name,$delete_group);
-                                }else{
-                                    $result_info = $huanxin->deleteOneEmployee($delete_group[0],$user_name);
-                                }
+                                // }else{
+                                //     $result_info = $huanxin->deleteOneEmployee($delete_group[0],$user_name);
+                                // }
                                 if (!$result_info['status']) {
                                     $del_hx = 0;
                                 }else{
@@ -526,11 +526,11 @@ class Employee extends Initialize{
                         if ($input['status'] == 1 && $user_status == 1) {
                             $insert_group = $structM->getStructureGroup($insert);
                             if (!empty($insert_group)) {
-                                if (count($insert_group)>1) {
+                                // if (count($insert_group)>1) {
                                     $result_info = $huanxin->addUserFromMoreGroup($user_name,$insert_group);
-                                }else{
-                                    $result_info = $huanxin->addOneEmployee($insert_group[0],$user_name);
-                                }
+                                // }else{
+                                //     $result_info = $huanxin->addOneEmployee($insert_group[0],$user_name);
+                                // }
                                 if (!$result_info['status']) {
                                     $ad_hx = 0;
                                 }else{
@@ -593,11 +593,11 @@ class Employee extends Initialize{
 
                 //设置离职时删除群组
                 if ($input["status"] == -1 && !empty($group_id)) {
-                    if (count($group_id)>1) {
+                    // if (count($group_id)>1) {
                         $del_group = $huanxin->deleteUserFromMoreGroup($user_name,$group_id);
-                    }else{
-                        $del_group = $huanxin->deleteOneEmployee($group_id[0],$user_name);
-                    }
+                    // }else{
+                    //     $del_group = $huanxin->deleteOneEmployee($group_id[0],$user_name);
+                    // }
                     if (!$del_group['status']) {
                         $is_hx = 0;
                     }else{
@@ -610,11 +610,11 @@ class Employee extends Initialize{
                 //离职设置在职时
                 if ($input["status"] == 1 && $user_status == -1) {
                     $set_group = $structM->getStructureGroup($struct_ids);
-                    if (count($set_group)>1) {
+                    // if (count($set_group)>1) {
                         $result_info = $huanxin->addUserFromMoreGroup($user_name,$set_group);
-                    }else{
-                        $result_info = $huanxin->addOneEmployee($set_group[0],$user_name);
-                    }
+                    // }else{
+                    //     $result_info = $huanxin->addOneEmployee($set_group[0],$user_name);
+                    // }
                     if (!$result_info['status']) {
                         $set_hx = 0;
                     }else{
@@ -818,6 +818,34 @@ class Employee extends Initialize{
         $result['status'] = 1;
         $result['info'] = "修改我的密码成功！";
         return json($result);
+    }
+
+    /**
+     * 接口添加员工到群组
+     * @return [type] [description]
+     */
+     public function groupAddEmployees(){
+        $result = ['status'=>0,'info'=>"添加成员失败"];
+
+        $groupid = input('groupid','','string');
+        $usernames = input('usernames/a');
+
+        if (!$groupid || empty($usernames)) {
+            $result['info'] = "参数错误";
+        }
+
+        $huanxin = new HuanxinApi();
+        $request = $huanxin->addAllUsers($groupid,$usernames);
+
+        if (isset($request['error'])) {
+            $result['info'] = "添加失败";
+            $result['error'] = $request['error'];
+        }else{
+            $result['info'] = "添加成功";
+            $result['status'] = 1;
+        }
+
+        return $result;
     }
 
 }
