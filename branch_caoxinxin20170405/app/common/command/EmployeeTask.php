@@ -509,12 +509,12 @@ class EmployeeTask extends Command{
                                     }
                                 }
                                 //var_exp($taskGuessMoneyEmployeeIdx,'$taskGuessMoneyEmployeeIdx',1);
-                                //返还打赏猜输赢等用户额度
+                                //返还猜输赢等用户额度
                                 foreach($taskGuessMoneyEmployeeIdx as $employee_id=>$money){
                                     $employeeInfo["left_money"] = ['exp',"left_money + $money"];
                                     $update_user = $employeeM->setEmployeeSingleInfoById($employee_id,$employeeInfo);
                                     if (!$update_user) {
-                                        exception("返还打赏猜输赢金额发生错误!");
+                                        exception("返还猜输赢金额发生错误!");
                                     }
                                 }
                             }
