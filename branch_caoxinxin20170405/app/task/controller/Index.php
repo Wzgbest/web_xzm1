@@ -23,7 +23,8 @@ use app\task\model\TaskTip as TaskTipModel;
 use app\task\service\EmployeeTask as EmployeeTaskService;
 use app\common\model\Structure;
 use app\huanxin\service\RedEnvelope as RedEnvelopeService;
-use app\huanxin\model\RedEnvelope as RedEnvelopeModel;;
+use app\huanxin\model\RedEnvelope as RedEnvelopeModel;
+use app\crm\model\Customer as CustomerModel;
 
 class Index extends Initialize{
     var $paginate_list_rows = 10;
@@ -82,6 +83,9 @@ class Index extends Initialize{
         $this->assign('user_money',$userinfo["userinfo"]['left_money']/100);
         $time = time();
         $this->assign('now_time',time_format_html5($time));
+        $customerModel=new CustomerModel($this->corp_id);
+        $customer_helpList=$customerModel->getMycustomerForHelpList($userinfo['userid']);
+        $this->assign('customer_helpList',$customer_helpList);
     }
     public function new_task(){
         $this->_new_task_default();
@@ -473,6 +477,15 @@ class Index extends Initialize{
         $task_info['task_take_start_time'] = input("task_take_start_time",0,"strtotime");
         $task_info['task_take_end_time'] = input("task_take_end_time",0,"strtotime");
         $task_info['task_type'] = input("task_type",0,"int");
+        $task_info['target_method']=input("target_method");
+        if($task_info['target_method']==1)
+        {
+            $task_info['target_customer']=input("target_customer");
+        }
+        elseif($task_info['target_method']==2)
+        {
+            $task_info['target_description']=input("target_description");
+        }
         if($task_info['task_type']==2){
             $task_info['task_method'] = 4;
         }elseif($task_info['task_type']==3){

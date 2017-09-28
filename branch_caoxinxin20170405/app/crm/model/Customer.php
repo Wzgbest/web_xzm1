@@ -1655,4 +1655,9 @@ class Customer extends Base
         }
         return $standardList;
     }
+
+    public function getMycustomerForHelpList($uid){
+        $con['handle_man']=$uid;
+        return $this->model->table($this->table)->where($con)->field('id,customer_name')->select();
+    }
 }
