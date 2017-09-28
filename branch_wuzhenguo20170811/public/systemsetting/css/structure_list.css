@@ -237,12 +237,41 @@
     height: 30px;
     margin-left: 10px;
 }
-
+.structure_list .reveal-modal .mange{
+    width: 368px;
+    font-size: 46px;
+   	margin: 80px auto 10px;
+  
+}
+.structure_list .reveal-modal .mange span{
+	font-size: 18px;
+	vertical-align: middle;
+}
+.structure_list .reveal-modal .mange input{
+	width: 252px;
+	height: 34px;
+	vertical-align: middle;
+}
+.structure_list .reveal-modal .herd{
+	margin-bottom: 40px;
+	width: 80px;
+	height: 16px;
+	margin-left: 196px;
+}
+.structure_list .reveal-modal .herd span{
+	font-size: 14px;
+	vertical-align: middle;
+}
+.structure_list .reveal-modal .herd input{
+	width: 14px;
+	height: 14px;
+	vertical-align: middle;
+}
 .structure_list .myModal .p5 {
     margin-left: 165px;
 }
 .structure_list .myModalone .p5 {
-    margin-left: 50px;
+    margin-left: 100px;
 }
 .structure_list .myModal .p5 input {
     width: 100px;
@@ -271,7 +300,7 @@
     border: 1px solid #dcdcdc;
 }
 .structure_list .myModalone .p5 button {
-    width: 270px;
+    width: 160px;
     height: 41px;
     border-radius: 10px;
 

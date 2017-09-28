@@ -349,3 +349,4 @@ function struct_list_employee_move_to(struct_id,employee_id,to_struct_id){
         }
     });
 }
+
