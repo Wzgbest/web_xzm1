@@ -86,6 +86,9 @@
                         {/if}
                     {/if}
                 {/eq}
+                {eq name="vo.is_token" value="1"}
+                已领取红包{$vo.total_money}元
+                {/eq}
                 {eq name="vo.status" value="0"}任务被终止{/eq}
                 {if condition="$now_time > $vo['task_end_time']"}
                     <p>任务结束</p>
@@ -201,6 +204,9 @@
 
                     {/if}
                 {/eq}
+                {eq name="vo.is_token" value="1"}
+                已领取红包{$vo.total_money}元
+                {/eq}
                 {eq name="vo.status" value="0"}任务被终止{/eq}
                 {if condition="$now_time > $vo['task_end_time']"}
                 <p>任务结束</p>
@@ -294,10 +300,14 @@
                         {/if}
                     {/if}
                 {/eq}
+                {eq name="vo.is_token" value="1"}
+                已领取红包{$vo.total_money}元
+                {/eq}
                 {eq name="vo.status" value="0"}任务被终止{/eq}
                 {if condition="$now_time > $vo['task_end_time']"}
                     <p>任务结束</p>
                 {/if}
+
             </div>
             <div class="comment">
                 <div>
