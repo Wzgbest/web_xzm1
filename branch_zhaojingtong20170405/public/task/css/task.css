@@ -368,8 +368,8 @@ article .dv1 .details .fu .xuanfu{
 	z-index: 100;
 	box-shadow: 0 0 5px #9b9292;
 	padding-top: 5px;
-	padding-left: 20px;
-	top: 20px;
+	padding-left: 10px;
+	top: 40px;
 	left: -20px;
 	display: none;
 }
@@ -388,7 +388,7 @@ article .dv1 .center .details .flo {
 }
 
 article .dv1 .details .flotage {
-	width: 260px;
+	width: 350px;
 	height: 100px;
 	overflow-y: auto;
 	position: absolute;
@@ -396,7 +396,7 @@ article .dv1 .details .flotage {
 	background-color: #fff;
 	z-index: 100;
 	box-shadow: 0 0 5px #9b9292;
-	top: 20px;
+	top: 40px;
 	left: -20px;
 	display: none;
 }
@@ -425,9 +425,7 @@ article .dv1 .active {
 	justify-content: space-around;
 	
 }
-/*article .dv1 .active p:nth-of-type(1){
-	margin-top: 40px;
-}*/
+
 article .dv1  .stimulate {
 	padding-top: 44px;
 	/*height: 136px;*/
