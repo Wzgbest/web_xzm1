@@ -275,21 +275,16 @@ function new_task_form(load_table){
             return false;
         }
 
-        if(target_method==1)
-        {
-            //帮忙跟进客户
-            if(!target_customer)
-            {
-                layer.msg('请选择帮忙跟进客户!',{icon:2});
+        if(target_method==1){
+            //其他需求
+            if(!target_description){
+                layer.msg('请填写其他需求!',{icon:2});
                 return false;
             }
-        }
-        if(target_method==2)
-        {
-            //其他需求
-            if(!target_description)
-            {
-                layer.msg('请填写其他需求!',{icon:2});
+        }else if(target_method==2){
+            //帮忙跟进客户
+            if(!target_customer){
+                layer.msg('请选择帮忙跟进客户!',{icon:2});
                 return false;
             }
         }
@@ -490,9 +485,9 @@ function new_task_form(load_table){
             type: 'get',
             success: function(data) {
                 //console.log(data);
-                console.log($("#"+self.load_table+" .pay_ui"));
-                $("#"+self.load_table+" .pay_ui").html(data);
-                $("#"+self.load_table+" .pay_ui .payPwd").payPwd({
+                //console.log($("#"+self.load_table+" .new_task_info_panel .pay_ui"));
+                $("#"+self.load_table+" .new_task_info_panel .pay_ui").html(data);
+                $("#"+self.load_table+" .new_task_info_panel .pay_ui .payPwd").payPwd({
                     max:6,
                     type:"password",
                     callback:function(paypassword) {
@@ -500,7 +495,7 @@ function new_task_form(load_table){
                         self.add_task(paypassword);
                     }
                 });
-                $("#"+self.load_table+" .pay_ui").reveal("{data-animation:'fade'}");
+                $("#"+self.load_table+" .new_task_info_panel .pay_ui").reveal("{data-animation:'fade'}");
             },
             error: function() {
                 layer.msg('加载支付出现错误',{icon:2});
