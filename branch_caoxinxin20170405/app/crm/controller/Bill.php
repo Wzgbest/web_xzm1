@@ -313,7 +313,7 @@ class Bill extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
-        $contract_item_id = $bill_apply_arr["contract_item_id"];
+        $contract_item_id = intval($bill_apply_arr["contract_item_id"]);
         if(!$contract_item_id){
             $result['info'] = "参数错误！";
             return json($result);
@@ -332,9 +332,9 @@ class Bill extends Initialize{
             return json($result);
         }
 
-        $bill_type = $bill_apply_arr["bill_type"];
-        $product_type_arr = $bill_apply_arr["product_type"];
-        $tax_num = $bill_apply_arr["tax_num"];
+        $bill_type = intval($bill_apply_arr["bill_type"]);
+        $product_type_arr = intval($bill_apply_arr["product_type"]);
+        $tax_num = intval($bill_apply_arr["tax_num"]);
         $pay_way_arr = $bill_apply_arr["pay_way"];
         $handle_arr = $bill_apply_arr["handle"];
         if(
