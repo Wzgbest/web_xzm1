@@ -18,6 +18,15 @@ class SaleOrderContractItem extends Base{
         parent::__construct($corp_id);
     }
 
+    public function getContractInfo($id){
+        return $this->model->table($this->table)->alias('soci')
+            ->join($this->dbprefix.'sale_order_contract soc','soci.sale_order_id = soc.id',"LEFT")
+            ->join($this->dbprefix.'contract co','co.id = soci.contract_id',"LEFT")
+            ->where('soci.id',$id)
+            ->field("soci.*,co.contract_no")
+            ->find();
+    }
+
     public function getContractItemBySaleId($sale_id){
         return $this->model->table($this->table)->alias('soci')
             ->join($this->dbprefix.'sale_order_contract soc','soci.sale_order_id = soc.id',"LEFT")
