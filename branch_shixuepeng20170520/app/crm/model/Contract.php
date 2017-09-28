@@ -61,7 +61,8 @@ class Contract extends Base{
      * 查询所有合同
      * @param $user_id int 用户id
      * @param $sale_id int 销售机会id
-     * @param $status array 状态
+     * @param $applid_status array 申请状态
+     * @param $contract_status array 申请状态
      * @param $type int 合同类型
      * @param $in_id array 加入这些id的合同
      * @param $order string 排序字段
@@ -69,7 +70,7 @@ class Contract extends Base{
      * @return array|false
      * @throws \think\Exception
      */
-    public function getAllContractNoAndType($user_id=null,$sale_id=null,$status=[],$type=null,$in_id=[],$order="ca.id",$direction="desc"){
+    public function getAllContractNoAndType($user_id=null,$sale_id=null,$applid_status=[],$contract_status=[],$type=null,$in_id=[],$order="ca.id",$direction="desc"){
         //筛选
         $map = [];
         $in_id_map = [];
@@ -81,8 +82,11 @@ class Contract extends Base{
         }else{
             $map["soc.sale_id"] = ["exp","is null"];
         }
-        if(!empty($status)){
-            $map["ca.status"] = ["in",$status];
+        if(!empty($applid_status)){
+            $map["ca.status"] = ["in",$applid_status];
+        }
+        if(!empty($contract_status)){
+            $map["c.status"] = ["in",$contract_status];
         }
         if($type){
             $map["ca.contract_type"] = $type;
@@ -105,6 +109,7 @@ class Contract extends Base{
             ->where($map)
             ->whereOr($in_id_map)
             ->order($order)
+            //->fetchSql(true)
             ->column("c.contract_no,ca.contract_type,cs.contract_name as contract_type_name","c.id");
         return $contractList;
     }
@@ -167,7 +172,8 @@ class Contract extends Base{
         $contractAppliedList = $this->model->table($this->table)->alias('ca')
             ->join($this->dbprefix.'contract co','co.applied_id = ca.id',"LEFT")
             ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
-            ->join($this->dbprefix.'sale_order_contract soc','soc.contract_id = co.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract_item soci','soci.contract_id = co.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract soc','soc.id = soci.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'customer c','c.id = sc.customer_id',"LEFT")
             ->join($this->dbprefix.'business_flow_setting bfs','bfs.id = sc.business_id',"LEFT")
@@ -216,7 +222,8 @@ class Contract extends Base{
 
         $contractAppliedCount= $this->model->table($this->table)->alias('ca')
             ->join($this->dbprefix.'contract co','co.applied_id = ca.id',"LEFT")
-            ->join($this->dbprefix.'sale_order_contract soc','soc.contract_id = co.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract_item soci','soci.contract_id = co.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract soc','soc.id = soci.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'customer c','c.id = sc.customer_id',"LEFT")
             ->where($map)
@@ -273,7 +280,8 @@ class Contract extends Base{
         $customerQuery = $this->model->table($this->table)->alias('ca')
             ->join($this->dbprefix.'contract co','co.applied_id = ca.id',"LEFT")
             ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
-            ->join($this->dbprefix.'sale_order_contract soc','soc.contract_id = co.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract_item soci','soci.contract_id = co.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract soc','soc.id = soci.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'customer c','c.id = sc.customer_id',"LEFT")
             ->join($this->dbprefix.'business_flow_setting bfs','bfs.id = sc.business_id',"LEFT")

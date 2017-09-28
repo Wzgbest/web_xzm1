@@ -29,6 +29,14 @@ class SpeechCraft extends Base{
     }
 
     /**
+     * 编辑话术库
+     * @param arr $data 话术信息
+     */
+    public function editArticleInfo($id,$data){
+        return $this->model->table($this->table)->where(['id'=>$id])->update($data);
+    }
+
+    /**
      * 获取所有文章分类
      * @return arr [description]
      */
@@ -42,6 +50,14 @@ class SpeechCraft extends Base{
      */
     public function addClassInfo($data){
     	return $this->model->table($this->dbprefix.'talk_article_type')->insertGetId($data);
+    }
+
+    /**
+     * 删除文章分类
+     * @param [type] $data [description]
+     */
+    public function deleteClassById($id){
+        return $this->model->table($this->dbprefix.'talk_article_type')->where('id',$id)->delete();
     }
 
     /**
@@ -88,5 +104,9 @@ class SpeechCraft extends Base{
         ->field('tt.*,e.truename,e.telephone,e.userpic')
         ->find();
     	return $articleInfo;
+    }
+
+    public function delOneArticleById($id){
+        return $this->model->table($this->table)->where('id',$id)->delete();
     }
 }

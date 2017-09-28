@@ -142,7 +142,7 @@
                                 <span class="number">{$voc.pay_money}</span> 元
                             {eq name="vo.sale_status" value="5"}
                                 {empty name="voc.bill_id"}
-                                    <span class="cont-in color-blue bill-apply" contract_id="{$voc.contract_id}">申请发票</span>
+                                    <span class="cont-in color-blue bill-apply" contract_item_id="{$voc.id}">申请发票</span>
                                 {else/}
                                     {switch	name="voc.bill_status"}
                                         {case value="0"}

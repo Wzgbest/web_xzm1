@@ -559,7 +559,7 @@ article .dv1 .center .details .ouside .inside {
 
 /*弹出框样式*/
 
-.reveal-modal-bg {
+.task .reveal-modal-bg {
 	position: fixed;
 	height: 100%;
 	width: 100%;
@@ -570,7 +570,7 @@ article .dv1 .center .details .ouside .inside {
 	background: rgba(00, 00, 00, 0.4)
 }
 
-.reveal-modal {
+.task .reveal-modal {
 	width: 885px;
 	height: 660px;
 	visibility: hidden;
@@ -585,7 +585,7 @@ article .dv1 .center .details .ouside .inside {
 	background-color: #fff;
 }
 
-.reveal-modal .p1 {
+.task .reveal-modal .p1 {
 	width: 885px !important;
 	height: 50px !important;
 	background-color: #6b7a99;
@@ -595,7 +595,7 @@ article .dv1 .center .details .ouside .inside {
 	color: #fff;
 }
 
-.reveal-modal .p2 {
+.task .reveal-modal .p2 {
 	width: 590px;
 	font-size: 18px;
 	text-align: center;
@@ -604,13 +604,13 @@ article .dv1 .center .details .ouside .inside {
 	display: inline-block;
 }
 
-.reveal-modal select {
+.task .reveal-modal select {
 	width: 200px;
 	height: 30px;
 	margin-left: 10px;
 }
 
-.reveal-modal .close-reveal-modal {
+.task .reveal-modal .close-reveal-modal {
 	font-size: 32px;
 	line-height: 0.5;
 	position: absolute;
@@ -628,64 +628,64 @@ article .dv1 .center .details .ouside .inside {
 	margin-top: 15px;
 }*/
 
-.reveal-modal p input {
+.task .reveal-modal p input {
 	width: 300px;
 	padding-left: 15px;
 	height: 32px;
 }
 
-.reveal-modal p select {
+.task .reveal-modal p select {
 	width: 320px;
 	padding-left: 15px;
 	height: 35px;
 }
 
-.reveal-modal p img {
+.task .reveal-modal p img {
 	vertical-align: middle;
 }
 
-.reveal-modal p img span {
+.task .reveal-modal p img span {
 	vertical-align: middle;
 }
 
-.reveal-modal .sp1 span {
+.task .reveal-modal .sp1 span {
 	margin-right: 33px;
 }
 
-.reveal-modal .sp2 span {
+.task .reveal-modal .sp2 span {
 	margin-right: 24px;
 }
 
-.reveal-modal .sp3 span {
+.task .reveal-modal .sp3 span {
 	margin-right: 38px;
 	margin-left: 18px;
 }
 
-.reveal-modal .sp4 span {
+.task .reveal-modal .sp4 span {
 	margin-right: 30px;
 	margin-left: 18px;
 }
 
-.reveal-modal .left {
+.task .reveal-modal .left {
 	margin-left: 18px;
 	margin-right: 35px;
 }
 
-.reveal-modal .sp4 input {
+.task .reveal-modal .sp4 input {
 	width: 235px;
 }
 
-.reveal-modal .right {
+.task .reveal-modal .right {
 	margin-left: 20px;
 	margin-right: 20px;
 }
 
-.reveal-modal .sp6 span {
+.task .reveal-modal .sp6 span {
 	margin-left: 18px;
 	margin-right: 35px;
 }
 
-.reveal-modal .one {
+.task .reveal-modal .one {
 	position: relative;
 	left: 120px;
 	top: 20px;
@@ -693,20 +693,20 @@ article .dv1 .center .details .ouside .inside {
 	color: #b3b3b3;
 }
 
-.reveal-modal .sp6 textarea {
+.task .reveal-modal .sp6 textarea {
 	padding-left: 15px;
 	width: 700px;
 	height: 50px;
 	vertical-align: top;
 }
 
-.reveal-modal .p5 {
+.task .reveal-modal .p5 {
 	width: 320px;
 	margin: 0 auto;
 	margin-top: 50px;
 }
 
-.reveal-modal .p5 input {
+.task .reveal-modal .p5 input {
 	width: 100px;
 	height: 40px;
 	border-radius: 10px;
@@ -716,7 +716,7 @@ article .dv1 .center .details .ouside .inside {
 	margin-right: 100px;
 }
 
-.reveal-modal .p5 button {
+.task .reveal-modal .p5 button {
 	width: 100px;
 	height: 41px;
 	border-radius: 10px;
@@ -724,38 +724,38 @@ article .dv1 .center .details .ouside .inside {
 	border: 1px solid #dcdcdc;
 }
 
-.reveal-modal .choice {
+.task .reveal-modal .choice {
 	height: 20px !important;
 	margin-left: 170px;
 }
 
-.reveal-modal .choice input {
+.task .reveal-modal .choice input {
 	width: 18px;
 	height: 18px;
 	vertical-align: middle;
 }
 
-.reveal-modal .choice input:nth-child(1) {
+.task .reveal-modal .choice input:nth-child(1) {
 	margin-left: 100px;
 	margin-right: 10px;
 }
 
-.reveal-modal .choice input:nth-child(3) {
+.task .reveal-modal .choice input:nth-child(3) {
 	margin-left: 60px;
 	margin-right: 10px;
 }
 
-.reveal-modal p.summarize {
+.task .reveal-modal p.summarize {
 	font-size: 18px;
 	margin-left: 60px;
 	margin-top: 35px;
 }
 
-.reveal-modal .summarize span {
+.task .reveal-modal .summarize span {
 	color: #ff803b;
 }
 
-.reveal-modal .table {
+.task .reveal-modal .table {
 	width: 760px;
 	height: 365px;
 	border: 1px solid #eeeeee;
@@ -764,22 +764,22 @@ article .dv1 .center .details .ouside .inside {
 	overflow-x: hidden;
 }
 
-.reveal-modal .table ul:nth-child(2n+1) {
+.task .reveal-modal .table ul:nth-child(2n+1) {
 	background-color: #f6f0f0;
 }
 
-.reveal-modal .table ul:nth-child(2n) {
+.task .reveal-modal .table ul:nth-child(2n) {
 	background-color: #fff;
 }
 
-.reveal-modal .table ul.number1 {
+.task .reveal-modal .table ul.number1 {
 	width: 760px;
 	height: 42px;
 	background-color: #F7F7F7;
 	border-bottom: 1px solid #eeeeee;
 }
 
-.reveal-modal .table .number1 li {
+.task .reveal-modal .table .number1 li {
 	width: 131px;
 	padding-left: 20px;
 	height: 42px;
@@ -789,17 +789,17 @@ article .dv1 .center .details .ouside .inside {
 	border-right: 1px solid #eeeeee;
 }
 
-.reveal-modal .table .number1 li:nth-last-of-type(1) {
+.task .reveal-modal .table .number1 li:nth-last-of-type(1) {
 	border-right: none;
 }
 
-.reveal-modal .table ul.number2 {
+.task .reveal-modal .table ul.number2 {
 	width: 760px;
 	height: 42px;
 	border-bottom: 1px solid #eeeeee;
 }
 
-.reveal-modal .table .number2 li {
+.task .reveal-modal .table .number2 li {
 	width: 131px;
 	padding-left: 20px;
 	height: 42px;
@@ -809,16 +809,16 @@ article .dv1 .center .details .ouside .inside {
 	border-right: 1px solid #eeeeee;
 }
 
-.reveal-modal .table .number2 li:nth-last-of-type(1) {
+.task .reveal-modal .table .number2 li:nth-last-of-type(1) {
 	border-right: none;
 }
 
-.motai1 {
+.task .motai1 {
 	background-color: #cccccc;
 	border-radius: 10px;
 }
 
-.reveal_six {
+.task .reveal_six {
 	width: 825px;
 	height: 760px;
 	visibility: hidden;
@@ -833,7 +833,7 @@ article .dv1 .center .details .ouside .inside {
 	background-color: #fff;
 }
 
-.reveal_six .p1 {
+.task .reveal_six .p1 {
 	width: 825px !important;
 	height: 50px !important;
 	background-color: #6b7a99;
@@ -843,7 +843,7 @@ article .dv1 .center .details .ouside .inside {
 	color: #fff;
 }
 
-.reveal_six .list {
+.task .reveal_six .list {
 	width: 760px;
 	height: 290px;
 	border: 1px solid #eeeeee;
@@ -852,21 +852,21 @@ article .dv1 .center .details .ouside .inside {
 	overflow-x: hidden;
 	border-top: none;
 }
-.reveal_six  ul.number1 {
+.task .reveal_six  ul.number1 {
 	width: 760px;
 	height: 42px;
 	background-color: #F7F7F7;
 	border-bottom: 1px solid #eeeeee;
 	margin-top: 20px;
 }
-.reveal_six .list ul.number2 {
+.task .reveal_six .list ul.number2 {
 	width: 760px;
 	height: 42px;
 	border-bottom: 1px solid #eeeeee;
 }
 
 
-.reveal_six  .number1 li {
+.task .reveal_six  .number1 li {
 	width: 131px;
 	padding-left: 20px;
 	height: 42px;
@@ -876,11 +876,11 @@ article .dv1 .center .details .ouside .inside {
 	border-right: 1px solid #eeeeee;
 }
 
-.reveal_six  .number1 li:nth-last-of-type(1) {
+.task .reveal_six  .number1 li:nth-last-of-type(1) {
 	border-right: none;
 }
 
-.reveal_six .list .number2 li {
+.task .reveal_six .list .number2 li {
 
 	padding-left: 20px;
 	height: 42px;
@@ -890,11 +890,11 @@ article .dv1 .center .details .ouside .inside {
 	border-right: 1px solid #eeeeee;
 }
 
-.reveal_six .list .number2 li:nth-last-of-type(1) {
+.task .reveal_six .list .number2 li:nth-last-of-type(1) {
 	border-right: none;
 }
 
-.reveal-modal .list .number2 li span {
+.task .reveal-modal .list .number2 li span {
 	display: inline-block;
 	width: 70px;
 	height: 30px;
@@ -905,11 +905,11 @@ article .dv1 .center .details .ouside .inside {
 	background-color: #e5e5e5;
 }
 
-.reveal-modal .list ul.number2 {
+.task .reveal-modal .list ul.number2 {
 	border-style: none;
 }
 
-.reveal-modal .list .number2 li .fill {
+.task .reveal-modal .list .number2 li .fill {
 	display: inline-block;
 	width: 70px;
 	height: 30px;
@@ -920,20 +920,20 @@ article .dv1 .center .details .ouside .inside {
 	background-color: #ffffff;
 }
 
-.reveal_six .mid {
+.task .reveal_six .mid {
 	width: 510px;
 	height: 110px;
 	margin: 2px auto;
 	border-bottom: 1px solid #d9d9d9;
 }
 
-.reveal_six .bot {
+.task .reveal_six .bot {
 	width: 510px;
 	height: 110px;
 	margin: 2px auto;
 }
 
-.reveal_six .compare {
+.task .reveal_six .compare {
 	font-size: 16px;
 	margin-left: 32px;
 	margin-top: 10px;
@@ -941,11 +941,11 @@ article .dv1 .center .details .ouside .inside {
 	line-height: 36px;
 }
 
-.reveal_six .mid .compare span {
+.task .reveal_six .mid .compare span {
 	color: #ffa928;
 }
 
-.reveal_six .mid .sign {
+.task .reveal_six .mid .sign {
 	margin-left: 0;
 	margin-top: 0;
 	width: 100%;
@@ -955,12 +955,12 @@ article .dv1 .center .details .ouside .inside {
 }
 
 
-.reveal_six .bot .compare {
+.task .reveal_six .bot .compare {
 	margin-left: 0;
 }
 
 
-.reveal_six ul{
+.task .reveal_six ul{
 	width: 760px;
 	height: 42px;
 	margin: 0 auto;
@@ -968,7 +968,7 @@ article .dv1 .center .details .ouside .inside {
 	/*box-sizing: content-box;*/
 	box-sizing: border-box;
 }
-.reveal_six ul li{
+.task .reveal_six ul li{
 	float: left;
 	height: 42px;
 	text-align: center;
@@ -977,17 +977,17 @@ article .dv1 .center .details .ouside .inside {
 	color: #666666;
 	box-sizing: border-box;
 }
-.reveal_six ul.list_head{
+.task .reveal_six ul.list_head{
 	background-color: #f7f7f7;
 	margin-top: 10px;
 }
-.reveal_six ul.list_head li{
+.task .reveal_six ul.list_head li{
 	border-right: 1px solid #cccccc;
 }
-.reveal_six ul.list_head li:nth-of-type(3){
+.task .reveal_six ul.list_head li:nth-of-type(3){
 	border-style: none;
 }
-.reveal_six .box{
+.task .reveal_six .box{
 	width: 760px;
 	height: 252px;
 	margin: 0 auto;
@@ -997,28 +997,28 @@ article .dv1 .center .details .ouside .inside {
 	overflow: auto;
 	overflow-x: hidden;
 }
-.reveal_six .box ul{
+.task .reveal_six .box ul{
 
 	width: 100%;
 	border-style: none;
 	margin-left: 0;
 	margin-right: 0;
 }
-.reveal_six  ul li:nth-of-type(1){
+.task .reveal_six  ul li:nth-of-type(1){
 	width: 25%;
 }
-.reveal_six  ul li:nth-of-type(2){
+.task .reveal_six  ul li:nth-of-type(2){
 	width: 35%;
 }
-.reveal_six  ul li:nth-of-type(3){
+.task .reveal_six  ul li:nth-of-type(3){
 	width: 40%;
 
 }
-.reveal_six .box ul:hover{
+.task .reveal_six .box ul:hover{
 	background-color: #e1ebf9;
 }
 
-.reveal_seven {
+.task .reveal_seven {
 	width: 820px;
 	height: 495px;
 	visibility: hidden;
@@ -1033,7 +1033,7 @@ article .dv1 .center .details .ouside .inside {
 	background-color: #fff;
 }
 
-.reveal_seven .p1 {
+.task .reveal_seven .p1 {
 	width: 820px !important;
 	height: 50px !important;
 	background-color: #6b7a99;
@@ -1042,17 +1042,17 @@ article .dv1 .center .details .ouside .inside {
 	line-height: 50px !important;
 	color: #fff;
 }
-.reveal_seven .money{
+.task .reveal_seven .money{
 	width: 150px;
 	height: 42px;
 	margin:30px auto 0px;
 }
-.reveal_seven .money span{
+.task .reveal_seven .money span{
 	color: #ff850d;
 	font-size: 22px;
 	vertical-align: middle;
 }
-.reveal_seven .money input{
+.task .reveal_seven .money input{
 	width: 110px;
 	height: 42px;
 	vertical-align: middle;
@@ -1063,7 +1063,7 @@ article .dv1 .center .details .ouside .inside {
 	border-bottom: 1px solid #CCCCCC;
 	outline: none;
 }
-.reveal_seven .bar {
+.task .reveal_seven .bar {
 
 	margin-top: 10px;
 	font-size: 14px;
@@ -1077,14 +1077,14 @@ article .dv1 .center .details .ouside .inside {
 	/*line-height: 50px !important;*/
 	color: #b8b8b8;
 }
-.reveal_seven .import {
+.task .reveal_seven .import {
 	width: 550px;
 	height: 135px;
 	margin: 0 auto;
 }
 
 
-.reveal_seven .import .decide {
+.task .reveal_seven .import .decide {
 	width: 360px;
 	height: 42px;
 	margin: 26px auto 30px;
@@ -1093,7 +1093,7 @@ article .dv1 .center .details .ouside .inside {
 
 }
 
-.reveal_seven .import .decide p {
+.task .reveal_seven .import .decide p {
 	float: left;
 	width: 100px;
 	height: 40px;
@@ -1105,17 +1105,17 @@ article .dv1 .center .details .ouside .inside {
 	cursor: pointer;
 }
 
-.reveal_seven .import .decide p:nth-child(1) {
+.task .reveal_seven .import .decide p:nth-child(1) {
 	margin-left: 0;
 	background-color: #42a5f5;
 	color: #fff;
 }
 
-.reveal_seven .import .decide p:nth-child(2) {
+.task .reveal_seven .import .decide p:nth-child(2) {
 
 }
 
-.reveal_seven .mid {
+.task .reveal_seven .mid {
 	height: 215px;
 	width: 700px;
 	margin:30px auto;
@@ -1123,12 +1123,12 @@ article .dv1 .center .details .ouside .inside {
 	overflow-y: auto;
 }
 
-.reveal_seven .mid ul{
+.task .reveal_seven .mid ul{
 	width: 80%;
 	margin-left: 30px;
 	height: 42px;
 }
-.reveal_seven .mid ul li{
+.task .reveal_seven .mid ul li{
 	float: left;
 	width: 120px;
 	height: 42px;
@@ -1136,7 +1136,7 @@ article .dv1 .center .details .ouside .inside {
 	text-align: center;
 	font-size: 14px;
 }
-.reveal_seven .mid ul li:nth-of-type(1){
+.task .reveal_seven .mid ul li:nth-of-type(1){
 	color: #b8b8b8;
 	font-size: 12px;
 }
@@ -1751,7 +1751,7 @@ article .dv4 .switch2{
 
 
 
-.reveal_eight {
+.task .reveal_eight {
 	width: 820px;
 	height: 425px;
 	visibility: hidden;
@@ -1766,7 +1766,7 @@ article .dv4 .switch2{
 	background-color: #fff;
 }
 
-.reveal_eight .p1 {
+.task .reveal_eight .p1 {
 	width: 820px !important;
 	height: 50px !important;
 	background-color: #6b7a99;
@@ -1775,17 +1775,17 @@ article .dv4 .switch2{
 	line-height: 50px !important;
 	color: #fff;
 }
-.reveal_eight .money{
+.task .reveal_eight .money{
 	width: 150px;
 	height: 42px;
 	margin:30px auto 0px;
 }
-.reveal_eight .money span{
+.task .reveal_eight .money span{
 	color: #ff850d;
 	font-size: 22px;
 	vertical-align: middle;
 }
-.reveal_eight .money input{
+.task .reveal_eight .money input{
 	width: 110px;
 	height: 42px;
 	vertical-align: middle;
@@ -1796,7 +1796,7 @@ article .dv4 .switch2{
 	border-bottom: 1px solid #CCCCCC;
 	outline: none;
 }
-.reveal_eight .bar {
+.task .reveal_eight .bar {
 
 	margin-top: 10px;
 	font-size: 14px;
@@ -1810,14 +1810,14 @@ article .dv4 .switch2{
 	/*line-height: 50px !important;*/
 	color: #b8b8b8;
 }
-.reveal_eight .import {
+.task .reveal_eight .import {
 	width: 550px;
 	height: 135px;
 	margin: 0 auto;
 }
 
 
-.reveal_eight .import .decide {
+.task .reveal_eight .import .decide {
 	width: 360px;
 	height: 42px;
 	margin: 56px auto 30px;
@@ -1825,7 +1825,7 @@ article .dv4 .switch2{
 	justify-content: space-between;
 }
 
-.reveal_eight .import .decide p {
+.task .reveal_eight .import .decide p {
 	float: left;
 	width: 100px;
 	height: 40px;
@@ -1837,17 +1837,17 @@ article .dv4 .switch2{
 	font-size: 18px;
 }
 
-.reveal_eight .import .decide p:nth-child(1) {
+.task .reveal_eight .import .decide p:nth-child(1) {
 	margin-left: 0;
 	background-color: #42a5f5;
 	color: #fff;
 }
 
-.reveal_eight .import .decide p:nth-child(2) {
+.task .reveal_eight .import .decide p:nth-child(2) {
 
 }
 
-.reveal_eight .mima{
+.task .reveal_eight .mima{
 	width: 460px;
 	height: 42px;
 	margin: 40px auto 0px;
@@ -1875,45 +1875,45 @@ article .dv4 .switch2{
 	border-right: none;
 }*/
 
-.reveal_eight .mima{width: 460px;height: 42px;margin: 40px auto 0px;}
-.reveal_eight .box{float:left;width: 372px;height:40px;display: -webkit-box;display:flex;display: -ms-flexbox;display: flex;-webkit-flex-wrap: wrap;-ms-flex-wrap: wrap;flex-wrap: wrap;}
-.reveal_eight .box-items {-ms-flex-align: center;-webkit-align-items: center;-webkit-box-align: center;align-items: center;}
-.reveal_eight .flex-1{display: block;-webkit-box-flex: 1;-webkit-flex: 1;-ms-flex: 1;flex: 1;width: 0;-webkit-flex-basis: 0;-ms-flex-preferred-size: 0;flex-basis: 0;}
-.reveal_eight .mima .item {position: relative;}
-.reveal_eight .mima .item.circle:after {content: "";width: 8px;height: 8px;background: #000;border-radius: 50%;position: absolute;top: 50%;left: 50%;margin-top: -2px;margin-left: -4px;}
-.reveal_eight .mima .normal input {color: #000;}
-.reveal_eight .mima input {vertical-align:middle;display: block;width: inherit;text-align: center;border: 1px solid #d2d2d2;width: 100%;color: #fff;line-height: 40px}
+.task .reveal_eight .mima{width: 460px;height: 42px;margin: 40px auto 0px;}
+.task .reveal_eight .box{float:left;width: 372px;height:40px;display: -webkit-box;display:flex;display: -ms-flexbox;display: flex;-webkit-flex-wrap: wrap;-ms-flex-wrap: wrap;flex-wrap: wrap;}
+.task .reveal_eight .box-items {-ms-flex-align: center;-webkit-align-items: center;-webkit-box-align: center;align-items: center;}
+.task .reveal_eight .flex-1{display: block;-webkit-box-flex: 1;-webkit-flex: 1;-ms-flex: 1;flex: 1;width: 0;-webkit-flex-basis: 0;-ms-flex-preferred-size: 0;flex-basis: 0;}
+.task .reveal_eight .mima .item {position: relative;}
+.task .reveal_eight .mima .item.circle:after {content: "";width: 8px;height: 8px;background: #000;border-radius: 50%;position: absolute;top: 50%;left: 50%;margin-top: -2px;margin-left: -4px;}
+.task .reveal_eight .mima .normal input {color: #000;}
+.task .reveal_eight .mima input {vertical-align:middle;display: block;width: inherit;text-align: center;border: 1px solid #d2d2d2;width: 100%;color: #fff;line-height: 40px}
 
 
 
 
-.reveal_eight .mima .moon{
+.task .reveal_eight .mima .moon{
 	width: 86px;
 	height: 40px;
 	float: right;
 	text-align: center;
 }
-.reveal_eight .mima .moon a{
+.task .reveal_eight .mima .moon a{
 	font-size: 12px;
 	line-height: 40px;
 	color: #42a5f5;
 }
-.reveal_eight .mianmi{
+.task .reveal_eight .mianmi{
 	width: 110px;
 	height: 20px;
 	margin-left: 445px;
 	margin-top: 10px;
 	position: relative;
 }
-.reveal_eight .mianmi input{
+.task .reveal_eight .mianmi input{
 	vertical-align: middle;
 }
-.reveal_eight .mianmi span{
+.task .reveal_eight .mianmi span{
 	font-size: 14px;
 	vertical-align: middle;
 	color: #808080;
 }
-.reveal_eight .mianmi p{
+.task .reveal_eight .mianmi p{
 	width: 200px;
 	height: 32px;
 	background-color: #ffffff;
@@ -1925,13 +1925,13 @@ article .dv4 .switch2{
 	top:20px;
 	display: none;
 }
-.reveal_eight .mianmi:hover .tishi{
+.task .reveal_eight .mianmi:hover .tishi{
 	display: block;
 }
 
 
 
-.reveal_nine {
+.task .reveal_nine {
 	width: 820px;
 	height: 425px;
 	visibility: hidden;
@@ -1946,7 +1946,7 @@ article .dv4 .switch2{
 	background-color: #fff;
 }
 
-.reveal_nine .p1 {
+.task .reveal_nine .p1 {
 	width: 820px !important;
 	height: 50px !important;
 	background-color: #6b7a99;
@@ -1955,17 +1955,17 @@ article .dv4 .switch2{
 	line-height: 50px !important;
 	color: #fff;
 }
-.reveal_nine .money{
+.task .reveal_nine .money{
 	width: 150px;
 	height: 42px;
 	margin:30px auto 0px;
 }
-.reveal_nine .money span{
+.task .reveal_nine .money span{
 	color: #ff850d;
 	font-size: 22px;
 	vertical-align: middle;
 }
-.reveal_nine .money input{
+.task .reveal_nine .money input{
 	width: 110px;
 	height: 42px;
 	vertical-align: middle;
@@ -1976,7 +1976,7 @@ article .dv4 .switch2{
 	border-bottom: 1px solid #CCCCCC;
 	outline: none;
 }
-.reveal_nine .bar {
+.task .reveal_nine .bar {
 
 	margin-top: 10px;
 	font-size: 14px;
@@ -1990,17 +1990,17 @@ article .dv4 .switch2{
 	/*line-height: 50px !important;*/
 	color: #b8b8b8;
 }
-.reveal_nine .bar a{
+.task .reveal_nine .bar a{
 	color: #77b8ff;
 }
-.reveal_nine .import {
+.task .reveal_nine .import {
 	width: 550px;
 	height: 135px;
 	margin: 0 auto;
 }
 
 
-.reveal_nine .import .decide {
+.task .reveal_nine .import .decide {
 	width: 360px;
 	height: 42px;
 	margin: 56px auto 30px;
@@ -2008,7 +2008,7 @@ article .dv4 .switch2{
 	justify-content: space-between;
 }
 
-.reveal_nine .import .decide p {
+.task .reveal_nine .import .decide p {
 	float: left;
 	width: 100px;
 	height: 40px;
@@ -2020,17 +2020,17 @@ article .dv4 .switch2{
 	font-size: 18px;
 }
 
-.reveal_nine .import .decide p:nth-child(1) {
+.task .reveal_nine .import .decide p:nth-child(1) {
 	margin-left: 0;
 	background-color: #42a5f5;
 	color: #fff;
 }
 
-.reveal_nine .import .decide p:nth-child(2) {
+.task .reveal_nine .import .decide p:nth-child(2) {
 
 }
 
-.reveal_nine .mima{
+.task .reveal_nine .mima{
 	width: 460px;
 	height: 42px;
 	margin: 40px auto 0px;
@@ -2057,41 +2057,41 @@ article .dv4 .switch2{
 .reveal_nine .mima .sun input:nth-last-of-type(1){
 	border-right: none;
 }*/
-.reveal_nine .mima{width: 460px;height: 42px;margin: 40px auto 0px;}
-.reveal_nine .box{float:left;width: 372px;height:40px;display: -webkit-box;display:flex;display: -ms-flexbox;display: flex;-webkit-flex-wrap: wrap;-ms-flex-wrap: wrap;flex-wrap: wrap;}
-.reveal_nine .box-items {-ms-flex-align: center;-webkit-align-items: center;-webkit-box-align: center;align-items: center;}
-.reveal_nine .flex-1{display: block;-webkit-box-flex: 1;-webkit-flex: 1;-ms-flex: 1;flex: 1;width: 0;-webkit-flex-basis: 0;-ms-flex-preferred-size: 0;flex-basis: 0;}
-.reveal_nine .mima .item {position: relative;}
-.reveal_nine .mima .item.circle:after {content: "";width: 8px;height: 8px;background: #000;border-radius: 50%;position: absolute;top: 50%;left: 50%;margin-top: -2px;margin-left: -4px;}
-.reveal_nine .mima .normal input {color: #000;}
-.reveal_nine .mima input {vertical-align:middle;display: block;width: inherit;text-align: center;border: 1px solid #d2d2d2;width: 100%;color: #fff;line-height: 40px}
-.reveal_nine .mima .moon{
+.task .reveal_nine .mima{width: 460px;height: 42px;margin: 40px auto 0px;}
+.task .reveal_nine .box{float:left;width: 372px;height:40px;display: -webkit-box;display:flex;display: -ms-flexbox;display: flex;-webkit-flex-wrap: wrap;-ms-flex-wrap: wrap;flex-wrap: wrap;}
+.task .reveal_nine .box-items {-ms-flex-align: center;-webkit-align-items: center;-webkit-box-align: center;align-items: center;}
+.task .reveal_nine .flex-1{display: block;-webkit-box-flex: 1;-webkit-flex: 1;-ms-flex: 1;flex: 1;width: 0;-webkit-flex-basis: 0;-ms-flex-preferred-size: 0;flex-basis: 0;}
+.task .reveal_nine .mima .item {position: relative;}
+.task .reveal_nine .mima .item.circle:after {content: "";width: 8px;height: 8px;background: #000;border-radius: 50%;position: absolute;top: 50%;left: 50%;margin-top: -2px;margin-left: -4px;}
+.task .reveal_nine .mima .normal input {color: #000;}
+.task .reveal_nine .mima input {vertical-align:middle;display: block;width: inherit;text-align: center;border: 1px solid #d2d2d2;width: 100%;color: #fff;line-height: 40px}
+.task .reveal_nine .mima .moon{
 	width: 86px;
 	height: 40px;
 	float: right;
 	text-align: center;
 }
-.reveal_nine .mima .moon a{
+.task .reveal_nine .mima .moon a{
 	font-size: 12px;
 	line-height: 40px;
 	color: #42a5f5;
 }
-.reveal_nine .mianmi{
+.task .reveal_nine .mianmi{
 	width: 110px;
 	height: 20px;
 	margin-left: 445px;
 	margin-top: 10px;
 	position: relative;
 }
-.reveal_nine .mianmi input{
+.task .reveal_nine .mianmi input{
 	vertical-align: middle;
 }
-.reveal_nine .mianmi span{
+.task .reveal_nine .mianmi span{
 	font-size: 14px;
 	vertical-align: middle;
 	color: #808080;
 }
-.reveal_nine .mianmi p{
+.task .reveal_nine .mianmi p{
 	width: 200px;
 	height: 32px;
 	background-color: #ffffff;
@@ -2103,7 +2103,7 @@ article .dv4 .switch2{
 	top:20px;
 	display: none;
 }
-.reveal_nine .mianmi:hover .tishi{
+.task .reveal_nine .mianmi:hover .tishi{
 	display: block;
 }
 
