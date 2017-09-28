@@ -348,9 +348,9 @@ class SaleChance extends Initialize{
             //var_exp($role_employee_index,'$role_employee_index',1);
             $this->assign('role_employee_index',$role_employee_index);
 
-            $status = [5,8];
+            $contract_status = [5,8];
             $contractAppliedModel = new ContractAppliedModel($this->corp_id);
-            $contracts = $contractAppliedModel->getAllContractNoAndType($uid,null,$status,null,$inContractId);
+            $contracts = $contractAppliedModel->getAllContractNoAndType($uid,null,[],$contract_status,null,$inContractId);
             //var_exp($contracts,'$contracts',1);
             $this->assign('contract_list',$contracts);
             $this->assign('empty','<option value="" class="empty">无</option>');
@@ -757,6 +757,10 @@ class SaleChance extends Initialize{
         //var_exp($contract_arr,'$contract_arr');
         $contract_id_arr = [];
         foreach ($contract_arr as $contract_item){
+            if($contract_item["contract_id"]<=0){
+                $result["info"] = "合同未选择!";
+                return $result;
+            }
             if(in_array($contract_item["contract_id"],$contract_id_arr)){
                 $result["info"] = "合同重复选择!";
                 return $result;
@@ -820,7 +824,8 @@ class SaleChance extends Initialize{
         //var_exp($saleOrderContractData,'$saleOrderContractData',1);
         $saleContracts = $this->_getSaleContractsForInput($sale_id,$sale_order_id);
         if($saleContracts["status"]!=1){
-            exception($saleContracts["info"]);
+            $result["info"] = $saleContracts["info"];
+            return $result;
         }
         $saleOrderContractData["order_num"] = count($saleContracts["data"]);
         //var_exp($saleContracts,'$saleContracts');
