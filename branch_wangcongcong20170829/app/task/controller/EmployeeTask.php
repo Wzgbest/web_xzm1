@@ -85,7 +85,8 @@ class EmployeeTask extends Initialize{
         $user_info = get_userinfo();
         $uid = $user_info['userid'];
         $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
-        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token,case when tg.guess_employee>0 then 1 else 0 end as is_guess,case when ett.take_employee>0 then 1 else 0 end as is_take',$order,$direction="desc",$map);
+        $field="et.*,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token,re.total_money,case when tg.guess_employee>0 then 1 else 0 end as is_guess,case when ett.take_employee>0 then 1 else 0 end as is_take";
+        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field,$order,$direction="desc",$map);
         $countField=["
         count(1) as `0`,
         sum((case when task_type = 1 then 1 else 0 end)) as `1`,
@@ -154,7 +155,8 @@ class EmployeeTask extends Initialize{
             $order='id';
         }
         $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
-        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token,case when tg.guess_employee>0 then 1 else 0 end as is_guess,case when ett.take_employee>0 then 1 else 0 end as is_take',$order,$direction="desc",$map);
+        $field="et.*,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token,re.total_money,case when tg.guess_employee>0 then 1 else 0 end as is_guess,case when ett.take_employee>0 then 1 else 0 end as is_take";
+        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field,$order,$direction="desc",$map);
 //        var_exp($task_list);
         $con['task_end_time']=$map['task_end_time'];
         $con['take_employees']=array('IN',$uid);
