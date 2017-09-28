@@ -84,6 +84,7 @@ class Contract extends Initialize{
             //var_exp($business_flows,'$business_flows',1);
             $this->assign('business_flow_list',$business_flows);
         }catch (\Exception $ex){
+            //print_r($ex->getTrace());die();
             $this->error($ex->getMessage());
         }
         $max_page = ceil($customers_count/$num);

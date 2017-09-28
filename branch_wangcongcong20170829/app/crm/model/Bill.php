@@ -483,6 +483,15 @@ class Bill extends Base{
             ->find();
     }
 
+    public function getBillByContractId($contract_id){
+        $map['status'] = ['notin',[2,3,6]];
+        $map['contract_id'] = $contract_id;
+        return $this->model->table($this->table)
+            ->where($map)
+            ->order("id desc")
+            ->find();
+    }
+
     public function setBill($id,$data,$map=null){
         return $this->model->table($this->table)->where('id',$id)->where($map)->update($data);
     }

@@ -7,7 +7,7 @@
 			<div>
 				<span class="cont">合同类型</span>
 				<select class="type-class">
-					<option>请选择</option>
+					<option value="0">请选择</option>
 					{volist name="contract_type_list" id="vo"}
 					<option value="{$vo.id}">{$vo.contract_name}</option>
 					{/volist}
@@ -87,7 +87,7 @@
 				$(".main-content").eq(row).find(".exam-man-s").eq(d).removeClass("hide");
 				//当前属性值在role_employee_index里对应的数组
 				var arr = role_employee_index[b[c]];
-				$(".main-content").eq(row).find(".exam-man-s").eq(d).html("<option>请选择</option>");
+				$(".main-content").eq(row).find(".exam-man-s").eq(d).html("<option value='0'>请选择</option>");
                 var selected='';
 				for(var i=0;i<arr.length;i++){
 				    if(applied && applied[d+1]==arr[i].user_id)

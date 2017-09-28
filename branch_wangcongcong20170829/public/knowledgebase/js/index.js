@@ -1,4 +1,4 @@
-$(".new-speechcraft").click(function(){
+$(".new-speechcraft2").click(function(){
 	loadPage("/knowledgebase/speech_craft/add_article", "speech-databasefr");
 });
 $(".knowledgebase_speechcraft_new header li").click(function(){
