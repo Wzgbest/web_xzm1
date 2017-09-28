@@ -263,13 +263,35 @@ function new_task_form(load_table){
     var self = this;
 
     this.get_form_data=function(){
-        console.log("get_form_data");
         var form_sel = "#"+self.load_table+" .task .new_task_form";
         var task_name = $(form_sel+" [name='task_name']").val();
-        console.log('task_name',task_name);
+        var target_method=$(form_sel+" [name='target_method']:checked").val();
+
+        var target_customer=$(form_sel+" [name='target_customer']").val();//帮忙跟进的客户
+        var target_description=$(form_sel+" [name='target_description']").val();//其他需求
+
         if(task_name==''){
             layer.msg('请输入任务名称!',{icon:2});
             return false;
+        }
+
+        if(target_method==1)
+        {
+            //帮忙跟进客户
+            if(!target_customer)
+            {
+                layer.msg('请选择帮忙跟进客户!',{icon:2});
+                return false;
+            }
+        }
+        if(target_method==2)
+        {
+            //其他需求
+            if(!target_description)
+            {
+                layer.msg('请填写其他需求!',{icon:2});
+                return false;
+            }
         }
         console.log('$(form_sel)',$(form_sel));
         var new_task_form_data = $(form_sel).serialize();
