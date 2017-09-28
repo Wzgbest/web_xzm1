@@ -319,8 +319,7 @@ class Index extends Initialize{
         $taskTarget = $taskTargetM->findTaskTargetByTaskId($id);
         $taskInfo["target_type"] = $taskTarget["target_type"];
         $taskInfo["target_num"] = $taskTarget["target_num"];
-        $taskInfo["target_appraiser_name"] = $employM->getEmployeeNameByUserids($taskTarget["target_appraiser"]);
-        
+
         $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($id);
         $taskInfo["take"] = $taskTakeEmployeeIds;
 
@@ -501,7 +500,7 @@ class Index extends Initialize{
                 //return [];
             }
         }
-        $task_target_info['target_appraiser'] = input("target_appraiser","","string");
+        $task_target_info['target_description'] = input("target_description","","string");
         return $task_target_info;
     }
     protected function _getTaskRewardForInput($task_method){
