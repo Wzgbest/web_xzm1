@@ -6,7 +6,7 @@ use app\crm\model\Bill as BillModel;
 use app\common\model\Employee as EmployeeModel;
 use app\systemsetting\model\BillSetting as BillSettingModel;
 use app\common\model\RoleEmployee as RoleEmployeeModel;
-use app\systemsetting\model\ContractSetting as ContractSettingModel;
+use app\crm\model\SaleOrderContractItem;
 use app\crm\model\Contract as ContractAppliedModel;
 use app\crm\model\SaleChance as SaleChanceModel;
 use app\crm\model\Customer as CustomerModel;
@@ -171,46 +171,64 @@ class Bill extends Initialize{
 
     public function bill_apply_check(){
         $result = ['status'=>0 ,'info'=>"检查发票申请时发生错误！"];
-        $sale_id = input("sale_id",0,"int");
-        if(!$sale_id){
+        $contract_item_id = input("contract_item_id",0,"int");
+        if(!$contract_item_id){
             $result['info'] = "参数错误！";
             return json($result);
         }
+
+        $contractItemM = new SaleOrderContractItem($this->corp_id);
+        $contract = $contractItemM->getContractInfo($contract_item_id);
+
         $billM = new BillModel($this->corp_id);
-        $bill_info = $billM->checkBillBySaleIdNot($sale_id,[2,3,6,9]);
+        $bill_info = $billM->getBillByContractId($contract["contract_id"]);
         if(!empty($bill_info)){
-            $result['info'] = "该销售机会已申请发票,请勿重复申请！";
+            $result['info'] = "该合同已申请发票,请勿重复申请！";
             return json($result);
         }
         $result['status'] = 1;
-        $result['info'] = "该销售机会未申请发票！";
+        $result['info'] = "该合同未申请发票！";
         return json($result);
     }
 
     public function bill_apply(){
-        $sale_id = input("sale_id",0,"int");
-        if(!$sale_id){
+        $contract_item_id = input("contract_item_id",0,"int");
+        if(!$contract_item_id){
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $this->assign('contract_item_id',$contract_item_id);
+
+        $contractItemM = new SaleOrderContractItem($this->corp_id);
+        $contract = $contractItemM->getContractInfo($contract_item_id);
+        $this->assign('contract',$contract);
+
         $billM = new BillModel($this->corp_id);
-        $bill_info = $billM->checkBillBySaleIdNot($sale_id,[2,3,6,9]);
+        $bill_info = $billM->getBillByContractId($contract["contract_id"]);
         if(!empty($bill_info)){
             $result['status'] = 0;
-            $result['info'] = "该销售机会已申请发票,请勿重复申请！";
+            $result['info'] = "该合同已申请发票,请勿重复申请！";
             return json($result);
         }
-        $this->assign('sale_id',$sale_id);
+
         $saleChanceM = new SaleChanceModel($this->corp_id);
-        $saleChanceData = $saleChanceM->getSaleChance($sale_id);
+        $saleChanceData = $saleChanceM->getSaleChance($contract["sale_id"]);
         if(empty($saleChanceData)){
             $result['status'] = 0;
             $result['info'] = "未找到该销售机会！";
             return json($result);
         }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        if($saleChanceData["employee_id"]!=$uid){
+            $result['status'] = 0;
+            $result['info'] = "未找到该销售机会！";
+            return json($result);
+        }
         $this->assign('sale_chance',$saleChanceData);
+
         $saleOrderContractM = new SaleOrderContractModel($this->corp_id);
-        $saleOrderContractData = $saleOrderContractM->getSaleOrderContractBySaleId($sale_id);
+        $saleOrderContractData = $saleOrderContractM->getSaleOrderContract($contract["sale_order_id"]);
         if(empty($saleOrderContractData)){
             $result['status'] = 0;
             $result['info'] = "未找到该销售机会成单申请！";
@@ -221,6 +239,7 @@ class Bill extends Initialize{
         $bills = $billSettingModel->getBillNameIndex();
         //var_exp($bills,'$bills',1);
         $this->assign('bill_name',$bills);
+
         return view();
     }
 
@@ -272,26 +291,7 @@ class Bill extends Initialize{
             }
             //var_exp($role_employee_index,'$role_employee_index',1);
             $contractSettingInfo["role_employee_index"] = $role_employee_index;
-
-            $status = [5,7,8];
-            $contractAppliedModel = new ContractAppliedModel($this->corp_id);
-            $contracts = $contractAppliedModel->getAllContractNoAndType($uid,$sale_id,$status);
-            //var_exp($contractApplieds,'$contractApplieds',1);
-            $contract_type_index = [];
-            $contract_type_ids= [];
-            foreach ($contracts as $contract){
-                $tmp["id"] = $contract["id"];
-                $tmp["contract_no"] = $contract["contract_no"];
-                $contract_type_index[$contract["contract_type"]][] = $tmp;
-                $contract_type_ids[] = $contract["contract_type"];
-            }
-            $contractSettingInfo["contract_type_index"] = $contract_type_index;
-
-            $contractSettingModel = new ContractSettingModel($this->corp_id);
-            $contracts = $contractSettingModel->getAllContractName($contract_type_ids);
-            //var_exp($contracts,'$contracts',1);
-            $contractSettingInfo["contract_list"] = $contracts;
-
+            
             $result['data'] = $contractSettingInfo;
         }catch (\Exception $ex){
             $result["info"] = $ex->getMessage();
@@ -313,23 +313,28 @@ class Bill extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
-        $sale_id = $bill_apply_arr["sale_id"];
-        if(
-            empty($sale_id)
-        ){
+        $contract_item_id = $bill_apply_arr["contract_item_id"];
+        if(!$contract_item_id){
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $this->assign('contract_item_id',$contract_item_id);
+
+        $contractItemM = new SaleOrderContractItem($this->corp_id);
+        $contract = $contractItemM->getContractInfo($contract_item_id);
+        $sale_id = $contract["sale_id"];
+        $contract_id = $contract["contract_id"];
         $billM = new BillModel($this->corp_id);
-        $bill_info = $billM->checkBillBySaleIdNot($sale_id,[2,3,6,9]);
+        $bill_info = $billM->getBillByContractId($contract["contract_id"]);
         if(!empty($bill_info)){
-            $result['info'] = "该销售机会已申请发票,请勿重复申请！";
+            $result['status'] = 0;
+            $result['info'] = "该合同已申请发票,请勿重复申请！";
             return json($result);
         }
+
         $bill_type = $bill_apply_arr["bill_type"];
-        $contract_id = $bill_apply_arr["contract_id"];
         $product_type_arr = $bill_apply_arr["product_type"];
-        $tax_num = '';
+        $tax_num = $bill_apply_arr["tax_num"];
         $pay_way_arr = $bill_apply_arr["pay_way"];
         $handle_arr = $bill_apply_arr["handle"];
         if(
@@ -368,21 +373,9 @@ class Bill extends Initialize{
             return json($result);
         }
         $saleOrderContractM = new SaleOrderContractModel($this->corp_id);
-        $saleOrderContract = $saleOrderContractM->getSaleOrderContractBySaleId($sale_id);
+        $saleOrderContract = $saleOrderContractM->getSaleOrderContract($contract["sale_order_id"]);
         if(empty($saleOrderContract)){
             $result['info'] = "未找到发票对应的成单申请！";
-            return json($result);
-        }
-        $saleOrderContractM = new SaleOrderContractModel($this->corp_id);
-        $saleOrderContract = $saleOrderContractM->getSaleOrderContractBySaleId($sale_id);
-        if(empty($saleOrderContract)){
-            $result['info'] = "未找到发票对应的成单申请！";
-            return json($result);
-        }
-        $contractAppliedM = new ContractAppliedModel($this->corp_id);
-        $contract = $contractAppliedM->getContractNoInfo($contract_id);
-        if(empty($contract)){
-            $result['info'] = "未找到所选合同！";
             return json($result);
         }
         $bill_money = 0;
@@ -398,7 +391,7 @@ class Bill extends Initialize{
         $data["operator"] = $uid;
         $data["bill_type"] = $bill_type;
         $data["order_id"] = $saleOrderContract["id"];
-        $data["contract_id"] = $contract["id"];
+        $data["contract_id"] = $contract["contract_id"];
         $data["contract_no"] = $contract["contract_no"];
         $data["customer_name"] = $customers_data["customer_name"];
         $data["tax_num"] = $tax_num;
