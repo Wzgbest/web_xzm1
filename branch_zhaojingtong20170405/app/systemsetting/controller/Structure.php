@@ -391,9 +391,11 @@ class Structure extends Initialize
             if (!$res) {
                 exception("添加数据表失败");
             }
-            $res = $huanxin->addAllUsers($group_id,$group_users);
-            if (isset($res['error'])) {
-                exception("添加环信群组失败");
+            if ($group_id) {
+                $res = $huanxin->addAllUsers($group_id,$group_users);
+                if (isset($res['error'])) {
+                    exception("添加环信群组失败");
+                }
             }
             $employeeM->link->commit();
         } catch (\Exception $ex) {
@@ -449,17 +451,22 @@ class Structure extends Initialize
                 exception("更新更换部门数据表失败");
             }
             
-            $res = $huanxin->deleteOneEmployee($group_id,$user_name);
-            if (isset($res['error'])) {
-                $info['message'] = "删除环信群组员工失败";
-                exception("删除环信群组员工失败");
+            if ($group_id) {
+                $res = $huanxin->deleteOneEmployee($group_id,$user_name);
+                if (isset($res['error'])) {
+                    $info['message'] = "删除环信群组员工失败";
+                    exception("删除环信群组员工失败");
+                }
+            }
+            if ($group_to_id) {
+                $res = $huanxin->addOneEmployee($group_to_id,$user_name);
+                if (isset($res['error'])) {
+                    $info['message'] = "添加环信群组员工失败";
+                    exception("添加环信群组员工失败");
+                }
             }
             // var_dump($res);die();
-            $res = $huanxin->addOneEmployee($group_to_id,$user_name);
-            if (isset($res['error'])) {
-                $info['message'] = "添加环信群组员工失败";
-                exception("添加环信群组员工失败");
-            }
+            
             $employeeM->link->commit();
         } catch (\Exception $ex) {
             $employeeM->link->rollback();
@@ -504,11 +511,12 @@ class Structure extends Initialize
                 $info['message'] = "数据表删除员工失败";
                 exception("数据表删除员工失败");
             }
-
-            $res = $huanxin->deleteOneEmployee($group_id,$user_name);
-            if (isset($res['error'])) {
-                $info['message'] = "删除环信群组员工失败";
-                exception("删除环信群组员工失败");
+            if ($group_id) {
+                $res = $huanxin->deleteOneEmployee($group_id,$user_name);
+                if (isset($res['error'])) {
+                    $info['message'] = "删除环信群组员工失败";
+                    exception("删除环信群组员工失败");
+                }
             }
             $employeeM->link->commit();
         } catch (\Exception $ex) {
