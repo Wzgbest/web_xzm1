@@ -484,7 +484,7 @@ function new_task_form(load_table){
             }
         });
     });
-    $("#"+self.load_table+" .pay_ui").on("click",".pop-submit-btn",function(){
+    $("#"+self.load_table+" .new_task_panel .pay_ui").on("click",".pop-submit-btn",function(){
         console.log("pop-submit-btn");
         self.add_task(self.get_pay_password());
     });
