@@ -591,7 +591,7 @@ class EmployeeTask extends Command{
                     //红包添加发放交易记录
                     foreach($redEnvelopeInfos as $redEnvelopeInfo){
                         $order_data = [
-                            'userid'=>$taskInfo["create_employee"],
+                            'userid'=>0,
                             'take_money'=> "-".bcmul($redEnvelopeInfo["money"],100,0),
                             'status'=>1,
                             'took_time'=>$time,
