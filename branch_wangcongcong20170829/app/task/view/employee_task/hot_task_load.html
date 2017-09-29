@@ -282,9 +282,9 @@
                         {if condition="in_array($uid,explode(',',$vo['public_to_take'])) && !in_array($uid,explode(',',$vo['take_employees'])) && $now_time < $vo['task_take_end_time'] && $vo['is_guess'] == 0 "}
                         <p class="p2 get_reward" data-id="{$vo.id}" task-type="{$vo.task_type}" task-money="{$vo.reward_amount}">领取</p>
                         {elseif condition="in_array($uid,explode(',',$vo['take_employees']))" /}
-                        <p>正在参与任务</p>
+                        <p class="p4">正在参与任务</p>
                         {else /}
-                        <p>报名已截止</p>
+                        <p class="p4">报名已截止</p>
                         {/if}
                         {eq name="uid" value="$vo['create_employee']"}
                             {if condition="$vo['is_take'] neq 1 && $now_time < $vo['task_end_time'] "}
