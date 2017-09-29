@@ -144,9 +144,22 @@ class Index extends Initialize{
         }
         $this->assign('task_type',$task_type);
 
+
+        $take_in = false;
+
         $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($id);
         $uids = $taskTakeEmployeeIds;
-        if(!in_array($uid,$uids)){
+        if(in_array($uid,$uids)){
+            $take_in = true;
+        }
+
+        $taskGuessM = new TaskGuessModel($this->corp_id);
+        $task_guess_employee_ids = $taskGuessM->getEmployeeGuessIdList($id);
+        if(in_array($uid,$task_guess_employee_ids)){
+            $take_in = true;
+        }
+
+        if(!$take_in){
             $result['info'] = "未参与任务！";
             return json($result);
         }
@@ -370,9 +383,21 @@ class Index extends Initialize{
             return json($result);
         }
 
+        $take_in = false;
+
         $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($id);
         $uids = $taskTakeEmployeeIds;
-        if(!in_array($uid,$uids)){
+        if(in_array($uid,$uids)){
+            $take_in = true;
+        }
+
+        $taskGuessM = new TaskGuessModel($this->corp_id);
+        $task_guess_employee_ids = $taskGuessM->getEmployeeGuessIdList($id);
+        if(in_array($uid,$task_guess_employee_ids)){
+            $take_in = true;
+        }
+
+        if(!$take_in){
             $result['info'] = "未参与任务！";
             return json($result);
         }
@@ -637,12 +662,6 @@ class Index extends Initialize{
         //var_exp($taskRewardInfos,'$taskRewardInfos',1);
         $taskInfo["reward_max_num"] = $taskRewardInfos["reward_max_num"];
         $taskTakeInfos = [];
-        if($taskInfo["task_type"]==2){
-            $taskTakeInfos[] = [
-                "take_employee"=>$uid,
-                "take_time"=>$time
-            ];
-        }
         $public_uids = explode(",",$taskInfo["public_to_take"]);
         $public_uids = array_filter($public_uids);
         $public_uids = array_unique($public_uids);
@@ -652,6 +671,15 @@ class Index extends Initialize{
                     "take_employee"=>$employee_id,
                     "take_time"=>$time
                 ];
+            }
+        }
+        if($taskInfo["task_type"]==2){
+            $taskTakeInfos[] = [
+                "take_employee"=>$uid,
+                "take_time"=>$time
+            ];
+            if(!in_array($uid,$public_uids)){
+                $taskInfo["public_to_take"] .= ",".$uid;
             }
         }
 

@@ -57,6 +57,16 @@ class TaskGuess extends Base{
         return $taskGuessInfoList;
     }
 
+    public function getEmployeeGuessIdList($task_id){
+        $map["etg.task_id"] = $task_id;
+        $order="etg.id desc";
+        $taskGuessInfoList = $this->model->table($this->table)->alias('etg')
+            ->where($map)
+            ->order($order)
+            ->column("guess_employee");;
+        return $taskGuessInfoList;
+    }
+
     public function getMyGuess($uid,$task_id){
     	if($task_id){
             $map["etg.task_id"] = $task_id;
