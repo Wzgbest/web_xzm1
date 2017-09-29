@@ -2,4 +2,4 @@
 
 export PATH="${PATH}:${HOME}/php5/bin"
 cd /home/work/xiaozhangmen/
-php think employee_task
+php think employee_task >> employee_task.log
