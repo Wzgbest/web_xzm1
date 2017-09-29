@@ -197,6 +197,14 @@ class EmployeeTask extends Base{
             ->column("re.redid,re.is_token,re.money","ett.take_employee");
         return $employeeTaskInfo;
     }
+    public function setTaskInfo($id,$data,$map=[]){
+        $map["et.id"] = $id;
+        $updateTaskResult = $this->model->table($this->table)->alias('et')
+            ->where($map)
+            ->data($data)
+            ->update();
+        return $updateTaskResult;
+    }
     public function setTaskStatus($ids,$from_status='',$to_status){
         $map["et.id"] = ["in",$ids];
         if($from_status || $from_status==='0')
