@@ -10,6 +10,7 @@ var struct_list_panel_base = "#frames #division-managementfr .structure_list .co
 var struct_employee_list_panel = struct_list_panel_base+" .dv2";
 var struct_add_employee_panel = struct_list_panel_base+" .addEmployeeModal";
 var struct_del_panel = struct_list_panel_base+" .structure_del";
+var struct_file_panel = struct_list_panel_base+" .structure_file";
 var struct_item_list_panel = struct_list_panel_base+' .fold .structure_tree';
 function findActivityStructId(){
     return structure_tree.getActivityId();
@@ -106,7 +107,7 @@ structure_tree.listen("plusFun",function(id){
     $(struct_list_panel_base+" .fold").height(tree_height+51);
 });
 structure_tree.listen("subFun",function(id){
-    console.log("hlsubFun",id);
+    //console.log("hlsubFun",id);
     var tree_height = getStructureListTreeHeight();
     $(struct_list_panel_base+" .fold").height(tree_height+51);
 });
@@ -126,19 +127,47 @@ function show_node_add(id){
         '</div></div>';
     $(node_sub_panel).append(item_html);
 }
+
 structure_tree.listen("addFun",function(id){
-    console.log("hladdFun",id);
-    var add_item = $(struct_item_list_panel+" .add_item");
-    if(add_item.length>0){
-        console.log(add_item.find(".add_item_text"));
-        add_item.find(".add_item_text").focus();
-        return;
+	console.log("addFun_id",id);
+	//class="big-link" data-reveal-id="structure_file" data-animation="fade";
+    var struct_file_panel_temp = struct_file_panel;
+    if(id){
+        $.ajax({
+            url: '/systemsetting/structure/getStructureEmployeenum',
+            type: 'post',
+            data: "struct_id="+id,
+            dataType:"json",
+            success: function(data) {
+                //console.log(data);
+                if(data.status) {
+                    structure_tree_del_struct_id = id;
+                    $(struct_file_panel_temp).reveal("{data-animation:'fade'}");
+                }else{
+                    layer.msg(data.message,{icon:2});
+                }
+            },
+            error: function() {
+                layer.msg('添加部门时发生错误!',{icon:2});
+            }
+        });
     }
-    $(struct_item_list_panel+" .node"+id+" .node_item:first .node_plus").addClass("node_sub");
-    $(struct_item_list_panel+" .node"+id+" .child_list"+id+"").removeClass('hide');
-    struct_add_item_pid = id;
-    show_node_add(id);
+	
+	
+//  console.log("hladdFun",id);
+//  var add_item = $(struct_item_list_panel+" .add_item");
+//  if(add_item.length>0){
+//      console.log(add_item.find(".add_item_text"));
+//      add_item.find(".add_item_text").focus();
+//      return;
+//  }
+//  $(struct_item_list_panel+" .node"+id+" .node_item:first .node_plus").addClass("node_sub");
+//  $(struct_item_list_panel+" .node"+id+" .child_list"+id+"").removeClass('hide');
+//  struct_add_item_pid = id;
+//  show_node_add(id);
 });
+
+
 $(".structure_list .content .fold .title .fa-plus").click(function(){
     console.log("add_struct");
     var add_item = $(struct_item_list_panel+" .add_item");
@@ -180,17 +209,42 @@ $(struct_item_list_panel).on('click',".add_item .add_item_remove",function(){
 });
 
 structure_tree.listen("editFun",function(id){
-    console.log("hleditFun",id);
-    var node_item_panel = struct_item_list_panel+" .node"+id+" .node_item"+id;
-    //console.log($(node_item_panel+" .node_name"));
-    var edit_item_text = $(node_item_panel+" .node_name").text();
-    $(node_item_panel+" .node_head").addClass("hide");
-    $(node_item_panel+" .node_name").addClass("hide");
-    $(node_item_panel+" .node_tool").addClass("hide");
-    var edit_html = '<input type="text" class="item_text edit_item_text" value="'+edit_item_text+'"/>' +
-        '<i class="fa fa-check item_btn item_check edit_item_check"></i>' +
-        '<i class="fa fa-remove item_btn item_remove edit_item_remove"></i>';
-    $(node_item_panel).append(edit_html);
+	
+	console.log("editFun_id",id);
+	
+	var struct_file_panel_temp = struct_file_panel;
+    if(id){
+        $.ajax({
+            url: '/systemsetting/structure/getStructureEmployeenum',
+            type: 'post',
+            data: "struct_id="+id,
+            dataType:"json",
+            success: function(data) {
+                //console.log(data);
+                if(data.status) {
+                    structure_tree_del_struct_id = id;
+                    $(struct_file_panel_temp).reveal("{data-animation:'fade'}");
+                }else{
+                    layer.msg(data.message,{icon:2});
+                }
+            },
+            error: function() {
+                layer.msg('编辑部门时发生错误!',{icon:2});
+            }
+        });
+    }
+	
+	
+//  console.log("hleditFun",id);
+//  var node_item_panel = struct_item_list_panel+" .node"+id+" .node_item"+id;
+//  var edit_item_text = $(node_item_panel+" .node_name").text();
+//  $(node_item_panel+" .node_head").addClass("hide");
+//  $(node_item_panel+" .node_name").addClass("hide");
+//  $(node_item_panel+" .node_tool").addClass("hide");
+//  var edit_html = '<input type="text" class="item_text edit_item_text" value="'+edit_item_text+'"/>' +
+//      '<i class="fa fa-check item_btn item_check edit_item_check"></i>' +
+//      '<i class="fa fa-remove item_btn item_remove edit_item_remove"></i>';
+//  $(node_item_panel).append(edit_html);
 });
 $(struct_item_list_panel).on('click',".node_item .edit_item_check",function(){
     var edit_struct_name = $(this).siblings(".edit_item_text").val();

@@ -1,7 +1,7 @@
 {notempty name="task_list"}
 {volist name="task_list" id="vo"}
 {eq name="vo.task_type" value="1"}
-<div class="dv1">
+<div class="dv1 task_{$vo.id}">
     {eq name="vo.is_token" value="0"}
     <div class="mengceng m_c" hongbao_id="{$vo.redid}">{/eq}
     <div class="left">
@@ -41,16 +41,13 @@
                     <p class="small">奖金规则</p>
                     <p class="big">任务结束后，按完成任务量的最终排名</p>
                 </div>
-                
-              
             </div>
             <div class="details">
                <div class="len">
                     <p class="small">统计周期</p>
-                    <!--<p class="big">{$vo.task_start_time|date="Y.m.d",###}-{$vo.task_end_time|date="Y.m.d",###}</p>-->
-                    <p class="big">2016.12.16/08:30-2017.09.30/9:20</p>
+                   <p class="big">{$vo.task_start_time|date="Y.m.d/H:m",###}-{$vo.task_end_time|date="Y.m.d/H:m",###}</p>
                 </div>
-                <div class="len  flo">
+                <div class="len flo">
                     <p class="small">面向群体</p>
                     <p class="very big"><?php $array=explode(',',$vo['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共<?php echo count($array) ?>人，已参与{$vo.partin_count}人）</p>
                     <div class="flotage">
@@ -63,7 +60,7 @@
     </div>
     <div class="right">
         <div class="within">
-            <div class="active details">
+            <div class="active details" >
                 {eq name="vo.status" value="2"}
                     {if condition="$now_time <= $vo['task_end_time']"}
                         <p class="p2 tip" task_id="{$vo.id}">打赏</p>
@@ -83,7 +80,7 @@
                 {eq name="vo.is_token" value="1"}
                 <p class="p4">已领{$vo.total_money}元</p>
                 {/eq}
-                <p class="p3">{eq name="vo.status" value="0"}任务被终止{/eq}</p>
+                {eq name="vo.status" value="0"}<p class="p3">任务被终止</p>{/eq}
                 {if condition="$now_time > $vo['task_end_time']"}
                     <p class="p4">任务结束</p>
                 {/if}
@@ -112,7 +109,7 @@
 </div>
 {/eq}
 {eq name="vo.task_type" value="2"}
-<div class="dv1">
+<div class="dv1 task_{$vo.id}">
     {eq name="vo.is_token" value="0"}
     <div class="mengceng m_c" hongbao_id="{$vo.redid}">{/eq}
     <div class="left">
@@ -151,8 +148,7 @@
                 </div>
                 <div class="len">
                     <p class="small">任务领取截止时间</p>
-                    <!--<p class="big">{$vo.task_take_end_time|date="Y.m.d/H:m:s",###}</p>-->
-                    <p class="big">2017.12.16/18:00</p>
+                    <p class="big">{$vo.task_take_end_time|date="Y.m.d/H:m",###}</p>
                 </div>
                
                 
@@ -160,11 +156,10 @@
             <div class="details">
                 
                  <div class="len">
-                    <p class="small">统计周期</p>
-                    <!--<p class="big">{$vo.task_start_time|date="Y.m.d",###}-{$vo.task_end_time|date="Y.m.d",###}</p>-->
-                    <p class="big">2016.12.16/08:30-2017.09.30/9:20</p>
+                     <p class="small">统计周期</p>
+                     <p class="big">{$vo.task_start_time|date="Y.m.d/H:m",###}-{$vo.task_end_time|date="Y.m.d/H:m",###}</p>
                 </div>
-                <div class="very  flo">
+                <div class="very flo">
                     <p class="small">面向群体</p>
                     <p class="very big"><?php $array=explode(',',$vo['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共<?php echo count($array) ?>人，已参与{$vo.partin_count}人）</p>
                     <div class="flotage">
@@ -202,7 +197,7 @@
                 {eq name="vo.is_token" value="1"}
                	<p class="p4">已领{$vo.total_money}元</p>
                 {/eq}
-                <p class="p3">{eq name="vo.status" value="0"}任务被终止{/eq}</p>
+                {eq name="vo.status" value="0"}<p class="p3">任务被终止</p>{/eq}
                 {if condition="$now_time > $vo['task_end_time']"}
                 <p class="p4">任务结束</p>
                 {/if}
@@ -230,7 +225,7 @@
 </div>
 {/eq}
 {eq name="vo.task_type" value="3"}
-<div class="dv1">
+<div class="dv1 task_{$vo.id}">
     {eq name="vo.is_token" value="0"}
     <div class="mengceng m_c" hongbao_id="{$vo.redid}">{/eq}
     <div class="left">
@@ -265,11 +260,14 @@
             <div class="details">
                 <div class="len">
                     <p class="small">任务周期</p>
-                    <p class="big">2016.12.16/08:30-2017.09.30/9:20</p>
+                    <p class="big">{$vo.task_start_time|date="Y.m.d/H:m",###}-{$vo.task_end_time|date="Y.m.d/H:m",###}</p>
                 </div>
-                <div class="very">
-                    <p class="small">面向对象</p>
-                    <p class="big">张三、李四等很多人参与</p>
+                <div class="very flo">
+                    <p class="small">面向群体</p>
+                    <p class="very big"><?php $array=explode(',',$vo['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共<?php echo count($array) ?>人，已参与{$vo.partin_count}人）</p>
+                    <div class="flotage">
+                        {notempty name="array"}{volist name="array" id="v"}<span>{$v}</span>{/volist}{/notempty}
+                    </div>
                 </div>
 
             </div>
@@ -284,9 +282,9 @@
                         {if condition="in_array($uid,explode(',',$vo['public_to_take'])) && !in_array($uid,explode(',',$vo['take_employees'])) && $now_time < $vo['task_take_end_time'] && $vo['is_guess'] == 0 "}
                         <p class="p2 get_reward" data-id="{$vo.id}" task-type="{$vo.task_type}" task-money="{$vo.reward_amount}">领取</p>
                         {elseif condition="in_array($uid,explode(',',$vo['take_employees']))" /}
-                        <p>正在参与任务</p>
+                        <p class="p4">正在参与任务</p>
                         {else /}
-                        <p>报名已截止</p>
+                        <p class="p4">报名已截止</p>
                         {/if}
                         {eq name="uid" value="$vo['create_employee']"}
                             {if condition="$vo['is_take'] neq 1 && $now_time < $vo['task_end_time'] "}
@@ -300,7 +298,7 @@
                 {eq name="vo.is_token" value="1"}
                 <p class="p4">已领{$vo.total_money}元</p>
                 {/eq}
-                <p class="p3">{eq name="vo.status" value="0"}任务被终止{/eq}</p>
+                {eq name="vo.status" value="0"}<p class="p3">任务被终止</p>{/eq}
                 {if condition="$now_time > $vo['task_end_time']"}
                     <p class="p4">任务结束</p>
                 {/if}
