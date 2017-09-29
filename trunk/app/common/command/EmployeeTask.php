@@ -328,8 +328,11 @@ class EmployeeTask extends Command{
                         }
                     }
 
+                    $order_datas = [];
                     $redEnvelopeInfos = [];
                     $redEnvelopeMoneys = 0;
+                    $needRedEnvelopeEmployeeNum = 0;
+                    $taskReward = [];
                     if(!empty($needRedEnvelopeEmployeeId)){
                         $taskReward = $taskRewardM->getTaskRewardListByTaskId($id);
                         //var_exp($taskReward,'$taskReward');
@@ -385,19 +388,15 @@ class EmployeeTask extends Command{
                         $needRedEnvelopeEmployeeNum = count($redEnvelopeInfos);
                         var_exp($needRedEnvelopeEmployeeNum,'$needRedEnvelopeEmployeeNum');
                         var_exp($redEnvelopeInfos,'$redEnvelopeInfos_task');
+                    }
 
-                        //资金来往记录
-                        $order_datas = [];
-
-                        //打赏奖励
-                        $allHaveTipRewardEmployeeNum = $haveRedEnvelopeNum+$needRedEnvelopeEmployeeNum;
-                        $allTipMoney = $taskInfo["tip_count"];
-                        if($allTipMoney>0){
+                    //打赏奖励
+                    $allHaveTipRewardEmployeeNum = $haveRedEnvelopeNum+$needRedEnvelopeEmployeeNum;
+                    $allTipMoney = $taskInfo["tip_count"];
+                    if($allTipMoney>0){
+                        if($allHaveTipRewardEmployeeNum>0){
                             //计算打赏平均奖励额度
-                            $tipRewardMoney = 0;
-                            if($allHaveTipRewardEmployeeNum>0){
-                                $tipRewardMoney = bcdiv($allTipMoney,$allHaveTipRewardEmployeeNum,2);
-                            }
+                            $tipRewardMoney = bcdiv($allTipMoney,$allHaveTipRewardEmployeeNum,2);
                             //计算比平均奖励额度多一分的数量
                             $moreNum = 0;
                             $mulTipMoney = bcmul($tipRewardMoney,$allHaveTipRewardEmployeeNum,2);
@@ -439,133 +438,175 @@ class EmployeeTask extends Command{
                                 }
                             }
                             var_exp($tipRewardInfos,'$tipRewardInfos');
-                        }
-                        
-                        //猜输赢红包
-                        if($task_type==2 && isset($rankingdata[0])){
-                            $win_employee = $rankingdata[0]["employee_id"];
-                            $allGuessMoney = 0;
-                            $guessWinMoney = 0;
-                            $guessWinFirstId = -1;
-                            $guessWinFirstEmployeeId = 0;
-                            $taskGuessInfoList = $taskGuessM->getGuessInfoList($id);
-                            $taskGuessWinInfoList = [];
-                            foreach ($taskGuessInfoList as $taskGuessInfo){
-                                $allGuessMoney = bcadd($allGuessMoney,$taskGuessInfo["guess_money"],2);
-                                if($taskGuessInfo["guess_take_employee"] == $win_employee){
-                                    $guessWinMoney = bcadd($allGuessMoney,$taskGuessInfo["guess_money"],2);
-                                    $taskGuessWinInfoList[] = $taskGuessInfo;
-                                    if($guessWinFirstId==-1 || $taskGuessInfo["id"]<$guessWinFirstId){
-                                        $guessWinFirstId = $taskGuessInfo["id"];
-                                        $guessWinFirstEmployeeId = $taskGuessInfo["guess_employee"];
-                                    }
+                        }else{
+                            //没人获得打赏奖励,退钱
+                            $taskTipMoneyEmployeeIdx = [];
+                            $TipModel = new TaskTipModel($corp_id);
+                            $tipEmployeeList = $TipModel->getTipList($id);
+                            foreach ($tipEmployeeList as $tipInfo){
+                                $order_add_data = [
+                                    'userid' => $tipInfo["tip_employee"],
+                                    'take_money' => bcmul($tipInfo["tip_money"], 100, 2),
+                                    'status' => 1,
+                                    'took_time' => $time,
+                                    'remark' => '打赏任务失败退回',
+                                    'money_type' => 1
+                                ];
+                                $order_datas[] = $order_add_data;
+
+                                if (isset($taskTipMoneyEmployeeIdx[$tipInfo["tip_employee"]])) {
+                                    $taskTipMoneyEmployeeIdx[$tipInfo["tip_employee"]] += $tipInfo["tip_money"];
+                                } else {
+                                    $taskTipMoneyEmployeeIdx[$tipInfo["tip_employee"]] = $tipInfo["tip_money"];
                                 }
                             }
-                            if(bccomp($allGuessMoney,0)>0 && bccomp($guessWinMoney,0)>0){
-                                $haveGuessRedEnvelopeList = [];
-                                $haveGuessRedEnvelopeMoney = 0;
-                                $baseMoney = bcdiv($allGuessMoney,$guessWinMoney,2);
-                                foreach($taskGuessWinInfoList as $guessWinInfo){
-                                    $haveGuessRedEnvelope["employee_id"] = $guessWinInfo["guess_employee"];
-                                    $haveGuessRedEnvelope["red_envelope_money"] = bcmul($guessWinInfo["guess_money"],$baseMoney,2);
-                                    $haveGuessRedEnvelopeList[] = $haveGuessRedEnvelope;
-                                    $haveGuessRedEnvelopeMoney = bcadd($haveGuessRedEnvelopeMoney,$haveGuessRedEnvelope["red_envelope_money"]);
+                            //var_exp($taskTipMoneyEmployeeIdx,'$taskTipMoneyEmployeeIdx',1);
+                            //返还打赏等用户额度
+                            foreach ($taskTipMoneyEmployeeIdx as $employee_id => $money) {
+                                $employeeInfo["left_money"] = ['exp', "left_money + $money"];
+                                $update_user = $employeeM->setEmployeeSingleInfoById($employee_id, $employeeInfo);
+                                if (!$update_user) {
+                                    exception("返还打赏金额发生错误!");
                                 }
+                            }
+                        }
+                    }
 
-                                //计算比按比例分配的额度多的数量
-                                $moreNum = 0;
-                                $copmFlg = bccomp($haveGuessRedEnvelopeMoney,$allGuessMoney);
-                                if($copmFlg>0){
-                                    $baseMoney = bcsub($baseMoney,"0.01",2);
+                    //猜输赢红包
+                    if($task_type==2) {
+                        $taskGuessInfoList = $taskGuessM->getGuessInfoList($id);
+                        if(!empty($taskGuessInfoList)){
+                            $guess_success = false;
+                            if (isset($rankingdata[0])){
+                                $win_employee = $rankingdata[0]["employee_id"];
+                                $allGuessMoney = 0;
+                                $guessWinMoney = 0;
+                                $guessWinFirstId = -1;
+                                $guessWinFirstEmployeeId = 0;
+                                $taskGuessWinInfoList = [];
+                                foreach ($taskGuessInfoList as $taskGuessInfo) {
+                                    $allGuessMoney = bcadd($allGuessMoney, $taskGuessInfo["guess_money"], 2);
+                                    if ($taskGuessInfo["guess_take_employee"] == $win_employee) {
+                                        $guessWinMoney = bcadd($allGuessMoney, $taskGuessInfo["guess_money"], 2);
+                                        $taskGuessWinInfoList[] = $taskGuessInfo;
+                                        if ($guessWinFirstId == -1 || $taskGuessInfo["id"] < $guessWinFirstId) {
+                                            $guessWinFirstId = $taskGuessInfo["id"];
+                                            $guessWinFirstEmployeeId = $taskGuessInfo["guess_employee"];
+                                        }
+                                    }
+                                }
+                                if (bccomp($allGuessMoney, 0) > 0 && bccomp($guessWinMoney, 0) > 0) {
+                                    $guess_success = true;
                                     $haveGuessRedEnvelopeList = [];
-                                    foreach($taskGuessWinInfoList as $guessWinInfo){
+                                    $haveGuessRedEnvelopeMoney = 0;
+                                    $baseMoney = bcdiv($allGuessMoney, $guessWinMoney, 2);
+                                    foreach ($taskGuessWinInfoList as $guessWinInfo) {
                                         $haveGuessRedEnvelope["employee_id"] = $guessWinInfo["guess_employee"];
-                                        $haveGuessRedEnvelope["red_envelope_money"] = bcmul($guessWinInfo["guess_money"],$baseMoney,2);
+                                        $haveGuessRedEnvelope["red_envelope_money"] = bcmul($guessWinInfo["guess_money"], $baseMoney, 2);
                                         $haveGuessRedEnvelopeList[] = $haveGuessRedEnvelope;
-                                        $haveGuessRedEnvelopeMoney = bcadd($haveGuessRedEnvelopeMoney,$haveGuessRedEnvelope["red_envelope_money"]);
-                                    }
-                                    $moreNum = bcsub($allGuessMoney,$haveGuessRedEnvelopeMoney,2);
-                                }elseif($copmFlg<0){
-                                    $moreNum = bcsub($allGuessMoney,$haveGuessRedEnvelopeMoney,2);
-                                }
-                                foreach ($haveGuessRedEnvelopeList as $haveGuessRedEnvelope){
-                                    $reward_amount = $haveGuessRedEnvelope["red_envelope_money"];
-                                    if(($haveGuessRedEnvelope["employee_id"])==$guessWinFirstEmployeeId){
-                                        $reward_amount = bcadd($reward_amount,$moreNum);
+                                        $haveGuessRedEnvelopeMoney = bcadd($haveGuessRedEnvelopeMoney, $haveGuessRedEnvelope["red_envelope_money"]);
                                     }
 
-                                    $redEnvelopeInfo["redid"] = md5(time().rand(1000,9999));
-                                    $redEnvelopeInfo["type"] = 3;
-                                    $redEnvelopeInfo["task_id"] = $id;
-                                    $redEnvelopeInfo["fromuser"] = 0;
-                                    $redEnvelopeInfo["money"] = $reward_amount;
-                                    $redEnvelopeInfo["create_time"] = $time;
-                                    $redEnvelopeInfo["total_money"] = $reward_amount;
-                                    $redEnvelopeInfo["is_token"] = 0;
-                                    $redEnvelopeInfo["took_user"] = $haveGuessRedEnvelope["employee_id"];;
-                                    $redEnvelopeInfos[] = $redEnvelopeInfo;
-                                }
+                                    //计算比按比例分配的额度多的数量
+                                    $moreNum = 0;
+                                    $copmFlg = bccomp($haveGuessRedEnvelopeMoney, $allGuessMoney);
+                                    if ($copmFlg > 0) {
+                                        $baseMoney = bcsub($baseMoney, "0.01", 2);
+                                        $haveGuessRedEnvelopeList = [];
+                                        foreach ($taskGuessWinInfoList as $guessWinInfo) {
+                                            $haveGuessRedEnvelope["employee_id"] = $guessWinInfo["guess_employee"];
+                                            $haveGuessRedEnvelope["red_envelope_money"] = bcmul($guessWinInfo["guess_money"], $baseMoney, 2);
+                                            $haveGuessRedEnvelopeList[] = $haveGuessRedEnvelope;
+                                            $haveGuessRedEnvelopeMoney = bcadd($haveGuessRedEnvelopeMoney, $haveGuessRedEnvelope["red_envelope_money"]);
+                                        }
+                                        $moreNum = bcsub($allGuessMoney, $haveGuessRedEnvelopeMoney, 2);
+                                    } elseif ($copmFlg < 0) {
+                                        $moreNum = bcsub($allGuessMoney, $haveGuessRedEnvelopeMoney, 2);
+                                    }
+                                    foreach ($haveGuessRedEnvelopeList as $haveGuessRedEnvelope) {
+                                        $reward_amount = $haveGuessRedEnvelope["red_envelope_money"];
+                                        if (($haveGuessRedEnvelope["employee_id"]) == $guessWinFirstEmployeeId) {
+                                            $reward_amount = bcadd($reward_amount, $moreNum);
+                                        }
 
-                            }elseif(bccomp($guessWinMoney,0)==0){
+                                        $redEnvelopeInfo["redid"] = md5(time() . rand(1000, 9999));
+                                        $redEnvelopeInfo["type"] = 3;
+                                        $redEnvelopeInfo["task_id"] = $id;
+                                        $redEnvelopeInfo["fromuser"] = 0;
+                                        $redEnvelopeInfo["money"] = $reward_amount;
+                                        $redEnvelopeInfo["create_time"] = $time;
+                                        $redEnvelopeInfo["total_money"] = $reward_amount;
+                                        $redEnvelopeInfo["is_token"] = 0;
+                                        $redEnvelopeInfo["took_user"] = $haveGuessRedEnvelope["employee_id"];;
+                                        $redEnvelopeInfos[] = $redEnvelopeInfo;
+                                    }
+                                }
+                                var_exp($redEnvelopeInfos, '$redEnvelopeInfos_task_tip_guess');
+                            }
+                            if(!$guess_success){
                                 //这帮人运气太差,一个也没猜中,退钱
                                 $taskGuessMoneyEmployeeIdx = [];
 
                                 //返还猜输赢记录
-                                foreach($taskGuessInfoList as $taskGuessInfo){
+                                foreach ($taskGuessInfoList as $taskGuessInfo) {
                                     $order_add_data = [
-                                        'userid'=>$taskGuessInfo["guess_employee"],
-                                        'take_money'=> bcmul($taskGuessInfo["guess_money"],100,2),
-                                        'status'=>1,
-                                        'took_time'=>$time,
+                                        'userid' => $taskGuessInfo["guess_employee"],
+                                        'take_money' => bcmul($taskGuessInfo["guess_money"], 100, 2),
+                                        'status' => 1,
+                                        'took_time' => $time,
                                         'remark' => '猜输赢任务失败退回',
-                                        'money_type'=>1
+                                        'money_type' => 1
                                     ];
                                     $order_datas[] = $order_add_data;
-                                    if(isset($taskGuessMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]])){
+                                    if (isset($taskGuessMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]])) {
                                         $taskGuessMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] += $taskGuessInfo["guess_money"];
-                                    }else{
+                                    } else {
                                         $taskGuessMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] = $taskGuessInfo["guess_money"];
                                     }
                                 }
                                 //var_exp($taskGuessMoneyEmployeeIdx,'$taskGuessMoneyEmployeeIdx',1);
                                 //返还猜输赢等用户额度
-                                foreach($taskGuessMoneyEmployeeIdx as $employee_id=>$money){
-                                    $employeeInfo["left_money"] = ['exp',"left_money + $money"];
-                                    $update_user = $employeeM->setEmployeeSingleInfoById($employee_id,$employeeInfo);
+                                foreach ($taskGuessMoneyEmployeeIdx as $employee_id => $money) {
+                                    $employeeInfo["left_money"] = ['exp', "left_money + $money"];
+                                    $update_user = $employeeM->setEmployeeSingleInfoById($employee_id, $employeeInfo);
                                     if (!$update_user) {
                                         exception("返还猜输赢金额发生错误!");
                                     }
                                 }
                             }
-                            var_exp($redEnvelopeInfos,'$redEnvelopeInfos_task_tip_guess');
                         }
+                    }
 
-
-                        var_exp($redEnvelopeInfos,'$redEnvelopeInfos_task_save');
+                    var_exp($redEnvelopeInfos,'$redEnvelopeInfos_task_save');
+                    if(!empty($redEnvelopeInfos)){
                         $redEnvelopeM = new RedEnvelopeM($corp_id);
                         $res = $redEnvelopeM->createRedId($redEnvelopeInfos);
                         if (!$res) {
                             exception("保存红包信息发生错误!");
                         }
+                    }
 
-                        //红包和剩余金额对应的额度记录
-                        //红包金额
-                        foreach($redEnvelopeInfos as $redEnvelopeInfo){
-                            $order_data = [
-                                'userid'=>$taskInfo["create_employee"],
-                                'take_money'=> "-".bcmul($redEnvelopeInfo["money"],100,2),
-                                'status'=>1,
-                                'took_time'=>$time,
-                                'remark' => '任务奖励发放'
-                            ];
-                            if($task_type==1) {
-                                $order_data['money_type'] = 2;
-                            }else{
-                                $order_data["money_type"] = 1;
-                            }
-                            $order_datas[] = $order_data;
+                    //红包和剩余金额对应的额度记录
+                    //红包添加发放交易记录
+                    foreach($redEnvelopeInfos as $redEnvelopeInfo){
+                        $order_data = [
+                            'userid'=>$taskInfo["create_employee"],
+                            'take_money'=> "-".bcmul($redEnvelopeInfo["money"],100,2),
+                            'status'=>1,
+                            'took_time'=>$time,
+                            'remark' => '任务奖励发放'
+                        ];
+                        if($task_type==1) {
+                            $order_data['money_type'] = 2;
+                        }else{
+                            $order_data["money_type"] = 1;
                         }
-                        //剩余金额
+                        $order_datas[] = $order_data;
+                    }
+
+                    //剩余金额处理
+                    if($allHaveTipRewardEmployeeNum>0) {
+                        echo '有发放,计算结余金额';
                         $balances = $taskInfo["reward_count"]-$redEnvelopeMoneys-$sentRedEnvelopeMoney;
                         var_exp($redEnvelopeMoneys,'$redEnvelopeMoneys');
                         var_exp($sentRedEnvelopeMoney,'$sentRedEnvelopeMoney');
@@ -573,38 +614,94 @@ class EmployeeTask extends Command{
                         if($balances>0){
                             //增加非冻结
                             $order_data = [
-                                'userid'=>$taskInfo["create_employee"],
-                                'take_money'=> bcmul($balances,100,2),
-                                'status'=>1,
-                                'took_time'=>$time,
+                                'userid' => $taskInfo["create_employee"],
+                                'take_money' => bcmul($balances, 100, 2),
+                                'status' => 1,
+                                'took_time' => $time,
                                 'remark' => '任务发放结余'
                             ];
-                            if($task_type==1){
+                            if ($task_type == 1) {
                                 $order_data["money_type"] = 2;
-                            }else{
+                            } else {
                                 $order_data["money_type"] = 1;
                             }
                             $order_datas[] = $order_data;
+                            echo '退回任务结余金额';
                         }
+                    }else{
+                        //任务没人获得奖励,退回
+                        if($task_type==2) {
+                            if(isset($taskReward[0])){
+                                $money = $taskReward[0]["reward_amount"];
+                                foreach($taskTakeEmployeeIds as $taskTakeEmployeeId){
+                                    //增加非冻结
+                                    $order_data = [
+                                        'userid' => $taskTakeEmployeeId,
+                                        'take_money' => bcmul($money, 100, 2),
+                                        'status' => 1,
+                                        'took_time' => $time,
+                                        'remark' => '任务发放结余',
+                                        "money_type"=>1
+                                    ];
+                                    $order_datas[] = $order_data;
 
-                        var_exp($order_datas,'$order_datas_task_save');
-                        $add_cash_rec = $cashM->addMutipleOrderNumber($order_datas);
-                        if (!$add_cash_rec) {
-                            exception("添加任务奖励发放记录发生错误!");
-                        }
+                                    $employeeMonyField = "left_money";
+                                    $employeeInfo = [$employeeMonyField=>['exp',$employeeMonyField." + ".bcmul($money, 100, 2)]];
+                                    $update_user = $employeeM->setEmployeeSingleInfoById($taskTakeEmployeeId,$employeeInfo);
+                                    if (!$update_user) {
+                                        exception("任务返还金额更新发生错误!");
+                                    }
+                                }
+                            }
 
-                        //更新员工额度
-                        $employeeMonyField = "frozen_money";
-                        if($task_type==1) {
-                            $employeeMonyField = "corp_".$employeeMonyField;
+                            echo '退回PK任务金额';
+                        }else{
+                            //增加非冻结
+                            $order_data = [
+                                'userid' => $taskInfo["create_employee"],
+                                'take_money' => bcmul($taskInfo["reward_count"], 100, 2),
+                                'status' => 1,
+                                'took_time' => $time,
+                                'remark' => '任务发放结余'
+                            ];
+                            if ($task_type == 1) {
+                                $order_data["money_type"] = 2;
+                            } else {
+                                $order_data["money_type"] = 1;
+                            }
+                            $order_datas[] = $order_data;
+
+                            $employeeMonyField = "left_money";
+                            if($task_type==1) {
+                                $employeeMonyField = "corp_".$employeeMonyField;
+                            }
+                            $employeeInfo = [$employeeMonyField=>['exp',$employeeMonyField." + ".bcmul($taskInfo["reward_count"], 100, 2)]];
+                            $update_user = $employeeM->setEmployeeSingleInfoById($taskInfo["create_employee"],$employeeInfo);
+                            if (!$update_user) {
+                                exception("任务返还金额更新发生错误!");
+                            }
+
+                            echo '退回非PK任务金额';
                         }
-                        $taskMoney = $taskInfo["reward_count"]-$sentRedEnvelopeMoney;
-                        $employeeInfo = [$employeeMonyField=>['exp',$employeeMonyField." - ".$taskMoney]];
-                        $employeeInfoMap = [$employeeMonyField=>["egt",$taskMoney]];
-                        $update_user = $employeeM->setEmployeeSingleInfoById($taskInfo["create_employee"],$employeeInfo,$employeeInfoMap);
-                        if (!$update_user) {
-                            exception("更新冻结金额发生错误!");
-                        }
+                    }
+
+                    var_exp($order_datas,'$order_datas_task_save');
+                    $add_cash_rec = $cashM->addMutipleOrderNumber($order_datas);
+                    if (!$add_cash_rec) {
+                        exception("添加任务奖励发放记录发生错误!");
+                    }
+
+                    //更新员工额度
+                    $employeeMonyField = "frozen_money";
+                    if($task_type==1) {
+                        $employeeMonyField = "corp_".$employeeMonyField;
+                    }
+                    $taskMoney = $taskInfo["reward_count"]-$sentRedEnvelopeMoney;
+                    $employeeInfo = [$employeeMonyField=>['exp',$employeeMonyField." - ".$taskMoney]];
+                    $employeeInfoMap = [$employeeMonyField=>["egt",$taskMoney]];
+                    $update_user = $employeeM->setEmployeeSingleInfoById($taskInfo["create_employee"],$employeeInfo,$employeeInfoMap);
+                    if (!$update_user) {
+                        exception("更新冻结金额发生错误!");
                     }
 
                     $updateTaskStatus = $employeeTaskM->setTaskStatus([$id],3,5);
