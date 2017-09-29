@@ -527,12 +527,11 @@ class Index extends Initialize{
         $task_reward_infos["all_reward_amount"] = 0;
         $task_reward_infos["reward_max_num"] = 0;
         $reward_type = 2;
-        if($task_method==2) {
-            $reward_type = 1;
-        }
         $reward_method = 1;
         if($task_method==1) {
             $reward_method = 4;
+        }elseif($task_method==2) {
+            $reward_type = 1;
         }
         $reward_str = input("reward");
         $reward_arr = json_decode($reward_str,true);
@@ -568,7 +567,11 @@ class Index extends Initialize{
                 $task_reward_info['reward_end'] = $reward_item["reward_end"];
                 $task_reward_info['reward_num'] = $reward_item["reward_end"]-$reward_item["reward_start"]+1;
 
-                $task_reward_infos["all_reward_amount"] += $task_reward_info['reward_num']*$task_reward_info['reward_amount'];
+                if($task_method==4){
+                    $task_reward_infos["all_reward_amount"] = $task_reward_info['reward_amount'];
+                }else{
+                    $task_reward_infos["all_reward_amount"] += $task_reward_info['reward_num']*$task_reward_info['reward_amount'];
+                }
             }
             $task_reward_infos["list"][] = $task_reward_info;
             $task_reward_infos["reward_max_num"] = ($task_reward_infos["reward_max_num"]<$reward_item["reward_end"])?$reward_item["reward_end"]:$task_reward_infos["reward_max_num"];
@@ -617,6 +620,9 @@ class Index extends Initialize{
                 $result['info'] = '加入时间错误';
                 return json($result);
             }
+            $taskInfo["task_method"] = 4;
+        }elseif($taskInfo["task_type"]==3){
+            $taskInfo["task_method"] = 5;
         }
         $taskTargetInfo = $this->_getTaskTargetForInput($taskInfo["task_method"]);
         if(empty($taskTargetInfo)){
@@ -894,6 +900,12 @@ class Index extends Initialize{
                 exception("参与任务发生错误!");
             }
             if($task_type==2) {
+                $updataData["reward_count"] = ["exp","reward_count + ".$money];
+                $taskInfoUpdataFlg = $employeeTaskM->setTaskInfo($task_id,$updataData);
+                if (!$taskInfoUpdataFlg) {
+                    exception("更新任务奖励总额发生错误!");
+                }
+                
                 $cashM = new TakeCash($this->corp_id);
                 $tip_from_user = $employM->setEmployeeSingleInfo($userinfo["telephone"], ['left_money' => ['exp', "left_money - $save_money"]], ["left_money" => ["egt", $save_money]]);
                 if (!$tip_from_user) {
