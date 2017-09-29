@@ -288,7 +288,10 @@ article .dv1 .center .theme {
 	font-weight: 700;
 	margin-bottom: 40px;
 }
-
+article .dv1 .center .theme:hover{
+	color: #42A5F5;
+	cursor: pointer;
+}
 article .dv1 .right {
 	/*width: 138px;*/
 	width: 14%;
@@ -323,7 +326,7 @@ article .dv1 .details div {
 article .dv1 .details div .small {
 	height: 16px;
 	font-size: 12px;
-	width: 104px;
+	width: 117px;
 	line-height: 16px;
 	border-left: 2px solid #ff5a00;
 	text-align: left;

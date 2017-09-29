@@ -22,33 +22,11 @@
         <p class="theme">{$vo.task_name}</p>
         <div>
             <div class="details">
-                <div class="len">
-                    <p class="small">统计周期</p>
-                    <p class="big">{$vo.task_start_time|date="Y.m.d",###}-{$vo.task_end_time|date="Y.m.d",###}</p>
-                </div>
-                <div>
+            	<div>
                     <p class="small">考核项目</p>
                     <p class="big">{$vo.target_type|get_target_type_name}</p>
                 </div>
-                <!--<div>
-                    <p class="small">达标要求</p>
-                    <p class="big">前{$vo.reward_end}名</p>
-                </div>-->
-                
-            </div>
-            <div class="details">
-                <!--<div class="len">
-                    <p class="small">任务领取截止时间</p>
-                    <p class="big">{$vo.task_take_end_time|date="Y.m.d/H:m:s",###}</p>
-                </div>-->
-                <div class="len  flo">
-                    <p class="small">面向群体</p>
-                    <p class="very big"><?php $array=explode(',',$vo['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共<?php echo count($array) ?>人，已参与{$vo.partin_count}人）</p>
-                    <div class="flotage">
-                        {notempty name="array"}{volist name="array" id="v"}<span>{$v}</span>{/volist}{/notempty}
-                    </div>
-                </div>
-                <div class="fu">
+            	<div class="fu">
                     <p class="small">奖金</p>
                     <p class="big">{$vo.re_amount}元/人</p>
                     <?php $rewardArray=explode(',',$vo['ranking']); ?>
@@ -59,11 +37,27 @@
 
                     </div>
                 </div>
-                <!--<div class="very">
-                    <p class="small">当前名次</p>
-                    <p class="big">第0名</p>
-
-                </div>-->
+                <div class="len">
+                    <p class="small">奖金规则</p>
+                    <p class="big">任务结束后，按完成任务量的最终排名</p>
+                </div>
+                
+              
+            </div>
+            <div class="details">
+               <div class="len">
+                    <p class="small">统计周期</p>
+                    <!--<p class="big">{$vo.task_start_time|date="Y.m.d",###}-{$vo.task_end_time|date="Y.m.d",###}</p>-->
+                    <p class="big">2016.12.16/08:30-2017.09.30/9:20</p>
+                </div>
+                <div class="len  flo">
+                    <p class="small">面向群体</p>
+                    <p class="very big"><?php $array=explode(',',$vo['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共<?php echo count($array) ?>人，已参与{$vo.partin_count}人）</p>
+                    <div class="flotage">
+                        {notempty name="array"}{volist name="array" id="v"}<span>{$v}</span>{/volist}{/notempty}
+                    </div>
+                </div>
+              
             </div>
         </div>
     </div>
@@ -87,7 +81,7 @@
                     {/if}
                 {/eq}
                 {eq name="vo.is_token" value="1"}
-                已领取红包{$vo.total_money}元
+                <p class="p2">已领{$vo.total_money}元</p>
                 {/eq}
                 {eq name="vo.status" value="0"}任务被终止{/eq}
                 {if condition="$now_time > $vo['task_end_time']"}
@@ -142,19 +136,9 @@
         <p class="theme">{$vo.task_name}</p>
         <div>
             <div class="details">
-                <div class="len">
-                    <p class="small">统计周期</p>
-                    <p class="big">{$vo.task_start_time|date="Y.m.d",###}-{$vo.task_end_time|date="Y.m.d",###}</p>
-                </div>
-                <div>
+            	<div>
                     <p class="small">PK项目</p>
                     <p class="big">{$vo.target_type|get_target_type_name}</p>
-                </div>
-            </div>
-            <div class="details">
-                <div class="len">
-                    <p class="small">任务领取截止时间</p>
-                    <p class="big">{$vo.task_take_end_time|date="Y.m.d/H:m:s",###}</p>
                 </div>
                 <div>
                     <p class="small">PK金额</p>
@@ -164,6 +148,21 @@
 
                         元
                     </p>
+                </div>
+                <div class="len">
+                    <p class="small">任务领取截止时间</p>
+                    <!--<p class="big">{$vo.task_take_end_time|date="Y.m.d/H:m:s",###}</p>-->
+                    <p class="big">2017.12.16/18:00</p>
+                </div>
+               
+                
+            </div>
+            <div class="details">
+                
+                 <div class="len">
+                    <p class="small">统计周期</p>
+                    <!--<p class="big">{$vo.task_start_time|date="Y.m.d",###}-{$vo.task_end_time|date="Y.m.d",###}</p>-->
+                    <p class="big">2016.12.16/08:30-2017.09.30/9:20</p>
                 </div>
                 <div class="very  flo">
                     <p class="small">面向群体</p>
@@ -201,7 +200,7 @@
                     {/if}
                 {/eq}
                 {eq name="vo.is_token" value="1"}
-                已领取红包{$vo.total_money}元
+               	<p class="p2">已领{$vo.total_money}元</p>
                 {/eq}
                 {eq name="vo.status" value="0"}任务被终止{/eq}
                 {if condition="$now_time > $vo['task_end_time']"}
@@ -252,24 +251,25 @@
         <p class="theme">{$vo.task_name}</p>
         <div>
             <div class="details">
-                <div class="len">
-                    <p class="small">任务领取截止时间</p>
-                    <p class="big">{$vo.task_take_end_time|date="Y.m.d/H:m:s",###}</p>
-                </div>
+                
 
-                <div class="very">
+                <div class="len">
                     <p class="small">帮跟客户</p>
                     <p class="very big  blue">{$vo.customer_name}</p>
+                </div>
+                <div class="very">
+                    <p class="small">任务领取截止时间</p>
+                    <p class="big">{$vo.task_take_end_time|date="Y.m.d/H:m:s",###}</p>
                 </div>
             </div>
             <div class="details">
                 <div class="len">
-                    <p class="small">求助上限人数</p>
-                    <p class="big">{$vo.reward_num}人</p>
+                    <p class="small">任务周期</p>
+                    <p class="big">2016.12.16/08:30-2017.09.30/9:20</p>
                 </div>
                 <div class="very">
-                    <p class="small">悬赏金</p>
-                    <p class="big">{$vo.reward_amount}元/人</p>
+                    <p class="small">面向对象</p>
+                    <p class="big">张三、李四等很多人参与</p>
                 </div>
 
             </div>
@@ -297,7 +297,7 @@
                     {/if}
                 {/eq}
                 {eq name="vo.is_token" value="1"}
-                已领取红包{$vo.total_money}元
+                <p class="p2">已领{$vo.total_money}元</p>
                 {/eq}
                 {eq name="vo.status" value="0"}任务被终止{/eq}
                 {if condition="$now_time > $vo['task_end_time']"}
