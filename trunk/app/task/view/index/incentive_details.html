@@ -21,33 +21,9 @@
 				<p class="theme">{$task_info.task_name}</p>
 				<div>
 					<div class="details">
-						<div class="len">
-							<p class="small">统计周期</p>
-							<p class="big">{$task_info.task_start_time|date="Y.m.d",###}-{$task_info.task_end_time|date="Y.m.d",###}</p>
-						</div>
 						<div>
 							<p class="small">考核项目</p>
 							<p class="big">{$task_info.target_type|get_target_type_name}</p>
-						</div>
-						<!--<div>
-							<p class="small">达标要求</p>
-							<p class="big">前{$task_info.reward_end}名</p>
-						</div>-->
-						
-					</div>
-					<div class="details">
-						<!--<div class="len">
-							<p class="small">任务领取截止时间</p>
-							<p class="big">{$task_info.task_take_end_time|date="Y.m.d/H:m:s",###}</p>
-						</div>-->
-						<div class="len  flo">
-							<p class="small">面向群体</p>
-							<p class="very big">
-								<?php $array=explode(',',$task_info['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共
-								<?php echo count($array) ?>人，已参与{$task_info.partin_count}人）</p>
-							<div class="flotage">
-								{notempty name="array"}{volist name="array" id="v"}<span>{$v}</span>{/volist}{/notempty}
-							</div>
 						</div>
 						<div class="fu">
 							<p class="small">奖金</p>
@@ -60,11 +36,24 @@
 
 							</div>
 						</div>
-						<!--<div class="very">
-							<p class="small">当前名次</p>
-							<p class="big">第6名</p>
+						<div class="len">
+							<p class="small">奖金规则</p>
+							<p class="big">任务结束后，按完成任务量的最终排名</p>
+						</div>
+					</div>
+					<div class="details">
+						<div class="len">
+							<p class="small">统计周期</p>
+							<p class="big">{$task_info.task_start_time|date="Y.m.d/H:m",###}-{$task_info.task_end_time|date="Y.m.d/H:m",###}</p>
+						</div>
+						<div class="len flo">
+							<p class="small">面向群体</p>
+							<p class="very big"><?php $array=explode(',',$task_info['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共<?php echo count($array) ?>人，已参与{$task_info.partin_count}人）</p>
+							<div class="flotage">
+								{notempty name="array"}{volist name="array" id="v"}<span>{$v}</span>{/volist}{/notempty}
+							</div>
+						</div>
 
-						</div>-->
 					</div>
 				</div>
 			</div>

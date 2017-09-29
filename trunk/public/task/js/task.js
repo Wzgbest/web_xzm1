@@ -1,21 +1,3 @@
-var task_type='';
-var order_name='';
-$(".nav li").click(function() {
-    $(".nav li").removeClass("flow");
-    $(this).addClass("flow");
-    task_type=$(this).attr('data-id');
-    var method=$(this).parents('div').attr('class')||'';
-    var panel=method.replace('_load','');
-    var url="/task/employee_task/"+method;
-    loadPagebypost(url,{'task_type':task_type,'order_name':order_name},panel);
-});
-$(".classify p").click(function() {
-    order_name=$(this).attr('data-id');
-    var method=$(this).parents("div .sort").parents('div').attr('class');
-    var panel=method.replace('_load','');
-    var url="/task/employee_task/"+method;
-    loadPagebypost(url,{'order_name':order_name,'task_type':task_type},panel);
-});
 
 var content = "<ul class='number2'><li></li><li></li><li></li><li></li><li></li></ul>";
 //$("#myModalone .table").append(content);
@@ -561,6 +543,26 @@ function task_list(target){
         return self.paypassword;
     };
 
+    //最上层的任务分类导航 排序规则
+    var task_type='';
+    var order_name='';
+    $(task_list_sel+" .nav li").click(function() {
+        $(task_list_sel+" .nav li").removeClass("flow");
+        $(this).addClass("flow");
+        task_type=$(this).attr('data-id');
+        var method=$(this).parents('div').attr('class')||'';
+        var panel=method.replace('_load','');
+        var url="/task/employee_task/"+method;
+        loadPagebypost(url,{'task_type':task_type,'order_name':order_name},panel);
+    });
+    $(task_list_sel+" .classify p").click(function() {
+        order_name=$(this).attr('data-id');
+        var method=$(this).parents("div .sort").parents('div').attr('class');
+        var panel=method.replace('_load','');
+        var url="/task/employee_task/"+method;
+        loadPagebypost(url,{'order_name':order_name,'task_type':task_type},panel);
+    });
+
     //领红包
     //$(task_list_sel+" .dv1 .grade .get").hide();
     // $(task_list_sel+" .dv1 .mengceng").addClass("m_c");
@@ -664,6 +666,7 @@ function task_list(target){
                         callback:function(paypassword) {
                             self.paypassword = paypassword;
                             self.pay(paypassword);
+
                         }
                     });
                     $(task_list_sel+" .pay_ui").reveal("{data-animation:'fade'}");
@@ -679,7 +682,7 @@ function task_list(target){
                 layer.msg(data.info,{icon:data.status==1?1:2});
                 if(data.status==1){
                     //TODO 成功加入任务
-                    that.parent().append("<p>正在参与任务</p>");
+                    that.parent().append("<p class='p4'>正在参与任务</p>");
                     that.hide();
 
                 }
@@ -1012,7 +1015,7 @@ function task_details(load_table,id,type){
                 layer.msg(data.info,{icon:data.status==1?1:2});
                 if(data.status==1){
                     //TODO 成功加入任务
-                    that.parent().append("<p>正在参与任务</p>");
+                    that.parent().append("<p class='p4'>正在参与任务</p>");
                     that.hide();
                 }
             });
