@@ -348,13 +348,13 @@ class EmployeeTask extends Command{
                             $redEnvelopeInfo["type"] = 3;
                             $redEnvelopeInfo["task_id"] = $id;
                             $redEnvelopeInfo["fromuser"] = 0;
-                            $redEnvelopeInfo["money"] = $taskInfo["reward_amount"];
+                            $redEnvelopeInfo["money"] = $taskInfo["reward_count"];
                             $redEnvelopeInfo["create_time"] = $time;
-                            $redEnvelopeInfo["total_money"] = $taskInfo["reward_amount"];
+                            $redEnvelopeInfo["total_money"] = $taskInfo["reward_count"];
                             $redEnvelopeInfo["is_token"] = 0;
                             $redEnvelopeInfo["took_user"] = $needRedEnvelopeEmployeeId[0];
                             $redEnvelopeInfos[] = $redEnvelopeInfo;
-                            $redEnvelopeMoneys += $taskInfo["reward_amount"];
+                            $redEnvelopeMoneys += $taskInfo["reward_count"];
                         }else{
                             foreach ($taskReward as $reward_item){
                                 $reward_amount = $reward_item["reward_amount"];
