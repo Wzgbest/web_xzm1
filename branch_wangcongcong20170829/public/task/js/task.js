@@ -647,8 +647,8 @@ function task_list(target){
         var type=$(this).attr('task-type');
         var money=$(this).attr('task-money');
         var task_id=$(this).attr('data-id');
+        self.now_sel_id = task_id;
         if(type==2){
-            self.now_sel_id = task_id;
             self.now_sel_type = 'take';
             $.ajax({
                 url: '/task/index/pay/money/'+money,
