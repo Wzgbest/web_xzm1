@@ -301,34 +301,40 @@ class EmployeeTask extends Command{
                         $rankingdata = $employeeTaskService->getRankingList($target_type, $task_method, $start_time, $end_time, $uids, $standard, 20, 1);
                         var_exp($rankingdata, '$rankingdata');
 
-                        $haveRedEnvelopeInfo = $employeeTaskM->getStandardTaskInfoById($id);
-                        var_exp($haveRedEnvelopeInfo, '$haveRedEnvelopeInfo');
+                        if($task_type==1) {
+                            $haveRedEnvelopeInfo = $employeeTaskM->getStandardTaskInfoById($id);
+                            var_exp($haveRedEnvelopeInfo, '$haveRedEnvelopeInfo');
 
-                        foreach ($haveRedEnvelopeInfo as $haveRedEnvelopeEmployee) {
-                            if (!empty($haveRedEnvelopeEmployee["redid"])) {
-                                $haveRedEnvelopeNum++;
-                                $sentRedEnvelopeMoney = $sentRedEnvelopeMoney + $haveRedEnvelopeEmployee["money"];
+                            foreach ($haveRedEnvelopeInfo as $haveRedEnvelopeEmployee) {
+                                if (!empty($haveRedEnvelopeEmployee["redid"])) {
+                                    $haveRedEnvelopeNum++;
+                                    $sentRedEnvelopeMoney = $sentRedEnvelopeMoney + $haveRedEnvelopeEmployee["money"];
+                                }
+                            }
+                            var_exp($haveRedEnvelopeNum, '$haveRedEnvelopeNum');
+                            var_exp($sentRedEnvelopeMoney, '$sentRedEnvelopeMoney');
+
+                            //计算已经发送的红包和需要发送的红包
+                            foreach ($rankingdata as $key => $rankingitem) {
+                                if (!isset($haveRedEnvelopeInfo[$rankingitem["employee_id"]])) {
+                                    continue;
+                                }
+                                if ($rankingitem["is_standard"] && empty($haveRedEnvelopeInfo[$rankingitem["employee_id"]]["redid"])) {
+                                    $needRedEnvelopeEmployeeId[$key] = $rankingitem["employee_id"];
+                                }
+                            }
+                        }elseif ($task_type==2){
+                            if(isset($rankingdata[0])){
+                                $needRedEnvelopeEmployeeId[0] = $rankingdata[0]["employee_id"];
                             }
                         }
-                        var_exp($haveRedEnvelopeNum, '$haveRedEnvelopeNum');
-                        var_exp($sentRedEnvelopeMoney, '$sentRedEnvelopeMoney');
-
-                        //计算已经发送的红包和需要发送的红包
-                        foreach ($rankingdata as $key => $rankingitem) {
-                            if (!isset($haveRedEnvelopeInfo[$rankingitem["employee_id"]])) {
-                                continue;
-                            }
-                            if ($rankingitem["is_standard"] && empty($haveRedEnvelopeInfo[$rankingitem["employee_id"]]["redid"])) {
-                                $needRedEnvelopeEmployeeId[$key] = $rankingitem["employee_id"];
-                            }
-                        }
-                        var_exp($needRedEnvelopeEmployeeId, '$needRedEnvelopeEmployeeId_over_time');
                     }elseif ($task_type==3){
                         $needRedEnvelopeEmployeeId = $taskTakeM->getTaskTakeIdsByTaskId($id);
                         for($i=0;$i<count($needRedEnvelopeEmployeeId);$i++){
                             $rankingdata[] = ["employee_id"=>$needRedEnvelopeEmployeeId[$i]];
                         }
                     }
+                    var_exp($needRedEnvelopeEmployeeId, '$needRedEnvelopeEmployeeId_over_time');
 
                     $order_datas = [];
                     $redEnvelopeInfos = [];
@@ -337,52 +343,66 @@ class EmployeeTask extends Command{
                     $taskReward = $taskRewardM->getTaskRewardListByTaskId($id);
                     //var_exp($taskReward,'$taskReward');
                     if(!empty($needRedEnvelopeEmployeeId)){
-                        foreach ($taskReward as $reward_item){
-                            $reward_amount = $reward_item["reward_amount"];
-                            $moreNum = 0;
-                            if($reward_item["reward_type"]==1){
-                                $reward_amount = bcdiv($reward_amount,count($needRedEnvelopeEmployeeId),2);
-                                var_exp($reward_amount,'$reward_amount');
-                                $mulTaskMoney = bcmul($reward_amount,count($needRedEnvelopeEmployeeId),2);
-                                var_exp($mulTaskMoney,'$mulTaskMoney');
-                                $copmFlg = bccomp($mulTaskMoney,$reward_item["reward_amount"]);
-                                var_exp($copmFlg,'$copmFlg');
-                                if($copmFlg>0){
-                                    $moreNum = bcmul(bcsub($mulTaskMoney,$reward_item["reward_amount"],2),100,0);
-                                    $reward_amount = bcsub($reward_amount,"0.01");
-                                }elseif($copmFlg<0){
-                                    $moreNum = bcmul(bcsub($reward_item["reward_amount"],$mulTaskMoney,2),100,0);
-                                }
-                            }
-                            var_exp($reward_amount,'$reward_amount');
-                            var_exp($moreNum,'$moreNum');
-                            foreach ($needRedEnvelopeEmployeeId as $key=>$value){
-                                if(isset($redEnvelopeInfos[$value])){
-                                    continue;
-                                }
-                                $idx = $key+1;
-                                if(
-                                    $reward_item["reward_num"]==0 ||
-                                    ($reward_item["reward_start"]<=$idx&&$idx<=$reward_item["reward_end"])
-                                ){
-                                    //多的一分给第一名
-                                    $tmp_reward_amount = 0;
-                                    if($reward_item["reward_type"]==1) {
-                                        $tmp_reward_amount = ($key == 0) ? bcadd($reward_amount, bcmul($moreNum, "0.01", 2), 2) : $reward_amount;
-                                    }else{
-                                        $tmp_reward_amount = $reward_amount;
+                        if ($task_type==2){
+                            $redEnvelopeInfo["redid"] = md5(time().rand(1000,9999));
+                            $redEnvelopeInfo["type"] = 3;
+                            $redEnvelopeInfo["task_id"] = $id;
+                            $redEnvelopeInfo["fromuser"] = 0;
+                            $redEnvelopeInfo["money"] = $taskInfo["reward_count"];
+                            $redEnvelopeInfo["create_time"] = $time;
+                            $redEnvelopeInfo["total_money"] = $taskInfo["reward_count"];
+                            $redEnvelopeInfo["is_token"] = 0;
+                            $redEnvelopeInfo["took_user"] = $needRedEnvelopeEmployeeId[0];
+                            $redEnvelopeInfos[] = $redEnvelopeInfo;
+                            $redEnvelopeMoneys += $taskInfo["reward_count"];
+                        }else{
+                            foreach ($taskReward as $reward_item){
+                                $reward_amount = $reward_item["reward_amount"];
+                                $moreNum = 0;
+                                if($reward_item["reward_type"]==1){
+                                    $reward_amount = bcdiv($reward_amount,count($needRedEnvelopeEmployeeId),2);
+                                    var_exp($reward_amount,'$reward_amount');
+                                    $mulTaskMoney = bcmul($reward_amount,count($needRedEnvelopeEmployeeId),2);
+                                    var_exp($mulTaskMoney,'$mulTaskMoney');
+                                    $copmFlg = bccomp($mulTaskMoney,$reward_item["reward_amount"]);
+                                    var_exp($copmFlg,'$copmFlg');
+                                    if($copmFlg>0){
+                                        $moreNum = bcmul(bcsub($mulTaskMoney,$reward_item["reward_amount"],2),100,0);
+                                        $reward_amount = bcsub($reward_amount,"0.01");
+                                    }elseif($copmFlg<0){
+                                        $moreNum = bcmul(bcsub($reward_item["reward_amount"],$mulTaskMoney,2),100,0);
                                     }
-                                    $redEnvelopeInfo["redid"] = md5(time().rand(1000,9999));
-                                    $redEnvelopeInfo["type"] = 3;
-                                    $redEnvelopeInfo["task_id"] = $id;
-                                    $redEnvelopeInfo["fromuser"] = 0;
-                                    $redEnvelopeInfo["money"] = $tmp_reward_amount;
-                                    $redEnvelopeInfo["create_time"] = $time;
-                                    $redEnvelopeInfo["total_money"] = $tmp_reward_amount;
-                                    $redEnvelopeInfo["is_token"] = 0;
-                                    $redEnvelopeInfo["took_user"] = $value;
-                                    $redEnvelopeInfos[] = $redEnvelopeInfo;
-                                    $redEnvelopeMoneys += $tmp_reward_amount;
+                                }
+                                var_exp($reward_amount,'$reward_amount');
+                                var_exp($moreNum,'$moreNum');
+                                foreach ($needRedEnvelopeEmployeeId as $key=>$value){
+                                    if(isset($redEnvelopeInfos[$value])){
+                                        continue;
+                                    }
+                                    $idx = $key+1;
+                                    if(
+                                        $reward_item["reward_num"]==0 ||
+                                        ($reward_item["reward_start"]<=$idx&&$idx<=$reward_item["reward_end"])
+                                    ){
+                                        //多的一分给第一名
+                                        $tmp_reward_amount = 0;
+                                        if($reward_item["reward_type"]==1) {
+                                            $tmp_reward_amount = ($key == 0) ? bcadd($reward_amount, bcmul($moreNum, "0.01", 2), 2) : $reward_amount;
+                                        }else{
+                                            $tmp_reward_amount = $reward_amount;
+                                        }
+                                        $redEnvelopeInfo["redid"] = md5(time().rand(1000,9999));
+                                        $redEnvelopeInfo["type"] = 3;
+                                        $redEnvelopeInfo["task_id"] = $id;
+                                        $redEnvelopeInfo["fromuser"] = 0;
+                                        $redEnvelopeInfo["money"] = $tmp_reward_amount;
+                                        $redEnvelopeInfo["create_time"] = $time;
+                                        $redEnvelopeInfo["total_money"] = $tmp_reward_amount;
+                                        $redEnvelopeInfo["is_token"] = 0;
+                                        $redEnvelopeInfo["took_user"] = $value;
+                                        $redEnvelopeInfos[] = $redEnvelopeInfo;
+                                        $redEnvelopeMoneys += $tmp_reward_amount;
+                                    }
                                 }
                             }
                         }
@@ -591,7 +611,7 @@ class EmployeeTask extends Command{
                     //红包添加发放交易记录
                     foreach($redEnvelopeInfos as $redEnvelopeInfo){
                         $order_data = [
-                            'userid'=>0,
+                            'userid'=>$taskInfo["create_employee"],
                             'take_money'=> "-".bcmul($redEnvelopeInfo["money"],100,0),
                             'status'=>1,
                             'took_time'=>$time,
