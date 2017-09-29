@@ -11,6 +11,7 @@ var struct_employee_list_panel = struct_list_panel_base+" .dv2";
 var struct_add_employee_panel = struct_list_panel_base+" .addEmployeeModal";
 var struct_del_panel = struct_list_panel_base+" .structure_del";
 var struct_file_panel = struct_list_panel_base+" .structure_file";
+var struct_edit_panel = struct_list_panel_base+" .structure_edit";
 var struct_item_list_panel = struct_list_panel_base+' .fold .structure_tree';
 function findActivityStructId(){
     return structure_tree.getActivityId();
@@ -212,7 +213,7 @@ structure_tree.listen("editFun",function(id){
 	
 	console.log("editFun_id",id);
 	
-	var struct_file_panel_temp = struct_file_panel;
+	var struct_edit_panel_temp = struct_edit_panel;
     if(id){
         $.ajax({
             url: '/systemsetting/structure/getStructureEmployeenum',
@@ -223,7 +224,7 @@ structure_tree.listen("editFun",function(id){
                 //console.log(data);
                 if(data.status) {
                     structure_tree_del_struct_id = id;
-                    $(struct_file_panel_temp).reveal("{data-animation:'fade'}");
+                    $(struct_edit_panel_temp).reveal("{data-animation:'fade'}");
                 }else{
                     layer.msg(data.message,{icon:2});
                 }
@@ -322,6 +323,7 @@ $(struct_del_panel+"_move .structure_del_ok").click(function(){
 $(struct_del_panel+"_move .structure_del_cancel").click(function(){
     deleteStructure(structure_tree_del_struct_id,0);
 });
+
 function deleteStructure(struct_id,trans){
     //console.log(struct_id);
     $.ajax({
