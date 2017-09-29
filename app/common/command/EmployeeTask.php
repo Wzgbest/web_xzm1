@@ -127,11 +127,12 @@ class EmployeeTask extends Command{
                             exception("保存红包信息发生错误!");
                         }
 
-                        $user_info = ['corp_frozen_money'=>['exp',"corp_frozen_money - $redEnvelopeMoneys"]];
+                        $redEnvelopeMoneys = bcmul($redEnvelopeMoneys,100,0);
+                        $user_info = ['corp_frozen_money'=>['exp',"corp_frozen_money - ".$redEnvelopeMoneys]];
                         $user_map = ["corp_frozen_money"=>["egt",$redEnvelopeMoneys]];
                         $update_user = $employeeM->setEmployeeSingleInfoById($taskInfo["create_employee"],$user_info,$user_map);
                         if (!$update_user) {
-                            exception("更新冻结金额发生错误!");
+                            exception("更新发放后冻结金额发生错误!");
                         }
 
                         $order_data = [
@@ -263,17 +264,18 @@ class EmployeeTask extends Command{
                         }
 
                         //返还任务金额
+                        $returnMoney = bcmul($returnMoney,100,0);
                         $employeeInfoMap = ["frozen_money"=>["egt",$returnMoney]];
                         $employeeInfo["frozen_money"] = ['exp',"frozen_money - $returnMoney"];
-                        $employeeInfo["left_money"] = ['exp',"left_money + $returnMoney"];
+                        $employeeInfo["left_money"] = ['exp',"left_money + ".$returnMoney];
                         $update_user = $employeeM->setEmployeeSingleInfoById($taskInfo["create_employee"],$employeeInfo,$employeeInfoMap);
                         if (!$update_user) {
-                            exception("更新冻结金额发生错误!");
+                            exception("更新返还任务冻结金额发生错误!");
                         }
 
                         //返还打赏猜输赢等用户额度
                         foreach($taskGuessAndTipMoneyEmployeeIdx as $employee_id=>$money){
-                            $employeeInfo["left_money"] = ['exp',"left_money + $money"];
+                            $employeeInfo["left_money"] = ['exp',"left_money + ".bcmul($money,100,0)];
                             $update_user = $employeeM->setEmployeeSingleInfoById($employee_id,$employeeInfo,$employeeInfoMap);
                             if (!$update_user) {
                                 exception("返还打赏猜输赢金额发生错误!");
@@ -422,7 +424,7 @@ class EmployeeTask extends Command{
 
                                 $order_add_data = [
                                     'userid'=>$have_employee,
-                                    'take_money'=> bcmul($reward_amount,100,2),
+                                    'take_money'=> bcmul($reward_amount,100,0),
                                     'status'=>1,
                                     'took_time'=>$time,
                                     'remark' => '参与任务获得打赏奖励',
@@ -430,7 +432,7 @@ class EmployeeTask extends Command{
                                 ];
                                 $order_datas[] = $order_add_data;
 
-                                $employeeInfo["left_money"] = ['exp',"left_money + $reward_amount"];
+                                $employeeInfo["left_money"] = ['exp',"left_money + ".bcmul($reward_amount,100,0)];
                                 $update_user = $employeeM->setEmployeeSingleInfoById($have_employee,$employeeInfo);
                                 if (!$update_user) {
                                     exception("发放打赏奖励发生错误!");
@@ -445,7 +447,7 @@ class EmployeeTask extends Command{
                             foreach ($tipEmployeeList as $tipInfo){
                                 $order_add_data = [
                                     'userid' => $tipInfo["tip_employee"],
-                                    'take_money' => bcmul($tipInfo["tip_money"], 100, 2),
+                                    'take_money' => bcmul($tipInfo["tip_money"],100,0),
                                     'status' => 1,
                                     'took_time' => $time,
                                     'remark' => '打赏任务失败退回',
@@ -462,7 +464,7 @@ class EmployeeTask extends Command{
                             //var_exp($taskTipMoneyEmployeeIdx,'$taskTipMoneyEmployeeIdx',1);
                             //返还打赏等用户额度
                             foreach ($taskTipMoneyEmployeeIdx as $employee_id => $money) {
-                                $employeeInfo["left_money"] = ['exp', "left_money + $money"];
+                                $employeeInfo["left_money"] = ['exp', "left_money + ".bcmul($money,100,0)];
                                 $update_user = $employeeM->setEmployeeSingleInfoById($employee_id, $employeeInfo);
                                 if (!$update_user) {
                                     exception("返还打赏金额发生错误!");
@@ -550,7 +552,7 @@ class EmployeeTask extends Command{
                                 foreach ($taskGuessInfoList as $taskGuessInfo) {
                                     $order_add_data = [
                                         'userid' => $taskGuessInfo["guess_employee"],
-                                        'take_money' => bcmul($taskGuessInfo["guess_money"], 100, 2),
+                                        'take_money' => bcmul($taskGuessInfo["guess_money"],100,0),
                                         'status' => 1,
                                         'took_time' => $time,
                                         'remark' => '猜输赢任务失败退回',
@@ -566,7 +568,7 @@ class EmployeeTask extends Command{
                                 //var_exp($taskGuessMoneyEmployeeIdx,'$taskGuessMoneyEmployeeIdx',1);
                                 //返还猜输赢等用户额度
                                 foreach ($taskGuessMoneyEmployeeIdx as $employee_id => $money) {
-                                    $employeeInfo["left_money"] = ['exp', "left_money + $money"];
+                                    $employeeInfo["left_money"] = ['exp', "left_money + ".bcmul($money,100,0)];
                                     $update_user = $employeeM->setEmployeeSingleInfoById($employee_id, $employeeInfo);
                                     if (!$update_user) {
                                         exception("返还猜输赢金额发生错误!");
@@ -590,7 +592,7 @@ class EmployeeTask extends Command{
                     foreach($redEnvelopeInfos as $redEnvelopeInfo){
                         $order_data = [
                             'userid'=>$taskInfo["create_employee"],
-                            'take_money'=> "-".bcmul($redEnvelopeInfo["money"],100,2),
+                            'take_money'=> "-".bcmul($redEnvelopeInfo["money"],100,0),
                             'status'=>1,
                             'took_time'=>$time,
                             'remark' => '任务奖励发放'
@@ -612,9 +614,10 @@ class EmployeeTask extends Command{
                         var_exp($balances,'$balances');
                         if($balances>0){
                             //增加非冻结
+                            $balances = bcmul($balances,100,0);
                             $order_data = [
                                 'userid' => $taskInfo["create_employee"],
-                                'take_money' => bcmul($balances, 100, 2),
+                                'take_money' => $balances,
                                 'status' => 1,
                                 'took_time' => $time,
                                 'remark' => '任务发放结余'
@@ -625,6 +628,16 @@ class EmployeeTask extends Command{
                                 $order_data["money_type"] = 1;
                             }
                             $order_datas[] = $order_data;
+
+                            $employeeMonyField = "left_money";
+                            if($task_type==1) {
+                                $employeeMonyField = "corp_".$employeeMonyField;
+                            }
+                            $employeeInfo = [$employeeMonyField=>['exp',$employeeMonyField." + ".$balances]];
+                            $update_user = $employeeM->setEmployeeSingleInfoById($taskInfo["create_employee"],$employeeInfo);
+                            if (!$update_user) {
+                                exception("任务返还金额更新发生错误!");
+                            }
                             echo '退回任务结余金额';
                         }
                     }else{
@@ -637,7 +650,7 @@ class EmployeeTask extends Command{
                                     //增加非冻结
                                     $order_data = [
                                         'userid' => $taskTakeEmployeeId,
-                                        'take_money' => bcmul($money, 100, 2),
+                                        'take_money' => bcmul($money,100,0),
                                         'status' => 1,
                                         'took_time' => $time,
                                         'remark' => '任务失败退回',
@@ -646,7 +659,7 @@ class EmployeeTask extends Command{
                                     $order_datas[] = $order_data;
 
                                     $employeeMonyField = "left_money";
-                                    $employeeInfo = [$employeeMonyField=>['exp',$employeeMonyField." + ".bcmul($money, 100, 2)]];
+                                    $employeeInfo = [$employeeMonyField=>['exp',$employeeMonyField." + ".bcmul($money,100,0)]];
                                     $update_user = $employeeM->setEmployeeSingleInfoById($taskTakeEmployeeId,$employeeInfo);
                                     if (!$update_user) {
                                         exception("任务返还金额更新发生错误!");
@@ -660,7 +673,7 @@ class EmployeeTask extends Command{
                             //增加非冻结
                             $order_data = [
                                 'userid' => $taskInfo["create_employee"],
-                                'take_money' => bcmul($taskInfo["reward_count"], 100, 2),
+                                'take_money' => bcmul($taskInfo["reward_count"],100,0),
                                 'status' => 1,
                                 'took_time' => $time,
                                 'remark' => '任务失败退回'
@@ -676,7 +689,7 @@ class EmployeeTask extends Command{
                             if($task_type==1) {
                                 $employeeMonyField = "corp_".$employeeMonyField;
                             }
-                            $employeeInfo = [$employeeMonyField=>['exp',$employeeMonyField." + ".bcmul($taskInfo["reward_count"], 100, 2)]];
+                            $employeeInfo = [$employeeMonyField=>['exp',$employeeMonyField." + ".bcmul($taskInfo["reward_count"],100,0)]];
                             $update_user = $employeeM->setEmployeeSingleInfoById($taskInfo["create_employee"],$employeeInfo);
                             if (!$update_user) {
                                 exception("任务返还金额更新发生错误!");
@@ -697,12 +710,15 @@ class EmployeeTask extends Command{
                     if($task_type==1) {
                         $employeeMonyField = "corp_".$employeeMonyField;
                     }
-                    $taskMoney = $taskInfo["reward_count"]-$sentRedEnvelopeMoney;
+                    $taskMoney = bcmul(bcsub($taskInfo["reward_count"],$sentRedEnvelopeMoney,2),100,0);
                     $employeeInfo = [$employeeMonyField=>['exp',$employeeMonyField." - ".$taskMoney]];
                     $employeeInfoMap = [$employeeMonyField=>["egt",$taskMoney]];
+                    var_exp($employeeInfo,'$employeeInfo');
+                    var_exp($employeeInfoMap,'$employeeInfoMap');
+                    var_exp($taskInfo["create_employee"],'$taskInfo["create_employee"]');
                     $update_user = $employeeM->setEmployeeSingleInfoById($taskInfo["create_employee"],$employeeInfo,$employeeInfoMap);
                     if (!$update_user) {
-                        exception("更新冻结金额发生错误!");
+                        exception("更新任务冻结金额发生错误!");
                     }
 
                     $updateTaskStatus = $employeeTaskM->setTaskStatus([$id],3,5);
