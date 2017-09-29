@@ -332,10 +332,9 @@ class EmployeeTask extends Command{
                     $redEnvelopeInfos = [];
                     $redEnvelopeMoneys = 0;
                     $needRedEnvelopeEmployeeNum = 0;
-                    $taskReward = [];
+                    $taskReward = $taskRewardM->getTaskRewardListByTaskId($id);
+                    //var_exp($taskReward,'$taskReward');
                     if(!empty($needRedEnvelopeEmployeeId)){
-                        $taskReward = $taskRewardM->getTaskRewardListByTaskId($id);
-                        //var_exp($taskReward,'$taskReward');
                         foreach ($taskReward as $reward_item){
                             $reward_amount = $reward_item["reward_amount"];
                             $moreNum = 0;
@@ -631,6 +630,7 @@ class EmployeeTask extends Command{
                     }else{
                         //任务没人获得奖励,退回
                         if($task_type==2) {
+                            var_exp($taskReward,'$taskReward');
                             if(isset($taskReward[0])){
                                 $money = $taskReward[0]["reward_amount"];
                                 foreach($taskTakeEmployeeIds as $taskTakeEmployeeId){
@@ -640,7 +640,7 @@ class EmployeeTask extends Command{
                                         'take_money' => bcmul($money, 100, 2),
                                         'status' => 1,
                                         'took_time' => $time,
-                                        'remark' => '任务发放结余',
+                                        'remark' => '任务失败退回',
                                         "money_type"=>1
                                     ];
                                     $order_datas[] = $order_data;
@@ -652,6 +652,7 @@ class EmployeeTask extends Command{
                                         exception("任务返还金额更新发生错误!");
                                     }
                                 }
+                                echo '更新员工退回PK任务金额';
                             }
 
                             echo '退回PK任务金额';
@@ -662,7 +663,7 @@ class EmployeeTask extends Command{
                                 'take_money' => bcmul($taskInfo["reward_count"], 100, 2),
                                 'status' => 1,
                                 'took_time' => $time,
-                                'remark' => '任务发放结余'
+                                'remark' => '任务失败退回'
                             ];
                             if ($task_type == 1) {
                                 $order_data["money_type"] = 2;
