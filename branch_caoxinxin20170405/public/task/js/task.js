@@ -644,9 +644,10 @@ function task_list(target){
         $("#"+self.target+" .task_list").removeClass("hide");
     });
     $(task_list_sel+" article").on("click",".right .get_reward",function(){
-        var type=$(this).attr('task-type');
-        var money=$(this).attr('task-money');
-        var task_id=$(this).attr('data-id');
+        var that=$(this);
+        var type=that.attr('task-type');
+        var money=that.attr('task-money');
+        var task_id=that.attr('data-id');
         self.now_sel_id = task_id;
         if(type==2){
             self.now_sel_type = 'take';
@@ -678,6 +679,9 @@ function task_list(target){
                 layer.msg(data.info,{icon:data.status==1?1:2});
                 if(data.status==1){
                     //TODO 成功加入任务
+                    that.parent().append("<p>正在参与任务</p>");
+                    that.hide();
+
                 }
             });
         }
@@ -974,11 +978,11 @@ function task_details(load_table,id,type){
         $(this).remove();
 
     });
-    $(task_details_sel+" .right .task").click(function() {
-        console.log("task");
+    $(task_details_sel+" .right .get_reward").click(function() {
+        var that=$(this);
         if(self.type==2){
             self.now_sel_type = 'take';
-            var money=$(this).attr('task-money');
+            var money=that.attr('task-money');
             console.log("money",money);
             $.ajax({
                 url: '/task/index/pay/money/'+money,
@@ -1003,11 +1007,13 @@ function task_details(load_table,id,type){
                 }
             });
         }else{
-            task_take(self.now_sel_id,"",function(data){
+            task_take(self.id,"",function(data){
                 //console.log(data);
                 layer.msg(data.info,{icon:data.status==1?1:2});
                 if(data.status==1){
                     //TODO 成功加入任务
+                    that.parent().append("<p>正在参与任务</p>");
+                    that.hide();
                 }
             });
         }
