@@ -592,7 +592,7 @@ function task_list(target){
                 {
                     //领取成功
                     that.parent().removeClass("m_c");
-                    var text='<p class="get">已领取'+data.data.money+'</p>';
+                    var text='<p class="p4">已领'+data.data.money+'元</p>';
                     that.siblings('.right').children('.within').children('.details').prepend(text);
                     that.remove();
                 }
