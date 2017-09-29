@@ -281,19 +281,20 @@
                 {eq name="vo.status" value="2"}
                     {if condition="$now_time <= $vo['task_end_time']"}
                         <p class="p2 tip" task_id="{$vo.id}">打赏</p>
+                        {if condition="in_array($uid,explode(',',$vo['public_to_take'])) && !in_array($uid,explode(',',$vo['take_employees'])) && $now_time < $vo['task_take_end_time'] && $vo['is_guess'] == 0 "}
+                        <p class="p2 get_reward" data-id="{$vo.id}" task-type="{$vo.task_type}" task-money="{$vo.reward_amount}">领取</p>
+                        {elseif condition="in_array($uid,explode(',',$vo['take_employees']))" /}
+                        <p>正在参与任务</p>
+                        {else /}
+                        <p>报名已截止</p>
+                        {/if}
                         {eq name="uid" value="$vo['create_employee']"}
                             {if condition="$vo['is_take'] neq 1 && $now_time < $vo['task_end_time'] "}
                             <p class="p2 end_task" data-id="{$vo.id}">终止任务</p>
                             {/if}
                             <p class="p4">任务进行中</p>
                         {/eq}
-                        {if condition="in_array($uid,explode(',',$vo['public_to_take'])) && !in_array($uid,explode(',',$vo['take_employees'])) && $now_time < $vo['task_take_end_time'] && $vo['is_guess'] == 0 "}
-                            <p class="p2 get_reward" data-id="{$vo.id}" task-type="{$vo.task_type}" task-money="{$vo.reward_amount}">领取</p>
-                        {elseif condition="in_array($uid,explode(',',$vo['take_employees']))" /}
-                            <p class="p4">正在参与任务</p>
-                        {else /}
-                            <p>报名已截止</p>
-                        {/if}
+
                     {/if}
                 {/eq}
                 {eq name="vo.is_token" value="1"}
