@@ -416,11 +416,9 @@ article .dv1 .details .flo:hover .flotage {
 }
 
 article .dv1 .active {
-	/*padding-top: 14px;*/
-	/*height: 136px;*/
 	padding-top: 10px;
 	margin:0 auto;
-	width: 92px;
+	width: 102px;
 	height: 180px;
 	text-align: right;
 	display: flex;
@@ -431,17 +429,14 @@ article .dv1 .active {
 
 article .dv1  .stimulate {
 	padding-top: 44px;
-	/*height: 136px;*/
 	margin:0 auto;
 	width: 92px;
 	text-align: right;
 }
 article .dv1 .right .stimulate p {
-	/*margin-top: 100px;*/
 }
 
 article .dv1 .right .give {
-	/*padding-top: 70px;*/
 	margin:0 auto;
 	width: 92px;
 	height: 180px;
@@ -453,9 +448,7 @@ article .dv1 .right .give {
 }
 
 article .dv1 .right .give p {
-	/*margin-top: 30px;*/
-	/*margin-left: 30px*/
-	/*margin-left: 30%;*/
+	
 }
 
 article .dv1 .right .p2 {
@@ -468,17 +461,26 @@ article .dv1 .right .p2 {
 	border-radius: 5px;
 	color: #42a5f5;
 	cursor: pointer;
+	margin: 0 auto;
 }
 
+article .dv1 .right .p4 {
+	font-size: 16px;
+	width: 90px;
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+	border-radius: 5px;
+	color: #999999;
+	margin: 0 auto;
+}
 article .dv1 .comment {
-	/*position: relative;*/
 	position: absolute;
-	/*right: 0;*/
 	bottom: 0;
 	height: 24px;
 	padding-top: 10px;
 	padding-bottom: 10px;
-	/*background-color: red;*/
+
 }
 
 article .dv1 .comment div {
@@ -526,7 +528,6 @@ article .dv1 .p3 {
 	text-align: center;
 	line-height: 30px;
 	font-size: 14px;
-	/*margin-left: 20px;*/
 	margin-bottom: 10px;
 }
 
@@ -1853,28 +1854,6 @@ article .dv4 .switch2{
 	height: 42px;
 	margin: 40px auto 0px;
 }
-/*.reveal_eight .mima .sun {
-	width: 370px;
-	height: 30px;
-	border: 1px solid #d2d2d2;
-	float: left;
-	padding-top: 5px;
-	padding-bottom: 5px;
-}
-.reveal_eight .mima .sun input{
-	display: block;
-	width: 60px;
-	height: 30px;
-	border: none;
-	border-right: 1px solid #d2d2d2;
-	text-align: center;
-	line-height: 30px;
-	float: left;
-	outline: none;
-}
-.reveal_eight .mima .sun input:nth-last-of-type(1){
-	border-right: none;
-}*/
 
 .task .reveal_eight .mima{width: 460px;height: 42px;margin: 40px auto 0px;}
 .task .reveal_eight .box{float:left;width: 372px;height:40px;display: -webkit-box;display:flex;display: -ms-flexbox;display: flex;-webkit-flex-wrap: wrap;-ms-flex-wrap: wrap;flex-wrap: wrap;}
@@ -1884,8 +1863,6 @@ article .dv4 .switch2{
 .task .reveal_eight .mima .item.circle:after {content: "";width: 8px;height: 8px;background: #000;border-radius: 50%;position: absolute;top: 50%;left: 50%;margin-top: -2px;margin-left: -4px;}
 .task .reveal_eight .mima .normal input {color: #000;}
 .task .reveal_eight .mima input {vertical-align:middle;display: block;width: inherit;text-align: center;border: 1px solid #d2d2d2;width: 100%;color: #fff;line-height: 40px}
-
-
 
 
 .task .reveal_eight .mima .moon{
@@ -2036,28 +2013,7 @@ article .dv4 .switch2{
 	height: 42px;
 	margin: 40px auto 0px;
 }
-/*.reveal_nine .mima .sun {
-	width: 370px;
-	height: 30px;
-	border: 1px solid #d2d2d2;
-	float: left;
-	padding-top: 5px;
-	padding-bottom: 5px;
-}
-.reveal_nine .mima .sun input{
-	display: block;
-	width: 60px;
-	height: 30px;
-	border: none;
-	border-right: 1px solid #d2d2d2;
-	text-align: center;
-	line-height: 30px;
-	float: left;
-	outline: none;
-}
-.reveal_nine .mima .sun input:nth-last-of-type(1){
-	border-right: none;
-}*/
+
 .task .reveal_nine .mima{width: 460px;height: 42px;margin: 40px auto 0px;}
 .task .reveal_nine .box{float:left;width: 372px;height:40px;display: -webkit-box;display:flex;display: -ms-flexbox;display: flex;-webkit-flex-wrap: wrap;-ms-flex-wrap: wrap;flex-wrap: wrap;}
 .task .reveal_nine .box-items {-ms-flex-align: center;-webkit-align-items: center;-webkit-box-align: center;align-items: center;}
