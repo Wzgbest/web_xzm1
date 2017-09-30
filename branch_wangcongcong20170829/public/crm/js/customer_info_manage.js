@@ -110,6 +110,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 		//console.log(this.id);
 		var url = "/crm/customer/general/id/"+id+"/fr/"+this.from;
 		var panel = this.panel_base+' .customer_general';
+		//console.log("panel",panel);
 		$.ajax({
 			url:url,
 			type:'get',
