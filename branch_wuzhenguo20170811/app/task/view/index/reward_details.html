@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/task/css/task.css" />
+<link rel="stylesheet" href="/crm/css/index.css" />
 
 <div class="task task_details">
 	<article>
@@ -196,7 +197,7 @@
 		<div class="reveal-modal reveal_eight pay_ui pay-pop">
 		</div>
 	</article>
-	<div class="crm_reward_details">
+	<div class="crm_customer crm_reward_details" style="position:static;">
 		<div class="task_info_panel reward_details_panel customer_info_panel customer_general hide">
 		</div>
 		<div class="task_info_panel reward_details_panel customer_info_panel customer_info hide">
@@ -217,7 +218,7 @@
 	</script>
 	<script src="/crm/js/customer_info_manage.js"></script>
 	<script language="javascript">
-		var reward_details_info_manage = new customer_info_manage("reward_details","{$fr}",{}," ","悬赏任务"," ");
+		var reward_details_info_manage = new customer_info_manage("reward_details","{$fr}",{},"0","悬赏任务","0");
 		$("#{$fr} .task_details .center .customer_info").click(function(){
 			var id = $(this).attr("customer_id");
 			console.log("id",id);
