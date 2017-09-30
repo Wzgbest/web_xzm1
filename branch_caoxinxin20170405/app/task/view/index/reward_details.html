@@ -25,7 +25,7 @@
 
 						<div class="len">
 							<p class="small">帮跟客户</p>
-							<p class="very big  blue">{$task_info.customer_name}</p>
+							<p class="very big blue customer_info" customer_id="{$task_info.target_customer}">{$task_info.customer_name}</p>
 						</div>
 						<div class="very">
 							<p class="small">任务领取截止时间</p>
@@ -196,8 +196,32 @@
 		<div class="reveal-modal reveal_eight pay_ui pay-pop">
 		</div>
 	</article>
+	<div class="crm_reward_details">
+		<div class="task_info_panel reward_details_panel customer_info_panel customer_general hide">
+		</div>
+		<div class="task_info_panel reward_details_panel customer_info_panel customer_info hide">
+		</div>
+		<div class="task_info_panel reward_details_panel customer_info_panel customer_edit hide">
+		</div>
+		<div class="task_info_panel reward_details_panel customer_info_panel customer_contact hide">
+		</div>
+		<div class="task_info_panel reward_details_panel customer_info_panel customer_sale_chance hide">
+		</div>
+		<div class="task_info_panel reward_details_panel customer_info_panel customer_trace hide">
+		</div>
+	</div>
 
 	<script type="text/javascript" src="/task/js/task.js"></script>
 	<script type="text/javascript">
 		new task_details("{$fr}","{$id}","{$task_type}");
 	</script>
+	<script src="/crm/js/customer_info_manage.js"></script>
+	<script language="javascript">
+		var reward_details_info_manage = new customer_info_manage("reward_details","{$fr}",{}," ","悬赏任务"," ");
+		$("#{$fr} .task_details .center .customer_info").click(function(){
+			var id = $(this).attr("customer_id");
+			console.log("id",id);
+			reward_details_info_manage.general(id);
+		});
+	</script>
+</div>
