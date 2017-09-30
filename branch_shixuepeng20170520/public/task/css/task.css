@@ -399,9 +399,11 @@ article .dv1 .details .flotage {
 	background-color: #fff;
 	z-index: 100;
 	box-shadow: 0 0 5px #9b9292;
-	top: 40px;
+	top: 50px;
 	left: -20px;
 	display: none;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 article .dv1 .details .flotage span {
