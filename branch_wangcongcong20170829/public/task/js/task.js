@@ -947,6 +947,8 @@ function task_details(load_table,id,type){
                 if(data.status==1){
                     $(task_details_sel+" .pay_ui").trigger('reveal:close');
                     //TODO 成功加入任务
+                    console.log('self_id:'+self.id);
+                    // $('.task_'+self.id)
                 }
             });
         }else if(self.now_sel_type=='guess'){
