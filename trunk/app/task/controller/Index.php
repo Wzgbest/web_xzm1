@@ -62,6 +62,7 @@ class Index extends Initialize{
             $view_name = "reward_details";
         }
         $this->assign('task_type',$task_type);
+        //var_exp($taskInfo,'$taskInfo',1);
         $this->assign('task_info',$taskInfo);
         $TipModel = new TaskTipModel($this->corp_id);
         $all_tip_money = $TipModel->getAllTipMoneyById($id);
