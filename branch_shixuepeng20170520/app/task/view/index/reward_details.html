@@ -72,25 +72,25 @@
 				{if condition="in_array($uid,explode(',',$task_info['public_to_take'])) && !in_array($uid,explode(',',$task_info['take_employees'])) && $now_time < $task_info['task_take_end_time'] && $task_info['is_guess'] == 0 "}
 				<p class="p2 get_reward" data-id="{$task_info.id}" task-type="{$task_info.task_type}" task-money="{$task_info.reward_amount}">领取</p>
 				{elseif condition="in_array($uid,explode(',',$task_info['take_employees']))" /}
-				<p>正在参与任务</p>
+				<p class="p4">正在参与任务</p>
 				{else /}
-				<p>报名已截止</p>
+				<p class="p4">报名已截止</p>
 				{/if}
 				{eq name="uid" value="$task_info['create_employee']"}
 				{if condition="$task_info['is_take'] neq 1 && $now_time < $task_info['task_end_time'] "}
 				<p class="p2 end_task" data-id="{$task_info.id}">终止任务</p>
 				{/if}
-				<p>任务进行中</p>
+				<p class="p4">任务进行中</p>
 				{/eq}
 
 				{/if}
 				{/eq}
 				{eq name="task_info.is_token" value="1"}
-				已领取红包{$task_info.total_money}元
+				<p class="p4">已领取红包{$task_info.total_money}元</p>
 				{/eq}
 				{eq name="task_info.status" value="0"}任务被终止{/eq}
 				{if condition="$now_time > $task_info['task_end_time']"}
-				<p class="p2">任务结束</p>
+				<p class="p4">任务结束</p>
 				{/if}
             </div>
             <div class="comment">
@@ -147,6 +147,7 @@
 						{/gt}
 					</span>
 				</p>
+				{eq name="task_info.status" value="2"}
 				<p class="rate tip">
 					{gt name="my_tip_money" value="0"}
 						继续打赏
@@ -154,6 +155,7 @@
 						打赏
 					{/gt}
 				</p>
+				{/eq}
 				<div class="particulars">
 				</div>
 			</div>
