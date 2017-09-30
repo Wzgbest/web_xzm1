@@ -162,6 +162,7 @@ class Structure extends Initialize
     public function add(){
         $result = ['status'=>0 ,'info'=>"添加部门时发生错误！"];
         $pid = input("pid",0,"int");
+        $is_group = input("is_group",0,'int');
         $name = input("name");
         $max_deep_level = 5;
         if($pid<=0||!$name){
@@ -181,6 +182,14 @@ class Structure extends Initialize
                 exception("添加部门失败!");
             }
             $result['data'] = $add_flg;
+            if ($is_group) {
+                $huanxin = new HuanxinApi();
+
+                $new_group = $huanxin->createGroup($this->corp_id,$add_flg,$name,$name,$this->corp_id."_".'0');
+                if (!$new_group['status']) {
+                    $result['error'] = $new_group['message'];
+                }
+            }
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
             return json($result);
@@ -197,25 +206,69 @@ class Structure extends Initialize
      * @return array
      * created by messhair
      */
-    public function renameStructure($struct_id,$new_name)
-    {
-        $struM = new StructureModel($this->corp_id);
-        $data = [
-            'struct_name'=>$new_name,
-        ];
-        $b = $struM->setStructure($struct_id,$data);
-        if ($b>=0) {
+    public function renameStructure($struct_id,$new_name,$is_group)
+    {   
+        $info = [
+                'status' => false,
+                'message'=> '更改部门名称失败',
+            ];
+            $is_group = input('is_group',0,'int');
+        try {
+            $struM = new StructureModel($this->corp_id);
+            $huanxin = new HuanxinApi();
+            $data = [
+                'struct_name'=>$new_name,
+            ];
+            $struct_info = $struM->getStructureInfo($struct_id);
+            if ($is_group && !$struct_info['groupid']) {
+                
+                $new_group = $huanxin->createGroup($this->corp_id,$struct_id,$new_name,$new_name,$this->corp_id."_".'0');
+                if (!$new_group['status']) {
+                    exception("创建群组失败");
+                }
+                $group_id = $new_group['data'];
+                $structemployeeM = new StructureEmployeeModel($this->corp_id);
+                $employee_list = $structemployeeM->getEmployeeByStructIds($struct_id);
+                if (!empty($employee_list)) {
+                    foreach ($employee_list as $key => $value) {
+                        $employee_name[] = $this->corp_id."_".$value['user_id'];
+                    }
+                    $employeeaddgroup = $huanxin->addAllUsers($group_id,$employee_name);
+                    if (isset($employeeaddgroup['error'])) {
+                        exception("添加群成员失败");
+                    }
+                }
+
+            }
+            if (!$is_group && $struct_info['groupid']) {
+                $del_group = $huanxin->deleteGroup($this->corp_id,$struct_id,$struct_info['groupid']);
+                if (!$del_group['status']) {
+                    exception("删除群组失败");
+                }
+            }
+            if ($is_group && $struct_info['groupid']) {
+                $edit_info['groupname'] = $new_name;
+                $edit_group = $huanxin->updateGroupInfo($struct_info['groupid'],$edit_info);
+                if (!$edit_group['status']) {
+                    exception("跟新群组信息失败");
+                }
+
+            }
+            
+            $b = $struM->setStructure($struct_id,$data);
+            if ($b<0) {
+                exception("更改部门名称失败");
+            }
+        } catch (\Exception $ex) {
+            $info['message'] = $ex->getMessage();
+            return json($info);
+        }
             $info = [
                 'status'=>true,
                 'message'=>'更改部门名称成功',
             ];
-        } else {
-            $info = [
-                'status' => false,
-                'message'=> '更改部门名称失败',
-            ];
-        }
-        return $info;
+       
+        return json($info);
     }
     public function getStructureEmployeenum($struct_id){
         $info = [
@@ -229,6 +282,16 @@ class Structure extends Initialize
             'message'=>'查询部门员工数成功',
             "data"=>$in_struct_employee_num
         ];
+        return $info;
+    }
+
+    public function getStructureInfo($struct_id){
+        $info = ['status'=>false,'message'=>'查询部门信息失败'];
+
+        $structureM = new StructureModel($this->corp_id);
+        $structInfo = $structureM->getStructureInfo($struct_id);
+        $info = ['status'=>1,'message'=>'查询部门信息成功','data'=>$structInfo];
+
         return $info;
     }
 
@@ -272,7 +335,7 @@ class Structure extends Initialize
             } else {
                 $user_ids = [];
                 foreach ($users as $val) {
-                    $user_ids[] .= $val['id'];
+                    $user_ids[] .= $val['user_id'];
                 }
                 $user_ids = implode(',',$user_ids);
                 $data = [
@@ -309,7 +372,7 @@ class Structure extends Initialize
             } else {
                 $user_ids = [];
                 foreach ($users as $val) {
-                    $user_ids[] .= $val['id'];
+                    $user_ids[] .= $val['user_id'];
                 }
                 $user_ids = implode(',',$user_ids);
                 $data = [
