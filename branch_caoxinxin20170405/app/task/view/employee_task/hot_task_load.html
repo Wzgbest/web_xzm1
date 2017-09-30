@@ -45,7 +45,7 @@
             <div class="details">
                <div class="len">
                     <p class="small">统计周期</p>
-                   <p class="big">{$vo.task_start_time|date="Y.m.d/H:m",###}-{$vo.task_end_time|date="Y.m.d/H:m",###}</p>
+                   <p class="big">{$vo.task_start_time|date="Y.m.d/H:i",###}-{$vo.task_end_time|date="Y.m.d/H:i",###}</p>
                 </div>
                 <div class="len flo">
                     <p class="small">面向群体</p>
@@ -148,7 +148,7 @@
                 </div>
                 <div class="len">
                     <p class="small">任务领取截止时间</p>
-                    <p class="big">{$vo.task_take_end_time|date="Y.m.d/H:m",###}</p>
+                    <p class="big">{$vo.task_take_end_time|date="Y.m.d/H:i",###}</p>
                 </div>
                
                 
@@ -157,7 +157,7 @@
                 
                  <div class="len">
                      <p class="small">统计周期</p>
-                     <p class="big">{$vo.task_start_time|date="Y.m.d/H:m",###}-{$vo.task_end_time|date="Y.m.d/H:m",###}</p>
+                     <p class="big">{$vo.task_start_time|date="Y.m.d/H:i",###}-{$vo.task_end_time|date="Y.m.d/H:i",###}</p>
                 </div>
                 <div class="very flo">
                     <p class="small">面向群体</p>
@@ -186,7 +186,7 @@
                         {elseif condition="in_array($uid,explode(',',$vo['take_employees']))" /}
                             <p class="p4">正在参与任务</p>
                         {else /}
-                            <p>报名已截止</p>
+                            <p class="p4">报名已截止</p>
                         {/if}
                         {if condition="!in_array($uid,explode(',',$vo['take_employees']))"}
                             <p class="p2 guess" task_id="{$vo.id}">猜输赢</p>
@@ -254,13 +254,13 @@
                 </div>
                 <div class="very">
                     <p class="small">任务领取截止时间</p>
-                    <p class="big">{$vo.task_take_end_time|date="Y.m.d/H:m:s",###}</p>
+                    <p class="big">{$vo.task_take_end_time|date="Y.m.d/H:i:s",###}</p>
                 </div>
             </div>
             <div class="details">
                 <div class="len">
                     <p class="small">任务周期</p>
-                    <p class="big">{$vo.task_start_time|date="Y.m.d/H:m",###}-{$vo.task_end_time|date="Y.m.d/H:m",###}</p>
+                    <p class="big">{$vo.task_start_time|date="Y.m.d/H:i",###}-{$vo.task_end_time|date="Y.m.d/H:i",###}</p>
                 </div>
                 <div class="very flo">
                     <p class="small">面向群体</p>
