@@ -86,7 +86,7 @@ class EmployeeTask extends Initialize{
         $uid = $user_info['userid'];
         $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
         $field="et.*,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token,re.total_money,case when tg.guess_employee>0 then 1 else 0 end as is_guess,case when ett.take_employee>0 then 1 else 0 end as is_take";
-        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field,$order,$direction="desc",$map);
+        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field,$order,$direction="desc",$map,'');
         $countField=["
         count(1) as `0`,
         sum((case when task_type = 1 then 1 else 0 end)) as `1`,
@@ -136,15 +136,16 @@ class EmployeeTask extends Initialize{
         switch($part_type){
             case 1:
                 //直接参与，报名参加的
-                $map['take_employees']=array('IN',$uid);
+                $map_str = " find_in_set($uid,take_employees) ";
                 break;
             case 2:
-                //间接参与 打赏的
-                $map['tip_employees']=array('IN',$uid);
+                //间接参与 打赏的 猜输赢的
+                $map_str = " find_in_set($uid,tip_employees) or find_in_set($uid,guess_employees) ";
+
                 break;
             case 3:
                 //发起的
-                $map['create_employee']=$uid;
+                $map_str = " create_employee=".$uid;
                 break;
         }
 
@@ -156,17 +157,16 @@ class EmployeeTask extends Initialize{
         }
         $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
         $field="et.*,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token,re.total_money,case when tg.guess_employee>0 then 1 else 0 end as is_guess,case when ett.take_employee>0 then 1 else 0 end as is_take";
-        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field,$order,$direction="desc",$map);
-//        var_exp($task_list);
+        $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field,$order,$direction="desc",$map,$map_str);
         $con['task_end_time']=$map['task_end_time'];
-        $con['take_employees']=array('IN',$uid);
-        $count1=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con);
+        $map_str1 = " find_in_set($uid,take_employees) ";
+        $count1=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con,$map_str1);
         unset($con['take_employees']);
-        $con['tip_employees']=array('IN',$uid);
-        $count2=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con);
+        $map_str1 = " find_in_set($uid,tip_employees) or find_in_set($uid,guess_employees) ";
+        $count2=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con,$map_str1);
         unset($con['tip_employees']);
-        $con['create_employee']=$uid;
-        $count3=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con);
+        $map_str1 = " create_employee=".$uid;
+        $count3=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con,$map_str1);
         $task_count=array(
             '1'=>$count1,
             '2'=>$count2,
