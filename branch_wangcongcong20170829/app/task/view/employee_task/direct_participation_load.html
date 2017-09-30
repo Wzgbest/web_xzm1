@@ -189,7 +189,7 @@
                     {elseif condition="in_array($uid,explode(',',$vo['take_employees']))" /}
                     <p class="p4">正在参与任务</p>
                     {else /}
-                    <p>报名已截止</p>
+                    <p class="p4">报名已截止</p>
                     {/if}
                     {if condition="!in_array($uid,explode(',',$vo['take_employees']))"}
                     <p class="p2 guess" task_id="{$vo.id}">猜输赢</p>
