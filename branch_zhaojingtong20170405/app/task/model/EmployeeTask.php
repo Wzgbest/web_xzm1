@@ -229,7 +229,7 @@ class EmployeeTask extends Base{
      * @param array 筛选条件
      * @return false|\PDOStatement|string|\think\Collection
      */
-    public function getEmployeeTaskList($uid,$num=10,$page=0,$field='*',$order="id",$direction="desc",$map=[]){
+    public function getEmployeeTaskList($uid,$num=10,$page=0,$field='*',$order="id",$direction="desc",$map=[],$con_str=''){
         //分页
         $offset = 0;
         if($page){
@@ -243,7 +243,7 @@ class EmployeeTask extends Base{
             ->join($this->dbprefix.'red_envelope re',"re.task_id = et.id and re.took_user = ".$uid,"LEFT")
             ->join($this->dbprefix.'employee_task_guess tg',"tg.task_id=et.id and tg.guess_employee=".$uid,"LEFT")
             ->join($this->dbprefix.'employee_task_take ett','ett.task_id=et.id','LEFT')
-            ->field($field)->where($map_str)->where($map)->group('et.id')->order($listOrder)->select();
+            ->field($field)->where($map_str)->where($con_str)->where($map)->group('et.id')->order($listOrder)->select();
         return $employee_task_list;
 
     }
@@ -268,9 +268,9 @@ class EmployeeTask extends Base{
      * @param array $map
      * @return array|false|\PDOStatement|string|\think\Model
      */
-    public function getHistoricalTaskCount($uid,$field='*',$map=[]){
+    public function getHistoricalTaskCount($uid,$field='*',$map=[],$con_str){
         $map_str = " find_in_set($uid,public_to_view) ";
-        $historical_task_count=$this->model->table($this->viewTable)->field($field)->where($map_str)->where($map)->count(1);
+        $historical_task_count=$this->model->table($this->viewTable)->field($field)->where($map_str)->where($con_str)->where($map)->count(1);
         return $historical_task_count;
 
     }
