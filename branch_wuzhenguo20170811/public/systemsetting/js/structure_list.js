@@ -91,6 +91,20 @@ $(struct_add_employee_panel+" .add_employee_ok").click(function(){
         });
     }
 });
+
+$(struct_file_panel+" .structure_del_cancel").click(function(){
+	
+//	$(".structure_file").children('.mange').children('input').val()=" ";
+//	$(".structure_file").children('.herd').children('input').prop("checked",false);
+    $(struct_file_panel).trigger('reveal:close');
+});
+$(struct_edit_panel+" .structure_del_cancel").click(function(){
+//	$(this).parent(".p5").siblings('.herd').children("input").removeProp("checked");
+	
+    $(struct_edit_panel).trigger('reveal:close');
+});
+
+
 $(struct_add_employee_panel+" .add_employee_cancel").click(function(){
     $(struct_add_employee_panel).trigger('reveal:close');
 });
@@ -227,8 +241,12 @@ structure_tree.listen("editFun",function(id){
                         'node_id': id,
                     });
                     if (info.groupid != null) {
-                        $(".structure_edit").children('.herd').children('input').attr({
+                        $(".structure_edit").children('.herd').children('input').prop({
                             'checked': true,
+                        });
+                    }else{
+                    	$(".structure_edit").children('.herd').children('input').prop({
+                            'checked': false,
                         });
                     }
                 }else{
