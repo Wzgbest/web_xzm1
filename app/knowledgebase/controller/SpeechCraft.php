@@ -352,7 +352,7 @@ class SpeechCraft extends Initialize{
     /**
      * 修改文章置顶
      */
-    public function changeClass(){
+    public function changeIsTop(){
         $result = ['status'=>0,'info'=>"修改失败"];
         $article_id = input('article_id',0,'int');
         $is_top = input('is_top',0,'int');

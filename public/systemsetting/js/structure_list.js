@@ -134,64 +134,60 @@ structure_tree.listen("addFun",function(id){
 	//class="big-link" data-reveal-id="structure_file" data-animation="fade";
     var struct_file_panel_temp = struct_file_panel;
     if(id){
-        $.ajax({
-            url: '/systemsetting/structure/getStructureEmployeenum',
-            type: 'post',
-            data: "struct_id="+id,
-            dataType:"json",
-            success: function(data) {
-                //console.log(data);
-                if(data.status) {
-                    structure_tree_del_struct_id = id;
-                    $(struct_file_panel_temp).reveal("{data-animation:'fade'}");
-                }else{
-                    layer.msg(data.message,{icon:2});
-                }
-            },
-            error: function() {
-                layer.msg('添加部门时发生错误!',{icon:2});
-            }
-        });
+        
+        $(struct_file_panel_temp).reveal("{data-animation:'fade'}");
+              
     }
 	
 	
-//  console.log("hladdFun",id);
-//  var add_item = $(struct_item_list_panel+" .add_item");
-//  if(add_item.length>0){
-//      console.log(add_item.find(".add_item_text"));
-//      add_item.find(".add_item_text").focus();
-//      return;
-//  }
-//  $(struct_item_list_panel+" .node"+id+" .node_item:first .node_plus").addClass("node_sub");
-//  $(struct_item_list_panel+" .node"+id+" .child_list"+id+"").removeClass('hide');
-//  struct_add_item_pid = id;
-//  show_node_add(id);
+ console.log("hladdFun",id);
+ // var add_item = $(struct_item_list_panel+" .add_item");
+ // if(add_item.length>0){
+ //     console.log(add_item.find(".add_item_text"));
+ //     add_item.find(".add_item_text").focus();
+ //     return;
+ // }
+ // $(struct_item_list_panel+" .node"+id+" .node_item:first .node_plus").addClass("node_sub");
+ // $(struct_item_list_panel+" .node"+id+" .child_list"+id+"").removeClass('hide');
+ struct_add_item_pid = id;
+ // show_node_add(id);
 });
 
 
 $(".structure_list .content .fold .title .fa-plus").click(function(){
     console.log("add_struct");
-    var add_item = $(struct_item_list_panel+" .add_item");
-    if(add_item.length>0){
-        //console.log(add_item.children(".add_item_text"));
-        add_item.children(".add_item_text").focus();
-        return;
-    }
-    $(struct_item_list_panel+" .node1 .node_item:first .node_plus").addClass("node_sub");
-    $(struct_item_list_panel+" .node1 .child_list1").removeClass('hide');
+    var struct_file_panel_temp = struct_file_panel;
+    // var add_item = $(struct_item_list_panel+" .add_item");
+    // if(add_item.length>0){
+    //     //console.log(add_item.children(".add_item_text"));
+    //     add_item.children(".add_item_text").focus();
+    //     return;
+    // }
+    // $(struct_item_list_panel+" .node1 .node_item:first .node_plus").addClass("node_sub");
+    // $(struct_item_list_panel+" .node1 .child_list1").removeClass('hide');
     struct_add_item_pid = 1;
-    show_node_add(1);
+    structure_tree_del_struct_id = 1;
+    $(struct_file_panel_temp).reveal("{data-animation:'fade'}");
+    // show_node_add(1);
 });
-$(struct_item_list_panel).on('click',".add_item .add_item_check",function(){
-    var add_struct_name = $(struct_item_list_panel+" .add_item").children(".add_item_text").val();
-    console.log(add_struct_name);
+$('.structure_file').on('click',".p5 input",function(){
+    // alert(1);
+    // var add_struct_name = $(struct_item_list_panel+" .add_item").children(".add_item_text").val();
+    var add_struct_name = $(".structure_file").children('.mange').children('input').val();
+    var add_group_value = $(".structure_file").children('.herd').children('input').prop("checked");
+    // console.log(add_struct_name,add_group_value);
+    if (add_group_value == true) {
+        add_group_value = 1;
+    }else{
+        add_group_value = 0;
+    }
     if(!add_struct_name){
         return;
     }
     $.ajax({
         url: '/systemsetting/structure/add',
         type: 'post',
-        data: "name="+add_struct_name+"&pid="+struct_add_item_pid,
+        data: "name="+add_struct_name+"&pid="+struct_add_item_pid+"&is_group="+add_group_value,
         dataType:"json",
         success: function(data) {
             //console.log(data);
@@ -216,15 +212,25 @@ structure_tree.listen("editFun",function(id){
 	var struct_edit_panel_temp = struct_edit_panel;
     if(id){
         $.ajax({
-            url: '/systemsetting/structure/getStructureEmployeenum',
+            url: '/systemsetting/structure/getStructureInfo',
             type: 'post',
             data: "struct_id="+id,
             dataType:"json",
             success: function(data) {
-                //console.log(data);
+                var info = data.data;
+                console.log(info.struct_name);
                 if(data.status) {
                     structure_tree_del_struct_id = id;
                     $(struct_edit_panel_temp).reveal("{data-animation:'fade'}");
+                    $(".structure_edit").children('.mange').children('input').val(info.struct_name);
+                    $(".structure_edit").attr({
+                        'node_id': id,
+                    });
+                    if (info.groupid != null) {
+                        $(".structure_edit").children('.herd').children('input').attr({
+                            'checked': true,
+                        });
+                    }
                 }else{
                     layer.msg(data.message,{icon:2});
                 }
@@ -247,18 +253,25 @@ structure_tree.listen("editFun",function(id){
 //      '<i class="fa fa-remove item_btn item_remove edit_item_remove"></i>';
 //  $(node_item_panel).append(edit_html);
 });
-$(struct_item_list_panel).on('click',".node_item .edit_item_check",function(){
-    var edit_struct_name = $(this).siblings(".edit_item_text").val();
+$('.structure_edit').on('click',".p5 input",function(){
+    var edit_struct_name = $(this).parent(".p5").siblings(".mange").children('input').val();
     console.log(edit_struct_name);
     if(!edit_struct_name){
         return;
     }
     var struct_id = findStructId(this);
+    var add_group_value = $(this).parent(".p5").siblings(".herd").children('input').prop("checked"); 
+    if (add_group_value == true) {
+        add_group_value = 1;
+    }else{
+        add_group_value = 0;
+    }
     console.log(struct_id);
+    console.log(add_group_value);
     $.ajax({
         url: '/systemsetting/structure/renameStructure',
         type: 'post',
-        data: "struct_id="+struct_id+"&new_name="+edit_struct_name,
+        data: "struct_id="+struct_id+"&new_name="+edit_struct_name+"&is_group="+add_group_value,
         dataType:"json",
         success: function(data) {
             //console.log(data);
@@ -317,10 +330,10 @@ $(struct_del_panel+" .structure_del_ok").click(function(){
 $(struct_del_panel+" .structure_del_cancel").click(function(){
     $(struct_del_panel).trigger('reveal:close');
 });
-$(struct_del_panel+"_move .structure_del_ok").click(function(){
+$(struct_del_panel+"_move .structure_del_move_ok").click(function(){
     deleteStructure(structure_tree_del_struct_id,1);
 });
-$(struct_del_panel+"_move .structure_del_cancel").click(function(){
+$(struct_del_panel+"_move .structure_del_move_cancel").click(function(){
     deleteStructure(structure_tree_del_struct_id,0);
 });
 
