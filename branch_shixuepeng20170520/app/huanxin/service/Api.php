@@ -387,6 +387,7 @@ class Api
             if ($a > 0) {
                 $info['message'] = '群组注册成功';
                 $info['status'] = 1;
+                $info['data'] = $group_id;
             }else{
                 $info['message'] = '群组注册失败';
             }
@@ -439,7 +440,7 @@ class Api
         $uri = $this->group_uri."/".$groupid;
         $request_info = $this->getMessage($uri,'',$this->header,'delete');
         $result_info = json_decode($request_info,true);
-        $b = $this->updateGroupId($corp_id,$struct_id,'');
+        $b = $this->updateGroupId($corp_id,$struct_id,null);
         if (isset($result_info['error']) || $b < 1) {
             $info['message'] = $result_info['error_description'];
         }else{
