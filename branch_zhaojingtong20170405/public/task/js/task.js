@@ -524,6 +524,10 @@ function task_list(target){
                 if(data.status==1){
                     $(task_list_sel+" .pay_ui").trigger('reveal:close');
                     //TODO 成功加入任务
+                    //不能猜输赢了
+                    $('.task_'+self.now_sel_id+" .get_reward").parent().append("<p class='p4'>正在参与任务</p>");
+                    $('.task_'+self.now_sel_id+" .get_reward").hide();
+                    $('.task_'+self.now_sel_id+" .guess").hide();
                 }
             });
         }else if(self.now_sel_type=='guess'){
@@ -535,6 +539,8 @@ function task_list(target){
                 if(data.status==1){
                     $(task_list_sel+" .pay_ui").trigger('reveal:close');
                     //TODO 提交猜输赢成功
+                    //不能领取任务了
+                    $('.task_'+self.now_sel_id+" .get_reward").hide();
                 }
             });
         }
@@ -947,6 +953,10 @@ function task_details(load_table,id,type){
                 if(data.status==1){
                     $(task_details_sel+" .pay_ui").trigger('reveal:close');
                     //TODO 成功加入任务
+                    //不能猜输赢了
+                    $(".task_details .get_reward").parent().append("<p class='p4'>正在参与任务</p>");
+                    $(".task_details .get_reward").hide();
+                    $(".task_details .guess").hide();
                 }
             });
         }else if(self.now_sel_type=='guess'){
@@ -958,6 +968,8 @@ function task_details(load_table,id,type){
                 if(data.status==1){
                     $(task_details_sel+" .pay_ui").trigger('reveal:close');
                     //TODO 提交猜输赢成功
+                    //不能领取任务了
+                    $(".task_details .get_reward").hide();
                 }
             });
         }
