@@ -27,6 +27,8 @@ class EmployeeTask{
                 $callRecordM = new CallRecord($this->corp_id);
                 if($task_method==1){
                     $data = $callRecordM->getCallRecordStandard($start_time,$end_time,$uids,$standard,$num,$page);
+                }elseif($task_method==5){
+                    $data = [];
                 }else{
                     $data = $callRecordM->getCallRecordRanking($start_time,$end_time,$uids,$standard,$num,$page);
                 }
@@ -35,6 +37,8 @@ class EmployeeTask{
                 $saleChanceM = new SaleChance($this->corp_id);
                 if($task_method==1){
                     $data = $saleChanceM->getSaleChanceStandard($start_time,$end_time,$uids,$standard,$num,$page);
+                }elseif($task_method==5){
+                    $data = [];
                 }else{
                     $data = $saleChanceM->getSaleChanceRanking($start_time,$end_time,$uids,$standard,$num,$page);
                 }
@@ -43,6 +47,8 @@ class EmployeeTask{
                 $saleOrderContractM = new SaleOrderContract($this->corp_id);
                 if($task_method==1){
                     $data = $saleOrderContractM->getOrderMoneyStandard($start_time,$end_time,$uids,$standard,$num,$page);
+                }elseif($task_method==5){
+                    $data = [];
                 }else{
                     $data = $saleOrderContractM->getOrderMoneyRanking($start_time,$end_time,$uids,$standard,$num,$page);
                 }
@@ -51,6 +57,8 @@ class EmployeeTask{
                 $saleOrderContractM = new SaleOrderContract($this->corp_id);
                 if($task_method==1){
                     $data = $saleOrderContractM->getSaleOrderContractStandard($start_time,$end_time,$uids,$standard,$num,$page);
+                }elseif($task_method==5){
+                    $data = [];
                 }else{
                     $data = $saleOrderContractM->getSaleOrderContractRanking($start_time,$end_time,$uids,$standard,$num,$page);
                 }
@@ -59,6 +67,8 @@ class EmployeeTask{
                 $saleChanceVisitM = new SaleChanceVisit($this->corp_id);
                 if($task_method==1){
                     $data = $saleChanceVisitM->getSaleChanceVisitStandard($start_time,$end_time,$uids,$standard,$num,$page);
+                }elseif($task_method==5){
+                    $data = [];
                 }else{
                     $data = $saleChanceVisitM->getSaleChanceVisitRanking($start_time,$end_time,$uids,$standard,$num,$page);
                 }
@@ -67,6 +77,8 @@ class EmployeeTask{
                 $customerM = new Customer($this->corp_id);
                 if($task_method==1){
                     $data = $customerM->getCustomerStandard($start_time,$end_time,$uids,$standard,$num,$page);
+                }elseif($task_method==5){
+                    $data = [];
                 }else{
                     $data = $customerM->getCustomerRanking($start_time,$end_time,$uids,$standard,$num,$page);
                 }
