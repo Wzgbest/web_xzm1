@@ -1,16 +1,41 @@
 <header>
 	<h1>修改分类<i class="fa fa-close fa-2x pop-close-btn"></i></h1>
 </header>
-<div class="pop_content m-form">
+<div class="pop_content m-form change_class_form">
 	<div class="tc">
 		<span class="cont">选择分类</span>
-		<select>
-			<option>销售基础</option>
+		<select class="article_class">
+		{volist name="article_type" id="vo"}
+			<option value="{$vo.id}">{$vo.type_name}</option>
+		{/volist}
 		</select>
 	</div>
 	<div class="u-submitButton">
-		<button class="pop-submit-btn">删除</button>
+		<button class="pop-submit-btn">修改</button>
 		<button class="pop-close-btn">取消</button>
 	</div>
 </div>
 <link rel="stylesheet" type="text/css" href="/static/css/popUp.css">
+<script type="text/javascript">
+	$(".pop_content.m-form.change_class_form .pop-submit-btn").click(function(){
+		let article_id = $(".delete-change-set-container .change_class_form").attr("data-id");
+		let class_id= $(".delete-change-set-container .article_class").val();
+		console.log(class_id);
+	    $.ajax({
+	        url: '/knowledgebase/speech_craft/changeClass',
+	        type: 'POST',
+	        dataType: 'json',
+	        data:{'article_id':article_id,'class_id':class_id},
+	        success:function(data){
+	            layer.msg(data.info,{icon:data.status==1?1:2});
+	            if(data.status) {
+					$(".delete-change-set-container").children().remove();
+	            }
+	        },
+	        error:function(){
+	            layer.msg('修改失败!',{icon:2});
+	        }
+	    }); 
+		
+	});
+</script>
