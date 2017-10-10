@@ -110,7 +110,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 		//console.log(this.id);
 		var url = "/crm/customer/general/id/"+id+"/fr/"+this.from;
 		var panel = this.panel_base+' .customer_general';
-		console.log("panel",panel);
+		//console.log("panel",panel);
 		$.ajax({
 			url:url,
 			type:'get',
@@ -517,7 +517,8 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 						//console.log("contract_type",$(target).parent().children(".contract_type"));
 						$(target).parent().children(".contract_type").text(contract_type_name);
 					};
-					$(edit_sale_chance_panel+" .contract_no_selecter").change(function(){
+					$(edit_sale_chance_panel).on("change",".contract_no_selecter",function(){
+						//console.log("contract_no_selecter");
 						set_contract_type_name_by_id(this);
 					});
 					$(edit_sale_chance_panel+" input[type='radio']").click(function(){

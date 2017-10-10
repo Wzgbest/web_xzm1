@@ -82,7 +82,7 @@ class SpeechCraft extends Base{
 	    	->order($order)
 	    	->field("ta.id,ta.article_name,ta.article_edit_time,ta.article_content,
 	    		(CASE WHEN article_is_top = 1 AND article_start_top_time <= UNIX_TIMESTAMP() AND article_end_top_time >= UNIX_TIMESTAMP() THEN 1 ELSE 0 END) AS in_top,
-				(CASE WHEN article_release_type = 1 AND article_release_time <= UNIX_TIMESTAMP() THEN 1 WHEN article_release_type = 0 THEN 1 ELSE 0 END) AS in_show")
+				(CASE WHEN article_release_type = 1 AND article_release_time <= UNIX_TIMESTAMP() THEN 1 WHEN article_release_type = 0 THEN 1 ELSE 0 END) AS in_show,add_user")
 	    	->limit($offset,$num)
 	    	->select();
 
@@ -107,6 +107,6 @@ class SpeechCraft extends Base{
     }
 
     public function delOneArticleById($id){
-        return $this->model->table($this->table)->where('id',$id)->delete();
+        return $this->model->table($this->table)->where('id','in',$id)->delete();
     }
 }
