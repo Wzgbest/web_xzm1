@@ -587,7 +587,6 @@ function task_list(target){
     //红包不领取 mengceng禁用
     $(task_list_sel+" article").on('click','.m_c',function(e){
         e.stopPropagation();
-        return false;
     });
 
     //领取红包 公共方法
