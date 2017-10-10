@@ -515,6 +515,7 @@ function task_list(target){
                 if(data.status==1){
                     $(task_list_sel+" .pay_ui").trigger('reveal:close');
                     //TODO 成功打赏
+                    $('.task_'+self.now_sel_id+" .tip").html('继续打赏');
                 }
             });
         }else if(self.now_sel_type=='take'){
@@ -540,6 +541,8 @@ function task_list(target){
                     $(task_list_sel+" .pay_ui").trigger('reveal:close');
                     //TODO 提交猜输赢成功
                     //不能领取任务了
+                    $('.task_'+self.now_sel_id+" .guess").parent().append("<p class='p4'>正在参与猜输赢</p>");
+                    $('.task_'+self.now_sel_id+" .guess").hide();
                     $('.task_'+self.now_sel_id+" .get_reward").hide();
                 }
             });
@@ -944,6 +947,7 @@ function task_details(load_table,id,type){
                 if(data.status==1){
                     $(task_details_sel+" .pay_ui").trigger('reveal:close');
                     //TODO 成功打赏
+                    $(".task_details .tip").html('继续打赏');
                 }
             });
         }else if(self.now_sel_type=='take'){
@@ -969,7 +973,10 @@ function task_details(load_table,id,type){
                     $(task_details_sel+" .pay_ui").trigger('reveal:close');
                     //TODO 提交猜输赢成功
                     //不能领取任务了
+                    $(".task_details .guess").parent().append("<p class='p4'>正在参与猜输赢</p>");
+                    $(".task_details .guess").hide();
                     $(".task_details .get_reward").hide();
+
                 }
             });
         }

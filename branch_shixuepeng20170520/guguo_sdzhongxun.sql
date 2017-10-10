@@ -10,13 +10,13 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2017-09-28 14:26:34
+Date: 2017-09-30 11:46:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for guguo_bill_setting
+-- Table structure for `guguo_bill_setting`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_bill_setting`;
 CREATE TABLE `guguo_bill_setting` (
@@ -49,7 +49,7 @@ INSERT INTO `guguo_bill_setting` VALUES ('2', '百度类', '0', '大搜', '工�
 INSERT INTO `guguo_bill_setting` VALUES ('3', '增值类', '0', '商城', '建设银行', '0.00', '6', '5', '4', '2', '1', '1', '1', '0', '1', '1', '0', '0');
 
 -- ----------------------------
--- Table structure for guguo_business
+-- Table structure for `guguo_business`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_business`;
 CREATE TABLE `guguo_business` (
@@ -66,7 +66,7 @@ INSERT INTO `guguo_business` VALUES ('2', '金融行业');
 INSERT INTO `guguo_business` VALUES ('3', '制造业');
 
 -- ----------------------------
--- Table structure for guguo_business_flow_item
+-- Table structure for `guguo_business_flow_item`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_business_flow_item`;
 CREATE TABLE `guguo_business_flow_item` (
@@ -95,7 +95,7 @@ INSERT INTO `guguo_business_flow_item` VALUES ('9', '已退款', '0', ' ', null,
 INSERT INTO `guguo_business_flow_item` VALUES ('10', '无意向', '0', ' ', null, '0', '1');
 
 -- ----------------------------
--- Table structure for guguo_business_flow_item_link
+-- Table structure for `guguo_business_flow_item_link`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_business_flow_item_link`;
 CREATE TABLE `guguo_business_flow_item_link` (
@@ -135,7 +135,7 @@ INSERT INTO `guguo_business_flow_item_link` VALUES ('131', '7', '3', '3', '0', '
 INSERT INTO `guguo_business_flow_item_link` VALUES ('132', '7', '4', '4', '8', '7', '6', '5', '4', '3');
 
 -- ----------------------------
--- Table structure for guguo_business_flow_setting
+-- Table structure for `guguo_business_flow_setting`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_business_flow_setting`;
 CREATE TABLE `guguo_business_flow_setting` (
@@ -155,7 +155,7 @@ INSERT INTO `guguo_business_flow_setting` VALUES ('4', '微信', '1,2,3');
 INSERT INTO `guguo_business_flow_setting` VALUES ('7', '实习项目', '1,2,3,8');
 
 -- ----------------------------
--- Table structure for guguo_call_note
+-- Table structure for `guguo_call_note`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_call_note`;
 CREATE TABLE `guguo_call_note` (
@@ -173,7 +173,7 @@ CREATE TABLE `guguo_call_note` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for guguo_call_record
+-- Table structure for `guguo_call_record`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_call_record`;
 CREATE TABLE `guguo_call_record` (
@@ -204,7 +204,7 @@ INSERT INTO `guguo_call_record` VALUES ('6', '2', '3', null, '1', '13322221111',
 INSERT INTO `guguo_call_record` VALUES ('7', '2', '76', null, '1', '13322221111', null, '1', '1504492685', '1504492695', '1', '0');
 
 -- ----------------------------
--- Table structure for guguo_cloud_file
+-- Table structure for `guguo_cloud_file`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_cloud_file`;
 CREATE TABLE `guguo_cloud_file` (
@@ -224,7 +224,7 @@ CREATE TABLE `guguo_cloud_file` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for guguo_contract
+-- Table structure for `guguo_contract`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_contract`;
 CREATE TABLE `guguo_contract` (
@@ -236,7 +236,7 @@ CREATE TABLE `guguo_contract` (
   `group_field` varchar(128) DEFAULT '' COMMENT '分组字段',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '合同状态，1已通过，4待领取，5已领取，6已作废，7已收回,8已提醒,9已退款',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8 COMMENT='合同号';
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8 COMMENT='合同号';
 
 -- ----------------------------
 -- Records of guguo_contract
@@ -295,9 +295,13 @@ INSERT INTO `guguo_contract` VALUES ('63', '61', 'zxjz14', '1506560537', '150656
 INSERT INTO `guguo_contract` VALUES ('64', '61', 'zxjz15', '1506560537', '1506560537', 'zxjz15', '5');
 INSERT INTO `guguo_contract` VALUES ('65', '61', 'zxjz16', '1506560537', '1506560537', 'zxjz16', '5');
 INSERT INTO `guguo_contract` VALUES ('66', '61', 'zxjz17', '1506560537', '1506560537', 'zxjz17', '5');
+INSERT INTO `guguo_contract` VALUES ('69', '62', 'zxjz18', '1506589708', '1506589708', 'zxjz18', '5');
+INSERT INTO `guguo_contract` VALUES ('70', '62', 'zxjz19', '1506589708', '1506589708', 'zxjz19', '5');
+INSERT INTO `guguo_contract` VALUES ('72', '63', 'bdds10009', '1506677651', '1506677651', 'bdds10009', '5');
+INSERT INTO `guguo_contract` VALUES ('73', '63', 'bdds10010', '1506677651', '1506677651', 'bdds10010', '5');
 
 -- ----------------------------
--- Table structure for guguo_contract_applied
+-- Table structure for `guguo_contract_applied`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_contract_applied`;
 CREATE TABLE `guguo_contract_applied` (
@@ -319,7 +323,7 @@ CREATE TABLE `guguo_contract_applied` (
   `create_time` int(11) DEFAULT NULL COMMENT '申请合同时间',
   `status` tinyint(4) DEFAULT '0' COMMENT '申请后的合同状态，0审核中，1已通过，2已驳回，3已撤回',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8 COMMENT='合同申请，销售机会成单申请';
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8 COMMENT='合同申请，销售机会成单申请';
 
 -- ----------------------------
 -- Records of guguo_contract_applied
@@ -379,9 +383,11 @@ INSERT INTO `guguo_contract_applied` VALUES ('58', '8', '5', '1', '72', '72', '7
 INSERT INTO `guguo_contract_applied` VALUES ('59', '8', '4', '1', '72', '72', '72', '0', '0', '0', '3', '72', '0', '', '1505467515', '1505467515', '1');
 INSERT INTO `guguo_contract_applied` VALUES ('60', '8', '3', '1', '72', '72', '72', '72', '0', '0', '4', '72', '0', '', '1505467515', '1505467515', '1');
 INSERT INTO `guguo_contract_applied` VALUES ('61', '3', '4', '5', '72', '72', '72', '0', '0', '0', '3', '72', '0', '', '1506560557', '1506560557', '1');
+INSERT INTO `guguo_contract_applied` VALUES ('62', '3', '4', '2', '72', '72', '72', '0', '0', '0', '3', '72', '0', '', '1506589737', '1506589737', '1');
+INSERT INTO `guguo_contract_applied` VALUES ('63', '3', '1', '2', '72', '72', '72', '72', '72', '0', '5', '72', '0', '', '1506677209', '1506677209', '1');
 
 -- ----------------------------
--- Table structure for guguo_contract_setting
+-- Table structure for `guguo_contract_setting`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_contract_setting`;
 CREATE TABLE `guguo_contract_setting` (
@@ -410,14 +416,14 @@ CREATE TABLE `guguo_contract_setting` (
 -- ----------------------------
 -- Records of guguo_contract_setting
 -- ----------------------------
-INSERT INTO `guguo_contract_setting` VALUES ('1', '百度大搜类合同', 'bdds', '10000', '99999', '10009', '0', '6', '5', '4', '2', '1', '0', '0', '0', '1', '0', '0', '0');
+INSERT INTO `guguo_contract_setting` VALUES ('1', '百度大搜类合同', 'bdds', '10000', '99999', '10011', '0', '6', '5', '4', '2', '1', '0', '0', '0', '1', '0', '0', '0');
 INSERT INTO `guguo_contract_setting` VALUES ('2', '百度百科类合同', 'bdbk', '1', '55', '10', '0', '6', '5', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0');
 INSERT INTO `guguo_contract_setting` VALUES ('3', '百度地图类合同', 'dbdt', '1000', '9999', '1009', '0', '6', '5', '4', '3', '0', '0', '0', '0', '1', '0', '0', '0');
-INSERT INTO `guguo_contract_setting` VALUES ('4', '建站类合同', 'zxjz', '1', '100', '18', '0', '6', '5', '4', '0', '0', '0', '0', '1', '0', '0', '0', '0');
+INSERT INTO `guguo_contract_setting` VALUES ('4', '建站类合同', 'zxjz', '1', '100', '20', '0', '6', '5', '4', '0', '0', '0', '0', '1', '0', '0', '0', '0');
 INSERT INTO `guguo_contract_setting` VALUES ('5', '糯米类合同', 'bdnm', '1', '999', '11', '6', '6', '5', '4', '0', '0', '0', '0', '1', '0', '0', '0', '0');
 
 -- ----------------------------
--- Table structure for guguo_corporation_share
+-- Table structure for `guguo_corporation_share`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_corporation_share`;
 CREATE TABLE `guguo_corporation_share` (
@@ -432,7 +438,7 @@ CREATE TABLE `guguo_corporation_share` (
   `rewards` decimal(13,2) DEFAULT '0.00' COMMENT '打赏数',
   `type` tinyint(1) DEFAULT '0' COMMENT '分享类型0，原创1，链接，2，分享',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=252 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=254 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guguo_corporation_share
@@ -609,7 +615,7 @@ INSERT INTO `guguo_corporation_share` VALUES ('191', '0', '4', '53', null, '1503
 INSERT INTO `guguo_corporation_share` VALUES ('196', '0', '2', '58', null, '1503904199', '1', '0', '0.00', '0');
 INSERT INTO `guguo_corporation_share` VALUES ('197', '0', '2', '59', null, '1503905331', '0', '0', '0.00', '0');
 INSERT INTO `guguo_corporation_share` VALUES ('198', '0', '2', '60', null, '1503905479', '1', '0', '0.00', '0');
-INSERT INTO `guguo_corporation_share` VALUES ('199', '0', '2', '61', null, '1503905657', '0', '0', '0.00', '1');
+INSERT INTO `guguo_corporation_share` VALUES ('199', '0', '2', '61', null, '1503905657', '1', '0', '0.00', '1');
 INSERT INTO `guguo_corporation_share` VALUES ('206', '0', '4', '68', null, '1503971238', '1', '0', '0.00', '0');
 INSERT INTO `guguo_corporation_share` VALUES ('211', '0', '4', '73', null, '1503975306', '1', '0', '0.00', '0');
 INSERT INTO `guguo_corporation_share` VALUES ('241', '0', '5', '102', null, '1504161261', '3', '0', '1500.00', '0');
@@ -619,10 +625,11 @@ INSERT INTO `guguo_corporation_share` VALUES ('244', '0', '4', '105', null, '150
 INSERT INTO `guguo_corporation_share` VALUES ('245', '0', '4', '106', null, '1504918704', '1', '0', '444.00', '0');
 INSERT INTO `guguo_corporation_share` VALUES ('249', '0', '4', '110', null, '1505371676', '4', '0', '2302.00', '0');
 INSERT INTO `guguo_corporation_share` VALUES ('250', '0', '4', '111', null, '1506498432', '1', '0', '1.00', '0');
-INSERT INTO `guguo_corporation_share` VALUES ('251', '0', '4', '112', null, '1506498742', '0', '0', '0.00', '0');
+INSERT INTO `guguo_corporation_share` VALUES ('251', '0', '4', '112', null, '1506498742', '1', '0', '0.00', '0');
+INSERT INTO `guguo_corporation_share` VALUES ('252', '0', '4', '113', null, '1506670637', '0', '0', '0.00', '0');
 
 -- ----------------------------
--- Table structure for guguo_corporation_share_comment
+-- Table structure for `guguo_corporation_share_comment`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_corporation_share_comment`;
 CREATE TABLE `guguo_corporation_share_comment` (
@@ -634,7 +641,7 @@ CREATE TABLE `guguo_corporation_share_comment` (
   `reply_commont_id` int(11) DEFAULT '0' COMMENT '被评论的评论ID',
   `commont_time` int(11) DEFAULT NULL COMMENT '评论时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=523 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=529 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of guguo_corporation_share_comment
@@ -939,15 +946,15 @@ INSERT INTO `guguo_corporation_share_comment` VALUES ('486', '160', '4', 'h哈�
 INSERT INTO `guguo_corporation_share_comment` VALUES ('487', '245', '4', '哈哈哈哈', '0', '0', '1505354409');
 INSERT INTO `guguo_corporation_share_comment` VALUES ('488', '242', '4', '哈哈哈哈', '0', '0', '1505356564');
 INSERT INTO `guguo_corporation_share_comment` VALUES ('489', '242', '4', '哈哈哈哈', '2', '464', '1505356572');
-INSERT INTO `guguo_corporation_share_comment` VALUES ('490', '241', '4', '[发怒]😕😕😕😕', '0', '0', '1505356653');
-INSERT INTO `guguo_corporation_share_comment` VALUES ('491', '241', '4', '😇😇😇😇😇😇', '4', '490', '1505356677');
+INSERT INTO `guguo_corporation_share_comment` VALUES ('490', '241', '4', '[发怒]????', '0', '0', '1505356653');
+INSERT INTO `guguo_corporation_share_comment` VALUES ('491', '241', '4', '??????', '4', '490', '1505356677');
 INSERT INTO `guguo_corporation_share_comment` VALUES ('496', '243', '2', '43224', '0', '0', '1505370714');
 INSERT INTO `guguo_corporation_share_comment` VALUES ('497', '243', '2', '0000', '0', '0', '1505370748');
 INSERT INTO `guguo_corporation_share_comment` VALUES ('499', '249', '2', '评论', '0', '0', '1505371699');
 INSERT INTO `guguo_corporation_share_comment` VALUES ('500', '249', '4', '哈哈哈哈哈笑着对', '0', '0', '1505372171');
 INSERT INTO `guguo_corporation_share_comment` VALUES ('501', '249', '4', '哈哈哈哈', '2', '499', '1505372175');
 INSERT INTO `guguo_corporation_share_comment` VALUES ('502', '249', '2', '回复你', '0', '0', '1505372264');
-INSERT INTO `guguo_corporation_share_comment` VALUES ('503', '249', '4', '😳😳😳😳', '4', '500', '1505372282');
+INSERT INTO `guguo_corporation_share_comment` VALUES ('503', '249', '4', '????', '4', '500', '1505372282');
 INSERT INTO `guguo_corporation_share_comment` VALUES ('504', '249', '4', '小黑龙大傻叉', '0', '0', '1505372410');
 INSERT INTO `guguo_corporation_share_comment` VALUES ('505', '249', '2', 'alert(&#39;shishi&#39;);', '0', '0', '1505372433');
 INSERT INTO `guguo_corporation_share_comment` VALUES ('506', '249', '4', '哈哈哈哈', '0', '0', '1505373024');
@@ -961,9 +968,15 @@ INSERT INTO `guguo_corporation_share_comment` VALUES ('515', '249', '12', '评�
 INSERT INTO `guguo_corporation_share_comment` VALUES ('516', '249', '3', '哈喽', '0', '0', '1506069862');
 INSERT INTO `guguo_corporation_share_comment` VALUES ('517', '249', '3', '哈哈哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈哈哈哈或或或或或或或或或或或或或或或或或或 ', '0', '0', '1506069910');
 INSERT INTO `guguo_corporation_share_comment` VALUES ('518', '249', '7', '哈哈', '0', '0', '1506332745');
+INSERT INTO `guguo_corporation_share_comment` VALUES ('523', '251', '10', '111', '0', '0', '1506651534');
+INSERT INTO `guguo_corporation_share_comment` VALUES ('524', '251', '10', '222', '0', '0', '1506651538');
+INSERT INTO `guguo_corporation_share_comment` VALUES ('525', '251', '10', '222', '0', '0', '1506651543');
+INSERT INTO `guguo_corporation_share_comment` VALUES ('526', '251', '5', '2222', '0', '0', '1506669407');
+INSERT INTO `guguo_corporation_share_comment` VALUES ('527', '251', '5', 'Sssss ', '0', '0', '1506669422');
+INSERT INTO `guguo_corporation_share_comment` VALUES ('528', '251', '4', '哈哈', '0', '0', '1506670435');
 
 -- ----------------------------
--- Table structure for guguo_corporation_share_content
+-- Table structure for `guguo_corporation_share_content`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_corporation_share_content`;
 CREATE TABLE `guguo_corporation_share_content` (
@@ -971,7 +984,7 @@ CREATE TABLE `guguo_corporation_share_content` (
   `content` varchar(144) DEFAULT NULL COMMENT '内容id',
   `text` text COMMENT '正文链接',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guguo_corporation_share_content
@@ -1022,9 +1035,10 @@ INSERT INTO `guguo_corporation_share_content` VALUES ('106', '哈哈哈哈战斗
 INSERT INTO `guguo_corporation_share_content` VALUES ('110', '颜氏', null);
 INSERT INTO `guguo_corporation_share_content` VALUES ('111', '你是', null);
 INSERT INTO `guguo_corporation_share_content` VALUES ('112', '你好', null);
+INSERT INTO `guguo_corporation_share_content` VALUES ('113', '哈哈', null);
 
 -- ----------------------------
--- Table structure for guguo_corporation_share_like
+-- Table structure for `guguo_corporation_share_like`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_corporation_share_like`;
 CREATE TABLE `guguo_corporation_share_like` (
@@ -1034,7 +1048,7 @@ CREATE TABLE `guguo_corporation_share_like` (
   `like_time` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `like_index` (`share_id`,`user_id`) USING HASH
-) ENGINE=InnoDB AUTO_INCREMENT=430 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=437 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guguo_corporation_share_like
@@ -1111,9 +1125,11 @@ INSERT INTO `guguo_corporation_share_like` VALUES ('426', '249', '4', '150595635
 INSERT INTO `guguo_corporation_share_like` VALUES ('427', '249', '5', '1506063799');
 INSERT INTO `guguo_corporation_share_like` VALUES ('428', '249', '2', '1506127416');
 INSERT INTO `guguo_corporation_share_like` VALUES ('429', '250', '4', '1506498557');
+INSERT INTO `guguo_corporation_share_like` VALUES ('433', '199', '5', '1506669316');
+INSERT INTO `guguo_corporation_share_like` VALUES ('436', '251', '4', '1506670463');
 
 -- ----------------------------
--- Table structure for guguo_corporation_share_picture
+-- Table structure for `guguo_corporation_share_picture`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_corporation_share_picture`;
 CREATE TABLE `guguo_corporation_share_picture` (
@@ -1121,7 +1137,7 @@ CREATE TABLE `guguo_corporation_share_picture` (
   `content_id` int(11) NOT NULL COMMENT '状态条目id',
   `path` varchar(256) NOT NULL COMMENT '图片路径',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=215 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=217 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guguo_corporation_share_picture
@@ -1203,9 +1219,10 @@ INSERT INTO `guguo_corporation_share_picture` VALUES ('208', '105', '/webroot/sd
 INSERT INTO `guguo_corporation_share_picture` VALUES ('209', '106', '/webroot/sdzhongxun/images/20170909/bd58d78ee07f8ccfca12a6c63e4f0d0a.JPG');
 INSERT INTO `guguo_corporation_share_picture` VALUES ('213', '110', '/webroot/sdzhongxun/images/20170914/d19b333f2366ac30fe183f0f569933d9.JPG');
 INSERT INTO `guguo_corporation_share_picture` VALUES ('214', '111', '/webroot/sdzhongxun/images/20170927/0360dedb69c382cb6057da99f1bed895.JPG');
+INSERT INTO `guguo_corporation_share_picture` VALUES ('215', '113', '/webroot/sdzhongxun/images/20170929/3b0ea60268ef28bff976bebfb062d201.JPG');
 
 -- ----------------------------
--- Table structure for guguo_corporation_share_tape
+-- Table structure for `guguo_corporation_share_tape`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_corporation_share_tape`;
 CREATE TABLE `guguo_corporation_share_tape` (
@@ -1220,7 +1237,7 @@ CREATE TABLE `guguo_corporation_share_tape` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for guguo_corporation_share_tip
+-- Table structure for `guguo_corporation_share_tip`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_corporation_share_tip`;
 CREATE TABLE `guguo_corporation_share_tip` (
@@ -1337,7 +1354,7 @@ INSERT INTO `guguo_corporation_share_tip` VALUES ('131', '249', '4', '200.00', '
 INSERT INTO `guguo_corporation_share_tip` VALUES ('133', '250', '4', '1.00', '1506498564');
 
 -- ----------------------------
--- Table structure for guguo_customer
+-- Table structure for `guguo_customer`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_customer`;
 CREATE TABLE `guguo_customer` (
@@ -1371,7 +1388,7 @@ CREATE TABLE `guguo_customer` (
   `is_partner` tinyint(1) DEFAULT NULL COMMENT '老客户，合作客户，1是，0否',
   `last_edit_time` int(11) DEFAULT '0' COMMENT '最后编辑时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=170 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=173 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guguo_customer
@@ -1536,9 +1553,12 @@ INSERT INTO `guguo_customer` VALUES ('166', '新建客户数PK测试2', '0', '13
 INSERT INTO `guguo_customer` VALUES ('167', '测试测试', '0', '15555555555', '5', '0', '1506154750', '5', '1', null, '0', '0', '0', 'A', '省份', '地级市', '市、县级市', '', null, '0.000000', '0.000000', '', '', '3', '1', null, null, null, '1506154750');
 INSERT INTO `guguo_customer` VALUES ('168', '为了激励新增的客户', '0', '18678018888', '12', '0', '1506305813', '12', '1', null, '0', '0', '0', 'A', '省份', '地级市', '市、县级市', '', null, '0.000000', '0.000000', '', '', '3', '1', null, null, null, '1506305813');
 INSERT INTO `guguo_customer` VALUES ('169', '激励任务的新增客户1', '0', '18678018888', '12', '0', '1506305842', '12', '1', null, '0', '0', '0', 'A', '省份', '地级市', '市、县级市', '', null, '0.000000', '0.000000', '', '', '3', '1', null, null, null, '1506305842');
+INSERT INTO `guguo_customer` VALUES ('170', '合同修改新建客户', '0', '15655556666', '3', '0', '1506589806', '3', '1', null, '0', '0', '0', 'A', '省份', '地级市', '市、县级市', '', null, '0.000000', '0.000000', '', '', '3', '1', null, null, null, '1506589806');
+INSERT INTO `guguo_customer` VALUES ('171', '我的客户', '0', '18602487532', '2', '0', '1506676013', '2', '1', null, '0', '0', '0', 'A', '上海市', '上海市', '卢湾区', '', null, '36.285539', '118.706100', '', '', '3', '1', null, null, null, '1506676013');
+INSERT INTO `guguo_customer` VALUES ('172', '多合同测试客户', '0', '15633331111', '3', '0', '1506676903', '3', '1', null, '0', '0', '0', 'A', '省份', '地级市', '市、县级市', '', null, '0.000000', '0.000000', '', '', '3', '1', null, null, null, '1506676903');
 
 -- ----------------------------
--- Table structure for guguo_customer_contact
+-- Table structure for `guguo_customer_contact`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_customer_contact`;
 CREATE TABLE `guguo_customer_contact` (
@@ -1641,7 +1661,7 @@ INSERT INTO `guguo_customer_contact` VALUES ('69', '150', '', '1', '', '', '', '
 INSERT INTO `guguo_customer_contact` VALUES ('70', '161', '联系人', '1', '18678018888', '', '', '', '', '', '', '', '0', '1', '', '0', '', '', '', '1505445052', '12');
 
 -- ----------------------------
--- Table structure for guguo_customer_import_fail
+-- Table structure for `guguo_customer_import_fail`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_customer_import_fail`;
 CREATE TABLE `guguo_customer_import_fail` (
@@ -1666,7 +1686,7 @@ INSERT INTO `guguo_customer_import_fail` VALUES ('6', '2017090003', '山东中�
 INSERT INTO `guguo_customer_import_fail` VALUES ('7', '2017090004', '山东中迅网络传媒有限公司', '010-58585518', '山东省潍坊市维城区和平路胜利西街金艺大厦', '119.11376,36.713159', 'IT行业', 'http://www.baidusd.com/', 'SQLSTATE[HY000]: General error: 1366 Incorrect integer value: \'IT行业\' for column \'field\' at row 1');
 
 -- ----------------------------
--- Table structure for guguo_customer_import_record
+-- Table structure for `guguo_customer_import_record`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_customer_import_record`;
 CREATE TABLE `guguo_customer_import_record` (
@@ -1695,7 +1715,7 @@ INSERT INTO `guguo_customer_import_record` VALUES ('18', '1504831595', '3', '0',
 INSERT INTO `guguo_customer_import_record` VALUES ('19', '1504831615', '3', '2', '3', '1', '0', '2017090007');
 
 -- ----------------------------
--- Table structure for guguo_customer_negotiate
+-- Table structure for `guguo_customer_negotiate`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_customer_negotiate`;
 CREATE TABLE `guguo_customer_negotiate` (
@@ -1708,7 +1728,7 @@ CREATE TABLE `guguo_customer_negotiate` (
   `is_wait` tinyint(1) DEFAULT '0' COMMENT '0非待定，1待定',
   `wait_alarm_time` int(10) unsigned DEFAULT NULL COMMENT '待沟通提醒时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=154 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guguo_customer_negotiate
@@ -1866,9 +1886,12 @@ INSERT INTO `guguo_customer_negotiate` VALUES ('150', '166', '1', '1', '1', '1',
 INSERT INTO `guguo_customer_negotiate` VALUES ('151', '167', '0', '1', '1', '1', '0', null);
 INSERT INTO `guguo_customer_negotiate` VALUES ('152', '168', '0', '1', '1', '1', '0', null);
 INSERT INTO `guguo_customer_negotiate` VALUES ('153', '169', '0', '1', '1', '1', '0', null);
+INSERT INTO `guguo_customer_negotiate` VALUES ('154', '170', '1', '1', '1', '1', '0', null);
+INSERT INTO `guguo_customer_negotiate` VALUES ('155', '171', '1', '1', '1', '1', '0', null);
+INSERT INTO `guguo_customer_negotiate` VALUES ('156', '172', '0', '1', '1', '1', '0', null);
 
 -- ----------------------------
--- Table structure for guguo_customer_product_type
+-- Table structure for `guguo_customer_product_type`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_customer_product_type`;
 CREATE TABLE `guguo_customer_product_type` (
@@ -1883,7 +1906,7 @@ CREATE TABLE `guguo_customer_product_type` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for guguo_customer_search
+-- Table structure for `guguo_customer_search`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_customer_search`;
 CREATE TABLE `guguo_customer_search` (
@@ -1910,7 +1933,7 @@ INSERT INTO `guguo_customer_search` VALUES ('3', '1', '测试搜索客户2', '�
 INSERT INTO `guguo_customer_search` VALUES ('4', '1', '山东中迅网络传媒有限公司', '刘六溜', '16666666666', 'IT3', null, null, '3', '1', '1');
 
 -- ----------------------------
--- Table structure for guguo_customer_setting
+-- Table structure for `guguo_customer_setting`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_customer_setting`;
 CREATE TABLE `guguo_customer_setting` (
@@ -1939,7 +1962,7 @@ INSERT INTO `guguo_customer_setting` VALUES ('6', '客户设置6', '3', '10', '1
 INSERT INTO `guguo_customer_setting` VALUES ('7', '客户设置测试', '1', '2', '3', '4', '5', '6', '0', '1,2,3');
 
 -- ----------------------------
--- Table structure for guguo_customer_trace
+-- Table structure for `guguo_customer_trace`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_customer_trace`;
 CREATE TABLE `guguo_customer_trace` (
@@ -1964,7 +1987,7 @@ CREATE TABLE `guguo_customer_trace` (
   `status_name` varchar(64) DEFAULT NULL COMMENT '状态名',
   `remark` varchar(765) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=492 DEFAULT CHARSET=utf8 COMMENT='记录对单个客户的更改';
+) ENGINE=InnoDB AUTO_INCREMENT=538 DEFAULT CHARSET=utf8 COMMENT='记录对单个客户的更改';
 
 -- ----------------------------
 -- Records of guguo_customer_trace
@@ -2353,9 +2376,44 @@ INSERT INTO `guguo_customer_trace` VALUES ('485', '0', '0', '3', '1506561682', '
 INSERT INTO `guguo_customer_trace` VALUES ('486', '0', '0', '3', '1506561682', '11', 'sale_chance', 'need_money', '0.00', '3210', '', '0', '更改了', '建站销售机会演示', '应支付金额', '0.00', '更改为', '3210', '', '');
 INSERT INTO `guguo_customer_trace` VALUES ('487', '0', '0', '3', '1506561682', '11', 'sale_chance', 'payed_money', '', '3210', '', '0', '更改了', '建站销售机会演示', '已支付金额', '', '更改为', '3210', '', '');
 INSERT INTO `guguo_customer_trace` VALUES ('488', '0', '0', '3', '1506561682', '11', 'sale_chance', 'final_money', '', '3210', '', '0', '更改了', '建站销售机会演示', '成单金额', '', '更改为', '3210', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('492', '0', '0', '3', '1506587078', '11', 'sale_chance', 'sale_status', '3', '4', 'getSaleStatusName', '0', '更改了', '建站销售机会演示', '阶段', '已拜访', '更改为', '成单申请', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('493', '0', '0', '3', '1506587078', '11', 'sale_chance', 'need_money', '3210.00', '3210', '', '0', '更改了', '建站销售机会演示', '应支付金额', '3210.00', '更改为', '3210', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('494', '0', '0', '3', '1506587078', '11', 'sale_chance', 'payed_money', '3210.00', '3210', '', '0', '更改了', '建站销售机会演示', '已支付金额', '3210.00', '更改为', '3210', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('495', '0', '0', '3', '1506587078', '11', 'sale_chance', 'final_money', '3210.00', '3210', '', '0', '更改了', '建站销售机会演示', '成单金额', '3210.00', '更改为', '3210', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('499', '0', '0', '3', '1506588126', '11', 'sale_chance', 'pay_name', '山东中迅网络传媒有限公司', '山东中迅网络传媒有限公司alert(1);', '', '0', '更改了', '建站销售机会演示', '打款名称', '山东中迅网络传媒有限公司', '更改为', '山东中迅网络传媒有限公司alert(1);', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('500', '0', '0', '3', '1506588126', '11', 'sale_chance', 'need_money', '3210.00', '3210', '', '0', '更改了', '建站销售机会演示', '应支付金额', '3210.00', '更改为', '3210', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('501', '0', '0', '3', '1506588126', '11', 'sale_chance', 'payed_money', '3210.00', '3210', '', '0', '更改了', '建站销售机会演示', '已支付金额', '3210.00', '更改为', '3210', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('502', '0', '0', '3', '1506588126', '11', 'sale_chance', 'final_money', '3210.00', '3210', '', '0', '更改了', '建站销售机会演示', '成单金额', '3210.00', '更改为', '3210', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('503', '0', '0', '3', '1506588403', '11', 'sale_chance', 'pay_name', '山东中迅网络传媒有限公司', '山东中迅网络传媒有限公司&#39; or &#39;', '', '0', '更改了', '建站销售机会演示', '打款名称', '山东中迅网络传媒有限公司', '更改为', '山东中迅网络传媒有限公司&#39; or &#39;', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('504', '0', '0', '3', '1506588403', '11', 'sale_chance', 'need_money', '3210.00', '3210', '', '0', '更改了', '建站销售机会演示', '应支付金额', '3210.00', '更改为', '3210', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('505', '0', '0', '3', '1506588403', '11', 'sale_chance', 'payed_money', '3210.00', '3210', '', '0', '更改了', '建站销售机会演示', '已支付金额', '3210.00', '更改为', '3210', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('506', '0', '0', '3', '1506588403', '11', 'sale_chance', 'final_money', '3210.00', '3210', '', '0', '更改了', '建站销售机会演示', '成单金额', '3210.00', '更改为', '3210', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('507', '0', '0', '3', '1506589636', '11', 'sale_chance', 'id', '0', '119', '', '0', '添加了', '', '新商机', '', '', '销售机会流程测试', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('508', '0', '0', '3', '1506589829', '170', 'sale_chance', 'id', '0', '120', '', '0', '添加了', '', '新商机', '', '', '哈哈嘿嘿', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('509', '0', '0', '3', '1506589852', '170', 'sale_chance', 'sale_status', '1', '2', 'getSaleStatusName', '0', '更改了', '哈哈嘿嘿', '阶段', '有意向', '更改为', '预约拜访', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('510', '0', '0', '3', '1506589952', '170', 'sale_chance', 'sale_status', '3', '4', 'getSaleStatusName', '0', '更改了', '哈哈嘿嘿', '阶段', '已拜访', '更改为', '成单申请', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('511', '0', '0', '3', '1506589952', '170', 'sale_chance', 'need_money', '0.00', '123', '', '0', '更改了', '哈哈嘿嘿', '应支付金额', '0.00', '更改为', '123', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('512', '0', '0', '3', '1506589952', '170', 'sale_chance', 'payed_money', '0.00', '123', '', '0', '更改了', '哈哈嘿嘿', '已支付金额', '0.00', '更改为', '123', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('513', '0', '0', '3', '1506589952', '170', 'sale_chance', 'final_money', '0.00', '123', '', '0', '更改了', '哈哈嘿嘿', '成单金额', '0.00', '更改为', '123', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('517', '0', '0', '3', '1506676774', '11', 'sale_chance', 'pay_type', '2', '1', 'getPayTypeName', '0', '更改了', '建站销售机会演示', '付款方式', '银行转帐', '更改为', '现金', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('518', '0', '0', '3', '1506676774', '11', 'sale_chance', 'need_bill', '0', '1', 'getYesNoName', '0', '更改了', '建站销售机会演示', '需要发票', '否', '更改为', '是', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('520', '0', '0', '3', '1506676774', '11', 'sale_chance', 'need_money', '3210.00', '3210', '', '0', '更改了', '建站销售机会演示', '应支付金额', '3210.00', '更改为', '3210', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('521', '0', '0', '3', '1506676774', '11', 'sale_chance', 'payed_money', '3210.00', '3210', '', '0', '更改了', '建站销售机会演示', '已支付金额', '3210.00', '更改为', '3210', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('522', '0', '0', '3', '1506676774', '11', 'sale_chance', 'final_money', '3210.00', '3210', '', '0', '更改了', '建站销售机会演示', '成单金额', '3210.00', '更改为', '3210', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('523', '0', '0', '3', '1506677001', '172', 'sale_chance', 'id', '0', '121', '', '0', '添加了', '', '新商机', '', '', '多合同测试销售机会', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('524', '0', '0', '3', '1506677123', '172', 'sale_chance', 'sale_status', '1', '2', 'getSaleStatusName', '0', '更改了', '多合同测试销售机会', '阶段', '有意向', '更改为', '预约拜访', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('525', '0', '0', '3', '1506677774', '172', 'sale_chance', 'sale_status', '3', '4', 'getSaleStatusName', '0', '更改了', '多合同测试销售机会', '阶段', '已拜访', '更改为', '成单申请', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('526', '0', '0', '3', '1506677774', '172', 'sale_chance', 'need_money', '0.00', '321', '', '0', '更改了', '多合同测试销售机会', '应支付金额', '0.00', '更改为', '321', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('527', '0', '0', '3', '1506677774', '172', 'sale_chance', 'payed_money', '0.00', '321', '', '0', '更改了', '多合同测试销售机会', '已支付金额', '0.00', '更改为', '321', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('528', '0', '0', '3', '1506677774', '172', 'sale_chance', 'final_money', '0.00', '321', '', '0', '更改了', '多合同测试销售机会', '成单金额', '0.00', '更改为', '321', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('532', '0', '0', '3', '1506677820', '172', 'sale_chance', 'pay_type', '2', '1', 'getPayTypeName', '0', '更改了', '多合同测试销售机会', '付款方式', '银行转帐', '更改为', '现金', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('533', '0', '0', '3', '1506677820', '172', 'sale_chance', 'need_bill', '0', '1', 'getYesNoName', '0', '更改了', '多合同测试销售机会', '需要发票', '否', '更改为', '是', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('535', '0', '0', '3', '1506677820', '172', 'sale_chance', 'need_money', '321.00', '321', '', '0', '更改了', '多合同测试销售机会', '应支付金额', '321.00', '更改为', '321', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('536', '0', '0', '3', '1506677820', '172', 'sale_chance', 'payed_money', '321.00', '321', '', '0', '更改了', '多合同测试销售机会', '已支付金额', '321.00', '更改为', '321', '', '');
+INSERT INTO `guguo_customer_trace` VALUES ('537', '0', '0', '3', '1506677820', '172', 'sale_chance', 'final_money', '321.00', '321', '', '0', '更改了', '多合同测试销售机会', '成单金额', '321.00', '更改为', '321', '', '');
 
 -- ----------------------------
--- Table structure for guguo_email_record
+-- Table structure for `guguo_email_record`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_email_record`;
 CREATE TABLE `guguo_email_record` (
@@ -2378,7 +2436,7 @@ CREATE TABLE `guguo_email_record` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for guguo_employee
+-- Table structure for `guguo_employee`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_employee`;
 CREATE TABLE `guguo_employee` (
@@ -2416,27 +2474,27 @@ CREATE TABLE `guguo_employee` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `telephone_index` (`telephone`) USING BTREE,
   UNIQUE KEY `stage_name_index` (`stage_name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guguo_employee
 -- ----------------------------
-INSERT INTO `guguo_employee` VALUES ('0', null, '0', null, null, '0', '/static/images/logo.png', '管理员', null, null, null, null, null, null, null, null, null, '0', null, '1', null, '0', '0', '0', '0', null, null, '0', null, null, '1');
-INSERT INTO `guguo_employee` VALUES ('1', '1', '13322223333', '', '', '5e8667a439c68f5145dd2fcbecf02209', '/webroot/sdzhongxun/images/2017-03-25/149041358160251.jpeg', '李洪金', null, '1', '20', 'jack@qq.com', '12345678', 'noasdg', 'NO000001', '1484209455', '1506579874', '1', '192.168.102.70', '1', 'de180130ffe3f765450c2bfc2d7ec2ef', '54308', '0', '100000', '701759', 'd41d8cd98f00b204e9800998ecf8427e', 'bqirro0741@sandbox.com', '0', null, null, '1');
-INSERT INTO `guguo_employee` VALUES ('2', '1', '13322221111', null, null, '5e8667a439c68f5145dd2fcbecf02209', '/webroot/sdzhongxun/images/20170901/150422636226670.jpeg', '吴振国', null, '1', '123', null, null, null, 'NO000002', '1484209455', '1506556412', '1', '127.0.0.1', '1', 'd886fc5ac090706b0e3e41e17689c79e', '864866', '0', '100000', '701756', '5e8667a439c68f5145dd2fcbecf02209', 'bqirro0741@sandbox.com', '0', null, null, '1');
-INSERT INTO `guguo_employee` VALUES ('3', '1', '13311112222', null, null, '5e8667a439c68f5145dd2fcbecf02209', '/webroot/sdzhongxun/images/20170720/3.jpg', '曹鑫鑫', null, '1', null, null, null, null, 'NO000003', '1484209455', '1506557632', '1', '127.0.0.1', '1', '51d4ac4ca3d8d3eec921df97fde3c603', '2005814', '8524466', '84400', '706544', 'e10adc3949ba59abbe56e057f20f883e', '', '0', null, null, '1');
-INSERT INTO `guguo_employee` VALUES ('4', '1', '13322225555', '', null, '5e8667a439c68f5145dd2fcbecf02209', '/webroot/sdzhongxun/images/20170927/150649895819341.jpeg', '孙大鹏', null, '1', null, '', '', '', 'NO000004', '1484209455', '1506502715', '1', '192.168.102.70', '1', 'ce41c5bc8dfa7eedc0c966f7d92204d0', '9925', '294360', '95200', '705760', 'e10adc3949ba59abbe56e057f20f883e', '', '0', '', '', '1');
-INSERT INTO `guguo_employee` VALUES ('5', '1', '13322226667', '', null, '5e8667a439c68f5145dd2fcbecf02209', '/webroot/sdzhongxun/images/20170928/150656271737168.jpeg', '张晓阳', null, '1', null, '', '', '', 'NO000005', '1484209455', '1506567440', '1', '192.168.102.70', '1', '8c0e3e864d36a30dbe525463dd18e02f', '290499', '0', '100000', null, '4607e782c4d86fd5364d7e4508bb10d9', '', '0', '', '', '1');
-INSERT INTO `guguo_employee` VALUES ('6', '1', '13311111111', null, null, '5e8667a439c68f5145dd2fcbecf02209', '/webroot/sdzhongxun/images/20170720/4.jpg', '肖文昌', null, '1', null, null, null, null, 'NO000006', '1484209455', '1504228284', '0', '192.168.100.14', '1', 'c384ce20dc659bdcbb1303937223a7b5', '168037', '0', '100000', null, null, null, '0', null, null, '1');
-INSERT INTO `guguo_employee` VALUES ('7', '1', '13311113333', null, null, '5e8667a439c68f5145dd2fcbecf02209', '/webroot/sdzhongxun/images/20170720/5.jpg', '赵婧彤', null, '0', null, null, null, null, 'NO000007', '1484209455', '1506566553', '0', '127.0.0.1', '1', '1bb5a80cab1144a8625603e34d1a85af', '156551', '0', '100000', null, 'e10adc3949ba59abbe56e057f20f883e', null, '0', null, null, '1');
-INSERT INTO `guguo_employee` VALUES ('8', '1', '13311115555', '', null, '5e8667a439c68f5145dd2fcbecf02209', '/datacount/img/1.jpg', '史学鹏', null, '1', null, '', '', '', 'NO000008', '1484209455', '1506475012', '0', '127.0.0.1', '1', '51591d9a3d136f73ba0f2ac5dff14a79', '168494', '0', '100000', null, 'e10adc3949ba59abbe56e057f20f883e', null, '0', '', '', '1');
-INSERT INTO `guguo_employee` VALUES ('9', '1', '13311116666', '', null, '5e8667a439c68f5145dd2fcbecf02209', '/webroot/sdzhongxun/images/20170720/7.jpg', '潘艳梅', null, '1', null, '912581111@qq.com', '', '', 'NO000009', '1484209455', '1506134659', '0', '192.168.102.70', '1', 'ca94f8ba7655a9fc9be6e817d2fa5411', '188183', '0', '100000', null, 'e10adc3949ba59abbe56e057f20f883e', null, '0', '', '', '1');
-INSERT INTO `guguo_employee` VALUES ('10', '1', '13311118888', null, null, '5e8667a439c68f5145dd2fcbecf02209', '/webroot/sdzhongxun/images/20170720/1.jpg', '张雨', null, '0', null, null, null, null, 'NO000010', '1484209455', '1506131299', '0', '192.168.102.51', '1', '95b51bbab1744fcf59e5022a2ffa0ca2', '184374', '0', '100000', null, '4607e782c4d86fd5364d7e4508bb10d9', null, '0', null, null, '1');
-INSERT INTO `guguo_employee` VALUES ('11', '1', '13311119999', null, null, '5e8667a439c68f5145dd2fcbecf02209', '/webroot/sdzhongxun/images/20170720/9.jpg', '董倩', null, '0', null, null, null, null, 'NO000011', '1484209455', '1506579929', '0', '192.168.102.70', '1', 'd2b1053cfc310b22998feda9a7cab3d6', '186926', '0', '100000', null, 'e10adc3949ba59abbe56e057f20f883e', null, '0', null, null, '1');
-INSERT INTO `guguo_employee` VALUES ('12', '1', '13322227777', '', null, '5e8667a439c68f5145dd2fcbecf02209', '/static/images/default_head_woman.jpg', '王聪聪', null, '0', null, '', '', '', 'NO000012', '1503996620', '1506559347', '0', '127.0.0.1', '1', 'e10adc3949ba59abbe56e057f20f883e', '197520', '3000', '95000', '706730', 'e10adc3949ba59abbe56e057f20f883e', null, '0', '', '', '1');
-INSERT INTO `guguo_employee` VALUES ('72', null, '18618888888', '', null, '5e8667a439c68f5145dd2fcbecf02209', '/static/images/default_head_man.jpg', '员工甲', null, '1', null, 'sad@sad.com', '', '', 'no12121', '1484209455', '1506559844', '1', '192.168.102.63', '1', null, '0', '0', '100000', null, null, null, '0', '', '', '1');
+INSERT INTO `guguo_employee` VALUES ('0', null, '0', '系统管理员', null, null, null, '系统管理员', null, null, null, null, null, null, null, null, null, '0', null, '1', null, '0', '0', '0', '0', null, null, '0', null, null, '1');
+INSERT INTO `guguo_employee` VALUES ('1', '1', '13322223333', '', '', '5e8667a439c68f5145dd2fcbecf02209', '/webroot/sdzhongxun/images/2017-03-25/149041358160251.jpeg', '李洪金', null, '1', '20', 'jack@qq.com', '12345678', 'noasdg', 'NO000001', '1484209455', '1506737743', '1', '192.168.102.50', '1', '1be3afb51e2a80cca3193b17342876d2', '54308', '0', '100000', '701759', 'd41d8cd98f00b204e9800998ecf8427e', 'bqirro0741@sandbox.com', '0', null, null, '1');
+INSERT INTO `guguo_employee` VALUES ('2', '1', '13322221111', null, null, '5e8667a439c68f5145dd2fcbecf02209', '/webroot/sdzhongxun/images/20170901/150422636226670.jpeg', '吴振国', null, '1', '123', null, null, null, 'NO000002', '1484209455', '1506729647', '1', '127.0.0.1', '1', '51d4ac4ca3d8d3eec921df97fde3c603', '866636', '0', '100000', '701756', 'e10adc3949ba59abbe56e057f20f883e', 'bqirro0741@sandbox.com', '0', null, null, '1');
+INSERT INTO `guguo_employee` VALUES ('3', '1', '13311112222', null, null, '5e8667a439c68f5145dd2fcbecf02209', '/webroot/sdzhongxun/images/20170720/3.jpg', '曹鑫鑫', null, '1', null, null, null, null, 'NO000003', '1484209455', '1506741940', '1', '192.168.102.70', '1', '51d4ac4ca3d8d3eec921df97fde3c603', '2004118', '8522112', '2949998862', '714094', 'e10adc3949ba59abbe56e057f20f883e', '', '0', null, null, '1');
+INSERT INTO `guguo_employee` VALUES ('4', '1', '13322225555', '', null, '5e8667a439c68f5145dd2fcbecf02209', '/webroot/sdzhongxun/images/20170927/150649895819341.jpeg', '孙大鹏', null, '1', null, '', '', '', 'NO000004', '1484209455', '1506676897', '1', '192.168.102.70', '1', 'd051bf7a3f22f3bebfc3ba8329f9e05b', '168207898', '294360', '952000000', '705760', 'e10adc3949ba59abbe56e057f20f883e', '', '0', '', '', '1');
+INSERT INTO `guguo_employee` VALUES ('5', '1', '13322226667', '', null, '5e8667a439c68f5145dd2fcbecf02209', '/webroot/sdzhongxun/images/20170928/150656271737168.jpeg', '张晓阳', null, '1', null, '', '', '', 'NO000005', '1484209455', '1506669351', '1', '192.168.102.70', '1', '105e635e45d042d86be194d2790a2da4', '291049', '0', '98700', '97400', 'e10adc3949ba59abbe56e057f20f883e', '', '0', '', '', '1');
+INSERT INTO `guguo_employee` VALUES ('6', '1', '13311111111', null, null, '5e8667a439c68f5145dd2fcbecf02209', '/webroot/sdzhongxun/images/20170720/4.jpg', '肖文昌', null, '1', null, null, null, null, 'NO000006', '1484209455', '1506672630', '0', '192.168.100.14', '1', '12286b437a0c60ab47697344282814dd', '168082', '0', '100000', null, '96e79218965eb72c92a549dd5a330112', null, '0', null, null, '1');
+INSERT INTO `guguo_employee` VALUES ('7', '1', '13311113333', null, null, '5e8667a439c68f5145dd2fcbecf02209', '/webroot/sdzhongxun/images/20170720/5.jpg', '赵婧彤', null, '0', null, null, null, null, 'NO000007', '1484209455', '1506675767', '0', '192.168.102.70', '1', '1bb5a80cab1144a8625603e34d1a85af', '156551', '0', '100000', null, 'e10adc3949ba59abbe56e057f20f883e', null, '0', null, null, '1');
+INSERT INTO `guguo_employee` VALUES ('8', '1', '13311115555', '', null, '5e8667a439c68f5145dd2fcbecf02209', '/datacount/img/1.jpg', '史学鹏', null, '1', null, '', '', '', 'NO000008', '1484209455', '1506737923', '0', '127.0.0.1', '1', '0835ec9f148c217423fbd4712ba04638', '149289', '0', '100000', null, 'e10adc3949ba59abbe56e057f20f883e', null, '0', '', '', '1');
+INSERT INTO `guguo_employee` VALUES ('9', '1', '13311116666', '', null, '5e8667a439c68f5145dd2fcbecf02209', '/webroot/sdzhongxun/images/20170720/7.jpg', '潘艳梅', null, '1', null, '912581111@qq.com', '', '', 'NO000009', '1484209455', '1506732972', '0', '192.168.102.70', '1', 'ca94f8ba7655a9fc9be6e817d2fa5411', '188466', '0', '100000', null, 'e10adc3949ba59abbe56e057f20f883e', null, '0', '', '', '1');
+INSERT INTO `guguo_employee` VALUES ('10', '1', '13311118888', null, null, '5e8667a439c68f5145dd2fcbecf02209', '/webroot/sdzhongxun/images/20170720/1.jpg', '张雨', null, '0', null, null, null, null, 'NO000010', '1484209455', '1506650905', '0', '192.168.102.51', '1', 'f1824b6f0f54962e039e4b437313758a', '184374', '0', '100000', null, '4607e782c4d86fd5364d7e4508bb10d9', null, '0', null, null, '1');
+INSERT INTO `guguo_employee` VALUES ('11', '1', '13311119999', null, null, '5e8667a439c68f5145dd2fcbecf02209', '/webroot/sdzhongxun/images/20170720/9.jpg', '董倩', null, '0', null, null, null, null, 'NO000011', '1484209455', '1506742996', '0', '192.168.102.50', '1', 'c3970ad9e24bd2ee9466b36226812152', '186926', '0', '100000', null, 'e10adc3949ba59abbe56e057f20f883e', null, '0', null, null, '1');
+INSERT INTO `guguo_employee` VALUES ('12', '1', '13322227777', '', null, '5e8667a439c68f5145dd2fcbecf02209', '/static/images/default_head_woman.jpg', '王聪聪', null, '0', null, '', '', '', 'NO000012', '1503996620', '1506735799', '0', '127.0.0.1', '1', 'e10adc3949ba59abbe56e057f20f883e', '172465', '26000', '95000', '706730', 'e10adc3949ba59abbe56e057f20f883e', null, '0', '', '', '1');
+INSERT INTO `guguo_employee` VALUES ('72', null, '18618888888', '甲', null, '5e8667a439c68f5145dd2fcbecf02209', '/static/images/default_head_man.jpg', '员工甲', null, '1', null, 'sad@sad.com', '', '', 'no12121', '1484209455', '1506733807', '1', '127.0.0.1', '1', null, '76314', '2000', '100000', null, 'e10adc3949ba59abbe56e057f20f883e', null, '0', '', '', '1');
 INSERT INTO `guguo_employee` VALUES ('85', 'sdzhongxun', '15858585518', null, '15858585518', '5e8667a439c68f5145dd2fcbecf02209', '/static/images/default_head_man.jpg', '李华', null, '1', null, null, '5858518', 'NB74110', 'NB74110', '1484209455', '1502328509', '1', null, '1', null, '0', '0', '100000', null, null, null, '1', '010-58585518', '518', '1');
-INSERT INTO `guguo_employee` VALUES ('90', null, '15655558888', '甲', null, '5e8667a439c68f5145dd2fcbecf02209', '/static/images/default_head_woman.jpg', '员工乙', null, '0', null, '', '', '', 'no12315', '1500088065', '1506559834', '1', '192.168.102.63', '1', null, '0', '0', '100000', null, null, null, '0', '', '', '1');
+INSERT INTO `guguo_employee` VALUES ('90', null, '15655558888', '乙', null, '5e8667a439c68f5145dd2fcbecf02209', '/static/images/default_head_woman.jpg', '员工乙', null, '0', null, '', '', '', 'no12315', '1500088065', '1506559834', '1', '192.168.102.63', '1', null, '0', '0', '100000', null, null, null, '0', '', '', '1');
 INSERT INTO `guguo_employee` VALUES ('97', null, '15556565667', '', null, '5e8667a439c68f5145dd2fcbecf02209', '/static/images/default_head_man.jpg', '员工丁', null, '1', null, '', '', '', '21', '1506329158', null, '1', null, '1', null, '0', '0', '0', '0', null, null, '0', '', '', '1');
 INSERT INTO `guguo_employee` VALUES ('98', null, '15591919191', '', null, '5e8667a439c68f5145dd2fcbecf02209', '/static/images/default_head_man.jpg', '员工丙', null, '1', null, '', '', '', 'no123123', '1506329212', null, '1', null, '1', null, '0', '0', '0', '0', null, null, '0', '', '', '1');
 INSERT INTO `guguo_employee` VALUES ('99', null, '15612344321', '员工子', null, '5e8667a439c68f5145dd2fcbecf02209', '/static/images/default_head_man.jpg', '员工子', null, '1', null, '', '', '', '789', '1506407703', null, '1', null, '1', null, '0', '0', '0', '0', null, null, '0', '', '', '1');
@@ -2444,7 +2502,7 @@ INSERT INTO `guguo_employee` VALUES ('103', null, '18756788765', '员工丑', nu
 INSERT INTO `guguo_employee` VALUES ('104', null, '15809877890', '员工寅', null, '5e8667a439c68f5145dd2fcbecf02209', '/static/images/default_head_man.jpg', '员工寅', null, '1', null, '', '', '', '343', '1506408452', null, '1', null, '1', null, '0', '0', '0', '0', null, null, '0', '', '', '1');
 
 -- ----------------------------
--- Table structure for guguo_employee_delete
+-- Table structure for `guguo_employee_delete`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_employee_delete`;
 CREATE TABLE `guguo_employee_delete` (
@@ -2486,7 +2544,7 @@ INSERT INTO `guguo_employee_delete` VALUES ('84', 'sdzhongxun', '15858585518', '
 INSERT INTO `guguo_employee_delete` VALUES ('91', null, '15858585858', '', null, '5e8667a439c68f5145dd2fcbecf02209', '/static/images/default_head_man.jpg', '员工丙', '1', null, '', '', '', 'no2345', '1500088583', null, null, '1', null, null, '0', null, null, '0', '', '');
 
 -- ----------------------------
--- Table structure for guguo_employee_import_fail
+-- Table structure for `guguo_employee_import_fail`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_employee_import_fail`;
 CREATE TABLE `guguo_employee_import_fail` (
@@ -2532,7 +2590,7 @@ INSERT INTO `guguo_employee_import_fail` VALUES ('36', '2017090002', '李华', '
 INSERT INTO `guguo_employee_import_fail` VALUES ('37', '2017090003', '李华', '15858585518', '010-58585518', '518', '男', 'NB74110', '是', '研发部,产品组', '职员', '5858518', 'NB74110', '手机号已存在!');
 
 -- ----------------------------
--- Table structure for guguo_employee_import_record
+-- Table structure for `guguo_employee_import_record`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_employee_import_record`;
 CREATE TABLE `guguo_employee_import_record` (
@@ -2581,7 +2639,7 @@ INSERT INTO `guguo_employee_import_record` VALUES ('82', '1504775352', '3', '0',
 INSERT INTO `guguo_employee_import_record` VALUES ('83', '1504830788', '3', '0', '0', '1', '2017090003');
 
 -- ----------------------------
--- Table structure for guguo_employee_notice
+-- Table structure for `guguo_employee_notice`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_employee_notice`;
 CREATE TABLE `guguo_employee_notice` (
@@ -2601,7 +2659,7 @@ CREATE TABLE `guguo_employee_notice` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for guguo_employee_score
+-- Table structure for `guguo_employee_score`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_employee_score`;
 CREATE TABLE `guguo_employee_score` (
@@ -2621,7 +2679,7 @@ INSERT INTO `guguo_employee_score` VALUES ('4', '88', '最后守护');
 INSERT INTO `guguo_employee_score` VALUES ('5', '96', '巨龙时代');
 
 -- ----------------------------
--- Table structure for guguo_employee_task
+-- Table structure for `guguo_employee_task`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_employee_task`;
 CREATE TABLE `guguo_employee_task` (
@@ -2644,7 +2702,7 @@ CREATE TABLE `guguo_employee_task` (
   `create_time` int(10) unsigned NOT NULL COMMENT '创建时间',
   `status` tinyint(4) unsigned NOT NULL DEFAULT '1' COMMENT '状态,0:作废,1:未生效,2:进行中,3:结算中,4:发放中,5:发放完成',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guguo_employee_task
@@ -2683,7 +2741,7 @@ INSERT INTO `guguo_employee_task` VALUES ('41', '哈哈哈哈', '1505923200', '1
 INSERT INTO `guguo_employee_task` VALUES ('47', '哈哈哈哈', '1505923200', '1506009599', '1505923200', '1506009599', '1', '3', '测试一下', '1,2,3,4,5,6,7,8,9,10,11,72,85,90', '1,2,3,4,5,6,7,8,9,10,11,72,85,90', '1', '0.00', '800.00', '8', '4', '1505964252', '5');
 INSERT INTO `guguo_employee_task` VALUES ('48', '哈哈哈哈', '1505923200', '1506009599', '1505923200', '1506009599', '1', '3', '我们自己也许你一世', '1,2,3,4,5,6,7,8,9,10,11,72,85,90', '1,2,3,4,5,6,7,8,9,10,11,72,85,90', '1', '0.00', '8.00', '8', '4', '1505965119', '5');
 INSERT INTO `guguo_employee_task` VALUES ('49', '气味呃', '1506044872', '1506044932', '0', '0', '1', '1', '额外请', '1,2,3,4,5,6,7,8,9,10,11,72,85,90', '1,2,3,4,5,6,7,8,9,10,11,72,85,90', '1', '0.00', '6.00', '2', '3', '1506044895', '5');
-INSERT INTO `guguo_employee_task` VALUES ('50', '的撒', '1506045297', '1506045357', '0', '0', '1', '2', '阿斯顿', '1,2,3,4,5,6,7,8,9,10,11,72,85,90', '1,2,3,4,5,6,7,8,9,10,11,72,85,90', '1', '0.00', '2.00', '1', '3', '1506045325', '5');
+INSERT INTO `guguo_employee_task` VALUES ('50', '的撒', '1506045297', '1506045357', '0', '0', '1', '2', '阿斯顿', '1,2,3,4,5,6,7,8,9,10,11,72,85,90', '1,2,3,4,5,6,7,8,9,10,11,72,85,90', '2', '0.00', '2.00', '1', '3', '1506045325', '5');
 INSERT INTO `guguo_employee_task` VALUES ('51', '额外请我去呃', '1506047619', '1506268800', '1506047679', '1506047739', '2', '4', '高仿噶', '4,5,8,9,12,72,2,3,6,7,10,11', '4,5,8,9,12,72,2,3,6,7,10,11', '21', '133.00', '6.00', '2', '3', '1506047673', '5');
 INSERT INTO `guguo_employee_task` VALUES ('53', 'PK任务测试', '1506063420', '1508655420', '1506063420', '1506754620', '2', '4', '任务说明', '4,5,12', '4,5,12', '0', '12.00', '30.00', '3', '12', '1506063485', '2');
 INSERT INTO `guguo_employee_task` VALUES ('54', '新任务', '1506009600', '1506095999', '1506009600', '1506095999', '2', '4', '曹鑫鑫想测试', '3', '3', '2', '0.00', '8.00', '8', '4', '1506067861', '5');
@@ -2713,9 +2771,58 @@ INSERT INTO `guguo_employee_task` VALUES ('79', '激励任务测试是否可以�
 INSERT INTO `guguo_employee_task` VALUES ('80', '测试PK123123', '1504775258', '1506503866', '1504775260', '1506503862', '2', '4', '', '4,5,8,9,12', '4,5,8,9,12', '0', '0.00', '400.00', '4', '3', '1506503246', '5');
 INSERT INTO `guguo_employee_task` VALUES ('81', '测试测试', '1506563630', '1506563872', '0', '0', '1', '2', '', '8,9,12,9,12,8,9,1,2,3,4,5,6,7,8,9,8,9', '8,9,12,9,12,8,9,1,2,3,4,5,6,7,8,9,8,9', '0', '0.00', '2.00', '1', '3', '1506563660', '5');
 INSERT INTO `guguo_employee_task` VALUES ('82', '测试PK', '1504230968', '1506563953', '1504230970', '1506563951', '2', '4', '', '1,2,3,4,5,6,7,8,9,11,85', '1,2,3,4,5,6,7,8,9,11,85', '0', '0.00', '6.00', '2', '3', '1506563800', '5');
+INSERT INTO `guguo_employee_task` VALUES ('85', '测试打赏0', '1504856151', '1506584399', '0', '0', '1', '2', '', '3,4,5', '3,4,5', '0', '2.00', '2.00', '1', '3', '1506584173', '5');
+INSERT INTO `guguo_employee_task` VALUES ('98', '悬赏测试', '1506591370', '1506591374', '1506591371', '1506591372', '3', '5', '', '2,3,9,12', '2,3,9,12', '0', '0.00', '4.00', '2', '3', '1506592081', '3');
+INSERT INTO `guguo_employee_task` VALUES ('99', '4', '1506592527', '1506592530', '1506592528', '1506592529', '3', '5', '', '1,2,3,4', '1,2,3,4', '0', '0.00', '6.00', '3', '3', '1506592536', '3');
+INSERT INTO `guguo_employee_task` VALUES ('100', '悬赏任务测试_1', '1506592715', '1506765518', '1506592713', '1506765508', '3', '5', 'renwushuoming ', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '0', '2.00', '40.00', '2', '12', '1506592732', '2');
+INSERT INTO `guguo_employee_task` VALUES ('101', '测试激励0', '1504916270', '1506644395', '0', '0', '1', '1', '', '2,3,12', '2,3,12', '0', '5.00', '10.00', '4', '3', '1506644287', '5');
+INSERT INTO `guguo_employee_task` VALUES ('102', '测试激励1', '1504916355', '1506644480', '0', '0', '1', '2', '', '2,3,12', '2,3,12', '0', '7.00', '5.00', '1', '3', '1506644371', '5');
+INSERT INTO `guguo_employee_task` VALUES ('103', '测试激励3', '1503966030', '1506644555', '0', '0', '1', '3', '', '2,3,12', '2,3,12', '0', '13.00', '20.00', '4', '3', '1506644443', '5');
+INSERT INTO `guguo_employee_task` VALUES ('104', '激励任务测试4', '1503966481', '1506644945', '0', '0', '1', '3', '', '2,3,12', '2,3,12', '0', '13.00', '10.00', '4', '3', '1506644895', '5');
+INSERT INTO `guguo_employee_task` VALUES ('105', '测试悬赏_hddfh', '1506648122', '1506734525', '1506648112', '1506734514', '3', '5', 'renwushuoming ', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '0', '0.00', '20.00', '2', '12', '1506648151', '5');
+INSERT INTO `guguo_employee_task` VALUES ('106', '悬赏任务测试_aaaa', '1506648608', '1506735010', '1506648600', '1506735002', '3', '5', '', '1,2,3,4,5,6,7,8,9,10,11,12,72', '1,2,3,4,5,6,7,8,9,10,11,12,72', '1', '0.00', '20.00', '2', '12', '1506648619', '5');
+INSERT INTO `guguo_employee_task` VALUES ('107', '悬赏任务测试_啦啦啦啦', '1506649364', '1506735766', '1506649358', '1506735760', '3', '5', '任务说明', '1,2,3,4,5,6,7,8,9,10,11,12,72', '1,2,3,4,5,6,7,8,9,10,11,12,72', '0', '0.00', '20.00', '2', '12', '1506649377', '5');
+INSERT INTO `guguo_employee_task` VALUES ('108', '悬赏任务测试_巴拉巴拉拉', '1506649490', '1506735892', '1506649483', '1506735886', '3', '5', '热污染', '1,2,3,4,5,6,7,8,9,10,12,72', '1,2,3,4,5,6,7,8,9,10,12,72', '0', '0.00', '20.00', '2', '12', '1506649501', '5');
+INSERT INTO `guguo_employee_task` VALUES ('109', '悬赏任务测试_方法放放', '1506649732', '1506736135', '1506649728', '1506736130', '3', '5', '', '1,2,3,4,5,6,7,8,9,10,12,72', '1,2,3,4,5,6,7,8,9,10,12,72', '0', '0.00', '60.00', '6', '12', '1506649741', '5');
+INSERT INTO `guguo_employee_task` VALUES ('110', '悬赏任务测试_黄金国际', '1506650370', '1506736772', '1506650364', '1506736767', '3', '5', '', '1,2,3,4,5,6,7,8,9,10,12', '1,2,3,4,5,6,7,8,9,10,12', '0', '0.00', '20.00', '2', '12', '1506650381', '5');
+INSERT INTO `guguo_employee_task` VALUES ('111', 'PK测试', '1503972191', '1506651212', '1503972193', '1506651211', '2', '4', '', '1,2,3,12', '1,2,3,12', '0', '13.00', '6.00', '3', '3', '1506650691', '5');
+INSERT INTO `guguo_employee_task` VALUES ('112', '悬赏任务测试_方式是否', '1506651191', '1506737593', '1506651184', '1506737587', '3', '5', '我确认', '1,2,3,4,5,6,7,8,9,10,12,72', '1,2,3,4,5,6,7,8,9,10,12,72', '1', '0.00', '20.00', '2', '12', '1506651201', '5');
+INSERT INTO `guguo_employee_task` VALUES ('113', 'PK测试', '1503974189', '1506653252', '1503974247', '1506653250', '2', '4', '', '1,2,3,4,5,6,7,8,9,10,11,12', '1,2,3,4,5,6,7,8,9,10,11,12', '1', '0.00', '6.00', '5', '3', '1506652688', '5');
+INSERT INTO `guguo_employee_task` VALUES ('114', '悬赏任务测试_嘎嘎嘎', '1506653183', '1506739586', '1506653177', '1506739579', '3', '5', '分分分', '1,2,3,4,5,6,7,8,9,10,12,72', '1,2,3,4,5,6,7,8,9,10,12,72', '0', '0.00', '20.00', '2', '12', '1506653198', '5');
+INSERT INTO `guguo_employee_task` VALUES ('115', '测试PK', '1503977060', '1506656031', '1503977067', '1506656030', '2', '4', '', '1,2,3,4,5,6,9,10,12,6,6,9,1,10,1,6,9,1,6,9,1,6,9', '1,2,3,4,5,6,9,10,12,6,6,9,1,10,1,6,9,1,6,9,1,6,9', '0', '0.00', '6.00', '2', '3', '1506655526', '5');
+INSERT INTO `guguo_employee_task` VALUES ('116', '测试打赏', '1506656975', '1506657097', '0', '0', '1', '2', '', '2,3', '2,3', '0', '13.00', '13.00', '1', '3', '1506656993', '5');
+INSERT INTO `guguo_employee_task` VALUES ('117', '测试打赏', '1506657040', '1506657102', '0', '0', '1', '2', '', '2,3,12', '2,3,12', '0', '13.00', '13.00', '1', '3', '1506657049', '5');
+INSERT INTO `guguo_employee_task` VALUES ('118', '测试PK打赏', '1506663910', '1506664156', '1506663912', '1506664154', '2', '4', '', '1,2,3,4,5,72', '1,2,3,4,5,72', '0', '0.00', '13.00', '2', '3', '1506663979', '5');
+INSERT INTO `guguo_employee_task` VALUES ('119', '测试PK退回', '1506665544', '1506665729', '1506665546', '1506665727', '2', '4', '', '1,2,3,4,5,6,7,8,9,10,11,12,72,85,90,97', '1,2,3,4,5,6,7,8,9,10,11,12,72,85,90,97', '0', '3.00', '3.00', '2', '3', '1506665565', '5');
+INSERT INTO `guguo_employee_task` VALUES ('120', '测试PK退回1', '1506666174', '1506666509', '1506666175', '1506666508', '2', '4', '', '2,3,4,5,6,12,72', '2,3,4,5,6,12,72', '0', '3.00', '6.00', '3', '3', '1506666222', '5');
+INSERT INTO `guguo_employee_task` VALUES ('121', '测试退回', '1506666674', '1506666675', '0', '0', '1', '2', '', '2,3,4', '2,3,4', '0', '0.00', '3.00', '1', '3', '1506666681', '5');
+INSERT INTO `guguo_employee_task` VALUES ('122', '测试PK失败退回', '1506666788', '1506666913', '1506666790', '1506666912', '2', '4', '', '2,3,4,5,6,7', '2,3,4,5,6,7', '0', '0.00', '4.00', '3', '3', '1506666804', '5');
+INSERT INTO `guguo_employee_task` VALUES ('124', '打赏分配测试', '1503989048', '1506667453', '0', '0', '1', '2', '', '2,3,12', '2,3,12', '0', '0.00', '13.00', '1', '5', '1506667506', '5');
+INSERT INTO `guguo_employee_task` VALUES ('125', '测试打赏分配', '1503990639', '1506669164', '0', '0', '1', '2', '', '2,3,12', '2,3,12', '0', '27.00', '13.00', '1', '3', '1506669058', '5');
+INSERT INTO `guguo_employee_task` VALUES ('126', '测试悬赏', '1506669722', '1506669726', '1506669723', '1506669725', '3', '5', '', '2,3,12,72', '2,3,12,72', '0', '0.00', '4.00', '2', '3', '1506669736', '3');
+INSERT INTO `guguo_employee_task` VALUES ('127', '悬赏测试', '1506669913', '1506669978', '1506669914', '1506669976', '3', '5', '', '2,3,12,72', '2,3,12,72', '0', '0.00', '6.00', '2', '3', '1506669931', '5');
+INSERT INTO `guguo_employee_task` VALUES ('128', '测试激励0', '1501516800', '1506671100', '0', '0', '1', '1', '', '1,2,3,4,5,6,7,8,9,10,11,12,72,85,90', '1,2,3,4,5,6,7,8,9,10,11,12,72,85,90', '0', '17.00', '450.00', '6', '3', '1506670247', '5');
+INSERT INTO `guguo_employee_task` VALUES ('129', '测试激励1', '1501572240', '1506671100', '0', '0', '1', '2', '', '1,2,3,4,5,6,7,8,9,10,11,12,72,85,90', '1,2,3,4,5,6,7,8,9,10,11,12,72,85,90', '0', '0.00', '13.00', '1', '3', '1506670915', '5');
+INSERT INTO `guguo_employee_task` VALUES ('130', '测试激励2', '1501572240', '1506671100', '0', '0', '1', '3', '', '1,2,3,4,5,6', '1,2,3,4,5,6', '0', '0.00', '50.00', '5', '3', '1506671387', '5');
+INSERT INTO `guguo_employee_task` VALUES ('131', 'PK测试0', '1501572240', '1506673201', '1501572241', '1506673200', '2', '4', '', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '0', '13.00', '60.00', '6', '3', '1506672602', '5');
+INSERT INTO `guguo_employee_task` VALUES ('132', '测试PK终止任务', '1501572240', '1506673201', '1501572241', '1506673200', '2', '4', '', '1', '1', '0', '0.00', '10.00', '2', '3', '1506672774', '5');
+INSERT INTO `guguo_employee_task` VALUES ('133', '激励测试终止任务', '1501572240', '1506673200', '0', '0', '1', '2', '', '1,2,3,4', '1,2,3,4', '0', '0.00', '13.00', '1', '3', '1506672842', '5');
+INSERT INTO `guguo_employee_task` VALUES ('134', 'PK奖励测试', '1501572240', '1506674401', '1501572241', '1506674400', '2', '4', '', '1,2,3,4,5,6,7,8,9,10,11,12,72', '1,2,3,4,5,6,7,8,9,10,11,12,72', '0', '10.00', '20.00', '6', '3', '1506674224', '5');
+INSERT INTO `guguo_employee_task` VALUES ('135', 'PK测试1', '1501572240', '1506668701', '1501572241', '1506668700', '2', '4', '', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '0', '0.00', '13.00', '6', '3', '1506675299', '5');
+INSERT INTO `guguo_employee_task` VALUES ('136', 'PK测试2', '1501572240', '1506675901', '1501572241', '1506675900', '2', '4', '', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '0', '8.00', '39.00', '6', '3', '1506675409', '5');
+INSERT INTO `guguo_employee_task` VALUES ('137', '测试面向群体', '1506681226', '1506681230', '1506681227', '1506681229', '2', '4', '', '1,2,3', '1,2', '0', '0.00', '3.00', '2', '3', '1506681235', '5');
+INSERT INTO `guguo_employee_task` VALUES ('138', '测试猜输赢查看排行榜', '1506681815', '1506682919', '1506681816', '1506682918', '2', '4', '', '1,2,3,4,5', '1,2,3,4,5', '0', '0.00', '20.00', '2', '72', '1506681777', '5');
+INSERT INTO `guguo_employee_task` VALUES ('139', 'PK测试_拉拉啊', '1501546862', '1506817266', '1504484447', '1506817252', '2', '4', '说明', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '0', '0.00', '10.00', '10', '12', '1506730949', '2');
+INSERT INTO `guguo_employee_task` VALUES ('140', 'PK测试301', '1504226850', '1509497254', '1506732440', '1506818842', '2', '4', '任务说明', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '0', '0.00', '200.00', '14', '12', '1506732516', '2');
+INSERT INTO `guguo_employee_task` VALUES ('141', 'pk测试302', '1506560618', '1506819826', '1506733408', '1506819812', '2', '4', '', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '0', '0.00', '20.00', '10', '12', '1506733437', '2');
+INSERT INTO `guguo_employee_task` VALUES ('142', 'pk测试303', '1506301486', '1506819889', '1506733476', '1506819879', '2', '4', '', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '0', '0.00', '40.00', '10', '12', '1506733539', '2');
+INSERT INTO `guguo_employee_task` VALUES ('143', 'PK测试304', '1504227998', '1509152801', '1506733589', '1506819993', '2', '4', '', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '0', '0.00', '40.00', '10', '12', '1506733614', '2');
+INSERT INTO `guguo_employee_task` VALUES ('144', 'pk测试305', '1504228078', '1509412081', '1506733669', '1506820072', '2', '4', '', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '0', '0.00', '40.00', '10', '12', '1506733691', '2');
+INSERT INTO `guguo_employee_task` VALUES ('145', 'pk测试猜输赢后不能领取任务', '1504229977', '1509413981', '1506735565', '1509413969', '2', '4', '', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '1,2,3,4,5,6,7,8,9,10,11,12,72,85', '0', '0.00', '20.00', '10', '72', '1506735591', '2');
+INSERT INTO `guguo_employee_task` VALUES ('146', 'pk', '1501381960', '1506739184', '1501381961', '1506739183', '2', '4', '', '1,2,3,4,5', '1,2,3,4,5,12', '0', '0.00', '10.00', '3', '5', '1506738789', '2');
 
 -- ----------------------------
--- Table structure for guguo_employee_task_comment
+-- Table structure for `guguo_employee_task_comment`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_employee_task_comment`;
 CREATE TABLE `guguo_employee_task_comment` (
@@ -2727,7 +2834,7 @@ CREATE TABLE `guguo_employee_task_comment` (
   `reply_comment_id` int(11) DEFAULT '0' COMMENT '被评论的评论ID',
   `comment_time` int(11) DEFAULT NULL COMMENT '评论时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8mb4 COMMENT='任务评论表';
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4 COMMENT='任务评论表';
 
 -- ----------------------------
 -- Records of guguo_employee_task_comment
@@ -2799,11 +2906,11 @@ INSERT INTO `guguo_employee_task_comment` VALUES ('64', '1', '4', '哈哈哈哈'
 INSERT INTO `guguo_employee_task_comment` VALUES ('65', '1', '4', '在一起吧', '0', '0', '1504924606');
 INSERT INTO `guguo_employee_task_comment` VALUES ('66', '1', '4', '哈哈哈哈哈笑的那么', '0', '0', '1504924656');
 INSERT INTO `guguo_employee_task_comment` VALUES ('67', '1', '4', '哈哈哈哈', '0', '0', '1504924663');
-INSERT INTO `guguo_employee_task_comment` VALUES ('68', '1', '4', '😂😂😂', '2', '1', '1504927832');
+INSERT INTO `guguo_employee_task_comment` VALUES ('68', '1', '4', '???', '2', '1', '1504927832');
 INSERT INTO `guguo_employee_task_comment` VALUES ('69', '1', '4', '哈哈哈哈', '2', '1', '1504927836');
 INSERT INTO `guguo_employee_task_comment` VALUES ('70', '1', '4', '哈哈哈哈', '2', '1', '1505119256');
 INSERT INTO `guguo_employee_task_comment` VALUES ('71', '1', '4', '哈哈哈哈', '0', '0', '1505119262');
-INSERT INTO `guguo_employee_task_comment` VALUES ('72', '1', '4', '😂😂😂😂😂', '2', '1', '1505186297');
+INSERT INTO `guguo_employee_task_comment` VALUES ('72', '1', '4', '?????', '2', '1', '1505186297');
 INSERT INTO `guguo_employee_task_comment` VALUES ('73', '1', '4', '搞了些什么', '0', '0', '1505186312');
 INSERT INTO `guguo_employee_task_comment` VALUES ('74', '1', '4', '哈哈哈哈', '2', '1', '1505208995');
 INSERT INTO `guguo_employee_task_comment` VALUES ('75', '1', '4', '在', '2', '1', '1505209002');
@@ -2814,7 +2921,7 @@ INSERT INTO `guguo_employee_task_comment` VALUES ('79', '1', '4', ' 哈哈', '2'
 INSERT INTO `guguo_employee_task_comment` VALUES ('80', '1', '4', '哈哈哈哈', '2', '1', '1505785099');
 INSERT INTO `guguo_employee_task_comment` VALUES ('81', '1', '4', '哈哈哈哈', '0', '0', '1505785119');
 INSERT INTO `guguo_employee_task_comment` VALUES ('82', '1', '4', '哈哈哈哈', '2', '1', '1505803598');
-INSERT INTO `guguo_employee_task_comment` VALUES ('83', '33', '4', '😒😒😒', '2', '1', '1505803609');
+INSERT INTO `guguo_employee_task_comment` VALUES ('83', '33', '4', '???', '2', '1', '1505803609');
 INSERT INTO `guguo_employee_task_comment` VALUES ('84', '33', '4', '枪王排位', '2', '1', '1505803631');
 INSERT INTO `guguo_employee_task_comment` VALUES ('85', '1', '4', ' 哈哈哈哈', '2', '1', '1506061468');
 INSERT INTO `guguo_employee_task_comment` VALUES ('86', '1', '4', '哈哈哈哈', '2', '1', '1506062674');
@@ -2859,9 +2966,11 @@ INSERT INTO `guguo_employee_task_comment` VALUES ('124', '53', '12', '测试回�
 INSERT INTO `guguo_employee_task_comment` VALUES ('125', '67', '7', '么么哒', '7', '123', '1506391072');
 INSERT INTO `guguo_employee_task_comment` VALUES ('126', '65', '7', '22', '0', '0', '1506393811');
 INSERT INTO `guguo_employee_task_comment` VALUES ('127', '65', '7', '哈哈', '3', '113', '1506393826');
+INSERT INTO `guguo_employee_task_comment` VALUES ('128', '131', '3', '萨达撒多多撒大', '0', '0', '1506673106');
+INSERT INTO `guguo_employee_task_comment` VALUES ('129', '131', '3', '东方时尚副队长', '3', '128', '1506673119');
 
 -- ----------------------------
--- Table structure for guguo_employee_task_guess
+-- Table structure for `guguo_employee_task_guess`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_employee_task_guess`;
 CREATE TABLE `guguo_employee_task_guess` (
@@ -2872,7 +2981,7 @@ CREATE TABLE `guguo_employee_task_guess` (
   `guess_money` int(11) NOT NULL COMMENT '参与金额',
   `guess_time` int(11) NOT NULL COMMENT '参与时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COMMENT='任务猜输赢';
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COMMENT='任务猜输赢';
 
 -- ----------------------------
 -- Records of guguo_employee_task_guess
@@ -2892,9 +3001,23 @@ INSERT INTO `guguo_employee_task_guess` VALUES ('19', '32', '3', '5', '10', '150
 INSERT INTO `guguo_employee_task_guess` VALUES ('20', '33', '3', '5', '10', '1505804382');
 INSERT INTO `guguo_employee_task_guess` VALUES ('21', '70', '4', '3', '2', '1506153342');
 INSERT INTO `guguo_employee_task_guess` VALUES ('22', '72', '4', '7', '300', '1506154915');
+INSERT INTO `guguo_employee_task_guess` VALUES ('23', '115', '2', '12', '10', '1506655868');
+INSERT INTO `guguo_employee_task_guess` VALUES ('24', '118', '3', '72', '2', '1506664067');
+INSERT INTO `guguo_employee_task_guess` VALUES ('25', '119', '3', '72', '3', '1506665550');
+INSERT INTO `guguo_employee_task_guess` VALUES ('26', '120', '3', '72', '3', '1506666226');
+INSERT INTO `guguo_employee_task_guess` VALUES ('27', '131', '4', '2', '20', '1506672797');
+INSERT INTO `guguo_employee_task_guess` VALUES ('28', '131', '4', '2', '1000', '1506672885');
+INSERT INTO `guguo_employee_task_guess` VALUES ('29', '136', '2', '72', '13', '1506675705');
+INSERT INTO `guguo_employee_task_guess` VALUES ('30', '136', '2', '7', '20', '1506675808');
+INSERT INTO `guguo_employee_task_guess` VALUES ('31', '138', '72', '3', '2', '1506681992');
+INSERT INTO `guguo_employee_task_guess` VALUES ('32', '141', '12', '72', '20', '1506734895');
+INSERT INTO `guguo_employee_task_guess` VALUES ('33', '139', '12', '72', '10', '1506735485');
+INSERT INTO `guguo_employee_task_guess` VALUES ('34', '145', '72', '12', '10', '1506735643');
+INSERT INTO `guguo_employee_task_guess` VALUES ('35', '145', '72', '3', '1', '1506737707');
+INSERT INTO `guguo_employee_task_guess` VALUES ('36', '146', '5', '3', '1', '1506738830');
 
 -- ----------------------------
--- Table structure for guguo_employee_task_like
+-- Table structure for `guguo_employee_task_like`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_employee_task_like`;
 CREATE TABLE `guguo_employee_task_like` (
@@ -2903,7 +3026,7 @@ CREATE TABLE `guguo_employee_task_like` (
   `user_id` int(11) NOT NULL COMMENT '喜欢人id',
   `like_time` int(11) unsigned NOT NULL COMMENT '喜欢时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=256 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=263 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guguo_employee_task_like
@@ -2936,9 +3059,13 @@ INSERT INTO `guguo_employee_task_like` VALUES ('250', '75', '12', '1506387440');
 INSERT INTO `guguo_employee_task_like` VALUES ('252', '22', '12', '1506415201');
 INSERT INTO `guguo_employee_task_like` VALUES ('254', '78', '12', '1506418598');
 INSERT INTO `guguo_employee_task_like` VALUES ('255', '78', '8', '1506475986');
+INSERT INTO `guguo_employee_task_like` VALUES ('257', '50', '10', '1506652724');
+INSERT INTO `guguo_employee_task_like` VALUES ('259', '106', '10', '1506652926');
+INSERT INTO `guguo_employee_task_like` VALUES ('260', '112', '10', '1506653778');
+INSERT INTO `guguo_employee_task_like` VALUES ('262', '113', '4', '1506670850');
 
 -- ----------------------------
--- Table structure for guguo_employee_task_reward
+-- Table structure for `guguo_employee_task_reward`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_employee_task_reward`;
 CREATE TABLE `guguo_employee_task_reward` (
@@ -2951,7 +3078,7 @@ CREATE TABLE `guguo_employee_task_reward` (
   `reward_start` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '奖励起始名次',
   `reward_end` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '奖励结束名次',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='任务奖励';
+) ENGINE=InnoDB AUTO_INCREMENT=170 DEFAULT CHARSET=utf8 COMMENT='任务奖励';
 
 -- ----------------------------
 -- Records of guguo_employee_task_reward
@@ -3028,9 +3155,62 @@ INSERT INTO `guguo_employee_task_reward` VALUES ('94', '79', '1', '1', '10', '0'
 INSERT INTO `guguo_employee_task_reward` VALUES ('95', '80', '2', '1', '100', '4', '1', '4');
 INSERT INTO `guguo_employee_task_reward` VALUES ('96', '81', '1', '1', '2', '0', '1', '1');
 INSERT INTO `guguo_employee_task_reward` VALUES ('97', '82', '2', '1', '3', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('100', '85', '1', '1', '2', '0', '1', '1');
+INSERT INTO `guguo_employee_task_reward` VALUES ('113', '98', '2', '1', '2', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('114', '99', '2', '1', '2', '3', '1', '3');
+INSERT INTO `guguo_employee_task_reward` VALUES ('115', '100', '2', '1', '20', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('116', '101', '2', '4', '2', '2', '3', '4');
+INSERT INTO `guguo_employee_task_reward` VALUES ('117', '101', '2', '4', '3', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('119', '102', '1', '1', '5', '0', '1', '1');
+INSERT INTO `guguo_employee_task_reward` VALUES ('120', '103', '2', '1', '3', '2', '3', '4');
+INSERT INTO `guguo_employee_task_reward` VALUES ('121', '103', '2', '1', '7', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('123', '104', '2', '1', '2', '2', '3', '4');
+INSERT INTO `guguo_employee_task_reward` VALUES ('124', '104', '2', '1', '3', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('126', '105', '2', '1', '10', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('127', '106', '2', '1', '10', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('128', '107', '2', '1', '10', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('129', '108', '2', '1', '10', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('130', '109', '2', '1', '10', '6', '1', '6');
+INSERT INTO `guguo_employee_task_reward` VALUES ('131', '110', '2', '1', '10', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('132', '111', '2', '1', '2', '3', '1', '3');
+INSERT INTO `guguo_employee_task_reward` VALUES ('133', '112', '2', '1', '10', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('134', '113', '2', '1', '3', '5', '1', '5');
+INSERT INTO `guguo_employee_task_reward` VALUES ('135', '114', '2', '1', '10', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('136', '115', '2', '1', '3', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('137', '116', '1', '1', '13', '0', '1', '1');
+INSERT INTO `guguo_employee_task_reward` VALUES ('138', '117', '1', '1', '13', '0', '1', '1');
+INSERT INTO `guguo_employee_task_reward` VALUES ('139', '118', '2', '1', '13', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('140', '119', '2', '1', '3', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('141', '120', '2', '1', '3', '3', '1', '3');
+INSERT INTO `guguo_employee_task_reward` VALUES ('142', '121', '1', '1', '3', '0', '1', '1');
+INSERT INTO `guguo_employee_task_reward` VALUES ('143', '122', '2', '1', '2', '3', '1', '3');
+INSERT INTO `guguo_employee_task_reward` VALUES ('145', '124', '1', '1', '13', '0', '1', '1');
+INSERT INTO `guguo_employee_task_reward` VALUES ('146', '125', '1', '1', '13', '0', '1', '1');
+INSERT INTO `guguo_employee_task_reward` VALUES ('147', '126', '2', '1', '2', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('148', '127', '2', '1', '3', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('149', '128', '2', '4', '50', '3', '4', '6');
+INSERT INTO `guguo_employee_task_reward` VALUES ('150', '128', '2', '4', '100', '3', '1', '3');
+INSERT INTO `guguo_employee_task_reward` VALUES ('152', '129', '1', '1', '13', '0', '1', '1');
+INSERT INTO `guguo_employee_task_reward` VALUES ('153', '130', '2', '1', '10', '5', '1', '5');
+INSERT INTO `guguo_employee_task_reward` VALUES ('154', '131', '2', '1', '20', '6', '1', '6');
+INSERT INTO `guguo_employee_task_reward` VALUES ('155', '132', '2', '1', '10', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('156', '133', '1', '1', '13', '0', '1', '1');
+INSERT INTO `guguo_employee_task_reward` VALUES ('157', '134', '2', '1', '10', '6', '1', '6');
+INSERT INTO `guguo_employee_task_reward` VALUES ('158', '135', '2', '1', '13', '6', '1', '6');
+INSERT INTO `guguo_employee_task_reward` VALUES ('159', '136', '2', '1', '13', '6', '1', '6');
+INSERT INTO `guguo_employee_task_reward` VALUES ('160', '137', '2', '1', '3', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('161', '138', '2', '1', '20', '2', '1', '2');
+INSERT INTO `guguo_employee_task_reward` VALUES ('162', '139', '2', '1', '10', '10', '1', '10');
+INSERT INTO `guguo_employee_task_reward` VALUES ('163', '140', '2', '1', '100', '14', '1', '14');
+INSERT INTO `guguo_employee_task_reward` VALUES ('164', '141', '2', '1', '20', '10', '1', '10');
+INSERT INTO `guguo_employee_task_reward` VALUES ('165', '142', '2', '1', '20', '10', '1', '10');
+INSERT INTO `guguo_employee_task_reward` VALUES ('166', '143', '2', '1', '20', '10', '1', '10');
+INSERT INTO `guguo_employee_task_reward` VALUES ('167', '144', '2', '1', '20', '10', '1', '10');
+INSERT INTO `guguo_employee_task_reward` VALUES ('168', '145', '2', '1', '20', '10', '1', '10');
+INSERT INTO `guguo_employee_task_reward` VALUES ('169', '146', '2', '1', '10', '3', '1', '3');
 
 -- ----------------------------
--- Table structure for guguo_employee_task_take
+-- Table structure for `guguo_employee_task_take`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_employee_task_take`;
 CREATE TABLE `guguo_employee_task_take` (
@@ -3039,7 +3219,7 @@ CREATE TABLE `guguo_employee_task_take` (
   `take_employee` int(11) NOT NULL COMMENT '参与员工ID',
   `take_time` int(11) NOT NULL COMMENT '参与时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=536 DEFAULT CHARSET=utf8 COMMENT='任务目标';
+) ENGINE=InnoDB AUTO_INCREMENT=746 DEFAULT CHARSET=utf8 COMMENT='任务目标';
 
 -- ----------------------------
 -- Records of guguo_employee_task_take
@@ -3458,9 +3638,127 @@ INSERT INTO `guguo_employee_task_take` VALUES ('513', '81', '5', '1506563660');
 INSERT INTO `guguo_employee_task_take` VALUES ('514', '81', '6', '1506563660');
 INSERT INTO `guguo_employee_task_take` VALUES ('515', '81', '7', '1506563660');
 INSERT INTO `guguo_employee_task_take` VALUES ('521', '82', '3', '1506563800');
+INSERT INTO `guguo_employee_task_take` VALUES ('536', '85', '3', '1506584173');
+INSERT INTO `guguo_employee_task_take` VALUES ('537', '85', '4', '1506584173');
+INSERT INTO `guguo_employee_task_take` VALUES ('538', '85', '5', '1506584173');
+INSERT INTO `guguo_employee_task_take` VALUES ('623', '101', '2', '1506644287');
+INSERT INTO `guguo_employee_task_take` VALUES ('624', '101', '3', '1506644287');
+INSERT INTO `guguo_employee_task_take` VALUES ('625', '101', '12', '1506644287');
+INSERT INTO `guguo_employee_task_take` VALUES ('626', '102', '2', '1506644371');
+INSERT INTO `guguo_employee_task_take` VALUES ('627', '102', '3', '1506644371');
+INSERT INTO `guguo_employee_task_take` VALUES ('628', '102', '12', '1506644371');
+INSERT INTO `guguo_employee_task_take` VALUES ('629', '103', '2', '1506644443');
+INSERT INTO `guguo_employee_task_take` VALUES ('630', '103', '3', '1506644443');
+INSERT INTO `guguo_employee_task_take` VALUES ('631', '103', '12', '1506644443');
+INSERT INTO `guguo_employee_task_take` VALUES ('632', '100', '12', '1506644657');
+INSERT INTO `guguo_employee_task_take` VALUES ('633', '104', '2', '1506644895');
+INSERT INTO `guguo_employee_task_take` VALUES ('634', '104', '3', '1506644895');
+INSERT INTO `guguo_employee_task_take` VALUES ('635', '104', '12', '1506644895');
+INSERT INTO `guguo_employee_task_take` VALUES ('636', '105', '12', '1506648491');
+INSERT INTO `guguo_employee_task_take` VALUES ('637', '106', '12', '1506648671');
+INSERT INTO `guguo_employee_task_take` VALUES ('638', '107', '12', '1506649387');
+INSERT INTO `guguo_employee_task_take` VALUES ('639', '108', '12', '1506649504');
+INSERT INTO `guguo_employee_task_take` VALUES ('640', '109', '12', '1506649746');
+INSERT INTO `guguo_employee_task_take` VALUES ('641', '111', '3', '1506650691');
+INSERT INTO `guguo_employee_task_take` VALUES ('642', '110', '12', '1506651147');
+INSERT INTO `guguo_employee_task_take` VALUES ('643', '112', '12', '1506651210');
+INSERT INTO `guguo_employee_task_take` VALUES ('644', '113', '3', '1506652688');
+INSERT INTO `guguo_employee_task_take` VALUES ('645', '113', '12', '1506652742');
+INSERT INTO `guguo_employee_task_take` VALUES ('646', '112', '10', '1506652824');
+INSERT INTO `guguo_employee_task_take` VALUES ('647', '110', '10', '1506652915');
+INSERT INTO `guguo_employee_task_take` VALUES ('648', '108', '10', '1506652920');
+INSERT INTO `guguo_employee_task_take` VALUES ('649', '107', '10', '1506652923');
+INSERT INTO `guguo_employee_task_take` VALUES ('650', '114', '12', '1506653229');
+INSERT INTO `guguo_employee_task_take` VALUES ('651', '115', '3', '1506655526');
+INSERT INTO `guguo_employee_task_take` VALUES ('652', '115', '2', '1506655650');
+INSERT INTO `guguo_employee_task_take` VALUES ('653', '116', '2', '1506656993');
+INSERT INTO `guguo_employee_task_take` VALUES ('654', '116', '3', '1506656993');
+INSERT INTO `guguo_employee_task_take` VALUES ('656', '117', '2', '1506657049');
+INSERT INTO `guguo_employee_task_take` VALUES ('657', '117', '3', '1506657049');
+INSERT INTO `guguo_employee_task_take` VALUES ('658', '117', '12', '1506657049');
+INSERT INTO `guguo_employee_task_take` VALUES ('659', '118', '3', '1506663979');
+INSERT INTO `guguo_employee_task_take` VALUES ('660', '119', '3', '1506665564');
+INSERT INTO `guguo_employee_task_take` VALUES ('661', '120', '3', '1506666222');
+INSERT INTO `guguo_employee_task_take` VALUES ('662', '120', '5', '1506666479');
+INSERT INTO `guguo_employee_task_take` VALUES ('663', '121', '2', '1506666681');
+INSERT INTO `guguo_employee_task_take` VALUES ('664', '121', '3', '1506666681');
+INSERT INTO `guguo_employee_task_take` VALUES ('665', '121', '4', '1506666681');
+INSERT INTO `guguo_employee_task_take` VALUES ('666', '122', '3', '1506666804');
+INSERT INTO `guguo_employee_task_take` VALUES ('667', '122', '5', '1506666816');
+INSERT INTO `guguo_employee_task_take` VALUES ('671', '124', '2', '1506667506');
+INSERT INTO `guguo_employee_task_take` VALUES ('672', '124', '3', '1506667506');
+INSERT INTO `guguo_employee_task_take` VALUES ('673', '124', '12', '1506667506');
+INSERT INTO `guguo_employee_task_take` VALUES ('674', '125', '2', '1506669058');
+INSERT INTO `guguo_employee_task_take` VALUES ('675', '125', '3', '1506669058');
+INSERT INTO `guguo_employee_task_take` VALUES ('676', '125', '12', '1506669058');
+INSERT INTO `guguo_employee_task_take` VALUES ('677', '127', '72', '1506669914');
+INSERT INTO `guguo_employee_task_take` VALUES ('678', '128', '1', '1506670247');
+INSERT INTO `guguo_employee_task_take` VALUES ('679', '128', '2', '1506670247');
+INSERT INTO `guguo_employee_task_take` VALUES ('680', '128', '3', '1506670247');
+INSERT INTO `guguo_employee_task_take` VALUES ('681', '128', '4', '1506670247');
+INSERT INTO `guguo_employee_task_take` VALUES ('682', '128', '5', '1506670247');
+INSERT INTO `guguo_employee_task_take` VALUES ('683', '128', '6', '1506670247');
+INSERT INTO `guguo_employee_task_take` VALUES ('684', '128', '7', '1506670247');
+INSERT INTO `guguo_employee_task_take` VALUES ('685', '128', '8', '1506670247');
+INSERT INTO `guguo_employee_task_take` VALUES ('686', '128', '9', '1506670247');
+INSERT INTO `guguo_employee_task_take` VALUES ('687', '128', '10', '1506670247');
+INSERT INTO `guguo_employee_task_take` VALUES ('688', '128', '11', '1506670247');
+INSERT INTO `guguo_employee_task_take` VALUES ('689', '128', '12', '1506670247');
+INSERT INTO `guguo_employee_task_take` VALUES ('690', '128', '72', '1506670247');
+INSERT INTO `guguo_employee_task_take` VALUES ('691', '128', '85', '1506670247');
+INSERT INTO `guguo_employee_task_take` VALUES ('692', '128', '90', '1506670247');
+INSERT INTO `guguo_employee_task_take` VALUES ('693', '129', '1', '1506670915');
+INSERT INTO `guguo_employee_task_take` VALUES ('694', '129', '2', '1506670915');
+INSERT INTO `guguo_employee_task_take` VALUES ('695', '129', '3', '1506670915');
+INSERT INTO `guguo_employee_task_take` VALUES ('696', '129', '4', '1506670915');
+INSERT INTO `guguo_employee_task_take` VALUES ('697', '129', '5', '1506670915');
+INSERT INTO `guguo_employee_task_take` VALUES ('698', '129', '6', '1506670915');
+INSERT INTO `guguo_employee_task_take` VALUES ('699', '129', '7', '1506670915');
+INSERT INTO `guguo_employee_task_take` VALUES ('700', '129', '8', '1506670915');
+INSERT INTO `guguo_employee_task_take` VALUES ('701', '129', '9', '1506670915');
+INSERT INTO `guguo_employee_task_take` VALUES ('702', '129', '10', '1506670915');
+INSERT INTO `guguo_employee_task_take` VALUES ('703', '129', '11', '1506670915');
+INSERT INTO `guguo_employee_task_take` VALUES ('704', '129', '12', '1506670915');
+INSERT INTO `guguo_employee_task_take` VALUES ('705', '129', '72', '1506670915');
+INSERT INTO `guguo_employee_task_take` VALUES ('706', '129', '85', '1506670915');
+INSERT INTO `guguo_employee_task_take` VALUES ('707', '129', '90', '1506670915');
+INSERT INTO `guguo_employee_task_take` VALUES ('708', '130', '1', '1506671387');
+INSERT INTO `guguo_employee_task_take` VALUES ('709', '130', '2', '1506671387');
+INSERT INTO `guguo_employee_task_take` VALUES ('710', '130', '3', '1506671387');
+INSERT INTO `guguo_employee_task_take` VALUES ('711', '130', '4', '1506671387');
+INSERT INTO `guguo_employee_task_take` VALUES ('712', '130', '5', '1506671387');
+INSERT INTO `guguo_employee_task_take` VALUES ('713', '130', '6', '1506671387');
+INSERT INTO `guguo_employee_task_take` VALUES ('715', '131', '3', '1506672602');
+INSERT INTO `guguo_employee_task_take` VALUES ('716', '131', '4', '1506672623');
+INSERT INTO `guguo_employee_task_take` VALUES ('717', '131', '8', '1506672712');
+INSERT INTO `guguo_employee_task_take` VALUES ('718', '132', '3', '1506672774');
+INSERT INTO `guguo_employee_task_take` VALUES ('719', '133', '1', '1506672842');
+INSERT INTO `guguo_employee_task_take` VALUES ('720', '133', '2', '1506672842');
+INSERT INTO `guguo_employee_task_take` VALUES ('721', '133', '3', '1506672842');
+INSERT INTO `guguo_employee_task_take` VALUES ('722', '133', '4', '1506672842');
+INSERT INTO `guguo_employee_task_take` VALUES ('726', '134', '3', '1506674224');
+INSERT INTO `guguo_employee_task_take` VALUES ('727', '134', '72', '1506674245');
+INSERT INTO `guguo_employee_task_take` VALUES ('728', '135', '3', '1506675299');
+INSERT INTO `guguo_employee_task_take` VALUES ('729', '136', '3', '1506675409');
+INSERT INTO `guguo_employee_task_take` VALUES ('730', '136', '4', '1506675434');
+INSERT INTO `guguo_employee_task_take` VALUES ('731', '136', '2', '1506675436');
+INSERT INTO `guguo_employee_task_take` VALUES ('732', '137', '3', '1506681235');
+INSERT INTO `guguo_employee_task_take` VALUES ('733', '138', '72', '1506681777');
+INSERT INTO `guguo_employee_task_take` VALUES ('734', '139', '12', '1506730949');
+INSERT INTO `guguo_employee_task_take` VALUES ('735', '140', '12', '1506732516');
+INSERT INTO `guguo_employee_task_take` VALUES ('736', '141', '12', '1506733437');
+INSERT INTO `guguo_employee_task_take` VALUES ('737', '142', '12', '1506733539');
+INSERT INTO `guguo_employee_task_take` VALUES ('738', '143', '12', '1506733614');
+INSERT INTO `guguo_employee_task_take` VALUES ('739', '144', '12', '1506733691');
+INSERT INTO `guguo_employee_task_take` VALUES ('740', '144', '72', '1506734368');
+INSERT INTO `guguo_employee_task_take` VALUES ('741', '143', '72', '1506734437');
+INSERT INTO `guguo_employee_task_take` VALUES ('742', '142', '72', '1506734771');
+INSERT INTO `guguo_employee_task_take` VALUES ('743', '140', '72', '1506735249');
+INSERT INTO `guguo_employee_task_take` VALUES ('744', '145', '72', '1506735591');
+INSERT INTO `guguo_employee_task_take` VALUES ('745', '146', '5', '1506738789');
 
 -- ----------------------------
--- Table structure for guguo_employee_task_target
+-- Table structure for `guguo_employee_task_target`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_employee_task_target`;
 CREATE TABLE `guguo_employee_task_target` (
@@ -3468,81 +3766,131 @@ CREATE TABLE `guguo_employee_task_target` (
   `task_id` int(11) NOT NULL COMMENT '任务id',
   `target_type` tinyint(4) NOT NULL COMMENT '目标类型,1:通话数,2:商机数,3:成交额,4:成单数,5:拜访数,6:新增客户数,7:悬赏拜访对象',
   `target_num` int(10) unsigned NOT NULL COMMENT '目标量',
+  `target_method` tinyint(4) NOT NULL DEFAULT '1' COMMENT '悬赏类型,1:其他需求,2:帮忙跟进客户',
   `target_customer` int(11) NOT NULL DEFAULT '0' COMMENT '目标客户',
   `target_description` varchar(255) NOT NULL DEFAULT '' COMMENT '任务描述',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8 COMMENT='任务目标';
+) ENGINE=InnoDB AUTO_INCREMENT=148 DEFAULT CHARSET=utf8 COMMENT='任务目标';
 
 -- ----------------------------
 -- Records of guguo_employee_task_target
 -- ----------------------------
-INSERT INTO `guguo_employee_task_target` VALUES ('1', '1', '1', '2', '1', '12');
-INSERT INTO `guguo_employee_task_target` VALUES ('2', '2', '1', '3', '1', '12');
-INSERT INTO `guguo_employee_task_target` VALUES ('6', '6', '3', '500', '2', '12');
-INSERT INTO `guguo_employee_task_target` VALUES ('7', '7', '4', '10', '2', '1');
-INSERT INTO `guguo_employee_task_target` VALUES ('8', '8', '5', '5', '3', '1');
-INSERT INTO `guguo_employee_task_target` VALUES ('9', '9', '6', '3', '3', '1');
-INSERT INTO `guguo_employee_task_target` VALUES ('10', '10', '2', '13', '4', '1');
-INSERT INTO `guguo_employee_task_target` VALUES ('11', '11', '2', '1', '4', '12');
-INSERT INTO `guguo_employee_task_target` VALUES ('16', '15', '2', '10', '0', '12');
-INSERT INTO `guguo_employee_task_target` VALUES ('17', '16', '2', '10', '0', '12,2');
-INSERT INTO `guguo_employee_task_target` VALUES ('18', '17', '2', '10', '0', '12');
-INSERT INTO `guguo_employee_task_target` VALUES ('19', '18', '2', '10', '0', '12');
-INSERT INTO `guguo_employee_task_target` VALUES ('20', '19', '2', '10', '0', '12');
-INSERT INTO `guguo_employee_task_target` VALUES ('23', '22', '2', '1', '0', '12');
-INSERT INTO `guguo_employee_task_target` VALUES ('25', '24', '2', '10', '0', '12');
-INSERT INTO `guguo_employee_task_target` VALUES ('26', '25', '2', '10', '0', '12');
-INSERT INTO `guguo_employee_task_target` VALUES ('27', '26', '2', '1', '0', '12');
-INSERT INTO `guguo_employee_task_target` VALUES ('28', '27', '2', '1', '0', '12');
-INSERT INTO `guguo_employee_task_target` VALUES ('29', '28', '2', '1', '0', '12');
-INSERT INTO `guguo_employee_task_target` VALUES ('30', '29', '2', '1', '0', '12');
-INSERT INTO `guguo_employee_task_target` VALUES ('31', '30', '2', '1', '0', '12');
-INSERT INTO `guguo_employee_task_target` VALUES ('32', '31', '2', '1', '0', '2,12');
-INSERT INTO `guguo_employee_task_target` VALUES ('33', '32', '2', '1', '0', '3');
-INSERT INTO `guguo_employee_task_target` VALUES ('34', '33', '2', '1', '0', '5');
-INSERT INTO `guguo_employee_task_target` VALUES ('35', '34', '7', '1', '11', '4');
-INSERT INTO `guguo_employee_task_target` VALUES ('37', '36', '7', '1', '11', '5');
-INSERT INTO `guguo_employee_task_target` VALUES ('38', '37', '7', '1', '11', '6');
-INSERT INTO `guguo_employee_task_target` VALUES ('39', '38', '7', '1', '11', '0');
-INSERT INTO `guguo_employee_task_target` VALUES ('40', '39', '7', '1', '11', '0');
-INSERT INTO `guguo_employee_task_target` VALUES ('41', '40', '7', '1', '11', '0');
-INSERT INTO `guguo_employee_task_target` VALUES ('42', '41', '1', '0', '0', '孙大鹏');
-INSERT INTO `guguo_employee_task_target` VALUES ('48', '47', '1', '0', '0', '孙大鹏');
-INSERT INTO `guguo_employee_task_target` VALUES ('49', '48', '1', '100', '0', '孙大鹏');
-INSERT INTO `guguo_employee_task_target` VALUES ('50', '49', '1', '4', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('51', '50', '1', '1', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('52', '51', '1', '0', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('54', '53', '1', '0', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('55', '54', '2', '100', '0', '孙大鹏');
-INSERT INTO `guguo_employee_task_target` VALUES ('56', '55', '4', '100', '0', '孙大鹏');
-INSERT INTO `guguo_employee_task_target` VALUES ('57', '56', '1', '1', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('58', '57', '1', '1', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('59', '58', '2', '100', '0', '孙大鹏');
-INSERT INTO `guguo_employee_task_target` VALUES ('60', '59', '1', '100', '0', '孙大鹏');
-INSERT INTO `guguo_employee_task_target` VALUES ('61', '60', '1', '2', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('64', '63', '1', '100', '0', '孙大鹏');
-INSERT INTO `guguo_employee_task_target` VALUES ('65', '64', '1', '0', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('66', '65', '1', '2', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('67', '66', '1', '3', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('68', '67', '1', '1', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('69', '68', '1', '0', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('70', '69', '1', '0', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('71', '70', '1', '100', '0', '孙大鹏');
-INSERT INTO `guguo_employee_task_target` VALUES ('72', '71', '1', '100', '0', '孙大鹏');
-INSERT INTO `guguo_employee_task_target` VALUES ('73', '72', '6', '0', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('74', '73', '1', '0', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('75', '74', '2', '100', '0', '孙大鹏');
-INSERT INTO `guguo_employee_task_target` VALUES ('76', '75', '6', '1', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('77', '76', '1', '1', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('78', '77', '6', '1', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('79', '78', '6', '1', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('80', '79', '1', '1', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('81', '80', '1', '0', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('82', '81', '1', '1', '0', '');
-INSERT INTO `guguo_employee_task_target` VALUES ('83', '82', '1', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('1', '1', '1', '2', '1', '1', '12');
+INSERT INTO `guguo_employee_task_target` VALUES ('2', '2', '1', '3', '1', '1', '12');
+INSERT INTO `guguo_employee_task_target` VALUES ('6', '6', '3', '500', '1', '2', '12');
+INSERT INTO `guguo_employee_task_target` VALUES ('7', '7', '4', '10', '1', '2', '1');
+INSERT INTO `guguo_employee_task_target` VALUES ('8', '8', '5', '5', '1', '3', '1');
+INSERT INTO `guguo_employee_task_target` VALUES ('9', '9', '6', '3', '1', '3', '1');
+INSERT INTO `guguo_employee_task_target` VALUES ('10', '10', '2', '13', '1', '4', '1');
+INSERT INTO `guguo_employee_task_target` VALUES ('11', '11', '2', '1', '1', '4', '12');
+INSERT INTO `guguo_employee_task_target` VALUES ('16', '15', '2', '10', '1', '0', '12');
+INSERT INTO `guguo_employee_task_target` VALUES ('17', '16', '2', '10', '1', '0', '12,2');
+INSERT INTO `guguo_employee_task_target` VALUES ('18', '17', '2', '10', '1', '0', '12');
+INSERT INTO `guguo_employee_task_target` VALUES ('19', '18', '2', '10', '1', '0', '12');
+INSERT INTO `guguo_employee_task_target` VALUES ('20', '19', '2', '10', '1', '0', '12');
+INSERT INTO `guguo_employee_task_target` VALUES ('23', '22', '2', '1', '1', '0', '12');
+INSERT INTO `guguo_employee_task_target` VALUES ('25', '24', '2', '10', '1', '0', '12');
+INSERT INTO `guguo_employee_task_target` VALUES ('26', '25', '2', '10', '1', '0', '12');
+INSERT INTO `guguo_employee_task_target` VALUES ('27', '26', '2', '1', '1', '0', '12');
+INSERT INTO `guguo_employee_task_target` VALUES ('28', '27', '2', '1', '1', '0', '12');
+INSERT INTO `guguo_employee_task_target` VALUES ('29', '28', '2', '1', '1', '0', '12');
+INSERT INTO `guguo_employee_task_target` VALUES ('30', '29', '2', '1', '1', '0', '12');
+INSERT INTO `guguo_employee_task_target` VALUES ('31', '30', '2', '1', '1', '0', '12');
+INSERT INTO `guguo_employee_task_target` VALUES ('32', '31', '2', '1', '1', '0', '2,12');
+INSERT INTO `guguo_employee_task_target` VALUES ('33', '32', '2', '1', '1', '0', '3');
+INSERT INTO `guguo_employee_task_target` VALUES ('34', '33', '2', '1', '1', '0', '5');
+INSERT INTO `guguo_employee_task_target` VALUES ('35', '34', '7', '1', '1', '11', '4');
+INSERT INTO `guguo_employee_task_target` VALUES ('37', '36', '7', '1', '1', '11', '5');
+INSERT INTO `guguo_employee_task_target` VALUES ('38', '37', '7', '1', '1', '11', '6');
+INSERT INTO `guguo_employee_task_target` VALUES ('39', '38', '7', '1', '1', '11', '0');
+INSERT INTO `guguo_employee_task_target` VALUES ('40', '39', '7', '1', '1', '11', '0');
+INSERT INTO `guguo_employee_task_target` VALUES ('41', '40', '7', '1', '1', '11', '0');
+INSERT INTO `guguo_employee_task_target` VALUES ('42', '41', '1', '0', '1', '0', '孙大鹏');
+INSERT INTO `guguo_employee_task_target` VALUES ('48', '47', '1', '0', '1', '0', '孙大鹏');
+INSERT INTO `guguo_employee_task_target` VALUES ('49', '48', '1', '100', '1', '0', '孙大鹏');
+INSERT INTO `guguo_employee_task_target` VALUES ('50', '49', '1', '4', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('51', '50', '1', '1', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('52', '51', '1', '0', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('54', '53', '1', '0', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('55', '54', '2', '100', '1', '0', '孙大鹏');
+INSERT INTO `guguo_employee_task_target` VALUES ('56', '55', '4', '100', '1', '0', '孙大鹏');
+INSERT INTO `guguo_employee_task_target` VALUES ('57', '56', '1', '1', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('58', '57', '1', '1', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('59', '58', '2', '100', '1', '0', '孙大鹏');
+INSERT INTO `guguo_employee_task_target` VALUES ('60', '59', '1', '100', '1', '0', '孙大鹏');
+INSERT INTO `guguo_employee_task_target` VALUES ('61', '60', '1', '2', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('64', '63', '1', '100', '1', '0', '孙大鹏');
+INSERT INTO `guguo_employee_task_target` VALUES ('65', '64', '1', '0', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('66', '65', '1', '2', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('67', '66', '1', '3', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('68', '67', '1', '1', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('69', '68', '1', '0', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('70', '69', '1', '0', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('71', '70', '1', '100', '1', '0', '孙大鹏');
+INSERT INTO `guguo_employee_task_target` VALUES ('72', '71', '1', '100', '1', '0', '孙大鹏');
+INSERT INTO `guguo_employee_task_target` VALUES ('73', '72', '6', '0', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('74', '73', '1', '0', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('75', '74', '2', '100', '1', '0', '孙大鹏');
+INSERT INTO `guguo_employee_task_target` VALUES ('76', '75', '6', '1', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('77', '76', '1', '1', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('78', '77', '6', '1', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('79', '78', '6', '1', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('80', '79', '1', '1', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('81', '80', '1', '0', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('82', '81', '1', '1', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('83', '82', '1', '0', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('86', '85', '6', '1', '1', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('99', '98', '7', '0', '2', '11', '阿斯顿');
+INSERT INTO `guguo_employee_task_target` VALUES ('100', '99', '7', '0', '2', '11', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('101', '100', '7', '0', '2', '80', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('102', '101', '6', '2', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('103', '102', '6', '2', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('104', '103', '6', '2', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('105', '104', '6', '1', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('106', '105', '7', '0', '2', '99', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('107', '106', '7', '0', '1', '69', 'qitaxuqiu');
+INSERT INTO `guguo_employee_task_target` VALUES ('108', '107', '7', '0', '1', '69', 'other');
+INSERT INTO `guguo_employee_task_target` VALUES ('109', '108', '7', '0', '2', '84', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('110', '109', '7', '0', '1', '69', '其他需求');
+INSERT INTO `guguo_employee_task_target` VALUES ('111', '110', '7', '0', '2', '84', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('112', '111', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('113', '112', '7', '0', '2', '124', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('114', '113', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('115', '114', '7', '0', '1', '69', '我完全地方');
+INSERT INTO `guguo_employee_task_target` VALUES ('116', '115', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('117', '116', '6', '1', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('118', '117', '6', '1', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('119', '118', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('120', '119', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('121', '120', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('122', '121', '1', '100000', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('123', '122', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('125', '124', '6', '1', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('126', '125', '6', '1', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('127', '126', '7', '0', '2', '11', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('128', '127', '7', '0', '2', '11', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('129', '128', '6', '2', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('130', '129', '6', '1', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('131', '130', '1', '100000', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('132', '131', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('133', '132', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('134', '133', '1', '1', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('135', '134', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('136', '135', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('137', '136', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('138', '137', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('139', '138', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('140', '139', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('141', '140', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('142', '141', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('143', '142', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('144', '143', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('145', '144', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('146', '145', '6', '0', '0', '0', '');
+INSERT INTO `guguo_employee_task_target` VALUES ('147', '146', '6', '0', '0', '0', '');
 
 -- ----------------------------
--- Table structure for guguo_employee_task_tip
+-- Table structure for `guguo_employee_task_tip`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_employee_task_tip`;
 CREATE TABLE `guguo_employee_task_tip` (
@@ -3552,7 +3900,7 @@ CREATE TABLE `guguo_employee_task_tip` (
   `tip_money` decimal(13,2) unsigned NOT NULL COMMENT '打赏钱数',
   `tip_time` int(10) unsigned NOT NULL COMMENT '打赏时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 COMMENT='任务打赏';
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8 COMMENT='任务打赏';
 
 -- ----------------------------
 -- Records of guguo_employee_task_tip
@@ -3591,9 +3939,29 @@ INSERT INTO `guguo_employee_task_tip` VALUES ('31', '74', '4', '5.00', '15063114
 INSERT INTO `guguo_employee_task_tip` VALUES ('32', '74', '4', '5.00', '1506311461');
 INSERT INTO `guguo_employee_task_tip` VALUES ('33', '74', '4', '5.00', '1506311502');
 INSERT INTO `guguo_employee_task_tip` VALUES ('34', '74', '4', '5.00', '1506311826');
+INSERT INTO `guguo_employee_task_tip` VALUES ('35', '85', '3', '2.00', '1506584185');
+INSERT INTO `guguo_employee_task_tip` VALUES ('36', '100', '3', '2.00', '1506592814');
+INSERT INTO `guguo_employee_task_tip` VALUES ('37', '101', '3', '5.00', '1506644303');
+INSERT INTO `guguo_employee_task_tip` VALUES ('38', '102', '3', '7.00', '1506644387');
+INSERT INTO `guguo_employee_task_tip` VALUES ('39', '103', '3', '13.00', '1506644452');
+INSERT INTO `guguo_employee_task_tip` VALUES ('40', '104', '3', '13.00', '1506644904');
+INSERT INTO `guguo_employee_task_tip` VALUES ('41', '111', '3', '13.00', '1506650699');
+INSERT INTO `guguo_employee_task_tip` VALUES ('42', '116', '3', '13.00', '1506657003');
+INSERT INTO `guguo_employee_task_tip` VALUES ('43', '117', '3', '13.00', '1506657058');
+INSERT INTO `guguo_employee_task_tip` VALUES ('44', '119', '72', '3.00', '1506665565');
+INSERT INTO `guguo_employee_task_tip` VALUES ('45', '120', '72', '3.00', '1506666233');
+INSERT INTO `guguo_employee_task_tip` VALUES ('46', '125', '3', '13.00', '1506669065');
+INSERT INTO `guguo_employee_task_tip` VALUES ('47', '125', '3', '14.00', '1506669073');
+INSERT INTO `guguo_employee_task_tip` VALUES ('48', '128', '3', '13.00', '1506670663');
+INSERT INTO `guguo_employee_task_tip` VALUES ('49', '128', '3', '4.00', '1506670699');
+INSERT INTO `guguo_employee_task_tip` VALUES ('50', '131', '3', '13.00', '1506672652');
+INSERT INTO `guguo_employee_task_tip` VALUES ('51', '134', '72', '3.00', '1506674255');
+INSERT INTO `guguo_employee_task_tip` VALUES ('52', '134', '3', '7.00', '1506674266');
+INSERT INTO `guguo_employee_task_tip` VALUES ('53', '136', '3', '3.00', '1506675424');
+INSERT INTO `guguo_employee_task_tip` VALUES ('54', '136', '4', '5.00', '1506675735');
 
 -- ----------------------------
--- Table structure for guguo_import_file
+-- Table structure for `guguo_import_file`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_import_file`;
 CREATE TABLE `guguo_import_file` (
@@ -3625,7 +3993,7 @@ INSERT INTO `guguo_import_file` VALUES ('23', '2', 'customer.xls', '3ae04a17a9d4
 INSERT INTO `guguo_import_file` VALUES ('24', '2', 'Customer.xlsx', 'd0c96bc1d3c3ce5de76fc6b9a937b12a.xlsx', '/home/work/ziliao/workspace/zhuoying/public/webroot/sdzhongxun/import_file/20170908', 'xlsx', 'application/octet-stream', '5649', 'eb2d9b0609b77a140b108ae987ab5366', 'fcd85f549e1f7ef9ea1504729183a3ec4f4df843', '0', '1504831614');
 
 -- ----------------------------
--- Table structure for guguo_live_show
+-- Table structure for `guguo_live_show`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_live_show`;
 CREATE TABLE `guguo_live_show` (
@@ -3645,7 +4013,7 @@ CREATE TABLE `guguo_live_show` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for guguo_live_show_comment
+-- Table structure for `guguo_live_show_comment`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_live_show_comment`;
 CREATE TABLE `guguo_live_show_comment` (
@@ -3662,7 +4030,7 @@ CREATE TABLE `guguo_live_show_comment` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for guguo_my_live_show
+-- Table structure for `guguo_my_live_show`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_my_live_show`;
 CREATE TABLE `guguo_my_live_show` (
@@ -3679,7 +4047,7 @@ CREATE TABLE `guguo_my_live_show` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for guguo_param_remark
+-- Table structure for `guguo_param_remark`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_param_remark`;
 CREATE TABLE `guguo_param_remark` (
@@ -3701,7 +4069,7 @@ INSERT INTO `guguo_param_remark` VALUES ('16', '对对对', '8');
 INSERT INTO `guguo_param_remark` VALUES ('17', '33', '8');
 
 -- ----------------------------
--- Table structure for guguo_picture
+-- Table structure for `guguo_picture`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_picture`;
 CREATE TABLE `guguo_picture` (
@@ -3726,7 +4094,7 @@ INSERT INTO `guguo_picture` VALUES ('102', '20170626/d03e81b47e6419039deb914e0b2
 INSERT INTO `guguo_picture` VALUES ('103', '20170626/c4aa679572fc085dec1dcddb055b60b1.jpg', '0', '135f6e5d6c371c7784615598534c3529', '7e385dfef27f0ff8f587988232c1ce029fbb9173', '1498448224', '0', '1', '0');
 
 -- ----------------------------
--- Table structure for guguo_picture_category
+-- Table structure for `guguo_picture_category`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_picture_category`;
 CREATE TABLE `guguo_picture_category` (
@@ -3742,7 +4110,7 @@ CREATE TABLE `guguo_picture_category` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for guguo_red_envelope
+-- Table structure for `guguo_red_envelope`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_red_envelope`;
 CREATE TABLE `guguo_red_envelope` (
@@ -3761,7 +4129,7 @@ CREATE TABLE `guguo_red_envelope` (
   `took_telephone` varchar(16) DEFAULT NULL COMMENT '领取红包人电话',
   `remark` varchar(32) DEFAULT NULL COMMENT '红包说明',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1429 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1789 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guguo_red_envelope
@@ -4315,7 +4683,7 @@ INSERT INTO `guguo_red_envelope` VALUES ('871', 'e9a905dc8d58de70c4a08ebc9db1db2
 INSERT INTO `guguo_red_envelope` VALUES ('872', '3ba96ace7cd4a2d6ac060ffa8f8e4ad5', '3', '9', '0', '10.00', '1505273260', null, '0', '6', '10.00', null, null, null);
 INSERT INTO `guguo_red_envelope` VALUES ('875', '8a3d99150ae0152c07db5c518d075a88', '3', '10', '0', '10.00', '1505273260', null, '0', '3', '10.00', null, null, null);
 INSERT INTO `guguo_red_envelope` VALUES ('876', '0691550db4f9818bc37747d26fe93275', '3', '10', '0', '10.00', '1505273260', null, '0', '8', '10.00', null, null, null);
-INSERT INTO `guguo_red_envelope` VALUES ('878', 'bc9ecd7477bef74422e42e78df0f07d3', '3', '15', '0', '2.00', '1505273260', null, '0', '3', '2.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('878', 'bc9ecd7477bef74422e42e78df0f07d3', '3', '15', '0', '2.00', '1505273260', '1506647554', '1', '3', '2.00', null, '13311112222', null);
 INSERT INTO `guguo_red_envelope` VALUES ('879', '9fd1b081a035db6fba5f5164c78a125f', '3', '15', '0', '1.00', '1505273260', null, '0', '8', '1.00', null, null, null);
 INSERT INTO `guguo_red_envelope` VALUES ('880', '70ccc19603a029c0ba0d64519e9c8b4f', '3', '15', '0', '1.00', '1505273260', null, '0', '5', '1.00', null, null, null);
 INSERT INTO `guguo_red_envelope` VALUES ('881', 'fb903e99f756c6897d3b39a0110a1db5', '3', '16', '0', '2.00', '1505273260', null, '0', '3', '2.00', null, null, null);
@@ -4339,7 +4707,7 @@ INSERT INTO `guguo_red_envelope` VALUES ('908', 'bacf34cd0bfc301a5485f716caabe9b
 INSERT INTO `guguo_red_envelope` VALUES ('909', '093d79207c36cc116c048d553939fdd9', '3', '24', '0', '5.00', '1505791982', null, '0', '8', '5.00', null, null, null);
 INSERT INTO `guguo_red_envelope` VALUES ('910', '9f23fbda8f8c32595b4d0602a3292858', '3', '24', '0', '0.00', '1505791982', null, '0', '3', '0.00', null, null, null);
 INSERT INTO `guguo_red_envelope` VALUES ('911', 'e2315d5074842c1851f0cea8e199c008', '3', '24', '0', '0.00', '1505791982', null, '0', '8', '0.00', null, null, null);
-INSERT INTO `guguo_red_envelope` VALUES ('915', 'aa2c06cb6a9f7232f1c2900812b2f7d6', '3', '25', '0', '10.00', '1505791982', null, '0', '3', '10.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('915', 'aa2c06cb6a9f7232f1c2900812b2f7d6', '3', '25', '0', '10.00', '1505791982', '1506647681', '1', '3', '10.00', null, '13311112222', null);
 INSERT INTO `guguo_red_envelope` VALUES ('916', '4067af44c14ece9efe21c9c1b968e8e5', '3', '25', '0', '0.00', '1505791982', null, '0', '3', '0.00', null, null, null);
 INSERT INTO `guguo_red_envelope` VALUES ('918', '50b50a058e6c8ed5355925b775ab5656', '3', '26', '0', '10.00', '1505791982', null, '0', '3', '10.00', null, null, null);
 INSERT INTO `guguo_red_envelope` VALUES ('919', 'ca4f6a6cef14fb3a2e44811cc1e2c639', '3', '26', '0', '10.00', '1505791982', null, '0', '8', '10.00', null, null, null);
@@ -4349,11 +4717,11 @@ INSERT INTO `guguo_red_envelope` VALUES ('925', 'ff31227fb6a194af82c4e95b74a560d
 INSERT INTO `guguo_red_envelope` VALUES ('926', 'a38fa8d14844286a810c813982f99602', '3', '27', '0', '10.00', '1505791982', null, '0', '8', '10.00', null, null, null);
 INSERT INTO `guguo_red_envelope` VALUES ('927', 'af4d400849747ca555ad4b6a92a294bc', '3', '27', '0', '0.00', '1505791982', null, '0', '3', '0.00', null, null, null);
 INSERT INTO `guguo_red_envelope` VALUES ('928', '47770bfbb8fe57caecdf378920aa06d1', '3', '27', '0', '0.00', '1505791982', null, '0', '8', '0.00', null, null, null);
-INSERT INTO `guguo_red_envelope` VALUES ('932', '47324ebfd664bb11fed50eaff9bf2a65', '3', '28', '0', '10.00', '1505800871', null, '0', '3', '10.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('932', '47324ebfd664bb11fed50eaff9bf2a65', '3', '28', '0', '10.00', '1505800871', '1506647725', '1', '3', '10.00', null, '13311112222', null);
 INSERT INTO `guguo_red_envelope` VALUES ('933', 'dfc253ef4ef69ccddeb39a0d8499e6cc', '3', '28', '0', '10.00', '1505800871', null, '0', '8', '10.00', null, null, null);
 INSERT INTO `guguo_red_envelope` VALUES ('934', '74c09e17b9c72f258b61ad22069ea0f6', '3', '28', '0', '0.00', '1505800871', null, '0', '3', '0.00', null, null, null);
 INSERT INTO `guguo_red_envelope` VALUES ('935', '708c9e0dc959c98e8bb4f36b38574881', '3', '28', '0', '0.00', '1505800871', null, '0', '8', '0.00', null, null, null);
-INSERT INTO `guguo_red_envelope` VALUES ('942', '7b0a24fa52b246ea69b833d602e5ff4a', '3', '29', '0', '10.00', '1505801510', null, '0', '3', '10.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('942', '7b0a24fa52b246ea69b833d602e5ff4a', '3', '29', '0', '10.00', '1505801510', '1506647673', '1', '3', '10.00', null, '13311112222', null);
 INSERT INTO `guguo_red_envelope` VALUES ('943', '1a695ed97f2b79d1a024fdf609007dce', '3', '29', '0', '10.00', '1505801510', null, '0', '8', '10.00', null, null, null);
 INSERT INTO `guguo_red_envelope` VALUES ('945', 'b3e1753fd86740d36a6ce0e23dba2441', '3', '30', '0', '10.00', '1505801563', null, '0', '3', '10.00', null, null, null);
 INSERT INTO `guguo_red_envelope` VALUES ('946', 'a9c022ca39e109e2025dd07ce222a8da', '3', '30', '0', '10.00', '1505801563', null, '0', '8', '10.00', null, null, null);
@@ -4381,7 +4749,7 @@ INSERT INTO `guguo_red_envelope` VALUES ('1380', '4b269ed1ec81d3b826a2195937529c
 INSERT INTO `guguo_red_envelope` VALUES ('1381', '9fd17639d6c7398cfdd1ed6a8a668ce5', '3', '11', '0', '10.00', '1506147421', '1506302653', '1', '3', '10.00', null, '13311112222', null);
 INSERT INTO `guguo_red_envelope` VALUES ('1382', '516fa6f016d507075194628880897dfe', '3', '11', '0', '10.00', '1506147421', '1506302848', '1', '8', '10.00', null, '13311115555', null);
 INSERT INTO `guguo_red_envelope` VALUES ('1383', '386991e703ab399b6bf889069451c7d9', '3', '56', '0', '3.00', '1506158684', '1506484541', '1', '3', '3.00', null, '13311112222', null);
-INSERT INTO `guguo_red_envelope` VALUES ('1384', 'f2ff087dc98b9d337ddf3ff06eb04048', '3', '56', '0', '3.00', '1506158684', null, '0', '5', '3.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1384', 'f2ff087dc98b9d337ddf3ff06eb04048', '3', '56', '0', '3.00', '1506158684', '1506580652', '1', '5', '3.00', null, '13322226667', null);
 INSERT INTO `guguo_red_envelope` VALUES ('1385', '37e5b1d053367ce88298f0954cc8ab6e', '3', '56', '0', '0.50', '1506158684', null, '0', '3', '0.50', null, null, null);
 INSERT INTO `guguo_red_envelope` VALUES ('1386', '75409e2e4d000ffe5de7575b567e689a', '3', '56', '0', '0.50', '1506158684', null, '0', '5', '0.50', null, null, null);
 INSERT INTO `guguo_red_envelope` VALUES ('1390', 'b36375f42b01758bcbe75f435382d64b', '3', '57', '0', '10.00', '1506158684', null, '0', '5', '10.00', null, null, null);
@@ -4410,12 +4778,104 @@ INSERT INTO `guguo_red_envelope` VALUES ('1418', '9cf64b4494f45199951845210e6ce0
 INSERT INTO `guguo_red_envelope` VALUES ('1419', '1d611744abcef40b994d9faf92e6e6b4', '3', '77', '0', '2.00', '1506311341', null, '0', '9', '2.00', null, null, null);
 INSERT INTO `guguo_red_envelope` VALUES ('1422', '2e9284739465855a60d77d8ccc1c2d0e', '3', '78', '0', '2.00', '1506311701', '1506311757', '1', '12', '2.00', null, '13322227777', null);
 INSERT INTO `guguo_red_envelope` VALUES ('1423', '3ecee4d858341530551e7c0c2bee2184', '3', '78', '0', '2.00', '1506311701', '1506475979', '1', '8', '2.00', null, '13311115555', null);
-INSERT INTO `guguo_red_envelope` VALUES ('1424', 'c2b964bda032e7a4585c78d99197b1b3', '3', '78', '0', '2.00', '1506311701', null, '0', '5', '2.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1424', 'c2b964bda032e7a4585c78d99197b1b3', '3', '78', '0', '2.00', '1506311701', '1506580630', '1', '5', '2.00', null, '13322226667', null);
 INSERT INTO `guguo_red_envelope` VALUES ('1425', '3cc8f39ce9429f15b49c1c24cfced053', '3', '78', '0', '2.00', '1506311701', null, '0', '4', '2.00', null, null, null);
 INSERT INTO `guguo_red_envelope` VALUES ('1426', 'f8d2d6fa7712ed0f2bda5ff009aa42aa', '3', '78', '0', '2.00', '1506311701', null, '0', '9', '2.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1453', 'c2d2bde131a43fceac091616610f48d8', '3', '85', '0', '0.68', '1506586685', '1506586709', '1', '3', '0.68', null, '13311112222', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1454', '7708a9370d0a8285098f7adf85f3dd3c', '3', '85', '0', '0.66', '1506586685', '1506667094', '1', '5', '0.66', null, '13322226667', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1455', '846c56d42ffc5acced4518e1abbd6aed', '3', '85', '0', '0.66', '1506586685', null, '0', '4', '0.66', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1456', '751ff72371ca162992e097a2ec7745bd', '3', '101', '0', '3.00', '1506644401', null, '0', '12', '3.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1457', 'f0f5f37ffc811ddbb957443fac814fea', '3', '101', '0', '3.00', '1506644401', '1506644461', '1', '3', '3.00', null, '13311112222', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1459', 'b3409a9c7c55b7967ab4248b4b45a79f', '3', '102', '0', '2.50', '1506644521', null, '0', '12', '2.50', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1460', '72bf0b6870de85cf5a153fc15bd1b0ab', '3', '102', '0', '2.50', '1506644521', '1506644580', '1', '3', '2.50', null, '13311112222', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1462', '568b9e6c027cb75a1efc42ad17dc729f', '3', '103', '0', '7.00', '1506644581', null, '0', '12', '7.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1463', 'cc66c27a02233074c2963db0ac6d235a', '3', '103', '0', '7.00', '1506644581', '1506644664', '1', '3', '7.00', null, '13311112222', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1465', '75b7a3003b73655fc4e9d70fbcebacbc', '3', '104', '0', '2.00', '1506645001', null, '0', '2', '2.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1466', 'f408f996d0e835860ad2ec7b2c804576', '3', '104', '0', '3.00', '1506645001', null, '0', '12', '3.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1467', '41f8f05a1900e33679b4d45449f6a143', '3', '104', '0', '3.00', '1506645001', '1506645436', '1', '3', '3.00', null, '13311112222', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1470', 'b16e4cd986ab99a3474547c5ba03437a', '3', '111', '0', '2.00', '1506651797', '1506652690', '1', '3', '2.00', null, '13311112222', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1471', '5fe3af2f608b3c2030e01405142beb94', '3', '113', '0', '3.00', '1506655316', null, '0', '12', '3.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1472', '31027c23dcac7189eb50e2b316226df6', '3', '113', '0', '3.00', '1506655316', '1506655379', '1', '3', '3.00', null, '13311112222', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1474', 'eff2b48e4196f7d787eceba28f34c25c', '3', '115', '0', '3.00', '1506656721', '1506656803', '1', '3', '3.00', null, '13311112222', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1475', 'ce3de2b70642dbaabdc29bc3ca0a527b', '3', '115', '0', '3.00', '1506656721', '1506656806', '1', '2', '3.00', null, '13322221111', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1495', '8e05303f5146679718b323edb0a5b3da', '3', '124', '0', '4.34', '1506668697', '1506730762', '1', '12', '4.34', null, '13322227777', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1496', '9a202609848ff5f6b2d644d427cce362', '3', '124', '0', '4.33', '1506668697', '1506668976', '1', '3', '4.33', null, '13311112222', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1497', '447d76887ef1e5e47f31ec3d190da8ac', '3', '124', '0', '4.33', '1506668697', '1506676242', '1', '2', '4.33', null, '13322221111', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1498', 'bd254cccd49c9af73415063149008375', '3', '125', '0', '4.34', '1506669170', '1506730758', '1', '12', '4.34', null, '13322227777', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1499', '86402921befe021fd68c5943e4ca88b2', '3', '125', '0', '4.33', '1506669170', '1506669745', '1', '3', '4.33', null, '13311112222', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1500', 'd170593015cdc77742e9cb528e4b6937', '3', '125', '0', '4.33', '1506669170', '1506676243', '1', '2', '4.33', null, '13322221111', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1501', '00a985d71f449f3837740e44e05df3db', '3', '127', '0', '3.00', '1506671581', null, '0', '72', '3.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1502', 'c2dd21da6ea82aaf7f04b6d2c2e535f5', '3', '128', '0', '50.00', '1506671641', null, '0', '9', '50.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1503', 'fd65e354f354840f1b53d81f3f04cb9c', '3', '128', '0', '50.00', '1506671641', '1506672195', '1', '3', '50.00', null, '13311112222', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1504', 'c1bb2fca1d004f8d84c47570a3b253dd', '3', '128', '0', '50.00', '1506671641', null, '0', '4', '50.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1505', '46c4447efd1d052598001a34e4402f91', '3', '128', '0', '100.00', '1506671641', null, '0', '8', '100.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1506', '00ad6f0d33aa3352949a92871c1936da', '3', '128', '0', '100.00', '1506671641', null, '0', '5', '100.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1507', '6428d13b8277fdb5cba2b26cdcd57653', '3', '128', '0', '100.00', '1506671641', '1506730754', '1', '12', '100.00', null, '13322227777', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1509', '401a04845ee01fb7016eb0dd11882ec1', '3', '129', '0', '1.66', '1506671641', '1506730751', '1', '12', '1.66', null, '13322227777', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1510', '2b812843c93cfc4d8e6b0aab21fcab00', '3', '129', '0', '1.62', '1506671641', null, '0', '8', '1.62', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1511', '99a212fc26673c579341f0c014ac6f10', '3', '129', '0', '1.62', '1506671641', null, '0', '5', '1.62', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1512', 'f239a5d3eb041faa79f9b57ac4eb26c2', '3', '129', '0', '1.62', '1506671641', '1506672195', '1', '3', '1.62', null, '13311112222', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1513', '6c1764fbc54110bd4a9599f100026f9d', '3', '129', '0', '1.62', '1506671641', null, '0', '4', '1.62', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1514', '5a05a52fb2e0029b8c99ad2af5c7b3fb', '3', '129', '0', '1.62', '1506671641', null, '0', '9', '1.62', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1515', 'e9477026fd31654eeea80013d88aa1e7', '3', '129', '0', '1.62', '1506671641', null, '0', '6', '1.62', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1516', '550b945a35586d26fbf76856bd72023d', '3', '133', '0', '13.00', '1506673201', '1506676212', '1', '2', '13.00', null, '13322221111', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1517', '24e4d96e22ba1ccbf3b548ffaa7c19a6', '3', '131', '0', '20.00', '1506673261', null, '0', '8', '20.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1518', 'ee1751f8d0ce83206bc86e2e665335f2', '3', '131', '0', '20.00', '1506673261', '1506673292', '1', '3', '20.00', null, '13311112222', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1519', 'e82549df150fce7221f55c506a8b89cb', '3', '131', '0', '20.00', '1506673261', null, '0', '4', '20.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1520', '3ded4637db47e8411d8907a3336116de', '3', '132', '0', '10.00', '1506673261', '1506673294', '1', '3', '10.00', null, '13311112222', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1521', 'f9cf628b4cf7d48faa8ddcbea0b331d3', '0', '0', '6', '8.00', '1506673297', null, '2', '0', '8.00', '1506673921', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1522', '7f88dfe1b8510ba9eaf5c2125f6f7a39', '0', '0', '4', '5.90', '1506674473', '1506674484', '1', '8', '10.00', null, '13311115555', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1523', '7f88dfe1b8510ba9eaf5c2125f6f7a39', '0', '0', '4', '4.10', '1506674473', '1506674488', '1', '4', '10.00', null, '13322225555', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1525', 'c765a00d6a51acc8c0d1d9b6fcc724c0', '0', '0', '8', '2.08', '1506674516', '1506674524', '1', '8', '11.00', null, '13311115555', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1526', 'c765a00d6a51acc8c0d1d9b6fcc724c0', '0', '0', '8', '0.98', '1506674516', '1506674601', '1', '4', '11.00', null, '13322225555', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1527', 'c765a00d6a51acc8c0d1d9b6fcc724c0', '0', '0', '8', '0.45', '1506674516', '1506674604', '1', '6', '11.00', null, '13311111111', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1528', 'c765a00d6a51acc8c0d1d9b6fcc724c0', '0', '0', '8', '0.12', '1506674516', null, '2', '0', '11.00', '1506675122', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1529', 'c765a00d6a51acc8c0d1d9b6fcc724c0', '0', '0', '8', '2.54', '1506674516', null, '2', '0', '11.00', '1506675122', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1530', 'c765a00d6a51acc8c0d1d9b6fcc724c0', '0', '0', '8', '0.25', '1506674516', null, '2', '0', '11.00', '1506675122', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1531', 'c765a00d6a51acc8c0d1d9b6fcc724c0', '0', '0', '8', '2.07', '1506674516', null, '2', '0', '11.00', '1506675122', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1532', 'c765a00d6a51acc8c0d1d9b6fcc724c0', '0', '0', '8', '2.51', '1506674516', null, '2', '0', '11.00', '1506675122', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1540', '4e03f90ffedf553e04b7364643ecd698', '0', '0', '8', '654.21', '1506674653', '1506674668', '1', '8', '1000.00', null, '13311115555', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1541', '4e03f90ffedf553e04b7364643ecd698', '0', '0', '8', '183.92', '1506674653', '1506674762', '1', '4', '1000.00', null, '13322225555', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1542', '4e03f90ffedf553e04b7364643ecd698', '0', '0', '8', '65.50', '1506674653', null, '2', '0', '1000.00', '1506675301', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1543', '4e03f90ffedf553e04b7364643ecd698', '0', '0', '8', '96.37', '1506674653', null, '2', '0', '1000.00', '1506675301', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1547', 'd4712f36d7167ec31cd5812f839969df', '3', '134', '0', '20.00', '1506674881', '1506674895', '1', '3', '20.00', null, '13311112222', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1548', '79cadb523409f6a6ef7431abad924caa', '0', '0', '4', '2.78', '1506674960', '1506674965', '1', '4', '100.00', null, '13322225555', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1549', '79cadb523409f6a6ef7431abad924caa', '0', '0', '4', '24.63', '1506674960', '1506674969', '1', '8', '100.00', null, '13311115555', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1550', '79cadb523409f6a6ef7431abad924caa', '0', '0', '4', '14.45', '1506674960', null, '2', '0', '100.00', '1506675601', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1551', '79cadb523409f6a6ef7431abad924caa', '0', '0', '4', '57.53', '1506674960', null, '2', '0', '100.00', '1506675601', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1552', '79cadb523409f6a6ef7431abad924caa', '0', '0', '4', '0.61', '1506674960', null, '2', '0', '100.00', '1506675601', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1555', '8fb29adffee45ecc2ba3be14d51c9f57', '0', '0', '8', '1000.00', '1506674983', '1506674988', '1', '8', '1000.00', null, '13311115555', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1556', '84d37196cb12c328789e0d7622a0f52b', '0', '0', '8', '24.39', '1506675162', '1506675168', '1', '4', '1000.00', null, '13322225555', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1557', '84d37196cb12c328789e0d7622a0f52b', '0', '0', '8', '70.90', '1506675162', '1506675171', '1', '8', '1000.00', null, '13311115555', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1558', '84d37196cb12c328789e0d7622a0f52b', '0', '0', '8', '290.98', '1506675162', null, '2', '0', '1000.00', '1506675781', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1559', '84d37196cb12c328789e0d7622a0f52b', '0', '0', '8', '1.09', '1506675162', null, '2', '0', '1000.00', '1506675781', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1560', '84d37196cb12c328789e0d7622a0f52b', '0', '0', '8', '142.38', '1506675162', null, '2', '0', '1000.00', '1506675781', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1561', '84d37196cb12c328789e0d7622a0f52b', '0', '0', '8', '49.75', '1506675162', null, '2', '0', '1000.00', '1506675781', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1562', '84d37196cb12c328789e0d7622a0f52b', '0', '0', '8', '102.03', '1506675162', null, '2', '0', '1000.00', '1506675781', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1563', '84d37196cb12c328789e0d7622a0f52b', '0', '0', '8', '49.09', '1506675162', null, '2', '0', '1000.00', '1506675781', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1564', '84d37196cb12c328789e0d7622a0f52b', '0', '0', '8', '74.10', '1506675162', null, '2', '0', '1000.00', '1506675781', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1565', '84d37196cb12c328789e0d7622a0f52b', '0', '0', '8', '68.73', '1506675162', null, '2', '0', '1000.00', '1506675781', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1566', '84d37196cb12c328789e0d7622a0f52b', '0', '0', '8', '13.71', '1506675162', null, '2', '0', '1000.00', '1506675781', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1567', '84d37196cb12c328789e0d7622a0f52b', '0', '0', '8', '112.85', '1506675162', null, '2', '0', '1000.00', '1506675781', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1571', '0c0e05aced2a8f2dc3d56d79d46465c7', '0', '0', '4', '100.00', '1506675288', '1506675294', '1', '4', '100.00', null, '13322225555', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1572', '38b4f7ce7afac9704231535c485175a1', '3', '135', '0', '13.00', '1506675301', '1506675429', '1', '3', '13.00', null, '13311112222', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1573', '7074de139cf2ffc57f42feea8e519ea3', '3', '136', '0', '39.00', '1506675961', '1506679001', '1', '3', '39.00', null, '13311112222', null);
+INSERT INTO `guguo_red_envelope` VALUES ('1574', '5407adf41d6eb6e0ef129ea72156b9c2', '0', '0', '4', '1000.00', '1506676281', null, '2', '0', '1000.00', '1506676921', null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1575', '662c7d64e24e0a1a6c7a9bff6a4c181b', '3', '105', '0', '10.00', '1506734581', null, '0', '12', '10.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1576', '7b600cd3f6adcb2224d043c409f95c13', '3', '106', '0', '10.00', '1506735061', null, '0', '12', '10.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1577', '82c0c78f9baf6b005c7550d7cfad726f', '3', '107', '0', '10.00', '1506735781', null, '0', '12', '10.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1578', 'a6366b9692c69b58268e28183cc47b30', '3', '107', '0', '10.00', '1506735781', null, '0', '10', '10.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1580', '4df88f4aab47d1323693e060d8846dd0', '3', '108', '0', '10.00', '1506735901', null, '0', '12', '10.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1581', 'cf5c3888f65c9ed4ee3cdf8cbc6aa214', '3', '108', '0', '10.00', '1506735901', null, '0', '10', '10.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1583', 'cb3ba1fe881ccb85bc125f7bfc49bc61', '3', '109', '0', '10.00', '1506736141', null, '0', '12', '10.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1584', '98fcd0ee2acb9b63bde40039c9ab2a7c', '3', '110', '0', '10.00', '1506736801', null, '0', '12', '10.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1585', 'ebd046a6277c38908552aeddef433cde', '3', '110', '0', '10.00', '1506736801', null, '0', '10', '10.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1587', '425ee1f76e6a7955f025ea70526fae1d', '3', '112', '0', '10.00', '1506737641', null, '0', '12', '10.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1588', '32740f9cfec5762f61eb809683e32e68', '3', '112', '0', '10.00', '1506737641', null, '0', '10', '10.00', null, null, null);
+INSERT INTO `guguo_red_envelope` VALUES ('1611', '6703e7fc4dc85e51713027ccbef10da0', '3', '114', '0', '10.00', '1506739621', null, '0', '12', '10.00', null, null, null);
 
 -- ----------------------------
--- Table structure for guguo_role
+-- Table structure for `guguo_role`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_role`;
 CREATE TABLE `guguo_role` (
@@ -4437,7 +4897,7 @@ INSERT INTO `guguo_role` VALUES ('7', '临时工');
 INSERT INTO `guguo_role` VALUES ('8', '实习生');
 
 -- ----------------------------
--- Table structure for guguo_role_business
+-- Table structure for `guguo_role_business`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_role_business`;
 CREATE TABLE `guguo_role_business` (
@@ -4451,7 +4911,7 @@ CREATE TABLE `guguo_role_business` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for guguo_role_employee
+-- Table structure for `guguo_role_employee`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_role_employee`;
 CREATE TABLE `guguo_role_employee` (
@@ -4487,16 +4947,29 @@ INSERT INTO `guguo_role_employee` VALUES ('10', '5');
 INSERT INTO `guguo_role_employee` VALUES ('11', '1');
 INSERT INTO `guguo_role_employee` VALUES ('11', '2');
 INSERT INTO `guguo_role_employee` VALUES ('12', '1');
+INSERT INTO `guguo_role_employee` VALUES ('72', '1');
+INSERT INTO `guguo_role_employee` VALUES ('72', '2');
+INSERT INTO `guguo_role_employee` VALUES ('72', '3');
+INSERT INTO `guguo_role_employee` VALUES ('72', '4');
+INSERT INTO `guguo_role_employee` VALUES ('72', '5');
+INSERT INTO `guguo_role_employee` VALUES ('72', '6');
+INSERT INTO `guguo_role_employee` VALUES ('72', '7');
 INSERT INTO `guguo_role_employee` VALUES ('72', '8');
 INSERT INTO `guguo_role_employee` VALUES ('85', '1');
 INSERT INTO `guguo_role_employee` VALUES ('85', '2');
+INSERT INTO `guguo_role_employee` VALUES ('85', '4');
 INSERT INTO `guguo_role_employee` VALUES ('85', '5');
 INSERT INTO `guguo_role_employee` VALUES ('85', '6');
+INSERT INTO `guguo_role_employee` VALUES ('90', '1');
+INSERT INTO `guguo_role_employee` VALUES ('90', '3');
 INSERT INTO `guguo_role_employee` VALUES ('90', '4');
+INSERT INTO `guguo_role_employee` VALUES ('90', '5');
+INSERT INTO `guguo_role_employee` VALUES ('90', '6');
 INSERT INTO `guguo_role_employee` VALUES ('90', '8');
 INSERT INTO `guguo_role_employee` VALUES ('97', '1');
 INSERT INTO `guguo_role_employee` VALUES ('97', '4');
 INSERT INTO `guguo_role_employee` VALUES ('97', '7');
+INSERT INTO `guguo_role_employee` VALUES ('98', '1');
 INSERT INTO `guguo_role_employee` VALUES ('98', '7');
 INSERT INTO `guguo_role_employee` VALUES ('99', '1');
 INSERT INTO `guguo_role_employee` VALUES ('99', '4');
@@ -4507,7 +4980,7 @@ INSERT INTO `guguo_role_employee` VALUES ('103', '7');
 INSERT INTO `guguo_role_employee` VALUES ('104', '1');
 
 -- ----------------------------
--- Table structure for guguo_role_rule
+-- Table structure for `guguo_role_rule`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_role_rule`;
 CREATE TABLE `guguo_role_rule` (
@@ -4525,7 +4998,7 @@ INSERT INTO `guguo_role_rule` VALUES ('1', '3');
 INSERT INTO `guguo_role_rule` VALUES ('1', '4');
 
 -- ----------------------------
--- Table structure for guguo_rule
+-- Table structure for `guguo_rule`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_rule`;
 CREATE TABLE `guguo_rule` (
@@ -4545,7 +5018,7 @@ INSERT INTO `guguo_rule` VALUES ('3', 'rule3', '1', '规则3');
 INSERT INTO `guguo_rule` VALUES ('4', 'rule4', '1', '规则4');
 
 -- ----------------------------
--- Table structure for guguo_sale_chance
+-- Table structure for `guguo_sale_chance`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_sale_chance`;
 CREATE TABLE `guguo_sale_chance` (
@@ -4565,7 +5038,7 @@ CREATE TABLE `guguo_sale_chance` (
   `update_time` int(11) unsigned DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guguo_sale_chance
@@ -4594,7 +5067,7 @@ INSERT INTO `guguo_sale_chance` VALUES ('21', '11', '3', '', '7', '销售机会�
 INSERT INTO `guguo_sale_chance` VALUES ('24', '11', '3', '', '7', '测试', '1', '123.00', '1502294400', '0.00', null, null, '1502323752', '1502323752', '的撒');
 INSERT INTO `guguo_sale_chance` VALUES ('25', '66', '8', '', '4', '销售机会Ａ', '4', '1.00', '1502294400', '10000.00', '5000.00', '10000.00', '1502323820', '1502324297', 'cxx');
 INSERT INTO `guguo_sale_chance` VALUES ('26', '68', '8', '', '2', '巨星', '5', '5000.00', '1502294400', '5000.00', '5000.00', '5000.00', '1502325665', '1502325743', '');
-INSERT INTO `guguo_sale_chance` VALUES ('27', '11', '3', '', '3', '建站销售机会演示', '3', '3210.00', '1502294400', '3210.00', '3210.00', '3210.00', '1502328764', '1506561682', '');
+INSERT INTO `guguo_sale_chance` VALUES ('27', '11', '3', '', '3', '建站销售机会演示', '4', '3210.00', '1502294400', '3210.00', '3210.00', '3210.00', '1502328764', '1506676774', '');
 INSERT INTO `guguo_sale_chance` VALUES ('28', '68', '8', '', '7', '如来神掌', '3', '322.00', '1502640000', '0.00', null, null, '1502673317', '1502673468', '');
 INSERT INTO `guguo_sale_chance` VALUES ('29', '66', '8', '', '7', '如来神掌', '3', '10000.00', '1502726400', '0.00', null, null, '1502766722', '1502766728', '');
 INSERT INTO `guguo_sale_chance` VALUES ('30', '68', '8', '', '7', '销售机会', '1', '2.00', '1502985600', '0.00', null, null, '1503045757', '1503045757', '');
@@ -4673,9 +5146,12 @@ INSERT INTO `guguo_sale_chance` VALUES ('115', '163', '8', '', '7', '如来神�
 INSERT INTO `guguo_sale_chance` VALUES ('116', '162', '8', '', '7', '销售机会', '3', '1.00', '1506009600', '0.00', null, null, '1506072962', '1506072980', '');
 INSERT INTO `guguo_sale_chance` VALUES ('117', '163', '8', '', '7', '李伯伯', '3', '888.00', '1506268800', '0.00', null, null, '1506305046', '1506305065', '');
 INSERT INTO `guguo_sale_chance` VALUES ('118', '11', '3', '', '7', '啊哈哈', '1', '10.00', '1506355200', '0.00', null, null, '1506386324', '1506386324', '');
+INSERT INTO `guguo_sale_chance` VALUES ('119', '11', '3', '123', '7', '销售机会流程测试', '1', '222.00', '1506528000', '0.00', '0.00', '0.00', '1506589636', '1506589636', '');
+INSERT INTO `guguo_sale_chance` VALUES ('120', '170', '3', '123', '7', '哈哈嘿嘿', '5', '123.00', '1506528000', '123.00', '123.00', '123.00', '1506589829', '1506589952', '');
+INSERT INTO `guguo_sale_chance` VALUES ('121', '172', '3', '', '7', '多合同测试销售机会', '5', '321.00', '1506614400', '321.00', '321.00', '321.00', '1506677001', '1506677820', '');
 
 -- ----------------------------
--- Table structure for guguo_sale_chance_visit
+-- Table structure for `guguo_sale_chance_visit`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_sale_chance_visit`;
 CREATE TABLE `guguo_sale_chance_visit` (
@@ -4690,7 +5166,7 @@ CREATE TABLE `guguo_sale_chance_visit` (
   `add_note` tinyint(1) DEFAULT NULL COMMENT '添加到备忘录',
   `visit_ok` tinyint(1) DEFAULT NULL COMMENT '拜访成功，1是，0否',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guguo_sale_chance_visit
@@ -4726,9 +5202,11 @@ INSERT INTO `guguo_sale_chance_visit` VALUES ('28', '115', '1505459760', '150546
 INSERT INTO `guguo_sale_chance_visit` VALUES ('29', '116', '1506072960', '1506072980', '', '', '36.000000,119.000000', '0', '0', '1');
 INSERT INTO `guguo_sale_chance_visit` VALUES ('30', '117', '1506305040', '1506305065', '', '', '36.000000,119.000000', '0', '0', '1');
 INSERT INTO `guguo_sale_chance_visit` VALUES ('31', '27', '1506305520', '1506305547', '金艺大厦', '36.713173,119.113675', '36.000000,119.000000', '0', '0', '1');
+INSERT INTO `guguo_sale_chance_visit` VALUES ('32', '120', '1506589800', '1506589852', '', '36.715369,119.105954', '36.000000,119.000000', '0', '0', '1');
+INSERT INTO `guguo_sale_chance_visit` VALUES ('33', '121', '1506676980', '1506677123', '金艺大厦', '36.713108,119.113625', '36.000000,119.000000', '0', '0', '1');
 
 -- ----------------------------
--- Table structure for guguo_sale_order_bill
+-- Table structure for `guguo_sale_order_bill`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_sale_order_bill`;
 CREATE TABLE `guguo_sale_order_bill` (
@@ -4759,7 +5237,7 @@ CREATE TABLE `guguo_sale_order_bill` (
   `check_money_time` int(11) DEFAULT NULL COMMENT '认款日期',
   `status` tinyint(1) NOT NULL COMMENT '发票审核状态,0审核中，1已通过，2已驳回，3已撤回,4待领取，5已领取，6已作废，7已收回,8已提醒,9已退款',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guguo_sale_order_bill
@@ -4780,10 +5258,12 @@ INSERT INTO `guguo_sale_order_bill` VALUES ('17', '68', '26', '8', '1', '14', '5
 INSERT INTO `guguo_sale_order_bill` VALUES ('18', '111', '87', '3', '2', '16', '42', 'bdbk5', '我的科技', '12138', '', '30000.00', '现金', '72', '72', '0', '0', '0', '0', '2', '72', '', '1504841244', '1504841244', null, '5');
 INSERT INTO `guguo_sale_order_bill` VALUES ('20', '150', '110', '12', '3', '19', '51', 'zxjz11', '客户1', 'vvvv', '', '1000.00', '现金', '72', '72', '72', '72', '72', '72', '6', '72', '', '1505204127', '1505204127', null, '4');
 INSERT INTO `guguo_sale_order_bill` VALUES ('21', '11', '21', '3', '2', '28', '10', 'dbdt1003', '山东中迅网络传媒有限公司', 'fp123124', '', '23.00', '工商银行', '72', '72', '0', '0', '0', '0', '2', '72', '', '1506559853', '1506559853', null, '4');
-INSERT INTO `guguo_sale_order_bill` VALUES ('22', '11', '21', '3', '2', '28', '14', 'dbdt1004', '山东中迅网络传媒有限公司', 'fp123123', '', '100.00', '现金', '72', '72', '0', '0', '0', '0', '2', '72', '', '1506560472', '1506560472', null, '4');
+INSERT INTO `guguo_sale_order_bill` VALUES ('22', '11', '21', '3', '2', '28', '14', 'dbdt1004', '山东中迅网络传媒有限公司', 'fp123123', '', '100.00', '现金', '72', '72', '0', '0', '0', '0', '2', '72', '', '1506560472', '1506560472', null, '5');
+INSERT INTO `guguo_sale_order_bill` VALUES ('23', '170', '120', '3', '1', '31', '69', 'zxjz18', '合同修改新建客户', 'fp123125', '123', '123.00', '阿斯顿', '72', '72', '72', '0', '0', '0', '3', '72', '', '1506590084', '1506590084', null, '5');
+INSERT INTO `guguo_sale_order_bill` VALUES ('24', '172', '121', '3', '1', '32', '72', 'bdds10009', '多合同测试客户', 'fp123126', 'tx123', '21.00', '阿斯顿', '72', '72', '72', '0', '0', '0', '3', '72', '', '1506678487', '1506678487', null, '5');
 
 -- ----------------------------
--- Table structure for guguo_sale_order_bill_item
+-- Table structure for `guguo_sale_order_bill_item`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_sale_order_bill_item`;
 CREATE TABLE `guguo_sale_order_bill_item` (
@@ -4792,7 +5272,7 @@ CREATE TABLE `guguo_sale_order_bill_item` (
   `product_type` varchar(32) DEFAULT NULL COMMENT '产品类型',
   `product_type_money` decimal(13,2) NOT NULL COMMENT '金额,单位元',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guguo_sale_order_bill_item
@@ -4822,9 +5302,14 @@ INSERT INTO `guguo_sale_order_bill_item` VALUES ('22', '18', '大搜', '30000.00
 INSERT INTO `guguo_sale_order_bill_item` VALUES ('23', '20', '商城', '1000.00');
 INSERT INTO `guguo_sale_order_bill_item` VALUES ('24', '21', '大搜', '23.00');
 INSERT INTO `guguo_sale_order_bill_item` VALUES ('25', '22', '大搜', '100.00');
+INSERT INTO `guguo_sale_order_bill_item` VALUES ('26', '23', 'pc', '53.00');
+INSERT INTO `guguo_sale_order_bill_item` VALUES ('27', '23', 'mobi', '20.00');
+INSERT INTO `guguo_sale_order_bill_item` VALUES ('28', '23', 'wx', '50.00');
+INSERT INTO `guguo_sale_order_bill_item` VALUES ('29', '24', 'pc', '10.00');
+INSERT INTO `guguo_sale_order_bill_item` VALUES ('30', '24', 'mobi', '11.00');
 
 -- ----------------------------
--- Table structure for guguo_sale_order_contract
+-- Table structure for `guguo_sale_order_contract`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_sale_order_contract`;
 CREATE TABLE `guguo_sale_order_contract` (
@@ -4845,7 +5330,7 @@ CREATE TABLE `guguo_sale_order_contract` (
   `update_time` int(11) NOT NULL COMMENT '更新时间',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态,0审核中,1通过,2驳回,3撤回',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COMMENT='销售机会成单申请，提交后需要审核';
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COMMENT='销售机会成单申请，提交后需要审核';
 
 -- ----------------------------
 -- Records of guguo_sale_order_contract
@@ -4870,9 +5355,12 @@ INSERT INTO `guguo_sale_order_contract` VALUES ('18', '92', '2', '的', '72', '7
 INSERT INTO `guguo_sale_order_contract` VALUES ('19', '110', '1', '详情', '72', '72', '72', '72', '72', '72', '6', '72', '', '1505203309', '1505203309', '1');
 INSERT INTO `guguo_sale_order_contract` VALUES ('20', '115', '2', '', '72', '72', '72', '72', '72', '72', '6', '72', '', '1506071252', '1506071252', '1');
 INSERT INTO `guguo_sale_order_contract` VALUES ('28', '21', '2', '', '72', '72', '72', '72', '72', '72', '6', '72', '', '1506497009', '1506497009', '1');
+INSERT INTO `guguo_sale_order_contract` VALUES ('30', '27', '1', '', '4', '97', '', '', '', '', '1', '4', '', '1506676774', '1506676774', '0');
+INSERT INTO `guguo_sale_order_contract` VALUES ('31', '120', '1', '', '72', '72', '72', '72', '72', '72', '6', '72', '', '1506589952', '1506589952', '1');
+INSERT INTO `guguo_sale_order_contract` VALUES ('32', '121', '2', '', '72', '72', '72', '72', '72', '72', '6', '72', '', '1506677820', '1506677820', '1');
 
 -- ----------------------------
--- Table structure for guguo_sale_order_contract_item
+-- Table structure for `guguo_sale_order_contract_item`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_sale_order_contract_item`;
 CREATE TABLE `guguo_sale_order_contract_item` (
@@ -4888,7 +5376,7 @@ CREATE TABLE `guguo_sale_order_contract_item` (
   `due_time` int(10) unsigned NOT NULL COMMENT '预计合同到期时间',
   `need_bill` tinyint(1) NOT NULL DEFAULT '1' COMMENT '需要发票1是，0否',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COMMENT='销售机会成单申请合同';
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COMMENT='销售机会成单申请合同';
 
 -- ----------------------------
 -- Records of guguo_sale_order_contract_item
@@ -4914,9 +5402,13 @@ INSERT INTO `guguo_sale_order_contract_item` VALUES ('18', '110', '19', '51', '1
 INSERT INTO `guguo_sale_order_contract_item` VALUES ('19', '115', '20', '59', '1000.00', '1000.00', '2', '', '额', '1506009600', '0');
 INSERT INTO `guguo_sale_order_contract_item` VALUES ('20', '21', '28', '10', '23.00', '23.00', '1', '', '山东中迅网络传媒有限公司', '1506441600', '0');
 INSERT INTO `guguo_sale_order_contract_item` VALUES ('21', '21', '28', '14', '100.00', '100.00', '1', '', '山东中迅网络传媒有限公司', '1506441600', '1');
+INSERT INTO `guguo_sale_order_contract_item` VALUES ('23', '27', '30', '64', '3210.00', '3210.00', '1', '', '山东中迅网络传媒有限公司', '1506528000', '1');
+INSERT INTO `guguo_sale_order_contract_item` VALUES ('24', '120', '31', '69', '123.00', '123.00', '1', '', '合同修改新建客户', '1506528000', '1');
+INSERT INTO `guguo_sale_order_contract_item` VALUES ('25', '121', '32', '72', '21.00', '21.00', '1', '', '多合同测试客户', '1506614400', '0');
+INSERT INTO `guguo_sale_order_contract_item` VALUES ('26', '121', '32', '73', '300.00', '300.00', '1', '', '多合同测试客户', '1506614400', '1');
 
 -- ----------------------------
--- Table structure for guguo_structure
+-- Table structure for `guguo_structure`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_structure`;
 CREATE TABLE `guguo_structure` (
@@ -4928,7 +5420,7 @@ CREATE TABLE `guguo_structure` (
   `struct_leader` varchar(64) DEFAULT NULL COMMENT '体系领导',
   `groupid` varchar(155) DEFAULT NULL COMMENT '群组id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guguo_structure
@@ -4943,7 +5435,6 @@ INSERT INTO `guguo_structure` VALUES ('7', '4', '销售三部', null, null, null
 INSERT INTO `guguo_structure` VALUES ('8', '2', '济宁中迅', null, null, null, null);
 INSERT INTO `guguo_structure` VALUES ('9', '2', '泰安中迅', null, null, null, null);
 INSERT INTO `guguo_structure` VALUES ('10', '2', '菏泽中迅', null, null, null, null);
-INSERT INTO `guguo_structure` VALUES ('11', '2', '莱芜中迅', null, null, null, null);
 INSERT INTO `guguo_structure` VALUES ('12', '3', '技术部', null, null, null, null);
 INSERT INTO `guguo_structure` VALUES ('13', '3', '研发部', null, null, null, null);
 INSERT INTO `guguo_structure` VALUES ('14', '8', '销售部', null, null, null, null);
@@ -4962,9 +5453,13 @@ INSERT INTO `guguo_structure` VALUES ('27', '1', '海外大区', null, null, nul
 INSERT INTO `guguo_structure` VALUES ('28', '27', '北美分公司', null, null, null, null);
 INSERT INTO `guguo_structure` VALUES ('29', '28', '山景城分部', null, null, null, null);
 INSERT INTO `guguo_structure` VALUES ('30', '10', '事业部', null, null, null, null);
+INSERT INTO `guguo_structure` VALUES ('37', '1', '华南大区', null, null, null, null);
+INSERT INTO `guguo_structure` VALUES ('46', '28', '不建群', null, null, null, '28668725362689');
+INSERT INTO `guguo_structure` VALUES ('48', '2', '售后一部', null, null, null, '28671862702083');
+INSERT INTO `guguo_structure` VALUES ('50', '4', '销售四部', null, null, null, null);
 
 -- ----------------------------
--- Table structure for guguo_structure_employee
+-- Table structure for `guguo_structure_employee`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_structure_employee`;
 CREATE TABLE `guguo_structure_employee` (
@@ -4976,47 +5471,64 @@ CREATE TABLE `guguo_structure_employee` (
 -- ----------------------------
 -- Records of guguo_structure_employee
 -- ----------------------------
+INSERT INTO `guguo_structure_employee` VALUES ('1', '1');
 INSERT INTO `guguo_structure_employee` VALUES ('1', '6');
 INSERT INTO `guguo_structure_employee` VALUES ('1', '12');
 INSERT INTO `guguo_structure_employee` VALUES ('1', '13');
 INSERT INTO `guguo_structure_employee` VALUES ('1', '29');
+INSERT INTO `guguo_structure_employee` VALUES ('2', '1');
 INSERT INTO `guguo_structure_employee` VALUES ('2', '3');
 INSERT INTO `guguo_structure_employee` VALUES ('2', '4');
+INSERT INTO `guguo_structure_employee` VALUES ('2', '6');
 INSERT INTO `guguo_structure_employee` VALUES ('2', '12');
 INSERT INTO `guguo_structure_employee` VALUES ('2', '13');
 INSERT INTO `guguo_structure_employee` VALUES ('2', '29');
+INSERT INTO `guguo_structure_employee` VALUES ('3', '1');
 INSERT INTO `guguo_structure_employee` VALUES ('3', '3');
 INSERT INTO `guguo_structure_employee` VALUES ('3', '5');
+INSERT INTO `guguo_structure_employee` VALUES ('3', '6');
 INSERT INTO `guguo_structure_employee` VALUES ('3', '12');
 INSERT INTO `guguo_structure_employee` VALUES ('3', '13');
 INSERT INTO `guguo_structure_employee` VALUES ('3', '29');
+INSERT INTO `guguo_structure_employee` VALUES ('4', '1');
+INSERT INTO `guguo_structure_employee` VALUES ('4', '6');
 INSERT INTO `guguo_structure_employee` VALUES ('4', '12');
 INSERT INTO `guguo_structure_employee` VALUES ('4', '13');
 INSERT INTO `guguo_structure_employee` VALUES ('4', '29');
+INSERT INTO `guguo_structure_employee` VALUES ('5', '1');
 INSERT INTO `guguo_structure_employee` VALUES ('5', '5');
+INSERT INTO `guguo_structure_employee` VALUES ('5', '6');
 INSERT INTO `guguo_structure_employee` VALUES ('5', '12');
 INSERT INTO `guguo_structure_employee` VALUES ('5', '13');
 INSERT INTO `guguo_structure_employee` VALUES ('5', '29');
+INSERT INTO `guguo_structure_employee` VALUES ('6', '1');
 INSERT INTO `guguo_structure_employee` VALUES ('6', '3');
 INSERT INTO `guguo_structure_employee` VALUES ('6', '5');
+INSERT INTO `guguo_structure_employee` VALUES ('6', '6');
 INSERT INTO `guguo_structure_employee` VALUES ('6', '12');
 INSERT INTO `guguo_structure_employee` VALUES ('6', '13');
 INSERT INTO `guguo_structure_employee` VALUES ('6', '29');
+INSERT INTO `guguo_structure_employee` VALUES ('7', '1');
 INSERT INTO `guguo_structure_employee` VALUES ('7', '3');
 INSERT INTO `guguo_structure_employee` VALUES ('7', '5');
+INSERT INTO `guguo_structure_employee` VALUES ('7', '6');
 INSERT INTO `guguo_structure_employee` VALUES ('7', '12');
 INSERT INTO `guguo_structure_employee` VALUES ('7', '13');
 INSERT INTO `guguo_structure_employee` VALUES ('7', '29');
 INSERT INTO `guguo_structure_employee` VALUES ('8', '1');
+INSERT INTO `guguo_structure_employee` VALUES ('8', '6');
 INSERT INTO `guguo_structure_employee` VALUES ('8', '12');
 INSERT INTO `guguo_structure_employee` VALUES ('8', '13');
 INSERT INTO `guguo_structure_employee` VALUES ('8', '29');
 INSERT INTO `guguo_structure_employee` VALUES ('9', '1');
 INSERT INTO `guguo_structure_employee` VALUES ('9', '5');
+INSERT INTO `guguo_structure_employee` VALUES ('9', '6');
 INSERT INTO `guguo_structure_employee` VALUES ('9', '12');
 INSERT INTO `guguo_structure_employee` VALUES ('9', '13');
 INSERT INTO `guguo_structure_employee` VALUES ('9', '29');
+INSERT INTO `guguo_structure_employee` VALUES ('10', '1');
 INSERT INTO `guguo_structure_employee` VALUES ('10', '6');
+INSERT INTO `guguo_structure_employee` VALUES ('11', '1');
 INSERT INTO `guguo_structure_employee` VALUES ('11', '3');
 INSERT INTO `guguo_structure_employee` VALUES ('11', '6');
 INSERT INTO `guguo_structure_employee` VALUES ('11', '12');
@@ -5037,25 +5549,43 @@ INSERT INTO `guguo_structure_employee` VALUES ('66', '1');
 INSERT INTO `guguo_structure_employee` VALUES ('67', '1');
 INSERT INTO `guguo_structure_employee` VALUES ('68', '1');
 INSERT INTO `guguo_structure_employee` VALUES ('71', '5');
+INSERT INTO `guguo_structure_employee` VALUES ('72', '1');
 INSERT INTO `guguo_structure_employee` VALUES ('72', '7');
+INSERT INTO `guguo_structure_employee` VALUES ('72', '46');
 INSERT INTO `guguo_structure_employee` VALUES ('73', '1');
+INSERT INTO `guguo_structure_employee` VALUES ('85', '1');
 INSERT INTO `guguo_structure_employee` VALUES ('85', '6');
 INSERT INTO `guguo_structure_employee` VALUES ('85', '12');
 INSERT INTO `guguo_structure_employee` VALUES ('85', '13');
 INSERT INTO `guguo_structure_employee` VALUES ('85', '26');
 INSERT INTO `guguo_structure_employee` VALUES ('85', '29');
+INSERT INTO `guguo_structure_employee` VALUES ('90', '1');
 INSERT INTO `guguo_structure_employee` VALUES ('90', '6');
 INSERT INTO `guguo_structure_employee` VALUES ('90', '7');
+INSERT INTO `guguo_structure_employee` VALUES ('90', '46');
+INSERT INTO `guguo_structure_employee` VALUES ('97', '1');
 INSERT INTO `guguo_structure_employee` VALUES ('97', '6');
 INSERT INTO `guguo_structure_employee` VALUES ('97', '7');
+INSERT INTO `guguo_structure_employee` VALUES ('97', '46');
+INSERT INTO `guguo_structure_employee` VALUES ('98', '1');
 INSERT INTO `guguo_structure_employee` VALUES ('98', '6');
+INSERT INTO `guguo_structure_employee` VALUES ('98', '46');
+INSERT INTO `guguo_structure_employee` VALUES ('99', '1');
 INSERT INTO `guguo_structure_employee` VALUES ('99', '6');
 INSERT INTO `guguo_structure_employee` VALUES ('99', '7');
+INSERT INTO `guguo_structure_employee` VALUES ('99', '37');
+INSERT INTO `guguo_structure_employee` VALUES ('99', '46');
+INSERT INTO `guguo_structure_employee` VALUES ('103', '1');
 INSERT INTO `guguo_structure_employee` VALUES ('103', '5');
+INSERT INTO `guguo_structure_employee` VALUES ('103', '37');
+INSERT INTO `guguo_structure_employee` VALUES ('103', '46');
+INSERT INTO `guguo_structure_employee` VALUES ('104', '1');
 INSERT INTO `guguo_structure_employee` VALUES ('104', '5');
+INSERT INTO `guguo_structure_employee` VALUES ('104', '37');
+INSERT INTO `guguo_structure_employee` VALUES ('104', '46');
 
 -- ----------------------------
--- Table structure for guguo_take_cash
+-- Table structure for `guguo_take_cash`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_take_cash`;
 CREATE TABLE `guguo_take_cash` (
@@ -5071,7 +5601,7 @@ CREATE TABLE `guguo_take_cash` (
   `remark` varchar(128) DEFAULT NULL COMMENT '备注',
   `from_userid` int(11) DEFAULT NULL COMMENT '收到转账时，来源用户id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5089 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5648 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guguo_take_cash
@@ -6360,9 +6890,295 @@ INSERT INTO `guguo_take_cash` VALUES ('5083', '3', '1', '-40000', '1', null, '15
 INSERT INTO `guguo_take_cash` VALUES ('5084', '3', '1', '1000', '1', null, '1506557727', null, null, '领取红包', null);
 INSERT INTO `guguo_take_cash` VALUES ('5085', '3', '2', '-200', '1', null, '1506563660', null, null, '发起任务', null);
 INSERT INTO `guguo_take_cash` VALUES ('5086', '3', '1', '-600', '1', null, '1506563800', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5089', '5', '1', '200', '1', null, '1506580630', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5090', '5', '1', '300', '1', null, '1506580652', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5091', '3', '2', '-200', '1', null, '1506584173', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5092', '3', '1', '-200', '1', null, '1506584185', null, null, '打赏任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5093', '3', '1', '1', '1', null, '1506586685', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5094', '5', '1', '1', '1', null, '1506586685', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5095', '4', '1', '1', '1', null, '1506586685', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5096', '3', '2', '-1', '1', null, '1506586685', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5097', '3', '2', '-1', '1', null, '1506586685', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5098', '3', '2', '-1', '1', null, '1506586685', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5100', '3', '1', '68', '1', null, '1506586709', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5113', '3', '1', '-400', '1', null, '1506592081', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5114', '3', '1', '4', '1', null, '1506592081', null, null, '任务失败退回', null);
+INSERT INTO `guguo_take_cash` VALUES ('5115', '3', '1', '-600', '1', null, '1506592536', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5116', '3', '1', '6', '1', null, '1506592561', null, null, '任务失败退回', null);
+INSERT INTO `guguo_take_cash` VALUES ('5117', '12', '1', '-4000', '1', null, '1506592732', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5118', '3', '1', '-200', '1', null, '1506592814', null, null, '打赏任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5119', '3', '2', '-1000', '1', null, '1506644287', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5120', '3', '1', '-500', '1', null, '1506644303', null, null, '打赏任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5121', '3', '2', '-500', '1', null, '1506644371', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5122', '3', '1', '-700', '1', null, '1506644387', null, null, '打赏任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5123', '3', '2', '-2000', '1', null, '1506644443', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5124', '12', '1', '3', '1', null, '1506644401', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5125', '3', '1', '3', '1', null, '1506644401', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5126', '3', '2', '-3', '1', null, '1506644401', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5127', '3', '2', '-3', '1', null, '1506644401', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5128', '3', '2', '4', '1', null, '1506644401', null, null, '任务发放结余', null);
+INSERT INTO `guguo_take_cash` VALUES ('5131', '3', '1', '-1300', '1', null, '1506644452', null, null, '打赏任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5132', '3', '1', '300', '1', null, '1506644461', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5133', '12', '1', '4', '1', null, '1506644521', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5134', '3', '1', '4', '1', null, '1506644521', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5135', '3', '2', '-3', '1', null, '1506644521', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5136', '3', '2', '-3', '1', null, '1506644521', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5140', '3', '1', '250', '1', null, '1506644580', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5141', '12', '1', '7', '1', null, '1506644581', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5142', '3', '1', '7', '1', null, '1506644581', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5143', '3', '2', '-7', '1', null, '1506644581', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5144', '3', '2', '-7', '1', null, '1506644581', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5145', '3', '2', '6', '1', null, '1506644581', null, null, '任务发放结余', null);
+INSERT INTO `guguo_take_cash` VALUES ('5148', '3', '1', '700', '1', null, '1506644665', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5149', '3', '2', '-1000', '1', null, '1506644895', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5150', '3', '1', '-1300', '1', null, '1506644904', null, null, '打赏任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5151', '12', '1', '4', '1', null, '1506645001', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5152', '3', '1', '4', '1', null, '1506645001', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5153', '2', '1', '4', '1', null, '1506645001', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5154', '3', '2', '-2', '1', null, '1506645001', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5155', '3', '2', '-3', '1', null, '1506645001', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5156', '3', '2', '-3', '1', null, '1506645001', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5157', '3', '2', '2', '1', null, '1506645001', null, null, '任务发放结余', null);
+INSERT INTO `guguo_take_cash` VALUES ('5158', '3', '1', '300', '1', null, '1506645436', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5159', '3', '1', '200', '1', null, '1506647554', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5160', '3', '1', '1000', '1', null, '1506647673', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5161', '3', '1', '1000', '1', null, '1506647681', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5162', '3', '1', '1000', '1', null, '1506647725', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5163', '12', '1', '-2000', '1', null, '1506648151', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5164', '12', '1', '-2000', '1', null, '1506648619', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5165', '12', '1', '-2000', '1', null, '1506649377', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5166', '12', '1', '-2000', '1', null, '1506649501', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5167', '12', '1', '-6000', '1', null, '1506649741', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5168', '12', '1', '-2000', '1', null, '1506650381', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5169', '3', '1', '-600', '1', null, '1506650691', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5170', '3', '1', '-1300', '1', null, '1506650699', null, null, '打赏任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5171', '12', '1', '-2000', '1', null, '1506651201', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5172', '3', '1', '1300', '1', null, '1506651797', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5173', '3', '1', '-200', '1', null, '1506651797', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5174', '3', '1', '400', '1', null, '1506651797', null, null, '任务发放结余', null);
+INSERT INTO `guguo_take_cash` VALUES ('5175', '3', '1', '-300', '1', null, '1506652688', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5176', '3', '1', '200', '1', null, '1506652690', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5177', '12', '1', '-300', '1', null, '1506652742', null, null, '参与任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5178', '12', '1', '-2000', '1', null, '1506653198', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5179', '3', '1', '-300', '1', null, '1506655316', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5180', '3', '1', '-300', '1', null, '1506655316', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5182', '3', '1', '300', '1', null, '1506655379', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5183', '3', '1', '-300', '1', null, '1506655526', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5184', '2', '1', '-300', '1', null, '1506655650', null, null, '参与任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5185', '12', '1', '-1000', '1', null, '1506655868', null, null, '猜输赢任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5186', '12', '1', '1000', '1', null, '1506656721', null, null, '猜输赢任务失败退回', null);
+INSERT INTO `guguo_take_cash` VALUES ('5187', '3', '1', '-300', '1', null, '1506656721', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5188', '3', '1', '-300', '1', null, '1506656721', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5189', '3', '1', '300', '1', null, '1506656803', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5190', '2', '1', '300', '1', null, '1506656806', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5191', '3', '2', '-1300', '1', null, '1506656993', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5192', '3', '1', '-1300', '1', null, '1506657003', null, null, '打赏任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5193', '3', '2', '-1300', '1', null, '1506657049', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5194', '3', '1', '-1300', '1', null, '1506657058', null, null, '打赏任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5195', '3', '1', '-1300', '1', null, '1506663979', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5196', '72', '1', '-200', '1', null, '1506664067', null, null, '猜输赢任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5197', '72', '1', '200', '1', null, '1506665312', null, null, '猜输赢任务失败退回', null);
+INSERT INTO `guguo_take_cash` VALUES ('5198', '3', '1', '-300', '1', null, '1506665564', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5199', '72', '1', '-300', '1', null, '1506665550', null, null, '猜输赢任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5200', '72', '1', '-300', '1', null, '1506665565', null, null, '打赏任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5201', '72', '1', '300', '1', null, '1506665734', null, null, '打赏任务失败退回', null);
+INSERT INTO `guguo_take_cash` VALUES ('5202', '72', '1', '300', '1', null, '1506665734', null, null, '猜输赢任务失败退回', null);
+INSERT INTO `guguo_take_cash` VALUES ('5204', '3', '1', '-300', '1', null, '1506666222', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5205', '72', '1', '-300', '1', null, '1506666226', null, null, '猜输赢任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5206', '72', '1', '-300', '1', null, '1506666233', null, null, '打赏任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5207', '5', '1', '-300', '1', null, '1506666479', null, null, '参与任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5208', '72', '1', '300', '1', null, '1506666565', null, null, '打赏任务失败退回', null);
+INSERT INTO `guguo_take_cash` VALUES ('5209', '72', '1', '300', '1', null, '1506666565', null, null, '猜输赢任务失败退回', null);
+INSERT INTO `guguo_take_cash` VALUES ('5211', '3', '2', '-300', '1', null, '1506666681', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5212', '3', '2', '300', '1', null, '1506666686', null, null, '任务发放结余', null);
+INSERT INTO `guguo_take_cash` VALUES ('5213', '3', '1', '-200', '1', null, '1506666804', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5214', '5', '1', '-200', '1', null, '1506666816', null, null, '参与任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5215', '3', '1', '200', '1', null, '1506666967', null, null, '任务失败退回', null);
+INSERT INTO `guguo_take_cash` VALUES ('5216', '5', '1', '200', '1', null, '1506666967', null, null, '任务失败退回', null);
+INSERT INTO `guguo_take_cash` VALUES ('5218', '5', '1', '66', '1', null, '1506667094', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5220', '5', '2', '-1300', '1', null, '1506667506', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5239', '5', '2', '-434', '1', null, '1506668697', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5240', '5', '2', '-433', '1', null, '1506668697', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5241', '5', '2', '-433', '1', null, '1506668697', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5242', '3', '1', '433', '1', null, '1506668976', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5243', '3', '2', '-1300', '1', null, '1506669058', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5244', '3', '1', '-1300', '1', null, '1506669065', null, null, '打赏任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5245', '3', '1', '-1400', '1', null, '1506669073', null, null, '打赏任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5246', '12', '1', '900', '1', null, '1506669170', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5247', '3', '1', '900', '1', null, '1506669170', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5248', '2', '1', '900', '1', null, '1506669170', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5249', '0', '2', '-434', '1', null, '1506669170', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5250', '0', '2', '-433', '1', null, '1506669170', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5251', '0', '2', '-433', '1', null, '1506669170', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5253', '3', '1', '-400', '1', null, '1506669736', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5254', '3', '1', '433', '1', null, '1506669745', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5255', '3', '1', '-600', '1', null, '1506669931', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5256', '3', '2', '-45000', '1', null, '1506670247', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5257', '3', '1', '-1300', '1', null, '1506670663', null, null, '打赏任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5258', '3', '1', '-400', '1', null, '1506670699', null, null, '打赏任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5259', '3', '2', '-1300', '1', null, '1506670915', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5260', '3', '2', '-5000', '1', null, '1506671387', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5261', '3', '1', '4', '1', null, '1506671581', null, null, '任务失败退回', null);
+INSERT INTO `guguo_take_cash` VALUES ('5262', '3', '1', '-300', '1', null, '1506671581', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5263', '3', '1', '300', '1', null, '1506671581', null, null, '任务发放结余', null);
+INSERT INTO `guguo_take_cash` VALUES ('5265', '8', '1', '285', '1', null, '1506671641', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5266', '5', '1', '283', '1', null, '1506671641', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5267', '12', '1', '283', '1', null, '1506671641', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5268', '9', '1', '283', '1', null, '1506671641', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5269', '3', '1', '283', '1', null, '1506671641', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5270', '4', '1', '283', '1', null, '1506671641', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5271', '3', '2', '-5000', '1', null, '1506671641', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5272', '3', '2', '-5000', '1', null, '1506671641', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5273', '3', '2', '-5000', '1', null, '1506671641', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5274', '3', '2', '-10000', '1', null, '1506671641', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5275', '3', '2', '-10000', '1', null, '1506671641', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5276', '3', '2', '-10000', '1', null, '1506671641', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5280', '3', '2', '-166', '1', null, '1506671641', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5281', '3', '2', '-162', '1', null, '1506671641', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5282', '3', '2', '-162', '1', null, '1506671641', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5283', '3', '2', '-162', '1', null, '1506671641', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5284', '3', '2', '-162', '1', null, '1506671641', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5285', '3', '2', '-162', '1', null, '1506671641', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5286', '3', '2', '-162', '1', null, '1506671641', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5287', '3', '2', '162', '1', null, '1506671641', null, null, '任务发放结余', null);
+INSERT INTO `guguo_take_cash` VALUES ('5295', '3', '2', '5000', '1', null, '1506671641', null, null, '任务失败退回', null);
+INSERT INTO `guguo_take_cash` VALUES ('5296', '3', '1', '5000', '1', null, '1506672195', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5297', '3', '1', '162', '1', null, '1506672195', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5298', '3', '1', '-2000', '1', null, '1506672602', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5299', '4', '1', '-2000', '1', null, '1506672623', null, null, '参与任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5300', '3', '1', '-1300', '1', null, '1506672652', null, null, '打赏任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5301', '8', '1', '-2000', '1', null, '1506672712', null, null, '参与任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5302', '3', '1', '-1000', '1', null, '1506672774', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5303', '2', '1', '-2000', '1', null, '1506672797', null, null, '猜输赢任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5304', '3', '2', '-1300', '1', null, '1506672842', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5305', '2', '1', '-100000', '1', null, '1506672885', null, null, '猜输赢任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5306', '3', '2', '-1300', '1', null, '1506673201', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5307', '8', '1', '434', '1', null, '1506673261', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5308', '3', '1', '433', '1', null, '1506673261', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5309', '4', '1', '433', '1', null, '1506673261', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5310', '2', '1', '100000', '1', null, '1506673261', null, null, '猜输赢任务失败退回', null);
+INSERT INTO `guguo_take_cash` VALUES ('5311', '2', '1', '2000', '1', null, '1506673261', null, null, '猜输赢任务失败退回', null);
+INSERT INTO `guguo_take_cash` VALUES ('5312', '3', '1', '-2000', '1', null, '1506673261', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5313', '3', '1', '-2000', '1', null, '1506673261', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5314', '3', '1', '-2000', '1', null, '1506673261', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5322', '3', '1', '-1000', '1', null, '1506673261', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5323', '3', '1', '2000', '1', null, '1506673292', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5324', '3', '1', '1000', '1', null, '1506673294', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5325', '6', '1', '-800', '1', null, '1506673297', null, null, '创建红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5326', '6', '1', '800', '2', null, '1506673921', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5327', '3', '1', '-1000', '1', null, '1506674224', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5328', '72', '1', '-1000', '1', null, '1506674245', null, null, '参与任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5329', '72', '1', '-300', '1', null, '1506674255', null, null, '打赏任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5330', '3', '1', '-700', '1', null, '1506674266', null, null, '打赏任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5331', '4', '1', '-1000', '1', null, '1506674473', null, null, '创建红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5332', '8', '1', '590', '1', null, '1506674484', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5333', '4', '1', '410', '1', null, '1506674488', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5334', '8', '1', '-1100', '1', null, '1506674516', null, null, '创建红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5335', '8', '1', '208', '1', null, '1506674524', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5336', '4', '1', '98', '1', null, '1506674601', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5337', '6', '1', '45', '1', null, '1506674604', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5338', '8', '1', '-100000', '1', null, '1506674653', null, null, '创建红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5339', '8', '1', '65421', '1', null, '1506674668', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5340', '4', '1', '18392', '1', null, '1506674762', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5341', '3', '1', '1000', '1', null, '1506674881', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5342', '3', '1', '-2000', '1', null, '1506674881', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5344', '3', '1', '2000', '1', null, '1506674895', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5345', '4', '1', '-10000', '1', null, '1506674960', null, null, '创建红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5346', '4', '1', '278', '1', null, '1506674965', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5347', '8', '1', '2463', '1', null, '1506674969', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5348', '8', '1', '-100000', '1', null, '1506674983', null, null, '创建红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5349', '8', '1', '100000', '1', null, '1506674988', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5350', '8', '1', '12', '2', null, '1506675122', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5351', '8', '1', '254', '2', null, '1506675122', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5352', '8', '1', '25', '2', null, '1506675122', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5353', '8', '1', '206', '2', null, '1506675122', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5354', '8', '1', '250', '2', null, '1506675122', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5355', '8', '1', '-100000', '1', null, '1506675162', null, null, '创建红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5356', '4', '1', '2439', '1', null, '1506675168', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5357', '8', '1', '7090', '1', null, '1506675171', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5358', '4', '1', '-10000', '1', null, '1506675288', null, null, '创建红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5359', '4', '1', '10000', '1', null, '1506675294', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5360', '3', '1', '-1300', '1', null, '1506675299', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5361', '8', '1', '6550', '2', null, '1506675301', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5362', '8', '1', '9637', '2', null, '1506675301', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5363', '3', '1', '-1300', '1', null, '1506675301', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5364', '3', '1', '-1300', '1', null, '1506675409', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5365', '3', '1', '-300', '1', null, '1506675424', null, null, '打赏任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5366', '3', '1', '1300', '1', null, '1506675429', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5367', '4', '1', '-1300', '1', null, '1506675434', null, null, '参与任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5368', '2', '1', '-1300', '1', null, '1506675436', null, null, '参与任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5369', '4', '1', '1445', '2', null, '1506675601', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5370', '4', '1', '5753', '2', null, '1506675601', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5371', '4', '1', '61', '2', null, '1506675601', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5372', '72', '1', '-1300', '1', null, '1506675705', null, null, '猜输赢任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5373', '4', '1', '-500', '1', null, '1506675735', null, null, '打赏任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5374', '8', '1', '29098', '2', null, '1506675781', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5375', '8', '1', '109', '2', null, '1506675781', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5376', '8', '1', '14238', '2', null, '1506675781', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5377', '8', '1', '4975', '2', null, '1506675781', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5378', '8', '1', '10203', '2', null, '1506675781', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5379', '8', '1', '4909', '2', null, '1506675781', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5380', '8', '1', '7409', '2', null, '1506675781', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5381', '8', '1', '6873', '2', null, '1506675781', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5382', '8', '1', '1371', '2', null, '1506675781', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5383', '8', '1', '11285', '2', null, '1506675781', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5384', '7', '1', '-2000', '1', null, '1506675808', null, null, '猜输赢任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5385', '3', '1', '800', '1', null, '1506675961', null, null, '参与任务获得打赏奖励', null);
+INSERT INTO `guguo_take_cash` VALUES ('5386', '7', '1', '2000', '1', null, '1506675961', null, null, '猜输赢任务失败退回', null);
+INSERT INTO `guguo_take_cash` VALUES ('5387', '72', '1', '1300', '1', null, '1506675961', null, null, '猜输赢任务失败退回', null);
+INSERT INTO `guguo_take_cash` VALUES ('5388', '3', '1', '-3900', '1', null, '1506675961', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5392', '2', '1', '1300', '1', null, '1506676212', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5393', '2', '1', '433', '1', null, '1506676242', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5394', '2', '1', '433', '1', null, '1506676243', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5395', '4', '1', '-100000', '1', null, '1506676281', null, null, '创建红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5396', '4', '1', '100000', '2', null, '1506676921', null, null, '红包到期返还', null);
+INSERT INTO `guguo_take_cash` VALUES ('5397', '3', '1', '3900', '1', null, '1506679001', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5398', '3', '1', '-300', '1', null, '1506681235', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5399', '3', '1', '300', '1', null, '1506681241', null, null, '任务失败退回', null);
+INSERT INTO `guguo_take_cash` VALUES ('5400', '72', '1', '-2000', '1', null, '1506681777', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5401', '3', '1', '-200', '1', null, '1506681992', null, null, '猜输赢任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5402', '3', '1', '200', '1', null, '1506682921', null, null, '猜输赢任务失败退回', null);
+INSERT INTO `guguo_take_cash` VALUES ('5403', '72', '1', '2000', '1', null, '1506682921', null, null, '任务失败退回', null);
+INSERT INTO `guguo_take_cash` VALUES ('5405', '12', '1', '166', '1', null, '1506730751', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5406', '12', '1', '10000', '1', null, '1506730754', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5407', '12', '1', '434', '1', null, '1506730758', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5408', '12', '1', '434', '1', null, '1506730762', null, null, '领取红包', null);
+INSERT INTO `guguo_take_cash` VALUES ('5409', '12', '1', '-1000', '1', null, '1506730949', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5410', '12', '1', '-10000', '1', null, '1506732516', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5411', '12', '1', '-2000', '1', null, '1506733437', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5412', '12', '1', '-2000', '1', null, '1506733539', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5413', '12', '1', '-2000', '1', null, '1506733614', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5414', '12', '1', '-2000', '1', null, '1506733691', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5415', '72', '1', '-2000', '1', null, '1506734368', null, null, '参与任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5416', '72', '1', '-2000', '1', null, '1506734437', null, null, '参与任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5417', '12', '1', '-1000', '1', null, '1506734581', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5418', '12', '1', '1000', '1', null, '1506734581', null, null, '任务发放结余', null);
+INSERT INTO `guguo_take_cash` VALUES ('5420', '72', '1', '-2000', '1', null, '1506734771', null, null, '参与任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5421', '72', '1', '-2000', '1', null, '1506734895', null, null, '猜输赢任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5422', '12', '1', '-1000', '1', null, '1506735061', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5423', '12', '1', '1000', '1', null, '1506735061', null, null, '任务发放结余', null);
+INSERT INTO `guguo_take_cash` VALUES ('5425', '72', '1', '-10000', '1', null, '1506735249', null, null, '参与任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5426', '72', '1', '-1000', '1', null, '1506735485', null, null, '猜输赢任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5427', '72', '1', '-2000', '1', null, '1506735591', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5428', '12', '1', '-1000', '1', null, '1506735643', null, null, '猜输赢任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5429', '12', '1', '-1000', '1', null, '1506735781', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5430', '12', '1', '-1000', '1', null, '1506735781', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5432', '12', '1', '-1000', '1', null, '1506735901', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5433', '12', '1', '-1000', '1', null, '1506735901', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5435', '12', '1', '-1000', '1', null, '1506736141', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5436', '12', '1', '5000', '1', null, '1506736141', null, null, '任务发放结余', null);
+INSERT INTO `guguo_take_cash` VALUES ('5438', '12', '1', '-1000', '1', null, '1506736801', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5439', '12', '1', '-1000', '1', null, '1506736801', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5441', '12', '1', '-1000', '1', null, '1506737641', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5442', '12', '1', '-1000', '1', null, '1506737641', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5444', '3', '1', '-100', '1', null, '1506737707', null, null, '猜输赢任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5445', '3', '1', '-1000', '1', null, '1506738789', null, null, '发起任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5446', '3', '1', '-100', '1', null, '1506738830', null, null, '猜输赢任务', null);
+INSERT INTO `guguo_take_cash` VALUES ('5468', '12', '1', '-1000', '1', null, '1506739621', null, null, '任务奖励发放', null);
+INSERT INTO `guguo_take_cash` VALUES ('5469', '12', '1', '1000', '1', null, '1506739621', null, null, '任务发放结余', null);
 
 -- ----------------------------
--- Table structure for guguo_talk_article
+-- Table structure for `guguo_talk_article`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_talk_article`;
 CREATE TABLE `guguo_talk_article` (
@@ -6412,7 +7228,7 @@ INSERT INTO `guguo_talk_article` VALUES ('25', '测试图片能不能行', '1', 
 INSERT INTO `guguo_talk_article` VALUES ('27', '测试引用', '2', '1', '测试引用测试引用测试引用测试引用', 'www.baidu.com', null, '0', '0', '0', '0', '0', '0', '0', '1505373396', '1505373396', '2');
 
 -- ----------------------------
--- Table structure for guguo_talk_article_type
+-- Table structure for `guguo_talk_article_type`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_talk_article_type`;
 CREATE TABLE `guguo_talk_article_type` (
@@ -6434,7 +7250,7 @@ INSERT INTO `guguo_talk_article_type` VALUES ('6', '新的分类', '1505372729')
 INSERT INTO `guguo_talk_article_type` VALUES ('7', 'zz', '1506479454');
 
 -- ----------------------------
--- Table structure for guguo_talking_method
+-- Table structure for `guguo_talking_method`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_talking_method`;
 CREATE TABLE `guguo_talking_method` (
@@ -6453,7 +7269,7 @@ CREATE TABLE `guguo_talking_method` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for guguo_umessage
+-- Table structure for `guguo_umessage`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_umessage`;
 CREATE TABLE `guguo_umessage` (
@@ -6463,7 +7279,7 @@ CREATE TABLE `guguo_umessage` (
   `remark` varchar(256) DEFAULT NULL COMMENT '备注信息',
   `create_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=718 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=749 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guguo_umessage
@@ -7182,9 +7998,40 @@ INSERT INTO `guguo_umessage` VALUES ('714', '4', '2', '用户创建红包成功,
 INSERT INTO `guguo_umessage` VALUES ('715', '4', '2', '收到返还的超时红包，id为890返还金额10000分', '1505444581');
 INSERT INTO `guguo_umessage` VALUES ('716', '5', '2', '用户创建红包成功,总金额20000分，共1个', '1506132894');
 INSERT INTO `guguo_umessage` VALUES ('717', '5', '3', '用户app转账成功，转至用户id3,转账金额100分', '1506132919');
+INSERT INTO `guguo_umessage` VALUES ('718', '6', '2', '用户创建红包成功,总金额800分，共1个', '1506673297');
+INSERT INTO `guguo_umessage` VALUES ('719', '6', '2', '收到返还的超时红包，id为1521返还金额800分', '1506673921');
+INSERT INTO `guguo_umessage` VALUES ('720', '4', '2', '用户创建红包成功,总金额1000分，共2个', '1506674473');
+INSERT INTO `guguo_umessage` VALUES ('721', '8', '2', '用户创建红包成功,总金额1100分，共8个', '1506674516');
+INSERT INTO `guguo_umessage` VALUES ('722', '8', '2', '用户创建红包成功,总金额100000分，共4个', '1506674653');
+INSERT INTO `guguo_umessage` VALUES ('723', '4', '2', '用户创建红包成功,总金额10000分，共5个', '1506674960');
+INSERT INTO `guguo_umessage` VALUES ('724', '8', '2', '用户创建红包成功,总金额100000分，共1个', '1506674983');
+INSERT INTO `guguo_umessage` VALUES ('725', '8', '2', '收到返还的超时红包，id为1528返还金额12分', '1506675122');
+INSERT INTO `guguo_umessage` VALUES ('726', '8', '2', '收到返还的超时红包，id为1529返还金额254分', '1506675122');
+INSERT INTO `guguo_umessage` VALUES ('727', '8', '2', '收到返还的超时红包，id为1530返还金额25分', '1506675122');
+INSERT INTO `guguo_umessage` VALUES ('728', '8', '2', '收到返还的超时红包，id为1531返还金额206分', '1506675122');
+INSERT INTO `guguo_umessage` VALUES ('729', '8', '2', '收到返还的超时红包，id为1532返还金额250分', '1506675122');
+INSERT INTO `guguo_umessage` VALUES ('730', '8', '2', '用户创建红包成功,总金额100000分，共12个', '1506675162');
+INSERT INTO `guguo_umessage` VALUES ('731', '4', '2', '用户创建红包成功,总金额10000分，共1个', '1506675288');
+INSERT INTO `guguo_umessage` VALUES ('732', '8', '2', '收到返还的超时红包，id为1542返还金额6550分', '1506675301');
+INSERT INTO `guguo_umessage` VALUES ('733', '8', '2', '收到返还的超时红包，id为1543返还金额9637分', '1506675301');
+INSERT INTO `guguo_umessage` VALUES ('734', '4', '2', '收到返还的超时红包，id为1550返还金额1445分', '1506675601');
+INSERT INTO `guguo_umessage` VALUES ('735', '4', '2', '收到返还的超时红包，id为1551返还金额5753分', '1506675601');
+INSERT INTO `guguo_umessage` VALUES ('736', '4', '2', '收到返还的超时红包，id为1552返还金额61分', '1506675601');
+INSERT INTO `guguo_umessage` VALUES ('737', '8', '2', '收到返还的超时红包，id为1558返还金额29098分', '1506675781');
+INSERT INTO `guguo_umessage` VALUES ('738', '8', '2', '收到返还的超时红包，id为1559返还金额109分', '1506675781');
+INSERT INTO `guguo_umessage` VALUES ('739', '8', '2', '收到返还的超时红包，id为1560返还金额14238分', '1506675781');
+INSERT INTO `guguo_umessage` VALUES ('740', '8', '2', '收到返还的超时红包，id为1561返还金额4975分', '1506675781');
+INSERT INTO `guguo_umessage` VALUES ('741', '8', '2', '收到返还的超时红包，id为1562返还金额10203分', '1506675781');
+INSERT INTO `guguo_umessage` VALUES ('742', '8', '2', '收到返还的超时红包，id为1563返还金额4909分', '1506675781');
+INSERT INTO `guguo_umessage` VALUES ('743', '8', '2', '收到返还的超时红包，id为1564返还金额7409分', '1506675781');
+INSERT INTO `guguo_umessage` VALUES ('744', '8', '2', '收到返还的超时红包，id为1565返还金额6873分', '1506675781');
+INSERT INTO `guguo_umessage` VALUES ('745', '8', '2', '收到返还的超时红包，id为1566返还金额1371分', '1506675781');
+INSERT INTO `guguo_umessage` VALUES ('746', '8', '2', '收到返还的超时红包，id为1567返还金额11285分', '1506675781');
+INSERT INTO `guguo_umessage` VALUES ('747', '4', '2', '用户创建红包成功,总金额100000分，共1个', '1506676281');
+INSERT INTO `guguo_umessage` VALUES ('748', '4', '2', '收到返还的超时红包，id为1574返还金额100000分', '1506676921');
 
 -- ----------------------------
--- Table structure for guguo_verification_log
+-- Table structure for `guguo_verification_log`
 -- ----------------------------
 DROP TABLE IF EXISTS `guguo_verification_log`;
 CREATE TABLE `guguo_verification_log` (
@@ -7199,7 +8046,7 @@ CREATE TABLE `guguo_verification_log` (
   `cause` varchar(255) DEFAULT NULL COMMENT '原因',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=227 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=260 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guguo_verification_log
@@ -7430,34 +8277,66 @@ INSERT INTO `guguo_verification_log` VALUES ('223', '1', '8', '72', '1506561390'
 INSERT INTO `guguo_verification_log` VALUES ('224', '1', '9', '72', '1506561392', '0', '2', '已领取合同', null, '1');
 INSERT INTO `guguo_verification_log` VALUES ('225', '1', '1', '72', '1506561400', '0', '2', '已领取合同', null, '1');
 INSERT INTO `guguo_verification_log` VALUES ('226', '1', '2', '72', '1506561404', '0', '2', '已领取合同', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('227', '1', '62', '72', '1506589705', '1', '2', '审核通过,转到下一审核人', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('228', '1', '62', '72', '1506589708', '2', '3', '生成合同号!审核通过,转到下一审核人', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('229', '1', '62', '72', '1506589712', '0', '1', '审核最终通过!', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('230', '1', '69', '72', '1506589727', '0', '2', '已领取合同', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('231', '1', '70', '72', '1506589731', '0', '2', '已领取合同', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('232', '2', '31', '72', '1506589919', '1', '2', '审核通过,转到下一审核人', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('233', '2', '31', '72', '1506589922', '2', '3', '审核通过,转到下一审核人', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('234', '2', '31', '72', '1506589925', '3', '4', '审核通过,转到下一审核人', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('235', '2', '31', '72', '1506589927', '4', '5', '审核通过,转到下一审核人', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('236', '2', '31', '72', '1506589929', '5', '6', '审核通过,转到下一审核人', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('237', '2', '31', '72', '1506589931', '0', '1', '审核最终通过!', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('238', '3', '23', '72', '1506590057', '1', '2', '填写发票号!审核通过,转到下一审核人', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('239', '3', '23', '72', '1506590060', '2', '3', '审核通过,转到下一审核人', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('240', '3', '23', '72', '1506590060', '0', '4', '审核最终通过!', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('241', '3', '23', '72', '1506590092', '0', '2', '已领取发票', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('242', '3', '22', '72', '1506590094', '0', '2', '已领取发票', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('243', '1', '63', '72', '1506677283', '1', '2', '审核通过,转到下一审核人', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('244', '1', '63', '72', '1506677288', '2', '3', '审核通过,转到下一审核人', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('245', '1', '63', '72', '1506677651', '3', '4', '生成合同号!审核通过,转到下一审核人', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('246', '1', '63', '72', '1506677663', '4', '5', '审核通过,转到下一审核人', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('247', '1', '63', '72', '1506677666', '0', '1', '审核最终通过!', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('248', '1', '72', '72', '1506677688', '0', '2', '已领取合同', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('249', '1', '73', '72', '1506677692', '0', '2', '已领取合同', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('250', '2', '32', '72', '1506677854', '1', '2', '审核通过,转到下一审核人', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('251', '2', '32', '72', '1506677857', '2', '3', '审核通过,转到下一审核人', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('252', '2', '32', '72', '1506677860', '3', '4', '审核通过,转到下一审核人', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('253', '2', '32', '72', '1506677862', '4', '5', '审核通过,转到下一审核人', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('254', '2', '32', '72', '1506677865', '5', '6', '审核通过,转到下一审核人', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('255', '2', '32', '72', '1506677867', '0', '1', '审核最终通过!', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('256', '3', '24', '72', '1506678512', '1', '2', '填写发票号!审核通过,转到下一审核人', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('257', '3', '24', '72', '1506678516', '2', '3', '审核通过,转到下一审核人', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('258', '3', '24', '72', '1506678518', '0', '4', '审核最终通过!', null, '1');
+INSERT INTO `guguo_verification_log` VALUES ('259', '3', '24', '72', '1506678535', '0', '2', '已领取发票', null, '1');
 
 -- ----------------------------
--- View structure for guguo_view_employee_task
+-- View structure for `guguo_view_employee_task`
 -- ----------------------------
 DROP VIEW IF EXISTS `guguo_view_employee_task`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`xzm`@`%` SQL SECURITY DEFINER VIEW `guguo_view_employee_task` AS select `et`.`id` AS `id`,`et`.`task_name` AS `task_name`,`et`.`task_start_time` AS `task_start_time`,`et`.`task_end_time` AS `task_end_time`,`et`.`task_take_start_time` AS `task_take_start_time`,`et`.`task_take_end_time` AS `task_take_end_time`,`et`.`task_type` AS `task_type`,`et`.`task_method` AS `task_method`,`et`.`content` AS `content`,`et`.`public_to_take` AS `public_to_take`,`et`.`public_to_view` AS `public_to_view`,`et`.`like_count` AS `like_count`,`et`.`tip_count` AS `tip_count`,`et`.`reward_count` AS `reward_count`,`et`.`reward_max_num` AS `reward_max_num`,`et`.`create_employee` AS `create_employee`,`et`.`create_time` AS `create_time`,`et`.`status` AS `status`,`e`.`telephone` AS `telephone`,`e`.`truename` AS `truename`,group_concat(`ee`.`truename` separator ',') AS `public_to_truename`,`etr`.`reward_amount` AS `reward_amount`,`etr`.`reward_num` AS `reward_num`,`etr`.`reward_type` AS `reward_type`,`etr`.`reward_method` AS `reward_method`,`etr`.`reward_start` AS `reward_start`,`etr`.`reward_end` AS `reward_end`,`etr`.`ranking` AS `ranking`,`etr`.`re_amount` AS `re_amount`,`ett`.`target_type` AS `target_type`,`ett`.`target_customer` AS `target_customer`,`ett`.`target_description` AS `target_description`,`ett`.`target_num` AS `target_num`,if(isnull(`etc`.`comment_count`),0,`etc`.`comment_count`) AS `comment_count`,if(isnull(`ettt`.`partin_count`),0,`ettt`.`partin_count`) AS `partin_count`,`ettt`.`take_employees` AS `take_employees`,`gc`.`customer_name` AS `customer_name`,`vett`.`tip_employees` AS `tip_employees`,`vett`.`tip_moneys` AS `tip_moneys` from ((((((((`guguo_employee_task` `et` left join `guguo_employee` `e` on((`e`.`id` = `et`.`create_employee`))) left join `guguo_employee` `ee` on(find_in_set(`ee`.`id`,`et`.`public_to_take`))) left join `guguo_view_employee_task_reward` `etr` on((`etr`.`task_id` = `et`.`id`))) left join `guguo_employee_task_target` `ett` on((`ett`.`task_id` = `et`.`id`))) left join `guguo_customer` `gc` on((`ett`.`target_customer` = `gc`.`id`))) left join `guguo_view_employee_task_comment` `etc` on((`etc`.`task_id` = `et`.`id`))) left join `guguo_view_employee_task_take` `ettt` on((`ettt`.`task_id` = `et`.`id`))) left join `guguo_view_employee_task_tip` `vett` on((`vett`.`task_id` = `et`.`id`))) group by `et`.`id` order by `et`.`create_time` desc ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`xzm`@`%` SQL SECURITY DEFINER VIEW `guguo_view_employee_task` AS select `et`.`id` AS `id`,`et`.`task_name` AS `task_name`,`et`.`task_start_time` AS `task_start_time`,`et`.`task_end_time` AS `task_end_time`,`et`.`task_take_start_time` AS `task_take_start_time`,`et`.`task_take_end_time` AS `task_take_end_time`,`et`.`task_type` AS `task_type`,`et`.`task_method` AS `task_method`,`et`.`content` AS `content`,`et`.`public_to_take` AS `public_to_take`,`et`.`public_to_view` AS `public_to_view`,`et`.`like_count` AS `like_count`,`et`.`tip_count` AS `tip_count`,`et`.`reward_count` AS `reward_count`,`et`.`reward_max_num` AS `reward_max_num`,`et`.`create_employee` AS `create_employee`,`et`.`create_time` AS `create_time`,`et`.`status` AS `status`,`e`.`telephone` AS `telephone`,`e`.`truename` AS `truename`,group_concat(`ee`.`truename` separator ',') AS `public_to_truename`,group_concat(distinct `etg`.`guess_employee` separator ',') AS `guess_employees`,`etr`.`reward_amount` AS `reward_amount`,`etr`.`reward_num` AS `reward_num`,`etr`.`reward_type` AS `reward_type`,`etr`.`reward_method` AS `reward_method`,`etr`.`reward_start` AS `reward_start`,`etr`.`reward_end` AS `reward_end`,`etr`.`ranking` AS `ranking`,`etr`.`re_amount` AS `re_amount`,`ett`.`target_type` AS `target_type`,`ett`.`target_customer` AS `target_customer`,`ett`.`target_description` AS `target_description`,`ett`.`target_num` AS `target_num`,`ett`.`target_method` AS `target_method`,if(isnull(`etc`.`comment_count`),0,`etc`.`comment_count`) AS `comment_count`,if(isnull(`ettt`.`partin_count`),0,`ettt`.`partin_count`) AS `partin_count`,`ettt`.`take_employees` AS `take_employees`,`gc`.`customer_name` AS `customer_name`,`vett`.`tip_employees` AS `tip_employees`,`vett`.`tip_moneys` AS `tip_moneys` from (((((((((`guguo_employee_task` `et` left join `guguo_employee` `e` on((`e`.`id` = `et`.`create_employee`))) left join `guguo_employee` `ee` on(find_in_set(`ee`.`id`,`et`.`public_to_take`))) left join `guguo_view_employee_task_reward` `etr` on((`etr`.`task_id` = `et`.`id`))) left join `guguo_employee_task_target` `ett` on((`ett`.`task_id` = `et`.`id`))) left join `guguo_customer` `gc` on((`ett`.`target_customer` = `gc`.`id`))) left join `guguo_view_employee_task_comment` `etc` on((`etc`.`task_id` = `et`.`id`))) left join `guguo_view_employee_task_take` `ettt` on((`ettt`.`task_id` = `et`.`id`))) left join `guguo_view_employee_task_tip` `vett` on((`vett`.`task_id` = `et`.`id`))) left join `guguo_employee_task_guess` `etg` on((`etg`.`task_id` = `et`.`id`))) group by `et`.`id` order by `et`.`create_time` desc ;
 
 -- ----------------------------
--- View structure for guguo_view_employee_task_comment
+-- View structure for `guguo_view_employee_task_comment`
 -- ----------------------------
 DROP VIEW IF EXISTS `guguo_view_employee_task_comment`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`xzm`@`%` SQL SECURITY DEFINER VIEW `guguo_view_employee_task_comment` AS select `c`.`id` AS `id`,`c`.`task_id` AS `task_id`,if(isnull(count(`c`.`id`)),0,count(`c`.`id`)) AS `comment_count` from `guguo_employee_task_comment` `c` group by `c`.`task_id` ;
 
 -- ----------------------------
--- View structure for guguo_view_employee_task_reward
+-- View structure for `guguo_view_employee_task_reward`
 -- ----------------------------
 DROP VIEW IF EXISTS `guguo_view_employee_task_reward`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`xzm`@`%` SQL SECURITY DEFINER VIEW `guguo_view_employee_task_reward` AS select `r`.`id` AS `id`,`r`.`task_id` AS `task_id`,`r`.`reward_type` AS `reward_type`,`r`.`reward_method` AS `reward_method`,`r`.`reward_amount` AS `reward_amount`,`r`.`reward_num` AS `reward_num`,`r`.`reward_start` AS `reward_start`,`r`.`reward_end` AS `reward_end`,group_concat(if((`r`.`reward_start` = `r`.`reward_end`),concat('第',`r`.`reward_start`,'名 ',`r`.`reward_amount`,'元/名'),concat(concat_ws('-',`r`.`reward_start`,`r`.`reward_end`),'名 ',`r`.`reward_amount`,'元/名')) order by `r`.`task_id` DESC,`r`.`reward_amount` DESC separator ',') AS `ranking`,group_concat(`r`.`reward_amount` order by `r`.`task_id` DESC,`r`.`reward_amount` ASC separator '~') AS `re_amount` from `guguo_employee_task_reward` `r` group by `r`.`task_id` ;
 
 -- ----------------------------
--- View structure for guguo_view_employee_task_take
+-- View structure for `guguo_view_employee_task_take`
 -- ----------------------------
 DROP VIEW IF EXISTS `guguo_view_employee_task_take`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`xzm`@`%` SQL SECURITY DEFINER VIEW `guguo_view_employee_task_take` AS select `t`.`id` AS `id`,`t`.`task_id` AS `task_id`,group_concat(`t`.`take_employee` separator ',') AS `take_employees`,if(isnull(count(`t`.`id`)),0,count(`t`.`id`)) AS `partin_count` from `guguo_employee_task_take` `t` group by `t`.`task_id` ;
 
 -- ----------------------------
--- View structure for guguo_view_employee_task_tip
+-- View structure for `guguo_view_employee_task_tip`
 -- ----------------------------
 DROP VIEW IF EXISTS `guguo_view_employee_task_tip`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`xzm`@`%` SQL SECURITY DEFINER VIEW `guguo_view_employee_task_tip` AS select `t`.`id` AS `id`,`t`.`task_id` AS `task_id`,group_concat(distinct `t`.`tip_employee` separator ',') AS `tip_employees`,sum(`t`.`tip_money`) AS `tip_moneys` from `guguo_employee_task_tip` `t` group by `t`.`task_id` ;
-SET FOREIGN_KEY_CHECKS=1;
