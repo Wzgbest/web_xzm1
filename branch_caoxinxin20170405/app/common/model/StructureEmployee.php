@@ -78,9 +78,12 @@ class StructureEmployee extends Base
      * @throws \think\Exception
      * created by messhair
      */
-    public function setStructureEmployeebyIds($user_ids,$data)
+    public function setStructureEmployeebyIds($user_ids,$struct_id,$data)
     {
-        return $this->model->table($this->table)->where('user_id','in',$user_ids)->update($data);
+        return $this->model->table($this->table)
+            ->where('user_id','in',$user_ids)
+            ->where('struct_id',$struct_id)
+            ->update($data);
     }
 
     /**
