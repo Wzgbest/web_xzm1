@@ -123,26 +123,32 @@ $("article .dv4 .parcel .add").click(function(){
     var num1=parseInt($('.num1').val());
     var num2=parseInt($('.num2').val());
     var num3=parseInt($('.num3').val());
+    if(num1&&num2&&num3){
+        var neirong="<li>第<span>"+num1+"</span>~<span>"+num2+"</span>名，各奖励<span>"+num3+"</span>元<i class='fa fa-edit'></i><i class='fa fa-trash-o trash'></i></li>"
 
-    var neirong="<li>第<span>"+num1+"</span>~<span>"+num2+"</span>名，各奖励<span>"+num3+"</span>元<i class='fa fa-edit'></i><i class='fa fa-trash-o trash'></i></li>"
+        $("article .dv4 ul").prepend(neirong);
+        var s=0;
+        var max_num2=0;
 
-    $("article .dv4 ul").prepend(neirong);
-    var s=0;
-    var max_num2=0;
+        $("article .dv4 ul li:not(:last)").each(function(){
 
-    $("article .dv4 ul li:not(:last)").each(function(){
+            var num1=parseInt($(this).children("span:eq(0)").text());
+            var num2=parseInt($(this).children("span:eq(1)").text());
+            var num3=parseInt($(this).children("span:eq(2)").text());
 
-        var num1=parseInt($(this).children("span:eq(0)").text());
-        var num2=parseInt($(this).children("span:eq(1)").text());
-        var num3=parseInt($(this).children("span:eq(2)").text());
+            var i=num2-num1+1;
+            s=s+i*num3;
 
-        var i=num2-num1+1;
-        s=s+i*num3;
+            if(max_num2<num2){
+                max_num2=num2
+            }
+        })
+    }
+    else{
+        layer.msg('请正确填写分配规则',{icon:2});
+    }
 
-        if(max_num2<num2){
-            max_num2=num2
-        }
-    })
+
     $("article .dv4 ul .largest").text(max_num2);
     $("article .dv4 ul .total").text(s);//总计的钱
 })
@@ -299,6 +305,7 @@ function new_task_form(load_table){
                     var num1=parseInt($(this).children("span:eq(0)").text());
                     var num2=parseInt($(this).children("span:eq(1)").text());
                     var num3=parseInt($(this).children("span:eq(2)").text());
+
                     var i=num2-num1+1;
                     s=s+i*num3;
                     if(max_num2<num2){
@@ -310,6 +317,7 @@ function new_task_form(load_table){
                         reward_amount:num3
                     };
                     reward_array.push(reward_object);
+
                 });
                 money = s;
                 console.log('s',s);
@@ -571,25 +579,17 @@ function task_list(target){
         var url="/task/employee_task/"+method;
         loadPagebypost(url,{'order_name':order_name,'task_type':task_type},panel);
     });
+    //领取红包
+    $(task_list_sel+" article").on('click','.picture',function(e){
+        e.stopPropagation();
+        take_envelopes($(this),$(this).parent('.mengceng').attr('hongbao_id'));
+    });
+    //红包不领取 mengceng禁用
+    $(task_list_sel+" article").on('click','.m_c',function(e){
+        e.stopPropagation();
+        return false;
+    });
 
-    //领红包
-    //$(task_list_sel+" .dv1 .grade .get").hide();
-    // $(task_list_sel+" .dv1 .mengceng").addClass("m_c");
-    // var picture = '<img src="/task/img/redPacket.png" class="picture"/>';
-    // $(task_list_sel+" .dv1 .mengceng").append(picture);
-    $(task_list_sel+" .direct_participation_load").on('click','.picture',function(){
-        take_envelopes($(this),$(this).parent('.mengceng').attr('hongbao_id'));
-    });
-    $(task_list_sel+" .hot_task_load").on('click','.picture',function(){
-        take_envelopes($(this),$(this).parent('.mengceng').attr('hongbao_id'));
-        // $(this).parent().removeClass("m_c");
-        // var text='<p class="get">已领取100元</p>';
-        // $(this).siblings('.right').children('.within').children('.active').prepend(text);
-        // $(this).remove();
-    });
-    $(task_list_sel+" .historical_task_load").on('click','.picture',function(){
-        take_envelopes($(this),$(this).parent('.mengceng').attr('hongbao_id'));
-    });
     //领取红包 公共方法
     function take_envelopes(that,id){
         $.ajax({
@@ -610,9 +610,29 @@ function task_list(target){
             },
             error: function() {
                 console.log('操作出现错误',{icon:2});
-            },
+            }
         });
     }
+
+
+    $(task_list_sel+" article").on("click",".dv1",function(){
+        var id = $(this).attr("task_id");
+        //loadPage('/task/index/show/id/'+id+'/fr/'+self.target,self.target);
+        var nowflag=$(task_list_sel+" header ul li.flow div").text();
+        $.ajax({
+            url: '/task/index/show/id/'+id+'/fr/'+self.target,
+            type: 'get',
+            success: function(data) {
+                $("#"+self.target+" .task_direct_panel .task_direct_info_panel").html(data);
+                $("#"+self.target+" .task_direct_panel header div ul li.current div").text(nowflag);
+                $("#"+self.target+" .task_list").addClass("hide");
+                $("#"+self.target+" .task_direct_panel").removeClass("hide");
+            },
+            error: function() {
+                layer.msg('加载任务详情出现错误',{icon:2});
+            }
+        });
+    });
 
     $(task_list_sel+" header .xinjian ").click(function(){
         //loadPage('/task/index/new_task/fr/'+self.target,self.target);
@@ -632,29 +652,31 @@ function task_list(target){
             }
         });
     });
-    $(task_list_sel+" article").on("click",".dv1 .task_details",function(){
-        var id = $(this).attr("task_id");
-        //loadPage('/task/index/show/id/'+id+'/fr/'+self.target,self.target);
-        var nowflag=$(task_list_sel+" header ul li.flow div").text();
-        $.ajax({
-            url: '/task/index/show/id/'+id+'/fr/'+self.target,
-            type: 'get',
-            success: function(data) {
-                $("#"+self.target+" .task_direct_panel .task_direct_info_panel").html(data);
-                $("#"+self.target+" .task_direct_panel header div ul li.current div").text(nowflag);
-                $("#"+self.target+" .task_list").addClass("hide");
-                $("#"+self.target+" .task_direct_panel").removeClass("hide");
-            },
-            error: function() {
-                layer.msg('加载任务详情出现错误',{icon:2});
-            }
-        });
-    });
+    // $(task_list_sel+" article").on("click",".dv1 .task_details",function(){
+    //     var id = $(this).attr("task_id");
+    //     //loadPage('/task/index/show/id/'+id+'/fr/'+self.target,self.target);
+    //     var nowflag=$(task_list_sel+" header ul li.flow div").text();
+    //     $.ajax({
+    //         url: '/task/index/show/id/'+id+'/fr/'+self.target,
+    //         type: 'get',
+    //         success: function(data) {
+    //             $("#"+self.target+" .task_direct_panel .task_direct_info_panel").html(data);
+    //             $("#"+self.target+" .task_direct_panel header div ul li.current div").text(nowflag);
+    //             $("#"+self.target+" .task_list").addClass("hide");
+    //             $("#"+self.target+" .task_direct_panel").removeClass("hide");
+    //         },
+    //         error: function() {
+    //             layer.msg('加载任务详情出现错误',{icon:2});
+    //         }
+    //     });
+    // });
+
     $("#"+self.target+" .task_info_panel .top .current").click(function(){
         $("#"+self.target+" .task_info_panel").addClass("hide");
         $("#"+self.target+" .task_list").removeClass("hide");
     });
-    $(task_list_sel+" article").on("click",".right .get_reward",function(){
+    $(task_list_sel+" article").on("click",".right .get_reward",function(e){
+        e.stopPropagation();
         var that=$(this);
         var type=that.attr('task-type');
         var money=that.attr('task-money');
@@ -698,7 +720,8 @@ function task_list(target){
             });
         }
     });
-    $(task_list_sel+" article").on("click",".right .guess",function(){
+    $(task_list_sel+" article").on("click",".right .guess",function(e){
+        e.stopPropagation();
         console.log("guess");
         var id = $(this).attr("task_id");
         self.now_sel_id = id;
@@ -761,7 +784,8 @@ function task_list(target){
             }
         });
     });
-    $(task_list_sel+" article").on("click",".right .tip",function(){
+    $(task_list_sel+" article").on("click",".right .tip",function(e){
+        e.stopPropagation();
         console.log("tip");
         var id = $(this).attr("task_id");
         self.now_sel_id = id;
@@ -844,7 +868,8 @@ function task_list(target){
         $(task_list_sel+" .pay_ui").trigger('reveal:close');
     });
 
-    $(task_list_sel+" article").on("click",".right .add",function(){
+    $(task_list_sel+" article").on("click",".right .add",function(e){
+        e.stopPropagation();
         var qw = $(this).attr('index_img');
         var task_id = $(this).attr('task_id');
         var p = parseInt($(this).siblings().text());
@@ -872,7 +897,8 @@ function task_list(target){
         $(this).attr('index_img', i)
     });
 
-    $(task_list_sel+" article").on("click",".right .end_task",function(){
+    $(task_list_sel+" article").on("click",".right .end_task",function(e){
+        e.stopPropagation();
         // console.log('终止任务');
         task_end($(this).attr('data-id'),function(data){
             layer.msg(data.msg,{icon:data.success==true?1:2});
