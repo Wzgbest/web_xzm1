@@ -270,10 +270,11 @@ class Employee extends Base{
             ->join($this->dbprefix.'role r','re.role_id = r.id')
             ->join($this->dbprefix.'structure_employee se','e.id = se.user_id')
             ->join($this->dbprefix.'structure s','se.struct_id = s.id')
+            ->where("e.id","gt",0)
             ->group("e.id")
             ->field('e.id,e.telephone,e.userpic,e.truename as nickname,GROUP_CONCAT( distinct r.role_name) as occupation,GROUP_CONCAT( distinct se.struct_id) as struct_id,GROUP_CONCAT( distinct s.struct_name) as struct_name')
             ->select();
-         foreach ($users as $key => $value) {
+        foreach ($users as $key => $value) {
             $users[$key]['loginname'] = $this->corp_id."_".$value['id'];
         }   
         return $users;

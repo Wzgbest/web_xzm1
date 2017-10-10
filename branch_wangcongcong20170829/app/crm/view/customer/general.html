@@ -31,10 +31,10 @@
             </div>
             <div class="detail">
                 <span>最后拜访时间：</span>
-                <span>2017/05/31</span>
+                <span>{$visit_count.last_visit_time|day_format="Y/m/d"}</span>
                 <span class="vertical-blue">|</span>
                 <span>拜访次数：</span>
-                <span class="number">3</span>
+                <span class="number">{$visit_count.visit_num}</span>
                 <span>次</span>
             </div>
             <div class="detail">
@@ -96,12 +96,12 @@
             </div>
             <div>
                 <span style="vertical-align: top;">沟通状态：</span>
-                <div class="buttons active"><i class="fa fa-frown-o"></i><span>无意向</span></div>
-                <div class="buttons active"><i class="fa fa-chain-broken"></i><span>号码无效</span></div>
-                <div class="buttons active"><i class="fa fa-file-excel-o"></i><span>资料有误</span></div>
-                <div class="buttons active"><i class="fa fa-bell-slash-o"></i><span>未接通</span></div>
-                <div class="buttons active"><i class="fa fa-spinner"></i><span>待定</span></div>
-                <div class="buttons active"><i class="fa fa-heart"></i><span>有意向</span></div>
+                <div class="buttons {eq name='customer.comm_status' value='6'} active{/eq}"><i class="fa fa-heart"></i><span>有意向</span></div>
+                <div class="buttons {eq name='customer.comm_status' value='1'} active{/eq}"><i class="fa fa-frown-o"></i><span>无意向</span></div>
+                <div class="buttons {eq name='customer.comm_status' value='2'} active{/eq}"><i class="fa fa-chain-broken"></i><span>号码无效</span></div>
+                <div class="buttons {eq name='customer.comm_status' value='3'} active{/eq}"><i class="fa fa-file-excel-o"></i><span>资料有误</span></div>
+                <div class="buttons {eq name='customer.comm_status' value='4'} active{/eq}"><i class="fa fa-bell-slash-o"></i><span>未接通</span></div>
+                <div class="buttons {eq name='customer.comm_status' value='5'} active{/eq}"><i class="fa fa-spinner"></i><span>待定</span></div>
             </div>
             <div class="edit active customer_info_edit">
                 <i class="fa fa-file-text fa-2x"></i>

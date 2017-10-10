@@ -342,7 +342,7 @@ class Structure extends Initialize
                     'struct_id' => -1,
                 ];
                 $employeeM->link->startTrans();
-                $b = $employeeM->setStructureEmployeebyIds($user_ids,$data);
+                $b = $employeeM->setStructureEmployeebyIds($user_ids,$struct_id,$data);
             }
             if (!empty($st_res['groupid'])) {
                 $del_group = $huanxin->deleteGroup($this->corp_id,$struct_id,$st_res['groupid']);
@@ -380,7 +380,7 @@ class Structure extends Initialize
                 ];
                 $employeeM->link->startTrans();
                 //TODO 删除员工
-                $b = $employeeM->setStructureEmployeebyIds($user_ids,$data);
+                $b = $employeeM->setStructureEmployeebyIds($user_ids,$struct_id,$data);
             }
 
             if (!empty($st_res['groupid'])) {

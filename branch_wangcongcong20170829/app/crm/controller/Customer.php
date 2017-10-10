@@ -19,6 +19,7 @@ use app\systemsetting\model\CustomerSetting;
 use app\common\model\Business;
 use app\common\model\Employee as EmployeeModel;
 use app\crm\model\SaleChance as SaleChanceModel;
+use app\crm\model\SaleChanceVisit as SaleChanceVisitModel;
 use app\crm\model\CustomerContact as CustomerContactModel;
 use app\crm\model\CustomerTrace as CustomerTraceModel;
 use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
@@ -242,6 +243,8 @@ class Customer extends Initialize{
         $this->assign("param_list",$param_list);
         $truename = $userinfo["truename"];
         $this->assign("truename",$truename);
+        $now_time = time();
+        $this->assign("now_time",$now_time);
         return view();
     }
     public function general(){
@@ -252,9 +255,16 @@ class Customer extends Initialize{
         $this->assign("handle_employee",$handle_employee);
         $add_employee = $employeeM->getEmployeeByUserid($info_array["customer"]["add_man"]);
         $this->assign("add_employee",$add_employee);
-        $customerM = new SaleChanceModel($this->corp_id);
-        $SaleChancesData = $customerM->getAllSaleChancesByCustomerId($info_array["id"]);
+        $saleChanceM = new SaleChanceModel($this->corp_id);
+        $SaleChancesData = $saleChanceM->getAllSaleChancesByCustomerId($info_array["id"]);
         $this->assign("sale_chance",$SaleChancesData);
+        $saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
+        $visitData = $saleChanceVisitM->getLastVisitAndNum($info_array["id"]);
+        if(empty($visitData)){
+            $visitData["last_visit_time"] = "";
+            $visitData["visit_num"] = "0";
+        }
+        $this->assign("visit_count",$visitData);
         $customerM = new CustomerContactModel($this->corp_id);
         $customerContactData = $customerM->getAllCustomerContactsByCustomerId($info_array["id"]);
         $this->assign("customer_contact",$customerContactData);
