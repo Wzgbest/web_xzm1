@@ -829,9 +829,10 @@ class Employee extends Initialize{
 
         $groupid = input('groupid','','string');
         $usernames = input('usernames/a');
-
+        
         if (!$groupid || empty($usernames)) {
             $result['info'] = "参数错误";
+            return $result;
         }
 
         $huanxin = new HuanxinApi();
