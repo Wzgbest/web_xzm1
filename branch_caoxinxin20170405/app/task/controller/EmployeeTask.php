@@ -31,7 +31,6 @@ class EmployeeTask extends Initialize{
 		$employeeTaskModel = new EmployeeTaskModel($this->corp_id);
 		$task_list = $employeeTaskModel->getEmployeeTaskAndRedEnvelopeList($uid,$num,$last_id,$task_type);
 
-        /*
         $uids = [];
         foreach ($task_list as $task_info){
             $uids_temp = explode(",",$task_info["public_to_take"]);
@@ -62,7 +61,6 @@ class EmployeeTask extends Initialize{
                 $task_info["public_to_view"] = $uids_temp;
             }
         }
-        */
 
         $result['data'] = $task_list;
 		$result['status'] = 1;
@@ -90,7 +88,6 @@ class EmployeeTask extends Initialize{
 		$employeeTaskModel = new EmployeeTaskModel($this->corp_id);
 		$my_task_list = $employeeTaskModel->getMyTaskList($uid,$num,$last_id,$task_type,$is_direct,$is_indirect,$is_own,$is_old);
 
-        /*
         $uids = [];
         foreach ($my_task_list as $task_info){
             $uids_temp = explode(",",$task_info["public_to_take"]);
@@ -121,7 +118,6 @@ class EmployeeTask extends Initialize{
                 $task_info["public_to_view"] = $uids_temp;
             }
         }
-        */
 
 		$result['status'] = 1;
 		$result['info'] = "获取列表成功!";
