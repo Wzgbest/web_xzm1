@@ -23,6 +23,7 @@ use app\crm\model\Contract as ContractAppliedModel;
 use app\crm\model\CustomerTrace as CustomerTraceModel;
 use app\common\model\ParamRemark;
 use app\crm\model\SaleOrderContractItem;
+use app\task\model\TaskTarget;
 
 class SaleChance extends Initialize{
     protected $_activityBusinessFlowItem = [1,2,4];
@@ -515,6 +516,11 @@ class SaleChance extends Initialize{
             if(!$customerTraceflg){
                 exception('提交客户跟踪数据失败!');
             }
+
+            //任务统计
+            $taskTargetM = new TaskTarget($this->corp_id);
+            $updateFlg = $taskTargetM->updateTaskTarget($uid,2,$now_time);
+            //var_exp($updateFlg,'$updateFlg',1);
 
             $saleChanceM->link->commit();
             $result['data'] = $saleChanceId;
