@@ -2,7 +2,7 @@
 {notempty name="task_list"}
 {volist name="task_list" id="vo"}
 {eq name="vo.task_type" value="1"}
-<div class="dv1 task_{$vo.id}">
+<div class="dv1 task_{$vo.id}" task_id="{$vo.id}">
     {eq name="vo.is_token" value="0"}
     <div class="mengceng m_c" hongbao_id="{$vo.redid}">{/eq}
         <div class="left">
@@ -115,7 +115,7 @@
 </div>
 {/eq}
 {eq name="vo.task_type" value="2"}
-<div class="dv1 task_{$vo.id}">
+<div class="dv1 task_{$vo.id}" task_id="{$vo.id}">
     {eq name="vo.is_token" value="0"}
     <div class="mengceng m_c" hongbao_id="{$vo.redid}">{/eq}
         <div class="left">
@@ -236,7 +236,7 @@
 </div>
 {/eq}
 {eq name="vo.task_type" value="3"}
-<div class="dv1 task_{$vo.id}">
+<div class="dv1 task_{$vo.id}" task_id="{$vo.id}">
     {eq name="vo.is_token" value="0"}
     <div class="mengceng m_c" hongbao_id="{$vo.redid}">{/eq}
         <div class="left">
