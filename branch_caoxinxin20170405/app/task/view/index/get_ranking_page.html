@@ -1,70 +1,38 @@
 {eq name="task_type" value="1"}
-    {egt name="self_idx" value="0"}
-        <ul class="backdrop">
-            <li>{$self_idx+1}</li>
-            <li>{$rankingdata[$self_idx]["truename"]}</li>
+    {volist name="rankingdata" id="vo" key="key"}
+        <ul class="{eq name='self_idx' value='$key-1'}backdrop{/eq}">
+            <li>{$key}</li>
+            <li>{$vo["truename"]}</li>
             <li>销售一部</li>
-            <li><span>{$rankingdata[$self_idx]["num"]}</span>次</li>
+            <li><span>{$vo["num"]}</span>次</li>
             <li>
-                {if condition="is_array($rankingdata[$self_idx]['red_info'])"}
-                    {eq name="$rankingdata[$self_idx]['untook']" value="1"}
-                        <span class="turn">待领取</span><img src="/task/img/small.png"/>
-                    {else/}
-                        <span class="turn">已领取</span>
-                    {/eq}
+                {if condition="is_array($vo['red_info'])"}
+                {eq name="$vo['untook']" value="1"}
+                <span class="turn">待领取</span><img src="/task/img/small.png"/>
                 {else/}
-                    <span class="turn">未获得</span>
+                <span class="turn">已领取</span>
+                {/eq}
+                {else/}
+                <span class="turn">未获得</span>
                 {/if}
             </li>
         </ul>
-    {/egt}
-    {volist name="rankingdata" id="vo" key="key"}
-        {neq name="self_idx" value="$key-1"}
-            <ul>
-                <li>{$key}</li>
-                <li>{$vo["truename"]}</li>
-                <li>销售一部</li>
-                <li><span>{$vo["num"]}</span>次</li>
-                <li>
-                    {if condition="is_array($vo['red_info'])"}
-                        {eq name="$vo['untook']" value="1"}
-                            <span class="turn">待领取</span><img src="/task/img/small.png"/>
-                        {else/}
-                            <span class="turn">已领取</span>
-                        {/eq}
-                    {else/}
-                        <span class="turn">未获得</span>
-                    {/if}
-                </li>
-            </ul>
-        {/neq}
     {/volist}
 {/eq}
 {eq name="task_type" value="2"}
-    {egt name="self_idx" value="0"}
-        <ul class="backdrop">
-            <li>{$self_idx+1}</li>
-            <li>{$rankingdata[$self_idx]["truename"]}</li>
-            <li>销售一部</li>
-            <li><span>{$rankingdata[$self_idx]["num"]}</span>次</li>
-            <li><span>{$rankingdata[$self_idx]["guess_num"]}</span>人支持<span>{$rankingdata[$self_idx]["guess_money"]}</span>元</li>
-        </ul>
-    {/egt}
     {volist name="rankingdata" id="vo" key="key"}
-        {neq name="self_idx" value="$key-1"}
-            <ul>
-                <li>{$key}</li>
-                <li>{$vo["truename"]}</li>
-                <li>销售一部</li>
-                <li><span>{$vo["num"]}</span>次</li>
-                <li><span>{$vo["guess_num"]}</span>人支持<span>{$vo["guess_money"]}</span>元</li>
-            </ul>
-        {/neq}
+        <ul class="{eq name='self_idx' value='$key-1'}backdrop{/eq}">
+            <li>{$key}</li>
+            <li>{$vo["truename"]}</li>
+            <li>销售一部</li>
+            <li><span>{$vo["num"]}</span>次</li>
+            <li><span>{$vo["guess_num"]}</span>人支持<span>{$vo["guess_money"]}</span>元</li>
+        </ul>
     {/volist}
 {/eq}
 {eq name="task_type" value="3"}
     {volist name="rankingdata" id="vo" key="key"}
-        <ul>
+        <ul class="{eq name='self_idx' value='$key-1'}backdrop{/eq}">
             <li>{$key}</li>
             <li>{$vo["truename"]}</li>
             <li>销售一部</li>
