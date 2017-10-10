@@ -205,7 +205,8 @@ article .dv1 {
 article .dv1:hover{
 	/*transform: scale(1,1.02);*/
 	cursor: pointer;
-	background-color: #b8acac;
+	box-shadow: 0px 0px 7.92px 10.08px rgba(0, 0, 0, 0.1),inset 0px -1px 0px 0px rgba(0, 0, 0, 0.17);
+	/*background-color: #b8acac;*/
 	/*border:1px solid #999999;*/
 }
 
