@@ -513,7 +513,7 @@ function task_list(target){
     var task_list_sel = "#"+self.target+" .task";
 
     this.pay=function(paypassword){
-        self.paypassword = '';
+        //self.paypassword = '';
         if(self.now_sel_type=='tip'){
             var money = $(task_list_sel+" .tip_ui .tip_money").val();
             console.log("money",money);
@@ -587,7 +587,6 @@ function task_list(target){
     //红包不领取 mengceng禁用
     $(task_list_sel+" article").on('click','.m_c',function(e){
         e.stopPropagation();
-        return false;
     });
 
     //领取红包 公共方法
@@ -963,7 +962,7 @@ function task_details(load_table,id,type){
         });
     };
     this.pay=function(paypassword){
-        self.paypassword = '';
+        //self.paypassword = '';
         if(self.now_sel_type=='tip'){
             var money = $(task_details_sel+" .tip_ui .tip_money").val();
             console.log("money",money);
