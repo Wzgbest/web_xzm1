@@ -25,12 +25,12 @@
 
                 <span class="cont">沟通状态</span>
                 <select name="comm_status">
+                    <option value="6" {eq name='customer.comm_status' value='6'} selected="selected"{/eq}>有意向</option>
                     <option value="1" {eq name='customer.comm_status' value='1'} selected="selected"{/eq}>无意向</option>
                     <option value="2" {eq name='customer.comm_status' value='2'} selected="selected"{/eq}>号码无效</option>
                     <option value="3" {eq name='customer.comm_status' value='3'} selected="selected"{/eq}>资料有误</option>
                     <option value="4" {eq name='customer.comm_status' value='4'} selected="selected"{/eq}>未接通</option>
                     <option value="5" {eq name='customer.comm_status' value='5'} selected="selected"{/eq}>待定</option>
-                    <option value="6" {eq name='customer.comm_status' value='6'} selected="selected"{/eq}>有意向</option>
                 </select>
             </div>
             <div>
