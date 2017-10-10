@@ -197,7 +197,18 @@ article .dv1 {
 	border-bottom: 1px solid #d4d4d4;
 	/*padding-bottom: 30px;*/
 	display: block;
+
+	/*transition:all 1s;*/
 }
+
+
+article .dv1:hover{
+	/*transform: scale(1,1.02);*/
+	cursor: pointer;
+	background-color: #b8acac;
+	/*border:1px solid #999999;*/
+}
+
 
 article .dv1 .left {
 	width: 114px;
