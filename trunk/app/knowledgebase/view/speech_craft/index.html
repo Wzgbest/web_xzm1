@@ -53,11 +53,12 @@
                         <option value="3">设为置顶</option>
                     </select>
                     <h3>更新时间：<span>{$vo.article_edit_time|time_format}</span></h3>
+                    {if condition="$vo.add_user eq $uid"}
                     <div class="controler">
                         <div class="edit3" onclick="edit_article_info('{$vo.id}',this);"><i class="fa fa-file-text-o fa-2x"></i></div>
                         <div class="delete" data-id="{$vo.id}"><i class="fa fa-trash-o fa-2x"></i></div>
                     </div>
-
+                    {/if}
                 </li>
                 {/eq}
             {/volist}
