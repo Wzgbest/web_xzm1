@@ -180,7 +180,7 @@ class SpeechCraft extends Initialize{
         $data['article_release_time'] = input('article_release_time','',"string");
         $data['article_creat_time'] = time();
         $data['article_edit_time'] = time();
-        $data['add_user'] = $uid;
+        // $data['add_user'] = $uid;
         // var_dump(input('post.'));
         // var_dump($data);die();
         if (empty($data['article_name'])) {
@@ -294,13 +294,13 @@ class SpeechCraft extends Initialize{
      */
     public function delete(){
         $result = ['status'=>0,'info'=>"删除失败"];
-        $article_id = input('article_id',0,'int');
-        if (!$article_id) {
+        $article_id = input("ids/a");
+        // var_dump($article_id);die();
+        if (empty($article_id)) {
             $result['info'] = "文章编号为空";
             return $result;
         }
-        $ids[] = $article_id;
-        $flg = $this->_speechCraftModel->delOneArticleById($ids);
+        $flg = $this->_speechCraftModel->delOneArticleById($article_id);
         if ($flg > 0) {
             $result['info'] = "删除成功";
             $result['status'] = 1;
@@ -349,6 +349,8 @@ class SpeechCraft extends Initialize{
         if ($flg > 0) {
             $result['info'] = "修改成功";
             $result['status'] = 1;
+        }else{
+            $result['info'] = "分类没有变化";
         }
         return json($result);
     }
@@ -388,6 +390,8 @@ class SpeechCraft extends Initialize{
     }
 
     public function changeSpeechClass(){
+        $article_type = $this->_speechCraftModel->getAllArticleType();
+        $this->assign('article_type',$article_type);
         return view('change_class');
     }
 
