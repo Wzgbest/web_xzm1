@@ -38,6 +38,51 @@ class TaskTarget extends Base{
     }
 
     /**
+     * 添更新任务目标信息
+     * @param  int $employee_id 员工id
+     * @param  int $type 类型
+     * @param  int $time 时间
+     * @return int 更新数量
+     */
+    public function updateTaskTarget($employee_id,$type,$time){
+        $map["target_employee_id"] = $employee_id;
+        $map["target_type"] = $type;
+        $map["target_start_time"] = ["elt",$time];
+        $map["target_end_time"] = ["egt",$time];
+
+        $data["target_done_num"] = ["exp","target_done_num + 1"];
+        $data["target_standard_time"] = ["exp","(
+            CASE
+            WHEN target_done_num = target_num THEN
+                ".$time."
+            ELSE
+                target_standard_time
+            END
+        )"];
+        $data["target_update_time"] = ["exp","(
+            CASE
+            WHEN target_update_time < ".$time." THEN
+                ".$time."
+            ELSE
+                target_update_time
+            END
+        )"];
+        $data["target_rate"] = ["exp","target_done_num*100/target_num"];
+        $data["target_status"] = ["exp","(
+            CASE
+            WHEN target_done_num >= target_num THEN
+                1
+            ELSE
+                0
+            END
+        )"];
+        return $this->model->table($this->table)
+            ->where($map)
+            ->fetchSql(true)
+            ->update($data);
+    }
+
+    /**
      * 获取某个任务的所有目标信息
      * @param  int $task_id 任务ID
      * @return array 任务信息
