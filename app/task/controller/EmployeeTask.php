@@ -119,6 +119,7 @@ class EmployeeTask extends Initialize{
      * 历史任务 进行中的任务列表数据
      */
     public function get_historical_task_list($map){
+        $map['status']=array('gt',1);
         $result = ['status'=>0,'info'=>"获取列表时失败!"];
 
         $num = input('num',10,'int');
@@ -144,7 +145,8 @@ class EmployeeTask extends Initialize{
 
                 break;
             case 3:
-                //发起的
+                //我发起的
+                unset($map['status']);
                 $map_str = " create_employee=".$uid;
                 break;
         }
