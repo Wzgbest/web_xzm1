@@ -57,8 +57,19 @@
                 <li>{$vo["truename"]}</li>
                 <li>销售一部</li>
                 <li><span>{$vo["num"]}</span>次</li>
-                <li><span>{$vo["guess_num"]}</span>人支持<span>{$vo["guess_money"]}</li>
+                <li><span>{$vo["guess_num"]}</span>人支持<span>{$vo["guess_money"]}</span>元</li>
             </ul>
         {/neq}
+    {/volist}
+{/eq}
+{eq name="task_type" value="3"}
+    {volist name="rankingdata" id="vo" key="key"}
+        <ul>
+            <li>{$key}</li>
+            <li>{$vo["truename"]}</li>
+            <li>销售一部</li>
+            <li><span>{$vo["num"]}</span>次</li>
+            <li><span>未帮</span>|<span>帮了</span></li>
+        </ul>
     {/volist}
 {/eq}

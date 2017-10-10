@@ -513,7 +513,7 @@ function task_list(target){
     var task_list_sel = "#"+self.target+" .task";
 
     this.pay=function(paypassword){
-        self.paypassword = '';
+        //self.paypassword = '';
         if(self.now_sel_type=='tip'){
             var money = $(task_list_sel+" .tip_ui .tip_money").val();
             console.log("money",money);
@@ -963,7 +963,7 @@ function task_details(load_table,id,type){
         });
     };
     this.pay=function(paypassword){
-        self.paypassword = '';
+        //self.paypassword = '';
         if(self.now_sel_type=='tip'){
             var money = $(task_details_sel+" .tip_ui .tip_money").val();
             console.log("money",money);

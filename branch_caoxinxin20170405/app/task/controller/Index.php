@@ -225,7 +225,7 @@ class Index extends Initialize{
         $self_idx = -1;
         for($ranking_index=1;$ranking_index<=count($rankingdata);$ranking_index++){
             if(!$take_in){
-                $rankingdata[$ranking_index-1]["truename"] = mb_substr($rankingdata[$ranking_index-1]["truename"],0,1,'utf-8');
+                $rankingdata[$ranking_index-1]["truename"] = mb_substr($rankingdata[$ranking_index-1]["truename"],0,1,'utf-8')."**";
             }
 
             if(isset($reward_idx_arr[$ranking_index])){
