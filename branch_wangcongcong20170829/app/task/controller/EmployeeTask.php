@@ -12,6 +12,7 @@ use app\common\controller\Initialize;
 use app\task\model\TaskTip;
 use app\task\model\EmployeeTask as EmployeeTaskModel;
 use app\task\model\TaskComment as TaskCommentModel;
+use app\common\model\Employee;
 
 class EmployeeTask extends Initialize{
 
@@ -29,7 +30,39 @@ class EmployeeTask extends Initialize{
 		$uid = $user_info['userid'];
 		$employeeTaskModel = new EmployeeTaskModel($this->corp_id);
 		$task_list = $employeeTaskModel->getEmployeeTaskAndRedEnvelopeList($uid,$num,$last_id,$task_type);
-		$result['data'] = $task_list;
+
+        $uids = [];
+        foreach ($task_list as $task_info){
+            $uids_temp = explode(",",$task_info["public_to_take"]);
+            if(!empty($uids_temp)){
+                $uids = array_merge($uids,$uids_temp);
+            }
+            $uids_temp = explode(",",$task_info["public_to_view"]);
+            if(!empty($uids_temp)){
+                $uids = array_merge($uids,$uids_temp);
+            }
+        }
+        $uids = array_filter($uids);
+        $uids = array_unique($uids);
+        $employM = new Employee($this->corp_id);
+        $employees_name = $employM->getEmployeeNameByUserids($uids);
+
+        foreach ($task_list as &$task_info){
+            $uids_temp = explode(",",$task_info["public_to_take"]);
+            $uids_temp = array_flip($uids_temp);
+            $uids_temp = array_intersect_key($employees_name,$uids_temp);
+            if(!empty($uids_temp)){
+                $task_info["public_to_take"] = $uids_temp;
+            }
+            $uids_temp = explode(",",$task_info["public_to_view"]);
+            $uids_temp = array_flip($uids_temp);
+            $uids_temp = array_intersect_key($employees_name,$uids_temp);
+            if(!empty($uids_temp)){
+                $task_info["public_to_view"] = $uids_temp;
+            }
+        }
+
+        $result['data'] = $task_list;
 		$result['status'] = 1;
 		$result['info'] = "获取成功!";
 
@@ -54,6 +87,37 @@ class EmployeeTask extends Initialize{
 		$uid = $user_info['userid'];
 		$employeeTaskModel = new EmployeeTaskModel($this->corp_id);
 		$my_task_list = $employeeTaskModel->getMyTaskList($uid,$num,$last_id,$task_type,$is_direct,$is_indirect,$is_own,$is_old);
+
+        $uids = [];
+        foreach ($my_task_list as $task_info){
+            $uids_temp = explode(",",$task_info["public_to_take"]);
+            if(!empty($uids_temp)){
+                $uids = array_merge($uids,$uids_temp);
+            }
+            $uids_temp = explode(",",$task_info["public_to_view"]);
+            if(!empty($uids_temp)){
+                $uids = array_merge($uids,$uids_temp);
+            }
+        }
+        $uids = array_filter($uids);
+        $uids = array_unique($uids);
+        $employM = new Employee($this->corp_id);
+        $employees_name = $employM->getEmployeeNameByUserids($uids);
+
+        foreach ($my_task_list as &$task_info){
+            $uids_temp = explode(",",$task_info["public_to_take"]);
+            $uids_temp = array_flip($uids_temp);
+            $uids_temp = array_intersect_key($employees_name,$uids_temp);
+            if(!empty($uids_temp)){
+                $task_info["public_to_take"] = $uids_temp;
+            }
+            $uids_temp = explode(",",$task_info["public_to_view"]);
+            $uids_temp = array_flip($uids_temp);
+            $uids_temp = array_intersect_key($employees_name,$uids_temp);
+            if(!empty($uids_temp)){
+                $task_info["public_to_view"] = $uids_temp;
+            }
+        }
 
 		$result['status'] = 1;
 		$result['info'] = "获取列表成功!";
