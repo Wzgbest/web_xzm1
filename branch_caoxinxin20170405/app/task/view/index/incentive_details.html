@@ -62,13 +62,15 @@
             <div class="active details">
 				{eq name="task_info.status" value="2"}
 				{if condition="$now_time <= $task_info['task_end_time']"}
-				<p class="p2 tip" task_id="{$task_info.id}">打赏</p>
+				<p class="p2 tip" task_id="{$task_info.id}">{if condition="in_array($uid,explode(',',$task_info['tip_employees']))"}继续打赏{else/}打赏{/if}</p>
 
 				{eq name="uid" value="$task_info['create_employee']"}
 				{if condition="strtotime('-1 day') < $task_info['create_time'] && $now_time < $task_info['task_end_time'] "}
 				<p class="p2 end_task" data-id="{$task_info.id}">终止任务</p>
 				{/if}
+				{if condition="!in_array($uid,explode(',',$task_info['take_employees']))"}
 				<p class="p4">任务进行中</p>
+				{/if}
 				{/eq}
 
 				{if condition="in_array($uid,explode(',',$task_info['take_employees']))"}
@@ -79,7 +81,8 @@
 				{eq name="task_info.is_token" value="1"}
 				<p class="p4">已领取红包{$task_info.total_money}元</p>
 				{/eq}
-				{eq name="task_info.status" value="0"}任务被终止{/eq}
+				{eq name="task_info.status" value="0"}<p class="p3">任务被终止</p>{/eq}
+				{eq name="task_info.status" value="1"}<p class="p4">任务未生效</p>{/eq}
 				{if condition="$now_time > $task_info['task_end_time']"}
 				<p class="p4">任务结束</p>
 				{/if}
