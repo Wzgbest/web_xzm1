@@ -139,7 +139,7 @@ class Index extends Initialize{
         $end_time = $taskInfo["task_end_time"];
         $task_type = $taskInfo["task_type"];
         $task_method = $taskInfo["task_method"];
-        if($task_type>2){
+        if($task_type>3){
             $result['info'] = "任务类型不符！";
             return json($result);
         }
@@ -160,15 +160,17 @@ class Index extends Initialize{
             $take_in = true;
         }
 
+        /*
         if(!$take_in){
             $result['info'] = "未参与任务！";
             return json($result);
         }
+        */
 
         $taskTarget = $taskTargetM->findTaskTargetByTaskId($id);
         $target_type = $taskTarget["target_type"];
         $standard = $taskTarget["target_num"];
-        if($task_method>4){
+        if($task_method>5){
             $result['info'] = "任务类型不相符！";
             return json($result);
         }
@@ -222,6 +224,10 @@ class Index extends Initialize{
         $reward_idx = 0;
         $self_idx = -1;
         for($ranking_index=1;$ranking_index<=count($rankingdata);$ranking_index++){
+            if(!$take_in){
+                $rankingdata[$ranking_index-1]["truename"] = mb_substr($rankingdata[$ranking_index-1]["truename"],0,1,'utf-8');
+            }
+
             if(isset($reward_idx_arr[$ranking_index])){
                 $reward_idx = $ranking_index;
             }
@@ -512,7 +518,15 @@ class Index extends Initialize{
         }
         $task_info['content'] = input("content","","string");
         $task_info['public_to_take'] = input("public_to_take","","string");
+        $public_uids = explode(",",$task_info['public_to_take']);
+        $public_uids = array_filter($public_uids);
+        $public_uids = array_unique($public_uids);
+        $task_info['public_to_take'] = implode(",",$public_uids);
         $task_info['public_to_view'] = input("public_to_view","","string");
+        $public_uids = explode(",",$task_info['public_to_view']);
+        $public_uids = array_filter($public_uids);
+        $public_uids = array_unique($public_uids);
+        $task_info['public_to_view'] = implode(",",$public_uids);
         $task_info['create_employee'] = $uid;
         $task_info['create_time'] = time();
         $task_info['status'] = 2;
@@ -533,7 +547,7 @@ class Index extends Initialize{
                 //return [];
             }
         }
-        $task_target_info['target_method']=input("target_method","","int");
+        $task_target_info['target_method']=input("target_method",0,"int");
 
         if($task_target_info['target_method']==1) {
             $task_target_info['target_description']=input("target_description","","string");
