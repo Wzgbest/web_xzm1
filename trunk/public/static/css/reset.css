@@ -120,3 +120,6 @@ textarea {
 .hide{
 	display: none !important;
 }
+.pointer{
+  cursor: pointer;
+}

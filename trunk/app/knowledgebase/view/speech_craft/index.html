@@ -180,6 +180,7 @@ $(".knowledgebase_speechcraft_index .speech-list").on('click','.delete',function
         }else if($(this).val()==2){
             let pop =  new popLoad(".knowledgebase_speechcraft_index .delete-change-set-container","/knowledgebase/speech_craft/changeSpeechClass");
         }
+        $(this).val(0);
     });
     $(".knowledgebase_speechcraft_index .delete-speech-class").click(function(){
         let pop =  new popLoad(".knowledgebase_speechcraft_index .delete-change-set-container","/knowledgebase/speech_craft/deleteSpeechClass");
