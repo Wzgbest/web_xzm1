@@ -22,12 +22,12 @@
                     <input type="text" name="customer_name" required="required" placeholder="请输入客户名称" pattern="[\S]{1,40}" title="请输入1-40个字符"/>
                     <span class="cont">沟通状态</span>
                     <select name="comm_status">
+                        <option value="6" selected="selected">有意向</option>
                         <option value="1">无意向</option>
                         <option value="2">号码无效</option>
                         <option value="3">资料有误</option>
                         <option value="4">未接通</option>
                         <option value="5">待定</option>
-                        <option value="6">有意向</option>
                     </select>
                 </div>
                 <div>
@@ -233,7 +233,7 @@
                     <span class="cont cont-max">预计成单金额</span>
                     <input type="text" name="guess_money" placeholder="请输入金额" />
                     <span class="cont cont-max">预计成单时间</span>
-                    <input type="date" name="prepay_time" />
+                    <input type="date" name="prepay_time" value="{$now_time|day_format}"/>
                 </div>
                 <div>                   
                     <span class="cont">协助人</span>

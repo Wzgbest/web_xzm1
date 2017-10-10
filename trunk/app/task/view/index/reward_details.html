@@ -26,7 +26,11 @@
 
 						<div class="len">
 							<p class="small">帮跟客户</p>
-							<p class="very big blue customer_info" customer_id="{$task_info.target_customer}">{$task_info.customer_name}</p>
+							{if condition="$uid==$task_info['create_employee'] || in_array($uid,explode(',',$task_info['take_employees']))"}
+								<p class="very big blue customer_info" customer_id="{$task_info.target_customer}">{$task_info.customer_name}</p>
+							{else /}
+								<p class="very big blue">{$task_info.customer_name}</p>
+							{/if}
 						</div>
 						<div class="very">
 							<p class="small">任务领取截止时间</p>
@@ -199,17 +203,17 @@
 		</div>
 	</article>
 	<div class="crm_customer crm_reward_details" style="position:static;">
-		<div class="task_info_panel reward_details_panel customer_info_panel customer_general hide">
+		<div class="customer_info_panel customer_general hide">
 		</div>
-		<div class="task_info_panel reward_details_panel customer_info_panel customer_info hide">
+		<div class="customer_info_panel customer_info hide">
 		</div>
-		<div class="task_info_panel reward_details_panel customer_info_panel customer_edit hide">
+		<div class="customer_info_panel customer_edit hide">
 		</div>
-		<div class="task_info_panel reward_details_panel customer_info_panel customer_contact hide">
+		<div class="customer_info_panel customer_contact hide">
 		</div>
-		<div class="task_info_panel reward_details_panel customer_info_panel customer_sale_chance hide">
+		<div class="customer_info_panel customer_sale_chance hide">
 		</div>
-		<div class="task_info_panel reward_details_panel customer_info_panel customer_trace hide">
+		<div class="customer_info_panel customer_trace hide">
 		</div>
 	</div>
 
@@ -222,7 +226,7 @@
 		var reward_details_info_manage = new customer_info_manage("reward_details","{$fr}",{},"0","悬赏任务","0");
 		$("#{$fr} .task_details .center .customer_info").click(function(){
 			var id = $(this).attr("customer_id");
-			console.log("id",id);
+			//console.log("id",id);
 			reward_details_info_manage.general(id);
 		});
 	</script>
