@@ -22,12 +22,15 @@ class SpeechCraft extends Initialize{
    
         $key_word = input('key_word','','string');
         $class_id = input('class_id',0,'int');
+
+        $userinfo = get_userinfo();
+        $uid = $userinfo['userid'];
         $article_type = $this->_speechCraftModel->getAllArticleType();
         $all_article = $this->_speechCraftModel->getAllArticle($key_word,$class_id,1,100);
         // var_dump($all_article);die();
         $this->assign('article_type',$article_type);
         $this->assign('all_article',$all_article);
-        // $this->assign('now_time',time());
+        $this->assign('uid',$uid);
         return view();
     }
 
@@ -296,7 +299,8 @@ class SpeechCraft extends Initialize{
             $result['info'] = "文章编号为空";
             return $result;
         }
-        $flg = $this->_speechCraftModel->delOneArticleById($article_id);
+        $ids[] = $article_id;
+        $flg = $this->_speechCraftModel->delOneArticleById($ids);
         if ($flg > 0) {
             $result['info'] = "删除成功";
             $result['status'] = 1;
@@ -365,6 +369,7 @@ class SpeechCraft extends Initialize{
         $data['is_top'] = $is_top;
         $data['article_start_top_time'] = $article_start_top_time;
         $data['article_end_top_time'] = $article_end_top_time;
+        $data['article_edit_time'] = time();
         $flg = $this->_speechCraftModel->editArticleInfo($article_id,$data);
         if ($flg > 0) {
             $result['info'] = "修改成功";
