@@ -39,14 +39,14 @@
             </div>
             <div class="detail">
                 <span>最后通话时间：</span>
-                <span>2017/05/31 10:36</span>
+                <span>{$call_count.last_call_time|time_format="Y/m/d H:i"}</span>
                 <span class="vertical-blue">|</span>
                 <span>来电次数：</span>
-                <span class="number">8</span>
+                <span class="number">{$call_count.call_in_num}</span>
                 <span>次</span>
                 <span class="vertical-blue">|</span>
                 <span>去电次数：</span>
-                <span class="number">10</span>
+                <span class="number">{$call_count.call_out_num}</span>
                 <span>次</span>
             </div>
         </div>
