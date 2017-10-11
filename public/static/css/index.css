@@ -460,3 +460,10 @@ section#subt{
 	line-height: 41px;
     margin-left: 5px;
 }
+/*三级菜单栏固定*/
+#frames .once header{
+	position: fixed;
+	width: 100%;
+	top: 80px;
+	z-index: 99;
+}

@@ -1,7 +1,7 @@
 <div class="crm_customer crm_public_pool">
     <div class="public_pool_panel public_pool">
         <!--客户列表-->
-        <section id="myAllClientsPage" >
+        <section>
             <ul class="m-secNav">
                 <li class="active showNewClient">新建</li>
                 <li class="active">导入</li>
@@ -32,30 +32,48 @@
                 </form>
             </div>
             <div class="m-tableBox">
-                <div class="m-table table3">
+                <div class="m-table m-table-nav">
                     <ul class="u-tabTitle">
                         <li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
                         <li>客户名称<i class="fa fa-caret-down"></i></li>
-                        <li>获取途径</li>
-                        <li>客户级别<i class="fa fa-unsorted"></i></li>
-                        <li>添加人</li>
-                        <li>联系人<i class="fa fa-unsorted"></i></li>
-                        <li>联系方式</li>
-                        <li>操作</li>
+                        <li>操作</li>                    
                         <div class="clearfix"></div>
                     </ul>
                     {volist name="listdata" id="vo"}
                     <ul class="u-tabList">
                         <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
                         <li class="u-tabCilentName customer_info_name_show">{$vo.customer_name}</li>
+                        <li class="u-tabOperation">
+                            <span class="take_public_customer">变更为我的客户</span>
+                        </li>                      
+                        <div class="clearfix"></div>
+                    </ul>
+                    {/volist}
+                </div>
+                <div class="m-table m-table-detail">
+                    <ul class="u-tabTitle">
+                        <li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
+                        <li>客户名称<i class="fa fa-caret-down"></i></li>
+                        <li>操作</li>
+                        <li>获取途径</li>
+                        <li>客户级别<i class="fa fa-unsorted"></i></li>
+                        <li>添加人</li>
+                        <li>联系人<i class="fa fa-unsorted"></i></li>
+                        <li>联系方式</li>                       
+                        <div class="clearfix"></div>
+                    </ul>
+                    {volist name="listdata" id="vo"}
+                    <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+                        <li class="u-tabCilentName customer_info_name_show">{$vo.customer_name}</li>
+                        <li class="u-tabOperation">
+                            <span class="take_public_customer">变更为我的客户</span>
+                        </li>
                         <li>{$vo.resource_from|getResourceFromName}</li>
                         <li>{$vo.grade}</li>
                         <li>{$vo.add_man}</li>
                         <li>{$vo.contact_name}</li>
-                        <li class="u-tabLinkWay">{$vo.phone_first}<i class="fa fa-phone"></i></li>
-                        <li class="u-tabOperation">
-                            <span class="take_public_customer">变更为我的客户</span>
-                        </li>
+                        <li class="u-tabLinkWay">{$vo.phone_first}<i class="fa fa-phone"></i></li>                        
                         <div class="clearfix"></div>
                     </ul>
                     {/volist}

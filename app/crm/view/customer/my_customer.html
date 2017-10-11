@@ -63,10 +63,31 @@
                 </form>
             </div>
             <div class="m-tableBox">
-                <div class="m-table table1">
+                <div class="m-table m-table-nav">
+                    <ul class="u-tabTitle">
+                        <li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
+                        <li>客户名称<i class="fa fa-caret-down"></i></li>
+                        <li>操作</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                    {volist name="listdata" id="vo"}
+                    <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+                        <li class="u-tabCilentName customer_info_name_show">{$vo.customer_name}</li>
+                        <li class="u-tabOperation">
+                            <span class="customer_info_show">详情</span>
+                            <span class="customer_info_edit">编辑</span>
+                            <span class="release_customers">释放</span>
+                        </li>                        
+                        <div class="clearfix"></div>
+                    </ul>
+                    {/volist}
+                </div>
+                <div class="m-table m-table-detail">
                     <ul class="u-tabTitle">
                         <li class="u-tabCheckbox"><input type="checkbox"/></li>
                         <li>客户名称<i class="fa fa-caret-down"></i></li>
+                        <li>操作</li>
                         <li>获取途径</li>
                         <li>客户级别<i class="fa fa-unsorted"></i></li>
                         <li>沟通结果<i class="fa fa-unsorted"></i></li>
@@ -80,14 +101,18 @@
                         <li>剩余保有时间<i class="fa fa-unsorted"></i></li>
                         <li>预计合同到期时间<i class="fa fa-unsorted"></i></li>
                         <li>提醒时间<i class="fa fa-unsorted"></i></li>
-                        <li>所在列</li>
-                        <li>操作</li>
+                        <li>所在列</li>                       
                         <div class="clearfix"></div>
                     </ul>
                     {volist name="listdata" id="vo"}
                     <ul class="u-tabList">
                         <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
                         <li class="u-tabCilentName customer_info_name_show">{$vo.customer_name}</li>
+                        <li class="u-tabOperation">
+                            <span class="customer_info_show">详情</span>
+                            <span class="customer_info_edit">编辑</span>
+                            <span class="release_customers">释放</span>
+                        </li>
                         <li>{$vo.take_type|getTakeTypeFromName}</li>
                         <li>{$vo.grade}</li>
                         <li>{$vo.comm_status|getCommStatusName}</li>
@@ -101,12 +126,7 @@
                         <li>{$vo.save_time_str}</li>
                         <li>{$vo.contract_due_time_str}</li>
                         <li>{$vo.remind_time_str}</li>
-                        <li>{$vo.in_column|getInColumnName}</li>
-                        <li class="u-tabOperation">
-                            <span class="customer_info_show">详情</span>
-                            <span class="customer_info_edit">编辑</span>
-                            <span class="release_customers">释放</span>
-                        </li>
+                        <li>{$vo.in_column|getInColumnName}</li>                        
                         <div class="clearfix"></div>
                     </ul>
                     {/volist}
