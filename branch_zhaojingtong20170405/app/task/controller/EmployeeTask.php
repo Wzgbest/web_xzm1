@@ -13,6 +13,7 @@ use app\task\model\TaskTip;
 use app\task\model\EmployeeTask as EmployeeTaskModel;
 use app\task\model\TaskComment as TaskCommentModel;
 use app\common\model\Employee;
+use app\task\model\TaskTake;
 
 class EmployeeTask extends Initialize{
 
@@ -335,6 +336,35 @@ class EmployeeTask extends Initialize{
         {
             $redata['success']=true;
             $redata['msg']='操作成功';
+        }
+        return json($redata);
+    }
+
+    /**
+     * 已帮未帮
+     * @return \think\response\Json
+     */
+    public function task_help(){
+        $take_id=input('take_id');//参与任务的id
+        $unhelp=input('unhelp');//是帮助了还是未帮
+        $con['id']=$take_id;
+        $redata['success']=false;
+        $redata['msg']='操作失败';
+        $taskTakeModel = new TaskTake($this->corp_id);
+        if($take_id){
+            if($unhelp){
+                //未帮
+                $result=$taskTakeModel->toHelp($con);
+            }
+            else{
+                //已帮
+                $result=$taskTakeModel->toUnhelp($con);
+            }
+            if($result)
+            {
+                $redata['success']=true;
+                $redata['msg']='操作成功';
+            }
         }
         return json($redata);
     }
