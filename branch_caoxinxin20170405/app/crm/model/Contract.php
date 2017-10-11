@@ -110,7 +110,7 @@ class Contract extends Base{
             ->whereOr($in_id_map)
             ->order($order)
             //->fetchSql(true)
-            ->column("c.contract_no,ca.contract_type,cs.contract_name as contract_type_name","c.id");
+            ->column("c.contract_no,ca.contract_type,cs.contract_name as contract_type_name,cs.bank_type","c.id");
         return $contractList;
     }
     /**
@@ -615,6 +615,15 @@ class Contract extends Base{
 
     public function getContractNoInfo($id){
         return $this->model->table($this->dbprefix."contract")->where('id',$id)->find();
+    }
+
+    public function getContractNoAndTypeInfo($id){
+        return $this->model->table($this->table)->alias('ca')
+            ->join($this->dbprefix.'contract c','c.applied_id = ca.id',"LEFT")
+            ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
+            ->where('c.id',$id)
+            ->field(["c.id","c.applied_id","c.contract_no","ca.contract_type","cs.contract_name"])
+            ->find();
     }
 
     public function setContract($id,$data,$map=null){

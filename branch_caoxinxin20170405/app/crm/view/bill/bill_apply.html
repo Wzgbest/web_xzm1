@@ -5,25 +5,44 @@
 	<input type="hidden" class="contract_item_id" name="contract_item_id" value="{$contract_item_id}"/>
 	<div class="pop_bill_block">
 		<div class="line">
-			<span class="cont-max">发票类型</span>
+			<span class="cont">打款方式:</span>
+			<span class="cont-x">
+				{eq name="contract.pay_type" value="1"}
+					现金已支付
+				{/eq}
+				{eq name="contract.pay_type" value="2"}
+					已转账到{$contract.pay_bank}
+				{/eq}
+			</span>
+		</div>
+		<div class="line">
+			<span class="cont">合同编号:</span>
+			<span class="cont-x">{$contract.contract_no}</span>
+		</div>
+		<div class="line">
+			<span class="cont">合同类型:</span>
+			<span class="cont-x">{$contract_info.contract_name}</span>
+		</div>
+		<div class="line">
+			<span class="cont-max">发票类型:</span>
 			<select class="bill-type">
 				<option value="0">请选择</option>
 				{volist name="bill_name" id="vo" key="key"}
 				<option value="{$key-1}">{$vo}</option>
 				{/volist}
 			</select>
-			<span class="cont">合同编号</span>
-			<span class="cont-x">{$contract.contract_no}</span>
+		</div>
+		<div class="line">
+			<span class="cont">开票名称:</span>
+			<input class="customer_name" type="text" value="{$contract.pay_name}"/>
+		</div>
+		<div class="line tax-number-line hide">
+			<span class="cont">公司税号:</span>
+			<input class="tax-number" type="text" value=""/>
 		</div>
 		<div class="line">
 			<span class="cont">开票金额:</span>
-			<span class="cont-x">{$contract.pay_money}元</span>
-			<span class="cont">公司名称:</span>
-			<span class="cont-x">山东中迅网络传媒</span>
-		</div>
-		<div class="line tax-number-line hide">
-			<span class="cont">公司税号</span>
-			<input class="tax-number" type="text" />
+			<input class="bill_money" type="text" value="{$contract.pay_money}"/>
 		</div>
 	</div>
 	<div class="pop_bill_block">
@@ -32,16 +51,6 @@
 			<!--<li><input type="checkbox"/><span class="cont">百度</span><input type="text"/>元</li>-->
 		</ul>
 		<h4>注：所填写的总金额需满足默认开票金额才可提交</h4>
-	</div>
-	<div class="pop_bill_block pay-way-box">
-		<h2 class="cont">打款方式</h2>
-		<div>
-			<input type="radio" class="cash pay-way" name="way-pay" value="0"/>现金
-			<input type="radio" class="bank pay-way"  name="way-pay" value="1"/>银行
-			<select class="bank-type" disabled="disabled">
-				<option value="0">请选择</option>
-			</select>
-		</div>
 	</div>
 	<div class="pop_bill_block">
 		<span class="cont exam-man hide">一审人</span>
