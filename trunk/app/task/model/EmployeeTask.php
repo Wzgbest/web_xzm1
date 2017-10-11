@@ -84,7 +84,7 @@ class EmployeeTask extends Base{
      */
     public function getEmployeeTaskAndRedEnvelopeList($uid,$num=10,$last_id=0,$task_type=0,$map=[]){
         $order = "et.id desc";
-        $mapStr = "find_in_set('".$uid."',et.public_to_view)";
+        $mapStr = "(find_in_set('".$uid."',et.public_to_view) and et.status>1) or create_employee=".$uid;
         if ($task_type) {
             $map['et.task_type'] = $task_type;
         }
@@ -120,10 +120,13 @@ class EmployeeTask extends Base{
      * @param  int $is_direct 直接任务
      * @param  int $is_indirect 间接任务
      * @param  int $is_own 我发布的任务
+     * @param  int $is_old 历史任务
+     * @param  array $map 筛选条件
      * @return arr            [description]
      */
     public function getMyTaskList($uid,$num=10,$last_id=0,$task_type=0,$is_direct=0,$is_indirect=0,$is_own=0,$is_old=0,$map=[]){
-
+        $map_str = "";
+        $old_map_str = "";
         $order = "et.id desc";
         if ($last_id) {
             $map['et.id'] = ['lt',$last_id];
@@ -132,31 +135,40 @@ class EmployeeTask extends Base{
             $map['et.task_type'] = $task_type;
         }
         if ($is_direct) {
-            $map['ett.take_employee'] = $uid;
+            $map['wett.take_employee'] = $uid;
         }
         if ($is_indirect) {
-            $map['ettip.tip_employee'] = $uid;
+            $map_str .= "wettip.tip_employee = $uid or wetguess.guess_employee = $uid";
         }
         if ($is_own) {
             $map['et.create_employee'] = $uid;
         }
         if ($is_old) {
-            $map['et.status'] = 5;
+            $map['et.task_end_time'] = array('lt',time());
+            $old_map_str .="et.task_end_time < ".time()." or et.status > 2";
+        }else{
+            $map['et.task_end_time']=array('egt',time());
+            $map['et.status'] = array('eq',2);
         }
         $myTaskList = $this->model->table($this->table)->alias('et')
             ->join($this->dbprefix.'employee eown','eown.id = et.create_employee',"LEFT")
-            ->join($this->dbprefix.'employee_task_take ett',"ett.task_id = et.id and ett.take_employee = '$uid'","LEFT")
+            ->join($this->dbprefix.'employee_task_take ett',"ett.task_id = et.id","LEFT")
+            ->join($this->dbprefix.'employee_task_take wett',"wett.task_id = et.id and ett.take_employee = '$uid'","LEFT")
             ->join($this->dbprefix.'employee_task_reward etr','etr.task_id = et.id',"LEFT")
             ->join($this->dbprefix.'employee_task_target ettar','ettar.task_id = et.id',"LEFT")
             ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
-            ->join($this->dbprefix.'employee_task_tip ettip',"ettip.task_id = et.id and ettip.tip_employee = '$uid'","LEFT")
+            ->join($this->dbprefix.'employee_task_tip wettip',"wettip.task_id = et.id and wettip.tip_employee = '$uid'","LEFT")
+            ->join($this->dbprefix.'employee_task_guess wetguess',"wetguess.task_id = et.id and wetguess.guess_employee = '$uid'","LEFT")
             ->join($this->dbprefix.'red_envelope re',"re.task_id = et.id and re.type = 3 and re.took_user = ".$uid,"LEFT")
             ->join($this->dbprefix.'customer c','ettar.target_customer = c.id',"LEFT")
             ->where($map)
+            ->where($map_str)
+            ->where($old_map_str)
             ->order($order)
             ->limit($num)
             ->group('et.id')
-            ->field("et.*,eown.telephone as own_telephone,eown.truename as own_truename,eown.userpic as own_userpic,case when ett.take_employee>0 then 1 else 0 end as is_take,ett.take_time,etr.reward_type,etr.reward_method,etr.reward_amount,etr.reward_num,ettar.target_type,ettar.target_num,ettar.target_customer,c.customer_name,ettar.target_description,case when etl.user_id>0 then 1 else 0 end as is_like,ettip.tip_employee,ettip.tip_money,ettip.tip_time,re.redid,re.is_token")
+            //->fetchSql(true)
+            ->field("et.*,eown.telephone as own_telephone,eown.truename as own_truename,eown.userpic as own_userpic,case when wett.take_employee>0 then 1 else 0 end as is_take,wett.take_time,etr.reward_type,etr.reward_method,etr.reward_amount,etr.reward_num,ettar.target_type,ettar.target_num,ettar.target_customer,c.customer_name,ettar.target_description,case when etl.user_id>0 then 1 else 0 end as is_like,wettip.tip_employee,wettip.tip_money,wettip.tip_time,re.redid,re.is_token")
             ->select();
 
         return $myTaskList;
