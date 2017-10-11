@@ -271,7 +271,8 @@ class EmployeeTask extends Base{
      * @return array|false|\PDOStatement|string|\think\Model
      */
     public function getEmployeeTaskCount($uid,$field='*',$map=[]){
-        $map_str = " find_in_set($uid,public_to_view) ";
+        //$map_str = " find_in_set($uid,public_to_view) ";
+        $map_str = " (find_in_set($uid,public_to_view) and status>1) or create_employee=".$uid;
         $employee_task_count=$this->model->table($this->table)->field($field)->where($map_str)->where($map)->find();
         return $employee_task_count;
     }
