@@ -621,7 +621,8 @@ class Customer extends Initialize{
             $result['info'] = $ex->getMessage();
             return json($result);
         }
-        $result['info'] = "功能开发中！";
+        $result['status'] = 1;
+        $result['info'] = "变更客户成功！";
         return json($result);
     }
     public function take_customers_to_self(){
@@ -635,18 +636,18 @@ class Customer extends Initialize{
         $uid = $userinfo["userid"];
         try{
             //TODO 检查申领次数
-            $ids = [];
             $customerM = new CustomerModel($this->corp_id);
             $releaseFlg = $customerM->takeCustomers($ids,$uid);
             //TODO add trace
             if(!$releaseFlg){
-                exception('变更客户时发生错误!');
+                exception('申领客户时发生错误!');
             }
         }catch (\Exception $ex){
             $result['info'] = $ex->getMessage();
             return json($result);
         }
-        $result['info'] = "功能开发中！";
+        $result['status'] = 1;
+        $result['info'] = "申领客户成功！";
         return json($result);
     }
     public function release_customers(){
