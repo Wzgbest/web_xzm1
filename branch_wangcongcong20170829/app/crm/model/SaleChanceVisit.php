@@ -138,7 +138,7 @@ class SaleChanceVisit extends Base{
             $offset = ($page-1)*$num;
         }
         $group="sc.employee_id";
-        $order="num desc";
+        $order="num desc,standard_time asc";
         $rankingList = $this->model->table($this->table)->alias('scv')
             ->join($this->dbprefix.'sale_chance sc','sc.id = scv.sale_id',"LEFT")
             ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
@@ -146,7 +146,7 @@ class SaleChanceVisit extends Base{
             ->group($group)
             ->order($order)
             //->limit($offset,$num)
-            ->field("e.id as employee_id,e.truename,count(scv.id) num,IF (count(scv.id) >= $standard, '1', '0') as is_standard")
+            ->field("e.id as employee_id,e.truename,count(scv.id) num,MAX(scv.create_time) as standard_time,IF (count(scv.id) >= $standard, '1', '0') as is_standard")
             ->select();
         //var_exp($rankingList,'$rankingList',1);
         if($num==1&&$page==0&&$rankingList){
