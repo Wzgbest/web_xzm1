@@ -527,6 +527,7 @@ var y = e.offsetTop;
 while(e = e.offsetParent){ 
 x += e.offsetLeft; 
 y += e.offsetTop; 
+
 } 
 return {"x": x, "y": y}; 
 } 

@@ -88,12 +88,12 @@ function task_like(id,like,fun){
             if(data.success == 1) {
                 fun(data);
             }else{
-                console.log(data.msg,{icon:2});
+                layer.msg(data.msg,{icon:2});
             }
         },
         error: function() {
-            console.log('操作出现错误',{icon:2});
-        },
+            layer.msg('操作出现错误',{icon:2})
+        }
     });
 }
 
@@ -534,7 +534,7 @@ function task_list(target){
                     $(task_list_sel+" .pay_ui").trigger('reveal:close');
                     //TODO 成功加入任务
                     //不能猜输赢了
-                    $('.task_'+self.now_sel_id+" .get_reward").parent().append("<p class='p4'>正在参与任务</p>");
+                    $('.task_'+self.now_sel_id+" .get_reward").parent().append("<p class='p1'>正在参与任务</p>");
                     $('.task_'+self.now_sel_id+" .get_reward").hide();
                     $('.task_'+self.now_sel_id+" .guess").hide();
                 }
@@ -549,7 +549,7 @@ function task_list(target){
                     $(task_list_sel+" .pay_ui").trigger('reveal:close');
                     //TODO 提交猜输赢成功
                     //不能领取任务了
-                    $('.task_'+self.now_sel_id+" .guess").parent().append("<p class='p4'>正在参与猜输赢</p>");
+                    $('.task_'+self.now_sel_id+" .guess").parent().append("<p class='p1'>正在参与猜输赢</p>");
                     $('.task_'+self.now_sel_id+" .guess").hide();
                     $('.task_'+self.now_sel_id+" .get_reward").hide();
                 }
@@ -602,7 +602,7 @@ function task_list(target){
                 {
                     //领取成功
                     that.parent().removeClass("m_c");
-                    var text='<p class="p4">已领'+data.data.money+'元</p>';
+                    var text='<p class="p6">已领'+data.data.money+'元</p>';
                     that.siblings('.right').children('.within').children('.details').prepend(text);
                     that.remove();
                 }
@@ -712,7 +712,7 @@ function task_list(target){
                 layer.msg(data.info,{icon:data.status==1?1:2});
                 if(data.status==1){
                     //TODO 成功加入任务
-                    that.parent().append("<p class='p4'>正在参与任务</p>");
+                    that.parent().append("<p class='p1'>正在参与任务</p>");
                     that.hide();
 
                 }
@@ -989,7 +989,7 @@ function task_details(load_table,id,type){
                     $(task_details_sel+" .pay_ui").trigger('reveal:close');
                     //TODO 成功加入任务
                     //不能猜输赢了
-                    $(".task_details .get_reward").parent().append("<p class='p4'>正在参与任务</p>");
+                    $(".task_details .get_reward").parent().append("<p class='p1'>正在参与任务</p>");
                     $(".task_details .get_reward").hide();
                     $(".task_details .guess").hide();
                 }
@@ -1004,7 +1004,7 @@ function task_details(load_table,id,type){
                     $(task_details_sel+" .pay_ui").trigger('reveal:close');
                     //TODO 提交猜输赢成功
                     //不能领取任务了
-                    $(".task_details .guess").parent().append("<p class='p4'>正在参与猜输赢</p>");
+                    $(".task_details .guess").parent().append("<p class='p1'>正在参与猜输赢</p>");
                     $(".task_details .guess").hide();
                     $(".task_details .get_reward").hide();
 
@@ -1065,7 +1065,7 @@ function task_details(load_table,id,type){
                 layer.msg(data.info,{icon:data.status==1?1:2});
                 if(data.status==1){
                     //TODO 成功加入任务
-                    that.parent().append("<p class='p4'>正在参与任务</p>");
+                    that.parent().append("<p class='p1'>正在参与任务</p>");
                     that.hide();
                 }
             });
@@ -1301,14 +1301,14 @@ function task_details(load_table,id,type){
             data: post_data,
             dataType:"json",
             success: function(data) {
-                if(data.success == 1) {
+                if(data.success) {
                     fun(data);
                 }else{
-                    console.log(data.msg,{icon:2});
+                    layer.msg(data.msg,{icon:2});
                 }
             },
             error: function() {
-                console.log('操作出现错误',{icon:2});
+                layer.msg('操作出现错误',{icon:2});
             }
         });
     }
