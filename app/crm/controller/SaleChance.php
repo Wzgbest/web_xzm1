@@ -310,7 +310,8 @@ class SaleChance extends Initialize{
                     "pay_type"=>0,
                     "pay_name"=>'',
                     "due_time"=>time(),
-                    "need_bill"=>0
+                    "need_bill"=>0,
+                    "pay_bank"=>''
                 ];
             }else{
                 $saleOrderContractItem = $saleOrderContractItemM->getContractItemBySaleId($id);
