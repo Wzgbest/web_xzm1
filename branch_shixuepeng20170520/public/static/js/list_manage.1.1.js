@@ -17,7 +17,7 @@ function list_manage(from,target,url,p,num,max,in_column,sub,arr){
     var self = this;
     //宽度重置
     
-    $("."+this.from+" .m-tableBox .m-table").width(self.width);
+    // $("."+this.from+" .m-tableBox .m-table").width(self.width);
     
     $("."+this.from+" .m-firNav .in_column").click(function(){
         var in_column = $(this).attr("in_column");
@@ -66,7 +66,7 @@ function list_manage(from,target,url,p,num,max,in_column,sub,arr){
 			}   		
     	}
     }
-    init();
+    // init();
     function widthCount(){
     	var width = arr[in_column].length*137;
     	if($("."+from+" .m-tableBox .m-table .u-tabTitle li").eq(0).attr("class")=="u-tabCheckbox"){

@@ -13,6 +13,10 @@ function init(){
 	$("#frames").height(window.innerHeight - 80);
 	$("#frames .once").width(window.innerWidth - sideW);
 	$("#frames .once").height(window.innerHeight - 80);
+
+    // 三级菜单栏固定
+    $("#frames .once header").width(window.innerWidth - sideW);
+
 	$(".phone-box").height(window.innerHeight - 80);
 	//隐藏副标题
 	$("aside dl .ddcontent").addClass("hide");
@@ -97,6 +101,7 @@ function changeFramesSize() {
     $("#frames").width(window.innerWidth - sideW -phoneWidth);
     $("#frames").height(window.innerHeight - 80);
     $("#frames .once").width(window.innerWidth - sideW-phoneWidth);
+    $("#frames .once header").width(window.innerWidth - sideW-phoneWidth);
     $("#frames .once").height(window.innerHeight - 80);
     $(".phone-box").height(window.innerHeight - 80);
     subResize();
@@ -168,6 +173,7 @@ function loadPage(url, panel) {
             $('#frames #' + panel).html("页面加载时发生错误!");
         }
     });
+    changeFramesSize();
 }
 function loadPagebypost(url, data, panel) {
     $.ajax({

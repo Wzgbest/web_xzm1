@@ -110,18 +110,22 @@
                         <span class="cont">打款方式</span>
                         <div class="u-inlineRadio">
                             <input type="radio" name="pay_type_{$keyc}" {eq name='voc.pay_type' value='1'} checked="checked"{/eq} value="1"/>现金
-                            <input type="radio" name="pay_type_{$keyc}" {neq name='voc.pay_type' value='1'} checked="checked"{/neq} value="2"/>银行转账
-                            <select name="pay_bank_{$keyc}" class="pay_bank">
-                                <option value="">无</option>
-                            </select>
-                            <input type="hidden" class="pay_bank_default" value='{$voc.pay_bank}'/>
+                            <input type="radio" name="pay_type_{$keyc}" {neq name='voc.pay_type' value='1'} checked="checked"{/neq} value="2"/>银行转账                           
                         </div>
-                        <span class="cont">打款方名称</span>
-                        <input type="text" placeholder="请输入打款方名称" name="pay_name" value="{empty name='voc.pay_name'}{$customer.customer_name}{else/}{$voc.pay_name}{/empty}" />
+                        <span class="cont">银行</span>
+                        <select name="pay_bank_{$keyc}" class="pay_bank">
+                            <option value="">无</option>
+                        </select>
+                        <input type="hidden" class="pay_bank_default" value='{$voc.pay_bank}'/>
                     </div>
                     <div>
+                        <span class="cont">打款方名称</span>
+                        <input type="text" placeholder="请输入打款方名称" name="pay_name" value="{empty name='voc.pay_name'}{$customer.customer_name}{else/}{$voc.pay_name}{/empty}" />
                         <span class="cont-max-max">预计合同到期时间</span>
                         <input type="date" name="due_time" value="{$voc.due_time|day_format}" />
+                    </div>
+                    <div>
+                        
                         <span class="cont">发票</span>
                         <div class="u-inlineRadio">
                             <input type="radio" name="need_bill_{$keyc}" {eq name='voc.need_bill' value='1'} checked="checked"{/eq} value="1"/>是
