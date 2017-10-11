@@ -192,7 +192,9 @@ article {
 	height: 100%;
 	margin-left: 10px;
 	margin-top: 10px;
-	/*overflow: auto;*/
+	position: absolute;
+	top:40px;
+	left: 0;
 }
 
 article .dv1 {
