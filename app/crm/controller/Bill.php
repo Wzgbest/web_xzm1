@@ -201,6 +201,7 @@ class Bill extends Initialize{
 
         $contractItemM = new SaleOrderContractItem($this->corp_id);
         $contract = $contractItemM->getContractInfo($contract_item_id);
+        //var_exp($contract,'$contract',1);
         $this->assign('contract',$contract);
 
         $billM = new BillModel($this->corp_id);
@@ -210,6 +211,10 @@ class Bill extends Initialize{
             $result['info'] = "该合同已申请发票,请勿重复申请！";
             return json($result);
         }
+        
+        $contractAppliedModel = new ContractAppliedModel($this->corp_id);
+        $contractNoAndType = $contractAppliedModel->getContractNoAndTypeInfo($contract["contract_id"]);
+        $this->assign('contract_info',$contractNoAndType);
 
         $saleChanceM = new SaleChanceModel($this->corp_id);
         $saleChanceData = $saleChanceM->getSaleChance($contract["sale_id"]);
