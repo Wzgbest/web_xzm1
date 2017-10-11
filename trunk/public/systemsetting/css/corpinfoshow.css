@@ -139,12 +139,19 @@
 	display: block;
 	text-align: center;
 	color: #b3b3b3;
-}
 
+}
+.show_corp_info #compile:hover i{
+	
+	color: #ffa13a;
+}
 .show_corp_info #compile p {
 	font-size: 10px;
 	color: #b3b3b3;
 	text-align: left;
 	margin-left: 0;
 	text-align: center;
+}
+.show_corp_info #compile:hover p{
+	color:#ffa13a ;
 }

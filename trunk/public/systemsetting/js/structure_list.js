@@ -171,25 +171,17 @@ structure_tree.listen("addFun",function(id){
 $(".structure_list .content .fold .title .fa-plus").click(function(){
     console.log("add_struct");
     var struct_file_panel_temp = struct_file_panel;
-    // var add_item = $(struct_item_list_panel+" .add_item");
-    // if(add_item.length>0){
-    //     //console.log(add_item.children(".add_item_text"));
-    //     add_item.children(".add_item_text").focus();
-    //     return;
-    // }
-    // $(struct_item_list_panel+" .node1 .node_item:first .node_plus").addClass("node_sub");
-    // $(struct_item_list_panel+" .node1 .child_list1").removeClass('hide');
+   
     struct_add_item_pid = 1;
     structure_tree_del_struct_id = 1;
     $(struct_file_panel_temp).reveal("{data-animation:'fade'}");
-    // show_node_add(1);
+    
 });
 $('.structure_file').on('click',".p5 input",function(){
-    // alert(1);
-    // var add_struct_name = $(struct_item_list_panel+" .add_item").children(".add_item_text").val();
+ 
     var add_struct_name = $(".structure_file").children('.mange').children('input').val();
     var add_group_value = $(".structure_file").children('.herd').children('input').prop("checked");
-    // console.log(add_struct_name,add_group_value);
+
     if (add_group_value == true) {
         add_group_value = 1;
     }else{
@@ -259,17 +251,7 @@ structure_tree.listen("editFun",function(id){
         });
     }
 	
-	
-//  console.log("hleditFun",id);
-//  var node_item_panel = struct_item_list_panel+" .node"+id+" .node_item"+id;
-//  var edit_item_text = $(node_item_panel+" .node_name").text();
-//  $(node_item_panel+" .node_head").addClass("hide");
-//  $(node_item_panel+" .node_name").addClass("hide");
-//  $(node_item_panel+" .node_tool").addClass("hide");
-//  var edit_html = '<input type="text" class="item_text edit_item_text" value="'+edit_item_text+'"/>' +
-//      '<i class="fa fa-check item_btn item_check edit_item_check"></i>' +
-//      '<i class="fa fa-remove item_btn item_remove edit_item_remove"></i>';
-//  $(node_item_panel).append(edit_html);
+
 });
 $('.structure_edit').on('click',".p5 input",function(){
     var edit_struct_name = $(this).parent(".p5").siblings(".mange").children('input').val();
