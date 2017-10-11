@@ -39,8 +39,8 @@ class CorporationShareComment extends Base{
         }
         $map["share_id"] = ["in",$share_ids];
         $corporationShareCommentList = $this->model->table($this->table)->alias('csc')
-            ->join($this->dbprefix.'employee re','re.id = csc.replyer_id',"LEFT")
-            ->join($this->dbprefix.'employee rve','rve.id = csc.reviewer_id',"LEFT")
+            ->join($this->dbprefix.'employee re','re.id = csc.replyer_id and re.id>0',"LEFT")
+            ->join($this->dbprefix.'employee rve','rve.id = csc.reviewer_id and rve.id>0',"LEFT")
             ->where($map)
             ->order($order)
             ->limit($offset,$num)
@@ -63,8 +63,8 @@ class CorporationShareComment extends Base{
         }
         $map["share_id"] = ["in",$share_ids];
         $corporationShareCommentList = $this->model->table($this->table)->alias('csc')
-            ->join($this->dbprefix.'employee re','re.id = csc.replyer_id',"LEFT")
-            ->join($this->dbprefix.'employee rve','rve.id = csc.reviewer_id',"LEFT")
+            ->join($this->dbprefix.'employee re','re.id = csc.replyer_id and re.id>0',"LEFT")
+            ->join($this->dbprefix.'employee rve','rve.id = csc.reviewer_id and rve.id>0',"LEFT")
             ->where($map)
             ->order($order)
             ->field("csc.*,re.telephone as replyer_telephone,re.truename as replyer_name,re.userpic as replyer_pic,rve.telephone as reviewer_telephone,rve.truename as reviewer_name")//TODO
