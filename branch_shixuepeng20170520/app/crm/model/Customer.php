@@ -1601,7 +1601,35 @@ class Customer extends Base
         return $rankingList;
     }
 
-
+    /**
+     * 悬赏任务参与人排行榜列表
+     * @param $start_time
+     * @param $end_time
+     * @param $uids 任务参与人id的数组集合
+     * @param $task_id 任务id
+     * @param int $standard
+     * @param int $num
+     * @param int $page
+     * @param null $map
+     * @return array|false|\PDOStatement|string|\think\Collection
+     */
+    public function getEmployeeRanking($start_time,$end_time,$uids,$task_id,$standard=0,$num=10,$page=0,$map=null){
+        if(empty($uids)){
+            return [];
+        }
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+        $map['e.id']=array('in',$uids);
+        $map['t.task_id']=$task_id;
+        $rankingList=$this->model->table($this->dbprefix.'employee e')
+            ->join($this->dbprefix.'employee_task_take t','e.id=t.take_employee','LEFT')
+            ->where($map)
+            ->field("e.id as employee_id,e.truename,t.whether_help,t.id as take_id")
+            ->select();
+        return $rankingList;
+    }
     /**
      * 查询商机数达标
      * @param $start_time int 开始时间
