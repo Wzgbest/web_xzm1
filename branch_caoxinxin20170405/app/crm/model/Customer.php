@@ -1155,15 +1155,15 @@ class Customer extends Base
         }
         //跟踪人
         if(in_array("tracer",$filter_column) && array_key_exists("tracer", $filter)){
-            $map["c.tracer"] = $filter["tracer"];
+            $map["te.truename"] = $filter["tracer"];
         }
         //维护人
         if(in_array("guardian",$filter_column) && array_key_exists("guardian", $filter)){
-            $map["c.guardian"] = $filter["guardian"];
+            $map["te.truename"] = $filter["guardian"];
         }
         //添加人
         if(in_array("add_man",$filter_column) && array_key_exists("add_man", $filter)){
-            $map["c.add_man"] = $filter["add_man"];
+            $map["ae.truename"] = $filter["add_man"];
         }
         //客户来源
         if(in_array("resource_from",$filter_column) && array_key_exists("resource_from", $filter)){
