@@ -52,13 +52,13 @@ class EmployeeTask extends Initialize{
             $uids_temp = array_flip($uids_temp);
             $uids_temp = array_intersect_key($employees_name,$uids_temp);
             if(!empty($uids_temp)){
-                $task_info["public_to_take"] = $uids_temp;
+                $task_info["public_to_take_name"] = $uids_temp;
             }
             $uids_temp = explode(",",$task_info["public_to_view"]);
             $uids_temp = array_flip($uids_temp);
             $uids_temp = array_intersect_key($employees_name,$uids_temp);
             if(!empty($uids_temp)){
-                $task_info["public_to_view"] = $uids_temp;
+                $task_info["public_to_view_name"] = $uids_temp;
             }
         }
 
@@ -109,13 +109,13 @@ class EmployeeTask extends Initialize{
             $uids_temp = array_flip($uids_temp);
             $uids_temp = array_intersect_key($employees_name,$uids_temp);
             if(!empty($uids_temp)){
-                $task_info["public_to_take"] = $uids_temp;
+                $task_info["public_to_take_name"] = $uids_temp;
             }
             $uids_temp = explode(",",$task_info["public_to_view"]);
             $uids_temp = array_flip($uids_temp);
             $uids_temp = array_intersect_key($employees_name,$uids_temp);
             if(!empty($uids_temp)){
-                $task_info["public_to_view"] = $uids_temp;
+                $task_info["public_to_view_name"] = $uids_temp;
             }
         }
 

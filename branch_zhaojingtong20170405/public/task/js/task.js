@@ -510,7 +510,7 @@ function task_list(target){
     this.now_sel_employee = 0;
     this.paypassword = '';
     var self = this;
-    var task_list_sel = "#"+self.target+" .task";
+    var task_list_sel = "#"+self.target+" .task_list";
 
     this.pay=function(paypassword){
         //self.paypassword = '';
@@ -795,7 +795,7 @@ function task_list(target){
             type: 'get',
             success: function(data) {
                 //console.log(data);
-                //console.log($(task_list_sel+" .tip_ui"));
+                console.log($(task_list_sel+" .tip_ui"));
                 $(task_list_sel+" .tip_ui").html(data);
                 $(task_list_sel+" .tip_ui").reveal("{data-animation:'fade'}");
                 $.ajax({
@@ -1130,7 +1130,7 @@ function task_details(load_table,id,type){
             type: 'get',
             success: function(data) {
                 //console.log(data);
-                //console.log($(task_details_sel+" .tip_ui"));
+                console.log($(task_details_sel+" .tip_ui"));
                 $(task_details_sel+" .tip_ui").html(data);
                 $(task_details_sel+" .tip_ui").reveal("{data-animation:'fade'}");
                 $.ajax({

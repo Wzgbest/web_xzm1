@@ -48,7 +48,7 @@
 						</div>
 						<div class="len flo">
 							<p class="small">面向群体</p>
-							<p class="very big"><?php $array=explode(',',$task_info['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共<?php echo count($array) ?>人，已参与{$task_info.partin_count}人）</p>
+							<p class="very big"><?php $array=explode(',',$task_info['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共{$task_info.partin_count}人参与）</p>
 							<div class="flotage">
 								{notempty name="array"}{volist name="array" id="v"}<span>{$v}</span>{/volist}{/notempty}
 							</div>
