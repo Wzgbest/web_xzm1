@@ -182,7 +182,7 @@
                     {if condition="$now_time <= $vo['task_end_time']"}
                     <p class="p2 tip" task_id="{$vo.id}">{if condition="in_array($uid,explode(',',$vo['tip_employees']))"}继续打赏{else/}打赏{/if}</p>
                     {eq name="uid" value="$vo['create_employee']"}
-                    {if condition="$vo['is_take'] neq 1 && $now_time < $vo['task_end_time'] "}
+                    {if condition="($vo['is_take'] neq 1 or $vo['take_employees'].'' eq $uid.'') && $now_time < $vo['task_end_time'] "}
                     <p class="p2 end_task" data-id="{$vo.id}">终止任务</p>
                     {/if}
                     {if condition="!in_array($uid,explode(',',$vo['take_employees']))"}

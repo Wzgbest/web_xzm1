@@ -33,12 +33,30 @@
 {eq name="task_type" value="3"}
     {volist name="rankingdata" id="vo" key="key"}
         <ul class="{eq name='self_idx' value='$key-1'}backdrop{/eq}">
-            <li>{$key}</li>
-            <li>{$vo["truename"]}</li>
-            <li>销售一部</li>
-            <li><span>{$vo["num"]}</span>次</li>
-            <li><span>未帮</span>|<span>帮了</span></li>
-        </ul>
+	        <li>{$key}</li>
+	        <li>{$vo["truename"]}</li>
+	        <li>销售一部</li>
+	        <li>
+	            {if condition="is_array($vo['red_info'])"}
+	            {eq name="$vo['untook']" value="1"}
+	            <span class="turn">待领取</span><img src="/task/img/small.png"/>
+	            {else/}
+	            <span class="turn">已领取</span>
+	            {/eq}
+	            {else/}
+	            <span class="turn">未获得</span>
+	            {/if}
+	        </li>
+	        {if condition="$vo['whether_help'] eq 0 && $create_employee==$uid "}
+	        <li data-id="{$vo['take_id']}"><a class="unhelp"><span>未帮</span></a>|<a class="help"><span>帮了</span></a></li>
+	        {else/}
+	        <li>
+	            <span>{eq name="vo['whether_help']" value="0"}正在参与任务{/eq}</span>
+	            <span>{eq name="vo['whether_help']" value="1"}判定已帮{/eq}</span>
+	            <span>{eq name="vo['whether_help']" value="-1"}判定未帮{/eq}</span>
+	        </li>
+	        {/if}
+	    </ul>
     {/volist}
 {/eq}
 <input type="hidden" class="self_idx" value="{$self_idx}" />
