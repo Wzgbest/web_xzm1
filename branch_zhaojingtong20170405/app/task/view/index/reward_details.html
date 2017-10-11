@@ -25,12 +25,17 @@
 
 
 						<div class="len">
+							{eq name="task_info['target_method']" value="1"}
+							<p class="small">其他需求</p>
+							<p class="very big">{$task_info.target_description}</p>
+							{else/}
 							<p class="small">帮跟客户</p>
 							{if condition="$uid==$task_info['create_employee'] || in_array($uid,explode(',',$task_info['take_employees']))"}
-								<p class="very big blue customer_info" customer_id="{$task_info.target_customer}">{$task_info.customer_name}</p>
+							<p class="very big blue customer_info" customer_id="{$task_info.target_customer}">{$task_info.customer_name}</p>
 							{else /}
-								<p class="very big blue">{$task_info.customer_name}</p>
+							<p class="very big blue">{$task_info.customer_name}</p>
 							{/if}
+							{/eq}
 						</div>
 						<div class="very">
 							<p class="small">任务领取截止时间</p>

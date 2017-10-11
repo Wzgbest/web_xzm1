@@ -327,6 +327,13 @@ class Structure extends Initialize
         $employeeM = new StructureEmployeeModel($this->corp_id);
         $huanxin = new HuanxinApi();
         $users = $employeeM->getEmployeeByStructIds($ids);
+        if (!empty($users)) {
+            $info = [
+                    'status' =>false,
+                    'message' =>'该部门下有员工无法删除'
+                ];
+                return $info;
+        }
         if ($trans == 1) {
             //转移员工到默认组
             if (empty($users)) {
