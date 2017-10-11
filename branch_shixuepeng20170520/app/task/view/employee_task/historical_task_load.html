@@ -193,11 +193,14 @@
             <p class="theme">{$vo.task_name}</p>
             <div>
                 <div class="details">
-
-
                     <div class="len">
+                        {eq name="vo['target_method']" value="1"}
+                        <p class="small">其他需求</p>
+                        <p class="very big">{$vo.target_description}</p>
+                        {else/}
                         <p class="small">帮跟客户</p>
-                        <p class="very big  blue">{$vo.customer_name}</p>
+                        <p class="very big blue">{$vo.customer_name}</p>
+                        {/eq}
                     </div>
                     <div class="very">
                         <p class="small">任务领取截止时间</p>
