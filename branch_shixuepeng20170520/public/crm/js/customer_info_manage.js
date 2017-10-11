@@ -42,6 +42,8 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 		//console.log("b0",b);
 		b = b.replace("pay_type_"+a_index,"pay_type_"+self.contract_index);
 		b = b.replace("pay_type_"+a_index,"pay_type_"+self.contract_index);
+		b = b.replace("pay_bank_"+a_index,"pay_bank_"+self.contract_index);
+		b = b.replace("pay_bank_"+a_index,"pay_bank_"+self.contract_index);
 		b = b.replace("need_bill_"+a_index,"need_bill_"+self.contract_index);
 		b = b.replace("need_bill_"+a_index,"need_bill_"+self.contract_index);
 		//console.log("b1",b);
@@ -486,7 +488,9 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 						$(edit_sale_chance_panel+" .sale-chance-finish").removeClass("hide");
 					}
 				});
-				var contract_type_name_json = $(edit_sale_chance_panel+" .contract_no_selecter").siblings("input").val();
+
+				//合同类型
+				var contract_type_name_json = $(edit_sale_chance_panel+" .contract_no_selecter").siblings(".contract_type_name").val();
 				//console.log(contract_type_name_json);
 				if(contract_type_name_json){
 					var contract_type_name_index = null;
@@ -521,13 +525,6 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 						//console.log("contract_no_selecter");
 						set_contract_type_name_by_id(this);
 					});
-					$(edit_sale_chance_panel+" input[type='radio']").click(function(){
-						var radio_name = $(this).attr("name");
-						$(edit_sale_chance_panel+" input[name='"+radio_name+"']").attr("checked",false);
-						$(edit_sale_chance_panel+" input[name='"+radio_name+"']").prop("checked",false);
-						$(this).attr("checked","checked");
-						$(this).prop("checked","checked");
-					});
 					try{
 						var contracts = $(edit_sale_chance_panel+" .editSaleChanceForm .sale-chance-apply-contract");
 						var contract_index = 0;
@@ -542,6 +539,81 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 						console.log(ex);
 					}
 				}
+
+				//合同对应银行
+				var contract_bank_name_json = $(edit_sale_chance_panel+" .contract_no_selecter").siblings(".contract_bank_name").val();
+				//console.log(contract_bank_name_json);
+				if(contract_bank_name_json){
+					var contract_bank_name_index = null;
+					try{
+						contract_bank_name_index = JSON.parse(contract_bank_name_json);
+					}catch (ex){
+						console.log(ex);
+					}
+					if(contract_bank_name_index==null){
+						console.log("contract bank name data not found");
+						contract_bank_name_index = [];
+					}
+					//console.log(contract_bank_name_index);
+					var get_contract_bank_name_by_id = function(id){
+						var contract_bank_name = "";
+						if(id in contract_bank_name_index){
+							contract_bank_name = contract_bank_name_index[id];
+						}
+						return contract_bank_name;
+					};
+					var set_contract_bank_name_by_id = function(target){
+						var contract_id = $(target).val();
+						if(!contract_id>0){
+							return;
+						}
+						var contract_bank_name = get_contract_bank_name_by_id(contract_id);
+						//console.log("contract_bank_name",contract_bank_name);
+						var contract_bank_name_arr = contract_bank_name.split(",");
+						//console.log("contract_bank_name_arr",contract_bank_name_arr);
+						var pay_bank_default = $(target).parent().parent().find(".pay_bank_default").val();
+						console.log("pay_bank_default",pay_bank_default);
+						var contract_bank_name_html = '';
+						for(var i in contract_bank_name_arr){
+							var contract_bank_name_item = contract_bank_name_arr[i];
+							console.log("contract_bank_name_item",contract_bank_name_item);
+							contract_bank_name_html += "<option value='"+contract_bank_name_item+"'";
+							if(pay_bank_default == contract_bank_name_item){
+								contract_bank_name_html += ' selected="selected"';
+							}
+							contract_bank_name_html += ">"+contract_bank_name_item+"</option>";
+						}
+						//console.log("contract_bank_name_html",contract_bank_name_html);
+						//console.log("contract_bank",$(target).parent().parent().find(".pay_bank"));
+						$(target).parent().parent().find(".pay_bank").html(contract_bank_name_html);
+					};
+					$(edit_sale_chance_panel).on("change",".contract_no_selecter",function(){
+						//console.log("contract_no_selecter");
+						set_contract_bank_name_by_id(this);
+					});
+					try{
+						var contracts = $(edit_sale_chance_panel+" .editSaleChanceForm .sale-chance-apply-contract");
+						var contract_index = 0;
+						$(contracts).each(function(){
+							var contract_id_selecter = $(this).find("select[name='contract_id']");
+							set_contract_bank_name_by_id(contract_id_selecter);
+							contract_index++;
+						});
+						self.contract_index = contract_index;
+						self.contract_count = contract_index;
+					}catch (ex){
+						console.log(ex);
+					}
+				}
+
+				$(edit_sale_chance_panel+" input[type='radio']").click(function(){
+					var radio_name = $(this).attr("name");
+					$(edit_sale_chance_panel+" input[name='"+radio_name+"']").attr("checked",false);
+					$(edit_sale_chance_panel+" input[name='"+radio_name+"']").prop("checked",false);
+					$(this).attr("checked","checked");
+					$(this).prop("checked","checked");
+				});
+
 				$(edit_sale_chance_panel+" .sale_chance_edit_save").click(function(){
 					self.sale_chance_edit_send(id,self.id);
 				});
@@ -587,7 +659,8 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				var due_time = $(this).find("input[name='due_time']").val();
 				var need_bill = $(this).find("input[name='need_bill_"+index+"'][checked='checked']").val();
 				console.log("need_bill",need_bill);
-				var pay_bank = $(this).find("select[name='pay_bank']").val();
+				//console.log('pay_bank',$(this).find("select[name='pay_bank_"+index+"']"));
+				var pay_bank = $(this).find("select[name='pay_bank_"+index+"']").val();
 				var contract_obj = {
 					contract_id:contract_id,
 					contract_money:contract_money,
@@ -600,9 +673,9 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				};
 				contract_arr.push(contract_obj);
 			});
-			console.log('contract_arr',contract_arr);
+			//console.log('contract_arr',contract_arr);
 			var contract_str = JSON.stringify(contract_arr);
-			console.log('contract_str',contract_str);
+			//console.log('contract_str',contract_str);
 			sale_chance_edit_form += "&contracts="+contract_str;
 		}
 		sale_chance_edit_form += "&id="+id+"&customer_id="+customer_id+"&fr="+this.from;

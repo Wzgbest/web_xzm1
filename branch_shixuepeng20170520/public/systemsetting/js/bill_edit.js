@@ -177,7 +177,7 @@ $(".systemsetting_bill_edit .content").on("click",".handle_role .del",function()
 update_bill_setting_handle_html();
 
 
-//产品类型和打款银行类型
+//产品类型
 function bill_item_list_get_arr(target){
     //console.log($(target).parent());
     //console.log($(target).parent().siblings("[type=hidden]"));

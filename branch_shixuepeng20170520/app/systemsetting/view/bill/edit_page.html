@@ -39,20 +39,6 @@
                 <img src="/systemsetting/images/plus.jpg" class="img2 add" />
                 <input type="hidden" name="product_type" value="{$billSetting.product_type}"/>
             </p>
-            <p class="later">
-                <span>打款银行类型</span>
-                {volist name="billSetting.bank_type_arr" id="vo"}
-                    {notempty name="vo"}
-                        <span class="redact">
-                                <span class="item_name">{$vo}</span>
-                                <img class="compile" src="/systemsetting/images/compile.png" />
-                                <img class="del" src="/systemsetting/images/del.png" />
-                        </span>
-                    {/notempty}
-                {/volist}
-                <img src="/systemsetting/images/plus.jpg" class="img2 add" />
-                <input type="hidden" name="bank_type" value="{$billSetting.bank_type}"/>
-            </p>
             <p>
                 <span>最大发票额度</span>
                 <input type="text" placeholder="请输入金额" name="max_bill" value="{$billSetting.max_bill}" />

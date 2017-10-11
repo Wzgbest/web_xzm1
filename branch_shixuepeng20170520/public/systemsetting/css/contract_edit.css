@@ -225,6 +225,85 @@ ol {
     background-color: #fff;
     border: 1px solid #dcdcdc;
 }
+
+.systemsetting_contract_edit .content .p input {
+    width: 18px;
+    height: 18px;
+    margin-left: 36px;
+    vertical-align: middle;
+    margin-right: 25px;
+}
+
+.systemsetting_contract_edit .content .later .add {
+    margin-left: 10px;
+    font-size: 12px;
+    color: #77b8ff;
+    text-align: left
+}
+
+.systemsetting_contract_edit .content .later .redact {
+    display: inline-block;
+    width: 221px;
+    padding-left: 15px;
+    height: 36px;
+    background-color: #f2f2f2;
+    margin-top: 10px;
+    margin-left: 18px;
+    padding-right: 15px;
+    text-align: left;
+}
+
+.systemsetting_contract_edit .content .redact {
+    position: relative;
+}
+
+.systemsetting_contract_edit .content .redact .item_name {
+    width: 132px;
+    height: 36px;
+    display: inline-block;
+    text-align: left;
+    line-height: 36px;
+    font-size: 14px;
+}
+
+.systemsetting_contract_edit .content .later .redact .compile {
+    position: absolute;
+    left: 190px;
+    top: 10px
+}
+
+.systemsetting_contract_edit .content .later .redact .del {
+    position: absolute;
+    left: 215px;
+    top: 10px
+}
+
+.systemsetting_contract_edit .content .later .redact .item_text{
+    display: inline-block;
+    width: 128px;
+    height: 20px;
+    line-height: 20px;
+    margin:0;
+}
+.systemsetting_contract_edit .content .later .redact .item_btn{
+    vertical-align: middle;
+    margin-left: 10px;
+    font-size: 14px;
+    color: #77b8ff;
+}
+
+.systemsetting_contract_edit .content .later .redact img {
+    display: none;
+}
+
+.systemsetting_contract_edit .content .later .redact:hover img {
+    display: inline-block;
+}
+
+.systemsetting_contract_edit .content .later .redact:hover {
+    background-color: #f2f6fd;
+}
+
 .systemsetting_contract_edit .content .full {
     width: 100%;
     height: 5px;
