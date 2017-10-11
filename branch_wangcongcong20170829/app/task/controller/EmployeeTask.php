@@ -347,18 +347,36 @@ class EmployeeTask extends Initialize{
     public function task_help(){
         $take_id=input('take_id');//参与任务的id
         $unhelp=input('unhelp');//是帮助了还是未帮
-        $con['id']=$take_id;
         $redata['success']=false;
         $redata['msg']='操作失败';
         $taskTakeModel = new TaskTake($this->corp_id);
+        $con['id']=$take_id;
+        $taskTakeInfo=$taskTakeModel->getTaskTakeInfoById($take_id);
+        if(empty($taskTakeInfo)){
+            $redata['msg'] = "未找到任务！";
+            return json($redata);
+        }
+        $task_id=$taskTakeInfo['task_id'];
+        $taskModel=new EmployeeTaskModel($this->corp_id);
+        $taskInfo=$taskModel->getTaskInfo($task_id);
+        if($taskInfo['status']!=2){
+            $redata['msg'] = "该任务不在进行中！";
+            return json($redata);
+        }
+        if($taskInfo['task_end_time']<time()){
+            $redata['msg'] = "该任务已结束！";
+            return json($redata);
+        }
+
+
         if($take_id){
             if($unhelp){
                 //未帮
-                $result=$taskTakeModel->toHelp($con);
+                $result=$taskTakeModel->toUnhelp($con);
             }
             else{
                 //已帮
-                $result=$taskTakeModel->toUnhelp($con);
+                $result=$taskTakeModel->tohelp($con);
             }
             if($result)
             {
