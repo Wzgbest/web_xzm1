@@ -87,6 +87,7 @@ class EmployeeTask extends Initialize{
 		$uid = $user_info['userid'];
 		$employeeTaskModel = new EmployeeTaskModel($this->corp_id);
 		$my_task_list = $employeeTaskModel->getMyTaskList($uid,$num,$last_id,$task_type,$is_direct,$is_indirect,$is_own,$is_old);
+        //var_exp($my_task_list,'$my_task_list',1);
 
         $uids = [];
         foreach ($my_task_list as $task_info){
@@ -159,6 +160,7 @@ class EmployeeTask extends Initialize{
         sum((case when task_type =4 then 1 else 0 end)) as `4`
         "];//统计个数的field
         $task_count=$employeeTaskModel->getEmployeeTaskCount($uid,$countField,$con=[]);
+        //var_exp($task_list,'$task_list',1);
         $this->assign('task_list',$task_list);
         $this->assign('task_count',$task_count);
         $this->assign('uid',$uid);
