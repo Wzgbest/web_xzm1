@@ -1,6 +1,6 @@
 .crm_customer{
 	position: relative;
-	background-color: #f5f7fa;
+	/*background-color: #f5f7fa;*/
 	overflow-x: hidden;
 	height: 100%;
 }
@@ -12,12 +12,12 @@
 .crm_customer header{
 	height: 40px;
 	background-color: white;
+	box-shadow: -1px 2px #ebedf0;
 }
 .crm_customer .m-firNav{
 	width: 960px;
 	height: 40px;
 	margin-left: 1px;
-	box-shadow: -1px 2px #ebedf0;
 }
 .crm_customer .m-firNav li{
 	float: left;
@@ -32,7 +32,7 @@
 	line-height: 20px;
 	padding: 0 5px;
 	font-size: 12px;
-	border-right:2px solid #b2b2b2 ;
+	border-right:2px solid #e6e6e6 ;
 }
 .crm_customer .m-firNav li:last-child div{
 	border: none;
@@ -44,16 +44,18 @@
 
 /************************************************************************/
 /*客户列表*/
-.crm_customer .myAllClientsPage{
-	
+#myAllClientsPage,#myAllSaleChancePage{
+	margin-top: 40px;
 }
+
 .crm_customer .m-secNav{
 	width: 960px;
 	padding: 20px 6px;
 }
 .crm_customer .m-secNav li:not(.vertical){
 	float: left;
-	width: 80px;
+	/*width: 80px;*/
+	padding: 0 20px;
 	height: 25px;
 	line-height: 25px;
 	font-size: 12px;
@@ -112,6 +114,7 @@
 /*客户信息弹出层*/
 .crm_customer .customer_info_panel{
 	width: 100%;
+	height: 100% !important;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -197,7 +200,7 @@
 }
 /*表单*/
 .crm_customer .newClientForm{
-	margin-top: 20px;
+	margin-top: 100px;
 	padding-left: 30px;
 }
 #mapFrame{
@@ -215,7 +218,9 @@
 }
 /************************************************************************/
 /*客户详情*/
-
+.page-info .page-info-detail{
+	margin-top: 100px;
+}
 .crm_customer .page-info header i{
 	line-height: 40px;
 	margin-left: 5px;
@@ -234,10 +239,14 @@
 }
 .crm_customer .m-pageInfoNav{
 	height: 54px;
-	margin-top: 5px;
+	/*margin-top: 45px;*/
 	/*border-top: 5px solid #f5f7fa;*/
 	border-bottom: 1px solid #e5e5e5;
 	background-color: #fff;
+	position: fixed;
+    top: 122px;
+    width: 100%;
+    z-index: 100;
 }
 .crm_customer .m-pageInfoNav li{
 	float: left;
@@ -336,8 +345,8 @@
 }
 
 .crm_customer .outlineCreatPerson{
-	margin: 20px 0;
-	background-color: transparent !important;
+	margin: 10px 0;
+	/*background-color: transparent !important;*/
 	border: none !important;
 	box-shadow: none !important;
 	color: #939aab;
