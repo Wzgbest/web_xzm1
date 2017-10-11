@@ -88,12 +88,12 @@ function task_like(id,like,fun){
             if(data.success == 1) {
                 fun(data);
             }else{
-                console.log(data.msg,{icon:2});
+                layer.msg(data.msg,{icon:2});
             }
         },
         error: function() {
-            console.log('操作出现错误',{icon:2});
-        },
+            layer.msg('操作出现错误',{icon:2})
+        }
     });
 }
 
@@ -1301,14 +1301,14 @@ function task_details(load_table,id,type){
             data: post_data,
             dataType:"json",
             success: function(data) {
-                if(data.success == 1) {
+                if(data.success) {
                     fun(data);
                 }else{
-                    console.log(data.msg,{icon:2});
+                    layer.msg(data.msg,{icon:2});
                 }
             },
             error: function() {
-                console.log('操作出现错误',{icon:2});
+                layer.msg('操作出现错误',{icon:2});
             }
         });
     }
