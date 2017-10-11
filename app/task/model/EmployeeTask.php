@@ -284,7 +284,7 @@ class EmployeeTask extends Base{
      * @return array|false|\PDOStatement|string|\think\Model
      */
     public function getHistoricalTaskCount($uid,$field='*',$map=[],$con_str){
-        $map_str = " find_in_set($uid,public_to_view) ";
+        $map_str = " (find_in_set($uid,public_to_view) and status>1) or create_employee=".$uid;
         $historical_task_count=$this->model->table($this->viewTable)->field($field)->where($map_str)->where($con_str)->where($map)->count(1);
         return $historical_task_count;
 

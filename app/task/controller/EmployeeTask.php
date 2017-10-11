@@ -159,7 +159,7 @@ class EmployeeTask extends Initialize{
         sum((case when task_type =3 then 1 else 0 end)) as `3`,
         sum((case when task_type =4 then 1 else 0 end)) as `4`
         "];//统计个数的field
-        $task_count=$employeeTaskModel->getEmployeeTaskCount($uid,$countField,$con=[]);
+        $task_count=$employeeTaskModel->getEmployeeTaskCount($uid,$countField,[]);
         //var_exp($task_list,'$task_list',1);
         $this->assign('task_list',$task_list);
         $this->assign('task_count',$task_count);
@@ -186,7 +186,7 @@ class EmployeeTask extends Initialize{
      */
     public function get_historical_task_list($map){
         if(!isset($map["status"])){
-            $map['status']=array('gt',1);
+            $map['status']=array('gt',0);
         }
 
         $num = input('num',10,'int');
@@ -230,10 +230,8 @@ class EmployeeTask extends Initialize{
         }
         $map_str1 = " find_in_set($uid,take_employees) ";
         $count1=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con,$map_str1);
-        unset($con['take_employees']);
         $map_str1 = " find_in_set($uid,tip_employees) or find_in_set($uid,guess_employees) ";
         $count2=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con,$map_str1);
-        unset($con['tip_employees']);
         $map_str1 = " create_employee=".$uid;
         $count3=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con,$map_str1);
         $task_count=array(
