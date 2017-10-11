@@ -33,6 +33,7 @@ class Contract extends Initialize{
             "end_num"=>"",
             "current_contract"=>"",
             "max_apply"=>"",
+            "bank_type_arr"=>[],
             "apply_1"=>"",
             "apply_2"=>"",
             "apply_3"=>"",
@@ -66,6 +67,7 @@ class Contract extends Initialize{
         $contractSetting = [];
         try{
             $contractSetting = $this->_contractSettingModel->getContractSetting(1,0,$map,"");
+            $contractSetting["bank_type_arr"] = explode(",",$contractSetting["bank_type"]);
             $this->assign("contractSetting",$contractSetting);
         }catch (\Exception $ex){
             $this->error($ex->getMessage());
@@ -137,12 +139,13 @@ class Contract extends Initialize{
     }
 
     protected function _getContractSettingForInput(){
-        $contractSetting['contract_name'] = input('contract_name');
-        $contractSetting['contract_prefix'] = input('contract_prefix');
+        $contractSetting['contract_name'] = input('contract_name','','string');
+        $contractSetting['contract_prefix'] = input('contract_prefix','','string');
         $contractSetting['start_num'] = input('start_num',0,'int');
         $contractSetting['end_num'] = input('end_num',0,'int');
         $contractSetting['current_contract'] = input('current_contract',0,'int');
         $contractSetting['max_apply'] = input('max_apply',0,'int');
+        $contractSetting['bank_type'] = input('bank_type','','string');
         $contractSetting['apply_1'] = input('apply_1',0,'int');
         $contractSetting['apply_2'] = input('apply_2',0,'int');
         $contractSetting['apply_3'] = input('apply_3',0,'int');

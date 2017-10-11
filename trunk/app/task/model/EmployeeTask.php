@@ -99,12 +99,13 @@ class EmployeeTask extends Base{
             ->join($this->dbprefix.'employee_task_target ett','ett.task_id = et.id',"LEFT")
             ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
             ->join($this->dbprefix.'red_envelope re',"re.task_id = et.id and re.type = 3 and re.took_user = ".$uid,"LEFT")
+            ->join($this->dbprefix.'customer c','ett.target_customer = c.id',"LEFT")
             ->where($map)
             ->where($mapStr)
             ->order($order)
             ->limit($num)
             ->group("et.id")
-            ->field("et.*,e.telephone,e.truename,e.userpic,etr.reward_amount,etr.reward_num,etr.reward_type,etr.reward_method,case when ettk.take_employee>0 then 1 else 0 end as is_take,ett.target_type,ett.target_customer,ett.target_description,ett.target_num,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token")
+            ->field("et.*,e.telephone,e.truename,e.userpic,etr.reward_amount,etr.reward_num,etr.reward_type,etr.reward_method,case when ettk.take_employee>0 then 1 else 0 end as is_take,ett.target_type,ett.target_customer,c.customer_name,ett.target_description,ett.target_num,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token")
             ->select();
 
         return $employeeTaskList;
@@ -150,11 +151,12 @@ class EmployeeTask extends Base{
             ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
             ->join($this->dbprefix.'employee_task_tip ettip',"ettip.task_id = et.id and ettip.tip_employee = '$uid'","LEFT")
             ->join($this->dbprefix.'red_envelope re',"re.task_id = et.id and re.type = 3 and re.took_user = ".$uid,"LEFT")
+            ->join($this->dbprefix.'customer c','ettar.target_customer = c.id',"LEFT")
             ->where($map)
             ->order($order)
             ->limit($num)
             ->group('et.id')
-            ->field("et.*,eown.telephone as own_telephone,eown.truename as own_truename,eown.userpic as own_userpic,case when ett.take_employee>0 then 1 else 0 end as is_take,ett.take_time,etr.reward_type,etr.reward_method,etr.reward_amount,etr.reward_num,ettar.target_type,ettar.target_num,ettar.target_customer,ettar.target_description,case when etl.user_id>0 then 1 else 0 end as is_like,ettip.tip_employee,ettip.tip_money,ettip.tip_time,re.redid,re.is_token")
+            ->field("et.*,eown.telephone as own_telephone,eown.truename as own_truename,eown.userpic as own_userpic,case when ett.take_employee>0 then 1 else 0 end as is_take,ett.take_time,etr.reward_type,etr.reward_method,etr.reward_amount,etr.reward_num,ettar.target_type,ettar.target_num,ettar.target_customer,c.customer_name,ettar.target_description,case when etl.user_id>0 then 1 else 0 end as is_like,ettip.tip_employee,ettip.tip_money,ettip.tip_time,re.redid,re.is_token")
             ->select();
 
         return $myTaskList;

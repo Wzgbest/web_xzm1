@@ -48,6 +48,20 @@
                 </p>
                 <p style="float: left;margin-left: 10px;margin-top: 10px" class="p1">(当前合同号为下一份合同生成时所使用编号)</p>
             </div>
+            <div class="dv1 later" style="width: 1000px">
+                <span>打款银行类型</span>
+                {volist name="contractSetting.bank_type_arr" id="vo"}
+                    {notempty name="vo"}
+                        <span class="redact">
+                                <span class="item_name">{$vo}</span>
+                                <img class="compile" src="/systemsetting/images/compile.png" />
+                                <img class="del" src="/systemsetting/images/del.png" />
+                        </span>
+                    {/notempty}
+                {/volist}
+                <img src="/systemsetting/images/plus.jpg" class="img2 add" />
+                <input type="hidden" name="bank_type" value="{$contractSetting.bank_type}"/>
+            </div>
 
             <div class="dv2 apply_role_split full"><p><span></span></p></div>
             <div class="dv1">
