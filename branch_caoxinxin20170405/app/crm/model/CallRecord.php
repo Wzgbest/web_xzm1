@@ -72,14 +72,14 @@ class CallRecord extends Base{
             $offset = ($page-1)*$num;
         }
         $group="cr.userid";
-        $order="num desc";
+        $order="num desc,standard_time asc";
         $callRecordRanking = $this->model->table($this->table)->alias('cr')
             ->join($this->dbprefix.'employee e','cr.userid = e.id',"LEFT")
             ->where($map)
             ->group($group)
             ->order($order)
             //->limit($offset,$num)
-            ->field("e.id as employee_id,e.truename,count(cr.id) num,IF (count(cr.id) >= $standard, '1', '0') as is_standard")
+            ->field("e.id as employee_id,e.truename,count(cr.id) num,MAX(cr.begin_time) as standard_time,IF (count(cr.id) >= $standard, '1', '0') as is_standard")
             ->select();
         //var_exp($callRecordRanking,'$callRecordRanking',1);
         if($num==1&&$page==0&&$callRecordRanking){

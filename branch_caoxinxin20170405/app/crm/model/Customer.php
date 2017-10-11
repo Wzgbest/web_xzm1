@@ -1585,14 +1585,14 @@ class Customer extends Base
             $offset = ($page-1)*$num;
         }
         $group="c.add_man";
-        $order="num desc";
+        $order="num desc,standard_time asc";
         $rankingList = $this->model->table($this->table)->alias('c')
             ->join($this->dbprefix.'employee e','c.add_man = e.id',"LEFT")
             ->where($map)
             ->group($group)
             ->order($order)
             //->limit($offset,$num)
-            ->field("e.id as employee_id,e.truename,count(c.id) num,IF (count(c.id) >= $standard, '1', '0') as is_standard")
+            ->field("e.id as employee_id,e.truename,count(c.id) num,MAX(c.add_time) as standard_time,IF (count(c.id) >= $standard, '1', '0') as is_standard")
             ->select();
         //var_exp($callRecordRanking,'$callRecordRanking',1);
         if($num==1&&$page==0&&$rankingList){
