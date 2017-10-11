@@ -122,10 +122,7 @@ class Customer extends Initialize{
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view();
     }
-    public function customer_pool(){
-        return $this->public_customer_pool(1);
-    }
-    public function public_customer_pool($fff=0){//TODO fff是生成用开关
+    public function public_customer_pool(){
         $num = input('num',$this->paginate_list_rows,'int');
         $p = input("p",1,"int");
         $customers_count=0;
@@ -141,16 +138,15 @@ class Customer extends Initialize{
         $struct_ids = getStructureIds($uid);
         $customerSettingModel = new CustomerSetting();
         $searchCustomerList = $customerSettingModel->getCustomerSettingByStructIds($struct_ids);
+        //var_exp($searchCustomerList,'$searchCustomerList',1);
         $public_flg = false;
         foreach ($searchCustomerList as $customerSetting){
-            if(!$customerSetting["public_sea_seen"]==1){
+            if($customerSetting["public_sea_seen"]==1){
                 $public_flg = true;
                 break;
             }
         }
-        if($fff){
-            $public_flg = !$public_flg;
-        }
+        //var_exp($public_flg,'$public_flg',1);
         if($public_flg){
             $view_name="public_pool";
             $filter = $this->_getCustomerFilter(["resource_from","grade","customer_name"]);
