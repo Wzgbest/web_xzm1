@@ -144,7 +144,7 @@ class EmployeeTask extends Base{
             $map['et.create_employee'] = $uid;
         }
         if ($is_old) {
-            $map['et.task_end_time'] = array('lt',time());
+            //$map['et.task_end_time'] = array('lt',time());
             $old_map_str .="et.task_end_time < ".time()." or et.status > 2";
         }else{
             $map['et.task_end_time']=array('egt',time());
