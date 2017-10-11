@@ -1,11 +1,11 @@
  header{
 	height: 40px;
 	background-color: white;
+	box-shadow: -1px 2px #ebedf0;
 }
  .m-firNav{
 	height: 40px;
-	margin-left: 1px;
-	box-shadow: -1px 2px #ebedf0;
+	margin-left: 1px;	
 }
  .m-firNav li{
 	float: left;
@@ -20,7 +20,7 @@
 	line-height: 20px;
 	padding: 0 5px;
 	font-size: 12px;
-	border-right:2px solid #b2b2b2 ;
+	border-right:2px solid #e6e6e6 ;
 }
  .m-firNav li:last-child div{
 	border: none;
@@ -36,7 +36,8 @@
 }
  .m-secNav li:not(.vertical){
 	float: left;
-	width: 80px;
+	/*width: 80px;*/
+	padding: 0 20px;
 	height: 25px;
 	line-height: 25px;
 	font-size: 12px;
@@ -91,6 +92,7 @@
 /*首页*/
 .summary .self-info{
 	height: 100px;
+	margin-top: 40px;
 }
 .u-faceContent{
 	width: 170px;
