@@ -86,7 +86,7 @@
 .edit_corp_info #content {
 	width: 100%;
 	/*width: 1120px;*/
-	height: 500px;
+	height: 100%;
 	background-color: #fff;
 	margin: auto 10px;
 	margin-top: 6px;
