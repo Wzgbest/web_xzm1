@@ -329,9 +329,11 @@ class EmployeeTask extends Command{
                             }
                         }
                     }elseif ($task_type==3){
-                        $needRedEnvelopeEmployeeId = $taskTakeM->getTaskTakeIdsByTaskId($id);
-                        for($i=0;$i<count($needRedEnvelopeEmployeeId);$i++){
-                            $rankingdata[] = ["employee_id"=>$needRedEnvelopeEmployeeId[$i]];
+                        $takeList = $taskTakeM->getTaskTakeListByTaskId($id);
+                        for($i=0;$i<count($takeList);$i++){
+                            if($takeList[$i]["whether_help"]==1){
+                                $rankingdata[] = ["employee_id"=>$takeList[$i]["take_employee"]];
+                            }
                         }
                     }
                     var_exp($needRedEnvelopeEmployeeId, '$needRedEnvelopeEmployeeId_over_time');
