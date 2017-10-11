@@ -20,7 +20,7 @@ class EmployeeTask{
     public function __construct($corp_id=null){
         $this->corp_id = $corp_id;
     }
-    public function getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$standard=0,$num=20,$page=1){
+    public function getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$task_id,$standard=0,$num=20,$page=1){
         $data = [];
         switch ($target_type){
             case 1:
@@ -83,6 +83,12 @@ class EmployeeTask{
                     $data = $customerM->getCustomerRanking($start_time,$end_time,$uids,$standard,$num,$page);
                 }
                 break;
+            case 7:
+                $customerM = new Customer($this->corp_id);
+                if($task_method==5){
+                    $data = $customerM->getEmployeeRanking($start_time,$end_time,$uids,$task_id,$standard,$num,$page);
+                }
+
         }
 
         return $data;
