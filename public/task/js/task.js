@@ -1016,9 +1016,10 @@ function task_details(load_table,id,type){
         return self.paypassword;
     };
 
-    if(self.type!=3){
-        self.update_ranking();
-    }
+    // if(self.type!=3){
+    //     self.update_ranking();
+    // }
+    self.update_ranking();
     self.update_tip();
     self.update_commont();
 
@@ -1029,7 +1030,6 @@ function task_details(load_table,id,type){
         $(this).parent().append(a);
         $(task_details_sel+" .turn").text("已领取");
         $(this).remove();
-
     });
     $(task_details_sel+" .right .get_reward").click(function() {
         var that=$(this);
@@ -1273,6 +1273,45 @@ function task_details(load_table,id,type){
             layer.msg(data.msg,{icon:data.success==true?1:2});
         });
     });
+    $(task_details_sel+" .dv2").on("click",".box li .help",function(){
+        var that=$(this);
+        var take_id=that.parent('li').attr('data-id');
+        task_whether_help(take_id,true,function(data){
+            that.parent('li').html('<span>判定已帮</span>');
+
+        });
+    });
+    $(task_details_sel+" .dv2").on("click",".box li .unhelp",function(){
+        var that=$(this);
+        var take_id=that.parent('li').attr('data-id');
+        task_whether_help(take_id,false,function(data){
+            that.parent('li').html('<span>判定未帮</span>');
+        });
+    });
+
+
+    function task_whether_help(take_id,type,fun){
+        var post_data = "take_id="+take_id;
+        if(!type){
+            post_data+="&unhelp=1";
+        }
+        $.ajax({
+            url: '/task/employee_task/task_help',
+            type: 'post',
+            data: post_data,
+            dataType:"json",
+            success: function(data) {
+                if(data.success == 1) {
+                    fun(data);
+                }else{
+                    console.log(data.msg,{icon:2});
+                }
+            },
+            error: function() {
+                console.log('操作出现错误',{icon:2});
+            }
+        });
+    }
 
 
 }
