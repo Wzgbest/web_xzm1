@@ -330,8 +330,10 @@ class EmployeeTask extends Command{
                         }
                     }elseif ($task_type==3){
                         $takeList = $taskTakeM->getTaskTakeListByTaskId($id);
+                        $needRedEnvelopeEmployeeId = [];
                         for($i=0;$i<count($takeList);$i++){
                             if($takeList[$i]["whether_help"]==1){
+                                $needRedEnvelopeEmployeeId[] = $takeList[$i]["take_employee"];
                                 $rankingdata[] = ["employee_id"=>$takeList[$i]["take_employee"]];
                             }
                         }
