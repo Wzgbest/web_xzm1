@@ -87,6 +87,7 @@ class EmployeeTask extends Initialize{
 		$uid = $user_info['userid'];
 		$employeeTaskModel = new EmployeeTaskModel($this->corp_id);
 		$my_task_list = $employeeTaskModel->getMyTaskList($uid,$num,$last_id,$task_type,$is_direct,$is_indirect,$is_own,$is_old);
+        //var_exp($my_task_list,'$my_task_list',1);
 
         $uids = [];
         foreach ($my_task_list as $task_info){
@@ -158,7 +159,8 @@ class EmployeeTask extends Initialize{
         sum((case when task_type =3 then 1 else 0 end)) as `3`,
         sum((case when task_type =4 then 1 else 0 end)) as `4`
         "];//统计个数的field
-        $task_count=$employeeTaskModel->getEmployeeTaskCount($uid,$countField,$con=[]);
+        $task_count=$employeeTaskModel->getEmployeeTaskCount($uid,$countField,[]);
+        //var_exp($task_list,'$task_list',1);
         $this->assign('task_list',$task_list);
         $this->assign('task_count',$task_count);
         $this->assign('uid',$uid);
@@ -183,21 +185,19 @@ class EmployeeTask extends Initialize{
      * 历史任务 进行中的任务列表数据
      */
     public function get_historical_task_list($map){
-        $map['status']=array('gt',1);
-        $result = ['status'=>0,'info'=>"获取列表时失败!"];
+        if(!isset($map["status"])){
+            $map['status']=array('gt',0);
+        }
 
         $num = input('num',10,'int');
         $p = input("p",1,"int");
-        $part_type = input('task_type',0,'int');//任务参与类型，1直接参与，2间接参与，3我发起的
+        $part_type = input('task_type',1,'int');//任务参与类型，1直接参与，2间接参与，3我发起的
         $order_name=input('order_name','','string');
 
         $user_info = get_userinfo();
         $uid = $user_info['userid'];
 
-        if(!$part_type)
-        {
-            $part_type=1;
-        }
+        $map_str='';
         switch($part_type){
             case 1:
                 //直接参与，报名参加的
@@ -225,12 +225,13 @@ class EmployeeTask extends Initialize{
         $field="et.*,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token,re.total_money,case when tg.guess_employee>0 then 1 else 0 end as is_guess,case when ett.take_employee>0 then 1 else 0 end as is_take";
         $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field,$order,$direction="desc",$map,$map_str);
         $con['task_end_time']=$map['task_end_time'];
+        if($part_type!=3){
+            $con['status']=$map['status'];
+        }
         $map_str1 = " find_in_set($uid,take_employees) ";
         $count1=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con,$map_str1);
-        unset($con['take_employees']);
         $map_str1 = " find_in_set($uid,tip_employees) or find_in_set($uid,guess_employees) ";
         $count2=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con,$map_str1);
-        unset($con['tip_employees']);
         $map_str1 = " create_employee=".$uid;
         $count3=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con,$map_str1);
         $task_count=array(
@@ -251,11 +252,13 @@ class EmployeeTask extends Initialize{
      */
     public function historical_task(){
         $map['task_end_time']=array('lt',time());
+        $map['status']=array('gt',2);
         $this->get_historical_task_list($map);
         return view();
     }
     public function historical_task_load(){
         $map['task_end_time']=array('lt',time());
+        $map['status']=array('gt',2);
         $this->get_historical_task_list($map);
         return view();
     }
@@ -266,11 +269,13 @@ class EmployeeTask extends Initialize{
      */
     public function direct_participation(){
         $map['task_end_time']=array('egt',time());
+        $map['status']=array('eq',2);
         $this->get_historical_task_list($map);
         return view();
     }
     public function direct_participation_load(){
         $map['task_end_time']=array('egt',time());
+        $map['status']=array('eq',2);
         $this->get_historical_task_list($map);
         return view();
     }

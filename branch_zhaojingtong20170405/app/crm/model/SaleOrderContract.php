@@ -580,7 +580,7 @@ class SaleOrderContract extends Base{
             $offset = ($page-1)*$num;
         }
         $group="sc.employee_id";
-        $order="num desc";
+        $order="num desc,standard_time asc";
         $rankingList = $this->model->table($this->table)->alias('soc')
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
@@ -588,7 +588,7 @@ class SaleOrderContract extends Base{
             ->group($group)
             ->order($order)
             //->limit($offset,$num)
-            ->field("e.id as employee_id,e.truename,count(soc.id) num,IF (count(soc.id) >= $standard, '1', '0') as is_standard")
+            ->field("e.id as employee_id,e.truename,count(soc.id) num,MAX(soc.create_time) as standard_time,IF (count(soc.id) >= $standard, '1', '0') as is_standard")
             ->select();
         //var_exp($rankingList,'$rankingList',1);
         if($num==1&&$page==0&&$rankingList){
@@ -683,7 +683,7 @@ class SaleOrderContract extends Base{
             $offset = ($page-1)*$num;
         }
         $group="sc.employee_id";
-        $order="num desc";
+        $order="num desc,standard_time asc";
         $rankingList = $this->model->table($this->table)->alias('soc')
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
             ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
@@ -691,7 +691,7 @@ class SaleOrderContract extends Base{
             ->group($group)
             ->order($order)
             //->limit($offset,$num)
-            ->field("e.id as employee_id,e.truename,sum(sc.final_money) num,IF (sum(sc.final_money) >= $standard, '1', '0') as is_standard")
+            ->field("e.id as employee_id,e.truename,sum(sc.final_money) num,MAX(soc.create_time) as standard_time,IF (sum(sc.final_money) >= $standard, '1', '0') as is_standard")
             ->select();
         //var_exp($rankingList,'$rankingList',1);
         if($num==1&&$page==0&&$rankingList){

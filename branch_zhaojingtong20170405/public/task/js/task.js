@@ -927,6 +927,12 @@ function task_details(load_table,id,type){
                 //console.log(data);
                 //console.log($(task_details_sel+" .left .box"));
                 $(task_details_sel+" .left .box").html(data);
+                var self_idx = $(task_details_sel+" .left .box .self_idx").val();
+                console.log("self_idx",self_idx);
+                if(self_idx>0){
+                    var self_heigth = self_idx*35;
+                    $(task_details_sel+" .left .box").scrollTop(self_heigth);
+                }
             },
             error: function() {
                 layer.msg('加载排行榜出现错误',{icon:2});
