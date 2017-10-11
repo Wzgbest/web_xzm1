@@ -139,6 +139,7 @@ class Index extends Initialize{
         $end_time = $taskInfo["task_end_time"];
         $task_type = $taskInfo["task_type"];
         $task_method = $taskInfo["task_method"];
+
         if($task_type>3){
             $result['info'] = "任务类型不符！";
             return json($result);
@@ -188,10 +189,13 @@ class Index extends Initialize{
         ];
         var_exp($getRankingListParams,'$getRankingListParams');
         */
-        $employeeTaskService = new EmployeeTaskService($this->corp_id);
-        $rankingdata = $employeeTaskService->getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$standard,$num,$page);
 
-        if($task_type=2){
+        $employeeTaskService = new EmployeeTaskService($this->corp_id);
+        $rankingdata = $employeeTaskService->getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$id,$standard,$num,$page);
+
+
+
+        if($task_type==2){
             $guessdata = $this->_getEmployeeGuessMoneyList($id,$uids);
             foreach ($rankingdata as &$ranking_item){
                 if(isset($guessdata[$ranking_item["employee_id"]])){
@@ -224,7 +228,7 @@ class Index extends Initialize{
         $reward_idx = 0;
         $self_idx = -1;
         for($ranking_index=1;$ranking_index<=count($rankingdata);$ranking_index++){
-            if(!$take_in){
+            if(!$take_in && $uid!=$taskInfo['create_employee'] && $task_type==2){
                 $rankingdata[$ranking_index-1]["truename"] = mb_substr($rankingdata[$ranking_index-1]["truename"],0,1,'utf-8')."**";
             }
 
@@ -251,10 +255,11 @@ class Index extends Initialize{
                 $rankingdata[$ranking_index-1]["untook"] = 0;
             }
         }
-
         //var_exp($rankingdata,'$rankingdata',1);
         $this->assign('self_idx',$self_idx);
         $this->assign('rankingdata',$rankingdata);
+        $this->assign('uid',$uid);
+        $this->assign('create_employee',$taskInfo['create_employee']);
         return view();
     }
     public function employee_data(){

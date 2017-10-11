@@ -59,4 +59,27 @@ class TaskTake extends Base{
             ->order("id asc")
             ->column("take_employee");
     }
+
+    /**
+     * 已帮
+     * @param $con
+     * @return int|string
+     */
+    public function toHelp($con){
+        $data['whether_help']=1;
+        $result=$this->model->table($this->table)->where($con)->data($data)->update();
+        return $result;
+    }
+
+    /**
+     * 未帮
+     * @param $con
+     * @return int|string
+     */
+    public function toUnhelp($con){
+        $data['whether_help']=-1;
+        $result=$this->model->table($this->table)->where($con)->data($data)->update();
+        return $result;
+
+    }
 }
