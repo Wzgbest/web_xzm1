@@ -24,6 +24,7 @@ use app\crm\model\CustomerContact as CustomerContactModel;
 use app\crm\model\CustomerTrace as CustomerTraceModel;
 use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
 use app\common\model\ParamRemark;
+use app\crm\model\CallRecord;
 
 class Customer extends Initialize{
     var $paginate_list_rows = 10;
@@ -260,11 +261,21 @@ class Customer extends Initialize{
         $this->assign("sale_chance",$SaleChancesData);
         $saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
         $visitData = $saleChanceVisitM->getLastVisitAndNum($info_array["id"]);
+        //var_exp($visitData,'$visitData',1);
         if(empty($visitData)){
             $visitData["last_visit_time"] = "";
             $visitData["visit_num"] = "0";
         }
         $this->assign("visit_count",$visitData);
+        $callRecordM = new CallRecord($this->corp_id);
+        $callRecordData = $callRecordM->getLastCallRecordAndNum($info_array["id"]);
+        //var_exp($callRecordData,'$callRecordData',1);
+        if(empty($callRecordData)){
+            $callRecordData["last_call_time"] = "";
+            $callRecordData["call_out_num"] = "0";
+            $callRecordData["call_in_num"] = "0";
+        }
+        $this->assign("call_count",$callRecordData);
         $customerM = new CustomerContactModel($this->corp_id);
         $customerContactData = $customerM->getAllCustomerContactsByCustomerId($info_array["id"]);
         $this->assign("customer_contact",$customerContactData);
