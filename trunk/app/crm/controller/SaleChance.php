@@ -358,10 +358,13 @@ class SaleChance extends Initialize{
             $this->assign('empty','<option value="" class="empty">无</option>');
 
             $contract_type_index = [];
+            $contract_bank_index = [];
             foreach($contracts as $contract){
                 $contract_type_index[$contract["id"]] = $contract["contract_type_name"];
+                $contract_bank_index[$contract["id"]] = $contract["bank_type"];
             }
             $this->assign('contract_type_name_json',json_encode($contract_type_index,true));
+            $this->assign('contract_bank_name_json',json_encode($contract_bank_index,true));
 
             $refresh = input("refresh",0,"int");
             $this->assign('refresh',$refresh);
@@ -836,7 +839,7 @@ class SaleChance extends Initialize{
             return $result;
         }
         $saleOrderContractData["order_num"] = count($saleContracts["data"]);
-        //var_exp($saleContracts,'$saleContracts');
+        //var_exp($saleContracts,'$saleContracts',1);
         $save_flg = false;
         $result_data = [];
         if(!in_array($saleOrderContractOldData["status"],[2,3])){
