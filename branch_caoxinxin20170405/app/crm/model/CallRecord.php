@@ -142,4 +142,24 @@ class CallRecord extends Base{
         }
         return $callRecordRanking;
     }
+
+    /**
+     * 查询最后通话时间和通话数量
+     * @param $customer_id int 客户id
+     * @return array|false
+     * @throws \think\Exception
+     */
+    public function getLastCallRecordAndNum($customer_id){
+        $field = [
+            "MAX(begin_time) as last_call_time",
+            "sum(case when cr.call_direction=1 then 1 else 0 end) as call_out_num",
+            "sum(case when cr.call_direction=2 then 1 else 0 end) as call_in_num"
+        ];
+        return $this->model->table($this->table)->alias('cr')
+            ->where("cr.customer_id",$customer_id)
+            ->group("cr.customer_id")
+            ->field($field)
+            //->fetchSql(true)
+            ->find();
+    }
 }

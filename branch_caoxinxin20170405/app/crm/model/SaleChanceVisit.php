@@ -41,16 +41,17 @@ class SaleChanceVisit extends Base{
     }
 
     /**获取最后一次成功拜访
+     * @param $customer_id int 客户id
      * @return false|\PDOStatement|int|\think\Collection
      * created by blu10ph
      */
-    public function getLastVisitAndNum($cuntumer_id)
+    public function getLastVisitAndNum($customer_id)
     {
-        $field = ["MAX(visit_time) as last_visit_time,count(scv.id) as visit_num"];
+        $field = ["MAX(visit_time) as last_visit_time","count(scv.id) as visit_num"];
         return $this->model->table($this->table)->alias('scv')
             ->join($this->dbprefix.'sale_chance sc','sc.id = scv.sale_id',"LEFT")
             ->where("scv.visit_ok",1)
-            ->where("sc.customer_id",$cuntumer_id)
+            ->where("sc.customer_id",$customer_id)
             ->group("sc.customer_id")
             ->field($field)
             ->find();
