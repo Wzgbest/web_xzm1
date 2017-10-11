@@ -1,9 +1,8 @@
 <div class="crm_customer crm_customer_manage">
     <div class="customer_manage_panel customer_manage">
         <!--客户列表-->
-        <section id="myAllClientsPage" >
+        <section id="myAllClientsManagerPage" >
             <ul class="m-secNav">
-                <li class="vertical"></li>
                 <li class="exportCustomer">导出</li>
                 <li class="delete">删除</li>
                 <li class="change_customers_to_employee">重分</li>
@@ -48,7 +47,22 @@
                 </form>
             </div>
             <div class="m-tableBox">
-                <div class="m-table table2">
+                <div class="m-table m-table-nav">
+                    <ul class="u-tabTitle">
+                        <li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
+                        <li>客户名称<i class="fa fa-caret-down"></i></li>
+                        <div class="clearfix"></div>
+                    </ul>
+                    {volist name="listdata" id="vo"}
+                    <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+                        <li class="u-tabCilentName customer_info_name_show">{$vo.customer_name}</li>                        
+                        <div class="clearfix"></div>
+                    </ul>
+                    {/volist}
+                </div>
+
+                <div class="m-table m-table-detail">
                     <ul class="u-tabTitle">
                         <li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
                         <li>客户名称<i class="fa fa-caret-down"></i></li>

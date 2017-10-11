@@ -6,6 +6,8 @@
 }
 .popUp header{
 	width: 100%;
+	position: relative !important;
+	top: 0 !important;
 	height: 50px !important;
 	background-color: #6b7a99 !important;
 	text-align: center;
