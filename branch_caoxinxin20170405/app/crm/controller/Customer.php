@@ -621,7 +621,8 @@ class Customer extends Initialize{
             $result['info'] = $ex->getMessage();
             return json($result);
         }
-        $result['info'] = "功能开发中！";
+        $result['status'] = 1;
+        $result['info'] = "变更客户成功！";
         return json($result);
     }
     public function take_customers_to_self(){

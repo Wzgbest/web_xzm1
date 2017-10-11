@@ -1403,7 +1403,7 @@ class Customer extends Base
      */
     public function takeCustomers($customer_ids,$uid){
         $map['handle_man'] = 0;
-        $map['belongs_to'] = 1;
+        $map['belongs_to'] = ["in",[1,2]];
         $map['id'] = ["in",$customer_ids];
         $data['belongs_to'] = 3;
         $data['handle_man'] = $uid;
@@ -1424,7 +1424,7 @@ class Customer extends Base
         if($uid){
             $map['handle_man'] = $uid;
         }
-        $map['belongs_to'] = 3;
+        $map['belongs_to'] = ["in",[3,4]];
         $map['id'] = ["in",$customer_ids];
         $data['belongs_to'] = 2;
         $data['handle_man'] = 0;

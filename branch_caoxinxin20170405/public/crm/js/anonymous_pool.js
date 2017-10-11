@@ -9,7 +9,7 @@ $("#high-seafr .anonymous_pool .u-tabList .u-tabOperation .take_customer").click
             //console.log(data);
             layer.msg(data.info,{icon:data.status==1?1:2});
             if(data.status) {
-                my_customer_list_manage.reload_list();
+                anonymous_pool_list_manage.reload_list();
             }
         },
         error: function() {
