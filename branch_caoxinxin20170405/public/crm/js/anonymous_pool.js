@@ -1,5 +1,6 @@
 $("#high-seafr .anonymous_pool .u-tabList .u-tabOperation .take_customer").click(function(){
-    var id = $(this).parent().siblings().children(":checkbox").val();
+    var id = $(this).parent().siblings(".u-tabCheckbox").children(":checkbox").val();
+    //console.log("id",id);
     $.ajax({
         url: '/crm/customer/take_customers_to_self',
         type: 'post',

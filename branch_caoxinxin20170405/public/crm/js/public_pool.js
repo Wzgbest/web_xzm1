@@ -1,5 +1,6 @@
-$("#high-seafr .anonymous_pool .u-tabList .u-tabOperation .take_public_customer").click(function(){
+$("#high-seafr .public_pool .u-tabList .u-tabOperation .take_public_customer").click(function(){
     var id = $(this).parent().siblings().children(":checkbox").val();
+    //console.log("id",id);
     $.ajax({
         url: '/crm/customer/take_public_customers_to_self',
         type: 'post',
