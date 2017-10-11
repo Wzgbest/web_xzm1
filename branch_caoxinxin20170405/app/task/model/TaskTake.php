@@ -61,6 +61,17 @@ class TaskTake extends Base{
     }
 
     /**
+     * 获取某条参与信息
+     * @param $id
+     * @return array|false|\PDOStatement|string|\think\Model
+     */
+    public function getTaskTakeInfoById($id){
+        return $this->model->table($this->table)
+            ->where("id",$id)
+            ->find();
+    }
+
+    /**
      * 已帮
      * @param $con
      * @return int|string
