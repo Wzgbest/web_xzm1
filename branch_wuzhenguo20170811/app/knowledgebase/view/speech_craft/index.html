@@ -221,3 +221,11 @@ $(".knowledgebase_speechcraft_index .batch-delete").click(function(){
     });
     // var pop1 = new popLoad("knowledgebase_speechcraft_index .delete-speech-list-container","/knowledgebase/speech_craft/delete_speech_list/",".knowledgebase_speechcraft_index .delete-speech-list");
 </script>
+<script type="text/javascript">
+    $(".knowledgebase_speechcraft_index .select_class").change(function(){
+        var url = "/knowledgebase/speech_craft/index/class_id/"+$(this).val();
+        var panel = 'speech-databasefr';
+        loadPage(url,panel);
+        $(".knowledgebase_speechcraft_index .in_column").eq(class_id).addClass("current").siblings().removeClass("current");
+    });
+</script>
