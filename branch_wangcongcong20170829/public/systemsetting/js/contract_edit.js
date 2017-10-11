@@ -176,3 +176,182 @@ $(".systemsetting_contract_edit .content").on("click",".apply_role .del",functio
     update_contract_setting_apply_html();
 });
 update_contract_setting_apply_html();
+
+
+//打款银行类型
+function contract_item_list_get_arr(target){
+    //console.log($(target).parent());
+    //console.log($(target).parent().siblings("[type=hidden]"));
+    var arr = [];
+    var arr_str = $(target).parent().siblings("[type=hidden]").val();
+    if(arr_str!=""){
+        arr = arr_str.split(",");
+    }
+    return arr;
+}
+function contract_item_list_set_arr(target,arr){
+    //console.log($(target).parent());
+    //console.log($(target).parent().siblings("[type=hidden]"));
+    var arr_str = "";
+    try{
+        arr_str += arr.join(",");
+    }catch (ex){
+        console.log(ex);
+    }
+    $(target).parent().siblings("[type=hidden]").val(arr_str);
+}
+function contract_item_list_get_html(target){
+    var arr = contract_item_list_get_arr(target);
+    console.log(arr);
+    var arr_html = "";
+    for(var item in arr){
+        arr_html+='<span class="redact">'+
+            '<span class="item_name">'+arr[item]+'</span>'+
+            '<img class="compile" src="/systemsetting/images/compile.png" />'+
+            '<img class="del" src="/systemsetting/images/del.png" />'+
+            '</span>';
+    }
+    return arr_html;
+}
+function contract_item_list_update_html(target,html){
+    //console.log($(target).parent().parent().children(".redact"));
+    $(target).parent().parent().children(".redact").addClass("hide");
+    $(target).parent().siblings(".add").before(html);
+    $(target).parent().parent().children(".hide").remove();
+}
+function contract_item_list_add(target,item_name){
+    var arr = contract_item_list_get_arr(target);
+    var flg = false;
+    for(var item in arr){
+        if(arr[item] == item_name){
+            console.log("find",arr[item],item_name);
+            flg = true;
+            break;
+        }
+    }
+    if(flg){
+        return false;
+    }
+    arr.push(item_name);
+    contract_item_list_set_arr(target,arr);
+    return true;
+}
+function contract_item_list_update(target,old_item_name,new_item_name){
+    var arr = contract_item_list_get_arr(target);
+    var flg = false;
+    for(var i=0;i<arr.length;i++){
+        if(arr[i] == old_item_name){
+            arr[i] = new_item_name;
+            flg = true;
+            break;
+        }
+    }
+    contract_item_list_set_arr(target,arr);
+    return flg;
+}
+function contract_item_list_del(target,item_name){
+    var arr = contract_item_list_get_arr(target);
+    var flg = false;
+    for(var i=0;i<arr.length;i++){
+        if(arr[i] == item_name){
+            arr.splice(i,1);
+            flg = true;
+            break;
+        }
+    }
+    contract_item_list_set_arr(target,arr);
+    return flg;
+}
+var contract_item_list_panel = '.systemsetting_contract_edit .content .later';
+$(contract_item_list_panel+" .add").click(function(){
+    console.log("add_item");
+    var add_item = $(this).siblings(".add_item");
+    if(add_item.length>0){
+        //console.log(add_item.children(".add_item_text"));
+        add_item.children(".add_item_text").focus();
+        return;
+    }
+    var item_html = '<span class="redact add_item temp_item">' +
+        '<input type="text" class="item_text add_item_text" value=""/>' +
+        '<i class="fa fa-check item_btn item_check add_item_check"></i>' +
+        '<i class="fa fa-remove item_btn item_remove add_item_remove"></i>' +
+        '</span>';
+    $(this).before(item_html);
+});
+$(contract_item_list_panel).on('click',".add_item .add_item_check",function(){
+    var add_item_name = $(this).siblings(".add_item_text").val();
+    console.log(add_item_name);
+    if(!add_item_name){
+        return;
+    }
+    //add
+    var add_flg = contract_item_list_add(this,add_item_name);
+    console.log(add_flg);
+    if(add_flg){
+        var new_html = contract_item_list_get_html(this);
+        console.log(new_html);
+        contract_item_list_update_html(this,new_html);
+    }
+});
+$(contract_item_list_panel).on('click',".add_item .add_item_remove",function(){
+    $(this).parent().remove();
+});
+$(contract_item_list_panel).on('click',".redact .compile",function(){
+    var edit_item = $(this).siblings(".edit_item_text");
+    if(edit_item.length>0){
+        console.log(edit_item);
+        edit_item.focus();
+        return;
+    }
+    var edit_item_text = $(this).siblings(".item_name").text();
+    $(this).siblings(".item_name").addClass("hide");
+    $(this).addClass("hide");
+    $(this).siblings(".del").addClass("hide");
+    var edit_html = '<input type="text" class="item_text edit_item_text" value="'+edit_item_text+'"/>' +
+        '<i class="fa fa-check item_btn item_check edit_item_check"></i>' +
+        '<i class="fa fa-remove item_btn item_remove edit_item_remove"></i>';
+    $(this).parent().append(edit_html);
+});
+$(contract_item_list_panel).on('click',".redact .edit_item_check",function(){
+    var edit_item_name = $(this).siblings(".edit_item_text").val();
+    console.log(edit_item_name);
+    if(!edit_item_name){
+        return;
+    }
+    var edit_item_text = $(this).siblings(".item_name").text();
+    console.log(edit_item_text);
+    if(!edit_item_text){
+        return;
+    }
+    //edit
+    var edit_flg = contract_item_list_update(this,edit_item_text,edit_item_name);
+    console.log(edit_flg);
+    if(edit_flg){
+        var new_html = contract_item_list_get_html(this);
+        console.log(new_html);
+        contract_item_list_update_html(this,new_html);
+    }
+});
+$(contract_item_list_panel).on('click',".redact .edit_item_remove",function(){
+    $(this).siblings(".item_name").removeClass("hide");
+    $(this).siblings(".compile").removeClass("hide");
+    $(this).siblings(".del").removeClass("hide");
+    $(this).siblings(".edit_item_text").remove();
+    $(this).siblings(".edit_item_check").remove();
+    $(this).remove();
+});
+$(contract_item_list_panel).on('click',".redact .del",function(){
+    var del_item_text = $(this).siblings(".item_name").text();
+    console.log(del_item_text);
+    if(!del_item_text){
+        return;
+    }
+    //del
+    var del_flg = contract_item_list_del(this,del_item_text);
+    console.log(del_flg);
+    if(del_flg){
+        var new_html = contract_item_list_get_html(this);
+        console.log(new_html);
+        contract_item_list_update_html(this,new_html);
+    }
+});

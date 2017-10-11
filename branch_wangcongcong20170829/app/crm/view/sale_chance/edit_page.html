@@ -95,7 +95,8 @@
                                 <option value="{$key-1}" {eq name='voc.contract_id' value='$key-1'} selected="selected"{/eq}>{$vo.contract_no}</option>
                             {/volist}
                         </select>
-                        <input type="hidden"  value='{$contract_type_name_json}'/>
+                        <input type="hidden" class="contract_type_name" value='{$contract_type_name_json}'/>
+                        <input type="hidden" class="contract_bank_name" value='{$contract_bank_name_json}'/>
                         <span class="cont">合同类型</span>
                         <span class="cont-x contract_type">------</span>
                     </div>
@@ -106,14 +107,17 @@
                         <input type="text" placeholder="请输入打款金额" name="pay_money" value="{empty name='voc.pay_money'}{$sale_chance.guess_money}{else/}{$voc.pay_money}{/empty}" />
                     </div>
                     <div>
-                        <span class="cont">打款方名称</span>
-                        <input type="text" placeholder="请输入打款方名称" name="pay_name" value="{empty name='voc.pay_name'}{$customer.customer_name}{else/}{$voc.pay_name}{/empty}" />
                         <span class="cont">打款方式</span>
                         <div class="u-inlineRadio">
                             <input type="radio" name="pay_type_{$keyc}" {eq name='voc.pay_type' value='1'} checked="checked"{/eq} value="1"/>现金
                             <input type="radio" name="pay_type_{$keyc}" {neq name='voc.pay_type' value='1'} checked="checked"{/neq} value="2"/>银行转账
+                            <select name="pay_bank_{$keyc}" class="pay_bank">
+                                <option value="">无</option>
+                            </select>
+                            <input type="hidden" class="pay_bank_default" value='{$voc.pay_bank}'/>
                         </div>
-                        <input type="hidden" name="pay_bank" value="" />
+                        <span class="cont">打款方名称</span>
+                        <input type="text" placeholder="请输入打款方名称" name="pay_name" value="{empty name='voc.pay_name'}{$customer.customer_name}{else/}{$voc.pay_name}{/empty}" />
                     </div>
                     <div>
                         <span class="cont-max-max">预计合同到期时间</span>
