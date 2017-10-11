@@ -33,16 +33,16 @@
 .m-tableBox{
 	width: 100%;
 	margin-top: 20px;
-	margin-left: 4px;
+	/*margin-left: 4px;*/
 	overflow-x: auto;
 	font-size: 12px;
 }
 .table1{
 	width: 2096px;
 }
-.table2{
+/*.table2{
 	width: 1685px;
-}
+}*/
 .table3{
 	width: 1000px;
 }
@@ -70,6 +70,31 @@
 .table-bill{
 	width: 1959px;
 }
+.m-table-nav{
+	position: absolute;
+	box-shadow: 1px 0px 0px 0px rgba(209, 209, 209, 0.2);
+}
+/*列表重构*/
+/*客户管理列表*/
+.crm_customer_manage .m-table-nav{
+	width: 178px;
+}
+.crm_customer_manage .m-table-detail{
+	width: 1548px;
+}
+/*我的客户列表*/
+.crm_my_customer .m-table-nav{
+	width: 315px;
+}
+.crm_my_customer .m-table-detail{
+	width: 2233px;
+}
+.crm_public_pool .m-table-nav{
+	width: 315px;
+}
+.crm_public_pool .m-table-detail{
+	width: 1000px;
+}
 /*审核*/
 .table-v-index{
 	width: 2256px;
@@ -85,6 +110,7 @@
 }
 .m-table ul{
 	border-bottom: 1px solid #eeeeee;
+	background-color: #fff;
 }
 .m-table ul:nth-child(2n+1){
 	background-color: #f8f9fa;
