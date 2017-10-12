@@ -77,7 +77,7 @@
     color: #999999;
 }
 
-.customer_setting_edit #content {
+.customer_setting_edit .content {
     width: 100%;
     /*width: 1120px;*/
     height: 800px;
@@ -88,18 +88,18 @@
     padding-top: 21px;
 }
 
-.customer_setting_edit #content p {
+.customer_setting_edit .content p {
     margin-bottom: 14px;
     margin-left: 34px;
     /*background-color: red;*/
 }
 
-.customer_setting_edit #content .p5 {
+.customer_setting_edit .content .p5 {
     margin-top: 89px;
     margin-left: 340px;
 }
 
-.customer_setting_edit #content .p5 input {
+.customer_setting_edit .content .p5 input {
     width: 100px;
     height: 41px;
     border-radius: 10px;
@@ -109,7 +109,7 @@
     border: 1px solid #dcdcdc;
 }
 
-.customer_setting_edit #content .p5 button {
+.customer_setting_edit .content .p5 button {
     width: 100px;
     height: 41px;
     border-radius: 10px;
@@ -118,7 +118,7 @@
     border: 1px solid #dcdcdc;
 }
 
-.customer_setting_edit #content .sp1 {
+.customer_setting_edit .content .sp1 {
     display: inline-block;
     width: 180px;
     text-align: right;
@@ -126,7 +126,7 @@
     font-size: 14px;
 }
 
-.customer_setting_edit #content input {
+.customer_setting_edit .content input {
     width: 100px;
     padding-left: 10px;
     padding-right: 10px;
@@ -134,11 +134,11 @@
     margin-right: 16px;
 }
 
-.customer_setting_edit #content .p6 {
+.customer_setting_edit .content .p6 {
     margin-top: 20px;
 }
 
-.customer_setting_edit #content .p6 input {
+.customer_setting_edit .content .p6 input {
     width: 14px;
     height: 14px;
     margin: 0;
@@ -147,7 +147,7 @@
     vertical-align: middle;
 }
 
-.customer_setting_edit #content .sp2 {
+.customer_setting_edit .content .sp2 {
     display: inline-block;
     width: 350px;
     text-align: right;
@@ -156,11 +156,121 @@
     text-align: left;
 }
 
-.customer_setting_edit #content .sp {
+.customer_setting_edit .content .sp {
     font-size: 14px;
 }
 
-.customer_setting_edit #content .sp3 {
-    margin-right: 20px;
+.customer_setting_edit .content .sp3 {
+    /*margin-right: 20px;*/
     vertical-align: middle;
+}
+
+.customer_setting_edit .content .sp6 {
+    margin-left: 0px;
+    vertical-align: middle;
+    color: #bebebe;
+}
+
+.customer_setting_edit .content .fuxuan {
+    width: 160px;
+    height: 35px;
+    background-color: #eaf2fe;
+    color: #42a5f5;
+    text-align: center;
+    line-height: 35px;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    float: left;
+}
+
+.customer_setting_edit .content .yixuan {
+    width: 450px;
+    height: 35px;
+    /*background-color: #eaf2fe;*/
+    color: #42a5f5;
+    text-align: left;
+    line-height: 35px;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    float: left;
+}
+
+.customer_setting_edit .content p.yixuan span {
+    color: #000;
+    margin-right: 30px;
+}
+
+.customer_setting_edit .content .fuxuan i {
+    margin-left: 20px;
+}
+
+.customer_setting_edit .content div.xuanze {
+    display: none;
+    width: 160px;
+    height: 320px;
+    border: 1px solid #C0C0C0;
+    float: left;
+    margin-top: 0px;
+    background-color: #fff;
+    margin-left: 3px;
+}
+
+.customer_setting_edit .content div.xuanzhong {
+    display: none;
+    width: 160px;
+    height: 320px;
+    border: 1px solid #C0C0C0;
+    float: left;
+    margin-top: 0px;
+    background-color: #fff;
+    margin-left: 0px;
+}
+
+.customer_setting_edit .content .xuanze ul {}
+
+.customer_setting_edit .content .xuanze ul li {
+    width: 160px;
+    height: 32px;
+    /*border-bottom: 1px solid red;*/
+    line-height: 32px;
+}
+
+.customer_setting_edit .content .xuanze ul li input {
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+}
+
+.customer_setting_edit .content .xuanzhong p {
+    width: 160px;
+    height: 35px;
+    background-color: #f2f2f2;
+    color: #a3a3a3;
+    text-align: center;
+    line-height: 35px;
+    margin-left: 0;
+    margin-bottom: 0px;
+}
+
+.customer_setting_edit .content .xuanzhong li {
+    width: 160px;
+    height: 32px;
+    /*border-bottom: 1px solid red;*/
+    margin-left: 20px;
+    line-height: 32px;
+}
+
+.customer_setting_edit .content .xuanzhong li img {
+    margin-left: 30px;
+}
+
+.customer_setting_edit .content .xuanzhong .wancheng {
+    width: 90px;
+    height: 30px;
+    background-color: #42a5f5;
+    color: #fff;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 10px;
+    margin: 40px auto 10px;
 }
