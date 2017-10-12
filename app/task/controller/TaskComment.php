@@ -18,9 +18,9 @@ class TaskComment extends Initialize{
 			$this->error("参数错误");
 		}
 		$taskCommentModel = new TaskCommentModel($this->corp_id);
-		$commont_list = $taskCommentModel->getAllTaskComment($id);
-		//var_exp($commont_list,'$commont_list');
-		$this->assign('commont_list',$commont_list);
+		$comment_list = $taskCommentModel->getAllTaskComment($id);
+		//var_exp($comment_list,'$comment_list');
+		$this->assign('comment_list',$comment_list);
 		return view();
 	}
 	/**

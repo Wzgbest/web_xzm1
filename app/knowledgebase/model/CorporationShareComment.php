@@ -74,12 +74,12 @@ class CorporationShareComment extends Base{
 
     /**
      * 根据评论id评论
-     * @param $commont_id int 评论id
+     * @param $comment_id int 评论id
      * @return array
      * @throws \think\Exception
      */
-    public function getOneComment($commont_id){
-        $map["id"] = $commont_id;
+    public function getOneComment($comment_id){
+        $map["id"] = $comment_id;
         $corporationShareComment = $this->model
             ->table($this->table)
             ->where($map)
