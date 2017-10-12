@@ -14,6 +14,9 @@ use app\task\model\EmployeeTask as EmployeeTaskModel;
 use app\task\model\TaskComment as TaskCommentModel;
 use app\common\model\Employee;
 use app\task\model\TaskTake;
+use app\huanxin\model\TakeCash;
+use app\task\model\TaskGuess as TaskGuessModel;
+use app\task\model\TaskTip as TaskTipModel;
 
 class EmployeeTask extends Initialize{
 
@@ -329,15 +332,98 @@ class EmployeeTask extends Initialize{
      */
     public function task_end(){
         $task_id=input('task_id',0,'int');
-        $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
+        $employeeTaskM = new EmployeeTaskModel($this->corp_id);
+        $taskInfo = $employeeTaskM->getTaskInfo($task_id);
         $redata['success']=false;
         $redata['msg']='操作失败';
-        $result=$employeeTaskModel->setTaskStatus($task_id,'',0);//终止任务
-        if($result)
-        {
-            $redata['success']=true;
-            $redata['msg']='操作成功';
+        $time = time();
+        try{
+            $employeeM = new Employee($this->corp_id);
+            $cashM = new TakeCash($this->corp_id);
+            $taskGuessM = new TaskGuessModel($this->corp_id);
+            $taskTipM = new TaskTipModel($this->corp_id);
+            $employeeTaskM->link->startTrans();
+            $result=$employeeTaskM->setTaskStatus($task_id,'',0);//终止任务
+            if(!$result){
+                exception("更新任务状态发生错误!");
+            }
+            $returnMoney = $taskInfo["reward_count"];
+
+            $order_datas = [];
+
+            $order_add_data = [
+                'userid'=>$taskInfo["create_employee"],
+                'take_money'=> $returnMoney,
+                'status'=>1,
+                'took_time'=>$time,
+                'remark' => '任务终止退回'
+            ];
+            $order_datas[] = $order_add_data;
+            $taskGuessAndTipMoneyEmployeeIdx = [];
+
+            //返还打赏记录
+            $taskTipInfoList = $taskTipM->getTipMoneyList($task_id);
+            foreach($taskTipInfoList as $taskTipInfo){
+                $order_add_data = [
+                    'userid'=>$taskTipInfo["tip_employee"],
+                    'take_money'=> $taskTipInfo["tip_money"],
+                    'status'=>1,
+                    'took_time'=>$time,
+                    'remark' => '猜输赢任务终止退回'
+                ];
+                $order_datas[] = $order_add_data;
+                if(isset($taskGuessAndTipMoneyEmployeeIdx[$taskTipInfo["tip_employee"]])){
+                    $taskGuessAndTipMoneyEmployeeIdx[$taskTipInfo["tip_employee"]] += $taskTipInfo["tip_money"];
+                }else{
+                    $taskGuessAndTipMoneyEmployeeIdx[$taskTipInfo["tip_employee"]] = $taskTipInfo["tip_money"];
+                }
+            }
+
+            //返还猜输赢记录
+            $taskGuessInfoList = $taskGuessM->getGuessInfoList($task_id);
+            foreach($taskGuessInfoList as $taskGuessInfo){
+                $order_add_data = [
+                    'userid'=>$taskGuessInfo["guess_employee"],
+                    'take_money'=> $taskGuessInfo["guess_money"],
+                    'status'=>1,
+                    'took_time'=>$time,
+                    'remark' => '猜输赢任务终止退回'
+                ];
+                $order_datas[] = $order_add_data;
+                $taskGuessAndTipMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] += $taskGuessInfo["guess_money"];
+            }
+
+            //var_exp($order_datas,'$order_datas_task_fail');
+            $add_cash_rec = $cashM->addMutipleOrderNumber($order_datas);
+            if (!$add_cash_rec) {
+                exception("添加任务终止退回记录发生错误!");
+            }
+
+            //返还任务金额
+            $returnMoney = bcmul($returnMoney,100,0);
+            $employeeInfoMap = ["frozen_money"=>["egt",$returnMoney]];
+            $employeeInfo["frozen_money"] = ['exp',"frozen_money - $returnMoney"];
+            $employeeInfo["left_money"] = ['exp',"left_money + ".$returnMoney];
+            $update_user = $employeeM->setEmployeeSingleInfoById($taskInfo["create_employee"],$employeeInfo,$employeeInfoMap);
+            if (!$update_user) {
+                exception("更新返还任务冻结金额发生错误!");
+            }
+
+            //返还打赏猜输赢等用户额度
+            foreach($taskGuessAndTipMoneyEmployeeIdx as $employee_id=>$money){
+                $employeeInfo["left_money"] = ['exp',"left_money + ".bcmul($money,100,0)];
+                $update_user = $employeeM->setEmployeeSingleInfoById($employee_id,$employeeInfo,$employeeInfoMap);
+                if (!$update_user) {
+                    exception("返还打赏猜输赢金额发生错误!");
+                }
+            }
+            $employeeTaskM->link->commit();
+        }catch(\Exception $ex){
+            $employeeTaskM->link->rollback();
+            return json($redata);
         }
+        $redata['success']=true;
+        $redata['msg']='操作成功';
         return json($redata);
     }
 
