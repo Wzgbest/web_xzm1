@@ -258,8 +258,16 @@ function new_task_form(load_table){
         var target_customer=$(form_sel+" [name='target_customer']").val();//帮忙跟进的客户
         var target_description=$(form_sel+" [name='target_description']").val();//其他需求
 
+        var task_start_time = $(form_sel+" [name='task_start_time']").val();
+        var task_end_time = $(form_sel+" [name='task_end_time']").val();
+
         if(task_name==''){
             layer.msg('请输入任务名称!',{icon:2});
+            return false;
+        }
+
+        if (task_start_time>=task_end_time || !task_start_time || !task_end_time) {
+            layer.msg('任务周期错误!',{icon:2});
             return false;
         }
 
@@ -331,6 +339,20 @@ function new_task_form(load_table){
                 reward_array.push(reward_object);
             }
         }else if(task_type==2){
+                var task_take_start_time = $(form_sel+" [name='task_take_start_time']").val();
+                var task_take_end_time = $(form_sel+" [name='task_take_end_time']").val();
+                if (task_take_start_time>=task_take_end_time || !task_take_start_time || !task_take_end_time) {
+                    layer.msg('任务加入时间错误!',{icon:2});
+                    return false;
+                }
+                if (task_start_time>task_take_start_time) {
+                    layer.msg('任务领取开始时间不能小于统计开始时间!',{icon:2});
+                    return false;
+                }
+                if (task_take_end_time>task_end_time) {
+                    layer.msg('任务领取结束时间不能大于统计结束时间!',{icon:2});
+                    return false;
+                }
             var num = $(form_sel+" [name='reward_num']").val();
             money = $(form_sel+" [name='reward_amount']").val();
             var reward_object = {
@@ -340,6 +362,20 @@ function new_task_form(load_table){
             };
             reward_array.push(reward_object);
         }else if(task_type==3){
+                var task_take_start_time = $(form_sel+" [name='task_take_start_time']").val();
+                var task_take_end_time = $(form_sel+" [name='task_take_end_time']").val();
+                if (task_take_start_time>=task_take_end_time || !task_take_start_time || !task_take_end_time) {
+                    layer.msg('任务加入时间错误!',{icon:2});
+                    return false;
+                }
+                if (task_start_time>task_take_start_time) {
+                    layer.msg('任务领取开始时间不能小于统计开始时间!',{icon:2});
+                    return false;
+                }
+                if (task_take_end_time>task_end_time) {
+                    layer.msg('任务领取结束时间不能大于统计结束时间!',{icon:2});
+                    return false;
+                }
             var num = $(form_sel+" [name='reward_num']").val();
             var amount = $(form_sel+" [name='reward_amount']").val();
             money = num*amount;

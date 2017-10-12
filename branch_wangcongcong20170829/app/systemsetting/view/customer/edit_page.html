@@ -15,7 +15,7 @@
         </ul>
 
     </div>
-    <div id="content">
+    <div class="content">
         <form name="form_customer_setting" class="form_customer_setting" onsubmit="return false;" method="post">
         <p>
             <span class="sp1">客户设置名称</span>
@@ -65,16 +65,34 @@
                    {eq name="customerSetting.public_sea_seen" value="1"} checked="checked"{/eq}
             / value="1"><span class="sp3">显示</span>
         </p>
-        <p class="p6">
-            <span class="sp1">该设置对应部门</span>
-            {volist name="structures" id="vo"}
-                {if	condition="in_array($vo.id,$customerSetting.set_to_structure_arr)"}
-                    <input type="checkbox" name="set_to_structure[]" value="{$vo.id}" checked="checked"/><span class="sp3">{$vo.struct_name}</span>
-                {else/}
-                    <input type="checkbox" name="set_to_structure[]" value="{$vo.id}"/><span class="sp3">{$vo.struct_name}</span>
-                {/if}
-            {/volist}
-        </p>
+        <p class="fuxuan">该设置对应部门<i class="fa fa-sort-desc"></i></p>
+        <p class="yixuan"></p>
+        <div style="clear: both">
+            <div class="xuanze">
+                <ul>
+                    {volist name="structures" id="vo"}
+                        {if	condition="in_array($vo.id,$customerSetting.set_to_structure_arr)"}
+                            <li><input type="checkbox" name="set_to_structure[]" checked="checked" value="{$vo.id}"/><span class="sp3">{$vo.struct_name}</span></li>
+                        {else/}
+                            <li><input type="checkbox" name="set_to_structure[]" value="{$vo.id}"/><span class="sp3">{$vo.struct_name}</span></li>
+                        {/if}
+                    {/volist}
+                </ul>
+            </div>
+
+
+            <div class="xuanzhong">
+                <p>已选择4个对象</p>
+                <ul>
+                    {volist name="structures" id="vo"}
+                        {if	condition="in_array($vo.id,$customerSetting.set_to_structure_arr)"}
+                            <li index="{$vo.id}">{$vo.struct_name}<img src="/systemsetting/images/delelet.png" index="{$vo.id}"></li>
+                        {/if}
+                    {/volist}
+                </ul>
+                <p class="wancheng">完成</p>
+            </div>
+        </div>
 
         <p class="p5">
             <input type="hidden" name="id" value="{$customerSetting.id}"/>
@@ -104,5 +122,51 @@
 
             },
         });
+    });
+
+    $('.customer_setting_edit .xuanze').on('click', "input", function() {
+        var index = $(this).val() //index为input的自定义index
+        if ($(this).prop('checked') == true) {
+            var main = $(this).next().html();
+            $('.customer_setting_edit .xuanzhong ul').append('<li index = ' + index + '>' + main + '<img src=' + "/systemsetting/images/delelet.png" + ' index = "' + index + '"/></li>')
+        } else {
+            $('.customer_setting_edit .xuanzhong ul li').each(function() {
+                if ($(this).attr('index') == index) {
+                    $(this).remove();
+                }
+            })
+        }
+    });
+    $('.customer_setting_edit .xuanzhong').on('click', "ul li img", function() {
+        var index1 = $(this).val();
+        //      var This = $(this)
+        var T = $(this)
+        $('.customer_setting_edit .xuanze input').each(function() {
+            if ($(this).val() == index1) {
+                $(this).prop('checked', false);
+                $(T).parent().remove();
+            }
+        })
+    });
+
+    $('.customer_setting_edit .fuxuan').click(function() {
+        //  	$('.fuxuan i').toggleClass()
+        $('.customer_setting_edit .xuanze').toggle();
+        $('.customer_setting_edit .xuanzhong').toggle();
+    });
+    $(".customer_setting_edit .wancheng").click(function() {
+        //  	console.log($(this).siblings())
+        //  	var content=$(this).siblings().text();
+        //
+        //  	$('.customer_setting_edit .yixuan').add(content)
+        $(".customer_setting_edit .yixuan").empty();
+        $(".customer_setting_edit .xuanzhong ul li").each(function() {
+            var content = $(this).text();
+            //			$('.customer_setting_edit .yixuan').append(content)
+            $('.customer_setting_edit .yixuan').append('<span >' + content + '</span>')
+        });
+
+        $('.customer_setting_edit .xuanze').css('display', 'none');
+        $('.customer_setting_edit .xuanzhong').css('display', 'none')
     });
 </script>
