@@ -1049,6 +1049,9 @@ function task_details(load_table,id,type){
                     //TODO 成功打赏
                     $(".task_details .tip").html('继续打赏');//详情页的状态更新
                     $(".task_"+self.id+" .details .tip").html('继续打赏');//列表页的状态更新
+                    self.update_tip();
+                    var pre_money=Number($(".explain .orange").text());
+                    $(".explain .orange").text(pre_money+Number(money));
 
                 }
             });
@@ -1363,6 +1366,12 @@ function task_details(load_table,id,type){
                     if(data.status){
                         //评论成功
                          self.update_comment();
+
+                         var comment_str=$(".dv3 .title").text();
+                         var comment_count=Number(comment_str.substring(comment_str.indexOf("（")+1,comment_str.indexOf("）")))+1;
+                         $(".dv3 .title").text("评论（"+Number(comment_count)+"）");
+                         $(".task_"+task_id+" .within .comment div .comment_incentive").next().text(comment_count);
+
                          that.removeAttr('comment_id');
                          that.parents('.up').children('.content ').val('');
                          that.parents('.up').children('.content ').attr('placeholder','请输入评论')
