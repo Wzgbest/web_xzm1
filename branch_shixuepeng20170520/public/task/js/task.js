@@ -910,9 +910,14 @@ function task_list(target){
 
     $(task_list_sel+" article").on("click",".right .end_task",function(e){
         e.stopPropagation();
+        var that=$(this);
         // console.log('终止任务');
-        task_end($(this).attr('data-id'),function(data){
+        task_end(that.attr('data-id'),function(data){
             layer.msg(data.msg,{icon:data.success==true?1:2});
+            if(data.success){
+                //终止成功
+                that.parents('.details').html('<p class="p3">任务被终止</p>');
+            }
         });
     });
 
@@ -965,7 +970,7 @@ function task_details(load_table,id,type){
             }
         });
     };
-    this.update_commont=function(){
+    this.update_comment=function(){
         $.ajax({
             url: '/task/task_comment/show/id/'+self.id,
             type: 'get',
@@ -1041,7 +1046,7 @@ function task_details(load_table,id,type){
     // }
     self.update_ranking();
     self.update_tip();
-    self.update_commont();
+    self.update_comment();
 
     //领小红包
     $(task_details_sel+" article .dv2 .left .box img").click(function() {
@@ -1282,7 +1287,7 @@ function task_details(load_table,id,type){
                     layer.msg(data.info,{icon:data.status==1?1:2});
                     if(data.status){
                         //评论成功
-                         self.update_commont();
+                         self.update_comment();
                          that.removeAttr('comment_id');
                          that.parents('.up').children('.content ').val('');
                          that.parents('.up').children('.content ').attr('placeholder','请输入评论')
@@ -1293,8 +1298,13 @@ function task_details(load_table,id,type){
         });
     $(task_details_sel+" article").on("click",".right .end_task",function(){
         // console.log('终止任务');
-        task_end($(this).attr('data-id'),function(data){
+        var that=$(this);
+        task_end(that.attr('data-id'),function(data){
             layer.msg(data.msg,{icon:data.success==true?1:2});
+            if(data.success){
+                //终止成功
+                that.parents('.details').html('<p class="p3">任务被终止</p>');
+            }
         });
     });
     $(task_details_sel+" .dv2").on("click",".box li .help",function(){

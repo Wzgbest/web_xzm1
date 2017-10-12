@@ -19,9 +19,11 @@
                     <input type="text" name="key_word" placeholder="请输入关键字" value=""/>
                     <button class="u-btnSearch" onclick="search_article()">查询</button>
                 </form>
+                {eq name="is_leader" value="1"}
                 <div class="batch-manage fl">
                     <span class="out hide">退出</span>批量管理
                 </div>
+                {/eq}
                 <div class="batch-delete hide">
                     批量删除
                 </div>               
