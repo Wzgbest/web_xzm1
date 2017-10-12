@@ -113,10 +113,10 @@ function get_bill_setting_handle_html(){
             bill_setting_handle.create_bill_num+
             '"/></div>';
         add_html += '<span class="num_tip">填写发票号</span>';
-        add_html += '<img src="/systemsetting/images/delelet.png" class="img2 del" />';
         if(bill_setting_handle_max>(i+1)){
             add_html += '<img src="/systemsetting/images/plus.jpg" class="img2 add" />';
         }
+        add_html += '<img src="/systemsetting/images/delelet.png" class="img2 del" />';
         add_html += '</p></div>';
         html+=add_html;
     }

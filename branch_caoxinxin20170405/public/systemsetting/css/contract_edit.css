@@ -108,7 +108,7 @@ ol {
 .systemsetting_contract_edit .content div {
     width: 496px;
     height: 54px;
-    float: left;
+    /*float: left;*/
 }
 
 .systemsetting_contract_edit .content div span {
@@ -321,8 +321,8 @@ ol {
 .systemsetting_contract_edit .content .apply_role .add{
     display: none;
     position: relative;
-    left: 340px;
-    top:-40px
+    left: 320px;
+    top:-60px
 }
 .systemsetting_contract_edit .content .apply_role:nth-last-child(3) .add{
     display: inline-block;
@@ -331,7 +331,7 @@ ol {
     display: none;
     position: relative;
     left: 330px;
-    top:-40px
+    top:-60px
 }
 .systemsetting_contract_edit .content .apply_role:hover .del{
     display: inline-block;
