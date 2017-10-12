@@ -47,7 +47,7 @@
             {volist name="all_article" id="vo"}
                 {eq name="vo.in_show" value="1"}
                 <!-- onclick="article_info_show('{$vo.id}');" -->
-                <li class="" data-status = "true"; data-craft-id="{$vo.id}" onclick="article_info_show('{$vo.id}',this);" {eq name="vo.in_top" value="1"} class="speech-hot" {/eq}>
+                <li class="" data-status = "true"; data-craft-id="{$vo.id}"  {eq name="vo.in_top" value="1"} class="speech-hot" {/eq}>
                     <input type="checkbox" value="{$vo.id}" />
                     <h1>{$vo.article_name}{eq name="vo.in_top" value="1" }<span class="hot">置顶</span>{/eq}</h1>
                     <h2>{$vo.article_content}</h2>
@@ -60,7 +60,7 @@
                     <h3>更新时间：<span>{$vo.article_edit_time|time_format}</span></h3>
                     {if condition="$vo.add_user eq $uid"}
                     <div class="controler">
-                        <div class="edit3" onclick="edit_article_info('{$vo.id}',this);"><i class="fa fa-file-text-o fa-2x"></i></div>
+                        <div class="edit3" data-id="{$vo.id}" ><i class="fa fa-file-text-o fa-2x"></i></div>
                         <div class="delete" data-id="{$vo.id}"><i class="fa fa-trash-o fa-2x"></i></div>
                     </div>
                     {/if}
@@ -98,6 +98,15 @@
         }*/
     }
 }
+$(".knowledgebase_speechcraft_index .speech-list li .controler").click(function(){
+
+    console.log(111);
+    edit_article_info($(this).attr("data-id"),this);
+});
+$(".knowledgebase_speechcraft_index .speech-list li").click(function(){
+
+    article_info_show($(this).attr("data-craft-id"),this);
+});
 function search_article(){
     var key_word = $("input[name='key_word']").val();
     // alert(key_word);

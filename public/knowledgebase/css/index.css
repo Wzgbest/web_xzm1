@@ -122,7 +122,7 @@
 	margin-bottom: 10px;
 }
 .speech-list .hot{
-	display: none;
+	display: inline-block;
 	width: 40px;
 	height: 18px;
 	margin:0 0 7px 10px;
