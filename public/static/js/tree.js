@@ -45,6 +45,7 @@ function tree(config) {
             var plus_str = '';
             var child_str = '';
             var is_last_node = false;
+            var is_open = node_item["is_open"]==1;
             if(i+1==node_length){
                 class_str+=" is_last";
                 is_last_node = true;
@@ -66,15 +67,15 @@ function tree(config) {
                 }
             }
             if(node_item.hasOwnProperty("child")){
-                child_str+='<div class="child_list child_list'+node_item["id"]+' hide">';
+                child_str+='<div class="child_list child_list'+node_item["id"]+' '+(is_open?"":"hide")+'">';
                 var head_sub = head.concat();
                 head_sub.push(is_last_node);
                 child_str+=self.get_html(node_item["child"],head_sub);
                 child_str+='</div>';
-                plus_str+='<img class="node_head node_plus" src="/static/images/none.png"/>';
+                plus_str+='<img class="node_head node_plus'+(is_open?" node_sub":"")+'" src="/static/images/none.png"/>';
             }else{
                 class_str+=" is_leaf";
-                child_str+='<div class="child_list child_list'+node_item["id"]+' hide">';
+                child_str+='<div class="child_list child_list'+node_item["id"]+' '+(is_open?"":"hide")+'">';
                 child_str+='</div>';
                 plus_str+='<img class="node_head node_leaf" src="/static/images/none.png"/>';
             }
@@ -95,17 +96,106 @@ function tree(config) {
         return html;
     };
 
+    this.open_item_to_data=function(id,data){
+        console.log("id",id);
+        console.log("name",name);
+        console.log("data",data);
+        if(data["id"]==id){
+            data["is_open"] = 1;
+            //$(this.target+" .node_item"+id+" .node_name").html(name);
+        }else{
+            for(var idx in data["child"]){
+                this.open_item_to_data(id,data["child"][idx]);
+            }
+        }
+    };
+
+    this.close_item_to_data=function(id,data){
+        console.log("id",id);
+        console.log("name",name);
+        console.log("data",data);
+        if(data["id"]==id){
+            data["is_open"] = 0;
+            //$(this.target+" .node_item"+id+" .node_name").html(name);
+        }else{
+            for(var idx in data["child"]){
+                this.close_item_to_data(id,data["child"][idx]);
+            }
+        }
+    };
+
+    this.add_item_to_data=function(id,pid,name,data){
+        console.log("id",id);
+        console.log("pid",pid);
+        console.log("name",name);
+        console.log("data",data);
+        if(data["id"]==pid){
+            data["child"].unshift({
+                groupid:null,
+                id:id,
+                struct_en: null,
+                struct_intro: null,
+                struct_leader: null,
+                struct_name: name,
+                struct_pid: pid
+            });
+            //var item_html = "<div>123123</div>";
+            //$(this.target+" .node"+pid+" .child_list"+pid).prepend(item_html);
+        }else{
+            for(var idx in data["child"]){
+                this.add_item_to_data(id,pid,name,data["child"][idx]);
+            }
+        }
+    };
+    this.update_item_to_data=function(id,name,data){
+        console.log("id",id);
+        console.log("name",name);
+        console.log("data",data);
+        if(data["id"]==id){
+            data["struct_name"] = name;
+            //$(this.target+" .node_item"+id+" .node_name").html(name);
+        }else{
+            for(var idx in data["child"]){
+                this.update_item_to_data(id,name,data["child"][idx]);
+            }
+        }
+    };
+    this.del_item_to_data=function(id,data){
+        console.log("id",id);
+        console.log("data",data);
+        for(var idx in data["child"]){
+            if(data["child"][idx]["id"]==id){
+                data["child"].splice(idx,1);
+                //$(this.target+" .node_item"+id).remove();
+            }else{
+                this.del_item_to_data(id,data["child"][idx]);
+            }
+        }
+    };
+
     //load and listen
     this.listen=function(name,fun){
         if(this.listen_arr.hasOwnProperty(name)){
             this.listen_arr[name] = fun;
         }
     };
-    this.update=function(){
+    this.reload=function(){
         this.tree_html = '<div class="five_tree">'+this.get_html(this.data,[true])+'</div>';
         $(this.target).html(this.tree_html);
     };
-    this.update();
+    this.add=function(id,pid,name){
+        this.add_item_to_data(id,pid,name,this.data[0]);
+        this.reload();
+    };
+    this.update=function(id,name){
+        this.update_item_to_data(id,name,this.data[0]);
+        this.reload();
+    };
+    this.del=function(id){
+        this.del_item_to_data(id,this.data[0]);
+        this.reload();
+    };
+    this.reload();
     this.getItem=function(sel_lab){
         return $(sel_lab).parent().parent();
     };
@@ -117,19 +207,20 @@ function tree(config) {
     };
     $(this.target).on('click','.node_plus',function(){
         var is_plus = !$(this).hasClass("node_sub");
-        if(is_plus){
+        var id = self.getId(this);
+        if(is_plus){//open
+            self.open_item_to_data(id,self.data[0]);
             self.getItem(this).children(".child_list").removeClass('hide');
             $(this).addClass('node_sub');
             if(self.listen_arr.subFun!=null){
-                var id = self.getId(this);
                 //console.log("sub",id);
                 self.listen_arr.subFun(id);
             }
-        }else{
+        }else{//close
+            self.close_item_to_data(id,self.data[0]);
             self.getItem(this).children(".child_list").addClass('hide');
             $(this).removeClass('node_sub');
             if(self.listen_arr.plusFun!=null){
-                var id = self.getId(this);
                 //console.log("plus",id);
                 self.listen_arr.plusFun(id);
             }
