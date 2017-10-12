@@ -67,6 +67,7 @@ class EmployeeTask extends Command{
                     $start_time = $taskInfo["task_start_time"];
                     $end_time = $taskInfo["task_end_time"];
                     $task_type = $taskInfo["task_type"];
+                    $pay_type = $taskInfo["pay_type"];
                     $task_method = $taskInfo["task_method"];
     
                     $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($id);
@@ -145,7 +146,7 @@ class EmployeeTask extends Command{
                         ];
                         $order_datas = [];
                         $order_data = [];
-                        if($task_type==1) {
+                        if($pay_type==1) {
                             $order_data['money_type'] = 2;
                         }
                         //红包金额
@@ -197,6 +198,7 @@ class EmployeeTask extends Command{
                 $start_time = $taskInfo["task_start_time"];
                 $end_time = $taskInfo["task_end_time"];
                 $task_type = $taskInfo["task_type"];
+                $pay_type = $taskInfo["pay_type"];
                 $task_method = $taskInfo["task_method"];
                 try{
                     $employeeTaskM->link->startTrans();
@@ -621,7 +623,7 @@ class EmployeeTask extends Command{
                             'took_time'=>$time,
                             'remark' => '任务奖励发放'
                         ];
-                        if($task_type==1) {
+                        if($pay_type==1) {
                             $order_data['money_type'] = 2;
                         }else{
                             $order_data["money_type"] = 1;
@@ -654,7 +656,7 @@ class EmployeeTask extends Command{
                             $order_datas[] = $order_data;
 
                             $employeeMonyField = "left_money";
-                            if($task_type==1) {
+                            if($pay_type==1) {
                                 $employeeMonyField = "corp_".$employeeMonyField;
                             }
                             $employeeInfo = [$employeeMonyField=>['exp',$employeeMonyField." + ".$balances]];
@@ -710,7 +712,7 @@ class EmployeeTask extends Command{
                             $order_datas[] = $order_data;
 
                             $employeeMonyField = "left_money";
-                            if($task_type==1) {
+                            if($pay_type==1) {
                                 $employeeMonyField = "corp_".$employeeMonyField;
                             }
                             $employeeInfo = [$employeeMonyField=>['exp',$employeeMonyField." + ".bcmul($taskInfo["reward_count"],100,0)]];
@@ -731,7 +733,7 @@ class EmployeeTask extends Command{
 
                     //更新员工额度
                     $employeeMonyField = "frozen_money";
-                    if($task_type==1) {
+                    if($pay_type==1) {
                         $employeeMonyField = "corp_".$employeeMonyField;
                     }
                     $taskMoney = bcmul(bcsub($taskInfo["reward_count"],$sentRedEnvelopeMoney,2),100,0);
