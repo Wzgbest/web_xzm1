@@ -15,7 +15,13 @@ function init(){
 	$("#frames .once").height(window.innerHeight - 80);
 
     // 三级菜单栏固定
-    $("#frames .once header").width(window.innerWidth - sideW);
+    $("#frames .once header").width(window.innerWidth - sideW - 17);
+    //四级菜单
+    //客户详情
+    $("#frames .once .m-pageInfoNav").width(window.innerWidth - sideW - 17);
+    //话术库
+    $("#frames .once .m-low-nav").width(window.innerWidth - sideW - 17);
+
 
 	$(".phone-box").height(window.innerHeight - 80);
 	//隐藏副标题
@@ -101,10 +107,16 @@ function changeFramesSize() {
     $("#frames").width(window.innerWidth - sideW -phoneWidth);
     $("#frames").height(window.innerHeight - 80);
     $("#frames .once").width(window.innerWidth - sideW-phoneWidth);
-    $("#frames .once header").width(window.innerWidth - sideW-phoneWidth);
+    //三四级菜单
+    $("#frames .once header").width(window.innerWidth - sideW-phoneWidth -17);
+    $("#frames .once .m-low-nav").width(window.innerWidth - sideW - 17);
+    $("#frames .once .m-pageInfoNav").width(window.innerWidth - sideW - 17);
+
     $("#frames .once").height(window.innerHeight - 80);
+    // $("#frames #company-libraryfr.once").height(window.innerHeight - 180);
     $(".phone-box").height(window.innerHeight - 80);
     subResize();
+    console.log(100);
 };
 
 //主标题单机事件
@@ -187,6 +199,7 @@ function loadPagebypost(url, data, panel) {
             $('#frames #' + panel).html("页面加载时发生错误!");
         }
     });
+    changeFramesSize();
 }
 //副标题栏的点击事件
 //切换当前的效果
