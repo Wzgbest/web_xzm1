@@ -107,10 +107,15 @@ class Index extends Initialize{
             if (!$money) {
                 $this->error("输入的金额有误!");
             }
+        }else{
+            if (!$money) {
+                $this->error("输入的金额有误!");
+            }
         }
         $this->assign("fr",input('fr','','string'));
         $userinfo = get_userinfo();
         $this->assign('user_money',$userinfo["userinfo"]['left_money']/100);
+        $this->assign('company_money',$userinfo["userinfo"]['corp_left_money']/100);
         $this->assign('type',$type);
         $this->assign('money',$money);
         return view();
@@ -720,7 +725,9 @@ class Index extends Initialize{
 
         $save_money = intval($money*100);
         //var_exp($userinfo,'$userinfo',1);
-        if($taskInfo["task_type"]==1) {
+        $pay_type = input('pay_type',0,'int');
+        $taskInfo['pay_type'] = $pay_type;
+        if($taskInfo["task_type"]==1 && $pay_type == 1) {
             if ($userinfo['userinfo']['corp_left_money'] < $save_money) {
                 $info['info'] = '企业余额不足';
                 $info['status'] = 5;
@@ -774,7 +781,7 @@ class Index extends Initialize{
             }
 
 
-            if($taskInfo["task_type"]==1) {
+            if($taskInfo["task_type"]==1 && $pay_type == 1) {
                 $employee_data['corp_left_money'] = ['exp',"corp_left_money - $save_money"];
                 $employee_data['corp_frozen_money'] = ['exp',"corp_frozen_money + $save_money"];
                 $employee_map["corp_left_money"] = ["egt",$save_money];
@@ -805,7 +812,7 @@ class Index extends Initialize{
                 exception("添加交易记录发生错误!");
             }
 
-            if($taskInfo["task_type"]==1) {
+            if($taskInfo["task_type"]==1 && $pay_type == 1) {
                 $de_corp_money["corp_reserved_money"] = ['exp', "corp_reserved_money - $save_money"];
                 $de_corp_money["corp_reserved_frozen_money"] = ['exp', "corp_reserved_frozen_money + $save_money"];
                 $de_corp_mone_map["corp_reserved_money"] = ["egt", $save_money];
