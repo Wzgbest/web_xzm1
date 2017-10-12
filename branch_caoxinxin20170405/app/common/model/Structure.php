@@ -24,7 +24,9 @@ class Structure extends Base
      */
     public function getAllStructure()
     {
-        return $this->model->table($this->table)->select();
+        return $this->model->table($this->table)
+            ->field("*,0 as is_open")
+            ->select();
     }
 
     /**
