@@ -672,6 +672,18 @@ class Index extends Initialize{
             }
             $taskInfo["task_method"] = 4;
         }elseif($taskInfo["task_type"]==3){
+            $takeTimeFlg = false;
+            if(
+                ($taskInfo["task_start_time"]<=$taskInfo["task_take_start_time"]) &&
+                ($taskInfo["task_take_start_time"]<$taskInfo["task_take_end_time"]) &&
+                ($taskInfo["task_take_end_time"]<=$taskInfo["task_end_time"])
+            ){
+                $takeTimeFlg = true;
+            }
+            if(!$takeTimeFlg){
+                $result['info'] = '加入时间错误';
+                return json($result);
+            }
             $taskInfo["task_method"] = 5;
         }
         $taskTargetInfo = $this->_getTaskTargetForInput($taskInfo["task_method"]);
