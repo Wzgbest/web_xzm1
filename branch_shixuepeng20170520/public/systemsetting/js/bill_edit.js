@@ -124,10 +124,17 @@ function get_bill_setting_handle_html(){
     return html;
 }
 
+function get_bill_setting_handle_num(){
+    var num = bill_setting_handle_arr.length;
+    var num_to_str_arr = ['零','一','二','三','四','五','六','七','八','九','十'];
+    return num_to_str_arr[num];
+}
+
 function update_bill_setting_handle_html(){
     var html = get_bill_setting_handle_html();
     $(".systemsetting_bill_edit .content .handle_role_other").remove();
     $(".systemsetting_bill_edit .content .handle_role_first").after(html);
+    $(".systemsetting_bill_edit .content .handle_role_num").html(get_bill_setting_handle_num());
 }
 
 $(".systemsetting_bill_edit .content").on("click",".handle_role .add",function(){

@@ -371,7 +371,9 @@ function new_task_form(load_table){
         return {"money":money,"data":new_task_form_data};
     };
 
-    this.add_task=function(paypassword){
+    this.add_task=function(paypassword,pay_type){
+        console.log("pay_type");
+        console.log(pay_type);
         if(paypassword==''){
             layer.msg('请输入密码!',{icon:2});
             return false;
@@ -381,7 +383,8 @@ function new_task_form(load_table){
         if(form_data===false){
             return false;
         }
-        var new_task_form_data = form_data.data+"&paypassword="+paypassword;
+        var new_task_form_data = form_data.data+"&paypassword="+paypassword+"&pay_type="+pay_type;
+        console.log(new_task_form_data);
         task_add(new_task_form_data,function(data){
             if (data.status==1) {
                 layer.msg(data.info,{icon:data.status==1?1:2});
@@ -469,9 +472,16 @@ function new_task_form(load_table){
         if(form_data===false){
             return;
         }
+        let task_type = $("#"+self.load_table+" .task .new_task_form"+" [name='task_type']").val();
+        let type = 0;
+        if (task_type == 1) {
+            type = 1;
+        }
+        console.log("type");
+        console.log(type);
         var money = form_data.money;
         $.ajax({
-            url: "/task/index/pay/money/"+money+"/fr/"+self.load_table,
+            url: "/task/index/pay/money/"+money+"/type/"+type+"/fr/"+self.load_table,
             type: 'get',
             success: function(data) {
                 //console.log(data);
@@ -481,8 +491,9 @@ function new_task_form(load_table){
                     max:6,
                     type:"password",
                     callback:function(paypassword) {
+                        let pay_type = $("#"+self.load_table+" .new_task_info_panel .pay_ui input[type='radio']:checked").val();
                         self.paypassword = paypassword;
-                        self.add_task(paypassword);
+                        self.add_task(paypassword,pay_type);
                     }
                 });
                 $("#"+self.load_table+" .new_task_info_panel .pay_ui").reveal("{data-animation:'fade'}");
@@ -494,7 +505,8 @@ function new_task_form(load_table){
     });
     $("#"+self.load_table+" .new_task_panel .pay_ui").on("click",".pop-submit-btn",function(){
         console.log("pop-submit-btn");
-        self.add_task(self.get_pay_password());
+        let pay_type = $("#"+self.load_table+" .new_task_info_panel .pay_ui input[type='radio']:checked").val();
+        self.add_task(self.get_pay_password(),pay_type);
     });
     $("#"+self.load_table+" .new_task_panel").on("click",".new_task_info_panel .new_task_cancel",function(){
         $("#"+self.load_table+" .task_info_panel").addClass("hide");
