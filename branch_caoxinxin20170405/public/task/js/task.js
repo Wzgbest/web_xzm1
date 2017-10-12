@@ -1011,7 +1011,9 @@ function task_details(load_table,id,type){
                 if(data.status==1){
                     $(task_details_sel+" .pay_ui").trigger('reveal:close');
                     //TODO 成功打赏
-                    $(".task_details .tip").html('继续打赏');
+                    $(".task_details .tip").html('继续打赏');//详情页的状态更新
+                    $(".task_"+self.id+" .details .tip").html('继续打赏');//列表页的状态更新
+
                 }
             });
         }else if(self.now_sel_type=='take'){
@@ -1022,9 +1024,16 @@ function task_details(load_table,id,type){
                     $(task_details_sel+" .pay_ui").trigger('reveal:close');
                     //TODO 成功加入任务
                     //不能猜输赢了
+                    //详情页的状态更新
                     $(".task_details .get_reward").parent().append("<p class='p1'>正在参与任务</p>");
                     $(".task_details .get_reward").hide();
                     $(".task_details .guess").hide();
+
+                    //列表页的状态更新
+                    $(".task_"+self.id+" .details .get_reward").parent().append("<p class='p1'>正在参与任务</p>");
+                    $(".task_"+self.id+" .details .get_reward").hide();
+                    $(".task_"+self.id+" .details .guess").hide();
+
                 }
             });
         }else if(self.now_sel_type=='guess'){
@@ -1041,9 +1050,15 @@ function task_details(load_table,id,type){
                     $(task_details_sel+" .pay_ui").trigger('reveal:close');
                     //TODO 提交猜输赢成功
                     //不能领取任务了
+                    //详情页的状态更新
                     $(".task_details .guess").parent().append("<p class='p1'>正在参与猜输赢</p>");
                     $(".task_details .guess").hide();
                     $(".task_details .get_reward").hide();
+
+                    //列表页的状态更新
+                    $(".task_"+self.id+" .details .guess").parent().append("<p class='p1'>正在参与猜输赢</p>");
+                    $(".task_"+self.id+" .details .guess").hide();
+                    $(".task_"+self.id+" .details .get_reward").hide();
 
                 }
             });
@@ -1104,6 +1119,10 @@ function task_details(load_table,id,type){
                     //TODO 成功加入任务
                     that.parent().append("<p class='p1'>正在参与任务</p>");
                     that.hide();
+
+                    //列表页的状态更新
+                    $(".task_"+self.id+" .details .get_reward").parent().append("<p class='p1'>正在参与任务</p>");
+                    $(".task_"+self.id+" .details .get_reward").hide();
                 }
             });
         }
@@ -1262,6 +1281,10 @@ function task_details(load_table,id,type){
                     $(that).attr('src', '/task/img/praise.png');
                     var y = x + 1;
                     $(that).siblings(".yi").text(y);
+                    //列表页更新
+                    $(".task_"+task_id+" .comment .add").attr('src', '/task/img/praise.png');
+                    $(".task_"+task_id+" .comment .add").siblings(".yi").text(y);
+
                 });
             }else {
                 task_like(task_id,false,function(data){
@@ -1269,6 +1292,10 @@ function task_details(load_table,id,type){
                     $(that).attr('src', '/task/img/zan.png');
                     var y = x - 1;
                     $(that).siblings(".yi").text(y);
+
+                    //列表页更新
+                    $(".task_"+task_id+" .comment .add").attr('src', '/task/img/zan.png');
+                    $(".task_"+task_id+" .comment .add").siblings(".yi").text(y);
                 });
             }
             j++;
@@ -1316,6 +1343,7 @@ function task_details(load_table,id,type){
             if(data.success){
                 //终止成功
                 that.parents('.details').html('<p class="p3">任务被终止</p>');
+                $(".task_"+that.attr('data-id')+" .within .details").html('<p class="p3">任务被终止</p>');
             }
         });
     });
