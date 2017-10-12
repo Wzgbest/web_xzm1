@@ -198,8 +198,10 @@ $('.structure_file').on('click',".p5 input",function(){
         success: function(data) {
             //console.log(data);
             layer.msg(data.info,{icon:data.status==1?1:2});
-            if(data.status) {
-                loadPage("/systemsetting/structure/index","division-managementfr");
+            if(data.status==1) {
+                structure_tree.add(data.data,struct_add_item_pid,add_struct_name);
+                $(struct_list_panel_base+" .reveal-modal").trigger('reveal:close');
+                //loadPage("/systemsetting/structure/index","division-managementfr");
             }
         },
         error: function() {
@@ -277,7 +279,9 @@ $('.structure_edit').on('click',".p5 input",function(){
             //console.log(data);
             layer.msg(data.message,{icon:data.status==1?1:2});
             if(data.status) {
-                loadPage("/systemsetting/structure/index","division-managementfr");
+                structure_tree.update(struct_id,edit_struct_name);
+                $(struct_list_panel_base+" .reveal-modal").trigger('reveal:close');
+                //loadPage("/systemsetting/structure/index","division-managementfr");
             }
         },
         error: function() {
@@ -348,7 +352,9 @@ function deleteStructure(struct_id,trans){
             //console.log(data);
             layer.msg(data.message,{icon:data.status==1?1:2});
             if(data.status) {
-                loadPage("/systemsetting/structure/index","division-managementfr");
+                structure_tree.del(struct_id);
+                $(struct_list_panel_base+" .reveal-modal").trigger('reveal:close');
+                //loadPage("/systemsetting/structure/index","division-managementfr");
             }
         },
         error: function() {
