@@ -517,6 +517,10 @@ function task_list(target){
         if(self.now_sel_type=='tip'){
             var money = $(task_list_sel+" .tip_ui .tip_money").val();
             console.log("money",money);
+            if(!money){
+                layer.msg('打赏金额不能为空!',{icon:2});
+                return;
+            }
             task_tip(self.now_sel_id,money,paypassword,function(data){
                 //console.log(data);
                 layer.msg(data.info,{icon:data.status==1?1:2});
@@ -542,6 +546,10 @@ function task_list(target){
         }else if(self.now_sel_type=='guess'){
             var money = $(task_list_sel+" .pay_ui .pay_money").val();
             console.log("money",money);
+            if(!money){
+                layer.msg('猜输赢金额不能为空!',{icon:2});
+                return;
+            }
             task_guess(self.now_sel_id,self.now_sel_employee,money,paypassword,function(data){
                 //console.log(data);
                 layer.msg(data.info,{icon:data.status==1?1:2});
@@ -695,7 +703,7 @@ function task_list(target){
                         type:"password",
                         callback:function(paypassword) {
                             self.paypassword = paypassword;
-                            self.pay(paypassword);
+                            //self.pay(paypassword);
 
                         }
                     });
@@ -772,7 +780,7 @@ function task_list(target){
                     type:"password",
                     callback:function(paypassword) {
                         self.paypassword = paypassword;
-                        self.pay(paypassword);
+                        //self.pay(paypassword);
                     }
                 });
                 $(task_list_sel+" .pay_ui").reveal("{data-animation:'fade'}");
@@ -820,6 +828,10 @@ function task_list(target){
         console.log("tip_go");
         var tip_money = $(task_list_sel+" .tip_ui .tip_money").val();
         console.log("tip_money",tip_money);
+        if(!tip_money){
+            layer.msg('打赏金额不能为空!',{icon:2});
+            return;
+        }
         $.ajax({
             url: '/task/index/pay/money/'+tip_money,
             type: 'get',
@@ -832,7 +844,7 @@ function task_list(target){
                     type:"password",
                     callback:function(paypassword) {
                         self.paypassword = paypassword;
-                        self.pay(paypassword);
+                        //self.pay(paypassword);
                     }
                 });
                 $(task_list_sel+" .pay_ui").reveal("{data-animation:'fade'}");
@@ -972,6 +984,10 @@ function task_details(load_table,id,type){
         if(self.now_sel_type=='tip'){
             var money = $(task_details_sel+" .tip_ui .tip_money").val();
             console.log("money",money);
+            if(!money){
+                layer.msg('打赏金额不能为空!',{icon:2});
+                return;
+            }
             task_tip(self.id,money,paypassword,function(data){
                 //console.log(data);
                 layer.msg(data.info,{icon:data.status==1?1:2});
@@ -997,6 +1013,10 @@ function task_details(load_table,id,type){
         }else if(self.now_sel_type=='guess'){
             var money = $(task_details_sel+" .pay_ui .pay_money").val();
             console.log("money",money);
+            if(!money){
+                layer.msg('猜输赢金额不能为空!',{icon:2});
+                return;
+            }
             task_guess(self.id,self.now_sel_employee,money,paypassword,function(data){
                 //console.log(data);
                 layer.msg(data.info,{icon:data.status==1?1:2});
@@ -1049,7 +1069,7 @@ function task_details(load_table,id,type){
                         type:"password",
                         callback:function(paypassword) {
                             self.paypassword = paypassword;
-                            self.pay(paypassword);
+                            //self.pay(paypassword);
                         }
                     });
                     $(task_details_sel+" .pay_ui").reveal("{data-animation:'fade'}");
@@ -1118,14 +1138,14 @@ function task_details(load_table,id,type){
                     type:"password",
                     callback:function(paypassword) {
                         self.paypassword = paypassword;
-                        self.pay(paypassword);
+                        //self.pay(paypassword);
                     }
                 });
                 $(task_details_sel+" .pay_ui").reveal("{data-animation:'fade'}");
                 $(task_details_sel+" .guess_ui").trigger('reveal:close');
             },
             error: function() {
-                layer.msg('加载打赏支付出现错误',{icon:2});
+                layer.msg('加载猜输赢选择出现错误',{icon:2});
             }
         });
     });
@@ -1162,6 +1182,10 @@ function task_details(load_table,id,type){
         self.now_sel_type = 'tip';
         var tip_money = $(task_details_sel+" .tip_ui .tip_money").val();
         console.log("tip_money",tip_money);
+        if(!tip_money){
+            layer.msg('打赏金额不能为空!',{icon:2});
+            return;
+        }
         $.ajax({
             url: '/task/index/pay/money/'+tip_money,
             type: 'get',
@@ -1174,7 +1198,7 @@ function task_details(load_table,id,type){
                     type:"password",
                     callback:function(paypassword) {
                         self.paypassword = paypassword;
-                        self.pay(paypassword);
+                        //self.pay(paypassword);
                     }
                 });
                 $(task_details_sel+" .pay_ui").reveal("{data-animation:'fade'}");
