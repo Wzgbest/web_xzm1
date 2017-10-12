@@ -103,10 +103,10 @@ function get_contract_setting_apply_html(){
             contract_setting_apply.create_contract_num+
             '"/></div>';
         add_html += '<span class="num_tip">生成合同号</span>';
-        add_html += '<img src="/systemsetting/images/delelet.png" class="img2 del" />';
         if(contract_setting_apply_max>(i+1)){
             add_html += '<img src="/systemsetting/images/plus.jpg" class="img2 add" />';
         }
+        add_html += '<img src="/systemsetting/images/delelet.png" class="img2 del" />';
         add_html += '</p></div>';
         html+=add_html;
     }
