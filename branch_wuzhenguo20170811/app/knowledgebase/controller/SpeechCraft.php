@@ -25,12 +25,14 @@ class SpeechCraft extends Initialize{
 
         $userinfo = get_userinfo();
         $uid = $userinfo['userid'];
+        $is_leader = $userinfo['userinfo']['is_leader'];
         $article_type = $this->_speechCraftModel->getAllArticleType();
         $all_article = $this->_speechCraftModel->getAllArticle($key_word,$class_id,1,100);
-        // var_dump($all_article);die();
+        // var_dump($userinfo);die();
         $this->assign('article_type',$article_type);
         $this->assign('all_article',$all_article);
         $this->assign('uid',$uid);
+        $this->assign('is_leader',$is_leader);
         return view();
     }
 
