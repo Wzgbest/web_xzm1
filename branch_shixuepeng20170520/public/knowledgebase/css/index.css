@@ -1,3 +1,13 @@
+#speech-databasefr{
+/*	margin-top: 100px;
+    box-sizing: border-box;
+    padding-bottom: 100px;*/
+}
+#company-libraryfr{
+	/*margin-top: 100px;*/
+    /*box-sizing: border-box;*/
+    /*padding-bottom: 10px;*/
+}
 .knowledgebase_speechcraft_index .speech-list li{
 	height: 98px;
 	border-bottom: 2px solid #eee;
@@ -83,7 +93,9 @@
 
 
 .knowledgebase_speechcraft_index .manageNav{
-	margin: 20px 0 0 20px; 
+	margin: 20px 0 0 20px;
+	margin-top: 110px;
+    margin-bottom: -100px; 
 }
 .knowledgebase_speechcraft_index .manageNav input[type="checkbox"]{
 	text-align: center;
@@ -94,6 +106,9 @@
 }
 .knowledgebase_speechcraft_index .manageNav select{
 	margin: 0 10px 0 10px;
+}
+.speech-list{
+	margin-top: 110px;
 }
 .speech-list li:hover {
 	background-color: #f0f0f0;
@@ -195,7 +210,7 @@
 }
 /*工作圈*/
 .knowledgebase_company_library_index .library-list{
-	
+	margin-top: 100px;
 }
 .knowledgebase_company_library_index .library-list .lib-content{
 	padding:10px 0 0 85px;
@@ -446,4 +461,15 @@
 	.knowledgebase_speechcraft_detail .u-btnBack{
 		display: none !important;
 	}
+}
+.m-low-nav{
+	position: fixed;
+    width: 100%;
+    top: 112px;
+    z-index: 99;
+    padding:0;
+    border: 0;
+}
+.m-low-detail{
+	margin-top: 40px;
 }
