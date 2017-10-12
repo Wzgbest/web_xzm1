@@ -359,3 +359,50 @@ $(".systemsetting_business_flow_edit .content").on("click",".handle_role .del",f
     var html = business_flow_role_list_get_html();
     business_flow_role_list_update_html(html);
 });
+
+
+$('.systemsetting_business_flow_edit .xuanze').on('click', "input", function() {
+    var index = $(this).val() //index为input的自定义index
+    if ($(this).prop('checked') == true) {
+        var main = $(this).next().html();
+        $('.xuanzhong ul').append('<li index = ' + index + '>' + main + '<img src=' + "/systemsetting/images/delelet.png" + ' index = "' + index + '"/></li>')
+    } else {
+        $('.xuanzhong ul li').each(function() {
+            if ($(this).attr('index') == index) {
+                $(this).remove();
+            }
+        })
+    }
+});
+$('.systemsetting_business_flow_edit .xuanzhong').on('click', "ul li img", function() {
+    var index1 = $(this).val();
+    //      var This = $(this)
+    var T = $(this)
+    $('.xuanze input').each(function() {
+        if ($(this).val() == index1) {
+            $(this).prop('checked', false);
+            $(T).parent().remove();
+        }
+    })
+});
+
+$('.systemsetting_business_flow_edit .fuxuan').click(function() {
+    //  	$('.fuxuan i').toggleClass()
+    $('.xuanze').toggle();
+    $('.xuanzhong').toggle();
+});
+$(".systemsetting_business_flow_edit .wancheng").click(function() {
+    //  	console.log($(this).siblings())
+    //  	var content=$(this).siblings().text();
+    //
+    //  	$('.yixuan').add(content)
+    $(".yixuan").empty();
+    $(".xuanzhong ul li").each(function() {
+        var content = $(this).text();
+        //			$('.yixuan').append(content)
+        $('.yixuan').append('<span >' + content + '</span>')
+    });
+
+    $('.xuanze').css('display', 'none');
+    $('.xuanzhong').css('display', 'none')
+});

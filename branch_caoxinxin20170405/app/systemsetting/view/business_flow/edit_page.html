@@ -20,16 +20,37 @@
                 <span class="sp1">业务名称</span>
                 <input type="text" placeholder="百度推广" name="business_flow_name" value="{$business_flow_setting.business_flow_name}" />
             </p>
-            <p class="p7">
-                <span class="sp1">拥有此业务角色</span>
-                {volist name="roles" id="vo"}
-                    {if	condition="in_array($vo.id,$business_flow_setting.set_to_role_arr)"}
-                        <input type="checkbox" name="set_to_role[]" checked="checked" value="{$vo.id}"/><span class="sp3">{$vo.role_name}</span>
-                    {else/}
-                        <input type="checkbox" name="set_to_role[]" value="{$vo.id}"/><span class="sp3">{$vo.role_name}</span>
-                    {/if}
-                {/volist}
+            <p class="fuxuan">应有此业务角色<i class="fa fa-sort-desc"></i></p>
+            <p class="yixuan"></p>
+                <div style="clear: both">
+                    <div class="xuanze">
+                        <ul>
+                            {volist name="roles" id="vo"}
+                                {if	condition="in_array($vo.id,$business_flow_setting.set_to_role_arr)"}
+                                    <li><input type="checkbox" name="set_to_role[]" checked="checked" value="{$vo.id}"/><span class="sp3">{$vo.role_name}</span></li>
+                                {else/}
+                                    <li><input type="checkbox" name="set_to_role[]" value="{$vo.id}"/><span class="sp3">{$vo.role_name}</span></li>
+                                {/if}
+                            {/volist}
+                        </ul>
+                    </div>
+
+
+                    <div class="xuanzhong">
+                        <p>已选择4个对象</p>
+                        <ul>
+                            {volist name="roles" id="vo"}
+                                {if	condition="in_array($vo.id,$business_flow_setting.set_to_role_arr)"}
+                                    <li index="{$vo.id}">{$vo.role_name}<img src="/systemsetting/images/delelet.png" index="{$vo.id}"></li>
+                                {/if}
+                            {/volist}
+                        </ul>
+                        <p class="wancheng">完成</p>
+                    </div>
+                </div>
+            <p>
             </p>
+
             <p class="item_add_panel business_flow_item_selected">
                 <span class="sp1">业务流程</span>
             </p>
