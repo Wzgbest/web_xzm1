@@ -88,6 +88,7 @@ ul.firNav li:last-child div {
 ul.firNav li.current {
 	color: #333333;
 	border-bottom: 1px solid #42a5f5;
+	height: 19px;
 }
 
 .top ul i {
