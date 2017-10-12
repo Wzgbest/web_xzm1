@@ -94,37 +94,37 @@ class SpeechCraft extends Initialize{
         // var_dump(input('post.'));
         // var_dump($data);die();
         if (empty($data['article_name'])) {
-            $result['message'] = "文章名不能为空!";
+            $result['info'] = "文章名不能为空!";
             return json($result);
         }
         if (empty($data['article_class'])) {
-            $result['message'] = "文章分类不能为空!";
+            $result['info'] = "文章分类不能为空!";
             return json($result);
         }
         if (empty($data['article_content'])) {
-            $result['message'] = "文章简介不能为空!";
+            $result['info'] = "文章简介不能为空!";
             return json($result);
         }
         if ($data['article_type'] == 1) {
             if (empty($data['article_text'])) {
-                $result['message'] = "文章正文不能为空!";
+                $result['info'] = "文章正文不能为空!";
                 return json($result);
             }
         }else{
             if (empty($data['article_url'])) {
-                $result['message'] = "文章链接不能为空!";
+                $result['info'] = "文章链接不能为空!";
                 return json($result);
             }
         }
         if ($data['article_is_top']) {
             if (empty($data['article_start_top_time']) || empty($data['article_end_top_time'])) {
-                $result['message'] = "请选择置顶时间!";
+                $result['info'] = "请选择置顶时间!";
                 return $result;
             }
         }
         if ($data['article_release_type']) {
             if (empty($data['article_release_time'])) {
-                $result['message'] = "请选择发布时间!";
+                $result['info'] = "请选择发布时间!";
                 return $result;
             }
         }
@@ -184,37 +184,37 @@ class SpeechCraft extends Initialize{
         // var_dump(input('post.'));
         // var_dump($data);die();
         if (empty($data['article_name'])) {
-            $result['message'] = "文章名不能为空!";
+            $result['info'] = "文章名不能为空!";
             return json($result);
         }
         if (empty($data['article_class'])) {
-            $result['message'] = "文章分类不能为空!";
+            $result['info'] = "文章分类不能为空!";
             return json($result);
         }
         if (empty($data['article_content'])) {
-            $result['message'] = "文章简介不能为空!";
+            $result['info'] = "文章简介不能为空!";
             return json($result);
         }
         if ($data['article_type'] == 1) {
             if (empty($data['article_text'])) {
-                $result['message'] = "文章正文不能为空!";
+                $result['info'] = "文章正文不能为空!";
                 return json($result);
             }
         }else{
             if (empty($data['article_url'])) {
-                $result['message'] = "文章链接不能为空!";
+                $result['info'] = "文章链接不能为空!";
                 return json($result);
             }
         }
         if ($data['article_is_top']) {
             if (empty($data['article_start_top_time']) || empty($data['article_end_top_time'])) {
-                $result['message'] = "请选择置顶时间!";
+                $result['info'] = "请选择置顶时间!";
                 return $result;
             }
         }
         if ($data['article_release_type']) {
             if (empty($data['article_release_time'])) {
-                $result['message'] = "请选择发布时间!";
+                $result['info'] = "请选择发布时间!";
                 return $result;
             }
         }
