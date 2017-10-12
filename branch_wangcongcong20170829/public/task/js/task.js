@@ -910,9 +910,14 @@ function task_list(target){
 
     $(task_list_sel+" article").on("click",".right .end_task",function(e){
         e.stopPropagation();
+        var that=$(this);
         // console.log('终止任务');
-        task_end($(this).attr('data-id'),function(data){
+        task_end(that.attr('data-id'),function(data){
             layer.msg(data.msg,{icon:data.success==true?1:2});
+            if(data.success){
+                //终止成功
+                that.parents('.details').html('<p class="p3">任务被终止</p>');
+            }
         });
     });
 
@@ -1293,8 +1298,13 @@ function task_details(load_table,id,type){
         });
     $(task_details_sel+" article").on("click",".right .end_task",function(){
         // console.log('终止任务');
-        task_end($(this).attr('data-id'),function(data){
+        var that=$(this);
+        task_end(that.attr('data-id'),function(data){
             layer.msg(data.msg,{icon:data.success==true?1:2});
+            if(data.success){
+                //终止成功
+                that.parents('.details').html('<p class="p3">任务被终止</p>');
+            }
         });
     });
     $(task_details_sel+" .dv2").on("click",".box li .help",function(){
