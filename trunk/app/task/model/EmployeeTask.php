@@ -69,7 +69,7 @@ class EmployeeTask extends Base{
         $recorder= $this->model->table($this->viewTable)->alias('et')
             ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
             ->join($this->dbprefix.'employee_task_guess tg',"tg.task_id=et.id and tg.guess_employee=".$uid,"LEFT")
-            ->join($this->dbprefix.'employee_task_take ett','ett.task_id=et.id','LEFT')
+            ->join($this->dbprefix.'employee_task_take ett','ett.task_id=et.id and ett.take_employee = '.$uid,'LEFT')
             ->join($this->dbprefix.'red_envelope re',"re.task_id = et.id and re.type = 3 and re.took_user = ".$uid,"LEFT")
             ->field($field)->where($map)->find();
         $recorder['public_to_take_array']=get_employee_truename($recorder['public_to_take']);
