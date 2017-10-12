@@ -151,19 +151,19 @@ class CorporationShare extends Initialize{
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
         $replyer_id = $uid;
-        $commont_id = input('commont_id',0,"int");
+        $comment_id = input('comment_id',0,"int");
         $reviewer_id = 0;
         $corporationShareCommentModel = new CorporationShareCommentModel($this->corp_id);
-        if($commont_id){
-            $reply_comment= $corporationShareCommentModel->getOneComment($commont_id);
+        if($comment_id){
+            $reply_comment= $corporationShareCommentModel->getOneComment($comment_id);
             $reviewer_id = $reply_comment["replyer_id"];
         }
         $comment["share_id"] = $share_id;
         $comment["replyer_id"] = $replyer_id;
         $comment["reply_content"] = $reply_content;
         $comment["reviewer_id"] = $reviewer_id;
-        $comment["reply_commont_id"] = $commont_id;
-        $comment["commont_time"] = time();
+        $comment["reply_comment_id"] = $comment_id;
+        $comment["comment_time"] = time();
         $add_comment_flg= $corporationShareCommentModel->createCorporationShareComment($comment);
         $result['data'] = $add_comment_flg;
         $result['status'] = 1;

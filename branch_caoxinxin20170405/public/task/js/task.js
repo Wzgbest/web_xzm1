@@ -965,7 +965,7 @@ function task_details(load_table,id,type){
             }
         });
     };
-    this.update_commont=function(){
+    this.update_comment=function(){
         $.ajax({
             url: '/task/task_comment/show/id/'+self.id,
             type: 'get',
@@ -1041,7 +1041,7 @@ function task_details(load_table,id,type){
     // }
     self.update_ranking();
     self.update_tip();
-    self.update_commont();
+    self.update_comment();
 
     //领小红包
     $(task_details_sel+" article .dv2 .left .box img").click(function() {
@@ -1282,7 +1282,7 @@ function task_details(load_table,id,type){
                     layer.msg(data.info,{icon:data.status==1?1:2});
                     if(data.status){
                         //评论成功
-                         self.update_commont();
+                         self.update_comment();
                          that.removeAttr('comment_id');
                          that.parents('.up').children('.content ').val('');
                          that.parents('.up').children('.content ').attr('placeholder','请输入评论')
