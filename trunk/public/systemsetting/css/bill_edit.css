@@ -108,7 +108,7 @@ ol {
 .systemsetting_bill_edit .content div {
     width: 496px;
     height: 54px;
-    float: left;
+    /*float: left;*/
 }
 
 .systemsetting_bill_edit .content span {
@@ -326,8 +326,8 @@ ol {
 .systemsetting_bill_edit .content .handle_role .add{
     display: none;
     position: relative;
-    left: 340px;
-    top:-40px
+    left: 370px;
+    top:-60px
 }
 .systemsetting_bill_edit .content .handle_role:nth-last-child(3) .add{
     display: inline-block;
@@ -335,8 +335,8 @@ ol {
 .systemsetting_bill_edit .content .handle_role .del{
     display: none;
     position: relative;
-    left: 330px;
-    top:-40px
+    left: 380px;
+    top:-60px
 }
 .systemsetting_bill_edit .content .handle_role:hover .del{
     display: inline-block;
@@ -378,9 +378,9 @@ ol {
 .systemsetting_bill_edit .content .handle_role .num_tip{
     font-size: 12px;
     position: relative;
-    left: 320px;
-    top:-24px;
-    width:60px;
-    height:16px;
-    line-height:16px;
+    left: 360px;
+    top: -44px;
+    width: 60px;
+    height: 16px;
+    line-height: 16px;
 }

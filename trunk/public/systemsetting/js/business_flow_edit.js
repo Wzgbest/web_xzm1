@@ -258,7 +258,7 @@ function update_business_flow_item_handle(index,value) {
 function del_business_flow_item_handle(index) {
     var arr = business_flow_item_list_get_arr();
     //console.log(arr);
-    if (index > 0 && index < business_flow_setting_handle_max) {
+    if (index > 0 && index <= business_flow_setting_handle_max) {
         for (var i = 0; i < arr.length; i++) {
             if (arr[i]['item_id'] == business_flow_now_role_item_id) {
                 var role_item = arr[i];
@@ -289,11 +289,11 @@ function business_flow_role_list_item_html(item_handle,name,i){
         add_html += ' value="'+business_flow_setting_item.id+'">'+business_flow_setting_item.role_name+'</option>';
     }
     add_html += '</select>';
-    if(i!=0){
-        add_html += '<img src="/systemsetting/images/delelet.png" class="img2 del" />';
-    }
     if(business_flow_setting_handle_max>(i+1)){
         add_html += '<img src="/systemsetting/images/plus.jpg" class="img2 add" />';
+    }
+    if(i!=0){
+        add_html += '<img src="/systemsetting/images/delelet.png" class="img2 del" />';
     }
     add_html += '</p></div>';
     return add_html;
@@ -355,6 +355,7 @@ $(".systemsetting_business_flow_edit .content").on("change",".handle_role .handl
 });
 $(".systemsetting_business_flow_edit .content").on("click",".handle_role .del",function(){
     var index = get_business_flow_item_handle_index(this);
+    console.log(index);
     del_business_flow_item_handle(index);
     var html = business_flow_role_list_get_html();
     business_flow_role_list_update_html(html);
