@@ -365,9 +365,9 @@ $('.systemsetting_business_flow_edit .xuanze').on('click', "input", function() {
     var index = $(this).val() //index为input的自定义index
     if ($(this).prop('checked') == true) {
         var main = $(this).next().html();
-        $('.xuanzhong ul').append('<li index = ' + index + '>' + main + '<img src=' + "/systemsetting/images/delelet.png" + ' index = "' + index + '"/></li>')
+        $('.systemsetting_business_flow_edit .xuanzhong ul').append('<li index = ' + index + '>' + main + '<img src=' + "/systemsetting/images/delelet.png" + ' index = "' + index + '"/></li>')
     } else {
-        $('.xuanzhong ul li').each(function() {
+        $('.systemsetting_business_flow_edit .xuanzhong ul li').each(function() {
             if ($(this).attr('index') == index) {
                 $(this).remove();
             }
@@ -378,7 +378,7 @@ $('.systemsetting_business_flow_edit .xuanzhong').on('click', "ul li img", funct
     var index1 = $(this).val();
     //      var This = $(this)
     var T = $(this)
-    $('.xuanze input').each(function() {
+    $('.systemsetting_business_flow_edit .xuanze input').each(function() {
         if ($(this).val() == index1) {
             $(this).prop('checked', false);
             $(T).parent().remove();
@@ -387,22 +387,22 @@ $('.systemsetting_business_flow_edit .xuanzhong').on('click', "ul li img", funct
 });
 
 $('.systemsetting_business_flow_edit .fuxuan').click(function() {
-    //  	$('.fuxuan i').toggleClass()
-    $('.xuanze').toggle();
-    $('.xuanzhong').toggle();
+    //  	$('.systemsetting_business_flow_edit .fuxuan i').toggleClass()
+    $('.systemsetting_business_flow_edit .xuanze').toggle();
+    $('.systemsetting_business_flow_edit .xuanzhong').toggle();
 });
 $(".systemsetting_business_flow_edit .wancheng").click(function() {
     //  	console.log($(this).siblings())
     //  	var content=$(this).siblings().text();
     //
-    //  	$('.yixuan').add(content)
-    $(".yixuan").empty();
-    $(".xuanzhong ul li").each(function() {
+    //  	$('.systemsetting_business_flow_edit .yixuan').add(content)
+    $(".systemsetting_business_flow_edit .yixuan").empty();
+    $(".systemsetting_business_flow_edit .xuanzhong ul li").each(function() {
         var content = $(this).text();
-        //			$('.yixuan').append(content)
-        $('.yixuan').append('<span >' + content + '</span>')
+        //			$('.systemsetting_business_flow_edit .yixuan').append(content)
+        $('.systemsetting_business_flow_edit .yixuan').append('<span >' + content + '</span>')
     });
 
-    $('.xuanze').css('display', 'none');
-    $('.xuanzhong').css('display', 'none')
+    $('.systemsetting_business_flow_edit .xuanze').css('display', 'none');
+    $('.systemsetting_business_flow_edit .xuanzhong').css('display', 'none')
 });
