@@ -359,3 +359,50 @@ $(".systemsetting_business_flow_edit .content").on("click",".handle_role .del",f
     var html = business_flow_role_list_get_html();
     business_flow_role_list_update_html(html);
 });
+
+
+$('.systemsetting_business_flow_edit .xuanze').on('click', "input", function() {
+    var index = $(this).val() //index为input的自定义index
+    if ($(this).prop('checked') == true) {
+        var main = $(this).next().html();
+        $('.systemsetting_business_flow_edit .xuanzhong ul').append('<li index = ' + index + '>' + main + '<img src=' + "/systemsetting/images/delelet.png" + ' index = "' + index + '"/></li>')
+    } else {
+        $('.systemsetting_business_flow_edit .xuanzhong ul li').each(function() {
+            if ($(this).attr('index') == index) {
+                $(this).remove();
+            }
+        })
+    }
+});
+$('.systemsetting_business_flow_edit .xuanzhong').on('click', "ul li img", function() {
+    var index1 = $(this).val();
+    //      var This = $(this)
+    var T = $(this)
+    $('.systemsetting_business_flow_edit .xuanze input').each(function() {
+        if ($(this).val() == index1) {
+            $(this).prop('checked', false);
+            $(T).parent().remove();
+        }
+    })
+});
+
+$('.systemsetting_business_flow_edit .fuxuan').click(function() {
+    //  	$('.systemsetting_business_flow_edit .fuxuan i').toggleClass()
+    $('.systemsetting_business_flow_edit .xuanze').toggle();
+    $('.systemsetting_business_flow_edit .xuanzhong').toggle();
+});
+$(".systemsetting_business_flow_edit .wancheng").click(function() {
+    //  	console.log($(this).siblings())
+    //  	var content=$(this).siblings().text();
+    //
+    //  	$('.systemsetting_business_flow_edit .yixuan').add(content)
+    $(".systemsetting_business_flow_edit .yixuan").empty();
+    $(".systemsetting_business_flow_edit .xuanzhong ul li").each(function() {
+        var content = $(this).text();
+        //			$('.systemsetting_business_flow_edit .yixuan').append(content)
+        $('.systemsetting_business_flow_edit .yixuan').append('<span >' + content + '</span>')
+    });
+
+    $('.systemsetting_business_flow_edit .xuanze').css('display', 'none');
+    $('.systemsetting_business_flow_edit .xuanzhong').css('display', 'none')
+});
