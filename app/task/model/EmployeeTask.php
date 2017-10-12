@@ -66,12 +66,14 @@ class EmployeeTask extends Base{
 //            ->find();
         $map['et.id']=$task_id;
         $field='et.*,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token,re.total_money,case when tg.guess_employee>0 then 1 else 0 end as is_guess,case when ett.take_employee>0 then 1 else 0 end as is_take';
-        return $this->model->table($this->viewTable)->alias('et')
+        $recorder= $this->model->table($this->viewTable)->alias('et')
             ->join($this->dbprefix.'employee_task_like etl',"etl.task_id = et.id and etl.user_id = '$uid'","LEFT")
             ->join($this->dbprefix.'employee_task_guess tg',"tg.task_id=et.id and tg.guess_employee=".$uid,"LEFT")
             ->join($this->dbprefix.'employee_task_take ett','ett.task_id=et.id','LEFT')
             ->join($this->dbprefix.'red_envelope re',"re.task_id = et.id and re.type = 3 and re.took_user = ".$uid,"LEFT")
             ->field($field)->where($map)->find();
+        $recorder['public_to_take_array']=get_employee_truename($recorder['public_to_take']);
+        return $recorder;
     }
 
      /**
@@ -259,6 +261,11 @@ class EmployeeTask extends Base{
             ->join($this->dbprefix.'employee_task_guess tg',"tg.task_id=et.id and tg.guess_employee=".$uid,"LEFT")
             ->join($this->dbprefix.'employee_task_take ett','ett.task_id=et.id','LEFT')
             ->field($field)->where($map_str)->where($con_str)->where($map)->group('et.id')->order($listOrder)->select();
+        $task_listArr=$employee_task_list;
+        foreach($employee_task_list as $key=>$value){
+            $task_listArr[$key]['public_to_take_array']=get_employee_truename($value['public_to_take']);
+        }
+        $employee_task_list = $task_listArr;
         return $employee_task_list;
 
     }

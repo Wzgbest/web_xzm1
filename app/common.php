@@ -1656,3 +1656,15 @@ function get_target_type_name($value){
     }
     return $type_name;
 }
+
+/**
+ * 通过员工的ids获取姓名数组，以id作为键值
+ * @param $uids
+ * @return false|PDOStatement|string|\think\Collection
+ */
+function get_employee_truename($uids){
+    $corp_id = get_corpid();
+    $employeeModel = new Employee($corp_id);
+    $employeeNames = $employeeModel->getEmployeeNameByUserids($uids);
+    return $employeeNames;
+}
