@@ -102,20 +102,20 @@
 				<p class="p4">任务结束</p>
 				{/if}
             </div>
-            <div class="comment">
-                <div>
-                    <img src="/task/img/comment.png" class="task_details comment_reward" task_id="{$task_info.id}" />
-                    <span>{$task_info.like_count}</span>
-                </div>
-                <div style="text-align: right;">
-                    {eq name="$task_info.is_like" value="1"}
-                    <img src="/task/img/praise.png" class="add" task_id="{$task_info.id}" index_img="2"/>
-                    {else/}
-                    <img src="/task/img/zan.png" class="add" task_id="{$task_info.id}" index_img="1"/>
-                    {/eq}
-                    <span class="yi">{$task_info.like_count}</span>
-                </div>
-            </div>
+            <!--<div class="comment">-->
+                <!--<div>-->
+                    <!--<img src="/task/img/comment.png" class="task_details comment_reward" task_id="{$task_info.id}" />-->
+                    <!--<span>{$task_info.like_count}</span>-->
+                <!--</div>-->
+                <!--<div style="text-align: right;">-->
+                    <!--{eq name="$task_info.is_like" value="1"}-->
+                    <!--<img src="/task/img/praise.png" class="add" task_id="{$task_info.id}" index_img="2"/>-->
+                    <!--{else/}-->
+                    <!--<img src="/task/img/zan.png" class="add" task_id="{$task_info.id}" index_img="1"/>-->
+                    <!--{/eq}-->
+                    <!--<span class="yi">{$task_info.like_count}</span>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
     </div>
 			
