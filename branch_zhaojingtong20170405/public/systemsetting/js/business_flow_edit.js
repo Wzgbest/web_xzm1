@@ -313,19 +313,25 @@ function business_flow_role_list_get_html(){
                 '<span class="sp1">'+role_item['item_name']+'</span></p></div>'+
                 '<div class="dv2 role_list full"><p><span></span></p></div>';
             var add_html = business_flow_role_list_item_html(role_item["handle_1"],role_item['item_name'],0);
+
+            var num = 1;
             for(var j=1;j<6;j++){
                 if(role_item["handle_"+(j+1)]==0){
                     break;
                 }
+                num++;
                 add_html += business_flow_role_list_item_html(role_item["handle_"+(j+1)],role_item['item_name'],j);
             }
+
+            var num_to_str_arr = ['零','一','二','三','四','五','六','七','八','九','十'];
             all_html+=add_html;
-            all_html+='<div class="dv1 role_list full"><p class="p1">每一次代表一次审批流程，当前审核需要三个审批环节</p></div>';
+            all_html+='<div class="dv1 role_list full"><p class="p1">每一个审核角色代表一个审批环节，当前审核需要'+num_to_str_arr[num]+'个审批环节</p></div>';
             break;
         }
     }
     return all_html;
 }
+
 function business_flow_role_list_update_html(html){
     //console.log($(.systemsetting_business_flow_edit .role_list"));
     $(".systemsetting_business_flow_edit .role_list").remove();
