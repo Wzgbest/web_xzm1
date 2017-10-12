@@ -40,6 +40,9 @@
 	border-bottom: none;
 	padding: 0 20px;
 }
+.knowledgebase_speechcraft_index .speech-list li.manage-list-model .hot{
+	display: none !important;
+}
 .knowledgebase_speechcraft_index .speech-list li.manage-list-model .controler{
 	display: none;
 }
