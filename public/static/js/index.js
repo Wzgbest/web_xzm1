@@ -116,7 +116,6 @@ function changeFramesSize() {
     // $("#frames #company-libraryfr.once").height(window.innerHeight - 180);
     $(".phone-box").height(window.innerHeight - 80);
     subResize();
-    console.log(100);
 };
 
 //主标题单机事件
