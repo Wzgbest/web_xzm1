@@ -16,6 +16,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 	$(this.panel_base+" ."+this.from+" .u-tabList .customer_info_name_show").click(function(){
 		var id = $(this).siblings().children(":checkbox").val();
 		self.general(id);
+		changeFramesSize();
 	});
 	$(this.panel_base+" ."+this.from+" .u-tabList li .customer_info_show").click(function(){
 		var id = $(this).parent().siblings().children(":checkbox").val();
@@ -90,21 +91,27 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 		);
 		$(panel+" .page-info .m-firNav .back").click(function(){
 			self.close();
+			changeFramesSize();
 		});
 		$(panel+" .m-pageInfoNav .customer_general_show").click(function(){
 			self.general(self.id);
+			changeFramesSize();
 		});
 		$(panel+" .m-pageInfoNav .customer_info_show").click(function(){
 			self.show(self.id);
+			changeFramesSize();
 		});
 		$(panel+" .m-pageInfoNav .customer_contact_show").click(function(){
 			self.contact_show(self.id);
+			changeFramesSize();
 		});
 		$(panel+" .m-pageInfoNav .customer_sale_chance_show").click(function(){
 			self.sale_chance_show(self.id);
+			changeFramesSize();
 		});
 		$(panel+" .m-pageInfoNav .customer_trace_show").click(function(){
 			self.trace_show(self.id);
+			changeFramesSize();
 		});
 	};
 	this.general=function(id){
@@ -147,6 +154,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				$(panel+" .m-form .customer_info_edit_show").click(function(){
 					self.edit(self.id,1);
 				});
+			changeFramesSize();
 			},
 			error:function(){
                 layer.msg('获取客户信息失败!',{icon:2});

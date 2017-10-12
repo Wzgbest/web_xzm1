@@ -114,10 +114,17 @@ function get_contract_setting_apply_html(){
     return html;
 }
 
+function get_contract_setting_apply_num(){
+    var num = contract_setting_apply_arr.length;
+    var num_to_str_arr = ['零','一','二','三','四','五','六','七','八','九','十'];
+    return num_to_str_arr[num];
+}
+
 function update_contract_setting_apply_html(){
     var html = get_contract_setting_apply_html();
     $(".systemsetting_contract_edit .content .apply_role_other").remove();
     $(".systemsetting_contract_edit .content .apply_role_first").after(html);
+    $(".systemsetting_contract_edit .content .apply_role_num").html(get_contract_setting_apply_num());
 }
 
 function get_contract_setting_apply_index(target){

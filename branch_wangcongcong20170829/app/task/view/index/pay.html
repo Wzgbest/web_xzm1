@@ -4,11 +4,12 @@
     <h2 class=" color-yellow"><i class="fa fa-cny"></i><span class="money-total">{$money}</span></h2>
     <h3>账户余额：<span>{$user_money}</span>元{if condition="$user_money<$money"}，余额不足请<span class="color-blue">充值</span>{/if}</h3>
 {else/}
-    <div class="money">
-        <span>￥</span>
-        <input type="text" class="pay_money" placeholder="00.00" />
-    </div>
-    <p class="bar">账户金额:<span>100</span>元</p>
+    <div class="money"> </div>
+    <h2 class=" color-yellow"><i class="fa fa-cny"></i><span class="money-total">{$money}</span></h2>
+    <h3 class="selfmoney hide">个人账户余额：<span>{$user_money}</span>元{if condition="$user_money<$money"}，余额不足请<span class="color-blue">充值</span>{/if}</h3>
+    <h3 class="compneymoney">企业账户余额：<span>{$company_money}</span>元{if condition="$company_money<$money"}，余额不足请<span class="color-blue">充值</span>{/if}</h3>
+    <input type="radio" name="pay_type" value="0">个人
+    <input type="radio" name="pay_type" value="1" checked="checked">企业
 {/eq}
 <div class="mima payPwd">
     <div class="box">
@@ -40,3 +41,14 @@
 </div>
 <a class="close-reveal-modal">&#215;</a>
 <script src="/task/js/payPwd.js"></script>
+<script type="text/javascript">
+    $(".new_task_info_panel .pay_ui input[name='pay_type']").change(function() {
+        if ($(this).val() == 0) {
+            $(".new_task_info_panel .pay_ui .selfmoney").removeClass("hide");
+            $(".new_task_info_panel .pay_ui .compneymoney").addClass("hide");
+        }else{
+            $(".new_task_info_panel .pay_ui .compneymoney").removeClass("hide");
+            $(".new_task_info_panel .pay_ui .selfmoney").addClass("hide");
+        }
+    });
+</script>
