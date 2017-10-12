@@ -118,7 +118,7 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	background-color: #f5f7fa;
+	background-color: #fff;
 }
 
 /************************************************************************/
@@ -201,7 +201,7 @@
 /*表单*/
 .crm_customer .newClientForm{
 	margin-top: 100px;
-	padding-left: 30px;
+	/*padding-left: 30px;*/
 }
 #mapFrame{
 	display: inline-block;
