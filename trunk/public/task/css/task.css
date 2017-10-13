@@ -34,10 +34,12 @@ header {
 }
 
 .nav li div {
-	line-height: 20px;
+	line-height: 18px;
 	padding: 0 5px;
 	font-size: 12px;
-	border-right: 2px solid #b2b2b2;
+	border-right: 2px solid #e5e5e5;
+	height: 18px;
+	
 }
 
 .nav li:last-child div {
@@ -189,13 +191,15 @@ header .xinjian i {
 }
 
 article {
-	width: 100%;
 	height: 100%;
-	margin-left: 10px;
-	margin-top: 10px;
-	position: absolute;
+	position: relative;
 	top:40px;
 	left: 0;
+	/*overflow: auto;*/
+	margin-left: 10px;
+	margin-top: 10px;
+	overflow: hidden;
+	
 }
 
 article .dv1 {
@@ -971,6 +975,7 @@ article .dv1 .center .details .ouside .inside {
 	line-height: 30px;
 	color: #ffa928;
 	background-color: #ffffff;
+	cursor: pointer;
 }
 
 .task .reveal_six .mid {
@@ -1197,7 +1202,7 @@ article .dv2{
 	width: 100%;
 	height: 345px;
 	margin-bottom: 10px;
-	border-bottom: 1px solid #d4d4d4;
+	/*border-bottom: 1px solid #d4d4d4;*/
 	display: block;
 }
 article .dv2 .left{
@@ -1290,16 +1295,14 @@ article .dv2 .left .box ul li i{
 	vertical-align: middle;
 	background-color: #cccccc;
 }
-article .dv2 .left .box ul li .nohelp{
+article .dv2 .left .box ul li a span{
 	color:#77b8ff;
-	margin-right: 5px;
-
-}
-article .dv2 .left .box ul li .helped{
-	color:#77b8ff;
+	margin-right: 6px;
 	margin-left: 6px;
-
+	cursor: pointer;
 }
+
+
 article .dv2 .left .box ul:hover{
 	background-color: #e1ebf9;
 }
@@ -1323,7 +1326,7 @@ article .dv2 .right .hezi{
 article .dv2 .right .explain{
 	float: left;
 	font-size: 14px;
-	margin-left: 14px;
+	margin-left: 20px;
 	margin-top: 20px;
 	margin-bottom: 10px;
 }
@@ -1681,7 +1684,18 @@ article .dv4 .parcel .len input{
 	margin-right: 10px;
 }
 article .dv4 .parcel .add{
-	margin-left: 40px;
+	margin-left: 15px;
+	cursor: pointer;
+}
+article .dv4 .parcel .edit_item_check{
+	color: #69b6f5;
+	font-size: 18px;
+	margin-left: 15px;
+}
+article .dv4 .parcel .edit_item_remove{
+	color: #ff0000;
+	font-size: 18px;
+	margin-left: 10px;
 }
 article .dv4 ul{
 	width: 520px;
@@ -2136,7 +2150,6 @@ article .dv4 .switch2{
 	width: 234px;
 	height: 35px;
 	padding-left:16px ;
-	/*margin: 0 64px 12px 20px;*/
 	border: 1px solid #e5e5e5;
 }
 .reward-pop .reward-record{
