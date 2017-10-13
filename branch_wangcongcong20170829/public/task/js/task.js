@@ -539,7 +539,7 @@ function new_task_form(load_table){
             return;
         }
         var money=parseInt($("#"+self.load_table+" article .num3").val());
-        if(!start>0){
+        if(!money>0){
             layer.msg('请正确填写奖金数',{icon:2});
             return;
         }
