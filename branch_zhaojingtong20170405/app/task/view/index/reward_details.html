@@ -230,10 +230,10 @@
         var nowflag=$(task_list_sel+" header ul li.flow div").text();
         var list_count=Number(nowflag.substring(nowflag.indexOf("（")+1,nowflag.indexOf("）")));
         var in_column_name=nowflag.substring(0,nowflag.indexOf("（"));
-		var reward_details_info_manage = new customer_info_manage("reward_details","{$fr}",{},"0",in_column_name,list_count);
 		$("#{$fr} .task_details .center .customer_info").click(function(){
 			var id = $(this).attr("customer_id");
 			//console.log("id",id);
+			var reward_details_info_manage = new customer_info_manage("reward_details","{$fr}",{},"0",in_column_name,list_count);
 			reward_details_info_manage.general(id);
 		});
 	</script>
