@@ -179,10 +179,15 @@ class TaskGuess extends Initialize{
     }
 
     public function get_list(){
-    }
-    public function get(){
         $result = ['status'=>0 ,'info'=>"获取任务猜输赢时发生错误！"];
-
+        $id = input('id',0,'int');
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $taskGussModel = new TaskGuessModel($this->corp_id);
+        $guessList = $taskGussModel->getGuessList($id);
+        $result['data'] = $guessList;
         $result['status'] = 1;
         $result['info'] = "获取任务猜输赢成功！";
         return json($result);
