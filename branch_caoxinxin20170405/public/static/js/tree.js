@@ -66,7 +66,7 @@ function tree(config) {
                     }
                 }
             }
-            if(node_item.hasOwnProperty("child")){
+            if(node_item.hasOwnProperty("child")&&node_item["child"].length>0){
                 child_str+='<div class="child_list child_list'+node_item["id"]+' '+(is_open?"":"hide")+'">';
                 var head_sub = head.concat();
                 head_sub.push(is_last_node);
@@ -97,9 +97,6 @@ function tree(config) {
     };
 
     this.open_item_to_data=function(id,data){
-        console.log("id",id);
-        console.log("name",name);
-        console.log("data",data);
         if(data["id"]==id){
             data["is_open"] = 1;
             //$(this.target+" .node_item"+id+" .node_name").html(name);
@@ -111,9 +108,6 @@ function tree(config) {
     };
 
     this.close_item_to_data=function(id,data){
-        console.log("id",id);
-        console.log("name",name);
-        console.log("data",data);
         if(data["id"]==id){
             data["is_open"] = 0;
             //$(this.target+" .node_item"+id+" .node_name").html(name);
@@ -125,11 +119,12 @@ function tree(config) {
     };
 
     this.add_item_to_data=function(id,pid,name,data){
-        console.log("id",id);
-        console.log("pid",pid);
-        console.log("name",name);
-        console.log("data",data);
         if(data["id"]==pid){
+            //console.log('data["child"]',data["child"]);
+            if(!data["child"]){
+                data["child"]=[];
+            }
+            //console.log('data["child"]',data["child"]);
             data["child"].unshift({
                 groupid:null,
                 id:id,
@@ -139,8 +134,6 @@ function tree(config) {
                 struct_name: name,
                 struct_pid: pid
             });
-            //var item_html = "<div>123123</div>";
-            //$(this.target+" .node"+pid+" .child_list"+pid).prepend(item_html);
         }else{
             for(var idx in data["child"]){
                 this.add_item_to_data(id,pid,name,data["child"][idx]);
@@ -148,12 +141,8 @@ function tree(config) {
         }
     };
     this.update_item_to_data=function(id,name,data){
-        console.log("id",id);
-        console.log("name",name);
-        console.log("data",data);
         if(data["id"]==id){
             data["struct_name"] = name;
-            //$(this.target+" .node_item"+id+" .node_name").html(name);
         }else{
             for(var idx in data["child"]){
                 this.update_item_to_data(id,name,data["child"][idx]);
@@ -161,12 +150,9 @@ function tree(config) {
         }
     };
     this.del_item_to_data=function(id,data){
-        console.log("id",id);
-        console.log("data",data);
         for(var idx in data["child"]){
             if(data["child"][idx]["id"]==id){
                 data["child"].splice(idx,1);
-                //$(this.target+" .node_item"+id).remove();
             }else{
                 this.del_item_to_data(id,data["child"][idx]);
             }
@@ -180,18 +166,22 @@ function tree(config) {
         }
     };
     this.reload=function(){
+        console.log("reload");
         this.tree_html = '<div class="five_tree">'+this.get_html(this.data,[true])+'</div>';
         $(this.target).html(this.tree_html);
     };
     this.add=function(id,pid,name){
+        console.log("add");
         this.add_item_to_data(id,pid,name,this.data[0]);
         this.reload();
     };
     this.update=function(id,name){
+        console.log("update");
         this.update_item_to_data(id,name,this.data[0]);
         this.reload();
     };
     this.del=function(id){
+        console.log("del");
         this.del_item_to_data(id,this.data[0]);
         this.reload();
     };
