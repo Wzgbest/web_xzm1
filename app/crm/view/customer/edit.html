@@ -35,7 +35,7 @@
             </div>
             <div>
                 <span class="cont">客户编码</span>
-                <span class="cont-x">{$customer.id}</span>
+                <span class="cont-x-cunstomer-id">{$customer.id}</span>
 
                 <span class="cont">客户级别</span>
                 <select name="grade">
@@ -85,9 +85,16 @@
                 <textarea name="address" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入详细地址">{$customer.address}</textarea>
             </div>
             <div>
+                <span class="cont u-area">详细定位</span>
+                <!--<input type="text" name="location" placeholder="请点击地图进行坐标定位"/>-->
+                <input type="hidden" name="lng" />
+                <input type="hidden" name="lat" />
+                <iframe id="mapFrame" name="mapFrame" data-lng="119.1324" data-lat="36.7075" data-edit="true" src="/index/index/map.html"></iframe>
+            </div>
+            <!-- <div>
                 <span class="cont">详细定位</span>
                 <input type="text" name="location" placeholder="请输入写字楼、街道、公司名称" value="{$customer.location}"/>
-            </div>
+            </div> -->
             <div>
                 <span class="cont">公司官网</span>
                 <input type="text" name="website" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入公司官网" value="{$customer.website}"/>
@@ -114,4 +121,13 @@
 <script type="text/javascript">
 var opt0 = ["{$customer.prov}","{$customer.city}","{$customer.dist}"];//初始值
 _init_area();
+</script>
+<script>
+    let interal;
+    $("#s_county").change(function(){
+        $("#mapFrame")[0].contentWindow.searchKey($("#s_province").val()+$("#s_city").val()+$(this).val());
+    })
+    $(".newClient input[name='address']").change(function(){
+        $("#mapFrame")[0].contentWindow.searchKey($("#s_province").val()+$("#s_city").val()+$("#s_county").val()+$(this).val());
+    });
 </script>
