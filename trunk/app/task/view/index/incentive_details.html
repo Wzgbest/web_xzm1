@@ -48,7 +48,7 @@
 						</div>
 						<div class="len flo">
 							<p class="small">面向群体</p>
-							<p class="very big"><?php $array=explode(',',$task_info['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共<?php echo count(explode(',',$task_info['public_to_take'])) ?>人，已参与{$task_info.partin_count}人）</p>
+							<p class="very big"><?php $array=explode(',',$task_info['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共<?php echo count(explode(',',$task_info['public_to_take'])) ?>人参与）</p>
 							<div class="flotage">
 								{notempty name="task_info['public_to_take_array']"}{foreach name="task_info['public_to_take_array']" item="v" key="k"}<span class="{in name='k' value='$task_info.take_employees'}color-blue{/in}">{$v}</span>{/foreach}{/notempty}
 							</div>
@@ -190,6 +190,6 @@
 
 	<script type="text/javascript " src="/task/js/task.js "></script>
 	<script type="text/javascript ">
-		new task_details("{$fr} ","{$id} ","{$task_type} ");
+		new task_details("{$fr} ","{$id} ","{$task_type}","{$uid}");
 	</script>
 </div>
