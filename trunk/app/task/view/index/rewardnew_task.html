@@ -26,13 +26,7 @@
 					<div class="left hezi">
 						<img src="/task/img/star.png" style="margin-top: -20px;" />
 						<span style="vertical-align: top;">面向群体</span>
-						<!--<select>
-						<option>李文璐、王大宝、张三等</option>
-						<option>张萌萌等</option>
-						<option>刘大宝等</option>
-					</select>-->
-						<!--<div id="cityMR2" style="width:233px;padding-right:10px;overflow: hidden;" ></div>-->
-						<div id="cityMR2" class="public_to_take" style="width:225px;padding-right:10px;overflow: hidden;padding-left: 20px;">
+						<div id="rewardnew_take" class="public_to_take" style="width:225px;padding-right:10px;overflow: hidden;padding-left: 20px;" >
 						</div>
 					</div>
 
@@ -120,22 +114,7 @@
 	<script src="/task/js/hsCheckData.js"></script>
 	<script src="/task/js/adddate.js"></script>
 	<script>
-		$('#cityDanXuan').hsCheckData({
-			isShowCheckBox: false, //默认为false
-			data: cityData
-		});
-		$('#cityDuoXuan').hsCheckData({
-			isShowCheckBox: true, //默认为false
-			minCheck: 0, //默认为0，不限最少选择个数
-			maxCheck: 6, //默认为0，不限最多选择个数
-			data: cityData
-		});
-		$('#cityMR').hsCheckData({
-			isShowCheckBox: true,
-			data: cityData,
-			defText: '销售一部-张三'
-		});
-		$('#cityMR2').hsCheckData({
+		$('#rewardnew_take').hsCheckData({
 			isShowCheckBox: true,
 			data: cityData
 		});
