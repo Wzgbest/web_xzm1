@@ -281,7 +281,8 @@ class Customer extends Initialize{
         }
 
         if(!$show_flg){
-            $this->error("没有权限查看该客户");
+            $this->assign("error_msg","没有权限查看该客户");
+            return view("no_permission");
         }
         $this->assign($info_array);
         $employeeM = new EmployeeModel($this->corp_id);
@@ -341,7 +342,8 @@ class Customer extends Initialize{
         }
 
         if(!$show_flg){
-            $this->error("没有权限查看该客户");
+            $this->assign("error_msg","没有权限查看该客户");
+            return view("no_permission");
         }
         $this->assign($info_array);
         return view();
@@ -373,7 +375,8 @@ class Customer extends Initialize{
         }
 
         if(!$show_flg){
-            $this->error("没有权限查看该客户");
+            $this->assign("error_msg","没有权限编辑该客户");
+            return view("no_permission");
         }
         $this->assign($info_array);
         return view();
