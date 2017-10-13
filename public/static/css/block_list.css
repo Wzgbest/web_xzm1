@@ -4,8 +4,9 @@
     font-size: 12px;
     font-family: "微软雅黑";
     width: 100%;
-    height: 770px;
+    height: 100%;
     background-color: #f5f7fa;
+    overflow-x: hidden;
 }
 
 .block_list ul,

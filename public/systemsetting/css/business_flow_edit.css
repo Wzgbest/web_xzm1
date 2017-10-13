@@ -387,7 +387,7 @@
 }
 
 .systemsetting_business_flow_edit .content .yixuan {
-    width: 450px;
+    width: 850px;
     height: 35px;
     /*background-color: #eaf2fe;*/
     color: #42a5f5;
@@ -396,6 +396,7 @@
     margin-top: 20px;
     margin-bottom: 0px;
     float: left;
+    margin-left: 30px;
 }
 
 .systemsetting_business_flow_edit .content p.yixuan span {
@@ -415,7 +416,12 @@
     float: left;
     margin-top: 0px;
     background-color: #fff;
-    margin-left: 3px;
+    /*margin-left: 3px;*/
+    position: absolute;
+    left: 40px;
+    top: 185px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .systemsetting_business_flow_edit .content div.xuanzhong {
@@ -427,9 +433,20 @@
     margin-top: 0px;
     background-color: #fff;
     margin-left: 0px;
+    position: absolute;
+    left: 200px;
+    z-index: 9999;
+    
 }
 
-.systemsetting_business_flow_edit .content .xuanze ul {}
+.systemsetting_business_flow_edit .content .xuanzhong ul {
+	height: 200px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	width: 160px;
+	border-bottom:1px solid silver;
+}
+
 
 .systemsetting_business_flow_edit .content .xuanze ul li {
     width: 160px;
@@ -456,15 +473,20 @@
 }
 
 .systemsetting_business_flow_edit .content .xuanzhong li {
-    width: 160px;
+    width: 140px;
     height: 32px;
     /*border-bottom: 1px solid red;*/
     margin-left: 20px;
     line-height: 32px;
+    position: relative;
 }
 
 .systemsetting_business_flow_edit .content .xuanzhong li img {
     margin-left: 30px;
+    position: absolute;
+    right:40px;
+    top:12px;
+    
 }
 
 .systemsetting_business_flow_edit .content .xuanzhong .wancheng {
