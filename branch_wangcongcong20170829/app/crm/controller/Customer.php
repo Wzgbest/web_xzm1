@@ -381,7 +381,14 @@ class Customer extends Initialize{
         $this->assign($info_array);
         return view();
     }
-    
+    public function change_customers_visible_range_page(){
+        return view();
+    }
+    public function change_customers_to_employee_page(){
+        return view();
+    }
+
+
     public function manage(){
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
         $show_flg = false;
