@@ -478,6 +478,10 @@ class SaleChance extends Initialize{
             $result['info'] = "销售机会名称不能为空!";
             return json($result);
         }
+        if(!$saleChance['business_id']){
+            $result['info'] = "销售机会业务不能为空!";
+            return json($result);
+        }
         if($saleChance["guess_money"]<=0){
             $result['info'] = "预计成单金额必须大于0!";
             return json($result);
