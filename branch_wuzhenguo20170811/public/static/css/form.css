@@ -58,6 +58,11 @@
 	padding-left: 25px;
 	width: 330px;
 }
+.m-form .cont-x-cunstomer-id{
+	display: inline-block;
+	padding-left: 25px;
+	width: 311px;
+}
 .m-form .u-required{
 	color: red;
 	line-height: 28px;

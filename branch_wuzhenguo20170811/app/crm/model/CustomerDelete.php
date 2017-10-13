@@ -28,8 +28,7 @@ class CustomerDelete extends Base
      */
     public function moveInDelMultipleCustomer($cids){
         $flg = false;
-        //TODO 写入客户删除表
-        //$flg = $this->model->table($this->table)->where('id','in',$cids)->delete();
+        $flg = $this->model->table($this->table)->where('id','in',$cids)->update(["belongs_to"=>0]);
         return $flg;
     }
 
@@ -42,8 +41,10 @@ class CustomerDelete extends Base
      */
     public function moveOutDelMultipleCustomer($cids){
         $flg = false;
-        //TODO 写入客户删除表
-        //$flg = $this->model->table($this->table)->where('id','in',$cids)->delete();
+        $flg = $this->model->table($this->table)
+            ->where('id','in',$cids)
+            ->where('belongs_to',0)
+            ->update(["belongs_to"=>1]);
         return $flg;
     }
 
@@ -56,6 +57,8 @@ class CustomerDelete extends Base
      */
     public function delCustomer($cids)
     {
+        //******不建议使用,客户信息涉及到销售机会,合同,各种申请,删除影响太大********//
+        //TODO 写入客户删除文件
         return $this->model->table($this->table)->where('id','in',$cids)->delete();
     }
 }
