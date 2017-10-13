@@ -99,6 +99,9 @@
             </div>
             {include file="common@common/page"/}
         </section>
+        <section class="crm-customer-manage-pop popUp hide">
+            
+        </section>
         <script src="/static/js/list_manage.js"></script>
         <script language="javascript">
             var customer_manage_list_manage = new list_manage("customer_manage","cilents-managefr","/crm/customer/customer_manage",'{$p}','{$num}','{$max_page}','0',"");
@@ -123,3 +126,12 @@
     </div>
 </div>
 <link rel="stylesheet" href="/crm/css/index.css"/>
+<script src="/static/js/PopUp.js"></script>
+<script>
+    $(".crm_customer_manage .change_customers_to_employee.active").click(function(){
+        var pop = new popLoad(".crm-customer-manage-pop","/crm/customer/redistribute/");
+    });
+    $(".crm_customer_manage .change_customers_visible_range.active").click(function(){
+        var pop = new popLoad(".crm-customer-manage-pop","/crm/customer/change_customers_visible_range/");
+    });    
+</script>
