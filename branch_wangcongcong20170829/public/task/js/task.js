@@ -705,7 +705,7 @@ function new_task_form(load_table){
 }
 
 
-function task_list(target){
+function task_list(target,now_uid){
     this.target=target;
     this.now_sel_id = 0;
     this.now_sel_type = 0;
@@ -743,6 +743,13 @@ function task_list(target){
                     $('.task_'+self.now_sel_id+" .get_reward").parent().append("<p class='p1'>正在参与任务</p>");
                     $('.task_'+self.now_sel_id+" .get_reward").hide();
                     $('.task_'+self.now_sel_id+" .guess").hide();
+                    var partin_count=Number($('.task_'+self.now_sel_id+" .partin_count").text())+1;
+                    $('.task_'+self.now_sel_id+" .partin_count").text(partin_count);
+
+                    $('.task_'+self.now_sel_id+" .user_"+now_uid).addClass('color-blue');
+
+
+
                 }
             });
         }else if(self.now_sel_type=='guess'){
@@ -828,6 +835,7 @@ function task_list(target){
         var id = $(this).attr("task_id");
         //loadPage('/task/index/show/id/'+id+'/fr/'+self.target,self.target);
         var nowflag=$(task_list_sel+" header ul li.flow div").text();
+        now_uid;
         $.ajax({
             url: '/task/index/show/id/'+id+'/fr/'+self.target,
             type: 'get',
@@ -925,6 +933,9 @@ function task_list(target){
                     that.parent().append("<p class='p1'>正在参与任务</p>");
                     that.hide();
 
+                    var partin_count=Number($('.task_'+self.now_sel_id+" .partin_count").text())+1;
+                    $('.task_'+self.now_sel_id+" .partin_count").text(partin_count);//已参与人数量变化
+                    $('.task_'+self.now_sel_id+" .user_"+now_uid).addClass('color-blue');//以参与人标记
                 }
             });
         }
@@ -1128,7 +1139,7 @@ function task_list(target){
 
 
 
-function task_details(load_table,id,type){
+function task_details(load_table,id,type,now_uid){
     this.load_table = load_table;
     this.id = id;
     this.type = type;
@@ -1226,6 +1237,14 @@ function task_details(load_table,id,type){
                     $(".task_"+self.id+" .details .get_reward").hide();
                     $(".task_"+self.id+" .details .guess").hide();
 
+                    //数量以及参与人的更新
+                    var partin_count=Number($(".task_details .partin_count").text())+1;
+                    $('.task_details .partin_count').text(partin_count);
+                    $('.task_details .user_'+now_uid).addClass('color-blue');
+
+                    $('.task_'+self.id+" .partin_count").text(partin_count);
+                    $('.task_'+self.id+" .user_"+now_uid).addClass('color-blue');
+
                 }
             });
         }else if(self.now_sel_type=='guess'){
@@ -1315,6 +1334,14 @@ function task_details(load_table,id,type){
                     //列表页的状态更新
                     $(".task_"+self.id+" .details .get_reward").parent().append("<p class='p1'>正在参与任务</p>");
                     $(".task_"+self.id+" .details .get_reward").hide();
+
+                    //数量以及参与人的更新
+                    var partin_count=Number(that.parents('.task_details').find('.partin_count').text())+1;
+                    that.parents('.task_details').find('.partin_count').text(partin_count);
+                    that.parents('.task_details').find('.user_'+now_uid).addClass('color-blue');
+
+                    $('.task_'+self.id+" .partin_count").text(partin_count);
+                    $('.task_'+self.id+" .user_"+now_uid).addClass('color-blue');
                 }
             });
         }
