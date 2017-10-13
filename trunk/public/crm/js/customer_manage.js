@@ -34,7 +34,7 @@ $(customer_manage_nav_base+" .delete").click(function(){
 });
 customer_manage_list_manage.listenSelect("change_customers_to_employee");
 $(customer_manage_nav_base+" .change_customers_to_employee").click(function(){
-    var pop = new popLoad(customer_manage_list_base+" .crm-customer-manage-pop","/crm/customer/redistribute/");
+    var pop = new popLoad(customer_manage_list_base+" .crm-customer-manage-pop","/crm/customer/change_customers_to_employee_page/");
 });
 change_customers_to_employee=function(uid){
     var ids = customer_manage_list_manage.getAllSelectVal();
