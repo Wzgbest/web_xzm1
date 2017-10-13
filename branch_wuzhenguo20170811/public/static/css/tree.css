@@ -16,6 +16,7 @@
     background-color: #e3e7ed;
 }
 .five_tree .node .node_plus {
+	cursor: pointer;
     display: inline-block;
     width:20px;
     height:42px;
@@ -23,6 +24,7 @@
 }
 .five_tree .node .node_sub {
     background: url('/systemsetting/images/pane_sub.png') no-repeat;
+    cursor: pointer;
 }
 .five_tree .node .node_leaf {
     display: inline-block;
@@ -57,10 +59,12 @@
 .five_tree .node .node_name {
     display: inline-block;
     margin: 12px 0 0 8px;
+    cursor: pointer;
 }
 .five_tree .node .node_item .node_tool{
     display: none;
     margin: 0 0 0 10px;
+    cursor: pointer;
 }
 .five_tree .node .node_item:hover {
     background-color: #e6e6e6;

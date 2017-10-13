@@ -830,12 +830,10 @@ function task_list(target,now_uid){
         });
     }
 
-
     $(task_list_sel+" article").on("click",".dv1",function(){
         var id = $(this).attr("task_id");
-        //loadPage('/task/index/show/id/'+id+'/fr/'+self.target,self.target);
         var nowflag=$(task_list_sel+" header ul li.flow div").text();
-        now_uid;
+        //now_uid;
         $.ajax({
             url: '/task/index/show/id/'+id+'/fr/'+self.target,
             type: 'get',
@@ -869,24 +867,6 @@ function task_list(target,now_uid){
             }
         });
     });
-    // $(task_list_sel+" article").on("click",".dv1 .task_details",function(){
-    //     var id = $(this).attr("task_id");
-    //     //loadPage('/task/index/show/id/'+id+'/fr/'+self.target,self.target);
-    //     var nowflag=$(task_list_sel+" header ul li.flow div").text();
-    //     $.ajax({
-    //         url: '/task/index/show/id/'+id+'/fr/'+self.target,
-    //         type: 'get',
-    //         success: function(data) {
-    //             $("#"+self.target+" .task_direct_panel .task_direct_info_panel").html(data);
-    //             $("#"+self.target+" .task_direct_panel header div ul li.current div").text(nowflag);
-    //             $("#"+self.target+" .task_list").addClass("hide");
-    //             $("#"+self.target+" .task_direct_panel").removeClass("hide");
-    //         },
-    //         error: function() {
-    //             layer.msg('加载任务详情出现错误',{icon:2});
-    //         }
-    //     });
-    // });
 
     $("#"+self.target+" .task_info_panel .top .current").click(function(){
         $("#"+self.target+" .task_info_panel").addClass("hide");

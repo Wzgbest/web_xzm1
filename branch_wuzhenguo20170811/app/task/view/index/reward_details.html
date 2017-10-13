@@ -94,7 +94,7 @@
 				{/if}
 				{/eq}
 				{eq name="task_info.is_token" value="1"}
-				<p class="p6">已领取{$task_info.total_money}元</p>
+				<p class="p6">已领{$task_info.total_money}元</p>
 				{/eq}
 				{eq name="task_info.status" value="0"}<p class="p3">任务被终止</p>{/eq}
 				{eq name="task_info.status" value="1"}<p class="p4">任务未生效</p>{/eq}
@@ -230,10 +230,10 @@
         var nowflag=$(task_list_sel+" header ul li.flow div").text();
         var list_count=Number(nowflag.substring(nowflag.indexOf("（")+1,nowflag.indexOf("）")));
         var in_column_name=nowflag.substring(0,nowflag.indexOf("（"));
-		var reward_details_info_manage = new customer_info_manage("reward_details","{$fr}",{},"0",in_column_name,list_count);
 		$("#{$fr} .task_details .center .customer_info").click(function(){
 			var id = $(this).attr("customer_id");
 			//console.log("id",id);
+			var reward_details_info_manage = new customer_info_manage("reward_details","{$fr}",{},"0",in_column_name,list_count);
 			reward_details_info_manage.general(id);
 		});
 	</script>
