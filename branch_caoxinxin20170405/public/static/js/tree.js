@@ -125,7 +125,7 @@ function tree(config) {
                 data["child"]=[];
             }
             //console.log('data["child"]',data["child"]);
-            data["child"].unshift({
+            data["child"].push({
                 groupid:null,
                 id:id,
                 struct_en: null,
