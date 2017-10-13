@@ -389,10 +389,21 @@ function struct_list_employee_move(struct_id,employee_id){
     struct_list_employee_move_employee_id = employee_id;
     console.log(struct_list_employee_move_struct_id);
     console.log(struct_list_employee_move_employee_id);
-    // class="big-link" data-reveal-id="structure_move" data-animation="fade"
-    $(struct_list_panel_base+" .structure_move").reveal("{data-animation:'fade'}");
+    var url = "/systemsetting/structure/move_employee_page/";
+    $.ajax({
+        url:url,
+        type:'get',
+        success:function (data) {
+            $(struct_list_panel_base+" .structure_move").html(data);
+            // class="big-link" data-reveal-id="structure_move" data-animation="fade"
+            $(struct_list_panel_base+" .structure_move").reveal("{data-animation:'fade'}");
+        },
+        error:function(){
+            layer.msg('加载转移员工部门失败!',{icon:2});
+        }
+    });
 }
-$(struct_list_panel_base+" .structure_move .structure_move_ok").click(function(){
+$(struct_list_panel_base+" .structure_move").on("click",".structure_move_ok",function(){
     var to_struct_id = $(struct_list_panel_base+" .structure_move .to_struct_id").val();
     console.log(to_struct_id);
     struct_list_employee_move_to(
@@ -401,7 +412,7 @@ $(struct_list_panel_base+" .structure_move .structure_move_ok").click(function()
         to_struct_id
     );
 });
-$(struct_list_panel_base+" .structure_move .structure_move_structure_move_cancel").click(function(){
+$(struct_list_panel_base+" .structure_move").on("click",".structure_move_cancel",function(){
     $(struct_list_panel_base+" .structure_move").trigger('reveal:close');
 });
 function struct_list_employee_move_to(struct_id,employee_id,to_struct_id){
