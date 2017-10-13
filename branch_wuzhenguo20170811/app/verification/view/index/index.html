@@ -1,4 +1,4 @@
-<div class="verification_sale_chance verification_sale_chance_index" style="overflow-x: hidden;">
+<div class="verification verification_sale_chance verification_sale_chance_index" style="overflow-x: hidden;">
     <div class="index_panel index verification_sale_chance">
         <!--header-->
         <header>
@@ -14,10 +14,6 @@
         <!--客户列表-->
         <section>
             <ul class="m-secNav">
-                <!--<li class="active" onclick="newClient()">新建客户</li>
-                <li class="active">导入客户</li>
-                <li class="active">录入记录</li>
-                <li class="vertical"></li>-->
                 <li>通过</li>
                 <li>驳回</li>
                 <li>导出报表</li>
@@ -76,8 +72,6 @@
                         <li>收款银行（本公司）</li>
                         <li>打款名称</li>
                         <li>打款日期<i class="fa fa-unsorted"></i></li>
-                        <!--<li>提醒时间<i class="fa fa-unsorted"></i></li>
-                        <li>所在列</li>-->
                         <li>分类</li>
                         <li>备注<i class="fa fa-unsorted"></i></li>
                         <li>对应状态</li>
@@ -99,8 +93,6 @@
                         <li>无</li>
                         <li>{$vo.pay_name}</li>
                         <li>2017/03/02</li>
-                        <!--<li>1天23:59</li>
-                        <li>待沟通客户</li>-->
                         <li>无</li>
                         <li>{$vo.remark}</li>
                         <li class="status">
@@ -125,6 +117,7 @@
         </section>
     </div>
 </div>
+<link rel="stylesheet" type="text/css" href="/verification/css/verification.css">
 <script src="/static/js/list_manage.js"></script>
 <script language="javascript">
     var verification_sale_chance_list_manage = new list_manage("verification_sale_chance","verification-indexfr","/verification/index/index",'{$p}','{$num}','{$max_page}','{$in_column}',"");

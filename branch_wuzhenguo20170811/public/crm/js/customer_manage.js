@@ -1,4 +1,5 @@
-var customer_manage_nav_base = "#cilents-managefr .customer_manage .m-secNav";
+var customer_manage_list_base = "#cilents-managefr .customer_manage";
+var customer_manage_nav_base = customer_manage_list_base+" .m-secNav";
 customer_manage_list_manage.listenSelect("exportCustomer");
 $(customer_manage_nav_base+" .exportCustomer").click(function(){
     var ids = customer_manage_list_manage.getAllSelectVal(" ",",");
@@ -33,6 +34,9 @@ $(customer_manage_nav_base+" .delete").click(function(){
 });
 customer_manage_list_manage.listenSelect("change_customers_to_employee");
 $(customer_manage_nav_base+" .change_customers_to_employee").click(function(){
+    var pop = new popLoad(customer_manage_list_base+" .crm-customer-manage-pop","/crm/customer/change_customers_to_employee_page/");
+});
+change_customers_to_employee=function(uid){
     var ids = customer_manage_list_manage.getAllSelectVal();
     if(ids==""){
         return;
@@ -41,7 +45,7 @@ $(customer_manage_nav_base+" .change_customers_to_employee").click(function(){
     $.ajax({
         url: '/crm/customer/change_customers_to_employee',
         type: 'post',
-        data: ids,
+        data: {ids:ids,uid:uid},
         success: function(data) {
             //console.log(data);
             layer.msg(data.info,{icon:data.status==1?1:2});
@@ -53,9 +57,12 @@ $(customer_manage_nav_base+" .change_customers_to_employee").click(function(){
             layer.msg('重分客户时发生错误!',{icon:2});
         }
     });
-});
+};
 customer_manage_list_manage.listenSelect("change_customers_visible_range");
 $(customer_manage_nav_base+" .change_customers_visible_range").click(function(){
+    var pop = new popLoad(customer_manage_list_base+" .crm-customer-manage-pop","/crm/customer/change_customers_visible_range_page/");
+});
+change_customers_visible_range=function(is_public,employees,departments){
     var ids = customer_manage_list_manage.getAllSelectVal();
     if(ids==""){
         return;
@@ -64,7 +71,7 @@ $(customer_manage_nav_base+" .change_customers_visible_range").click(function(){
     $.ajax({
         url: '/crm/customer/change_customers_visible_range',
         type: 'post',
-        data: ids,
+        data: {ids:ids,is_public:is_public,employees:employees,departments:departments},
         success: function(data) {
             //console.log(data);
             layer.msg(data.info,{icon:data.status==1?1:2});
@@ -76,7 +83,7 @@ $(customer_manage_nav_base+" .change_customers_visible_range").click(function(){
             layer.msg('更改可见范围时发生错误!',{icon:2});
         }
     });
-});
+};
 customer_manage_list_manage.listenSelect("imposed_release_customers");
 $(customer_manage_nav_base+" .imposed_release_customers").click(function(){
     var ids = customer_manage_list_manage.getAllSelectVal();

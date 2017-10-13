@@ -552,7 +552,7 @@ function new_task_form(load_table){
         $("#"+self.load_table+" article .num3").val("");
     });
 
-    //TODO 点击编辑
+    //点击编辑
     $("#"+self.load_table+" article .dv4 ul").on("click",".change",function(){
         console.log("item_edit");
         var start=parseInt($(this).siblings("span:eq(0)").text());
@@ -569,7 +569,7 @@ function new_task_form(load_table){
             }
         }
     });
-    //TODO 编辑确认
+    //编辑确认
     $("#"+self.load_table+" article .dv4 .parcel .edit_item_check").click(function(){
         console.log("item_edit_check");
         var start=parseInt($("#"+self.load_table+" article .num1").val());
@@ -607,7 +607,7 @@ function new_task_form(load_table){
         $("#"+self.load_table+" article .dv4 .parcel .add").removeClass("hide");
         self.reload_reward_list_html();
     });
-    //TODO 编辑取消
+    //编辑取消
     $("#"+self.load_table+" article .dv4 .parcel .edit_item_remove").click(function(){
         console.log("item_edit_remove");
         var end_max=self.reward_list[self.reward_list.length-1]["end"];

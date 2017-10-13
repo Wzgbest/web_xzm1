@@ -1,4 +1,4 @@
-<div class="verification_contract verification_contract_index" style="overflow-x: hidden;">
+<div class="verification verification_contract verification_contract_index" style="overflow-x: hidden;">
     <div class="index_panel index verification_contract">
         <header>
             <ul class="m-firNav">
@@ -17,10 +17,6 @@
         <!--客户列表-->
         <section>
             <ul class="m-secNav">
-                <!--<li class="active" onclick="newClient()">新建客户</li>
-                <li class="active">导入客户</li>
-                <li class="active">录入记录</li>
-                <li class="vertical"></li>-->
                 <li>通过</li>
                 <li>驳回</li>
                 <li>导出报表</li>
@@ -144,6 +140,7 @@
         </section>
     </div>
 </div>
+<link rel="stylesheet" type="text/css" href="/verification/css/verification.css">
 <script src="/static/js/list_manage.js"></script>
 <script language="javascript">
     var verification_contract_list_manage = new list_manage("verification_contract","verification-contractfr","/verification/contract/index",'{$p}','{$num}','{$max_page}','{$in_column}',"");
