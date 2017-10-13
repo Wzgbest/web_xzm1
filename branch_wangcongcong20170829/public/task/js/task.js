@@ -116,75 +116,6 @@ function task_end(id,fun){
         },
     });
 }
-//新建里边点击加号ul显示
-$("article .dv4 .parcel .add").click(function(){
-    console.log("add");
-
-    var num1=parseInt($('.num1').val());
-    var num2=parseInt($('.num2').val());
-    var num3=parseInt($('.num3').val());
-    if(num1&&num2&&num3){
-        var neirong="<li>第<span>"+num1+"</span>~<span>"+num2+"</span>名，各奖励<span>"+num3+"</span>元<i class='fa fa-edit'></i><i class='fa fa-trash-o trash'></i></li>"
-
-        $("article .dv4 ul").prepend(neirong);
-        var s=0;
-        var max_num2=0;
-
-        $("article .dv4 ul li:not(:last)").each(function(){
-
-            var num1=parseInt($(this).children("span:eq(0)").text());
-            var num2=parseInt($(this).children("span:eq(1)").text());
-            var num3=parseInt($(this).children("span:eq(2)").text());
-
-            var i=num2-num1+1;
-            s=s+i*num3;
-
-            if(max_num2<num2){
-                max_num2=num2
-            }
-        })
-    }
-    else{
-        layer.msg('请正确填写分配规则',{icon:2});
-    }
-
-
-    $("article .dv4 ul .largest").text(max_num2);
-    $("article .dv4 ul .total").text(s);//总计的钱
-})
-
-
-//新建tab切换
-$("article .dv4 .xuanze input").click(function(){
-    $(this).parent().siblings().children("input[type='radio']").attr("checked",false);
-    $(this).parent().siblings().children("input[type='radio']").prop("checked",false);
-    $(this).attr("checked",true);
-    $(this).prop("checked",true);
-    if($(this).parent(".choice").index()==1){
-        $("article .dv4 .tab1").css("display","none");
-        $("article .dv4 .tab2").css("display","block");
-    }else{
-        $("article .dv4 .tab1").css("display","block");
-        $("article .dv4 .tab2").css("display","none");
-    }
-
-});
-
-$("article .dv4 .xuanze input").click(function(){
-	
-    $(this).siblings("input[type='radio']").attr("checked",false);
-    $(this).siblings("input[type='radio']").prop("checked",false);
-    $(this).attr("checked",true);
-    $(this).prop("checked",true);
-    if($(this).index()==1){
-        $("article .dv4 .switch1").css("display","block");
-        $("article .dv4 .switch2").css("display","none");
-    }else{
-        $("article .dv4 .switch1").css("display","none");
-        $("article .dv4 .switch2").css("display","block");
-    }
-
-});
 
 function task_tip(id,tip_money,paypassword,callback){
     $.ajax({
@@ -248,6 +179,8 @@ function new_task_form(load_table){
     console.log("load_table");
     console.log(load_table);
     this.paypassword = '';
+    this.reward_list = [];
+    this.reward_edit_idx = [];
     var self = this;
 
     this.get_form_data=function(){
@@ -307,28 +240,28 @@ function new_task_form(load_table){
             }
 
             if(task_method==1 || task_method==3){
-                var s=0;
-                var max_num2=0;
-                $(form_sel+" article .dv4 ul li:not(:last)").each(function(){
-                    var num1=parseInt($(this).children("span:eq(0)").text());
-                    var num2=parseInt($(this).children("span:eq(1)").text());
-                    var num3=parseInt($(this).children("span:eq(2)").text());
-
-                    var i=num2-num1+1;
-                    s=s+i*num3;
-                    if(max_num2<num2){
-                        max_num2=num2
+                var all_money=0;
+                var $verify_idx = 0;
+                for(var idx=0;idx<self.reward_list.length;idx++){
+                    var start_item = self.reward_list[idx]["start"];
+                    var end_item = self.reward_list[idx]["end"];
+                    if($verify_idx+1!=start_item){
+                        layer.msg('第'+($verify_idx+1)+'名没有分配规则!',{icon:2});
+                        return false;
                     }
+                    $verify_idx = end_item;
+                    var item_money = self.reward_list[idx]["money"];
+                    var item_num=end_item-start_item+1;
+                    all_money=all_money+item_num*item_money;
                     var reward_object = {
-                        reward_start:num1,
-                        reward_end:num2,
-                        reward_amount:num3
+                        reward_start:start_item,
+                        reward_end:end_item,
+                        reward_amount:item_money
                     };
                     reward_array.push(reward_object);
-
-                });
-                money = s;
-                console.log('s',s);
+                }
+                money = all_money;
+                console.log('all_money',all_money);
             }else if(task_method==2){
                 money = $(form_sel+" [name='reward_amount']").val();
                 var reward_object = {
@@ -501,6 +434,227 @@ function new_task_form(load_table){
         }
     });
 
+    this.add_reward_item=function(start,end,money){
+        //检验在数组中是否有重合,只检验重合
+        var add_idx = -1;
+        for(var idx=0;idx<self.reward_list.length;idx++){
+            var start_item = self.reward_list[idx]["start"];
+            //console.log("start",start);
+            var end_item = self.reward_list[idx]["end"];
+            //console.log("end",end);
+            if(start_item<=start && start<=end_item){
+                layer.msg('开始名次和之前的规则有重叠',{icon:2});
+                return;
+            }
+            if(start_item<=end && end<=end_item){
+                layer.msg('结束名次和之前的规则有重叠',{icon:2});
+                return;
+            }
+            if(add_idx==-1 && end<start_item) {
+                add_idx = idx;
+            }
+        }
+        console.log("add_idx",add_idx);
+        //按顺序添加到数组
+        var item_temp = {start:start,end:end,money:money};
+        if(add_idx == -1){
+            self.reward_list.push(item_temp);
+        }else{
+            self.reward_list.splice(add_idx,0,item_temp);
+        }
+        console.log("self.reward_list",self.reward_list);
+    };
+
+    this.update_reward_item=function(up_idx,start,end,money){
+        var flg = false;
+        //检验在数组中是否有重合,只检验重合
+        for(var idx=0;idx<self.reward_list.length;idx++){
+            if(idx==up_idx){
+                continue;
+            }
+            var start_item = self.reward_list[idx]["start"];
+            //console.log("start",start);
+            var end_item = self.reward_list[idx]["end"];
+            //console.log("end",end);
+            if(start_item<=start && start<=end_item){
+                layer.msg('开始名次和之前的规则有重叠',{icon:2});
+                return flg;
+            }
+            if(start_item<=end && end<=end_item){
+                layer.msg('结束名次和之前的规则有重叠',{icon:2});
+                return flg;
+            }
+        }
+        var item_temp = {start:start,end:end,money:money};
+        self.reward_list.splice(up_idx,1,item_temp);
+        flg = true;
+        return flg;
+    };
+
+    this.del_reward_item=function(start){
+        for(var idx=0;idx<self.reward_list.length;idx++){
+            var start_item = self.reward_list[idx]["start"];
+            if(start==start_item){
+                self.reward_list.splice(idx,1);
+            }
+        }
+    };
+
+    this.reload_reward_list_html=function(){
+        var all_money=0;
+        var max_item=0;
+        var item_list_html = '';
+        for(var idx=0;idx<self.reward_list.length;idx++){
+            var start = self.reward_list[idx]["start"];
+            var end = self.reward_list[idx]["end"];
+            var money = self.reward_list[idx]["money"];
+            var num=end-start+1;
+            all_money=all_money+num*money;
+            if(max_item<end){
+                max_item=end;
+            }
+            var item_html="<li>第<span>"+start+"</span>~<span>"+end+"</span>名，各奖励<span>"+money+"</span>元<i class='fa fa-edit change'></i><i class='fa fa-trash-o trash'></i></li>";
+            item_list_html+=item_html;
+        }
+        var item_html='<li>奖励前<span class="largest">'+max_item+'</span>名，将支付<span class="total">'+all_money+'</span>元作为激励奖金</li>';
+        item_list_html+=item_html;
+        $("#"+self.load_table+" article .dv4 ul").html(item_list_html);
+    };
+
+    //新建里边点击加号ul显示
+    $("#"+self.load_table+" article .dv4 .parcel .add").click(function(){
+        console.log("add");
+        var start=parseInt($("#"+self.load_table+" article .num1").val());
+        if(!start>0){
+            layer.msg('请正确填写开始名次',{icon:2});
+            return;
+        }
+        var end=parseInt($("#"+self.load_table+" article .num2").val());
+        if(!end>0){
+            layer.msg('请正确填写结束名次',{icon:2});
+            return;
+        }
+        if(start>end){
+            layer.msg('结束名次不能小于开始名次',{icon:2});
+            return;
+        }
+        var money=parseInt($("#"+self.load_table+" article .num3").val());
+        if(!start>0){
+            layer.msg('请正确填写奖金数',{icon:2});
+            return;
+        }
+
+        self.add_reward_item(start,end,money);
+
+        self.reload_reward_list_html();
+        $("#"+self.load_table+" article .num1").val(end+1);
+        $("#"+self.load_table+" article .num2").val("");
+        $("#"+self.load_table+" article .num3").val("");
+    });
+
+    //TODO 点击编辑
+    $("#"+self.load_table+" article .dv4 ul").on("click",".change",function(){
+        console.log("item_edit");
+        var start=parseInt($(this).siblings("span:eq(0)").text());
+        for(var idx=0;idx<self.reward_list.length;idx++){
+            var start_item = self.reward_list[idx]["start"];
+            if(start==start_item){
+                self.reward_edit_idx = idx
+                $("#"+self.load_table+" article .num1").val(start);
+                $("#"+self.load_table+" article .num2").val(self.reward_list[idx]["end"]);
+                $("#"+self.load_table+" article .num3").val(self.reward_list[idx]["money"]);
+                $("#"+self.load_table+" article .dv4 .parcel .add").addClass("hide");
+                $("#"+self.load_table+" article .dv4 .parcel .edit_item_check").removeClass("hide");
+                $("#"+self.load_table+" article .dv4 .parcel .edit_item_remove").removeClass("hide");
+            }
+        }
+    });
+    //TODO 编辑确认
+    $("#"+self.load_table+" article .dv4 .parcel .edit_item_check").click(function(){
+        console.log("item_edit_check");
+        var start=parseInt($("#"+self.load_table+" article .num1").val());
+        if(!start>0){
+            layer.msg('请正确填写开始名次',{icon:2});
+            return;
+        }
+        var end=parseInt($("#"+self.load_table+" article .num2").val());
+        if(!end>0){
+            layer.msg('请正确填写结束名次',{icon:2});
+            return;
+        }
+        if(start>end){
+            layer.msg('结束名次不能小于开始名次',{icon:2});
+            return;
+        }
+        var money=parseInt($("#"+self.load_table+" article .num3").val());
+        if(!start>0){
+            layer.msg('请正确填写奖金数',{icon:2});
+            return;
+        }
+
+        var flg = self.update_reward_item(self.reward_edit_idx,start,end,money);
+        if(!flg){
+            console.log("item_edit_check_update_false");
+            return;
+        }
+
+        var end_max=self.reward_list[self.reward_list.length-1]["end"];
+        $("#"+self.load_table+" article .num1").val(end_max+1);
+        $("#"+self.load_table+" article .num2").val('');
+        $("#"+self.load_table+" article .num3").val('');
+        $("#"+self.load_table+" article .dv4 .parcel .edit_item_check").addClass("hide");
+        $("#"+self.load_table+" article .dv4 .parcel .edit_item_remove").addClass("hide");
+        $("#"+self.load_table+" article .dv4 .parcel .add").removeClass("hide");
+        self.reload_reward_list_html();
+    });
+    //TODO 编辑取消
+    $("#"+self.load_table+" article .dv4 .parcel .edit_item_remove").click(function(){
+        console.log("item_edit_remove");
+        var end_max=self.reward_list[self.reward_list.length-1]["end"];
+        $("#"+self.load_table+" article .num1").val(end_max+1);
+        $("#"+self.load_table+" article .num2").val('');
+        $("#"+self.load_table+" article .num3").val('');
+        $("#"+self.load_table+" article .dv4 .parcel .edit_item_check").addClass("hide");
+        $("#"+self.load_table+" article .dv4 .parcel .edit_item_remove").addClass("hide");
+        $("#"+self.load_table+" article .dv4 .parcel .add").removeClass("hide");
+    });
+    //点击删除,删除数组中的条目,更新页面
+    $("#"+self.load_table+" article .dv4 ul").on("click",".trash",function(){
+        console.log("item_trash");
+        var start=parseInt($(this).siblings("span:eq(0)").text());
+        self.del_reward_item(start);
+        self.reload_reward_list_html();
+    });
+
+    //新建tab切换
+    $("#"+self.load_table+" article .dv4 .xuanze input").click(function(){
+        $(this).parent().siblings().children("input[type='radio']").attr("checked",false);
+        $(this).parent().siblings().children("input[type='radio']").prop("checked",false);
+        $(this).attr("checked",true);
+        $(this).prop("checked",true);
+        if($(this).parent(".choice").index()==1){
+            $("#"+self.load_table+" article .dv4 .tab1").css("display","none");
+            $("#"+self.load_table+" article .dv4 .tab2").css("display","block");
+        }else{
+            $("#"+self.load_table+" article .dv4 .tab1").css("display","block");
+            $("#"+self.load_table+" article .dv4 .tab2").css("display","none");
+        }
+    });
+
+    $("#"+self.load_table+" article .dv4 .xuanze input").click(function(){
+        $(this).siblings("input[type='radio']").attr("checked",false);
+        $(this).siblings("input[type='radio']").prop("checked",false);
+        $(this).attr("checked",true);
+        $(this).prop("checked",true);
+        if($(this).index()==1){
+            $("#"+self.load_table+" article .dv4 .switch1").css("display","block");
+            $("#"+self.load_table+" article .dv4 .switch2").css("display","none");
+        }else{
+            $("#"+self.load_table+" article .dv4 .switch1").css("display","none");
+            $("#"+self.load_table+" article .dv4 .switch2").css("display","block");
+        }
+    });
+
     $("#"+self.load_table+" .task .issue .new_task_submit").click(function(){
         console.log("new_task_submit");
         var form_data = self.get_form_data();
@@ -508,8 +662,8 @@ function new_task_form(load_table){
         if(form_data===false){
             return;
         }
-        let task_type = $("#"+self.load_table+" .task .new_task_form"+" [name='task_type']").val();
-        let type = 0;
+        var task_type = $("#"+self.load_table+" .task .new_task_form"+" [name='task_type']").val();
+        var type = 0;
         if (task_type == 1) {
             type = 1;
         }
@@ -527,7 +681,7 @@ function new_task_form(load_table){
                     max:6,
                     type:"password",
                     callback:function(paypassword) {
-                        let pay_type = $("#"+self.load_table+" .new_task_info_panel .pay_ui input[type='radio']:checked").val();
+                        var pay_type = $("#"+self.load_table+" .new_task_info_panel .pay_ui input[type='radio']:checked").val();
                         self.paypassword = paypassword;
                         self.add_task(paypassword,pay_type);
                     }
@@ -541,7 +695,7 @@ function new_task_form(load_table){
     });
     $("#"+self.load_table+" .new_task_panel .pay_ui").on("click",".pop-submit-btn",function(){
         console.log("pop-submit-btn");
-        let pay_type = $("#"+self.load_table+" .new_task_info_panel .pay_ui input[type='radio']:checked").val();
+        var pay_type = $("#"+self.load_table+" .new_task_info_panel .pay_ui input[type='radio']:checked").val();
         self.add_task(self.get_pay_password(),pay_type);
     });
     $("#"+self.load_table+" .new_task_panel").on("click",".new_task_info_panel .new_task_cancel",function(){
