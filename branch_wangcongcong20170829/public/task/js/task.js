@@ -105,10 +105,10 @@ function task_end(id,fun){
         data: post_data,
         dataType:"json",
         success: function(data) {
-            if(data.success == 1) {
+            if(data.status == 1) {
                 fun(data);
             }else{
-                console.log(data.msg,{icon:2});
+                layer.msg(data.info,{icon:2});
             }
         },
         error: function() {
@@ -1126,8 +1126,8 @@ function task_list(target,now_uid){
         var that=$(this);
         // console.log('终止任务');
         task_end(that.attr('data-id'),function(data){
-            layer.msg(data.msg,{icon:data.success==true?1:2});
-            if(data.success){
+            layer.msg(data.info,{icon:data.status==1?1:2});
+            if(data.status){
                 //终止成功
                 that.parents('.details').html('<p class="p3">任务被终止</p>');
             }
@@ -1578,8 +1578,8 @@ function task_details(load_table,id,type,now_uid){
         // console.log('终止任务');
         var that=$(this);
         task_end(that.attr('data-id'),function(data){
-            layer.msg(data.msg,{icon:data.success==true?1:2});
-            if(data.success){
+            layer.msg(data.info,{icon:data.status==1?1:2});
+            if(data.status){
                 //终止成功
                 that.parents('.details').html('<p class="p3">任务被终止</p>');
                 $(".task_"+that.attr('data-id')+" .within .details").html('<p class="p3">任务被终止</p>');

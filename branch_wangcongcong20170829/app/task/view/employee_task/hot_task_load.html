@@ -296,7 +296,7 @@
                         <p class="p1">正在参与任务</p>
                         {/if}
                         {eq name="uid" value="$vo['create_employee']"}
-                            {if condition="$vo['is_take'] neq 1 && $now_time < $vo['task_end_time'] "}
+                            {if condition="$vo['partin_count'] eq 0 && $now_time < $vo['task_end_time'] "}
                             <p class="p2 end_task" data-id="{$vo.id}">终止任务</p>
                             {/if}
                             {if condition="!in_array($uid,explode(',',$vo['take_employees']))"}

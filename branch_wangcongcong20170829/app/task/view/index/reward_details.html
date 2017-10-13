@@ -83,7 +83,7 @@
 				<p class="p1">正在参与任务</p>
 				{/if}
 				{eq name="uid" value="$task_info['create_employee']"}
-				{if condition="$task_info['is_take'] neq 1 && $now_time < $task_info['task_end_time'] "}
+				{if condition="$task_info['partin_count'] eq 0 && $now_time < $task_info['task_end_time'] "}
 				<p class="p2 end_task" data-id="{$task_info.id}">终止任务</p>
 				{/if}
 				{if condition="!in_array($uid,explode(',',$task_info['take_employees']))"}
