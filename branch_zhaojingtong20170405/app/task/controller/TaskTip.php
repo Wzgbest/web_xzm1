@@ -148,7 +148,6 @@ class TaskTip extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
-        $userinfo = get_userinfo();
         $TipModel = new TaskTipModel($this->corp_id);
         $all_tip_money = $TipModel->getTipList($id);
         $result['data'] = $all_tip_money;
