@@ -80,7 +80,9 @@
 <link rel="stylesheet" href="/static/css/popUp.css" />
 <script src="/knowledgebase/js/index.js"></script>
 <script type="text/javascript">   
-    function article_info_show(id,t){   
+    let status = true;//这个值代表是否处于批量管理状态；true代表正常浏览状态，false代表批量管理状态
+    function article_info_show(id,t){  
+    status =  !$(".knowledgebase_speechcraft_index .speech-list li").hasClass("manage-list-model"); 
     if (status) {
         var url = "/knowledgebase/speech_craft/show/id/"+id;
         var panel = 'speech-databasefr';
@@ -108,9 +110,6 @@ $(".knowledgebase_speechcraft_index .speech-list li").click(function(){
 });
 function search_article(){
     var key_word = $("input[name='key_word']").val();
-    // alert(key_word);
-    // var class_id = $(".current").attr("in_column");
-    // alert(class_id);exit;
     var url = "/knowledgebase/speech_craft/index/key_word/"+key_word;
     var panel = 'speech-databasefr';
     loadPage(url,panel);
@@ -131,22 +130,20 @@ function edit_article_info(id,t){
     loadPage(url,panel);
 }
 // 批量管理
-let status = true;//这个值代表是否处于批量管理状态；true代表正常浏览状态，false代表批量管理状态
+
 let status2 = true;//这个值代表操作全选按钮
 $(".knowledgebase_speechcraft_index .batch-manage").click(function(){
+    status =  !$(".knowledgebase_speechcraft_index .speech-list li").hasClass("manage-list-model");
     if(status){
         in_batch_manage();
         status = !status;//状态变更
         status2 = true;
-        // 显示 no-list
-        // if($(".knowledgebase_speechcraft_index .speech-list li").length==0){
-        //     $(".knowledgebase_speechcraft_index .no-list").removeClass("hide");
-        // }
+        console.log("A");
     }else{
         out_batch_manage();
         status = !status;//状态变更
         status2 = false;
-        // $(".knowledgebase_speechcraft_index .no-list").addClass("hide");
+        console.log("B");
     }    
 });
 function in_batch_manage(){
@@ -163,18 +160,13 @@ function out_batch_manage(){
 }
 //批量管理时分类选择
 $(".knowledgebase_speechcraft_index .select_class").change(function(){
-        console.log();
         let val = $(this).val();
-        console.log(222);
-        //
         let arr = getElementByAttr("li", "speechcraft_in_column", val);
         console.log($(arr[0]).index());
-        // $(arr[0]).addClass("current").siblings().removeClass("current");
 
         var url = "/knowledgebase/speech_craft/index/class_id/"+$(this).val();
         var panel = 'speech-databasefr';
         loadPage(url,panel);
-        // $(arr[0]).addClass("current").siblings().removeClass("current");
         $(".knowledgebase_speechcraft_index .in_column").eq($(arr[0]).index()).addClass("current").siblings().removeClass("current");
         in_batch_manage();
     });

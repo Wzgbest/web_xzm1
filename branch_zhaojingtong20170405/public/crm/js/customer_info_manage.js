@@ -73,7 +73,8 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 	});
 	//弹出框方法
 	this.close=function(){
-		$(this.panel_base+" .customer_info_panel").addClass("hide");
+		$(this.panel_base+" .customer_info_panel").addClass("hide").siblings(".my_customer").removeClass("hide");
+		$(this.panel_base+" .customer_info_panel").siblings(".customer_manage").removeClass("hide");
 		if(this.reload_flg){
 			this.list_manage.reload_list();
 		}
@@ -83,7 +84,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 		$(panel).height(window.innerHeight);
 		this.listen_nav_click(panel);
 		$(this.panel_base+" .customer_info_panel").addClass("hide");
-		$(panel).removeClass("hide");
+		$(panel).removeClass("hide").siblings().addClass("hide");
 	};
 	this.listen_nav_click=function(panel){
 		$(panel+" .page-info .m-firNav .back div").html(

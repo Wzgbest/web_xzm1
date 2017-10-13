@@ -32,13 +32,17 @@
                 <input name="corp_dist" type="text" value="{$data.corp_dist}"/>
             </p>
             <p class="p1">
-                <span>详细定位</span>
-                <input type="text" name="corp_dist" type="text"  value="{$data.corp_lat},{$data.corp_lng}"/>
+                <span style="vertical-align: top;">详细定位</span>
+                <!-- <input type="text" name="corp_dist" type="text"  value="{$data.corp_lat},{$data.corp_lng}"/> -->
+                <!--<input type="text" name="location" placeholder="请点击地图进行坐标定位"/>-->
+                <input type="hidden" name="lng" />
+                <input type="hidden" name="lat" />
+                <iframe id="mapFrame" name="mapFrame" data-lng="{$data.corp_lng}" data-lat="{$data.corp_lat}" data-edit="true" src="/index/index/map.html"></iframe>
             </p>
-            <p class="p2">
+            <!-- <p class="p2">
                 <input type="text" class="ipt1" value="{$data.corp_lat}"/><br/>
                 <input type="text" class="ipt1" value="{$data.corp_lng}"/>
-            </p>
+            </p> -->
             <p class="p1">
                 <span>所属行业</span>
                 <select name="corp_field">
