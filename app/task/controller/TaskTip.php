@@ -134,11 +134,11 @@ class TaskTip extends Initialize{
         
         $tipEmployeeList = $TipModel->getTipList($task_id);
         $myTipMoney = $TipModel->getMyTipMoney($uid,$task_id);
-        $result['info'] = '打赏成功';
-        $result['status'] = 1;
         $result['data']["tip_count"] = $task_data["tip_count"];
         $result['data']["my_tip"] = $myTipMoney;
         $result['data']["tip_list"] = $tipEmployeeList;
+        $result['info'] = '打赏成功';
+        $result['status'] = 1;
         return json($result);
     }
     public function get_list(){
@@ -148,9 +148,21 @@ class TaskTip extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+
+        $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
         $TipModel = new TaskTipModel($this->corp_id);
-        $all_tip_money = $TipModel->getTipList($id);
-        $result['data'] = $all_tip_money;
+
+        $task_data = $employeeTaskModel->getEmployeeById($id);
+
+        $tipEmployeeList = $TipModel->getTipList($id);
+        $myTipMoney = $TipModel->getMyTipMoney($uid,$id);
+
+        $result['data']["tip_count"] = $task_data["tip_count"];
+        $result['data']["my_tip"] = $myTipMoney;
+        $result['data']["tip_list"] = $tipEmployeeList;
         $result['status'] = 1;
         $result['info'] = "获取任务打赏成功！";
         return json($result);

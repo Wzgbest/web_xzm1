@@ -113,6 +113,13 @@ class Structure extends Initialize
         return view();
     }
 
+    public function move_employee_page(){
+        $struM = new StructureModel($this->corp_id);
+        $structs = $struM->getAllStructure();
+        $this->assign('structs',$structs);
+        return view();
+    }
+
     protected function _getCustomerFilter($filter_column){
         $filter = [];
         if(in_array("structure", $filter_column)){//直属部门
