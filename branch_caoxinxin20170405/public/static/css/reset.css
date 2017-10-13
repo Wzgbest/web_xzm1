@@ -50,8 +50,17 @@ input, textarea {
   /*outline: none;*/
   /*border: none;*/
   font-family: 'microsoft yahei';
+ 
 }
-
+input[type="checkbox"]{
+	 cursor: pointer;
+}
+input[type="radio"]{
+	 cursor: pointer;
+}
+select{
+	 cursor: pointer;
+}
 textarea {
   resize: none;
   overflow: auto;

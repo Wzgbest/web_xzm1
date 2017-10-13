@@ -12,7 +12,10 @@ function init(){
 	$("#frames").width(window.innerWidth - sideW);
 	$("#frames").height(window.innerHeight - 80);
 	$("#frames .once").width(window.innerWidth - sideW);
-	$("#frames .once").height(window.innerHeight - 80);
+	$("#frames .once").height(window.innerHeight - 40);
+
+
+
 
     // 三级菜单栏固定
     $("#frames .once header").width(window.innerWidth - sideW - 17);
