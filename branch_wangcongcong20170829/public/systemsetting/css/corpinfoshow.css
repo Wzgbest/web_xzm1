@@ -7,6 +7,7 @@
 	/*height: 810px;*/
 	height: 100%;
 	background-color: #f5f7fa;
+	overflow-x: hidden;
 }
 
 .show_corp_info #top {
@@ -151,6 +152,9 @@
 	text-align: left;
 	margin-left: 0;
 	text-align: center;
+}
+.show_corp_info #compile:hover{
+	cursor: pointer;
 }
 .show_corp_info #compile:hover p{
 	color:#ffa13a ;

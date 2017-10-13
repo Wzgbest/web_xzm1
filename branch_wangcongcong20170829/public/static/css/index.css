@@ -211,7 +211,8 @@ section#subt{
 	top: 0;
 	border: none;
 	background-color: #FFFFFF;
-	overflow: auto;
+	/*overflow: auto;*/
+	overflow-x: hidden;
 }
 #frames .hid{
 	display: none;
