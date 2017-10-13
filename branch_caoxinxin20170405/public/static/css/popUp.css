@@ -27,6 +27,7 @@
 	width: 100%;
 	background-color: white;
 	padding: 40px 0;
+	box-sizing:border-box;
 	border: 1px solid #EEEEEE;
 }
 .popUp .pop_content>div{
