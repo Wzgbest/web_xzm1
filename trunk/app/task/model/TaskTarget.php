@@ -103,4 +103,27 @@ class TaskTarget extends Base{
             ->where("task_id",$task_id)
             ->select();
     }
+
+    /**
+     * 获取某个客户是否有帮跟信息
+     * @param  int $uid 员工ID
+     * @param  int $customer_id 客户ID
+     * @param  int $time 时间戳
+     * @return array 任务信息
+     */
+    public function findTaskTargetByCustomerId($uid,$customer_id,$time){
+        return $this->model->table($this->table)->alias('ett')
+            ->join($this->dbprefix.'employee_task et',"ett.task_id = et.id","LEFT")
+            ->join($this->dbprefix.'employee_task_take ettk',"ettk.task_id = et.id","LEFT")
+            ->where("ett.target_customer",$customer_id)
+            ->where("ett.target_type",7)
+            ->where("ett.target_method",2)
+            ->where("et.task_start_time","elt",$time)
+            ->where("et.task_end_time","egt",$time)
+            ->where("et.status",2)
+            ->where("ettk.take_employee",$uid)
+            ->field("et.*")
+            //->fetchSql(true)
+            ->find();
+    }
 }
