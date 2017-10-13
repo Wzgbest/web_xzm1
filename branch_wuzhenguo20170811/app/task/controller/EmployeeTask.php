@@ -334,9 +334,54 @@ class EmployeeTask extends Initialize{
         $task_id=input('task_id',0,'int');
         $employeeTaskM = new EmployeeTaskModel($this->corp_id);
         $taskInfo = $employeeTaskM->getTaskInfo($task_id);
-        $redata['success']=false;
-        $redata['msg']='操作失败';
+        $redata['status']=0;
+        $redata['info']='操作失败';
         $time = time();
+        if(!$task_id){
+            $redata['info'] = "参数错误！";
+            return json($redata);
+        }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $task_detailInfo = $employeeTaskM->getTaskMoreInfo($uid,$task_id);
+        if($task_detailInfo['status']!=2){
+            $redata['info'] = "当前任务不能终止！";
+            return json($redata);
+        }
+        if($task_detailInfo['create_employee']!=$uid){
+            $redata['info'] = "无权限终止任务！";
+            return json($redata);
+        }
+        if($task_detailInfo['task_end_time']<=$time)
+        {
+            $redata['info'] = "任务已结束无法终止！";
+            return json($redata);
+        }
+        switch($task_detailInfo['task_type']){
+            case 1:
+                //激励任务,发布一天之内可以终止
+                if(strtotime('-1 day') > $task_detailInfo['create_time']){
+                    $redata['info'] = "激励任务发布超过一天无法终止！";
+                    return json($redata);
+                }
+                break;
+            case 2:
+                //PK任务，仅有自己参与可以终止
+                if($task_detailInfo['partin_count']>=1 && $task_detailInfo['take_employees'].''!=$uid.''){
+                    $redata['info'] = "任务已有参与人无法终止！";
+                    return json($redata);
+                }
+                break;
+            case 3:
+                //悬赏任务,没有参与人可以终止
+                if($task_detailInfo['partin_count']>0){
+                    $redata['info'] = "任务已有参与人无法终止！";
+                    return json($redata);
+                }
+                break;
+
+        }
+
         try{
             $employeeM = new Employee($this->corp_id);
             $cashM = new TakeCash($this->corp_id);
@@ -422,8 +467,8 @@ class EmployeeTask extends Initialize{
             $employeeTaskM->link->rollback();
             return json($redata);
         }
-        $redata['success']=true;
-        $redata['msg']='操作成功';
+        $redata['status']=1;
+        $redata['info']='操作成功';
         return json($redata);
     }
 

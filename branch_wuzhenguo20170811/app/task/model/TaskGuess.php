@@ -32,7 +32,7 @@ class TaskGuess extends Base{
 
     public function getGuessList($task_id){
     	$map["etg.task_id"] = $task_id;
-        $map["et.status"]=2;
+        //$map["et.status"]=2;
         $order="etg.id desc";
         $employeeList = $this->model->table($this->table)->alias('etg')
             ->join($this->dbprefix.'employee et','et.id = etg.guess_take_employee',"LEFT")
