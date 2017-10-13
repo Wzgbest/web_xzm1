@@ -4,31 +4,50 @@
 </div>
 <div class="employee_list">
     <div class="m-tableBox">
-        <div class="m-table table3">
+    	<div class="m-table m-table-nav ">
+			<ul class="u-tabTitle">
+				<li>操作</li>
+				<div class="clearfix"></div>
+			</ul>
+			{volist name="listdata" id="vo"}
+			<ul class="u-tabList">
+				<li class="u-tabOperation">
+                    <span onclick="role_list_employee_show('{$vo.id}');">详情</span>
+                    {if condition="strpos($vo.role_id,',')"}
+                        <span onclick="role_list_employee_del('{$id}','{$vo.id}');">移除</span>
+                    {/if}
+                </li>
+				<div class="clearfix"></div>
+			</ul>
+			{/volist}
+		</div>
+        <div class="m-table table3 m-table-detail">
             <ul class="u-tabTitle">
+            	<li>操作</li>
                 <li>工号<i class="fa fa-sort-desc"></i></li>
                 <li>姓名</li>
                 <li>直属部门</li>
                 <li>联系方式</li>
                 <li>是否领导<i class="fa fa-unsorted"></i></li>
                 <li>创建时间<i class="fa fa-unsorted"></i></li>
-                <li>操作</li>
+                
                 <div class="clearfix"></div>
             </ul>
             {volist name="listdata" id="vo"}
             <ul class="u-tabList">
+            	<li class="u-tabOperation">
+                    <span onclick="role_list_employee_show('{$vo.id}');">详情</span>
+                    {if condition="strpos($vo.role_id,',')"}
+                        <span onclick="role_list_employee_del('{$id}','{$vo.id}');">移除</span>
+                    {/if}
+                </li>
                 <li>{$vo.worknum}</li>
                 <li>{$vo.truename}</li>
                 <li>{$vo.struct_name}</li>
                 <li>{$vo.telephone}</li>
                 <li>{eq name="vo.is_leader" value="1"}是{else/}否{/eq}</li>
                 <li>{$vo.create_time|time_format}</li>
-                <li class="u-tabOperation">
-                    <span onclick="role_list_employee_show('{$vo.id}');">详情</span>
-                    {if condition="strpos($vo.role_id,',')"}
-                        <span onclick="role_list_employee_del('{$id}','{$vo.id}');">移除</span>
-                    {/if}
-                </li>
+                
                 <div class="clearfix"></div>
             </ul>
             {/volist}

@@ -107,6 +107,7 @@
     background-color: #42a5f5;
     color: #fff;
     border: 1px solid #dcdcdc;
+    cursor: pointer;
 }
 
 .customer_setting_edit .content .p5 button {
@@ -184,7 +185,7 @@
 }
 
 .customer_setting_edit .content .yixuan {
-    width: 450px;
+    width: 800px;
     height: 35px;
     /*background-color: #eaf2fe;*/
     color: #42a5f5;
@@ -202,6 +203,7 @@
 
 .customer_setting_edit .content .fuxuan i {
     margin-left: 20px;
+    cursor: pointer;
 }
 
 .customer_setting_edit .content div.xuanze {
@@ -212,9 +214,17 @@
     float: left;
     margin-top: 0px;
     background-color: #fff;
-    margin-left: 3px;
+    margin-left: 34px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
-
+.customer_setting_edit .content div.xuanzhong ul{
+	height: 200px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	width: 160px;
+	border-bottom:1px solid silver;
+}
 .customer_setting_edit .content div.xuanzhong {
     display: none;
     width: 160px;
@@ -224,6 +234,7 @@
     margin-top: 0px;
     background-color: #fff;
     margin-left: 0px;
+    overflow-y: auto;
 }
 
 .customer_setting_edit .content .xuanze ul {}
@@ -239,6 +250,7 @@
     width: 14px;
     height: 14px;
     vertical-align: middle;
+    margin-left: 14px;
 }
 
 .customer_setting_edit .content .xuanzhong p {
@@ -253,15 +265,19 @@
 }
 
 .customer_setting_edit .content .xuanzhong li {
-    width: 160px;
+    width: 140px;
     height: 32px;
     /*border-bottom: 1px solid red;*/
     margin-left: 20px;
     line-height: 32px;
+    position: relative;
 }
 
 .customer_setting_edit .content .xuanzhong li img {
     margin-left: 30px;
+    position: absolute;
+    right:40px;
+    top:12px;
 }
 
 .customer_setting_edit .content .xuanzhong .wancheng {
