@@ -171,10 +171,10 @@ class TaskGuess extends Initialize{
 
         $guessList = $taskGussModel->getGuessList($task_id);
         $myGuess = $taskGussModel->getMyGuess($uid,$task_id);
-        $result['info'] = '猜输赢成功';
-        $result['status'] = 1;
         $result['data']["my_guess"] = $myGuess;
         $result['data']["guess_list"] = $guessList;
+        $result['status'] = 1;
+        $result['info'] = '猜输赢成功';
         return json($result);
     }
 
@@ -185,8 +185,17 @@ class TaskGuess extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        
+        $userinfo = get_userinfo();
+        $uid = $userinfo['userid'];
+        
         $taskGussModel = new TaskGuessModel($this->corp_id);
+        
         $guessList = $taskGussModel->getGuessList($id);
+        $myGuess = $taskGussModel->getMyGuess($uid,$id);
+        
+        $result['data']["my_guess"] = $myGuess;
+        $result['data']["guess_list"] = $guessList;
         $result['data'] = $guessList;
         $result['status'] = 1;
         $result['info'] = "获取任务猜输赢成功！";
