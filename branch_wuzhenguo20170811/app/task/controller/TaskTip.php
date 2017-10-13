@@ -142,10 +142,16 @@ class TaskTip extends Initialize{
         return json($result);
     }
     public function get_list(){
-    }
-    public function get(){
         $result = ['status'=>0 ,'info'=>"获取任务打赏时发生错误！"];
-
+        $id = input('id',0,'int');
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $userinfo = get_userinfo();
+        $TipModel = new TaskTipModel($this->corp_id);
+        $all_tip_money = $TipModel->getTipList($id);
+        $result['data'] = $all_tip_money;
         $result['status'] = 1;
         $result['info'] = "获取任务打赏成功！";
         return json($result);
