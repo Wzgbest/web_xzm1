@@ -719,8 +719,8 @@ function task_list(target,now_uid){
         if(self.now_sel_type=='tip'){
             var money = $(task_list_sel+" .tip_ui .tip_money").val();
             console.log("money",money);
-            if(!money){
-                layer.msg('打赏金额不能为空!',{icon:2});
+            if(!money || money<=0){
+                layer.msg('打赏金额必须大于零!',{icon:2});
                 return;
             }
             task_tip(self.now_sel_id,money,paypassword,function(data){
@@ -755,8 +755,8 @@ function task_list(target,now_uid){
         }else if(self.now_sel_type=='guess'){
             var money = $(task_list_sel+" .pay_ui .pay_money").val();
             console.log("money",money);
-            if(!money){
-                layer.msg('猜输赢金额不能为空!',{icon:2});
+            if(!money || money<=0){
+                layer.msg('猜输赢金额必须大于零!',{icon:2});
                 return;
             }
             task_guess(self.now_sel_id,self.now_sel_employee,money,paypassword,function(data){
@@ -1021,8 +1021,8 @@ function task_list(target,now_uid){
         console.log("tip_go");
         var tip_money = $(task_list_sel+" .tip_ui .tip_money").val();
         console.log("tip_money",tip_money);
-        if(!tip_money){
-            layer.msg('打赏金额不能为空!',{icon:2});
+        if(!tip_money || tip_money<=0){
+            layer.msg('打赏金额必须大于零!',{icon:2});
             return;
         }
         $.ajax({
@@ -1055,8 +1055,8 @@ function task_list(target,now_uid){
     $(task_list_sel+" .pay_ui").on("click",".pop-submit-btn",function() {
         console.log("tip_submit");
         var money = $(task_list_sel+" .pay_ui .pay_money").val();
-        if(money<=0){
-            layer.msg('金额不能小于0',{icon:2});
+        if(!money || money<=0){
+            layer.msg('金额必须大于零',{icon:2});
             return false;
         }
         var paypassword = self.get_pay_password();
@@ -1181,8 +1181,8 @@ function task_details(load_table,id,type,now_uid){
         if(self.now_sel_type=='tip'){
             var money = $(task_details_sel+" .tip_ui .tip_money").val();
             console.log("money",money);
-            if(!money){
-                layer.msg('打赏金额不能为空!',{icon:2});
+            if(!money || money<=0){
+                layer.msg('打赏金额必须大于零!',{icon:2});
                 return;
             }
             task_tip(self.id,money,paypassword,function(data){
@@ -1244,8 +1244,8 @@ function task_details(load_table,id,type,now_uid){
         }else if(self.now_sel_type=='guess'){
             var money = $(task_details_sel+" .pay_ui .pay_money").val();
             console.log("money",money);
-            if(!money){
-                layer.msg('猜输赢金额不能为空!',{icon:2});
+            if(!money || money<=0){
+                layer.msg('猜输赢金额必须大于零!',{icon:2});
                 return;
             }
             task_guess(self.id,self.now_sel_employee,money,paypassword,function(data){
@@ -1431,8 +1431,8 @@ function task_details(load_table,id,type,now_uid){
         self.now_sel_type = 'tip';
         var tip_money = $(task_details_sel+" .tip_ui .tip_money").val();
         console.log("tip_money",tip_money);
-        if(!tip_money){
-            layer.msg('打赏金额不能为空!',{icon:2});
+        if(!tip_money || tip_money<=0){
+            layer.msg('打赏金额必须大于零!',{icon:2});
             return;
         }
         $.ajax({
@@ -1465,8 +1465,8 @@ function task_details(load_table,id,type,now_uid){
     $(task_details_sel+" .pay_ui").on("click",".pop-submit-btn",function() {
         console.log("tip_submit");
         var money = $(task_details_sel+" .pay_ui .pay_money").val();
-        if(money<=0){
-            layer.msg('金额不能小于0',{icon:2});
+        if(!money || money<=0){
+            layer.msg('金额必须大于零',{icon:2});
             return false;
         }
         var paypassword = self.get_pay_password();
