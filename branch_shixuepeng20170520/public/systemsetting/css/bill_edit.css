@@ -212,6 +212,7 @@ ol {
     padding-top: 32px;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 60px;
 }
 
 .systemsetting_bill_edit .content .p5 input {
@@ -222,6 +223,7 @@ ol {
     background-color: #42a5f5;
     color: #fff;
     border: 1px solid #dcdcdc;
+    cursor: pointer;
 }
 
 .systemsetting_bill_edit .content .p5 button {
@@ -244,7 +246,8 @@ ol {
     margin-left: 10px;
     font-size: 12px;
     color: #77b8ff;
-    text-align: left
+    text-align: left;
+    cursor: pointer;
 }
 
 .systemsetting_bill_edit .content .later .redact {
@@ -275,13 +278,15 @@ ol {
 .systemsetting_bill_edit .content .later .redact .compile {
     position: absolute;
     left: 190px;
-    top: 10px
+    top: 10px;
+    cursor: pointer;
 }
 
 .systemsetting_bill_edit .content .later .redact .del {
     position: absolute;
     left: 215px;
-    top: 10px
+    top: 10px;
+    cursor: pointer;
 }
 
 .systemsetting_bill_edit .content .later .redact .item_text{
@@ -296,6 +301,7 @@ ol {
     margin-left: 10px;
     font-size: 14px;
     color: #77b8ff;
+    cursor: pointer;
 }
 
 .systemsetting_bill_edit .content .later .redact img {
@@ -340,6 +346,7 @@ ol {
 }
 .systemsetting_bill_edit .content .handle_role:hover .del{
     display: inline-block;
+    cursor: pointer;
 }
 .systemsetting_bill_edit .content .handle_role:nth-child(2) .del{
     display: inline-block;
@@ -354,6 +361,7 @@ ol {
     top:-50px;
     border: 1px solid rgba(0, 0, 0, 0.15);
     background: rgba(0, 0, 0, 0.8);
+    cursor: pointer;
 }
 
 .systemsetting_bill_edit .content .handle_role .switch_panel .switch_btn {

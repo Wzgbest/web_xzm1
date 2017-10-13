@@ -1,6 +1,82 @@
 .sys_employee_list .employee_list {
 	height: 100%;
+	overflow-x:hidden;
 }
+
+
+.sys_employee_list .employee_list #top {
+	/*width: 1120px;*/
+	width: 100%;
+	height: 41px;
+	background-color: #fff;
+	margin: 0 10px 10px;
+	
+}
+
+.sys_employee_list .employee_list ul.firNav {
+	height: 40px;
+	margin-left: 1px;
+	/*padding: 10px 0;*/
+	box-shadow: -1px 2px #ebedf0;
+}
+
+.sys_employee_list .employee_list ul.firNav li {
+	float: left;
+	color: #b2b2b2;
+	height: 20px;
+	/*width: 130px;*/
+	padding: 10px 0;
+	/*line-height: 20px;*/
+	/*padding: 0 10px;*/
+	/*border-right:2px solid #b2b2b2 ;*/
+}
+
+.sys_employee_list .employee_list ul.firNav li:hover {
+	cursor: pointer;
+}
+
+.sys_employee_list .employee_list ul.firNav li div {
+	line-height: 20px;
+	padding: 0 5px;
+	font-size: 12px;
+	/*border-right:2px solid #b2b2b2 ;*/
+}
+
+.sys_employee_list .employee_list ul.firNav li:last-child div {
+	border: none;
+}
+
+.sys_employee_list .employee_list ul.firNav li.current {
+	color: #333333;
+	border-bottom: 1px solid #42a5f5;
+}
+
+.sys_employee_list .employee_list #top ul i {
+	height: 20px;
+	display: inline-block;
+	padding-left: 3px;
+	font-size: 16px;
+	line-height: 40px;
+	color: #999999;
+	vertical-align: middle;
+}
+
+.sys_employee_list .employee_list #top ul span {
+	display: inline-block;
+	height: 20px;
+	vertical-align: middle;
+	padding-left: 5px;
+	font-size: 12px;
+	line-height: 40px;
+	color: #999999;
+}
+
+
+
+
+
+
+
 .sys_employee_list .employee_list .p5 {
 	width: 256px;
 	margin-top: 39px;
@@ -136,6 +212,7 @@
 	box-sizing: content-box;
 	margin-right: 8px;
 	border: 1px solid #dddddd;
+	cursor: pointer;
 }
 .sys_employee_list .employee_list .m-filterNav input[type="text"]{
 	width: 110px;
