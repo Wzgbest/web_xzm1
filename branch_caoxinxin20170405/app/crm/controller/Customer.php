@@ -25,6 +25,7 @@ use app\crm\model\CustomerTrace as CustomerTraceModel;
 use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
 use app\common\model\ParamRemark;
 use app\crm\model\CallRecord;
+use app\task\model\TaskTarget;
 
 class Customer extends Initialize{
     var $paginate_list_rows = 10;
@@ -36,6 +37,14 @@ class Customer extends Initialize{
         echo "crm/customer/index";
     }
     public function customer_manage(){
+        $show_flg = false;
+        //TODO 管理员权限验证
+        if(!$show_flg) {
+            $show_flg = true;
+        }
+        if(!$show_flg){
+            $this->error("没有权限查看客户列表");
+        }
         $num = input('num',$this->paginate_list_rows,'int');
         $p = input("p",1,"int");
         $customers_count=0;
@@ -246,6 +255,34 @@ class Customer extends Initialize{
     }
     public function general(){
         $info_array = $this->_showCustomer();
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $time = time();
+
+        $show_flg = false;
+        //客户跟踪人验证
+        if($info_array["customer"]["handle_man"]==$uid){
+            $show_flg = true;
+        }
+
+        //TODO 管理员权限验证
+        if(!$show_flg) {
+            $show_flg = true;
+        }
+
+        //帮跟权限
+        if(!$show_flg){
+            $taskTargetM = new TaskTarget($this->corp_id);
+            $taskTargetInfo = $taskTargetM->findTaskTargetByCustomerId($uid,$info_array["id"],$time);
+            //var_exp($taskTargetInfo,'$taskTargetInfo',1);
+            if(!empty($taskTargetInfo)){
+                $show_flg = true;
+            }
+        }
+
+        if(!$show_flg){
+            $this->error("没有权限查看该客户");
+        }
         $this->assign($info_array);
         $employeeM = new EmployeeModel($this->corp_id);
         $handle_employee = $employeeM->getEmployeeByUserid($info_array["customer"]["handle_man"]);
@@ -279,18 +316,80 @@ class Customer extends Initialize{
     }
     public function show(){
         $info_array = $this->_showCustomer();
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $time = time();
+
+        $show_flg = false;
+        //客户跟踪人验证
+        if($info_array["customer"]["handle_man"]==$uid){
+            $show_flg = true;
+        }
+
+        //TODO 管理员权限验证
+        if(!$show_flg) {
+            $show_flg = true;
+        }
+
+        if(!$show_flg){
+            $taskTargetM = new TaskTarget($this->corp_id);
+            $taskTargetInfo = $taskTargetM->findTaskTargetByCustomerId($uid,$info_array["id"],$time);
+            //var_exp($taskTargetInfo,'$taskTargetInfo',1);
+            if(!empty($taskTargetInfo)){
+                $show_flg = true;
+            }
+        }
+
+        if(!$show_flg){
+            $this->error("没有权限查看该客户");
+        }
         $this->assign($info_array);
         return view();
     }
     public function edit(){
         $info_array = $this->_showCustomer();
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $time = time();
+
+        $show_flg = false;
+        //客户跟踪人验证
+        if($info_array["customer"]["handle_man"]==$uid){
+            $show_flg = true;
+        }
+
+        //TODO 管理员权限验证
+        if(!$show_flg) {
+            $show_flg = true;
+        }
+
+        if(!$show_flg){
+            $taskTargetM = new TaskTarget($this->corp_id);
+            $taskTargetInfo = $taskTargetM->findTaskTargetByCustomerId($uid,$info_array["id"],$time);
+            //var_exp($taskTargetInfo,'$taskTargetInfo',1);
+            if(!empty($taskTargetInfo)){
+                $show_flg = true;
+            }
+        }
+
+        if(!$show_flg){
+            $this->error("没有权限查看该客户");
+        }
         $this->assign($info_array);
         return view();
     }
     
     public function manage(){
-        //TODO 管理员权限验证?
         $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
+        $show_flg = false;
+        //TODO 管理员权限验证
+        if(!$show_flg) {
+            $show_flg = true;
+        }
+        if(!$show_flg){
+            $result['info'] = "没有权限查看客户列表";
+            return json($result);
+        }
         $num = input('num',$this->paginate_list_rows,'int');
         $p = input("p",1,"int");
         $order = input("order","id","string");
@@ -769,6 +868,40 @@ class Customer extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $now_time = time();
+
+        $customerM = new CustomerModel($this->corp_id);
+        $customerData = $customerM->getCustomer($id);
+
+        $show_flg = false;
+        //客户跟踪人验证
+        if($customerData["handle_man"]==$uid){
+            $show_flg = true;
+        }
+
+        //TODO 管理员权限验证
+        if(!$show_flg) {
+            $show_flg = true;
+        }
+
+        //帮跟权限
+        if(!$show_flg){
+            $taskTargetM = new TaskTarget($this->corp_id);
+            $taskTargetInfo = $taskTargetM->findTaskTargetByCustomerId($uid,$id,$now_time);
+            //var_exp($taskTargetInfo,'$taskTargetInfo',1);
+            if(!empty($taskTargetInfo)){
+                $show_flg = true;
+            }
+        }
+
+        if(!$show_flg){
+            $result['info'] = "没有权限查看该客户";
+            return json($result);
+        }
+
         try{
             $customerM = new CustomerModel($this->corp_id);
             $customerData = $customerM->getCustomer($id);
@@ -804,15 +937,38 @@ class Customer extends Initialize{
         }
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        //TODO 读取权限验证
-        try{
-            $customerM = new CustomerModel($this->corp_id);
-            $customerData = $customerM->getCustomerAndHaveVisit($id);
-            $result['data'] = $customerData;
-        }catch (\Exception $ex){
-            $result['info'] = $ex->getMessage();
+        $now_time = time();
+
+        $customerM = new CustomerModel($this->corp_id);
+        $customerData = $customerM->getCustomerAndHaveVisit($id);
+
+        $show_flg = false;
+        //客户跟踪人验证
+        if($customerData["handle_man"]==$uid){
+            $show_flg = true;
+        }
+
+        //TODO 管理员权限验证
+        if(!$show_flg) {
+            $show_flg = true;
+        }
+
+        //帮跟权限
+        if(!$show_flg){
+            $taskTargetM = new TaskTarget($this->corp_id);
+            $taskTargetInfo = $taskTargetM->findTaskTargetByCustomerId($uid,$id,$now_time);
+            //var_exp($taskTargetInfo,'$taskTargetInfo',1);
+            if(!empty($taskTargetInfo)){
+                $show_flg = true;
+            }
+        }
+
+        if(!$show_flg){
+            $result['info'] = "没有权限查看该客户";
             return json($result);
         }
+
+        $result['data'] = $customerData;
         $result['status'] = 1;
         $result['info'] = "获取客户信息成功！";
         return json($result);
@@ -933,7 +1089,36 @@ class Customer extends Initialize{
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
         $now_time = time();
-        //TODO 更新权限验证
+
+        $customerM = new CustomerModel($this->corp_id);
+        $customerData = $customerM->getCustomer($id);
+
+        $show_flg = false;
+        //客户跟踪人验证
+        if($customerData["handle_man"]==$uid){
+            $show_flg = true;
+        }
+
+        //TODO 管理员权限验证
+        if(!$show_flg) {
+            $show_flg = true;
+        }
+
+        //帮跟权限 屏蔽
+//        if(!$show_flg){
+//            $taskTargetM = new TaskTarget($this->corp_id);
+//            $taskTargetInfo = $taskTargetM->findTaskTargetByCustomerId($uid,$id,$now_time);
+//            //var_exp($taskTargetInfo,'$taskTargetInfo',1);
+//            if(!empty($taskTargetInfo)){
+//                $show_flg = true;
+//            }
+//        }
+
+        if(!$show_flg){
+            $result['info'] = "没有权限编辑该客户";
+            return json($result);
+        }
+
         $customer = $this->_getCustomerForInput(0);
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
         $customerM = new CustomerModel($this->corp_id);
