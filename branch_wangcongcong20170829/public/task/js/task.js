@@ -1208,14 +1208,28 @@ function task_details(load_table,id,type,now_uid){
             task_tip(self.id,money,paypassword,function(data){
                 //console.log(data);
                 layer.msg(data.info,{icon:data.status==1?1:2});
+                console.log(task_details_sel);
                 if(data.status==1){
                     $(task_details_sel+" .pay_ui").trigger('reveal:close');
                     //TODO 成功打赏
-                    $(".task_details .tip").html('继续打赏');//详情页的状态更新
+                    $(task_details_sel+" .tip").html('继续打赏');//详情页的状态更新
                     $(".task_"+self.id+" .details .tip").html('继续打赏');//列表页的状态更新
+                    var pre_money=Number($(task_details_sel+" .dv2 .explain .orange").text());
+                    $(task_details_sel+" .dv2 .explain .orange").text(Number(pre_money)+Number(money));
                     self.update_tip();
-                    var pre_money=Number($(".explain .orange").text());
-                    $(".explain .orange").text(pre_money+Number(money));
+
+                    var  pre_my_tips=$(task_details_sel+" .dv2 .explain .gray .my_tip_money").html();
+                    console.log(pre_my_tips);
+                    var my_tips;
+                    if(pre_my_tips)
+                    {
+                        my_tips=Number(pre_my_tips)+Number(money);
+                    }
+                    else
+                    {
+                        my_tips=Number(money);
+                    }
+                    $(task_details_sel+" .dv2 .explain .gray").html("（你已打赏<span class='my_tip_money'>"+my_tips+"</span>元）");
 
                 }
             });
@@ -1228,9 +1242,9 @@ function task_details(load_table,id,type,now_uid){
                     //TODO 成功加入任务
                     //不能猜输赢了
                     //详情页的状态更新
-                    $(".task_details .get_reward").parent().append("<p class='p1'>正在参与任务</p>");
-                    $(".task_details .get_reward").hide();
-                    $(".task_details .guess").hide();
+                    $(task_details_sel+" .get_reward").parent().append("<p class='p1'>正在参与任务</p>");
+                    $(task_details_sel+" .get_reward").hide();
+                    $(task_details_sel+" .guess").hide();
 
                     //列表页的状态更新
                     $(".task_"+self.id+" .details .get_reward").parent().append("<p class='p1'>正在参与任务</p>");
@@ -1238,9 +1252,9 @@ function task_details(load_table,id,type,now_uid){
                     $(".task_"+self.id+" .details .guess").hide();
 
                     //数量以及参与人的更新
-                    var partin_count=Number($(".task_details .partin_count").text())+1;
-                    $('.task_details .partin_count').text(partin_count);
-                    $('.task_details .user_'+now_uid).addClass('color-blue');
+                    var partin_count=Number($(task_details_sel+" .partin_count").text())+1;
+                    $(task_details_sel+' .partin_count').text(partin_count);
+                    $(task_details_sel+' .user_'+now_uid).addClass('color-blue');
 
                     $('.task_'+self.id+" .partin_count").text(partin_count);
                     $('.task_'+self.id+" .user_"+now_uid).addClass('color-blue');
@@ -1262,9 +1276,9 @@ function task_details(load_table,id,type,now_uid){
                     //TODO 提交猜输赢成功
                     //不能领取任务了
                     //详情页的状态更新
-                    $(".task_details .guess").parent().append("<p class='p1'>正在参与猜输赢</p>");
-                    $(".task_details .guess").hide();
-                    $(".task_details .get_reward").hide();
+                    $(task_details_sel+" .guess").parent().append("<p class='p1'>正在参与猜输赢</p>");
+                    $(task_details_sel+" .guess").hide();
+                    $(task_details_sel+" .get_reward").hide();
 
                     //列表页的状态更新
                     $(".task_"+self.id+" .details .guess").parent().append("<p class='p1'>正在参与猜输赢</p>");
@@ -1546,10 +1560,11 @@ function task_details(load_table,id,type,now_uid){
                     if(data.status){
                         //评论成功
                          self.update_comment();
-                         var comment_str=$(".dv3 .title").text();
+                         var comment_str=$(task_details_sel+" .dv3 .title").text();
                          var comment_count=Number(comment_str.substring(comment_str.indexOf("（")+1,comment_str.indexOf("）")))+1;
-                         $(".dv3 .title").text("评论（"+Number(comment_count)+"）");
-                         $(".task_"+task_id+" .within .comment div .comment_incentive").next().text(comment_count);
+                         $(task_details_sel+" .dv3 .title").text("评论（"+Number(comment_count)+"）");
+
+                         $("#"+self.load_table+" .task_"+task_id+" .within .comment div .task_details").next('span').html(Number(comment_count));
 
                          that.removeAttr('comment_id');
                          that.parents('.up').children('.content ').val('');
