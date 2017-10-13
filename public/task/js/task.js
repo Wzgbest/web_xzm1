@@ -993,7 +993,6 @@ function task_details(load_table,id,type){
                 //console.log($(task_details_sel+" .left .box"));
                 $(task_details_sel+" .left .box").html(data);
                 var self_idx = $(task_details_sel+" .left .box .self_idx").val();
-                console.log("self_idx",self_idx);
                 if(self_idx>0){
                     var self_heigth = self_idx*35;
                     $(task_details_sel+" .left .box").scrollTop(self_heigth);
@@ -1366,7 +1365,6 @@ function task_details(load_table,id,type){
                     if(data.status){
                         //评论成功
                          self.update_comment();
-
                          var comment_str=$(".dv3 .title").text();
                          var comment_count=Number(comment_str.substring(comment_str.indexOf("（")+1,comment_str.indexOf("）")))+1;
                          $(".dv3 .title").text("评论（"+Number(comment_count)+"）");
