@@ -48,12 +48,12 @@ class TaskComment extends Base{
 
     /**
      * 获取所有的评论
-     * @param  arr $task_ids 任务id
-     * @param  arr $map      条件
+     * @param  $task_ids array 任务id
+     * @param  $map array      条件
      * @param  string $order    排序
-     * @return arr           
+     * @return array
      */
-    public function getAllTaskComment($task_ids,$map=null,$order="id desc"){
+    public function getAllTaskComment($task_ids,$map=null,$order="id asc"){
         if (empty($task_ids)) {
             return [];
         }
