@@ -24,7 +24,7 @@
             <p class="yixuan">
                 {volist name="roles" id="vo"}
                     {if	condition="in_array($vo.id,$business_flow_setting.set_to_role_arr)"}
-                        <span>{$vo.role_name}</span>
+                        <span>{$vo.role_name}<input type="hidden" name="set_to_role[]" value="{$vo.id}"/></span>
                     {/if}
                 {/volist}
             </p>
@@ -33,9 +33,9 @@
                         <ul>
                             {volist name="roles" id="vo"}
                                 {if	condition="in_array($vo.id,$business_flow_setting.set_to_role_arr)"}
-                                    <li><input type="checkbox" name="set_to_role[]" checked="checked" value="{$vo.id}"/><span class="sp3">{$vo.role_name}</span></li>
+                                    <li><input type="checkbox" checked="checked" value="{$vo.id}"/><span class="sp3">{$vo.role_name}</span></li>
                                 {else/}
-                                    <li><input type="checkbox" name="set_to_role[]" value="{$vo.id}"/><span class="sp3">{$vo.role_name}</span></li>
+                                    <li><input type="checkbox" value="{$vo.id}"/><span class="sp3">{$vo.role_name}</span></li>
                                 {/if}
                             {/volist}
                         </ul>
