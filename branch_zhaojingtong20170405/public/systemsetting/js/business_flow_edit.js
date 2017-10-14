@@ -374,8 +374,15 @@ $('.systemsetting_business_flow_edit .xuanze').on('click', "input", function() {
             }
         })
     }
+    
+    var allLength=$('.systemsetting_business_flow_edit .xuanzhong ul li').length;
+	console.log(allLength);
+	$(".systemsetting_business_flow_edit .xuanzhong p span").html(allLength)
 });
+
+	
 $('.systemsetting_business_flow_edit .xuanzhong').on('click', "ul li img", function() {
+	
     var index1 = $(this).val();
     //      var This = $(this)
     var T = $(this)
