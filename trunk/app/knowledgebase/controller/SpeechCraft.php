@@ -382,6 +382,9 @@ class SpeechCraft extends Initialize{
         return json($result);
     }
 
+    public function setTop(){
+        return view('set_top');
+    }
 
     public function deleteSpeechClass(){
         return view('delete_speech_class');
