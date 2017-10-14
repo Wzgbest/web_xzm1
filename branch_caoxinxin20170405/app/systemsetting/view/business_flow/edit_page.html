@@ -37,7 +37,7 @@
 
 
                     <div class="xuanzhong">
-                        <p>已选择4个对象</p>
+                        <p>已选择{:count($business_flow_setting.set_to_role_arr)}个对象</p>
                         <ul>
                             {volist name="roles" id="vo"}
                                 {if	condition="in_array($vo.id,$business_flow_setting.set_to_role_arr)"}
