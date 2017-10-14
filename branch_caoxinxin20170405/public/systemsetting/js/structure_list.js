@@ -436,3 +436,8 @@ function struct_list_employee_move_to(struct_id,employee_id,to_struct_id){
     });
 }
 
+structure_tree.listen("reloadFun",function(){
+    $(struct_employee_list_panel).html('');
+    $(struct_employee_list_panel).addClass("hide");
+    $(".structure_list .top .add").addClass("hide");
+});
