@@ -234,7 +234,6 @@ $(".knowledgebase_speechcraft_index .batch-delete").click(function(){
 <script src="/static/js/PopUp.js"></script>
 <script>
     $(".knowledgebase_speechcraft_index .delete-change-set").change(function(){
-        console.log($(this).val());
         let id = $(this).parents().attr("data-craft-id");
         if($(this).val()==1){
             let pop =  new popLoad(".knowledgebase_speechcraft_index .delete-change-set-container","/knowledgebase/speech_craft/deleteSpeechList");
@@ -242,6 +241,9 @@ $(".knowledgebase_speechcraft_index .batch-delete").click(function(){
         }else if($(this).val()==2){
             let pop =  new popLoad(".knowledgebase_speechcraft_index .delete-change-set-container","/knowledgebase/speech_craft/changeSpeechClass");
             $(".delete-change-set-container .change_class_form").attr("data-id",id);
+        }else if($(this).val()==3){
+            let pop =  new popLoad(".knowledgebase_speechcraft_index .delete-change-set-container","/knowledgebase/speech_craft/setTop");
+            $(".delete-change-set-container .set_top_form").attr("data-id",id);
         }
         $(this).val(0);
     });

@@ -25,6 +25,10 @@ class Index extends Controller
         return view();
     }
 
+    public function select_window(){
+        return view();
+    }
+
     public function developing(){
         return view();
     }
