@@ -665,7 +665,7 @@ function new_task_form(load_table){
         var task_type = $("#"+self.load_table+" .task .new_task_form"+" [name='task_type']").val();
         var type = 0;
         if (task_type == 1) {
-            type = 1;
+            type = 2;
         }
         console.log("type");
         console.log(type);
@@ -1054,10 +1054,13 @@ function task_list(target,now_uid){
     });
     $(task_list_sel+" .pay_ui").on("click",".pop-submit-btn",function() {
         console.log("tip_submit");
-        var money = $(task_list_sel+" .pay_ui .pay_money").val();
-        if(!money || money<=0){
-            layer.msg('金额必须大于零',{icon:2});
-            return false;
+        var money_element = $(task_list_sel+" .pay_ui .pay_money");
+        if(money_element.length>0){
+            var money = money_element.val();
+            if(!money || money<=0){
+                layer.msg('金额必须大于零',{icon:2});
+                return false;
+            }
         }
         var paypassword = self.get_pay_password();
         console.log("paypassword",paypassword);
