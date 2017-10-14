@@ -21,6 +21,9 @@ t = 2;
 for(var i = 0; i < t; i++) {
     $("#myModalsix .list").append(content3);
 }
+
+
+
 //领红包
 //$(".dv1 .grade .get").click(function() {
 //	if($(this).hasClass("p1")) {
@@ -713,6 +716,8 @@ function task_list(target,now_uid){
     this.paypassword = '';
     var self = this;
     var task_list_sel = "#"+self.target+" .task_list";
+    
+    
 
     this.pay=function(paypassword){
         //self.paypassword = '';
@@ -1116,11 +1121,16 @@ function task_list(target,now_uid){
             }
         });
     });
+    
+    //排序
+$(task_list_sel+" header .sort .classify p").click(function(){
+	
+	$(this).css("background-color","#e1ebf9");
+	$(this).siblings().css("background-color","#fff");
 
+})
 
 }
-
-
 
 function task_details(load_table,id,type,now_uid){
     this.load_table = load_table;
