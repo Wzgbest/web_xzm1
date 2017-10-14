@@ -652,13 +652,7 @@ class Employee extends Base{
              $map["re.role_id"] = $where['role'];
          }
          if (isset($where['tel_email']) && $where['tel_email']) {
-             if (preg_match('/^(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}/',$where['tel_email'])) {
-                 $map["e.telephone"] = $where['tel_email'];
-             } elseif (preg_match('/^[\w\+-]+(\.[\w\+-]+)*@[a-z\d-]+(\.[a-z\d-]+)*\.([a-z]{2,4})$/',$where['tel_email'])) {
-                 $map["e.email"] = $where['tel_email'];
-             }else{
-                 $map["e.truename"] = ["like","%".$where['tel_email']."%"];
-             }
+             $map["e.truename|e.email|e.telephone"] = ["like","%".$where['tel_email']."%"];
          }
          if (isset($where['on_duty']) && $where['on_duty']) {
              if ($where['on_duty']==-1) {
