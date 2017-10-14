@@ -69,9 +69,15 @@ $(struct_add_employee_panel+" .add_employee_ok").click(function(){
     if(struct_id>0) {
         var employee_ids = '';
         var employee_ids_arr = new Array();
+        var employee_ids_num = 0;
         $(struct_add_employee_checked).each(function(){
             employee_ids_arr.push($(this).val());
+            employee_ids_num++;
         });
+        if(employee_ids_num<=0){
+            layer.msg('请选择员工!',{icon:2});
+            return;
+        }
         employee_ids += employee_ids_arr.join(",");
         $.ajax({
             url: '/systemsetting/structure/addEmployeeStructure',

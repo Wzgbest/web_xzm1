@@ -6,7 +6,7 @@
             <select name="role">
                 <option value="">职位</option>
                 {volist name="roles" id="vo"}
-                <option value="{$vo.id}" {present name='filter.role'}{eq name='filter.role' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.role_name}</option>
+                    <option value="{$vo.id}" {present name='filter.role'}{eq name='filter.role' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.role_name}</option>
                 {/volist}
             </select>
             <input type="text" name="tel_email" placeholder="输入姓名/手机/邮箱" value="{present name='filter.tel_email'}{$filter.tel_email}{/present}"/>
