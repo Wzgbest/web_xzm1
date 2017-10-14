@@ -62,7 +62,7 @@
             <div class="active details">
 				{eq name="task_info.status" value="2"}
 				{if condition="$now_time <= $task_info['task_end_time']"}
-				<p class="p2 tip" task_id="{$task_info.id}">{if condition="in_array($uid,explode(',',$task_info['tip_employees']))"}继续打赏{else/}打赏{/if}</p>
+				<!--<p class="p2 tip" task_id="{$task_info.id}">{if condition="in_array($uid,explode(',',$task_info['tip_employees']))"}继续打赏{else/}打赏{/if}</p>-->
 
 				{eq name="uid" value="$task_info['create_employee']"}
 				{if condition="strtotime('-1 day') < $task_info['create_time'] && $now_time < $task_info['task_end_time'] "}
@@ -139,6 +139,7 @@
 					</span>
 				</p>
 				{eq name="task_info.status" value="2"}
+				{if condition="$now_time <= $task_info['task_end_time']"}
 				<p class="rate tip ">
 					{gt name="my_tip_money " value="0 "}
 						继续打赏
@@ -146,6 +147,7 @@
 						打赏
 					{/gt}
 				</p>
+				{/if}
 				{/eq}
 				<div class="particulars">
 				</div>
