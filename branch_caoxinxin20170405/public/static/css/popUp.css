@@ -5,7 +5,7 @@
 	left: 100px;
 }
 .popUp header{
-	width: 100%;
+	width: 100% !important;
 	position: relative !important;
 	top: 0 !important;
 	height: 50px !important;
