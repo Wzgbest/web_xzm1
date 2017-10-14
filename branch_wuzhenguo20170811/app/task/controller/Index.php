@@ -103,11 +103,7 @@ class Index extends Initialize{
     public function pay(){
         $type = input('type',0,'int');
         $money = input('money',0,'int');
-        if ($type==0) {
-            if (!$money) {
-                $this->error("输入的金额有误!");
-            }
-        }else{
+        if ($type!=1) {
             if (!$money) {
                 $this->error("输入的金额有误!");
             }
@@ -196,9 +192,9 @@ class Index extends Initialize{
         */
 
         $employeeTaskService = new EmployeeTaskService($this->corp_id);
-        $rankingdata = $employeeTaskService->getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$id,$standard,$num,$page);
+        $rankingdata = $employeeTaskService->getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$standard,$num,$page);
 
-
+        //var_exp($rankingdata,'$rankingdata',1);
 
         if($task_type==2){
             $guessdata = $this->_getEmployeeGuessMoneyList($id,$uids);
@@ -440,8 +436,11 @@ class Index extends Initialize{
         ];
         var_exp($getRankingListParams,'$getRankingListParams');
         */
+
         $employeeTaskService = new EmployeeTaskService($this->corp_id);
         $rankingdata = $employeeTaskService->getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$standard,$num,$page);
+
+        //var_exp($rankingdata,'$rankingdata',1);
 
         if($task_type=2){
             $guessdata = $this->_getEmployeeGuessMoneyList($id,$uids);
