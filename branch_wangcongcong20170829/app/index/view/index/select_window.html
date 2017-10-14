@@ -1,0 +1,175 @@
+<div class="select-window">
+	<div class="select-window-header"><span>选择人员</span></div>
+	<div class="select-window-content">
+		<div class="select-window-left-content">
+			<ul>
+			<!-- 部门名称 -->
+				<li class="department-name">
+					<div class="title">·销售一部</div>
+					<ul class="department-staff hide">
+						<li>李白</li>
+						<li>杜甫</li>
+						<li>冯唐</li>
+						<li>理光</li>
+					</ul>
+				</li>
+				<li class="department-name">
+					<div class="title">·销售一部</div>
+					<ul class="department-staff hide">
+						<li>李白</li>
+						<li>杜甫</li>
+						<li>冯唐</li>
+						<li>理光</li>
+					</ul>
+				</li>
+				<li class="department-name">
+					<div class="title">·销售一部</div>
+					<ul class="department-staff hide">
+						<li>李白</li>
+						<li>杜甫</li>
+						<li>冯唐</li>
+						<li>理光</li>
+					</ul>
+				</li>
+				<li class="department-name">
+					<div class="title">·销售一部</div>
+					<ul class="department-staff hide">
+						<li>李白</li>
+						<li>杜甫</li>
+						<li>冯唐</li>
+						<li>理光</li>
+					</ul>
+				</li>
+				<li class="department-name">
+					<div class="title">·销售一部</div>
+					<ul class="department-staff hide">
+						<li>李白</li>
+						<li>杜甫</li>
+						<li>冯唐</li>
+						<li>理光</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div class="select-window-right-content">
+			<ul>
+				<li>哈哈</li>
+				<li>哈哈</li>
+				<li>哈哈</li>
+				<li>哈哈</li>
+			</ul>
+		</div>
+	</div>
+	<div class="select-window-footer">
+		<button class="true">确定</button>
+		<button class="false">取消</button>
+	</div>
+</div>
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript">
+	$(".department-name .title").click(function(){
+		$(this).toggleClass("on").siblings(".department-staff").toggleClass("hide");
+	})
+	$(".department-staff li").click(function(){
+		console.log($(this).text());
+		$(".select-window-right-content ul").append("<li>"+$(this).text()+"</li>");
+	});
+</script>
+<style type="text/css">
+	.hide{
+		display: none;
+	}
+	.department-name .title:hover{
+		background-color: #ecf7fb;
+	}
+	.department-staff{
+		padding-left: 5px !important;
+	}
+	.department-staff li:hover{
+		background-color: #ecf7fb;
+	}
+	.department-name .title.on{
+		background-color: #fff4b7;
+	}
+	.select-window{
+		width: 600px;
+		height: 525px;
+		box-sizing:border-box;
+		border-radius: 4px;
+		overflow: hidden;
+	}
+	.select-window ul{
+		list-style: none;
+		font-size: 12px;
+		padding-left: 15px;
+	}
+	.select-window ul li{
+		line-height: 24px;
+		cursor: pointer;
+	}
+	.select-window-header{
+		width: 100%;
+		height: 50px;
+		line-height: 50px;
+		padding-left: 20px;
+		box-sizing:border-box;
+		font-size: 16px;
+		border: 1px solid #e3e3e3;
+		background-color: #f1f1f1;
+	}
+	.select-window-content{
+		width: 100%;
+		height: 420px;
+		padding: 10px 20px;
+		box-sizing:border-box;
+		border-left: 1px solid #e3e3e3;
+		border-right: 1px solid #e3e3e3;
+		background-color: #fff;
+	}
+	.select-window-left-content{
+		width: 250px;
+		height: 400px;
+		float: left;
+		box-sizing:border-box;
+		border: 1px solid #e3e3e3;
+		background-color: #f7fdff;
+		overflow-y: auto;
+		border-radius: 4px;
+	}
+	.select-window-right-content{
+		width: 260px;
+		height: 400px;
+		float: right;
+		box-sizing:border-box;
+		border: 1px solid #e3e3e3;
+		background-color: #f7fdff;
+		border-radius: 4px;
+		overflow-y: auto;
+	}
+	.select-window-footer{
+		width: 100%;
+		height: 55px;
+		border: 1px solid #e3e3e3;
+		box-sizing:border-box;
+		background-color: #f9f9f9;
+		padding:10px 20px 0 0;
+		text-align: right;
+	}
+	.select-window-footer button{
+		width: 88px;
+		height: 32px;
+		border-style: none;
+		border-radius: 4px;
+	}
+	.select-window-footer .true{
+		color: white;
+		background-color: #42A5f5;
+		margin-right: 10px;
+	}
+	.select-window-footer .false{
+		color: #42A5f5;
+		border: 1px solid #42A5f5;
+		box-sizing:border-box;
+		background-color: #fff;
+	}
+</style>
