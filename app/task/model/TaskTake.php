@@ -93,4 +93,35 @@ class TaskTake extends Base{
         return $result;
 
     }
+
+    /**
+     * 悬赏任务参与人排行榜列表
+     * @param $start_time int
+     * @param $end_time int
+     * @param $uids array 任务参与人id的数组集合
+     * @param $task_id int 任务id
+     * @param $standard int
+     * @param $num int
+     * @param $page int
+     * @param $map array
+     * @return array|false|\PDOStatement|string|\think\Collection
+     */
+    public function getEmployeeRanking($start_time,$end_time,$uids,$task_id,$standard=0,$num=10,$page=0,$map=null){
+        if(empty($uids)){
+            return [];
+        }
+        $offset = 0;
+        if($page){
+            $offset = ($page-1)*$num;
+        }
+        $map['e.id']=array('in',$uids);
+        $map['t.task_id']=$task_id;
+        $rankingList=$this->model->table($this->dbprefix.'employee e')
+            ->join($this->dbprefix.'employee_task_take t','e.id=t.take_employee','LEFT')
+            ->where($map)
+            //->limit($offset,$num)
+            ->field("e.id as employee_id,e.truename,t.whether_help,t.id as take_id")
+            ->select();
+        return $rankingList;
+    }
 }
