@@ -45,6 +45,7 @@ $(".structure_list .top .add").click(function(){
             type:'get',
             async:false,
             success:function (data) {
+                update_add_employee_num(0);
                 $(struct_add_employee_panel+' .add_employee_list').html(data);
                 $(struct_add_employee_panel).reveal("{data-animation:'fade'}");
             },
@@ -94,8 +95,8 @@ $(struct_add_employee_panel+" .add_employee_ok").click(function(){
 
 $(struct_file_panel+" .structure_del_cancel").click(function(){
 	
-//	$(".structure_file").children('.mange').children('input').val()=" ";
-//	$(".structure_file").children('.herd').children('input').prop("checked",false);
+//	$(struct_file_panel).children('.mange').children('input').val()=" ";
+//	$(struct_file_panel).children('.herd').children('input').prop("checked",false);
     $(struct_file_panel).trigger('reveal:close');
 });
 $(struct_edit_panel+" .structure_del_cancel").click(function(){
@@ -145,10 +146,9 @@ function show_node_add(id){
 
 structure_tree.listen("addFun",function(id){
 	console.log("addFun_id",id);
-	//class="big-link" data-reveal-id="structure_file" data-animation="fade";
     var struct_file_panel_temp = struct_file_panel;
     if(id){
-        
+        $(struct_file_panel).children('.mange').children('input').val('');
         $(struct_file_panel_temp).reveal("{data-animation:'fade'}");
               
     }
@@ -177,10 +177,10 @@ $(".structure_list .content .fold .title .fa-plus").click(function(){
     $(struct_file_panel_temp).reveal("{data-animation:'fade'}");
     
 });
-$('.structure_file').on('click',".p5 input",function(){
+$(struct_file_panel).on('click',".p5 input",function(){
  
-    var add_struct_name = $(".structure_file").children('.mange').children('input').val();
-    var add_group_value = $(".structure_file").children('.herd').children('input').prop("checked");
+    var add_struct_name = $(struct_file_panel).children('.mange').children('input').val();
+    var add_group_value = $(struct_file_panel).children('.herd').children('input').prop("checked");
 
     if (add_group_value == true) {
         add_group_value = 1;
@@ -229,17 +229,18 @@ structure_tree.listen("editFun",function(id){
                 console.log(info.struct_name);
                 if(data.status) {
                     structure_tree_del_struct_id = id;
+                    $(struct_edit_panel).children('.mange').children('input').val('');
                     $(struct_edit_panel_temp).reveal("{data-animation:'fade'}");
-                    $(".structure_edit").children('.mange').children('input').val(info.struct_name);
-                    $(".structure_edit").attr({
+                    $(struct_edit_panel).children('.mange').children('input').val(info.struct_name);
+                    $(struct_edit_panel).attr({
                         'node_id': id,
                     });
                     if (info.groupid != null) {
-                        $(".structure_edit").children('.herd').children('input').prop({
+                        $(struct_edit_panel).children('.herd').children('input').prop({
                             'checked': true,
                         });
                     }else{
-                    	$(".structure_edit").children('.herd').children('input').prop({
+                    	$(struct_edit_panel).children('.herd').children('input').prop({
                             'checked': false,
                         });
                     }
