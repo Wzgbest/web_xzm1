@@ -83,7 +83,7 @@ class Structure extends Initialize
         $end_num = $start_num+$num;
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
-        $filter = $this->_getCustomerFilter(["structure","tel_email"]);
+        $filter = $this->_getCustomerFilter(["role","structure","tel_email"]);
         //var_exp($filter,'$filter');
         try{
             $employeeM = new EmployeeModel($this->corp_id);
@@ -437,7 +437,7 @@ class Structure extends Initialize
     }
 
     /**
-     * 批量添加员工到部门
+     * 批量添加员工所在部门
      * @return array
      * created by blu10ph
      */
