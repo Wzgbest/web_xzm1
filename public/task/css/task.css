@@ -156,7 +156,7 @@ header .sort .classify p:nth-last-of-type(1) {
 }
 
 header .sort .classify p:hover {
-	background-color: #edf2fd;
+	/*background-color: #edf2fd;*/
 }
 
 header .sort p {
