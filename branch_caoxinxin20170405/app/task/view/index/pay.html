@@ -1,16 +1,25 @@
 <p class="p1">支付</p>
-{eq name="type" value="0"}
-    <div class="money"> </div>
-    <h2 class=" color-yellow"><i class="fa fa-cny"></i><span class="money-total">{$money}</span></h2>
-    <h3>账户余额：<span>{$user_money}</span>元{if condition="$user_money<$money"}，余额不足请<span class="color-blue">充值</span>{/if}</h3>
-{else/}
-    <div class="money"> </div>
-    <h2 class=" color-yellow"><i class="fa fa-cny"></i><span class="money-total">{$money}</span></h2>
-    <h3 class="selfmoney hide">个人账户余额：<span>{$user_money}</span>元{if condition="$user_money<$money"}，余额不足请<span class="color-blue">充值</span>{/if}</h3>
-    <h3 class="compneymoney">企业账户余额：<span>{$company_money}</span>元{if condition="$company_money<$money"}，余额不足请<span class="color-blue">充值</span>{/if}</h3>
-    <input type="radio" name="pay_type" value="0">个人
-    <input type="radio" name="pay_type" value="1" checked="checked">企业
-{/eq}
+{switch	name="type"}
+    {case value="1"}
+        <div class="money">
+            <span>￥</span>
+            <input type="text" class="pay_money" placeholder="00.00" />
+        </div>
+        <p class="bar">账户余额：<span>{$user_money}</span>元{if condition="$user_money<$money"}，余额不足请<span class="color-blue">充值</span>{/if}</p>
+    {/case}
+    {case value="2"}
+        <div class="money"> </div>
+        <h2 class=" color-yellow"><i class="fa fa-cny"></i><span class="money-total">{$money}</span></h2>
+        <h3 class="selfmoney hide">个人账户余额：<span>{$user_money}</span>元{if condition="$user_money<$money"}，余额不足请<span class="color-blue">充值</span>{/if}</h3>
+        <h3 class="compneymoney">企业账户余额：<span>{$company_money}</span>元{if condition="$company_money<$money"}，余额不足请<span class="color-blue">充值</span>{/if}</h3>
+        <input type="radio" name="pay_type" value="0">个人
+        <input type="radio" name="pay_type" value="1" checked="checked">企业
+    {/case}
+    {default /}
+        <div class="money"> </div>
+        <h2 class=" color-yellow"><i class="fa fa-cny"></i><span class="money-total">{$money}</span></h2>
+        <h3>账户余额：<span>{$user_money}</span>元{if condition="$user_money<$money"}，余额不足请<span class="color-blue">充值</span>{/if}</h3>
+{/switch}
 <div class="mima payPwd">
     <div class="box">
         <div class="flex-1 item"><input maxlength="1" type="tel"></div>

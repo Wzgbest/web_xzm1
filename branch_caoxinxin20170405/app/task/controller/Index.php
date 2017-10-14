@@ -103,11 +103,7 @@ class Index extends Initialize{
     public function pay(){
         $type = input('type',0,'int');
         $money = input('money',0,'int');
-        if ($type==0) {
-            if (!$money) {
-                $this->error("输入的金额有误!");
-            }
-        }else{
+        if ($type!=1) {
             if (!$money) {
                 $this->error("输入的金额有误!");
             }
