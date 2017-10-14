@@ -28,6 +28,7 @@ function tree(config) {
     this.listen_arr.addFun = config.addFun?config.addFun:null;
     this.listen_arr.editFun = config.editFun?config.editFun:null;
     this.listen_arr.delFun = config.delFun?config.delFun:null;
+    this.listen_arr.reloadFun = config.reloadFun?config.reloadFun:null;
     this.activity_id = 0;
     this.tree_index = new Array();
     this.tree_html = "";
@@ -184,6 +185,10 @@ function tree(config) {
         console.log("del");
         this.del_item_to_data(id,this.data[0]);
         this.reload();
+        this.activity_id = 0;
+        if(self.listen_arr.reloadFun!=null){
+            self.listen_arr.reloadFun();
+        }
     };
     this.reload();
     this.getItem=function(sel_lab){
