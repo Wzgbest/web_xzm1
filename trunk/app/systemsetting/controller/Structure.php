@@ -437,7 +437,7 @@ class Structure extends Initialize
     }
 
     /**
-     * 移除员工所在部门
+     * 批量添加员工到部门
      * @return array
      * created by blu10ph
      */
