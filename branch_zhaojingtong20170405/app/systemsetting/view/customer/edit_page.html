@@ -66,7 +66,13 @@
             / value="1"><span class="sp3">显示</span>
         </p>
         <p class="fuxuan">该设置对应部门<i class="fa fa-sort-desc"></i></p>
-        <p class="yixuan"></p>
+        <p class="yixuan">
+            {volist name="structures" id="vo"}
+                {if	condition="in_array($vo.id,$customerSetting.set_to_structure_arr)"}
+                    <span>{$vo.struct_name}</span>
+                {/if}
+            {/volist}
+        </p>
         <div style="clear: both">
             <div class="xuanze">
                 <ul>
@@ -82,7 +88,7 @@
 
 
             <div class="xuanzhong">
-                <p>已选择4个对象</p>
+                <p>已选择<span>{:count($customerSetting.set_to_structure_arr)}</span>个对象</p>
                 <ul>
                     {volist name="structures" id="vo"}
                         {if	condition="in_array($vo.id,$customerSetting.set_to_structure_arr)"}

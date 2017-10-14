@@ -21,7 +21,13 @@
                 <input type="text" placeholder="百度推广" name="business_flow_name" value="{$business_flow_setting.business_flow_name}" />
             </p>
             <p class="fuxuan">应有此业务角色<i class="fa fa-sort-desc"></i></p>
-            <p class="yixuan"></p>
+            <p class="yixuan">
+                {volist name="roles" id="vo"}
+                    {if	condition="in_array($vo.id,$business_flow_setting.set_to_role_arr)"}
+                        <span>{$vo.role_name}</span>
+                    {/if}
+                {/volist}
+            </p>
                 <div style="clear: both">
                     <div class="xuanze">
                         <ul>
