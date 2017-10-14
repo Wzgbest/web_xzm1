@@ -315,17 +315,6 @@ class EmployeeTask extends Initialize{
         }
         return json($redata);
     }
-    public function pk_pay(){
-        $money = input('money',0,'int');
-        if (!$money) {
-            $this->error("输入的金额有误!");
-        }
-        $this->assign("fr",input('fr','','string'));
-        $userinfo = get_userinfo();
-        $this->assign('user_money',$userinfo["userinfo"]['left_money']/100);
-        $this->assign('money',$money);
-        return view();
-    }
 
     /**
      * 终止任务
