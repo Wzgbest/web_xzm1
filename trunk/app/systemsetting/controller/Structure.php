@@ -564,6 +564,94 @@ class Structure extends Initialize
         return $info;
     }
 
+    //批量操作员工
+    /**
+     * 批量操作员工
+     * @return [type] [description]
+     */
+    public function changeEmployeesFromStructs(){
+        $info = [
+            'status'=>false,
+            'message'=>'批量操作员工失败'
+        ];
+        $group = input('group',0,"int");
+        $to_group = input('to_group',0,"int");
+        $user_ids = input('user_ids',"","string");
+        if(!$groupid || !$to_groupid || !$user_ids){
+            return [
+                'status'=>false,
+                'message'=>'参数错误'
+            ];
+        }
+        if ($group == $to_group) {
+            return [
+                'status'=>false,
+                'message'=>'转移部门不能和原部门相同'
+            ];
+        }
+        $user_ids_arr = explode(",",$user_ids);
+        
+        $employeeM = new StructureEmployeeModel($this->corp_id);
+        $structModel = new StructureModel($this->corp_id);
+        $huanxin = new HuanxinApi();
+
+        $edit_userids = [];
+        $del_userids = [];
+        foreach ($user_ids_ar as $key => $value) {
+            $flg = $employeeM->getOneInfo($value,$to_group);
+            if (empty($flg)) {
+                $edit_userids[] = $value;
+                $group_users[] = $this->corp_id."_".$value;
+            }else{
+                $del_userids[] = $value;
+            }
+            $del_group_users[] = $this->corp_id."_".$value;
+        }
+
+        $struct_info = $structModel->getStructureInfo($group);
+        $group_id = $struct_info['groupid'];
+        $to_struct_info = $structModel->getStructureInfo($to_group);
+        $to_group_id = $to_struct_info['groupid'];
+
+        $data = ['struct_id'=>$to_group];
+
+        $employeeM->link->startTrans();
+        try {
+            $res = $employeeM->setStructureEmployeebyIds($group_users,$group,$data);
+            if (!$res) {
+                exception("添加数据表失败");
+            }
+            $res = $employeeM->delStructureEmployee($group,$del_userids);
+            if (!$res) {
+                exception("删除数据表失败");
+            }
+            if ($group_id) {
+                $res = $huanxin->deleteAllUsers($group_id,$del_group_users);
+                if (isset($res['error'])) {
+                    exception("删除环员工失败");
+                }
+            }
+            if ($to_group_id) {
+                $res = $huanxin->addAllUsers($to_group_id,$group_users);
+                if (isset($res['error'])) {
+                    exception("添加环信员工失败");
+                }
+            }
+            $employeeM->link->commit();
+        } catch (\Exception $ex) {
+            $employeeM->link->rollback();
+            return $info;   
+        }
+       
+        $info=[
+            'status' =>true,
+            'message' => '批量操作部门成员成功',
+        ];
+       
+        return $info;
+    }
+
+
     /**
      * 移除员工所在部门
      * @param $user_id 员工id
@@ -615,6 +703,51 @@ class Structure extends Initialize
         ];
       
         return $info;
+    }
+
+    /**
+     * 移动部门
+     * @return [type] [description]
+     */
+    public function changeStruct(){
+        $info = [
+            'status'=>true,
+            'message'=>'移动部门失败',
+        ];
+
+        $struct_id = input('struct_id',0,'int');
+        $pstruct_id = input('pstruct_id',0,'int');
+
+        if (!$struct_id) {
+            return [
+                'status'=>false,
+                'message'=>"参数错误",
+            ];
+        }
+
+        $data = ['struct_pid'=>$pstruct_id];
+        $struM = new StructureModel($this->corp_id);
+        $max_deep_level = 5;    
+        try {
+            $check_flg = $struM->checkStructureLevelDeep($pstruct_id,$max_deep_level);
+            if(!$check_flg){
+                exception("部门层级达到上限");
+            }
+
+            $flg = $struM->setStructure($struct_id,$data);
+            if (!$flg) {
+                  exception("跟新部门数据表失败");
+              }  
+        } catch (\Exception $ex) {
+            $info['message'] = $ex->getMessage();
+            return $info;
+        }
+
+        $info['status'] = true;
+        $info['message'] = "部门转移成功";
+
+        return $info;
+
     }
 
     /**
