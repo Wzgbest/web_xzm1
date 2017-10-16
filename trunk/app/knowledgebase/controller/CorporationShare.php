@@ -103,6 +103,7 @@ class CorporationShare extends Initialize{
         $num = input('num',10,'int');
         $last_id = input("last_id",0,"int");
         $userinfo = get_userinfo();
+        //var_exp($userinfo,'$userinfo',1);
         $uid = $userinfo["userid"];
         $corporationShareModel = new CorporationShareModel($this->corp_id);
         $share_data = $corporationShareModel->getCorporationShare($uid,$num,$last_id);
