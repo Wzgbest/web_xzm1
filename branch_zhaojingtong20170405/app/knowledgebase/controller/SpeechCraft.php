@@ -363,17 +363,23 @@ class SpeechCraft extends Initialize{
     public function changeIsTop(){
         $result = ['status'=>0,'info'=>"修改失败"];
         $article_id = input('article_id',0,'int');
-        $is_top = input('is_top',0,'int');
+        // $is_top = input('is_top',0,'int');
         $article_start_top_time = input('article_start_top_time','',"string");
         $article_end_top_time = input('article_end_top_time','',"string");
-        if (!$article_id || !$is_top || !$article_start_top_time || !$article_end_top_time) {
+        if (!$article_id || !$article_start_top_time || !$article_end_top_time) {
             $result['info'] = "参数错误";
             return json($result);
         }
-        $data['is_top'] = $is_top;
+        $data['article_is_top'] = 1;
         $data['article_start_top_time'] = $article_start_top_time;
         $data['article_end_top_time'] = $article_end_top_time;
         $data['article_edit_time'] = time();
+        if (!empty($data['article_start_top_time'])) {
+            $data['article_start_top_time'] = strtotime(str_replace('T',' ',$data['article_start_top_time']));
+        }
+        if (!empty($data['article_end_top_time'])) {
+            $data['article_end_top_time'] = strtotime(str_replace('T',' ',$data['article_end_top_time']));
+        }
         $flg = $this->_speechCraftModel->editArticleInfo($article_id,$data);
         if ($flg > 0) {
             $result['info'] = "修改成功";
