@@ -5,14 +5,15 @@
  */
 namespace app\index\controller;
 
+use app\common\controller\Initialize;
 use think\Db;
-use app\huanxin\service\Api;
 use think\Controller;
 
-class Index extends Controller
-{
-    public function index()
-    {
+class Index extends Initialize{
+    public function _initialize(){
+        parent::_initialize();
+    }
+    public function index(){
         $userinfo = get_userinfo();
         if (empty($userinfo)) {
             $this->redirect('/login/index/index');
