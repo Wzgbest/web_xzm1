@@ -10,8 +10,8 @@
 </header>
 <div class="pop_content set_top_form m-form">
 	<div class="tc">
-		置顶时间<input type="datetime-local"  />至
-	<input type="datetime-local" />
+		置顶时间<input type="datetime-local"  name="article_start_top_time" />至
+	<input type="datetime-local" name="article_end_top_time" />
 	</div>
 	
 	<div class="u-submitButton">
@@ -21,24 +21,27 @@
 </div>
 <link rel="stylesheet" type="text/css" href="/static/css/popUp.css">
 <script type="text/javascript">
-	$(".pop_content.set_top_form .pop-submit-btn").click(function(){
-		/*var class_id = $(".knowledgebase_speechcraft_index .index_panel .m-firNav li.current").attr("speechcraft_in_column");
-		$.ajax({
-			url: '/knowledgebase/speech_craft/deleteClass',
-			type: 'POST',
-			dataType: 'json',
-			data: {'class_id': class_id},
-			success:function(data){
-				layer.msg(data.info,{icon:data.status==1?1:2});
+	$(".pop_content.set_top_form.m-form .pop-submit-btn").click(function(){
+		let article_id = $(".delete-change-set-container .set_top_form ").attr("data-id");
+		let article_start_top_time = $(".delete-change-set-container .set_top_form input[name='article_start_top_time']").val();
+		let article_end_top_time = $(".delete-change-set-container .set_top_form input[name='article_end_top_time']").val();
+		console.log(article_id);
+	    $.ajax({
+	        url: '/knowledgebase/speech_craft/changeIsTop',
+	        type: 'POST',
+	        dataType: 'json',
+	        data:{'article_id':article_id,'article_start_top_time':article_start_top_time,'article_end_top_time':article_end_top_time},
+	        success:function(data){
+	            layer.msg(data.info,{icon:data.status==1?1:2});
 	            if(data.status) {
-	                loadPage("/knowledgebase/speech_craft/index", "speech-databasefr");
+					$(".delete-change-set-container").children().remove();
 	            }
-			},
-			error:function(){
-				layer.msg('删除失败!',{icon:2});
-			}
-		});*/
-
+	        },
+	        error:function(){
+	            layer.msg('修改失败!',{icon:2});
+	        }
+	    }); 
+		
 	});
 </script>
 

@@ -175,4 +175,23 @@ class StructureEmployee extends Base
             ->order("id desc")
             ->find();
     }
+
+    /*
+    查询是否存在该条信息
+     */
+    public function getOneInfo($user_id,$group){
+        return $this->model->table($this->table)->where(['user_id'=>$user_id,'struct_id'=>$group])->find();
+    }
+    /*
+    删除部门员工
+     */
+    public function delStructureEmployee($struct_id,$data=[]){
+        if (empty($data)) {
+            return $this->model->table($this->table)->where('struct_id','in',$struct_id)->delete();
+        } else {
+            return $this->model->table($this->table)
+                ->where('struct_id',$struct_id)
+                ->where('user_id','in', $data)->delete();
+        }
+    }
 }
