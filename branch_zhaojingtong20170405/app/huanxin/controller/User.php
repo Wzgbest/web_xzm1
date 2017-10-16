@@ -251,7 +251,8 @@ class User extends Initialize{
     public function checkPayPassword(){
         $info = ['status'=>0,'info'=>'用户支付密码'];
         $info['data'] = 0;
-        if (!empty($chk_info['userinfo']['pay_password'])) {
+        $user_info = get_userinfo();
+        if (!empty($user_info['userinfo']['pay_password'])) {
             $info['data'] = 1;
         }
         $info['status'] = 1;
@@ -326,6 +327,7 @@ class User extends Initialize{
      * @return string
      */
     public function transMoney(){
+        $user_info = get_userinfo();
         $password = input('param.paypassword');
         $take_money = input('param.take_money');
         $info['status'] = false;
@@ -344,28 +346,28 @@ class User extends Initialize{
             $info['errnum'] = 3;
             return json($info);
         }
-        if (empty($chk_info['userinfo']['alipay_account'])) {
+        if (empty($user_info['userinfo']['alipay_account'])) {
             $info['message'] = '您的支付宝收款账号未设置';
             $info['errnum'] = 4;
             return json($info);
         }
-        if (empty($chk_info['userinfo']['pay_password'])) {
+        if (empty($user_info['userinfo']['pay_password'])) {
             $info['message'] = '您的支付密码未设置';
             $info['errnum'] = 5;
             return json($info);
         }
-        if (md5($password) != $chk_info['userinfo']['pay_password']) {
+        if (md5($password) != $user_info['userinfo']['pay_password']) {
             $info['message'] = '支付密码错误';
             $info['errnum'] = 6;
             return json($info);
         }
         $fen_money = intval($take_money*100);
-        if ($chk_info['userinfo']['left_money'] < $fen_money) {
+        if ($user_info['userinfo']['left_money'] < $fen_money) {
             $info['message'] = '余额不足，无法提现';
             $info['errnum'] = 7;
             return json($info);
         }
-        $corp_left_money = Corporation::getCorporation($chk_info['corp_id']);
+        $corp_left_money = Corporation::getCorporation($this->corp_id);
         if ($corp_left_money['corp_left_money'] < $fen_money) {
             $info['message'] = '贵公司账户余额不足，无法提现';
             $info['errnum'] = 8;
@@ -375,7 +377,7 @@ class User extends Initialize{
         $handle_cash = new TakeCashService();
         $trans_data = [
             'order_num' =>$order_num,
-            'recv_account'=>$chk_info['userinfo']['alipay_account'],
+            'recv_account'=>$user_info['userinfo']['alipay_account'],
             'take_money'    =>$take_money,
             'remark'    =>'用户提现，金额为'.$take_money.'元'
         ];
@@ -393,7 +395,7 @@ class User extends Initialize{
             'userid'         =>$this->uid,
             'take_money'     => -$fen_money,
             'status'          => 1,
-            'alipay_account' =>$chk_info['userinfo']['alipay_account'],
+            'alipay_account' =>$user_info['userinfo']['alipay_account'],
             'took_time'       =>time(),
             'order_number'    =>$order_num,
             'remark'    =>'用户提现，金额为'.$fen_money.'分'
@@ -402,7 +404,7 @@ class User extends Initialize{
         $de_corp_money = ['corp_left_money' =>['exp',"corp_left_money - $fen_money"]];
         //corporation_cash表更改
         $corp_cash_data = [
-            'corp_id' =>$chk_info['userinfo']['corpid'],
+            'corp_id' =>$this->corp_id,
             'money' => -$fen_money,
             'create_time' => time(),
             'status' => 1,
@@ -417,7 +419,7 @@ class User extends Initialize{
         try{
             $de_money = $employM->setSingleEmployeeInfobyId($this->uid,$change_data);
             $take_cash = $takeCashM->addOrderNumber($record_data);
-            $de_corp_money = Corporation::setCorporationInfo($chk_info['corp_id'],$de_corp_money);
+            $de_corp_money = Corporation::setCorporationInfo($this->corp_id,$de_corp_money);
             $corp_cash_rec = $corp_cashM->addCorporationCashInfo($corp_cash_data);
         }catch (\Exception $e){
             $employM->link->rollback();
@@ -426,7 +428,7 @@ class User extends Initialize{
         if ($de_money > 0 && $take_cash > 0 && $de_corp_money > 0 && $corp_cash_rec > 0) {
             $employM->link->commit();
             Corporation::commit();
-            write_log($this->uid,4,'用户提现，金额为'.$fen_money.'分',$chk_info['corp_id']);
+            write_log($this->uid,4,'用户提现，金额为'.$fen_money.'分',$this->corp_id);
             $info['status'] = true;
             $info['message'] = '用户提现成功，请登陆支付宝查看';
             $info['errnum'] = 0;
@@ -436,7 +438,7 @@ class User extends Initialize{
             Corporation::rollback();
             $info['message'] = '用户提现成功，写入后台记录失败，请联系管理员';
             $info['errnum'] = 9;
-            write_log($this->uid,4,'用户提现，金额为'.$fen_money.'分',$chk_info['corp_id']);
+            write_log($this->uid,4,'用户提现，金额为'.$fen_money.'分',$this->corp_id);
             send_mail(config('system_email.user'),config('system_email.pass'),'wangqiwen@winbywin.com','提现问题',config('system_email.from_name'),'向员工转账成功，后台记录更改失败'.json_encode($trans_data,true));
         }
         return json($info);
@@ -480,17 +482,17 @@ class User extends Initialize{
             $info['errnum'] = 4;
             return json($info);
         }
-        if (empty($chk_info['userinfo']['pay_password'])) {
+        if (empty($user_info['userinfo']['pay_password'])) {
             $info['message'] = '您的支付密码未设置';
             $info['errnum'] = 5;
             return json($info);
         }
-        if (md5($pay_pass) != $chk_info['userinfo']['pay_password']) {
+        if (md5($pay_pass) != $user_info['userinfo']['pay_password']) {
             $info['message'] = '支付密码错误';
             $info['errnum'] = 6;
             return json($info);
         }
-        if ($chk_info['userinfo']['left_money'] < $take_money) {
+        if ($user_info['userinfo']['left_money'] < $take_money) {
             $info['message'] = '账户余额不足，无法转账';
             $info['errnum'] = 7;
             return json($info);
@@ -532,7 +534,7 @@ class User extends Initialize{
             $to_r = $cashM->addOrderNumber($cash_to_data);
             if ($de > 0 && $in > 0 && $from_r >0 && $to_r > 0) {
                 $employM->link->commit();
-                write_log($this->uid,3,'用户app转账成功，转至用户id'.$to_userinfo['id'].',转账金额'.$take_money.'分',$chk_info['corp_id']);
+                write_log($this->uid,3,'用户app转账成功，转至用户id'.$to_userinfo['id'].',转账金额'.$take_money.'分',$this->corp_id);
 
                 $employM = new Employee($this->corp_id);
                 $user_info = $employM->getEmployeeByTel($this->telephone);
@@ -543,7 +545,7 @@ class User extends Initialize{
                 $info['message'] = '转账成功';
             } else {
                 $employM->link->rollback();
-                write_log($this->uid,3,'用户app转账失败，转至用户id'.$to_userinfo['id'].',转账金额'.$take_money.'分',$chk_info['corp_id']);
+                write_log($this->uid,3,'用户app转账失败，转至用户id'.$to_userinfo['id'].',转账金额'.$take_money.'分',$this->corp_id);
                 $info['message'] = '转账失败';
                 $info['errnum'] = 8;
             }
