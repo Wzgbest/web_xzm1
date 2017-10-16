@@ -115,21 +115,27 @@ function set_userinfo($corp_id,$telephone,$user_arr){
         'role'=>$user_arr['role_name'],
         'userinfo'=>$user_arr,
     ];
+    
     set_cache_by_tel($telephone,'userinfo',$userinfo);
     return $userinfo;
 }
 
 function get_userinfo($telephone=null){
     if(!$telephone){
-        $telephone = input('userid');
-        if(!$telephone){
+        $telephone = input('userid','',"string");
+        //var_exp($telephone,'$telephone0');
+        if(empty($telephone)){
             $token = get_token_by_cookie();
+            if(empty($token)){
+                //var_exp(00,'00');
+                return [];
+            }
+            //var_exp($token,'$token');
             $telephone = get_telephone_by_token($token);
-        }else{
-            return [];
         }
     }
     $userinfo = get_cache_by_tel($telephone,'userinfo');
+    //var_exp($userinfo,'$userinfo');
     return $userinfo;
 }
 
