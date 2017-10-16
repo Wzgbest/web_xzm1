@@ -2,14 +2,51 @@
 	<h1>更改可见范围<i class="fa fa-close fa-2x pop-close-btn"></i></h1>
 </header>
 <div class="pop_content m-form">
-	<div class="main" id="create-apply-container">
-		<div class="main-content">
-		<button>选择成员</button>
+	<div>
+	<div class="tc" style="margin-bottom: 30px">
+		<input type="radio" name="isallsee" value="1" />全员可见
+		<input type="radio" name="isallsee" value="2">部分可见
+	</div>
+	<div class="tc">
+		<button class="select-window-in">选择人员</button>
+		<input type="text" class="select-window-choosen-staff" style="margin: 0"></input>
+
+	</div>
+		<div class="main-content select-window" style="margin:0 auto;">
+		
 		</div>
 	</div>
-	<iframe id="select-window" src="/index/index/select_window.html"></iframe>
 	<div class="u-submitButton">
-		<button class="pop-submit-btn">申请</button>
+		<button class="pop-submit-btn">确定</button>
 		<button class="pop-close-btn">取消</button>
 	</div>
 </div>
+<style type="text/css">
+.select-window-in{
+	width: 88px;
+    height: 32px;
+    border-style: none;
+    border-radius: 4px;
+    background-color: #e6e6e6;
+    color: #ccc;
+}
+.select-window-in.on{
+	    color: white;
+    background-color: #42A5f5;
+}
+</style>
+<script type="text/javascript">
+$("input[name='isallsee']").click(function(){
+	console.log($(this).val());
+	if($(this).val()==2){
+		$(".select-window-in").addClass("on");
+	}
+});
+$(".pop_content").on("click",".select-window-in.on",function() {
+	$(".main-content.select-window").load("/index/index/select_window.html");
+});
+// $(".select-window-in.on").click(function() {
+// 	$(".main-content.select-window").load("/index/index/select_window.html");
+// });
+	
+</script>
