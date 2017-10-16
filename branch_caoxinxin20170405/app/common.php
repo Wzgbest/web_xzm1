@@ -121,7 +121,7 @@ function set_userinfo($corp_id,$telephone,$user_arr){
 
 function get_userinfo($telephone=null){
     if(!$telephone){
-        $telephone = input('userid');
+        $telephone = input('userid','',"string");
         if(!$telephone){
             $token = get_token_by_cookie();
             $telephone = get_telephone_by_token($token);
