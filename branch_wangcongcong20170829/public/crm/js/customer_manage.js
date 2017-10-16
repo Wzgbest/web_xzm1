@@ -34,7 +34,9 @@ $(customer_manage_nav_base+" .delete").click(function(){
 });
 customer_manage_list_manage.listenSelect("change_customers_to_employee");
 $(customer_manage_nav_base+" .change_customers_to_employee").click(function(){
-    var pop = new popLoad(customer_manage_list_base+" .crm-customer-manage-pop","/crm/customer/change_customers_to_employee_page/");
+    if($(this).hasClass("active")){
+        var pop = new popLoad(customer_manage_list_base+" .crm-customer-manage-pop","/crm/customer/change_customers_to_employee_page/");
+    }  
 });
 change_customers_to_employee=function(uid){
     var ids = customer_manage_list_manage.getAllSelectVal();
@@ -60,7 +62,9 @@ change_customers_to_employee=function(uid){
 };
 customer_manage_list_manage.listenSelect("change_customers_visible_range");
 $(customer_manage_nav_base+" .change_customers_visible_range").click(function(){
-    var pop = new popLoad(customer_manage_list_base+" .crm-customer-manage-pop","/crm/customer/change_customers_visible_range_page/");
+    if($(this).hasClass("active")){
+        var pop = new popLoad(customer_manage_list_base+" .crm-customer-manage-pop","/crm/customer/change_customers_visible_range_page/");
+    }    
 });
 change_customers_visible_range=function(is_public,employees,departments){
     var ids = customer_manage_list_manage.getAllSelectVal();
