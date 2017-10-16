@@ -230,19 +230,37 @@ class Employee extends Base{
     }
 
     /**
-     * 登陆成功，创建用户system_token,并返回给app
-     * @param $telephone 电话号码
+     * 登陆成功，创建用户设备token,并返回
+     * @param $device_type int 设备类型
+     * @param $telephone int 电话号码
      * @return array
      * @throws \think\Exception
      * created by messhair
      */
-    public function createSystemToken($telephone)
+    public function createSystemToken($device_type,$telephone)
     {
-        $sys_token=md5($telephone.time().rand(10000,99999));
+        if($device_type<0){
+            return false;
+        }
+        $field_name = 'other';
+        switch ($device_type){//0:other,1:web,2:pc,3:ios:4:android
+            case 1:
+                $field_name = "web";
+                break;
+            case 2:
+                $field_name = "pc";
+                break;
+            case 3:
+            case 4:
+                $field_name = "app";
+                break;
+        }
+        $field_name .= "_token";
+        $sys_token=md5($telephone.$device_type.time().rand(10000,99999));
         $b=$this->model->table($this->table)
             ->where('telephone',$telephone)
-            ->update(['system_token'=>$sys_token]);
-        return ['system_token'=>$sys_token,'res'=>$b];
+            ->update([$field_name=>$sys_token]);
+        return ["token"=>$sys_token,'res'=>$b];
     }
 
     /**
