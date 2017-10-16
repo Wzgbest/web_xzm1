@@ -397,7 +397,7 @@ $('.systemsetting_business_flow_edit .xuanzhong').on('click', "ul li img", funct
 });
 
 $('.systemsetting_business_flow_edit .fuxuan').click(function() {
-    //  	$('.systemsetting_business_flow_edit .fuxuan i').toggleClass()
+	$('.systemsetting_business_flow_edit .fuxuan i').toggleClass("rotate");
     $('.systemsetting_business_flow_edit .xuanze').toggle();
     $('.systemsetting_business_flow_edit .xuanzhong').toggle();
 });
