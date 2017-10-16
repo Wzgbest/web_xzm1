@@ -711,7 +711,7 @@ class Structure extends Initialize
      */
     public function changeStruct(){
         $info = [
-            'status'=>true;
+            'status'=>true,
             'message'=>'移动部门失败',
         ];
 
@@ -720,7 +720,7 @@ class Structure extends Initialize
 
         if (!$struct_id) {
             return [
-                'status'=>false;
+                'status'=>false,
                 'message'=>"参数错误",
             ];
         }
@@ -738,7 +738,7 @@ class Structure extends Initialize
             if (!$flg) {
                   exception("跟新部门数据表失败");
               }  
-        } catch (/Exception $ex) {
+        } catch (\Exception $ex) {
             $info['message'] = $ex->getMessage();
             return $info;
         }
