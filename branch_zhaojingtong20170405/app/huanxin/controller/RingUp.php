@@ -9,21 +9,18 @@
 namespace app\huanxin\controller;
 
 use app\crm\model\CallRecord;
+use app\common\controller\Initialize;
 
-class RingUp{
+class RingUp extends Initialize{
+    public function _initialize(){
+        parent::_initialize();
+    }
 
     /**
      * 查询通话记录
-     * @param \app\huanxin\controller\User $user
      * @return string
      */
-    public function call_record(User $user){
-        $userid = input('param.userid');
-        $access_token = input('param.access_token');
-        $chk_info = $user->checkUserAccess($userid,$access_token);
-        if (!$chk_info['status']) {
-            return json($chk_info);
-        }
+    public function call_record(){
         $result = ['status'=>0 ,'info'=>"查询通话记录时发生错误！"];
         $customer_id = input('contactor_id',0,'int');
         $contactor_num = input('contactor_num',0,'int');
@@ -31,8 +28,8 @@ class RingUp{
         $p = input("p");
         $p = $p?:1;
         try{
-            $CallRecordModel = new CallRecord($chk_info['corp_id']);
-            $map["userid"] = $chk_info["userinfo"]["id"];
+            $CallRecordModel = new CallRecord($this->corp_id);
+            $map["userid"] = $this->uid;
             if($customer_id){
                 $map['cr.contactor_id'] = $customer_id;
             }

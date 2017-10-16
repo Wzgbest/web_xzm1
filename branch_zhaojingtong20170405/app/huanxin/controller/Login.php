@@ -10,6 +10,7 @@ use app\common\model\Employee;
 use app\common\model\EmployeeScore;
 use app\common\model\RoleEmployee;
 use app\common\model\StructureEmployee;
+use app\huanxin\service\Api;
 
 class Login extends Controller
 {
@@ -29,51 +30,24 @@ class Login extends Controller
         $input = input('param.');
         $telephone = trim($input['telephone']);
         $password = trim($input['password']);
+        $device_type = input('device_type',0,'int');
         $ip = $this->request->ip();
-        $req_reg['status'] = false;
-        if ($telephone == '' || $password == '') {
-            $req_reg['message'] = '缺少必填信息';
-            $req_reg['errnum'] = 1;
+        $result = check_telphone_and_password($telephone,$password);
+        if(!$result["status"]){
+            $req_reg["message"] = $result["message"];
+            $req_reg["errnum"] = $result["errnum"];
             return json($req_reg);
         }
-        if (!check_tel($telephone)) {
-            $req_reg['message'] = '手机号码格式不正确';
-            $req_reg['errnum'] = 2;
+        $corp_id = $result["corp_id"];
+        $user_arr = $result["user_info"];
+        $result = login($corp_id,$user_arr["id"],$telephone,$device_type,$ip);
+        if(!$result["status"]){
+            $req_reg["message"] = $result["message"];
+            $req_reg["errnum"] = $result["errnum"];
             return json($req_reg);
         }
-        $corp_id = get_corpid($telephone);
-        if (empty($corp_id)) {
-            $req_reg['message'] = '用户不存在或用户未划分公司归属';
-            $req_reg['errnum'] = 3;
-            return json($req_reg);
-        }
-        //验证用户信息
-        $model = new Employee($corp_id);
-        $user_arr = $model->getEmployeeByTel($telephone);
-        if (empty($user_arr)) {
-            $req_reg['message'] = '用户不存在或用户未划分公司归属';
-            $req_reg['errnum'] = 3;
-            return json($req_reg);
-        }
-        if ($user_arr['password'] != md5($password)) {
-            $req_reg['message'] = '密码错误';
-            $req_reg['errnum'] = 4;
-            return json($req_reg);
-        }
-        if (empty($user_arr['lastlogintime'])) {
-            $req_reg['message'] = '用户首次登陆，请修改密码';
-            $req_reg['errnum'] = 5;
-            return json($req_reg);
-        }
-        //创建用户token，返回给app客户端
-        $save_res=$model->createSystemToken($telephone);
-        if($save_res['res']>0){
-            $req_reg['access_token'] = $save_res['system_token'];
-        }else{
-            $req_reg['message'] = '获取token信息失败，联系网站后台管理员';
-            $req_reg['errnum'] = 6;
-            return json($req_reg);
-        }
+        $req_reg["access_token"] = $result["access_token"];
+
         //获取用户积分
         $scoreM = new EmployeeScore($corp_id);
         $score=$scoreM->getEmployeeScore($user_arr['id']);
@@ -87,14 +61,6 @@ class Login extends Controller
 
         $structureEmployeeModel = new StructureEmployee($corp_id);
         $structure = $structureEmployeeModel->findEmployeeStructure($user_arr['id']);
-
-        //更新登录信息
-        $data =['lastloginip'=>$ip,'lastlogintime'=>time()];
-        if ($model->setEmployeeSingleInfo($telephone,$data) <= 0) {
-            $reg_reg['message'] = '登录信息写入失败，联系管理员';
-            $reg_reg['errnum'] = 7;
-            return json($reg_reg);
-        }
 
         //所有员工信息
         //$data_all = $model->getAllUsers();
@@ -112,5 +78,92 @@ class Login extends Controller
         $req_reg['structure'] = $structure;
         $req_reg['loginname'] = $corp_id."_".$user_arr['id'];
         return json($req_reg);
+    }
+
+    /**
+     * 生成短信验证码，返回app
+     * @return string {"status":true/false,"message":""}
+     */
+    public function getResetSmsCode(){
+        $userid = input('param.userid');
+        $info['status'] = false;
+        if (!check_tel($userid)) {
+            $info['message'] = '手机号码格式不正确';
+            $info['errnum'] = 1;
+            return json($info);
+        }
+        if (!get_corpid($userid)) {
+            $info['message'] = '非系统用户';
+            $info['errnum'] = 2;
+            return json($info);
+        }
+        $code = rand(100000, 999999);
+        $code = 123456;//TODO 测试开启
+        $content = '【咕果】感谢您使用本产品，您的手机验证码为' . $code . '请及时填写';
+        $res = send_sms($userid, $code, $content);
+        if ($res['status'] == false) {
+            $info['message'] = $res['message'];
+            $info['errnum'] = 3;
+            return json($info);
+        }
+        $info['message'] = '发送成功';
+        $info['status'] = true;
+        if (!$info['status']) {
+            return json($info);
+        }
+    }
+
+    /**
+     * 验证码校验，更改密码
+     * @return string {"status":true/false,"message":""}
+     */
+    public function resetPassword()
+    {
+        $userid = input('param.userid');
+        $newpass = input('param.newpassword');
+        $code = input('param.smscode');
+        $info['status'] = false;
+        if (!$code) {
+            $info['message'] = '手机验证码为空';
+            $info['errnum'] = 1;
+            return json($info);
+        }
+        if (!check_tel($userid)) {
+            $info['message'] = '手机号码格式不正确';
+            $info['errnum'] = 2;
+            return json($info);
+        }
+        $corp_id = get_corpid($userid);
+        if (!$corp_id) {
+            $info['message'] = '非系统用户';
+            $info['errnum'] = 3;
+            return json($info);
+        }
+        $ini_code = get_reset_code($userid);
+        if ($ini_code != $code) {
+            $info['message'] = '手机验证码不正确';
+            $info['errnum'] = 4;
+            return json($info);
+        }
+        $apiM = new Api();
+        $reset = $apiM ->resetPassword($userid,$newpass);
+//        $res = action('Api/resetPassword',['user'=>$userid,'newpass'=>$newpass]);
+//        dump($res);exit;
+        if ($reset['action']=='set user password') {
+            $data['password'] = md5($newpass);
+            $corp_id = get_corpid($userid);
+            $employee = new Employee($corp_id);
+            $r_userid = $employee->getEmployeeByTel($userid);
+            $employee->setEmployeeSingleInfo($userid, $data);
+            write_log($r_userid['id'],1,'用户修改登录密码',$corp_id);
+            $info['status'] = true;
+            $info['message'] = '修改成功，请重新登陆';
+            $info['errnum'] = 0;
+            set_reset_code($userid,null);
+        } else {
+            $info['message'] = '修改环信密码失败，联系管理员';
+            $info['errnum'] = 5;
+        }
+        return json($info);
     }
 }
