@@ -81,6 +81,21 @@ function get_cache_by_tel($telephone, $name){
     return $data;
 }
 
+function set_telephone_token_list($telephone,$token_arr){
+    cache("phone_token_".$telephone,$token_arr);
+}
+
+function set_telephone_to_token_list($telephone,$token){
+    $token_arr = cache("phone_token_".$telephone);
+    $token_arr[] = $token;
+    cache("phone_token_".$telephone,$token_arr);
+}
+
+function get_telephone_token_list($telephone){
+    $token_arr = cache("phone_token_".$telephone);
+    return $token_arr;
+}
+
 function set_telephone_by_token($token,$telephone){
     cache("token_phone_".$token,$telephone);
 }
@@ -98,7 +113,7 @@ function get_token_by_cookie(){
     return cookie("xzmid");
 }
 
-function set_token_by_cookie($token){
+function set_token_to_cookie($token){
     cookie("xzmid",$token);
 }
 
@@ -240,6 +255,19 @@ function check_telephone_and_token($telephone,$access_token){
     return $info;
 }
 
+function clear_token($telephone,$ues_token){
+    $token_arr = get_telephone_token_list($telephone);
+    set_telephone_token_list($telephone,$ues_token);
+    if(is_array($token_arr)){
+        foreach ($token_arr as $token){
+            if(!in_array($token,$ues_token)){
+                del_telephone_by_token($token);
+                del_user_device_token_cache($telephone,$token);
+            }
+        }
+    }
+}
+
 function login($corp_id,$uid,$telephone,$device_type,$ip){
     $result["status"] = false;
     //创建用户token，保存到cookie
@@ -252,12 +280,20 @@ function login($corp_id,$uid,$telephone,$device_type,$ip){
         $result['errnum'] = 6;
         return $result;
     }
+    set_token_to_cookie($save_res['token']);
     set_telephone_by_token($save_res['token'],$telephone);
-    set_token_by_cookie($save_res['token']);
     set_user_device($telephone,$save_res['token'],$device_type,$corp_id,$uid);
 
     $user_info = $employeeM->getEmployeeByTel($telephone);
     set_userinfo($corp_id,$telephone,$user_info);
+
+    clear_token($telephone,[
+        $user_info["system_token"],
+        $user_info["web_token"],
+        $user_info["pc_token"],
+        $user_info["app_token"],
+        $user_info["other_token"],
+    ]);
 
     //更新登录信息
     $data =['lastloginip'=>$ip,'lastlogintime'=>time()];
@@ -281,10 +317,10 @@ function logout($telephone=null,$token=null){
             return [];
         }
     }
-    del_user_device_token_cache($telephone,$token);
+    set_token_to_cookie(null);
     del_telephone_by_token($token);
+    del_user_device_token_cache($telephone,$token);
     set_cache_by_tel($telephone,'userinfo',null);
-    set_token_by_cookie(null);
 }
 
 /**
