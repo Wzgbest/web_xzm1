@@ -383,36 +383,29 @@ function systemsetting_business_flow_update_sel_num(){
     $(".systemsetting_business_flow_edit .xuanzhong p span").html(allLength);
 }
 	
-//$('.systemsetting_business_flow_edit .xuanzhong').on('click', "ul li img", function() {
-//	
-//  var index1 = $(this).val();
-//  //      var This = $(this)
-//  var T = $(this)
-//  $('.systemsetting_business_flow_edit .xuanze input').each(function() {
-//      if ($(this).val() == index1) {
-//          $(this).prop('checked', false);
-//          $(T).parent().remove();
-//      }
-//  })
-//});
 $('.systemsetting_business_flow_edit .xuanzhong').on('click', "ul li img", function() {
     var index1 = $(this).attr("index");
     //console.log(index1);
     var self = $(this);
     $('.systemsetting_business_flow_edit .xuanze input').each(function() {
-        if ($(this).attr('index') == index1) {
+        if ($(this).val() == index1) {
             $(this).prop('checked', false);
             $(self).parent().remove();
         }
     });
     systemsetting_business_flow_update_sel_num();
-})
+});
+
 $('.systemsetting_business_flow_edit .fuxuan').click(function() {
-	  $('.systemsetting_business_flow_edit .fuxuan i').toggleClass("rotate");
+	$('.systemsetting_business_flow_edit .fuxuan i').toggleClass("rotate");
     $('.systemsetting_business_flow_edit .xuanze').toggle();
     $('.systemsetting_business_flow_edit .xuanzhong').toggle();
 });
 $(".systemsetting_business_flow_edit .wancheng").click(function() {
+    //  	console.log($(this).siblings())
+    //  	var content=$(this).siblings().text();
+    //
+    //  	$('.systemsetting_business_flow_edit .yixuan').add(content)
     $(".systemsetting_business_flow_edit .yixuan").empty();
     $(".systemsetting_business_flow_edit .xuanzhong ul li").each(function() {
         var content = $(this).text();
