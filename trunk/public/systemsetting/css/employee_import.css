@@ -146,3 +146,8 @@
 .sys_employee_list .employee_import_record .u-tabOperation{
     width:256px;
 }
+.sys_employee_list .employee_import_record_list{
+	position: relative;
+	top:40px;
+	left: 0;
+}

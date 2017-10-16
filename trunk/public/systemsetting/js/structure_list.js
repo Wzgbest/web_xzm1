@@ -124,17 +124,16 @@ function getStructureListTreeHeight(){
     return tree_height;
 }
 structure_tree.listen("plusFun",function(id){
-    console.log("hlplusFun",id);
+//  console.log("hlplusFun",id);
     var tree_height = getStructureListTreeHeight();
-    $(struct_list_panel_base+" .fold").height(tree_height+51);
+//  $(struct_list_panel_base+" .fold").height(tree_height+51);
 });
 structure_tree.listen("subFun",function(id){
     //console.log("hlsubFun",id);
     var tree_height = getStructureListTreeHeight();
-    $(struct_list_panel_base+" .fold").height(tree_height+51);
+//  $(struct_list_panel_base+" .fold").height(tree_height+51);
 });
 structure_tree.listen("selFun",function(id){
-    console.log("hlselFun",id);
     loadStructEmployeeTable(id)
 });
 var struct_add_item_pid = 0;
@@ -448,3 +447,20 @@ structure_tree.listen("reloadFun",function(){
     $(struct_employee_list_panel).addClass("hide");
     $(".structure_list .top .add").addClass("hide");
 });
+
+
+$(".structure_list .content .fold .structure_tree .node_name").mouseenter(function(){
+	$(this).parent(".node_item").append("<div class='floating_window'></div>");
+	$('.floating_window').html($(this).text());
+	
+})
+$(".structure_list .content .fold .structure_tree .node_name").mouseleave(function(){
+	
+	$(".node_item .floating_window").hide();
+	
+})
+
+//$(".structure_list .content .fold .structure_tree .node_item").click(function(){
+//	alert(1)
+//	
+//})
