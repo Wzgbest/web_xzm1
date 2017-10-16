@@ -365,9 +365,13 @@ class Employee extends Initialize{
             $result['info'] = "更换手机号失败！";
             return json($result);
         }
-        $employM = new Employee($this->corp_id);
+        $this->telephone = $phone;
+        $employM = new EmployeeModel($this->corp_id);
         $user_info = $employM->getEmployeeByTel($this->telephone);
         set_userinfo($this->corp_id,$this->telephone,$user_info);
+        set_telephone_by_token($this->access_token,$this->telephone);
+        set_token_by_cookie($this->access_token);
+        set_user_device($this->telephone,$this->access_token,$this->device_type,$this->corp_id,$this->uid);
         $result['status'] = 1;
         $result['info'] = "更换手机号成功！";
         return json($result);
