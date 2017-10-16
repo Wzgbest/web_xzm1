@@ -454,6 +454,7 @@ class User extends Initialize{
      * @return string
      */
     public function transMoneyUserToUser(){
+        $user_info = get_userinfo();
         $to_user = input('param.touserid');
         $pay_pass = input('param.paypassword');
         $money = input('param.money');
