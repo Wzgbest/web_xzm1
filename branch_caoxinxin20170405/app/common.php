@@ -55,7 +55,6 @@ function check_alipay_account ($alipay) {
  */
 function check_auth ($rule,$uid) {
     $corp_id = get_corpid();
-    //$corp_id ='sdzhongxun';//TODO,测试开启
     $auth = new \myvendor\Auth($corp_id);
     if (!$auth->check($rule,$uid)) {
         return false;
@@ -82,43 +81,25 @@ function get_cache_by_tel($telephone, $name){
     return $data;
 }
 
-function set_telephone_by_cooike_flg($cooike_flg,$telephone){
-    cache("cooike_flg_".$cooike_flg,$telephone);
+function set_telephone_by_token($token,$telephone){
+    cache("token_phone_".$token,$telephone);
 }
 
-function get_telephone_by_cooike_flg($cooike_flg){
-    $telephone = cache("cooike_flg_".$cooike_flg);
+function get_telephone_by_token($token){
+    $telephone = cache("token_phone_".$token);
     return $telephone;
 }
 
-function del_telephone_by_cooike_flg($cooike_flg){
-    cache("cooike_flg_".$cooike_flg,null);
+function del_telephone_by_token($token){
+    cache("token_phone_".$token,null);
 }
 
-function create_cooike_flg($uid){
-    $cooike_flg = '';
-    $agent = Request::instance()->header('user-agent');
-    $arr["uid"] = $uid;
-    $arr["agent"] = $agent;
-    $str = json_encode($arr,true);
-    //var_exp($str,'$str');
-    $cooike_flg = md5($str);
-    return $cooike_flg;
-}
-
-function get_cooike_flg(){
+function get_token_by_cookie(){
     return cookie("xzmid");
 }
 
-function set_cooike_flg($uid){
-    $cooike_flg = create_cooike_flg($uid);
-    cookie("xzmid",$cooike_flg);
-}
-
-function check_cooike_flg($uid){
-    $get_cooike_flg = get_cooike_flg();
-    $create_cooike_flg = create_cooike_flg($uid);
-    return $get_cooike_flg==$create_cooike_flg;
+function set_token_by_cookie($token){
+    cookie("xzmid",$token);
 }
 
 function set_userinfo($corp_id,$telephone,$user_arr){
@@ -135,38 +116,197 @@ function set_userinfo($corp_id,$telephone,$user_arr){
         'userinfo'=>$user_arr,
     ];
     set_cache_by_tel($telephone,'userinfo',$userinfo);
-    $create_cooike_flg = create_cooike_flg($user_arr['id']);
-    set_telephone_by_cooike_flg($create_cooike_flg,$telephone);
-    set_cooike_flg($user_arr['id']);
     return $userinfo;
 }
-function get_userinfo(){
-    $userinfo = [];
-    $telephone = 0;
-    $cooike_flg = get_cooike_flg();
-    if(!$cooike_flg){
-        return $userinfo;
-    }
-    $telephone = get_telephone_by_cooike_flg($cooike_flg);
+
+function get_userinfo($telephone=null){
     if(!$telephone){
+        $telephone = input('userid');
+        if(!$telephone){
+            $token = get_token_by_cookie();
+            $telephone = get_telephone_by_token($token);
+        }else{
+            return [];
+        }
     }
     $userinfo = get_cache_by_tel($telephone,'userinfo');
     return $userinfo;
 }
-function logout(){
-    $telephone = 0;
-    $cooike_flg = get_cooike_flg();
-    if(!$cooike_flg){
-        return;
+
+function check_telphone_and_password($telephone,$password){
+    $result['status'] = false;
+    if ($telephone == '' || $password == '') {
+        $result['message'] = '缺少必填信息';
+        $result['errnum'] = 1;
+        return $result;
     }
-    $telephone = get_telephone_by_cooike_flg($cooike_flg);
+    if (!check_tel($telephone)) {
+        $result['message'] = '手机号码格式不正确';
+        $result['errnum'] = 2;
+        return $result;
+    }
+    $corp_id = UserCorporation::getUserCorp($telephone);
+    if (empty($corp_id)) {
+        $result['message'] = '用户不存在或用户未划分公司归属';
+        $result['errnum'] = 3;
+        return $result;
+    }
+    $employeeM = new Employee($corp_id);
+    $user_arr = $employeeM->getEmployeeByTel($telephone);
+    if (empty($user_arr)) {
+        $result['message'] = '用户不存在或用户未划分公司归属';
+        $result['errnum'] = 3;
+        return $result;
+    }
+    if ($user_arr['password'] != md5($password)) {
+        $result['message'] = '密码错误';
+        $result['errnum'] = 4;
+        return $result;
+    }
+    if (empty($user_arr['lastlogintime'])) {
+        $result['message'] = '用户首次登陆，请修改密码';
+        $result['errnum'] = 5;
+        return $result;
+    }
+    $result["status"] = true;
+    $result["corp_id"] = $corp_id;
+    $result["user_info"] = $user_arr;
+    return $result;
+}
+
+function check_telephone_and_token($telephone,$access_token){
+    $info['status'] = false;
+    $device_type_info = get_user_device($telephone,$access_token);
+    //var_exp($device_type_info,'$device_type_info',1);
+    if(empty($device_type_info)){
+        $info['message'] = 'token不正确，请重新登陆';
+        $info['errnum'] = 104;
+        return $info;
+    }
+    $device_type = $device_type_info["device_type"];
+    if (empty($telephone) || empty($access_token)) {
+        $info['message'] = '用户id为空或token为空';
+        $info['errnum'] = 101;
+        return $info;
+    }
+    if (!check_tel($telephone)) {
+        $info['message'] = '用户名格式不正确';
+        $info['errnum'] = 102;
+        return $info;
+    }
+    $corp_id = get_corpid($telephone);
+    if ($corp_id == false) {
+        $info['message'] = '用户不存在';
+        $info['errnum'] = 103;
+        return $info;
+    }
+    $employM = new Employee($corp_id);
+    $userinfo = $employM->getEmployeeByTel($telephone);
+    $field_name = 'other';
+    switch ($device_type){//0:other,1:web,2:pc,3:ios:4:android
+        case 1:
+            $field_name = "web";
+            break;
+        case 2:
+            $field_name = "pc";
+            break;
+        case 3:
+        case 4:
+            $field_name = "app";
+            break;
+    }
+    $field_name .= "_token";
+    if ($userinfo[$field_name] != $access_token) {
+        del_user_device_token_cache($telephone,$access_token);
+        $info['message'] = 'token不正确，请重新登陆';
+        $info['errnum'] = 104;
+        return $info;
+    }
+    $info['message'] = 'SUCCESS';
+    $info['status'] = true;
+    $info['corp_id'] = $corp_id;
+    $info['userinfo'] = $userinfo;
+    set_userinfo($corp_id,$telephone,$userinfo);
+    return $info;
+}
+
+function login($corp_id,$uid,$telephone,$device_type,$ip){
+    $result["status"] = false;
+    //创建用户token，保存到cookie
+    $employeeM = new Employee($corp_id);
+    $save_res=$employeeM->createSystemToken($device_type,$telephone);
+    if($save_res['res']>0){
+        $result['access_token'] = $save_res['token'];
+    }else{
+        $result['message'] = '获取token信息失败，联系网站后台管理员';
+        $result['errnum'] = 6;
+        return $result;
+    }
+    set_telephone_by_token($save_res['token'],$telephone);
+    set_token_by_cookie($save_res['token']);
+    set_user_device($telephone,$save_res['token'],$device_type,$corp_id,$uid);
+    //更新登录信息
+    $data =['lastloginip'=>$ip,'lastlogintime'=>time()];
+    if ($employeeM->setEmployeeSingleInfo($telephone,$data) <= 0) {
+        $result['message'] = '登录信息写入失败，联系管理员';
+        $result['errnum'] = 7;
+        return $result;
+    }
+    $result["status"] = true;
+    return $result;
+}
+
+function logout($telephone=null,$token=null){
     if(!$telephone){
-        return;
+        $telephone = input('userid');
+        $token = input('access_token');
+        if(!$telephone){
+            $token = get_token_by_cookie();
+            $telephone = get_telephone_by_token($token);
+        }else{
+            return [];
+        }
     }
-    $cooike_flg = get_cooike_flg();
-    del_telephone_by_cooike_flg($cooike_flg);
+    del_user_device_token_cache($telephone,$token);
+    del_telephone_by_token($token);
     set_cache_by_tel($telephone,'userinfo',null);
-    cookie("xzmid",null);
+    set_token_by_cookie(null);
+}
+
+/**
+ * 设置用户设备信息
+ * @param $device_type int 0:other,1:web,2:pc,3:ios:4:android
+ * @return int
+ * created by blu10p
+ */
+function set_user_device($telephone,$token,$device_type,$corp_id,$uid){
+    $user_info = [
+        'device_type'=>$device_type,
+        'corp_id'=>$corp_id,
+        'userid'=>$uid,
+    ];
+    set_cache_by_tel($telephone,$token,$user_info);
+    return $user_info;
+}
+
+/**
+ * 获取用户设备信息
+ * @return int
+ * created by blu10p
+ */
+function get_user_device($telephone,$token){
+    $user_info = get_cache_by_tel($telephone,$token);
+    return $user_info;
+}
+
+/**
+ * 删除用户设备所属token
+ * @return int
+ * created by blu10p
+ */
+function del_user_device_token_cache($telephone,$token){
+    set_cache_by_tel($telephone,$token,null);
+    return true;
 }
 /**
  * 通过手机号获取用户id
@@ -257,6 +397,27 @@ function deal_emoji($msg, $type = 1) {
     }
 
     return $msg;
+}
+
+function getDeviceTypeName($device_type){
+    $device_type_name = null;
+    switch ($device_type){//0:other,1:web,2:pc,3:ios:4:android
+        case 1:
+            $device_type_name = "web";
+            break;
+        case 2:
+            $device_type_name = "pc";
+            break;
+        case 3:
+            $device_type_name = "ios";
+            break;
+        case 4:
+            $device_type_name = "android";
+            break;
+        default:
+            $device_type_name = "其他设备";
+    }
+    return $device_type_name;
 }
 
 function getCommStatusArr($comm_status){

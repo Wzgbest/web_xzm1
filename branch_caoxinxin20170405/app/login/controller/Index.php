@@ -26,50 +26,22 @@ class Index extends Controller
         $input = input('param.');
         $telephone = trim($input['telephone']);
         $password = trim($input['password']);
+        $device_type = 1;
         $ip = $this->request->ip();
-        $req_reg['status'] = false;
-        if ($telephone == '' || $password == '') {
-            $req_reg['message'] = '缺少必填信息';
-            $req_reg['errnum'] = 1;
-            return $req_reg;
+        $result = check_telphone_and_password($telephone,$password);
+        if(!$result["status"]){
+            $req_reg["message"] = $result["message"];
+            $req_reg["errnum"] = $result["errnum"];
+            return json($req_reg);
         }
-        if (!check_tel($telephone)) {
-            $req_reg['message'] = '手机号码格式不正确';
-            $req_reg['errnum'] = 2;
-            return $req_reg;
+        $corp_id = $result["corp_id"];
+        $user_arr = $result["user_info"];
+        $result = login($corp_id,$user_arr["id"],$telephone,$device_type,$ip);
+        if(!$result["status"]){
+            $req_reg["message"] = $result["message"];
+            $req_reg["errnum"] = $result["errnum"];
+            return json($req_reg);
         }
-        $corp_id = UserCorporation::getUserCorp($telephone);
-        if (empty($corp_id)) {
-            $req_reg['message'] = '用户不存在或用户未划分公司归属';
-            $req_reg['errnum'] = 3;
-            return $req_reg;
-        }
-        $model = new Employee($corp_id);
-        $user_arr = $model->getEmployeeByTel($telephone);
-        if (empty($user_arr)) {
-            $req_reg['message'] = '用户不存在或用户未划分公司归属';
-            $req_reg['errnum'] = 3;
-            return $req_reg;
-        }
-        if ($user_arr['password'] != md5($password)) {
-            $req_reg['message'] = '密码错误';
-            $req_reg['errnum'] = 4;
-            return $req_reg;
-        }
-        if (empty($user_arr['lastlogintime'])) {
-            $req_reg['message'] = '用户首次登陆，请修改密码';
-            $req_reg['errnum'] = 5;
-            return $req_reg;
-        }
-        $data =['lastloginip'=>$ip,'lastlogintime'=>time()];
-        if ($model->setEmployeeSingleInfo($telephone,$data) <= 0) {
-            $reg_reg['message'] = '登录信息写入失败，联系管理员';
-            $reg_reg['errnum'] = 7;
-            return $reg_reg;
-        }
-        set_userinfo($corp_id,$telephone,$user_arr);
-
-
         $this->redirect('index/index/index');
         
 //        $req_reg['message'] = '登录成功!';

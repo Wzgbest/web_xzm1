@@ -365,6 +365,9 @@ class Employee extends Initialize{
             $result['info'] = "更换手机号失败！";
             return json($result);
         }
+        $employM = new Employee($this->corp_id);
+        $user_info = $employM->getEmployeeByTel($this->telephone);
+        set_userinfo($this->corp_id,$this->telephone,$user_info);
         $result['status'] = 1;
         $result['info'] = "更换手机号成功！";
         return json($result);

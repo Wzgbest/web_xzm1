@@ -7,49 +7,47 @@ namespace app\common\controller;
 
 use think\Controller;
 use app\common\model\Employee;
+use app\common\model\UserCorporation;
 
 class Initialize extends Controller
 {
     protected $corp_id;
+    protected $uid;
+    protected $telephone;
+    protected $access_token;
+    protected $device_type;
+
     public function _initialize(){
-        $userid = input('userid');
-        $access_token = input('access_token');
-        if ($userid && $access_token) {
-            $info['status'] = false;
-            if (empty($userid) || empty($access_token)) {
-                $info['message'] = '用户id为空或token为空';
-                $info['errnum'] = 101;
-                $this->sendErrorToApp($info);
-            }
-            if (!check_tel($userid)) {
-                $info['message'] = '用户名格式不正确';
-                $info['errnum'] = 102;
-                $this->sendErrorToApp($info);
-            }
-            $corp_id = get_corpid($userid);
-            if ($corp_id == false) {
-                $info['message'] = '用户不存在';
-                $info['errnum'] = 103;
-                $this->sendErrorToApp($info);
-            }
-            $this->employM = new Employee($corp_id);
-            $userinfo = $this->employM->getEmployeeByTel($userid);
-            if ($userinfo['system_token'] != $access_token) {
-                $info['message'] = 'token不正确，请重新登陆';
-                $info['errnum'] = 104;
-                $this->sendErrorToApp($info);
-            }
-            $userinfo = set_userinfo($corp_id,$userid,$userinfo);
+        $this->telephone = input('userid','',"string");
+        $this->access_token = input('access_token','',"string");
+        if ($this->telephone && $this->access_token) {
+            $user_device_info = get_user_device($this->telephone,$this->access_token);
+            //var_exp($user_device_info,'$user_device_info',1);
+            $this->device_type = $user_device_info["device_type"];
         }else{
-            $userinfo = get_userinfo();
+            $this->device_type = 1;
+            $this->access_token = get_token_by_cookie();
+            //var_exp($this->access_token,'$this->access_token',1);
+            if(!$this->access_token){
+                $this->redirectToLogin();
+            }
+            $this->telephone = get_telephone_by_token($this->access_token);
         }
-        if (empty($userinfo)) {
-            $this->redirect('/login/index/index');
+        //var_exp($this->telephone,'$this->telephone');
+        //var_exp($this->access_token,'$this->access_token',1);
+        $info = check_telephone_and_token($this->telephone,$this->access_token);
+        if($info["status"]==false) {
+            $this->return_error($info);
         }
-        $this->corp_id = get_corpid();
+        $this->uid = $info["userinfo"]["id"];
+        $this->corp_id = $info["corp_id"];
+        set_userinfo($this->corp_id,$this->telephone,$info["userinfo"]);
     }
-    protected function sendErrorToApp($info){
+    protected function return_error($info){
         echo json_encode($info);
         exit;
+    }
+    public function redirectToLogin(){
+        $this->redirect('/login/index/index');
     }
 }
