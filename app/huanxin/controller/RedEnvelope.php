@@ -154,12 +154,6 @@ class RedEnvelope extends Initialize{
             $info['errnum'] = 3;
             $info['message'] = '红包已过期';
         } elseif (time()>($pre_red[0]['create_time']+config('red_envelope.overtime'))) {
-            $params = json_encode([
-                'userid'=>$this->uid,
-                'corp_id'=>$this->corp_id,
-                'red_data'=>$pre_red[0]
-            ],true);
-            //Hook::listen('check_over_time_red',$params);
             $info['message'] = '红包已经过期';
             $info['errnum'] = 3;
             $info['overtime'] = true;
