@@ -241,7 +241,9 @@ ol {
     vertical-align: middle;
     margin-right: 25px;
 }
-
+.systemsetting_bill_edit .content .later>span:nth-of-type(5){
+	margin-left: 148px;
+}
 .systemsetting_bill_edit .content .later .add {
     margin-left: 10px;
     font-size: 12px;

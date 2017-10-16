@@ -407,7 +407,9 @@
 .systemsetting_business_flow_edit .content .fuxuan i {
     margin-left: 20px;
 }
-
+.systemsetting_business_flow_edit .content .fuxuan i.rotate{
+	transform: rotate(-90deg);
+}
 .systemsetting_business_flow_edit .content div.xuanze {
     display: none;
     width: 160px;

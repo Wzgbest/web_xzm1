@@ -184,6 +184,7 @@
     float: left;
 }
 
+
 .customer_setting_edit .content .yixuan {
     width: 800px;
     height: 35px;
@@ -204,6 +205,9 @@
 .customer_setting_edit .content .fuxuan i {
     margin-left: 20px;
     cursor: pointer;
+}
+.customer_setting_edit .content .fuxuan i.rotate{
+	transform: rotate(-90deg);
 }
 
 .customer_setting_edit .content div.xuanze {
