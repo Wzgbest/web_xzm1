@@ -255,6 +255,10 @@ function login($corp_id,$uid,$telephone,$device_type,$ip){
     set_telephone_by_token($save_res['token'],$telephone);
     set_token_by_cookie($save_res['token']);
     set_user_device($telephone,$save_res['token'],$device_type,$corp_id,$uid);
+
+    $user_info = $employeeM->getEmployeeByTel($telephone);
+    set_userinfo($corp_id,$telephone,$user_info);
+
     //更新登录信息
     $data =['lastloginip'=>$ip,'lastlogintime'=>time()];
     if ($employeeM->setEmployeeSingleInfo($telephone,$data) <= 0) {
