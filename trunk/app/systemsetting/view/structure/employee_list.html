@@ -1,8 +1,12 @@
+<!--<link rel="stylesheet" href="/static/css/hsCheckData.css" />-->
+<link rel="stylesheet" href="/systemsetting/css/hsCheckData.css" />
+<script src="/systemsetting/js/cityData.js"></script>
+<script src="/systemsetting/js/hsCheckData.js"></script>
 <div class="m-filterNav">
 	<select>
 		<option>职位</option>
 	</select>
-	
+
 	<input type="text" placeholder="输入工号" />
 	<input type="text" placeholder="输入姓名" />
 	<button class="u-btnSearch">查询</button>
@@ -12,7 +16,7 @@
 	<div class="m-tableBox">
 		<div class="m-table m-table-nav ">
 			<ul class="u-tabTitle">
-				<li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
+				<li class="u-tabCheckbox"><input type="checkbox" class="check_all" /></li>
 				<li>操作</li>
 				<div class="clearfix"></div>
 			</ul>
@@ -30,7 +34,7 @@
 		</div>
 		<div class="m-table table3 m-table-detail">
 			<ul class="u-tabTitle">
-				<li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
+				<li class="u-tabCheckbox"><input type="checkbox" class="check_all" /></li>
 				<li>操作</li>
 				<li>工号<i class="fa fa-sort-desc"></i></li>
 				<li>姓名<i class="fa fa-unsorted"></i></li>
@@ -38,7 +42,7 @@
 				<li>是否部门领导人</li>
 				<li>注册手机号</li>
 				<li>邮箱</li>
-				
+
 				<div class="clearfix"></div>
 			</ul>
 			{volist name="listdata" id="vo"}
@@ -55,7 +59,7 @@
 				<li>{$vo.is_leader|getYesNoName}</li>
 				<li>{$vo.telephone}</li>
 				<li>{$vo.email}</li>
-				
+
 				<div class="clearfix"></div>
 			</ul>
 			{/volist}
@@ -65,27 +69,53 @@
 </div>
 
 <div id="employee_list_transfer" class="reveal-modal employee_import_ui">
-			<form class="employee_import_from" onsubmit="return false;" method="post" enctype="multipart/form-data">
-				<p class="p1">批量转移</p>
-				<!--<p class="p2">
+	<form class="employee_import_from" onsubmit="return false;" method="post" enctype="multipart/form-data">
+		<p class="p1">批量转移</p>
+		<!--<p class="p2">
 					<img class="employee_import_templet_download" src="/static/images/file.jpg" />
 					<span class="employee_import_templet_download" style="font-size: 12px;">导入模板下载</span>
 					<input type="file" name="files" required="required" placeholder="请选择文件" style="width: 256px;height: 26px;border-radius: 6px;background-color: #efefef;" title="选择文件" />
 				</p>-->
-				<!--<input type="hidden" name="type" value="1" />-->
-				<p>
-					<span>移至</span>
-					
-				</p>
-				<p class="p5">
-					<input class="employee_import_submit_btn" type="submit" value="确定" />
-					<button class="employee_import_cancel_btn">取消</button>
-				</p>
-				<a class="close-reveal-modal">&#215;</a>
-			</form>
-		</div>
+		<!--<input type="hidden" name="type" value="1" />-->
+		<p>
+			<div id="demo">
+				<span>移至</span>
+				<div id="cityMR2" style="width:200px;overflow: hidden;">
+				</div>
+
+			</div>
+
+		</p>
+		<p class="p5">
+			<input  type="submit" value="确定" />
+			<button >取消</button>
+		</p>
+		<a class="close-reveal-modal">&#215;</a>
+	</form>
+</div>
 
 <script src="/static/js/list_manage.js"></script>
 <script language="javascript">
 	var employee_list_list_manage = new list_manage("content", "division-managementfr", "/systemsetting/structure/employee_list/id/{$id}", '{$p}', '{$num}', '{$max_page}', '0', " .dv2");
+</script>
+<script>
+	$('#cityDanXuan').hsCheckData({
+		isShowCheckBox: false, //默认为false
+		data: cityData
+	});
+	$('#cityDuoXuan').hsCheckData({
+		isShowCheckBox: true, //默认为false
+		minCheck: 0, //默认为0，不限最少选择个数
+		maxCheck: 6, //默认为0，不限最多选择个数
+		data: cityData
+	});
+	$('#cityMR').hsCheckData({
+		isShowCheckBox: true,
+		data: cityData,
+		defText: '北京-上海-汕头'
+	});
+	$('#cityMR2').hsCheckData({
+		isShowCheckBox: true,
+		data: cityData
+	});
 </script>
