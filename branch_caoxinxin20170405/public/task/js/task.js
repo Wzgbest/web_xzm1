@@ -1477,10 +1477,13 @@ function task_details(load_table,id,type,now_uid){
     });
     $(task_details_sel+" .pay_ui").on("click",".pop-submit-btn",function() {
         console.log("tip_submit");
-        var money = $(task_details_sel+" .pay_ui .pay_money").val();
-        if(!money || money<=0){
-            layer.msg('金额必须大于零',{icon:2});
-            return false;
+        var money_element = $(task_details_sel+" .pay_ui .pay_money");
+        if(money_element.length>0){
+            var money = money_element.val();
+            if(!money || money<=0){
+                layer.msg('金额必须大于零',{icon:2});
+                return false;
+            }
         }
         var paypassword = self.get_pay_password();
         if(paypassword==''){
