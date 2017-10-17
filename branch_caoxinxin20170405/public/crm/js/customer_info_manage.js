@@ -73,8 +73,11 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 	});
 	//弹出框方法
 	this.close=function(){
-		$(this.panel_base+" .customer_info_panel").addClass("hide").siblings(".my_customer").removeClass("hide");
+		$(this.panel_base+" .customer_info_panel").addClass("hide");
 		$(this.panel_base+" .customer_info_panel").siblings(".customer_manage").removeClass("hide");
+		$(this.panel_base+" .customer_info_panel").siblings(".my_customer").removeClass("hide");
+		$(this.panel_base+" .customer_info_panel").siblings(".public_pool").removeClass("hide");
+		$(this.panel_base+" .customer_info_panel").siblings(".anonymous_pool").removeClass("hide");
 		if(this.reload_flg){
 			this.list_manage.reload_list();
 		}
