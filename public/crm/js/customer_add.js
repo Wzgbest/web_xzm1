@@ -12,7 +12,10 @@ function customer_add(from,target,list_manage){
 	//新建按钮
 	$(this.panel_base+" ."+this.from+" .m-secNav .showNewClient").click(function(){
 		self.new_customer();
+
 	});
+    // console.log(this.panel_base);
+
 
 	//方法
 	this.new_customer_show=function(data,panel){
@@ -37,6 +40,7 @@ function customer_add(from,target,list_manage){
 		$(panel+" .add_customer .newClient .m-form .newClientInfoForm .add_customer_next").click(function(){
 			//下一步
 			self.add_customer(2);
+
 		});
 		$(panel+" .add_customer .newClient .m-form .newClientInfoForm .add_customer_cancel").click(function(){
 			//取消
@@ -286,4 +290,87 @@ function customer_add(from,target,list_manage){
 		$(self.panel_base+" .add_customer .newClient .process .circle").eq(2).removeClass("current");
 		$(self.panel_base+" .add_customer .newClient .process .rect").eq(1).removeClass("current");
 	};
+
+
+
+    $(self.panel_base).on("click",".remark i.fa-pencil",function(){
+        $(this).siblings("input").removeAttr("readonly").focus();
+        $(this).addClass("hide").siblings(".fa-check").removeClass("hide");
+    });
+    $(self.panel_base).on("click",".remark i.fa-close",function(){
+        var that=$(this);
+        var id=$(this).siblings("input").attr('data-id')||'';//需要删除的标签id
+        if(!id)
+        {
+            //未输入标签保存到表的可直接移除
+            that.parent(".remark").remove();
+            return;
+        }
+        $.ajax({
+            url: '/crm/customer_remark/delete',
+            type: 'post',
+            data: {'id':id},
+            success: function(data) {
+                if(data.success)
+                {
+                    that.parent(".remark").remove();
+                }
+                else
+                {
+                    layer.msg(data.msg,{icon:2});
+                }
+            },
+            error: function() {
+                layer.msg('申请时发生错误!',{icon:2});
+            }
+        });
+
+    });
+    $(self.panel_base).on("click",".remark i.fa-check",function(){
+        var that=$(this);
+        var id=$(this).siblings("input").attr('data-id')||'';//id有值编辑，未定义则新增
+        var title=$(this).siblings("input").val();
+        if(!title)
+        {
+            layer.msg('请输入标签名称!',{icon:2});
+            that.siblings("input").removeAttr("readonly").focus();
+            return;
+        }
+        that.siblings("input").attr("readonly","readonly");
+        $.ajax({
+            url: '/crm/customer_remark/edit',
+            type: 'post',
+            data: {'id':id,'title':title},
+            success: function(data) {
+                if(data.success)
+                {
+                    that.addClass("hide").siblings(".fa-pencil").removeClass("hide");
+                    if(data.num)
+                    {
+                        that.siblings("input").attr('data-id',data.num);//新增的将id传回来
+                    }
+                }
+                else
+                {
+                    layer.msg(data.msg,{icon:2});
+                }
+            },
+            error: function() {
+                layer.msg('申请时发生错误!',{icon:2});
+            }
+        });
+    });
+    // $(self.now_form+" .remark input").off("click");//解绑点击事件
+    $(self.panel_base).on("click",".remark input",function(){
+        if($(this).attr("readonly")){
+            var tex = $(this).parent(".remark").siblings("textarea[name='remark']");
+            tex.val(tex.val()+$(this).val());
+        }
+    });
+
+    var txt = '<span class="remark"><input type="text" placeholder="请输入" /><i class="fa fa-pencil hide"></i><i class="fa fa-check"></i><i class="fa fa-close"></i></span>';
+    $(self.panel_base).on("click",".u-addRemark",function(){
+        $(this).before(txt).siblings(".remark").last().children("input").focus();
+    });
+
 }
