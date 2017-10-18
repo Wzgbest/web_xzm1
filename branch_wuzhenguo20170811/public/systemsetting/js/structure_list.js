@@ -441,13 +441,38 @@ function struct_list_employee_move_to(struct_id,employee_id,to_struct_id){
         }
     });
 }
+$(struct_list_panel_base).on("click",".employee_list_transfer_btn",function(){
+    var url = "/systemsetting/structure/employee_list_transfer/";
+    $.ajax({
+        url:url,
+        type:'get',
+        success:function (data) {
+            $(struct_list_panel_base+" .employee_list_transfer").html(data);
+            $(struct_list_panel_base+" .employee_list_transfer").reveal("{data-animation:'fade'}");
+        },
+        error:function(){
+            layer.msg('加载批量转移员工部门失败!',{icon:2});
+        }
+    });
+});
 
-structure_tree.listen("reloadFun",function(){
+structure_tree.listen("resetFun",function(){
     $(struct_employee_list_panel).html('');
     $(struct_employee_list_panel).addClass("hide");
     $(".structure_list .top .add").addClass("hide");
 });
 
+structure_tree.listen("reloadFun",function(){
+    console.log("reloadFun");
+    console.log($(".structure_list .structure_tree .node_name"));
+    $(".structure_list .structure_tree .node_name").mouseenter(function(){
+        $(this).parent(".node_item").append("<div class='floating_window'></div>");
+        $('.floating_window').html($(this).text());
+    });
+    $(".structure_list .structure_tree .node_name").mouseleave(function(){
+        $(".node_item .floating_window").hide();
+    });
+});
 
 $(".structure_list .content .fold .structure_tree .node_name").mouseenter(function(){
 	$(this).parent(".node_item").append("<div class='floating_window'></div>");
