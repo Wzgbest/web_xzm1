@@ -72,7 +72,7 @@ class Customer extends Base
             "c.public_to_employee",
             "c.public_to_department",
             "te.truename as tracer",
-            "'' as guardian",
+            "te.truename as guardian",
             "ae.truename as add_man",
             "c.add_time",
             "c.take_type",
