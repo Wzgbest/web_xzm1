@@ -474,18 +474,4 @@ structure_tree.listen("reloadFun",function(){
     });
 });
 
-$(".structure_list .content .fold .structure_tree .node_name").mouseenter(function(){
-	$(this).parent(".node_item").append("<div class='floating_window'></div>");
-	$('.floating_window').html($(this).text());
-	
-})
-$(".structure_list .content .fold .structure_tree .node_name").mouseleave(function(){
-	
-	$(".node_item .floating_window").hide();
-	
-})
-
-//$(".structure_list .content .fold .structure_tree .node_item").click(function(){
-//	alert(1)
-//	
-//})
+structure_tree.reload();
