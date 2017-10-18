@@ -1,228 +1,196 @@
-<div class="select-window">
-	<div class="select-window-header"><span>选择人员</span></div>
-	<div class="select-window-content">
-		<div class="select-window-left-content">
-			<ul>
-			<!-- 部门名称 -->
-				{volist name="structures" id="vo"}
-					<li class="department-name">
-						<div class="title"><i class="fa fa-caret-right"></i><span>{$vo.struct_name}</span><i class="fa fa-plus-square"></i></div>
-						<ul class="department-staff hide">
-							{volist name="vo.employee_ids_arr" id="voe"}
-								{if condition="isset($employees[$voe])"}
-									<li select-window-id="{$voe}">{$employees[$voe]["nickname"]}</li>
-								{/if}
-							{/volist}
-						</ul>
-					</li>
-				{/volist}
-			</ul>
-		</div>
-		<div class="select-window-right-content">
-			<ul>
-				<!-- <li class="choosen-name" selected-window-id="0">哈哈<i class="fa fa-times"></i></li> -->
-			</ul>
-		</div>
+<div class="select-window-container">
+	<div class="left-content">
+		<dl>
+			<dt class="selecting-department"><i class="fa fa-caret-right fa-myleft"></i><i class="fa fa-caret-down fa-myleft"></i><span data-selecting-department-id="1">销售一部</span><i class="fa fa-user fa-myright" title="添加全员"></i><i class="fa fa-sitemap fa-myright" title="添加部门"></i></dt>
+			<dd data-selecting-staff-id="1">李白</dd>
+			<dd data-selecting-staff-id="2">杜甫</dd>
+			<dd data-selecting-staff-id="3">杜牧</dd>
+		</dl>
 	</div>
-	<div class="select-window-footer">
-		<button class="true">确定</button>
-		<button class="false">取消</button>
+	<div class="right-content">
+		<div class="right-content-container">
+			<dl class="selected-department">
+				<dt><i class="fa fa-caret-right fa-myleft"></i><i class="fa fa-caret-down fa-myleft"></i><span>已选择部门(<p>0</p>)</span></dt>
+				<!-- <dd data-selected-department-id="0">销售一部<i class="fa fa-times-circle-o"></i></dd> -->
+			</dl>
+			<dl class="selected-staff">
+				<dt><i class="fa fa-caret-right fa-myleft"></i><i class="fa fa-caret-down fa-myleft"></i><span>已选择员工(<p>0</p>)</span></dt>
+				<!-- <dd data-selected-staff-id="0">费玉清<i class="fa fa-times-circle-o"></i></dd> -->
+			</dl>
+		</div>		
+		<button>完成</button>
 	</div>
 </div>
 <script type="text/javascript">
-	var toggle = 
-	//添加
-	$(".department-staff li").click(function(){
-		// console.log($(this).text());//内容
-		// console.log($(this).attr("select-window-id"));//id
-		var arr = getElementByAttr("li","selected-window-id",$(this).attr("select-window-id"));
-		console.log(arr.length);
-		//判断是否已经存在存在
-		if(arr.length==0){
-			$(".select-window-right-content ul").append("<li class='choosen-name' selected-window-id= '"+$(this).attr("select-window-id")+"'>"+$(this).text()+"<i class='fa fa-times'></i></li>");
-		}else{
-			alert("已存在");
-		}		
-		// console.log($(".select-window-right-content ul").html());
-	});
-	//添加一个群组
-	$(".select-window-left-content .department-name .title .fa-plus-square").click(function(){
-		let l = $(this).parents(".title").siblings(".department-staff").children("li");
-		// console.log(l.length);
-		for(var i=0;i<l.length;i++){
-			// console.log(l.eq(i).text());
-			//删除已经存在的本组的人
-			let arr = getElementByAttr("li","selected-window-id",l.eq(i).attr("select-window-id"));
-			$(arr[0]).remove();
-			//全组加入
-			$(".select-window-right-content ul").append("<li class='choosen-name' selected-window-id= '"+l.eq(i).attr("select-window-id")+"'>"+l.eq(i).text()+"<i class='fa fa-times'></i></li>");
+//开关
+$(".select-window-container dl dt span").click(function() {
+	$(this).parent().parent().toggleClass("active");
+});
+$(".select-window-container dl dt .fa-myleft").click(function() {
+	$(this).parent().parent().toggleClass("active");
+});
+//单个选中人员
+$(".selecting-department").siblings("dd").click(function(){
+	console.log($(this));
+	let arr = getElementByAttr('dd','data-selected-staff-id',$(this).attr("data-selecting-staff-id"));
+	if(arr.length==0){
+		$(".selected-staff").append('<dd data-selected-staff-id="'+$(this).attr("data-selecting-staff-id")+'">'+$(this).text()+'<i class="fa fa-times-circle-o"></i></dd>');
+		$(".selected-staff dt p").text($(".selected-staff dd").length);
+	}else if(arr.length==1){
+		alert("已存在");
+	}else{
+		alert("参数错误");
+	}
+});
+//单个选中群组
+$(".selecting-department .fa-sitemap").click(function(){
+	let arr = getElementByAttr('dd','data-selected-department-id',$(this).siblings("span").attr("data-selecting-department-id"));
+	if(arr.length==0){
+		$(".selected-department").append('<dd data-selected-department-id="'+$(this).siblings("span").attr("data-selecting-department-id")+'">'+$(this).siblings("span").text()+'<i class="fa fa-times-circle-o"></i></dd>');
+		$(".selected-department dt p").text($(".selected-department dd").length);
+	}else if(arr.length==1){
+		alert("已存在");
+	}else{
+		alert("参数错误");
+	}
+});
+//添加群组全员
+$(".selecting-department .fa-user").click(function(){
+	let arr = $(this).parent().siblings("dd");
+	for (var i = 0; i < arr.length; i++) {
+		arr.eq(i)
+		let arr2 = getElementByAttr('dd','data-selected-staff-id',arr.eq(i).attr("data-selecting-staff-id"));
+		if(arr2.length==0){
+			$(".selected-staff").append('<dd data-selected-staff-id="'+arr.eq(i).attr("data-selecting-staff-id")+'">'+arr.eq(i).text()+'<i class="fa fa-times-circle-o"></i></dd>');
 		}
-	});
-	//删除
-	$(".select-window .select-window-right-content").on("click",".choosen-name .fa-times",function(){
-		// console.log("222");
-		$(this).parents(".choosen-name").remove();
-	});
-	//开关
-	$(".department-name .title").children().not(".fa-plus-square").click(function(){
-		$(this).parents().toggleClass("on").siblings(".department-staff").toggleClass("hide");
-	})
-	//确定
-	$(".select-window-footer .true").click(function(){
-		let l = $(".select-window-right-content ul li");
-		if(l.length==0){
-			alert("未选择人员");
-		}else{
-			let text =	l.eq(0).text()+"等"+l.length+"人";
-			$(".select-window-choosen-staff").val(text);
-			$(".main-content.select-window").children().remove();
-		}		
-	});
-	//取消
-	$(".select-window-footer .false").click(function(){
-		$(".main-content.select-window").children().remove();
-	});
+	}
+	$(".selected-staff dt p").text($(".selected-staff dd").length);
+});
+//删除
+$(".right-content-container dl").on("click","dd .fa-times-circle-o",function(){
+	$(this).parent().remove();
+	$(".selected-department dt p").text($(".selected-department dd").length);
+	$(".selected-staff dt p").text($(".selected-staff dd").length);
+});
+//完成
+$(".right-content button").click(function(){
+	$(".select-window-container").remove();
+});
 </script>
 <style type="text/css">
-	.hide{
-		display: none;
-	}
-	.department-name .title:hover{
-		background-color: #ecf7fb;
-	}
-	.department-name .title:hover .fa-plus-square{
-		display: inline-block;
-	}
-	.department-staff{
-		/*padding-left: 5px !important;*/
-	}
-	.department-staff li{
-		padding-left: 35px;
-	}
-	.department-staff li:hover{
-		background-color: #ecf7fb;
-	}
-	.department-name .title.on{
-		background-color: #fff4b7;
-	}
-	.department-name .title .fa{
-		/*margin-right: 10px;*/
-	}
-	.department-name .title .fa-caret-right{
-		width: 16px;
-	}
-	.department-name .title .fa-plus-square{
-		float: right;
-		display: none;
-		font-size: 1.5em;
-		margin-right: 10px;
-		margin-top: 8px;
-		color: #42A5f5;
-	}
-	.select-window{
-		width: 600px;
-		height: 525px;
-		box-sizing:border-box;
-		border-radius: 4px;
-		overflow: hidden;
-	}
-	.select-window ul{
-		list-style: none;
-		font-size: 12px;
-		/*padding-left: 15px;*/
-	}
-	.select-window ul li{
-		line-height: 34px;
-		cursor: pointer;
-	}
-	.select-window-header{
-		width: 100%;
-		height: 50px;
-		line-height: 50px;
-		padding-left: 20px;
-		box-sizing:border-box;
-		font-size: 16px;
-		border: 1px solid #e3e3e3;
-		background-color: #f1f1f1;
-	}
-	.select-window-content{
-		width: 100%;
-		height: 420px;
-		padding: 10px 20px;
-		box-sizing:border-box;
-		border-left: 1px solid #e3e3e3;
-		border-right: 1px solid #e3e3e3;
-		background-color: #fff;
-	}
-	.select-window-left-content{
-		width: 250px;
-		height: 400px;
-		float: left;
-		box-sizing:border-box;
-		border: 1px solid #e3e3e3;
-		background-color: #f7fdff;
-		overflow-y: auto;
-		border-radius: 4px;
-	}
-	.select-window-left-content ul .department-name{
-		/*padding-left: 15px;*/
-	}
-	.select-window-left-content ul .department-name .title{
-		padding-left: 15px;
-	}
-	.select-window-right-content{
-		width: 260px;
-		height: 400px;
-		float: right;
-		box-sizing:border-box;
-		border: 1px solid #e3e3e3;
-		background-color: #f7fdff;
-		border-radius: 4px;
-		overflow-y: auto;
-	}
-	.select-window-right-content ul li.choosen-name{
-		padding-left: 15px;
-	}
-	.select-window-right-content ul li.choosen-name:hover{
-		background-color: #ecf7fb;
-	}
-	.select-window-right-content ul li.choosen-name i{
-		/*margin-left: 100px;*/
-		/*position: */
-		float: right;
-		font-size: 1.5em;
-		margin-top: 8px;
-		margin-right: 5px;
-		display: none;
-		/*vertical-align: middle;*/
-	}
-	.select-window-right-content ul li.choosen-name:hover i{
-		display: inline-block;
-	}
-	.select-window-footer{
-		width: 100%;
-		height: 55px;
-		border: 1px solid #e3e3e3;
-		box-sizing:border-box;
-		background-color: #f9f9f9;
-		padding:10px 20px 0 0;
-		text-align: right;
-	}
-	.select-window-footer button{
-		width: 88px;
-		height: 32px;
-		border-style: none;
-		border-radius: 4px;
-	}
-	.select-window-footer .true{
-		color: white;
-		background-color: #42A5f5;
-		margin-right: 10px;
-	}
-	.select-window-footer .false{
-		color: #42A5f5;
-		border: 1px solid #42A5f5;
-		box-sizing:border-box;
-		background-color: #fff;
-	}
+.select-window-container{
+	font-size: 14px;
+
+}
+.select-window-container .left-content{
+	width: 250px;
+	height: 280px;
+	box-shadow: 0px 6px 24px 0px rgba(0, 0, 0, 0.14);
+	background-color:white;
+	float: left; 
+	margin-right: 5px;
+	overflow: auto;
+}
+.select-window-container  dl{
+	cursor: pointer;
+}
+.select-window-container  dl dd{
+	position: relative;
+}
+.select-window-container  dl dt{
+	height: 40px;
+	line-height: 40px;
+	position: relative;
+}
+.select-window-container  dl dt:hover{
+	background-color: #edf2fd;
+}
+.select-window-container  dl dd:hover{
+	background-color: #edf2fd;
+}
+.select-window-container .left-content dl dt:hover i.fa-myright{
+	display: inline-block;
+}
+.select-window-container  dl dt i{
+	position: absolute;
+	font-size: 1.5em;
+	top: 10px;
+}
+.select-window-container  dl dt i.fa-myleft{
+	left: 20px;
+	color: #b2b2b2;
+}
+.select-window-container .left-content dl dt i.fa-caret-right{
+	
+}
+.select-window-container  dl dt i.fa-caret-down{
+	display: none;
+}
+.select-window-container  dl.active dt i.fa-caret-right{
+	display: none;
+}
+.select-window-container  dl.active dt i.fa-caret-down{
+	display: inline-block;
+}
+.select-window-container .left-content dl dt i.fa-user{
+	right: 53px;
+	color: #42a5f5;
+	display: none;
+}
+.select-window-container .left-content dl dt i.fa-sitemap{
+	right:20px; 
+	color: #42a5f5;
+	display: none;
+}
+.select-window-container  dl dt span{
+	display: inline-block;
+	width: 100%;
+	text-indent: 45px;
+}
+.select-window-container dl dd{
+	line-height: 30px;
+	padding-left: 46px;
+	display: none;
+}
+.select-window-container dl.active dd{
+	display: block;
+}
+.select-window-container .right-content{
+	width: 250px;
+	height: 220px;
+	padding-bottom: 60px;
+	box-shadow: 0px 6px 24px 0px rgba(0, 0, 0, 0.14);
+	background-color:white; 
+	float: left;
+	position: relative;
+}
+.select-window-container .right-content dl dt span p{
+	display: inline;
+}
+.select-window-container .right-content .right-content-container{
+	height: 220px;
+	overflow: auto;
+}
+.select-window-container .right-content dl dd i.fa-times-circle-o{
+	font-size: 1.5em;
+	color: #42a5f5;
+	right: 20px;
+	top: 4px;
+	position: absolute;
+	display: none;
+}
+.select-window-container .right-content dl dd:hover i.fa-times-circle-o{
+	display: inline-block;
+}
+.select-window-container .right-content button{
+	position: absolute;
+	bottom: 15px;
+	width: 90px;
+	left: 80px;
+	border-style: none;
+	height: 30px;
+	border-radius: 5px;
+	background-color: #42a5f5;
+	color: white;
+}
 </style>
