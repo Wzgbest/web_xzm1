@@ -65,7 +65,7 @@ class Structure extends Base
 
 
     /**
-     *监察部门层级深度
+     *检查部门层级深度
      * @param $struct_pid int 部门id
      * @param $level_deep int 层级深度
      * @return array|false|\PDOStatement|string|\think\Model
