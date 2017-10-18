@@ -1,16 +1,22 @@
+<!--<link rel="stylesheet" href="/static/css/hsCheckData.css" />-->
+<link rel="stylesheet" href="/systemsetting/css/hsCheckData.css" />
+<script src="/systemsetting/js/cityData.js"></script>
+<script src="/systemsetting/js/hsCheckData.js"></script>
 <div class="m-filterNav">
-	<form class="search_form" onsubmit="return false;">
+  <form class="search_form" onsubmit="return false;">
 	<select name="role">
 		<option>职位</option>
 		{volist name="roles" id="vo"}
-            <option value="{$vo.id}" {present name='filter.role'}{eq name='filter.role' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.role_name}</option>
+          <option value="{$vo.id}" {present name='filter.role'}{eq name='filter.role' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.role_name}</option>
         {/volist}
 	</select>
+
 	<input type="text" placeholder="输入工号" name="worknum" value="{present name='filter.worknum'}{$filter.worknum}{/present}"/>
 	<input type="text" placeholder="输入姓名" name="truename" value="{present name='filter.truename'}{$filter.truename}{/present}"/>
 	<button class="u-btnSearch">查询</button>
-	<button class="u-btnTransfer"><span class="big-link employee_list_transfer_btn" data-animation="fade">批量转移</span></button>
+	<button class="u-btnTransfer"><span class="big-link" data-reveal-id="employee_list_transfer" data-animation="fade">批量转移</span></button>
 	</form>
+</div>
 <div class="employee_list">
 	<div class="m-tableBox">
 		<div class="m-table m-table-nav ">
@@ -35,7 +41,6 @@
 			<ul class="u-tabTitle">
 				<li class="u-tabCheckbox"><input type="checkbox" class="check_all" /></li>
 				<li>操作</li>
-				<li>序号</li>
 				<li>工号<i class="fa fa-sort-desc"></i></li>
 				<li>姓名<i class="fa fa-unsorted"></i></li>
 				<li>角色</li>
@@ -45,7 +50,7 @@
 
 				<div class="clearfix"></div>
 			</ul>
-			{volist name="listdata" id="vo" key="key"}
+			{volist name="listdata" id="vo"}
 			<ul class="u-tabList">
 				<li class="u-tabCheckbox"><input type="checkbox" /></li>
 				<li class="u-tabOperation">
@@ -53,7 +58,6 @@
 					<span onclick="struct_list_employee_del('{$id}','{$vo.user_id}');">删除</span> {/if}
 					<span onclick="struct_list_employee_move('{$id}','{$vo.user_id}');">移至</span>
 				</li>
-				<li>{$key+$start_num-1}</li>
 				<li>{$vo.worknum}</li>
 				<li>{$vo.truename}</li>
 				<li>{$vo.role_name}</li>
@@ -69,10 +73,54 @@
 	{include file="common@common/page"/}
 </div>
 
-<div class="reveal-modal employee_list_transfer">
+<div id="employee_list_transfer" class="reveal-modal employee_import_ui">
+	<form class="employee_import_from" onsubmit="return false;" method="post" enctype="multipart/form-data">
+		<p class="p1">批量转移</p>
+		<!--<p class="p2">
+					<img class="employee_import_templet_download" src="/static/images/file.jpg" />
+					<span class="employee_import_templet_download" style="font-size: 12px;">导入模板下载</span>
+					<input type="file" name="files" required="required" placeholder="请选择文件" style="width: 256px;height: 26px;border-radius: 6px;background-color: #efefef;" title="选择文件" />
+				</p>-->
+		<!--<input type="hidden" name="type" value="1" />-->
+		<p>
+			<div id="demo">
+				<span>移至</span>
+				<div id="cityMR2" style="width:200px;overflow: hidden;">
+				</div>
+
+			</div>
+
+		</p>
+		<p class="p5">
+			<input  type="submit" value="确定" />
+			<button >取消</button>
+		</p>
+		<a class="close-reveal-modal">&#215;</a>
+	</form>
 </div>
 
 <script src="/static/js/list_manage.js"></script>
 <script language="javascript">
 	var employee_list_list_manage = new list_manage("content", "division-managementfr", "/systemsetting/structure/employee_list/id/{$id}", '{$p}', '{$num}', '{$max_page}', '0', " .dv2");
+</script>
+<script>
+	$('#cityDanXuan').hsCheckData({
+		isShowCheckBox: false, //默认为false
+		data: cityData
+	});
+	$('#cityDuoXuan').hsCheckData({
+		isShowCheckBox: true, //默认为false
+		minCheck: 0, //默认为0，不限最少选择个数
+		maxCheck: 6, //默认为0，不限最多选择个数
+		data: cityData
+	});
+	$('#cityMR').hsCheckData({
+		isShowCheckBox: true,
+		data: cityData,
+		defText: '北京-上海-汕头'
+	});
+	$('#cityMR2').hsCheckData({
+		isShowCheckBox: true,
+		data: cityData
+	});
 </script>
