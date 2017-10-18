@@ -37,6 +37,7 @@
 			<ul class="u-tabTitle">
 				<li class="u-tabCheckbox"><input type="checkbox" class="check_all" /></li>
 				<li>操作</li>
+				<li>序号</li>
 				<li>工号<i class="fa fa-sort-desc"></i></li>
 				<li>姓名<i class="fa fa-unsorted"></i></li>
 				<li>角色</li>
@@ -46,7 +47,7 @@
 
 				<div class="clearfix"></div>
 			</ul>
-			{volist name="listdata" id="vo"}
+			{volist name="listdata" id="vo" key="key"}
 			<ul class="u-tabList">
 				<li class="u-tabCheckbox"><input type="checkbox" /></li>
 				<li class="u-tabOperation">
@@ -54,6 +55,7 @@
 					<span onclick="struct_list_employee_del('{$id}','{$vo.user_id}');">删除</span> {/if}
 					<span onclick="struct_list_employee_move('{$id}','{$vo.user_id}');">移至</span>
 				</li>
+				<li>{$key+$start_num-1}</li>
 				<li>{$vo.worknum}</li>
 				<li>{$vo.truename}</li>
 				<li>{$vo.role_name}</li>
