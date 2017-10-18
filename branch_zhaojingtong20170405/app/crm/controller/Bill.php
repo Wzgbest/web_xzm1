@@ -310,23 +310,24 @@ class Bill extends Initialize{
     public function apply(){
         $result = ['status'=>0 ,'info'=>"提交发票申请时发生错误！"];
         $bill_apply = input("bill_apply");
-        //var_exp($bill_apply,'$bill_apply',1);
+        //var_exp($bill_apply,'$bill_apply');
         $bill_apply_arr = json_decode($bill_apply,true);
-        //var_exp($businessFlowSetting,'$businessFlowSetting');
-        //var_exp($link_arr,'$link_arr');
+        //var_exp($bill_apply_arr,'$bill_apply_arr');
         if(empty($bill_apply_arr)){
             $result['info'] = "参数错误！";
             return json($result);
         }
         $contract_item_id = intval($bill_apply_arr["contract_item_id"]);
+        //var_exp($contract_item_id,'$contract_item_id',1);
         if(!$contract_item_id){
-            $result['info'] = "参数错误！";
+            $result['info'] = "参数错误,未找到成单合同！";
             return json($result);
         }
         $this->assign('contract_item_id',$contract_item_id);
 
         $contractItemM = new SaleOrderContractItem($this->corp_id);
         $contract = $contractItemM->getContractInfo($contract_item_id);
+        //var_exp($contract,'$contract',1);
         $sale_id = $contract["sale_id"];
         $contract_id = $contract["contract_id"];
         $billM = new BillModel($this->corp_id);
@@ -340,16 +341,26 @@ class Bill extends Initialize{
         $bill_type = intval($bill_apply_arr["bill_type"]);
         $tax_num = intval($bill_apply_arr["tax_num"]);
         $product_type_arr = $bill_apply_arr["product_type"];
-        $pay_way_arr = $bill_apply_arr["pay_way"];
+        $pay_way_arr = $contract["pay_type"]==1?"现金":$contract["pay_bank"];
         $handle_arr = $bill_apply_arr["handle"];
-        if(
-            empty($bill_type)||
-            empty($contract_id)||
-            empty($product_type_arr)||
-            empty($pay_way_arr)||
-            empty($handle_arr)
-        ){
-            $result['info'] = "参数错误！";
+        if(empty($bill_type)){
+            $result['info'] = "参数错误,未找到发票类型！";
+            return json($result);
+        }
+        if(empty($contract_id)){
+            $result['info'] = "参数错误,未找到合同！";
+            return json($result);
+        }
+        if(empty($product_type_arr)){
+            $result['info'] = "参数错误,未找到产品类型！";
+            return json($result);
+        }
+        if(empty($pay_way_arr)){
+            $result['info'] = "参数错误,未找到支付途径！";
+            return json($result);
+        }
+        if(empty($handle_arr)){
+            $result['info'] = "参数错误,未找到审核人！";
             return json($result);
         }
         $billSettingModel = new BillSettingModel($this->corp_id);
@@ -401,7 +412,7 @@ class Bill extends Initialize{
         $data["customer_name"] = $customers_data["customer_name"];
         $data["tax_num"] = $tax_num;
         $data["bill_money"] = $bill_money;
-        $data["pay_type"] = $pay_way_arr["way"]!="现金"?$pay_way_arr["bank_type"]:"现金";
+        $data["pay_type"] = $pay_way_arr;
         $data["handle_1"] = $handle_arr["handle_1"];
         $data["handle_2"] = isset($handle_arr["handle_2"])?$handle_arr["handle_2"]:0;
         $data["handle_3"] = isset($handle_arr["handle_3"])?$handle_arr["handle_3"]:0;
