@@ -47,14 +47,18 @@ class Structure extends Initialize
         $employees_count=0;
         $start_num = ($p-1)*$num;
         $end_num = $start_num+$num;
+        $filter = $this->_getCustomerFilter(["role","worknum","truename"]);
         try{
             $employeeM = new EmployeeModel($this->corp_id);
-            $employee_list = $employeeM->getEmployeeByStructId($struct_id,$start_num,$num);
+            $employee_list = $employeeM->getEmployeeByStructId($struct_id,$start_num,$num,$filter);
             //var_exp($employee_list,'$employee_list',1);
             $this->assign('listdata',$employee_list);
             $employees_count = $employeeM->countEmployeeByStructId($struct_id);
             //var_exp($employees_count,'$employees_count',1);
             $this->assign("count",$employees_count);
+            $rolM = new RoleModel($this->corp_id);
+            $roles = $rolM->getAllRole();
+            $this->assign("roles",$roles);
         }catch (\Exception $ex){
             $this->error($ex->getMessage());
         }
@@ -67,6 +71,7 @@ class Structure extends Initialize
         $this->assign("id",$struct_id);
         $this->assign("max_page",$max_page);
         $this->assign("truename",$truename);
+        $this->assign("filter",$filter);
         $this->assign("start_num",$employees_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$employees_count?$end_num:$employees_count);
         return view();
