@@ -26,6 +26,7 @@ use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
 use app\common\model\ParamRemark;
 use app\crm\model\CallRecord;
 use app\task\model\TaskTarget;
+use app\common\model\StructureEmployee;
 
 class Customer extends Initialize{
     var $paginate_list_rows = 10;
@@ -385,6 +386,21 @@ class Customer extends Initialize{
         return view();
     }
     public function change_customers_to_employee_page(){
+        $structureEmployeeModel = new StructureEmployee($this->corp_id);
+        $structures = $structureEmployeeModel->getAllStructureAndEmployee();
+        $structure_employee = [];
+        foreach ($structures as $structure){
+            $structure_employee[$structure["id"]] = explode(",",$structure["employee_ids"]);
+        }
+        $employM = new EmployeeModel($this->corp_id);
+        $friendsInfos = $employM->getAllUsers();
+        $employee_name = [];
+        foreach ($friendsInfos as $friendsInfo){
+            $employee_name[$friendsInfo["id"]] = $friendsInfo["nickname"];
+        }
+        $this->assign("structures",$structures);
+        $this->assign("structure_employee",json_encode($structure_employee,true));
+        $this->assign("employee_name",json_encode($employee_name,true));
         return view();
     }
 
