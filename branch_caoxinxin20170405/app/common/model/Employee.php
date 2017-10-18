@@ -507,10 +507,12 @@ class Employee extends Base{
         $query = $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
             ->join($this->dbprefix.'role r','re.role_id = r.id')
+            ->join($this->dbprefix.'role_employee res','res.user_id = e.id')
+            ->join($this->dbprefix.'role rs','res.role_id = rs.id')
             ->join($this->dbprefix.'structure_employee se','e.id = se.user_id')
             ->join($this->dbprefix.'structure_employee ses','e.id = ses.user_id')
             ->join($this->dbprefix.'structure s','ses.struct_id = s.id')
-            ->field('e.id as user_id,e.is_leader,e.truename,e.worknum,e.telephone,e.email,e.create_time,e.is_leader,GROUP_CONCAT( distinct re.role_id) as role,GROUP_CONCAT( distinct r.role_name) as role_name,GROUP_CONCAT( distinct se.struct_id) as struct,GROUP_CONCAT( distinct ses.struct_id) as struct_id,GROUP_CONCAT( distinct s.struct_name) as struct_name')
+            ->field('e.id as user_id,e.is_leader,e.truename,e.worknum,e.telephone,e.email,e.create_time,e.is_leader,GROUP_CONCAT( distinct res.role_id) as role,GROUP_CONCAT( distinct rs.role_name) as role_name,GROUP_CONCAT( distinct se.struct_id) as struct,GROUP_CONCAT( distinct ses.struct_id) as struct_id,GROUP_CONCAT( distinct s.struct_name) as struct_name')
             ->where('se.struct_id',$struct_id)
             ->where($map)
             ->group("e.id");
