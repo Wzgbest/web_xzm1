@@ -120,7 +120,7 @@ class TaskTake extends Base{
             ->join($this->dbprefix.'employee_task_take t','e.id=t.take_employee','LEFT')
             ->where($map)
             //->limit($offset,$num)
-            ->field("e.id as employee_id,e.truename,t.whether_help,t.id as take_id")
+            ->field("e.id as employee_id,e.telephone,e.truename,t.whether_help,t.id as take_id")
             ->select();
         return $rankingList;
     }
