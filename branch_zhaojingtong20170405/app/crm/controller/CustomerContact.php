@@ -127,6 +127,7 @@ class CustomerContact extends Initialize{
         // add customer contact page
         $customerContact['contact_name'] = input('contact_name','','string');
         $customerContact['phone_first'] = input('phone_first','','string');
+        $customerContact['sex'] = input('sex',1,'int');
 
         $customerContact['phone_second'] = input('phone_second','','string');
         $customerContact['phone_third'] = input('phone_third','','string');
