@@ -500,8 +500,10 @@ class Employee extends Base{
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getEmployeeByStructId($struct_id,$page=0,$rows=null)
-    {
+    public function getEmployeeByStructId($struct_id,$page=0,$rows=null,$filter=null)
+    {   
+        //筛选
+        $map = $this->_getPageEmployeeListWhereSql($filter);
         $query = $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
             ->join($this->dbprefix.'role r','re.role_id = r.id')
@@ -510,6 +512,7 @@ class Employee extends Base{
             ->join($this->dbprefix.'structure s','ses.struct_id = s.id')
             ->field('e.id as user_id,e.is_leader,e.truename,e.worknum,e.telephone,e.email,e.create_time,e.is_leader,GROUP_CONCAT( distinct re.role_id) as role,GROUP_CONCAT( distinct r.role_name) as role_name,GROUP_CONCAT( distinct se.struct_id) as struct,GROUP_CONCAT( distinct ses.struct_id) as struct_id,GROUP_CONCAT( distinct s.struct_name) as struct_name')
             ->where('se.struct_id',$struct_id)
+            ->where($map)
             ->group("e.id");
         if (!is_null($rows)) {
             $query = $query->limit($page,$rows);
@@ -678,6 +681,12 @@ class Employee extends Base{
              } else {
                  $map["e.on_duty"] = $where['on_duty'];
              }
+         }
+         if (isset($where['worknum']) && $where['worknum']) {
+             $map["e.worknum"] = $where['worknum'];
+         }
+         if (isset($where['truename']) && $where['truename']) {
+             $map["e.truename"] = ["like","%".$where['truename']."%"];
          }
          return $map;
      }
