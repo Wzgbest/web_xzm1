@@ -200,9 +200,9 @@ function check_telephone_and_token($telephone,$access_token){
     $device_type_info = get_user_device($telephone,$access_token);
     //var_exp($device_type_info,'$device_type_info',1);
     if(empty($device_type_info)){
-        $info['device_type'] = 0;
         $info['message'] = 'token不正确，请重新登陆';
         $info['errnum'] = 104;
+        $info['device_type'] = 0;
         return $info;
     }
     $device_type = $device_type_info["device_type"];
@@ -244,6 +244,7 @@ function check_telephone_and_token($telephone,$access_token){
             del_user_device_token_cache($telephone,$access_token);
             $info['message'] = 'token不正确，请重新登陆';
             $info['errnum'] = 104;
+            $info['device_type'] = $device_type;
             return $info;
         }
     }
