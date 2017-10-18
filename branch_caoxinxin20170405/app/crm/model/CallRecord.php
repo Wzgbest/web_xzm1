@@ -79,7 +79,7 @@ class CallRecord extends Base{
             ->group($group)
             ->order($order)
             //->limit($offset,$num)
-            ->field("e.id as employee_id,e.truename,count(cr.id) num,MAX(cr.begin_time) as standard_time,IF (count(cr.id) >= $standard, '1', '0') as is_standard")
+            ->field("e.id as employee_id,e.telephone,e.truename,count(cr.id) num,MAX(cr.begin_time) as standard_time,IF (count(cr.id) >= $standard, '1', '0') as is_standard")
             ->select();
         //var_exp($callRecordRanking,'$callRecordRanking',1);
         if($num==1&&$page==0&&$callRecordRanking){
@@ -120,7 +120,7 @@ class CallRecord extends Base{
             ->where($map)
             ->order($order)
             ->limit(999999)//2147483647?
-            ->field("e.id as employee_id,e.truename,cr.begin_time")
+            ->field("e.id as employee_id,e.telephone,e.truename,cr.begin_time")
             ->buildSql();
         //var_exp($subQuery,'$subQuery',1);
         $subQuery = $this->model->table($subQuery)->alias('cl')
@@ -134,7 +134,7 @@ class CallRecord extends Base{
             ->group("employee_id")
             ->order($standard_order)
             //->limit($offset,$num)
-            ->field("employee_id,truename,standard as num,standard_time,IF (standard >= $standard, '1', '0') as is_standard")
+            ->field("employee_id,telephone,truename,standard as num,standard_time,IF (standard >= $standard, '1', '0') as is_standard")
             ->select();
         //var_exp($callRecordRanking,'$callRecordRanking',1);
         if($num==1&&$page==0&&$callRecordRanking){
