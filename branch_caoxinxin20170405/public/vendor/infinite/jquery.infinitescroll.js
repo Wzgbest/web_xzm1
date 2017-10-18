@@ -70,6 +70,7 @@
 
         // Bind or unbind from scroll
         _binding: function infscr_binding(binding) {
+            this._debug('Binding');
 
             var instance = this,
             opts = instance.options;
@@ -83,7 +84,7 @@
             }
 
             if (binding !== 'bind' && binding !== 'unbind') {
-                this._debug('Binding value  ' + binding + ' not valid')
+                this._debug('Binding value  ' + binding + ' not valid');
                 return false;
             }
 
@@ -97,7 +98,7 @@
                     instance.scroll();
                 });
 
-            };
+            }
 
             this._debug('Binding', binding);
 
@@ -105,6 +106,7 @@
 
         // Fundamental aspects of the plugin are initialized
         _create: function infscr_create(options, callback) {
+            this._debug('Create');
 
             // If selectors from options aren't valid, return false
             if (!this._validate(options)) {
@@ -139,7 +141,7 @@
 
             // distance from nav links to bottom
             // computed as: height of the document + top offset of container - top offset of nav link
-            opts.pixelsFromNavToBottom = $(document).height() - $(opts.navSelector).offset().top;
+            opts.pixelsFromNavToBottom = $(this.element).height() - $(opts.navSelector).offset().top;
 
             // determine loading.start actions
             opts.loading.start = opts.loading.start || function() {
@@ -320,13 +322,13 @@
             }
 
             // loadingEnd function
-            opts.loading.finished.call($(opts.contentSelector)[0],opts)
+            opts.loading.finished.call($(opts.contentSelector)[0],opts);
             
 
             // smooth scroll to ease in the new content
             if (opts.animate) {
-                var scrollTo = $(window).scrollTop() + $('#infscr-loading').height() + opts.extraScrollPx + 'px';
-                $('html,body').animate({
+                var scrollTo = $(opts.binder).scrollTop() + $('#infscr-loading').height() + opts.extraScrollPx + 'px';
+                $(opts.binder).animate({
                     scrollTop: scrollTo
                 }, 800, function () {
                     opts.state.isDuringAjax = false;
@@ -342,7 +344,7 @@
         _nearbottom: function infscr_nearbottom() {
 
             var opts = this.options,
-            pixelsFromWindowBottomToBottom = 0 + $(document).height() - (opts.binder.scrollTop()) - $(window).height();
+            pixelsFromWindowBottomToBottom = 0 + $(this.element).height() - (opts.binder.scrollTop()) - $(window).height();
 
             // if behavior is defined and this function is extended, call that instead of default
             if (!!opts.behavior && this['_nearbottom_'+opts.behavior] !== undefined) {
@@ -396,7 +398,8 @@
         // Behavior is determined
         // If the behavior option is undefined, it will set to default and bind to scroll
         _setup: function infscr_setup() {
-			
+            this._debug('Setup');
+
             var opts = this.options;
 			
             // if behavior is defined and this function is extended, call that instead of default
@@ -555,6 +558,7 @@
         // Check to see next page is needed
         scroll: function infscr_scroll() {
 
+            this._debug('Binding');
             var opts = this.options,
             state = opts.state;
 
@@ -703,7 +707,7 @@
                 clearTimeout(scrollTimeout);
             }
             scrollTimeout = setTimeout(function () {
-                $.event.handle.apply(context, args);
+                $.event.dispatch.apply(context, args);
             }, execAsap === "execAsap" ? 0 : 100);
         }
     };
