@@ -261,7 +261,7 @@ class EmployeeTask extends Base{
             ->join($this->dbprefix.'red_envelope re',"re.task_id = et.id and re.took_user = ".$uid,"LEFT")
             ->join($this->dbprefix.'employee_task_guess tg',"tg.task_id=et.id and tg.guess_employee=".$uid,"LEFT")
             ->join($this->dbprefix.'employee_task_take ett','ett.task_id=et.id','LEFT')
-            ->field($field)->where($map_str)->where($con_str)->where($map)->group('et.id')->order($listOrder)->select();
+            ->field($field)->where($map_str)->where($con_str)->where($map)->group('et.id')->order($listOrder)->limit($offset,$num)->select();
         $task_listArr=$employee_task_list;
         foreach($employee_task_list as $key=>$value){
             $task_listArr[$key]['public_to_take_array']=get_employee_truename($value['public_to_take']);
