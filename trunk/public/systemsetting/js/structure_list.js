@@ -442,6 +442,9 @@ function struct_list_employee_move_to(struct_id,employee_id,to_struct_id){
     });
 }
 $(struct_list_panel_base).on("click",".employee_list_transfer_btn",function(){
+    if(!$(this).hasClass("active")){
+        return ;
+    }
     var url = "/systemsetting/structure/employee_list_transfer/";
     $.ajax({
         url:url,
