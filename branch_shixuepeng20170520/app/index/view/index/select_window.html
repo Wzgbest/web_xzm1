@@ -4,33 +4,18 @@
 		<div class="select-window-left-content">
 			<ul>
 			<!-- 部门名称 -->
-				<li class="department-name">
-					<div class="title"><i class="fa fa-caret-right"></i><span>销售1部</span><i class="fa fa-plus-square"></i></div>
-					<ul class="department-staff hide">
-						<li select-window-id="1">李白</li>
-						<li select-window-id="2">杜甫</li>
-						<li select-window-id="3">冯唐</li>
-						<li select-window-id="4">理光</li>
-					</ul>
-				</li>
-				<li class="department-name">
-					<div class="title"><i class="fa fa-caret-right"></i><span>销售1部</span><i class="fa fa-plus-square"></i></div>
-					<ul class="department-staff hide">
-						<li select-window-id="5" >李白白</li>
-						<li select-window-id="6">杜甫付</li>
-						<li select-window-id="7">冯唐唐</li>
-						<li select-window-id="8">理光光</li>
-					</ul>
-				</li>
-				<li class="department-name">
-					<div class="title"><i class="fa fa-caret-right"></i><span>销售1部</span><i class="fa fa-plus-square"></i></div>
-					<ul class="department-staff hide">
-						<li select-window-id="9" >李太白</li>
-						<li select-window-id="10">诗圣</li>
-						<li select-window-id="11">冯唐易老</li>
-						<li select-window-id="12">李广难封</li>
-					</ul>
-				</li>
+				{volist name="structures" id="vo"}
+					<li class="department-name">
+						<div class="title"><i class="fa fa-caret-right"></i><span>{$vo.struct_name}</span><i class="fa fa-plus-square"></i></div>
+						<ul class="department-staff hide">
+							{volist name="vo.employee_ids_arr" id="voe"}
+								{if condition="isset($employees[$voe])"}
+									<li select-window-id="{$voe}">{$employees[$voe]["nickname"]}</li>
+								{/if}
+							{/volist}
+						</ul>
+					</li>
+				{/volist}
 			</ul>
 		</div>
 		<div class="select-window-right-content">
