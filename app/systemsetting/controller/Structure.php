@@ -62,6 +62,7 @@ class Structure extends Initialize
         $userinfo = get_userinfo();
         $truename = $userinfo["truename"];
         $this->assign("p",$p);
+        $this->assign("start_num",$start_num);
         $this->assign("num",$num);
         $this->assign("id",$struct_id);
         $this->assign("max_page",$max_page);
@@ -118,6 +119,39 @@ class Structure extends Initialize
         $structs = $struM->getAllStructure();
         $this->assign('structs',$structs);
         return view();
+    }
+
+    public function employee_list_transfer(){
+        return view();
+    }
+
+    public function employee_list_transfer_structure(){
+        $result = 'var cityData=';
+        $result_arr = [];
+        $root_id = 0;
+        $struM = new StructureModel($this->corp_id);
+        $structs = $struM->getAllStructure();
+        $tree = new \myvendor\Tree($structs,['id','struct_pid']);
+        $res = $tree->leaf($root_id);
+        //var_exp($res,'$res',1);
+        $result_arr = $this->get_structure_tree_arr($res);
+        //var_exp($result_arr,'$result_arr');
+        $result .= json_encode($result_arr,true).";";
+        echo $result;
+    }
+
+    protected function get_structure_tree_arr($res,$id_field="id",$name_field="struct_name",$child_field="child"){
+        $result_arr = [];
+        foreach ($res as $re){
+            $id = $re[$id_field];
+            $name = $re[$name_field];
+            $structure = [$id=>$name];
+            if(isset($re[$child_field])){
+                $structure["childCity"] = $this->get_structure_tree_arr($re[$child_field]);
+            }
+            $result_arr[] = $structure;
+        }
+        return $result_arr;
     }
 
     protected function _getCustomerFilter($filter_column){
