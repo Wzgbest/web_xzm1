@@ -588,7 +588,7 @@ class SaleOrderContract extends Base{
             ->group($group)
             ->order($order)
             //->limit($offset,$num)
-            ->field("e.id as employee_id,e.truename,count(soc.id) num,MAX(soc.create_time) as standard_time,IF (count(soc.id) >= $standard, '1', '0') as is_standard")
+            ->field("e.id as employee_id,e.telephone,e.truename,count(soc.id) num,MAX(soc.create_time) as standard_time,IF (count(soc.id) >= $standard, '1', '0') as is_standard")
             ->select();
         //var_exp($rankingList,'$rankingList',1);
         if($num==1&&$page==0&&$rankingList){
@@ -631,7 +631,7 @@ class SaleOrderContract extends Base{
             ->where($map)
             ->order($order)
             ->limit(999999)//2147483647?
-            ->field("e.id as employee_id,e.truename,soc.create_time")
+            ->field("e.id as employee_id,e.telephone,e.truename,soc.create_time")
             ->buildSql();
         //var_exp($subQuery,'$subQuery',1);
         $subQuery = $this->model->table($subQuery)->alias('sl')
@@ -645,7 +645,7 @@ class SaleOrderContract extends Base{
             ->group("employee_id")
             ->order($standard_order)
             //->limit($offset,$num)
-            ->field("employee_id,truename,standard as num,standard_time,IF (standard >= $standard, '1', '0') as is_standard")
+            ->field("employee_id,telephone,truename,standard as num,standard_time,IF (standard >= $standard, '1', '0') as is_standard")
             ->select();
         //var_exp($standardList,'$standardList',1);
         if($num==1&&$page==0&&$standardList){
@@ -691,7 +691,7 @@ class SaleOrderContract extends Base{
             ->group($group)
             ->order($order)
             //->limit($offset,$num)
-            ->field("e.id as employee_id,e.truename,sum(sc.final_money) num,MAX(soc.create_time) as standard_time,IF (sum(sc.final_money) >= $standard, '1', '0') as is_standard")
+            ->field("e.id as employee_id,telephone,e.truename,sum(sc.final_money) num,MAX(soc.create_time) as standard_time,IF (sum(sc.final_money) >= $standard, '1', '0') as is_standard")
             ->select();
         //var_exp($rankingList,'$rankingList',1);
         if($num==1&&$page==0&&$rankingList){
@@ -734,7 +734,7 @@ class SaleOrderContract extends Base{
             ->where($map)
             ->order($order)
             ->limit(999999)//2147483647?
-            ->field("sc.final_money,e.id as employee_id,e.truename,soc.create_time")
+            ->field("e.id as employee_id,e.telephone,e.truename,soc.create_time,sc.final_money")
             ->buildSql();
         //var_exp($subQuery,'$subQuery',1);
         $subQuery = $this->model->table($subQuery)->alias('sl')
@@ -748,7 +748,7 @@ class SaleOrderContract extends Base{
             ->group("employee_id")
             ->order($standard_order)
             //->limit($offset,$num)
-            ->field("employee_id,truename,standard as num,standard_time,IF (standard >= $standard, '1', '0') as is_standard")
+            ->field("employee_id,telephone,truename,standard as num,standard_time,IF (standard >= $standard, '1', '0') as is_standard")
             ->select();
         //var_exp($standardList,'$standardList',1);
         if($num==1&&$page==0&&$standardList){
