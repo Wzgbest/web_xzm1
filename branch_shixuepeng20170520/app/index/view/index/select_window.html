@@ -22,10 +22,17 @@
 				<!-- <dd data-selected-staff-id="0">费玉清<i class="fa fa-times-circle-o"></i></dd> -->
 			</dl>
 		</div>		
-		<button>完成</button>
+		<button class="true">确定</button>
+		<button class="false">取消</button>
 	</div>
 </div>
 <script type="text/javascript">
+//最终值
+let result={
+	dep:[],
+	stf:[]
+}
+console.log(typeof result,result);
 //开关
 $(".select-window-container dl dt span").click(function() {
 	$(this).parent().parent().toggleClass("active");
@@ -40,6 +47,7 @@ $(".selecting-department").siblings("dd").click(function(){
 	if(arr.length==0){
 		$(".selected-staff").append('<dd data-selected-staff-id="'+$(this).attr("data-selecting-staff-id")+'">'+$(this).text()+'<i class="fa fa-times-circle-o"></i></dd>');
 		$(".selected-staff dt p").text($(".selected-staff dd").length);
+		result.stf.push($(this).attr("data-selecting-staff-id"));
 	}else if(arr.length==1){
 		alert("已存在");
 	}else{
@@ -52,6 +60,7 @@ $(".selecting-department .fa-sitemap").click(function(){
 	if(arr.length==0){
 		$(".selected-department").append('<dd data-selected-department-id="'+$(this).siblings("span").attr("data-selecting-department-id")+'">'+$(this).siblings("span").text()+'<i class="fa fa-times-circle-o"></i></dd>');
 		$(".selected-department dt p").text($(".selected-department dd").length);
+		result.dep.push($(this).siblings("span").attr("data-selecting-department-id"));
 	}else if(arr.length==1){
 		alert("已存在");
 	}else{
@@ -66,18 +75,30 @@ $(".selecting-department .fa-user").click(function(){
 		let arr2 = getElementByAttr('dd','data-selected-staff-id',arr.eq(i).attr("data-selecting-staff-id"));
 		if(arr2.length==0){
 			$(".selected-staff").append('<dd data-selected-staff-id="'+arr.eq(i).attr("data-selecting-staff-id")+'">'+arr.eq(i).text()+'<i class="fa fa-times-circle-o"></i></dd>');
+			result.stf.push(arr.eq(i).attr("data-selecting-staff-id"));
 		}
 	}
 	$(".selected-staff dt p").text($(".selected-staff dd").length);
 });
-//删除
-$(".right-content-container dl").on("click","dd .fa-times-circle-o",function(){
+//删除--删除部门
+$(".right-content-container dl.selected-department").on("click","dd .fa-times-circle-o",function(){
 	$(this).parent().remove();
+	result.dep.splice(result.dep.indexOf($(this).parent().attr("data-selected-department-id")),1);
 	$(".selected-department dt p").text($(".selected-department dd").length);
+});
+//删除--删除员工
+$(".right-content-container dl.selected-staff").on("click","dd .fa-times-circle-o",function(){
+	$(this).parent().remove();
+	result.stf.splice(result.stf.indexOf($(this).parent().attr("data-selected-staff-id")),1);
 	$(".selected-staff dt p").text($(".selected-staff dd").length);
 });
 //完成
-$(".right-content button").click(function(){
+$(".right-content button.true").click(function(){
+	$("input.select-window-choosen-staff").val("已选择"+result.dep.length+"个部门"+result.stf.length+"个人员").attr("data-val",JSON.stringify(result));
+	$(".select-window-container").remove();
+});
+//取消
+$(".right-content button.false").click(function(){
 	$(".select-window-container").remove();
 });
 </script>
@@ -190,11 +211,17 @@ $(".right-content button").click(function(){
 	position: absolute;
 	bottom: 15px;
 	width: 90px;
-	left: 80px;
+	/*left: 80px;*/
 	border-style: none;
 	height: 30px;
 	border-radius: 5px;
 	background-color: #42a5f5;
 	color: white;
+}
+.select-window-container .right-content button.true{
+	left: 30px;
+}
+.select-window-container .right-content button.false{
+	left: 130px;
 }
 </style>

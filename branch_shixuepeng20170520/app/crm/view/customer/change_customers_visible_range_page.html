@@ -2,19 +2,16 @@
 	<h1>更改可见范围<i class="fa fa-close fa-2x pop-close-btn"></i></h1>
 </header>
 <div class="pop_content m-form">
-	<div>
-	<div class="tc" style="margin-bottom: 30px">
-		<input type="radio" name="isallsee" value="1" />全员可见
-		<input type="radio" name="isallsee" value="2">部分可见
-	</div>
-	<div class="tc" style="margin-bottom: 20px">
-		<button class="select-window-in">选择人员</button>
-		<input type="text" class="select-window-choosen-staff" style="margin: 0"></input>
-
-	</div>
-		<div class="main-content select-window" style="margin:0 auto;">
-		
+	<div style="position: relative;">
+		<div class="tc" style="margin-bottom: 30px">
+			<input type="radio" name="isallsee" value="1" />全员可见
+			<input type="radio" name="isallsee" value="2">部分可见
 		</div>
+		<div class="tc" style="margin-bottom: 20px">
+			<button class="select-window-in">选择人员</button>
+			<input type="text" class="select-window-choosen-staff" disabled style="margin: 0" ></input>
+		</div>
+		<div class="main-content select-window" style="margin:0 auto;"></div>
 	</div>
 	<div class="u-submitButton">
 		<button class="pop-submit-btn">确定</button>
@@ -31,8 +28,14 @@
     color: #ccc;
 }
 .select-window-in.on{
-	    color: white;
+	color: white;
     background-color: #42A5f5;
+}
+.main-content.select-window{
+	position: absolute;
+	top: 85px;
+	left: 31.2%;
+	/*margin: 0 auto;*/
 }
 </style>
 <script type="text/javascript">
@@ -40,6 +43,8 @@ $("input[name='isallsee']").click(function(){
 	console.log($(this).val());
 	if($(this).val()==2){
 		$(".select-window-in").addClass("on");
+	}else if ($(this).val()==1) {
+		$(".select-window-in").removeClass("on");
 	}
 });
 $(".pop_content").on("click",".select-window-in.on",function() {
