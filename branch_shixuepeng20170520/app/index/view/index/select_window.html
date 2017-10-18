@@ -71,7 +71,6 @@ $(".selecting-department .fa-sitemap").click(function(){
 $(".selecting-department .fa-user").click(function(){
 	let arr = $(this).parent().siblings("dd");
 	for (var i = 0; i < arr.length; i++) {
-		arr.eq(i)
 		let arr2 = getElementByAttr('dd','data-selected-staff-id',arr.eq(i).attr("data-selecting-staff-id"));
 		if(arr2.length==0){
 			$(".selected-staff").append('<dd data-selected-staff-id="'+arr.eq(i).attr("data-selecting-staff-id")+'">'+arr.eq(i).text()+'<i class="fa fa-times-circle-o"></i></dd>');
