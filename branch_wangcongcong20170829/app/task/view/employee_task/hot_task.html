@@ -1,4 +1,29 @@
 <link rel="stylesheet" href="/task/css/task.css" />
+<div class="task task_list hot_task">
+	<div>
+		<header>
+			<ul class="nav" >
+				<li  data-id="0" class="flow">
+					<div>全部任务（<span>{$task_count.0}</span>）</div>
+				</li>
+				<li data-id="2">
+					<div>PK任务（<span>{$task_count.2}</span>）</div>
+				</li>
+				<li  data-id="1">
+					<div>激励任务（<span>{$task_count.1}</span>）</div>
+				</li>
+				<li data-id="3">
+					<div>悬赏任务（<span>{$task_count.3}</span>）</div>
+				</li>
+			</ul>
+			<div class="sort">
+				<img src="/task/img/sort.png" />
+				<p>排序</p>
+				<div class="classify">
+					<p data-id="create_time">按时间</p>
+					<p data-id="reward_amount">按奖金</p>
+					<p data-id="like_count">按热度</p>
+				</div>
 
 <div class="task task_list hot_task" id="hot_task_fr">
 	<div class="hot_task_load">
@@ -25,22 +50,16 @@
 				<p data-id="reward_amount">按奖金</p>
 				<p data-id="like_count">按热度</p>
 			</div>
+			<div class="xinjian">
+				<i class="fa fa-plus fa-2x"></i>
+				<p>新建任务</p>
+			</div>
+		</header>
+		<div>
+			<article class="hot_task_load">
+				{include file="employee_task/hot_task_load"/}
+			</article>
 		</div>
-		<div class="xinjian">
-			<i class="fa fa-plus fa-2x"></i>
-			<p>新建任务</p>
-		</div>
-	</header>
-   <div>
-		<article id="hot_task" class="endless_scroll">
-			{include file="employee_task/hot_task_load"/}
-			<div id='more'><a href='task/employee_task/hot_task_load.html?p=2'>加载更多</a></div>
-		</article>
-
-
-
-   </div>
-
 		<div class="reveal-modal reveal_six guess_ui">
 		</div>
 
@@ -79,14 +98,13 @@
 	</header>
 	<div class="task_direct_info_panel"></div>
 </div>
-<!--<script src="/vendor/endless/jquery-1.3.2.min.js"></script>-->
-<script src="/vendor/infinite/jquery.infinitescroll.js"></script>
 <script type="text/javascript" src="/task/js/task.js"></script>
 <script src="/knowledgebase/js/index.js"></script>
 <script src="/static/js/PopUp.js"></script>
 
 <script>
 	new task_list("task-hallfr",'{$uid}');
+</script>
     $('.endless_scroll').infinitescroll({
         navSelector  : "#more", //导航的选择器，会被隐藏
         nextSelector : "#more a",//包含下一页链接的选择器
