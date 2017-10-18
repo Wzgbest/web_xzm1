@@ -1,11 +1,15 @@
 <div class="select-window-container">
 	<div class="left-content">
+		{volist name="structures" id="vo"}
 		<dl>
-			<dt class="selecting-department"><i class="fa fa-caret-right fa-myleft"></i><i class="fa fa-caret-down fa-myleft"></i><span data-selecting-department-id="1">销售一部</span><i class="fa fa-user fa-myright" title="添加全员"></i><i class="fa fa-sitemap fa-myright" title="添加部门"></i></dt>
-			<dd data-selecting-staff-id="1">李白</dd>
-			<dd data-selecting-staff-id="2">杜甫</dd>
-			<dd data-selecting-staff-id="3">杜牧</dd>
+			<dt class="selecting-department"><i class="fa fa-caret-right fa-myleft"></i><i class="fa fa-caret-down fa-myleft"></i><span data-selecting-department-id="{$vo.id}">{$vo.struct_name}</span><i class="fa fa-user fa-myright" title="添加全员"></i><i class="fa fa-sitemap fa-myright" title="添加部门"></i></dt>
+			{volist name="vo.employee_ids_arr" id="voe"}
+				{if condition="isset($employees[$voe])"}
+					<dd data-selecting-staff-id="{$voe}">{$employees[$voe]["nickname"]}</dd>
+				{/if}
+			{/volist}
 		</dl>
+		{/volist}
 	</div>
 	<div class="right-content">
 		<div class="right-content-container">
