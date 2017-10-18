@@ -320,7 +320,7 @@ structure_tree.listen("delFun",function(id){
                 //console.log(data);
                 if(data.status) {
                     if(data.data>0){
-                        struct_del_panel_temp += "_move";
+                        // struct_del_panel_temp += "_move";
                     }
                     structure_tree_del_struct_id = id;
                     $(struct_del_panel_temp).reveal("{data-animation:'fade'}");
@@ -359,9 +359,9 @@ function deleteStructure(struct_id,trans){
             layer.msg(data.message,{icon:data.status==1?1:2});
             if(data.status) {
                 structure_tree.del(struct_id);
-                $(struct_list_panel_base+" .reveal-modal").trigger('reveal:close');
                 //loadPage("/systemsetting/structure/index","division-managementfr");
             }
+            $(struct_list_panel_base+" .reveal-modal").trigger('reveal:close');
         },
         error: function() {
             layer.msg('删除部门时发生错误!',{icon:2});
