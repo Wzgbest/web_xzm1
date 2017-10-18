@@ -858,15 +858,15 @@ class Customer extends Initialize{
         //TODO 权限验证?
         $result = ['status'=>0 ,'info'=>"更改客户可见范围失败！"];
         $ids = input('ids/a');
-        $is_public = input('is_public');
-        $employees = input('employees/a');
-        $departments = input('departments/a');
-        if(!$ids || !$is_public || !$employees || !$departments){
+        if(!empty($ids)){
             $result['info'] = "参数错误！";
             return json($result);
         }
-        if($is_public && ($employees || $departments)){
-            $result['info'] = "参数错误！";
+        $is_public = input('is_public');
+        $employees = input('employees/a');
+        $departments = input('departments/a');
+        if(!$is_public && !($employees || $departments)){
+            $result['info'] = "参数错误,不是全员可见必须选择部门或员工！";
             return json($result);
         }
         $is_public = $is_public?1:0;
