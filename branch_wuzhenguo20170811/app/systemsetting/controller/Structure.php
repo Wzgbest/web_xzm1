@@ -737,7 +737,7 @@ class Structure extends Initialize
             $flg = $struM->setStructure($struct_id,$data);
             if (!$flg) {
                   exception("跟新部门数据表失败");
-              }  
+            }  
         } catch (\Exception $ex) {
             $info['message'] = $ex->getMessage();
             return $info;
