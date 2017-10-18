@@ -119,7 +119,7 @@ function list_manage(from,target,url,p,num,max,in_column,sub){
     this.updateActivityButtons=function(){
         var selected = this.isSelect();
         for (var i = 0; i < this.activity_buttons.length; i++) {
-            var btn = $("."+this.from+' .m-secNav .'+this.activity_buttons[i]);
+            var btn = $("."+this.from+' .'+this.activity_buttons[i]);
             if(selected){
                 btn.addClass("active");
             }else{
