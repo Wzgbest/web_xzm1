@@ -239,14 +239,14 @@ function check_telephone_and_token($telephone,$access_token){
             break;
     }
     $field_name .= "_token";
-    //if($field_name!="web_token"){
+    if($field_name!="web_token"){
         if ($userinfo[$field_name] != $access_token) {
             del_user_device_token_cache($telephone,$access_token);
             $info['message'] = 'token不正确，请重新登陆';
             $info['errnum'] = 104;
             return $info;
         }
-    //}
+    }
     $info['message'] = 'SUCCESS';
     $info['status'] = true;
     $info['corp_id'] = $corp_id;
@@ -260,6 +260,10 @@ function clear_token($telephone,$ues_token){
     set_telephone_token_list($telephone,$ues_token);
     if(is_array($token_arr)){
         foreach ($token_arr as $token){
+            $device_type_info = get_user_device($telephone,$token);
+            if($device_type_info["device_type"]==1){
+                continue;
+            }
             if(!in_array($token,$ues_token)){
                 del_telephone_by_token($token);
                 del_user_device_token_cache($telephone,$token);
@@ -308,8 +312,8 @@ function login($corp_id,$uid,$telephone,$device_type,$ip){
 
 function logout($telephone=null,$token=null){
     if(!$telephone){
-        $telephone = input('userid');
-        $token = input('access_token');
+        $telephone = $telephone?:input('userid');
+        $token = $token?:input('access_token');
         if(!$telephone){
             $token = get_token_by_cookie();
             $telephone = get_telephone_by_token($token);
