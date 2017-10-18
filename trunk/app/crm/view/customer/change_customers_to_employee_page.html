@@ -4,11 +4,15 @@
 <div class="pop_content m-form">
 	<div style="padding-left: 40px">
 		<span class="cont">选择部门</span>
-		<select>
-			<option>选择部门</option>
+		<select class="structures">
+			{volist name="structures" id="vo"}
+				<option value="{$vo.id}">{$vo.struct_name}</option>
+			{/volist}
 		</select>
+		<input type="hidden" class="structure_employee" value='{$structure_employee}' />
+		<input type="hidden" class="employee_name" value='{$employee_name}' />
 		<span class="cont">选择人员</span>
-		<select>
+		<select class="employee">
 			<option>选择人员</option>
 		</select>
 	</div>
