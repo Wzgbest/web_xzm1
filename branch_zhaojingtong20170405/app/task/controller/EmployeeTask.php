@@ -169,6 +169,7 @@ class EmployeeTask extends Initialize{
         $this->assign('task_list',$task_list);
         $this->assign('task_count',$task_count);
         $this->assign('uid',$uid);
+        $this->assign('p',$p);
         $this->assign('now_time',$this->request->time());
 //        var_exp($task_list);
     }
@@ -247,6 +248,7 @@ class EmployeeTask extends Initialize{
         $this->assign('task_list',$task_list);
         $this->assign('task_count',$task_count);
         $this->assign('uid',$uid);
+        $this->assign('p',$p);
         $this->assign('now_time',$this->request->time());
 
     }

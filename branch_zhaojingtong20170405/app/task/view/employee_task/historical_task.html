@@ -1,6 +1,27 @@
 <link rel="stylesheet" href="/task/css/task.css" />
 
 <div class="task task_list">
+    <div>
+        <header>
+            <ul class="nav">
+                <li class="flow" data-id="1">
+                    <div>直接参与（<span>{$task_count.1}</span>）</div>
+                </li>
+                <li data-id="2">
+                    <div>间接参与（<span>{$task_count.2}</span>）</div>
+                </li>
+                <li data-id="3">
+                    <div>我发起的（<span>{$task_count.3}</span>）</div>
+                </li>
+            </ul>
+            <div class="sort">
+                <img src="/task/img/sort.png" />
+                <p>排序</p>
+                <div class="classify">
+                    <p data-id="create_time">按时间</p>
+                    <p data-id="reward_amount">按奖金</p>
+                    <p data-id="like_count">按热度</p>
+                </div>
     <div class="historical_task_load">
     <header>
         <ul class="nav">
@@ -18,20 +39,19 @@
             <img src="/task/img/sort.png" />
             <p>排序</p>
             <div class="classify">
-                <p data-id="create_time">按时间</p>
+                <p data-id="create_time" style="background-color: rgb(225, 235, 249);">按时间</p>
                 <p data-id="reward_amount">按奖金</p>
                 <p data-id="like_count">按热度</p>
             </div>
-        </div>
-        <div class="xinjian">
-            <i class="fa fa-plus fa-2x"></i>
-            <p>新建任务</p>
-        </div>
-    </header>
+            <div class="xinjian">
+                <i class="fa fa-plus fa-2x"></i>
+                <p>新建任务</p>
+            </div>
+        </header>
 
-    <article id="historical_task">
-    {include file="employee_task/historical_task_load"/}
-    </article>
+        <article class="historical_task_load">
+            {include file="employee_task/historical_task_load"/}
+        </article>
     </div>
 </div>
 <div class="task_info_panel new_task_panel hide">
