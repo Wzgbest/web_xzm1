@@ -1,0 +1,25 @@
+<!--<link rel="stylesheet" href="/static/css/hsCheckData.css" />-->
+<link rel="stylesheet" href="/systemsetting/css/hsCheckData.css" />
+<form class="employee_import_from" onsubmit="return false;" method="post" enctype="multipart/form-data">
+    <p class="p1">批量转移</p>
+    <p>
+        <div>
+            <span>移至</span>
+            <div id="employee_list_transfer" style="width:200px;overflow: hidden;">
+            </div>
+        </div>
+    </p>
+    <p class="p5">
+        <input type="submit" class="structure_move_ok" value="确定" />
+        <button class="structure_move_cancel">取消</button>
+    </p>
+    <a class="close-reveal-modal">&#215;</a>
+</form>
+<script src="/systemsetting/structure/employee_list_transfer_structure"></script>
+<script src="/systemsetting/js/hsCheckData.js"></script>
+<script>
+    $('#employee_list_transfer').hsCheckData({
+        isShowCheckBox: true,
+        data: cityData
+    });
+</script>
