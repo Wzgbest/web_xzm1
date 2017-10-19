@@ -116,9 +116,9 @@ function changeFramesSize() {
     $("#frames .once .m-pageInfoNav").width(window.innerWidth - sideW - 17);
 
     $("#frames .once").height(window.innerHeight - 80);
-    // $("#frames #company-libraryfr.once").height(window.innerHeight - 180);
     $(".phone-box").height(window.innerHeight - 80);
     subResize();
+    // console.log(555);
 };
 
 //主标题单机事件
@@ -182,12 +182,12 @@ function loadPage(url, panel) {
         async: false,
         success: function(data) {
             $('#frames #' + panel).html(data);
+            changeFramesSize();
         },
         error: function() {
             $('#frames #' + panel).html("页面加载时发生错误!");
         }
     });
-    changeFramesSize();
 }
 function loadPagebypost(url, data, panel) {
     $.ajax({
@@ -196,12 +196,13 @@ function loadPagebypost(url, data, panel) {
         data: data,
         success: function(data) {
             $('#frames #' + panel).html(data);
+            changeFramesSize();
         },
         error: function() {
             $('#frames #' + panel).html("页面加载时发生错误!");
         }
     });
-    changeFramesSize();
+    
 }
 //副标题栏的点击事件
 //切换当前的效果
