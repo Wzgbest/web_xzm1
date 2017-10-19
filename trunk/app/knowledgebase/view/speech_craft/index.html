@@ -68,7 +68,9 @@
                 {/eq}
             {/volist}
             {else/}
+            {eq name="is_leader" value="1"}
             <h2 class="no-list">该分类还未添加话术，您可以<span class="color-blue new-speechcraft2">添加话术</span>，也可以<span class="color-blue delete-speech-class">删除分类</span></h2>
+            {/eq}
             {/if}
         </ul>
         <div class="popUp delete-change-set-container hide">
