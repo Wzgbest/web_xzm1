@@ -708,16 +708,18 @@ function new_task_form(load_table){
 }
 
 
-function task_list(target,now_uid){
+function task_list(target,now_uid,base_url){
     this.target=target;
+    this.base_url=base_url;
     this.now_sel_id = 0;
     this.now_sel_type = 0;
     this.now_sel_employee = 0;
     this.paypassword = '';
+    this.task_type = '';
+    this.order_name = '';
+    this.infinite_scroll = null;
     var self = this;
     var task_list_sel = "#"+self.target+" .task_list";
-    
-    
 
     this.pay=function(paypassword){
         //self.paypassword = '';
@@ -782,49 +784,70 @@ function task_list(target,now_uid){
         return self.paypassword;
     };
 
+    this.get_url=function(p){
+        var url = "/task/employee_task/"+this.base_url+"_load";
+        url+="/p/"+p;
+        url+="/task_type/"+this.task_type;
+        url+="/order_name/"+this.order_name;
+        return url;
+    };
+
+    this.init_infinite_scroll=function(){
+        var infinite_scroll_config = {
+            binder:$("#"+self.target),//滚动条所在对象
+            navSelector  : task_list_sel+" ."+self.base_url+"_load .more", //导航的选择器，会被隐藏
+            nextSelector : task_list_sel+" ."+self.base_url+"_load .more a",//包含下一页链接的选择器
+            itemSelector : ".dv1",//你将要取回的选项(内容块)
+            debug        : true, //启用调试信息
+            //默认采用："http://www.infinite-scroll.com/loading.gif"
+            animate      : true, //当有新数据加载进来的时候，页面是否有动画效果，默认没有
+            extraScrollPx: 50, //滚动条距离底部多少像素的时候开始加载，默认150
+            bufferPx     : 40,//载入信息的显示时间，时间越大，载入信息显示时间越短
+            errorCallback: function(){},//当出错的时候，比如404页面的时候执行的函数
+            pathParse: undefined,
+            loading:{
+                img:"/static/images/loading.gif",
+                finishedMsg:"没有更多了",
+                msgText:"加载中..."
+            },
+            state: {
+                currPage: 1
+            },
+            contentSelector:task_list_sel+" ."+self.base_url+"_load", //列表的样式名称或ID名称
+            localMode    : true //是否允许载入具有相同函数的页面，默认为false
+        };
+        self.infinite_scroll = $(task_list_sel+" ."+self.base_url+"_load").infinitescroll(infinite_scroll_config);
+    };
+
+    this.init_infinite_scroll();
+
+    this.unload_infinite_scroll=function(){
+        if(this.infinite_scroll!=null){
+            $("#"+self.target).scrollTop(0);
+            //$(task_list_sel+" ."+self.base_url+"_load").parents(".once").unbind(".infscr");
+            //$(task_list_sel+" ."+self.base_url+"_load").parents(".once").destroy();
+            this.infinite_scroll = null;
+        }
+    };
+
     //最上层的任务分类导航 排序规则
-    var task_type='';
-    var order_name='';
     $(task_list_sel+" .nav li").click(function() {
+        console.log("change_task_type");
+        self.unload_infinite_scroll();
         $(task_list_sel+" .nav li").removeClass("flow");
         $(this).addClass("flow");
-        task_type=$(this).attr('data-id')||'';
-        var method=$(this).parents('header').next('div').children('article').attr('class')||'';
-        var panel=method.replace('_load','');
-        var url="task/employee_task/"+method;
-        var load_url=url+'/p/2/task_type/'+task_type;
-        if(order_name){
-            load_url+='/order_name/'+order_name;
-        }
-        loadPagebypost(url,{'task_type':task_type,'order_name':order_name},panel);
-        // $(infinite_scroll.contentSelector).infinitescroll('destroy');
-        infinite_scroll.binder.unbind('.infscr');
-        infinite_scroll.path=load_url;
-        console.log(infinite_scroll.path);
-        console.log($(infinite_scroll.contentSelector));
-        $(infinite_scroll.contentSelector).infinitescroll(infinite_scroll,function(){
-            console.log('more more~');
-        });
+        self.task_type=$(this).attr('data-id')||'';
+        var url=self.get_url(1);
+        loadPage(url,self.base_url);
+        self.init_infinite_scroll();
     });
     $(task_list_sel+" .classify p").click(function() {
-        order_name=$(this).attr('data-id')||'';
-        var method=$(this).parents("div .sort").parents('header').next('div').children('article').attr('class')||'';
-        var panel=method.replace('_load','');
-        var url="task/employee_task/"+method;
-        var load_url=url+'/p/2/order_name='+order_name;
-        if(task_type){
-            load_url+='/task_type/'+task_type;
-        }
-        loadPagebypost(url,{'order_name':order_name,'task_type':task_type},panel);
-
-        // $(infinite_scroll.contentSelector).infinitescroll('destroy');
-        infinite_scroll.binder.unbind('.infscr');
-        infinite_scroll.path=load_url;
-        console.log(infinite_scroll.path);
-        // console.log(infinite_scroll.path);
-        $(infinite_scroll.contentSelector).infinitescroll(infinite_scroll,function(){
-            console.log('more more~');
-        });
+        console.log("change_order_name");
+        self.unload_infinite_scroll();
+        self.order_name=$(this).attr('data-id')||'';
+        var url=self.get_url(1);
+        loadPage(url,self.base_url);
+        self.init_infinite_scroll();
     });
     //领取红包
     $(task_list_sel+" article").on('click','.picture',function(e){
