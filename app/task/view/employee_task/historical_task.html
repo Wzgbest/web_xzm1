@@ -22,15 +22,18 @@
                     <p data-id="reward_amount">按奖金</p>
                     <p data-id="like_count">按热度</p>
                 </div>
-                <div class="xinjian">
-                    <i class="fa fa-plus fa-2x"></i>
-                    <p>新建任务</p>
-                </div>
+            </div>
+            <div class="xinjian">
+                <i class="fa fa-plus fa-2x"></i>
+                <p>新建任务</p>
             </div>
         </header>
-        <article class="historical_task_load">
-            {include file="employee_task/historical_task_load"/}
-        </article>
+        <div>
+            <article class="historical_task_load" id="historical_task">
+                {include file="employee_task/historical_task_load"/}
+            </article>
+        </div>
+
     </div>
 </div>
 <div class="task_info_panel new_task_panel hide">
