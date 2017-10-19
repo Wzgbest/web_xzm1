@@ -144,13 +144,13 @@ class EmployeeTask extends Initialize{
 
         $map=[];
         $url_args['p']=2;
+        $url_args['order_name']=$order_name;
+        $url_args['task_type']=$task_type;
         if($task_type){
             $map['task_type']=$task_type;//任务类型
-            $url_args['task_type']=$task_type;
         }
         if($order_name){
             $order=$order_name;
-            $url_args['order_name']=$order_name;
         }
         else{
             $order='id';
@@ -227,12 +227,10 @@ class EmployeeTask extends Initialize{
         }
 
         $url_args['p']=2;
-        if($part_type){
-            $url_args['task_type']=$part_type;
-        }
+        $url_args['task_type']=$part_type;
+        $url_args['order_name']=$order_name;
         if($order_name){
             $order=$order_name;
-            $url_args['order_name']=$order_name;
         }
         else{
             $order='id';
