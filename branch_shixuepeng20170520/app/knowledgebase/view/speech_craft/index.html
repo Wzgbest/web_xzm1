@@ -182,8 +182,7 @@ $(".knowledgebase_speechcraft_index .manageNav input[type='checkbox']").click(fu
         status2=!status2;
     }
 });
-
-$(".knowledgebase_speechcraft_index .speech-list").on('click','.delete',function(){
+$(".knowledgebase_speechcraft_index .speech-list li .controler .delete").click(function(){
     var article_id = $(this).attr('data-id');
     var delete_ids = "ids[]="+article_id;
     $.ajax({
@@ -202,6 +201,25 @@ $(".knowledgebase_speechcraft_index .speech-list").on('click','.delete',function
         }
     }); 
 });
+/*$(".knowledgebase_speechcraft_index .speech-list").on('click','.delete',function(){
+    var article_id = $(this).attr('data-id');
+    var delete_ids = "ids[]="+article_id;
+    $.ajax({
+        url: '/knowledgebase/speech_craft/delete',
+        type: 'POST',
+        dataType: 'json',
+        data: delete_ids,
+        success:function(data){
+            layer.msg(data.info,{icon:data.status==1?1:2});
+            if(data.status) {
+                loadPage("/knowledgebase/speech_craft/index", "speech-databasefr");
+            }
+        },
+        error:function(){
+            layer.msg('删除失败!',{icon:2});
+        }
+    }); 
+});*/
 
 $(".knowledgebase_speechcraft_index .batch-delete").click(function(){
     var ids_arr = new Array();
