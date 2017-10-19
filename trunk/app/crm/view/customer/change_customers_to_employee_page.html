@@ -41,4 +41,22 @@ $(".redistribute .structures").change(function(){
 		}	
 	}
 });
+$(".pop_content.redistribute .u-submitButton .pop-submit-btn").click(function(){
+	let v_id = $(".redistribute .employee").val();
+	$.ajax({
+        url: '/crm/customer/change_customers_to_employee',
+        type: 'post',
+        data: v_id,
+        success: function(data) {
+            //console.log(data);
+            layer.msg(data.info,{icon:data.status==1?1:2});
+            if(data.status) {
+                customer_manage_list_manage.reload_list();
+            }
+        },
+        error: function() {
+            layer.msg('重分时发生错误!',{icon:2});
+        }
+    });
+});
 </script>
