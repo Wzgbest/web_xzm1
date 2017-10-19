@@ -1452,7 +1452,7 @@ class Customer extends Base
         return $this->model
             ->table($this->table)
             ->where($map)
-            ->fetchSql(true)
+            //->fetchSql(true)
             ->update($data);
     }
 

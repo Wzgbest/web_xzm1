@@ -877,7 +877,7 @@ class Customer extends Initialize{
         try{
             $customerM = new CustomerModel($this->corp_id);
             $releaseFlg = $customerM->changeCustomersVisibleRange($ids,$is_public,$employees_str,$departments_str);
-            var_exp($releaseFlg,'$releaseFlg',1);
+            //var_exp($releaseFlg,'$releaseFlg',1);
             //TODO add trace
             if(!$releaseFlg){
                 exception('更改客户可见范围时发生错误!');
