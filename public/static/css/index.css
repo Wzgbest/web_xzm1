@@ -479,3 +479,6 @@ section#subt{
     margin-bottom: 12px;
     padding-left: 20px;
 }
+i.fa{
+	cursor: pointer;
+}
