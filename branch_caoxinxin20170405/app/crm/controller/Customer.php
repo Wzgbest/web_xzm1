@@ -164,6 +164,7 @@ class Customer extends Initialize{
             try{
                 $customerM = new CustomerModel($this->corp_id);
                 $customers_data = $customerM->getPublicPoolCustomer($uid,$num,$p,$filter,$field,$order,$direction);
+                //var_exp($customers_data,'$customers_data',1);
                 $this->assign("listdata",$customers_data);
                 $customerM = new CustomerModel($this->corp_id);
                 $customers_count = $customerM->getPublicPoolCustomerCount($uid,$filter,$order,$direction);
