@@ -829,7 +829,8 @@ class Customer extends Initialize{
         }
         try{
             $customerM = new CustomerModel($this->corp_id);
-            $releaseFlg = $customerM->releaseCustomers($ids,$uid);
+            $releaseFlg = $customerM->takeCustomers($ids,$uid);
+            //var_exp($releaseFlg,'$releaseFlg',1);
             //TODO add trace
             if(!$releaseFlg){
                 exception('重分客户时发生错误!');

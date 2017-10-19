@@ -1402,14 +1402,15 @@ class Customer extends Base
      * created by blu10ph
      */
     public function takeCustomers($customer_ids,$uid){
-        $map['handle_man'] = 0;
-        $map['belongs_to'] = ["in",[1,2]];
+        //$map['handle_man'] = 0;
+        //$map['belongs_to'] = ["in",[1,2]];
         $map['id'] = ["in",$customer_ids];
         $data['belongs_to'] = 3;
         $data['handle_man'] = $uid;
         return $this->model
             ->table($this->table)
             ->where($map)
+            //->fetchSql(true)
             ->update($data);
     }
 
