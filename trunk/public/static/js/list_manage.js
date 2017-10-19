@@ -16,6 +16,7 @@ function list_manage(from,target,url,p,num,max,in_column,sub){
     $("."+this.from+" .m-firNav .in_column").click(function(){
         var in_column = $(this).attr("in_column");
         self.columnChange(in_column);
+        changeFramesSize();
     });
     $("."+this.from+this.sub+" .m-filterNav .u-btnSearch").click(function(){
         self.search();
@@ -50,6 +51,7 @@ function list_manage(from,target,url,p,num,max,in_column,sub){
     //列表动作
     this.columnChange=function(in_column){
         this.load_list(1,this.num,in_column);
+        changeFramesSize();
     };
     this.search=function(){
         //console.log($("#"+this.target+" ."+this.from+this.sub+" .search_form"));
@@ -156,6 +158,7 @@ function list_manage(from,target,url,p,num,max,in_column,sub){
     //公共方法
     this.load_list=function(p,num,in_column){
         loadPagebypost(this.get_url(p,num,in_column),this.searchForm,this.target+this.sub);
+        changeFramesSize();
     };
     this.get_url=function(p,num,in_column){
         return this.url+"/p/"+p+"/num/"+num+"/in_column/"+in_column;
