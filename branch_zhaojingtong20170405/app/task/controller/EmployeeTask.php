@@ -140,17 +140,21 @@ class EmployeeTask extends Initialize{
         $p = input("p",1,"int");
         $task_type = input('task_type',0,'int');
         $order_name=input('order_name','','string');
+        var_exp($p);
 
         $map=[];
         if($task_type){
             $map['task_type']=$task_type;//任务类型
+            $con['task_type']=$task_type;
         }
         if($order_name){
             $order=$order_name;
+            $con['order_name']=$order_name;
         }
         else{
             $order='id';
         }
+        $con['p']=2;
         $user_info = get_userinfo();
         $uid = $user_info['userid'];
         $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
@@ -171,6 +175,7 @@ class EmployeeTask extends Initialize{
         $this->assign('uid',$uid);
         $this->assign('p',$p);
         $this->assign('now_time',$this->request->time());
+        $this->assign('con',$con);//搜索条件
 //        var_exp($task_list);
     }
     public function reward_task()
