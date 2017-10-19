@@ -1,16 +1,17 @@
 <header>
 	<h1>重分<i class="fa fa-close fa-2x pop-close-btn"></i></h1>
 </header>
-<div class="pop_content m-form">
+<div class="pop_content m-form redistribute">
 	<div style="padding-left: 40px">
 		<span class="cont">选择部门</span>
 		<select class="structures">
+			<option value="0">选择部门</option>
 			{volist name="structures" id="vo"}
 				<option value="{$vo.id}">{$vo.struct_name}</option>
 			{/volist}
 		</select>
-		<input type="hidden" class="structure_employee" value='{$structure_employee}' />
-		<input type="hidden" class="employee_name" value='{$employee_name}' />
+<!-- 		<input type="hidden" class="structure_employee" value='{$structure_employee}' />
+		<input type="hidden" class="employee_name" value='{$employee_name}' /> -->
 		<span class="cont">选择人员</span>
 		<select class="employee">
 			<option>选择人员</option>
@@ -21,3 +22,23 @@
 		<button class="pop-close-btn">取消</button>
 	</div>
 </div>
+<script type="text/javascript">
+	let val = JSON.parse('{$structure_employee}');
+	let nal = JSON.parse('{$employee_name}');
+	console.log(typeof val,val[1],nal);
+$(".redistribute .structures").change(function(){
+	//清空
+	$(".redistribute .employee").empty();
+	//获取改变后的值--部门
+	let v_s = $(this).val();
+	console.log(v_s);
+	//部门对应的员工
+	let arr = val[v_s];
+	console.log(arr);
+	for(var i=0;i<arr.length;i++){
+		if(nal[arr[i]]){
+			$(".redistribute .employee").append('<option val='+arr[i]+'>'+nal[arr[i]]+'</option>');
+		}	
+	}
+});
+</script>
