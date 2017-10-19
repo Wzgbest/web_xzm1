@@ -92,7 +92,22 @@ $(".right-content-container dl.selected-staff").on("click","dd .fa-times-circle-
 });
 //完成
 $(".right-content button.true").click(function(){
-	$("input.select-window-choosen-staff").val("已选择"+result.dep.length+"个部门"+result.stf.length+"个人员").attr("data-val",JSON.stringify(result));
+	var data_val = '';
+
+	var header = "departments[]=";
+	var delimiter = "&";
+	var dep_arr = result.dep;
+	data_val += header+dep_arr.join(delimiter+header);
+	console.log(data_val);
+
+
+	header = "employees[]=";
+	delimiter = "&";
+	var stf_arr = result.stf;
+	data_val += delimiter+header+stf_arr.join(delimiter+header);
+	console.log(data_val);
+
+	$("input.select-window-choosen-staff").val("已选择"+result.dep.length+"个部门"+result.stf.length+"个人员").attr("data-val",data_val);
 	$(".select-window-container").remove();
 });
 //取消

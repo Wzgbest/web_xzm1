@@ -37,16 +37,20 @@ $(".redistribute .structures").change(function(){
 	console.log(arr);
 	for(var i=0;i<arr.length;i++){
 		if(nal[arr[i]]){
-			$(".redistribute .employee").append('<option val='+arr[i]+'>'+nal[arr[i]]+'</option>');
+			$(".redistribute .employee").append('<option value='+arr[i]+'>'+nal[arr[i]]+'</option>');
 		}	
 	}
 });
 $(".pop_content.redistribute .u-submitButton .pop-submit-btn").click(function(){
+	var ids = customer_manage_list_manage.getAllSelectVal();
+	if(ids==""){
+		return;
+	}
 	let v_id = $(".redistribute .employee").val();
 	$.ajax({
         url: '/crm/customer/change_customers_to_employee',
         type: 'post',
-        data: v_id,
+        data: ids+"&uid="+v_id,
         success: function(data) {
             //console.log(data);
             layer.msg(data.info,{icon:data.status==1?1:2});
