@@ -39,24 +39,28 @@
 }
 </style>
 <script type="text/javascript">
-$("input[name='isallsee']").click(function(){
-	console.log($(this).val());
+$("input[name='isallsee']").change(function(){
+	console.log($("input[name='isallsee']:checked").val());
+
 	if($(this).val()==2){
 		$(".select-window-in").addClass("on");
+		// $("input[name='isallsee']").val(2);
 	}else if ($(this).val()==1) {
 		$(".select-window-in").removeClass("on");
+		// $("input[name='isallsee']").val(1);
 	}
 });
 $(".pop_content").on("click",".select-window-in.on",function() {
 	$(".main-content.select-window").load("/index/index/select_window.html");
 });
 $(".pop_content.change-visible-range .pop-submit-btn").click(function(){
+	console.log($("input[name='isallsee']:checked").val());
 	var ids = customer_manage_list_manage.getAllSelectVal();
 	if(ids==""){
 		return;
 	}
 	var data = ids;
-	var isallsee = $("input[name='isallsee']").val();
+	var isallsee = $("input[name='isallsee']:checked").val();
 	console.log("isallsee",isallsee);
 	data+="&is_public="+(isallsee==1?"1":"0");
 	if(isallsee==2){
