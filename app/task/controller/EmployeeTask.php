@@ -221,7 +221,6 @@ class EmployeeTask extends Initialize{
                 break;
             case 3:
                 //我发起的
-                unset($map['status']);
                 $map_str = " create_employee=".$uid;
                 break;
         }
@@ -239,9 +238,7 @@ class EmployeeTask extends Initialize{
         $field="et.*,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token,re.total_money,case when tg.guess_employee>0 then 1 else 0 end as is_guess,case when ett.take_employee>0 then 1 else 0 end as is_take";
         $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field,$order,$direction="desc",$map,$map_str);
         $con['task_end_time']=$map['task_end_time'];
-        if($part_type!=3){
-            $con['status']=$map['status'];
-        }
+        $con['status']=$map['status'];
         $map_str1 = " find_in_set($uid,take_employees) ";
         $count1=$employeeTaskModel->getHistoricalTaskCount($uid,'*',$con,$map_str1);
         $map_str1 = " find_in_set($uid,tip_employees) or find_in_set($uid,guess_employees) ";
