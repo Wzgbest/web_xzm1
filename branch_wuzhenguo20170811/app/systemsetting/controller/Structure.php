@@ -408,7 +408,7 @@ class Structure extends Initialize
                 $employeeM->link->commit();
                 $info = [
                     'status' =>true,
-                    'message' =>'员工移动到默认部门，部门已删除'
+                    'message' =>'部门已删除'
                 ];
             } else {
                 $employeeM->link->rollback();
