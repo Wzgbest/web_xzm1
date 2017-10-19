@@ -51,24 +51,33 @@ $(".pop_content").on("click",".select-window-in.on",function() {
 	$(".main-content.select-window").load("/index/index/select_window.html");
 });
 $(".pop_content.change-visible-range .pop-submit-btn").click(function(){
-	if($("input[name='isallsee']").val()==2){
+	var ids = customer_manage_list_manage.getAllSelectVal();
+	if(ids==""){
+		return;
+	}
+	var data = ids;
+	var isallsee = $("input[name='isallsee']").val();
+	console.log("isallsee",isallsee);
+	data+="&is_public="+(isallsee==1?"1":"0");
+	if(isallsee==2){
 		let v_id = $("input.select-window-choosen-staff").attr("data-val");
 		console.log(v_id);
-		$.ajax({
-	        url: '/crm/customer/change_customers_visible_range',
-	        type: 'post',
-	        data: v_id,
-	        success: function(data) {
-	            //console.log(data);
-	            layer.msg(data.info,{icon:data.status==1?1:2});
-	            if(data.status) {
-	                customer_manage_list_manage.reload_list();
-	            }
-	        },
-	        error: function() {
-	            layer.msg('更改可见范围时发生错误!',{icon:2});
-	        }
-	    });
-	}	
+		data+="&"+v_id;
+	}
+	$.ajax({
+		url: '/crm/customer/change_customers_visible_range',
+		type: 'post',
+		data: data,
+		success: function(data) {
+			//console.log(data);
+			layer.msg(data.info,{icon:data.status==1?1:2});
+			if(data.status) {
+				customer_manage_list_manage.reload_list();
+			}
+		},
+		error: function() {
+			layer.msg('更改可见范围时发生错误!',{icon:2});
+		}
+	});
 });
 </script>

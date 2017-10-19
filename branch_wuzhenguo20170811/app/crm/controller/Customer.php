@@ -829,7 +829,8 @@ class Customer extends Initialize{
         }
         try{
             $customerM = new CustomerModel($this->corp_id);
-            $releaseFlg = $customerM->releaseCustomers($ids,$uid);
+            $releaseFlg = $customerM->takeCustomers($ids,$uid);
+            //var_exp($releaseFlg,'$releaseFlg',1);
             //TODO add trace
             if(!$releaseFlg){
                 exception('重分客户时发生错误!');
@@ -858,13 +859,14 @@ class Customer extends Initialize{
         //TODO 权限验证?
         $result = ['status'=>0 ,'info'=>"更改客户可见范围失败！"];
         $ids = input('ids/a');
-        if(!empty($ids)){
+        //var_exp($ids,'$ids',1);
+        if(empty($ids)){
             $result['info'] = "参数错误！";
             return json($result);
         }
         $is_public = input('is_public');
-        $employees = input('employees/a');
-        $departments = input('departments/a');
+        $employees = input('employees/a',[]);
+        $departments = input('departments/a',[]);
         if(!$is_public && !($employees || $departments)){
             $result['info'] = "参数错误,不是全员可见必须选择部门或员工！";
             return json($result);
@@ -875,6 +877,7 @@ class Customer extends Initialize{
         try{
             $customerM = new CustomerModel($this->corp_id);
             $releaseFlg = $customerM->changeCustomersVisibleRange($ids,$is_public,$employees_str,$departments_str);
+            var_exp($releaseFlg,'$releaseFlg',1);
             //TODO add trace
             if(!$releaseFlg){
                 exception('更改客户可见范围时发生错误!');
