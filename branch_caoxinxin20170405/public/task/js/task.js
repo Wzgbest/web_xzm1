@@ -788,18 +788,43 @@ function task_list(target,now_uid){
     $(task_list_sel+" .nav li").click(function() {
         $(task_list_sel+" .nav li").removeClass("flow");
         $(this).addClass("flow");
-        task_type=$(this).attr('data-id');
-        var method=$(this).parents('div').attr('class')||'';
+        task_type=$(this).attr('data-id')||'';
+        var method=$(this).parents('header').next('div').children('article').attr('class')||'';
         var panel=method.replace('_load','');
-        var url="/task/employee_task/"+method;
+        var url="task/employee_task/"+method;
+        var load_url=url+'/p/2/task_type/'+task_type;
+        if(order_name){
+            load_url+='/order_name/'+order_name;
+        }
         loadPagebypost(url,{'task_type':task_type,'order_name':order_name},panel);
+        // $(infinite_scroll.contentSelector).infinitescroll('destroy');
+        infinite_scroll.binder.unbind('.infscr');
+        infinite_scroll.path=load_url;
+        console.log(infinite_scroll.path);
+        console.log($(infinite_scroll.contentSelector));
+        $(infinite_scroll.contentSelector).infinitescroll(infinite_scroll,function(){
+            console.log('more more~');
+        });
     });
     $(task_list_sel+" .classify p").click(function() {
-        order_name=$(this).attr('data-id');
-        var method=$(this).parents("div .sort").parents('div').attr('class');
+        order_name=$(this).attr('data-id')||'';
+        var method=$(this).parents("div .sort").parents('header').next('div').children('article').attr('class')||'';
         var panel=method.replace('_load','');
-        var url="/task/employee_task/"+method;
+        var url="task/employee_task/"+method;
+        var load_url=url+'/p/2/order_name='+order_name;
+        if(task_type){
+            load_url+='/task_type/'+task_type;
+        }
         loadPagebypost(url,{'order_name':order_name,'task_type':task_type},panel);
+
+        // $(infinite_scroll.contentSelector).infinitescroll('destroy');
+        infinite_scroll.binder.unbind('.infscr');
+        infinite_scroll.path=load_url;
+        console.log(infinite_scroll.path);
+        // console.log(infinite_scroll.path);
+        $(infinite_scroll.contentSelector).infinitescroll(infinite_scroll,function(){
+            console.log('more more~');
+        });
     });
     //领取红包
     $(task_list_sel+" article").on('click','.picture',function(e){

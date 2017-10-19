@@ -89,7 +89,7 @@
             }
 
             if (binding == 'unbind') {
-
+                console.log('smartscroll.infscr.' + instance.options.infid);
                 (this.options.binder).unbind('smartscroll.infscr.' + instance.options.infid);
 
             } else {
@@ -116,7 +116,8 @@
             var opts = this.options = $.extend(true, {}, $.infinitescroll.defaults, options),
             // get the relative URL - everything past the domain name.
             relurl = /(.*?\/\/).*?(\/.*)/,
-            path = $(opts.nextSelector).attr('href');
+            path = opts.path||$(opts.nextSelector).attr('href');
+            console.log('path:'+path);
 
             // contentSelector is 'page fragment' option for .load() / .ajax() calls
             opts.contentSelector = opts.contentSelector || this.element;
@@ -177,13 +178,15 @@
         _debug: function infscr_debug() {
 
             if (this.options && this.options.debug) {
-                return window.console && console.log.call(console, arguments);
+                return window.console
+                // return window.console && console.log.call(console, arguments);
             }
 
         },
 
         // find the number to increment in the path.
         _determinepath: function infscr_determinepath(path) {
+            console.log('_determinepath:'+path);
 
             var opts = this.options;
 
@@ -500,8 +503,9 @@
 
                 // if we're dealing with a table we can't use DIVs
                 box = $(opts.contentSelector).is('table') ? $('<tbody/>') : $('<div/>');
-
+console.log('path:'+path);
                 desturl = path.join(opts.state.currPage);
+                console.log('desturl:'+desturl);
 
                 method = (opts.dataType == 'html' || opts.dataType == 'json') ? opts.dataType : 'html+callback';
                 if (opts.appendCallback && opts.dataType == 'html') method += '+callback'
