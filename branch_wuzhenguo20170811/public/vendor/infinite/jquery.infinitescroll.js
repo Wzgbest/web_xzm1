@@ -503,7 +503,7 @@
 
                 // if we're dealing with a table we can't use DIVs
                 box = $(opts.contentSelector).is('table') ? $('<tbody/>') : $('<div/>');
-//console.log('path:'+path);
+console.log('path:',path);
                 desturl = path.join(opts.state.currPage);
                 //console.log('desturl:'+desturl);
 
@@ -589,9 +589,13 @@
         unbind: function infscr_unbind() {
             this._binding('unbind');
         },
-		
+
         // update options
         update: function infscr_options(key) {
+            console.log("infinite_scroll_update");
+            if("path" in key){
+                key.path = this._determinepath(key.path);
+            }
             if ($.isPlainObject(key)) {
                 this.options = $.extend(true,this.options,key);
             }

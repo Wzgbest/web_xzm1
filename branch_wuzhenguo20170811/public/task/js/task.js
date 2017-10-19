@@ -816,38 +816,33 @@ function task_list(target,now_uid,base_url){
             contentSelector:task_list_sel+" ."+self.base_url+"_load", //列表的样式名称或ID名称
             localMode    : true //是否允许载入具有相同函数的页面，默认为false
         };
-        self.infinite_scroll = $(task_list_sel+" ."+self.base_url+"_load").infinitescroll(infinite_scroll_config);
+        this.infinite_scroll = $(task_list_sel+" ."+self.base_url+"_load").infinitescroll(infinite_scroll_config);
+    };
+
+    this.update_infinite_scroll=function(path,num){
+        console.log("update_infinite_scroll");
+        $("#"+self.target).scrollTop(0);
+        $(task_list_sel+" ."+self.base_url+"_load").infinitescroll("update",{path:path,state:{currPage:num}});
     };
 
     this.init_infinite_scroll();
 
-    this.unload_infinite_scroll=function(){
-        if(this.infinite_scroll!=null){
-            $("#"+self.target).scrollTop(0);
-            //$(task_list_sel+" ."+self.base_url+"_load").parents(".once").unbind(".infscr");
-            //$(task_list_sel+" ."+self.base_url+"_load").parents(".once").destroy();
-            this.infinite_scroll = null;
-        }
-    };
-
     //最上层的任务分类导航 排序规则
     $(task_list_sel+" .nav li").click(function() {
         console.log("change_task_type");
-        self.unload_infinite_scroll();
         $(task_list_sel+" .nav li").removeClass("flow");
         $(this).addClass("flow");
         self.task_type=$(this).attr('data-id')||'';
         var url=self.get_url(1);
+        self.update_infinite_scroll(url,1);
         loadPage(url,self.base_url);
-        self.init_infinite_scroll();
     });
     $(task_list_sel+" .classify p").click(function() {
         console.log("change_order_name");
-        self.unload_infinite_scroll();
         self.order_name=$(this).attr('data-id')||'';
         var url=self.get_url(1);
+        self.update_infinite_scroll(url,1);
         loadPage(url,self.base_url);
-        self.init_infinite_scroll();
     });
     //领取红包
     $(task_list_sel+" article").on('click','.picture',function(e){
