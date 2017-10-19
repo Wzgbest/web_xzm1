@@ -345,6 +345,7 @@
         },
 
         _nearbottom: function infscr_nearbottom() {
+            console.log("_nearbottom");
 
             var opts = this.options,
             pixelsFromWindowBottomToBottom = 0 + $(this.element).height() - (opts.binder.scrollTop()) - $(window).height();
@@ -572,6 +573,7 @@ console.log('path:',path);
                 return;
             }
 
+            console.log("state",state);
             if (state.isDuringAjax || state.isInvalidPage || state.isDone || state.isDestroyed || state.isPaused) return;
 
             if (!this._nearbottom()) return;
