@@ -795,8 +795,8 @@ function task_list(target,now_uid,base_url){
     this.init_infinite_scroll=function(){
         var infinite_scroll_config = {
             binder:$("#"+self.target),//滚动条所在对象
-            navSelector  : task_list_sel+" ."+self.base_url+"_load .more", //导航的选择器，会被隐藏
-            nextSelector : task_list_sel+" ."+self.base_url+"_load .more a",//包含下一页链接的选择器
+            navSelector  : "."+self.base_url+"_load .more", //导航的选择器，会被隐藏
+            nextSelector : "."+self.base_url+"_load .more a",//包含下一页链接的选择器
             itemSelector : ".dv1",//你将要取回的选项(内容块)
             debug        : true, //启用调试信息
             //默认采用："http://www.infinite-scroll.com/loading.gif"
@@ -822,7 +822,9 @@ function task_list(target,now_uid,base_url){
     this.update_infinite_scroll=function(path,num){
         console.log("update_infinite_scroll");
         $("#"+self.target).scrollTop(0);
-        $(task_list_sel+" ."+self.base_url+"_load").infinitescroll("update",{path:path,state:{currPage:num}});
+        $(task_list_sel+" ."+self.base_url+"_load").infinitescroll("update",{path:path,state:{isDone:false,isDuringAjax:false,currPage:num}});
+
+        $(task_list_sel+" ."+self.base_url+"_load").infinitescroll("bind");
     };
 
     this.init_infinite_scroll();
