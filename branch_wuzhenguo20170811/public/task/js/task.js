@@ -834,14 +834,14 @@ function task_list(target,now_uid,base_url){
         $(this).addClass("flow");
         self.task_type=$(this).attr('data-id')||'';
         var url=self.get_url(1);
-        self.update_infinite_scroll(url,1);
+        self.update_infinite_scroll(self.get_url(2),1);
         loadPage(url,self.base_url);
     });
     $(task_list_sel+" .classify p").click(function() {
         console.log("change_order_name");
         self.order_name=$(this).attr('data-id')||'';
         var url=self.get_url(1);
-        self.update_infinite_scroll(url,1);
+        self.update_infinite_scroll(self.get_url(2),1);
         loadPage(url,self.base_url);
     });
     //领取红包
