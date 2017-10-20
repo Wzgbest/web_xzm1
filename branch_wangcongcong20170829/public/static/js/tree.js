@@ -160,6 +160,17 @@ function tree(config) {
             }
         }
     };
+    this.get_name_by_id=function(id,data){
+        //console.log("get_name_by_id");
+        for(var idx in data["child"]){
+            if(data["child"][idx]["id"]==id){
+                //console.log('data["child"][idx]',data["child"][idx]);
+                return data["child"][idx]["struct_name"];
+            }else{
+                return this.get_name_by_id(id,data["child"][idx]);
+            }
+        }
+    };
 
     //load and listen
     this.listen=function(name,fun){
@@ -238,7 +249,8 @@ function tree(config) {
         if(self.listen_arr.addFun!=null){
             var id = self.getId(this);
             //console.log("add",id);
-            self.listen_arr.addFun(id);
+            var name = self.get_name_by_id(id,self.data[0]);
+            self.listen_arr.addFun(id,name);
         }
     });
     $(this.target).on('click','.node .info',function(){
