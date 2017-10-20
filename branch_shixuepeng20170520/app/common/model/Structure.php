@@ -48,6 +48,9 @@ class Structure extends Base
      */
     public function getStructureName($struct_ids)
     {
+        if(empty($struct_ids)){
+            return [];
+        }
         return $this->model->table($this->table)->where('id',"in",$struct_ids)->column("struct_name","id");
     }
 

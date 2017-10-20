@@ -33,6 +33,7 @@ class Contract extends Initialize{
             "end_num"=>"",
             "current_contract"=>"",
             "max_apply"=>"",
+            "bank_type"=>'',
             "bank_type_arr"=>[],
             "apply_1"=>"",
             "apply_2"=>"",
