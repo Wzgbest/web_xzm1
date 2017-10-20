@@ -23,6 +23,9 @@ class EmployeeTask{
     }
     public function getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$task_id,$standard=0,$num=20,$page=1){
         $result = [];
+        if(empty($uids)){
+            return $result;
+        }
         switch ($target_type){
             case 1:
                 $callRecordM = new CallRecord($this->corp_id);
