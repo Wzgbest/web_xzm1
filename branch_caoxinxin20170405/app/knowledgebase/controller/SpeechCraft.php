@@ -340,9 +340,9 @@ class SpeechCraft extends Initialize{
      */
     public function changeClass(){
         $result = ['status'=>0,'info'=>"修改失败"];
-        $article_id = input('article_id',0,'int');
+        $article_id = input('article_id/a');
         $class_id = input('class_id',0,'int');
-        if (!$article_id || !$class_id) {
+        if (empty($article_id) || !$class_id) {
             $result['info'] = "参数错误";
             return json($result);
         }

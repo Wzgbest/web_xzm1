@@ -20,12 +20,14 @@
 	$(".pop_content.m-form.change_class_form .pop-submit-btn").click(function(){
 		let article_id = $(".delete-change-set-container .change_class_form").attr("data-id");
 		let class_id= $(".delete-change-set-container .article_class").val();
+		var data = new Array();
+		data[0] = article_id;
 		console.log(class_id);
 	    $.ajax({
 	        url: '/knowledgebase/speech_craft/changeClass',
 	        type: 'POST',
 	        dataType: 'json',
-	        data:{'article_id':article_id,'class_id':class_id},
+	        data:{'article_id':data,'class_id':class_id},
 	        success:function(data){
 	            layer.msg(data.info,{icon:data.status==1?1:2});
 	            if(data.status) {
