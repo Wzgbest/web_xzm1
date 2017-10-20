@@ -135,7 +135,7 @@
             opts.path = this._determinepath(path);
 
             // Define loading.msg
-            opts.loading.msg = $('<div id="infscr-loading"><img alt="Loading..." src="' + opts.loading.img + '" /><div>' + opts.loading.msgText + '</div></div>');
+            this._resetloadingmsg();
 
             // Preload loading.img
             (new Image()).src = opts.loading.img;
@@ -415,7 +415,13 @@
             this._binding('bind');
 			
             return false;
-			
+
+        },
+
+        // Show done message
+        _resetloadingmsg: function infscr_resetloadingmsg() {
+            var opts = this.options;
+            opts.loading.msg = $('<div id="infscr-loading"><img alt="Loading..." src="' + opts.loading.img + '" /><div>' + opts.loading.msgText + '</div></div>');
         },
 
         // Show done message
@@ -597,6 +603,7 @@ console.log('path:',path);
             console.log("infinite_scroll_update");
             if("path" in key){
                 key.path = this._determinepath(key.path);
+                this._resetloadingmsg();
             }
             if ($.isPlainObject(key)) {
                 this.options = $.extend(true,this.options,key);
