@@ -196,6 +196,26 @@ class Index extends Initialize{
 
         //var_exp($rankingdata,'$rankingdata',1);
 
+        if(is_array($rankingdata)){
+            $in_employee_idx = array_column($rankingdata,"employee_id");
+            $not_in_employee_idx = [];
+            foreach ($uids as $uid_item){
+                if(!in_array($uid_item,$in_employee_idx)){
+                    $not_in_employee_idx[] = $uid_item;
+                }
+            }
+            if(!empty($not_in_employee_idx)) {
+                $employeeM = new Employee($this->corp_id);
+                $employee_info = $employeeM->getEmployeeNameAndTelephoneByUserids($not_in_employee_idx);
+                foreach ($not_in_employee_idx as $uid_item) {
+                    $result_item = [];
+                    if (isset($employee_info[$uid_item])) {
+                        $result_item = ["employee_id" => $uid_item, "telephone" => $employee_info[$uid_item]["telephone"], "truename" => $employee_info[$uid_item]["truename"], "is_standard" => 0, "num" => 0, "standard_time" => 0];
+                    }
+                    $rankingdata[] = $result_item;
+                }
+            }
+        }
         if($task_type==2){
             $guessdata = $this->_getEmployeeGuessMoneyList($id,$uids);
             foreach ($rankingdata as &$ranking_item){
@@ -267,9 +287,9 @@ class Index extends Initialize{
         $result = 'var cityData=';
         $result_arr = [];
         $structureModel = new Structure($this->corp_id);
-        $employM = new Employee($this->corp_id);
+        $employeeM = new Employee($this->corp_id);
         $structure = $structureModel->getAllStructure();
-        $friendsInfo = $employM->getAllUsers();
+        $friendsInfo = $employeeM->getAllUsers();
 //        var_exp($structure,'$structure');
 //        var_exp($friendsInfo,'$friendsInfo');
         $structure_idx = [];
@@ -337,14 +357,14 @@ class Index extends Initialize{
         $taskRewardM = new TaskRewardModel($this->corp_id);
         $taskTakeM = new TaskTakeModel($this->corp_id);
         $taskCommentModel = new TaskCommentModel($this->corp_id);
-        $employM = new Employee($this->corp_id);
+        $employeeM = new Employee($this->corp_id);
 
         $taskInfo = $employeeTaskM->getTaskMoreInfo($uid,$id);
         if(empty($taskInfo)){
             $result['info'] = "未找到任务！";
             return json($result);
         }
-        $taskInfo["public_to_take_name"] = $employM->getEmployeeNameByUserids($taskInfo["public_to_take"]);
+        $taskInfo["public_to_take_name"] = $employeeM->getEmployeeNameByUserids($taskInfo["public_to_take"]);
 
         $taskTarget = $taskTargetM->findTaskTargetByTaskId($id);
         $taskInfo["target_type"] = $taskTarget["target_type"];
@@ -442,6 +462,27 @@ class Index extends Initialize{
 
         //var_exp($rankingdata,'$rankingdata',1);
 
+
+        if(is_array($rankingdata)){
+            $in_employee_idx = array_column($rankingdata,"employee_id");
+            $not_in_employee_idx = [];
+            foreach ($uids as $uid_item){
+                if(!in_array($uid_item,$in_employee_idx)){
+                    $not_in_employee_idx[] = $uid_item;
+                }
+            }
+            if(!empty($not_in_employee_idx)) {
+                $employeeM = new Employee($this->corp_id);
+                $employee_info = $employeeM->getEmployeeNameAndTelephoneByUserids($not_in_employee_idx);
+                foreach ($not_in_employee_idx as $uid_item) {
+                    $result_item = [];
+                    if (isset($employee_info[$uid_item])) {
+                        $result_item = ["employee_id" => $uid_item, "telephone" => $employee_info[$uid_item]["telephone"], "truename" => $employee_info[$uid_item]["truename"], "is_standard" => 0, "num" => 0, "standard_time" => 0];
+                    }
+                    $rankingdata[] = $result_item;
+                }
+            }
+        }
         if($task_type=2){
             $guessdata = $this->_getEmployeeGuessMoneyList($id,$uids);
             foreach ($rankingdata as &$ranking_item){
@@ -755,7 +796,7 @@ class Index extends Initialize{
         $employeeTaskM = new EmployeeTaskModel($this->corp_id);
         $taskTargetM = new TaskTargetModel($this->corp_id);
         $taskRewardM = new TaskRewardModel($this->corp_id);
-        $employM = new Employee($this->corp_id);
+        $employeeM = new Employee($this->corp_id);
         $cashM = new TakeCash($this->corp_id);
 
         try {
@@ -796,7 +837,7 @@ class Index extends Initialize{
                 $employee_data['corp_left_money'] = ['exp',"corp_left_money - $save_money"];
                 $employee_data['corp_frozen_money'] = ['exp',"corp_frozen_money + $save_money"];
                 $employee_map["corp_left_money"] = ["egt",$save_money];
-                $tip_from_user = $employM->setEmployeeSingleInfo($userinfo["telephone"],$employee_data,$employee_map);
+                $tip_from_user = $employeeM->setEmployeeSingleInfo($userinfo["telephone"],$employee_data,$employee_map);
                 if (!$tip_from_user) {
                     exception("更新企业余额发生错误!");
                 }
@@ -804,7 +845,7 @@ class Index extends Initialize{
                 $employee_data['left_money'] = ['exp',"left_money - $save_money"];
                 $employee_data['frozen_money'] = ['exp',"frozen_money + $save_money"];
                 $employee_map["left_money"] = ["egt",$save_money];
-                $tip_from_user = $employM->setEmployeeSingleInfo($userinfo["telephone"],$employee_data,$employee_map);
+                $tip_from_user = $employeeM->setEmployeeSingleInfo($userinfo["telephone"],$employee_data,$employee_map);
                 if (!$tip_from_user) {
                     exception("更新账户余额发生错误!");
                 }
@@ -851,7 +892,7 @@ class Index extends Initialize{
         }
 
         $telphone = $userinfo["telephone"];
-        $userinfo = $employM->getEmployeeByTel($telphone);
+        $userinfo = $employeeM->getEmployeeByTel($telphone);
         set_userinfo($this->corp_id,$telphone,$userinfo);
         
         $result['status'] = 1;
@@ -958,7 +999,7 @@ class Index extends Initialize{
             "take_time"=>$time
         ];
 
-        $employM = new Employee($this->corp_id);
+        $employeeM = new Employee($this->corp_id);
         try{
             $employeeTaskM->link->startTrans();
             $takeFlg = $taskTakeM->addTaskTake($taskTakeInfo);
@@ -973,7 +1014,7 @@ class Index extends Initialize{
                 }
                 
                 $cashM = new TakeCash($this->corp_id);
-                $tip_from_user = $employM->setEmployeeSingleInfo($userinfo["telephone"], ['left_money' => ['exp', "left_money - $save_money"]], ["left_money" => ["egt", $save_money]]);
+                $tip_from_user = $employeeM->setEmployeeSingleInfo($userinfo["telephone"], ['left_money' => ['exp', "left_money - $save_money"]], ["left_money" => ["egt", $save_money]]);
                 if (!$tip_from_user) {
                     exception("更新参与任务更新余额发生错误!");
                 }
@@ -998,7 +1039,7 @@ class Index extends Initialize{
 
         if($task_type==2) {
             $telphone = $userinfo["telephone"];
-            $userinfo = $employM->getEmployeeByTel($telphone);
+            $userinfo = $employeeM->getEmployeeByTel($telphone);
             set_userinfo($this->corp_id, $telphone, $userinfo);
         }
 
