@@ -57,6 +57,9 @@ class Role extends Base
      */
     public function getRoleName($role_ids)
     {
+        if(empty($role_ids)){
+            return [];
+        }
         return $this->model->table($this->table)->where('id',"in",$role_ids)->column("role_name","id");
     }
 
