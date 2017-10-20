@@ -686,7 +686,7 @@ function new_task_form(load_table){
                     callback:function(paypassword) {
                         var pay_type = $("#"+self.load_table+" .new_task_info_panel .pay_ui input[type='radio']:checked").val();
                         self.paypassword = paypassword;
-                        self.add_task(paypassword,pay_type);
+                        //self.add_task(paypassword,pay_type);
                     }
                 });
                 $("#"+self.load_table+" .new_task_info_panel .pay_ui").reveal("{data-animation:'fade'}");

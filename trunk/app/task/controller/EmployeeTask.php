@@ -160,7 +160,7 @@ class EmployeeTask extends Initialize{
         $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
         $field="et.*,case when etl.user_id>0 then 1 else 0 end as is_like,re.redid,re.is_token,re.total_money,case when tg.guess_employee>0 then 1 else 0 end as is_guess,case when ett.take_employee>0 then 1 else 0 end as is_take";
         $task_list = $employeeTaskModel->getEmployeeTaskList($uid,$num,$p,$field,$order,$direction="desc",$map,'');
-//        var_exp($task_list);
+        //var_exp($task_list,'$task_list',1);
         $countField=["
         count(1) as `0`,
         sum((case when task_type = 1 then 1 else 0 end)) as `1`,
@@ -169,7 +169,12 @@ class EmployeeTask extends Initialize{
         sum((case when task_type =4 then 1 else 0 end)) as `4`
         "];//统计个数的field
         $task_count=$employeeTaskModel->getEmployeeTaskCount($uid,$countField,[]);
-        //var_exp($task_list,'$task_list',1);
+        for($i=1;$i<5;$i++){
+            if(!$task_count[$i]){
+                $task_count[$i] = 0;
+            }
+        }
+        //var_exp($task_count,'$task_count',1);
         $this->assign('task_list',$task_list);
         $this->assign('task_count',$task_count);
         $this->assign('uid',$uid);
