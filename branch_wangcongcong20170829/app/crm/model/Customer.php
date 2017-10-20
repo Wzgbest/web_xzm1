@@ -278,7 +278,7 @@ class Customer extends Base
             ->join($this->dbprefix.'employee ae','c.add_man = ae.id',"LEFT")
             ->join($this->dbprefix.'customer_contact cc','cc.customer_id = c.id',"LEFT")
             ->where($map)
-            //->where($map_str)
+            ->where($map_str)
             ->order($subOrder)
             ->field($subField)
             ->buildSql();
@@ -289,6 +289,7 @@ class Customer extends Base
             ->order($listOrder)
             ->limit($offset,$num)
             ->field($listField)
+            //->fetchSql(true)
             ->select();
         //var_exp($customerList,'$customerList',1);
         return $customerList;
