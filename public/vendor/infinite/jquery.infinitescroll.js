@@ -600,7 +600,7 @@ console.log('path:',path);
 
         // update options
         update: function infscr_options(key) {
-            console.log("infinite_scroll_update");
+            console.log("infinite_scroll_update:infinite_scroll_update");
             if("path" in key){
                 key.path = this._determinepath(key.path);
                 this._resetloadingmsg();
