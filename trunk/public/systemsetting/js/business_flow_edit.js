@@ -196,11 +196,11 @@ $('.systemsetting_business_flow_edit .business_flow_item_selected').on('click','
 
 $('.systemsetting_business_flow_edit .business_flow_item_selected').on('click','.item .item_name',function(){
     var id = $(this).attr("index");
-    //console.log(id);
+    console.log(id);
     if(!id>0){
         return;
     }
-    //load_role_panel
+    console.log("load_role_panel");
     business_flow_now_role_item_id = id;
     var html = business_flow_role_list_get_html();
     business_flow_role_list_update_html(html);
@@ -305,6 +305,7 @@ function business_flow_role_list_get_html(){
     for(var i=0;i<arr.length;i++){
         if(arr[i]['item_id'] == business_flow_now_role_item_id){
             var role_item = arr[i];
+            console.log("role_item",role_item);
             if(!role_item['have_verification']>0){
                 break;
             }
