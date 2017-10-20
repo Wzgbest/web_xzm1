@@ -1,6 +1,6 @@
 {eq name="task_type" value="1"}
     {volist name="rankingdata" id="vo" key="key"}
-        <ul class="{eq name='self_idx' value='$key-1'}backdrop{/eq}">
+        <ul class="{egt name='self_idx' value='0'}{eq name='self_idx' value='$key-1'}backdrop{/eq}{/egt}">
             <li>{$key}</li>
             <li>{$vo["truename"]}</li>
             <li>销售一部</li>
@@ -21,7 +21,7 @@
 {/eq}
 {eq name="task_type" value="2"}
     {volist name="rankingdata" id="vo" key="key"}
-        <ul class="{eq name='self_idx' value='$key-1'}backdrop{/eq}">
+        <ul class="{egt name='self_idx' value='0'}{eq name='self_idx' value='$key-1'}backdrop{/eq}{/egt}">
             <li>{$key}</li>
             <li>{$vo["truename"]}</li>
             <li>销售一部</li>
@@ -32,7 +32,7 @@
 {/eq}
 {eq name="task_type" value="3"}
     {volist name="rankingdata" id="vo" key="key"}
-        <ul class="{eq name='self_idx' value='$key-1'}backdrop{/eq}">
+        <ul class="{egt name='self_idx' value='0'}{eq name='self_idx' value='$key-1'}backdrop{/eq}{/egt}">
 	        <li>{$key}</li>
 	        <li>{$vo["truename"]}</li>
 	        <li>销售一部</li>
