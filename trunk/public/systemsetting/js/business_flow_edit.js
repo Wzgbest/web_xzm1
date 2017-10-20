@@ -196,11 +196,11 @@ $('.systemsetting_business_flow_edit .business_flow_item_selected').on('click','
 
 $('.systemsetting_business_flow_edit .business_flow_item_selected').on('click','.item .item_name',function(){
     var id = $(this).attr("index");
-    console.log(id);
+    //console.log(id);
     if(!id>0){
         return;
     }
-    console.log("load_role_panel");
+    //console.log("load_role_panel");
     business_flow_now_role_item_id = id;
     var html = business_flow_role_list_get_html();
     business_flow_role_list_update_html(html);
@@ -305,13 +305,13 @@ function business_flow_role_list_get_html(){
     for(var i=0;i<arr.length;i++){
         if(arr[i]['item_id'] == business_flow_now_role_item_id){
             var role_item = arr[i];
-            console.log("role_item",role_item);
-            console.log("parseInt(role_item['have_verification'])",parseInt(role_item['have_verification']));
+            //console.log("role_item",role_item);
+            //console.log("parseInt(role_item['have_verification'])",parseInt(role_item['have_verification']));
             if(!parseInt(role_item['have_verification'])>0){
-                console.log("break");
+                //console.log("break");
                 break;
             }
-            console.log("not break");
+            //console.log("not break");
             all_html += '<div class="dv1 role_list"><p>'+
                 '<img src="/systemsetting/images/line_purple.jpg" class="img1">'+
                 '<span class="sp1">'+role_item['item_name']+'</span></p></div>'+
@@ -359,7 +359,7 @@ $(".systemsetting_business_flow_edit .content").on("change",".handle_role .handl
 });
 $(".systemsetting_business_flow_edit .content").on("click",".handle_role .del",function(){
     var index = get_business_flow_item_handle_index(this);
-    console.log(index);
+    //console.log(index);
     del_business_flow_item_handle(index);
     var html = business_flow_role_list_get_html();
     business_flow_role_list_update_html(html);
@@ -383,7 +383,7 @@ $('.systemsetting_business_flow_edit .xuanze').on('click', "input", function() {
 
 function systemsetting_business_flow_update_sel_num(){
     var allLength=$('.systemsetting_business_flow_edit .xuanzhong ul li').length;
-    console.log(allLength);
+    //console.log(allLength);
     $(".systemsetting_business_flow_edit .xuanzhong p span").html(allLength);
 }
 	
