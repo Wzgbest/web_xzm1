@@ -1,25 +1,141 @@
 <!--<link rel="stylesheet" href="/static/css/hsCheckData.css" />-->
-<link rel="stylesheet" href="/systemsetting/css/hsCheckData.css" />
+<!--<link rel="stylesheet" href="/systemsetting/css/hsCheckData.css" />-->
+<link rel="stylesheet" href="/systemsetting/css/select.css" />
 <form class="employee_import_from" onsubmit="return false;" method="post" enctype="multipart/form-data">
-    <p class="p1">批量转移</p>
-    <p>
-        <div>
-            <span>移至</span>
-            <div id="employee_list_transfer" style="width:200px;overflow: hidden;">
-            </div>
-        </div>
-    </p>
-    <p class="p5">
-        <input type="submit" class="structure_move_ok" value="确定" />
-        <button class="structure_move_cancel">取消</button>
-    </p>
-    <a class="close-reveal-modal">&#215;</a>
+	<p class="p1">批量转移</p>
+	<p>
+		<div>
+			<div>
+				<span class="span1">移至</span>
+				<!--<div id="employee_list_transfer" style="width:200px;overflow: hidden;">
+				</div>-->
+				<div class="content">
+					<img src="/systemsetting/img/tra_dowm.png" class="nc" />
+				</div>
+			</div>
+			<div class="select_box">
+				<div class="big_box">
+					<input type="text" placeholder="请输入查找的关键字" class="ipt1" />
+					<img src="/systemsetting/img/search.png" class="search" />
+				</div>
+				<ul>
+					<li class="bumen">
+						<img src="/systemsetting/img/tra_right.png" class="drop" />
+						<label>销售部</label>
+						<input type="checkbox" class="selectAll" index="28" />
+						<ol class="yincang">
+							<li>
+								<img src="/systemsetting/img/tra_right.png" class="drop" />
+								<label>销售一部</label>
+								<input type="checkbox" class="sid" index="29" />
+								<div class="sanceng yincang">
+									<label for="">部门一</label><input type="checkbox" class="geren" index="0" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="1" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="2" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="3" />
+								</div>
+							</li>
+							<li>
+								<img src="/systemsetting/img/tra_right.png" class="drop" />
+								<label>销售二部</label>
+								<input type="checkbox" class="sid" index="30" />
+								<div class="sanceng yincang">
+									<label for="">部门一</label><input type="checkbox" class="geren" index="4" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="5" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="6" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="7" />
+								</div>
+							</li>
+							<li>
+								<img src="/systemsetting/img/tra_right.png" class="drop" />
+								<label>销售三部</label>
+								<input type="checkbox" class="sid" index="31" />
+								<div class="sanceng yincang">
+									<label for="">部门一</label><input type="checkbox" class="geren" index="8" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="9" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="10" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="11" />
+								</div>
+							</li>
+
+						</ol>
+					</li>
+					<li class="bumen">
+						<img src="/systemsetting/img/tra_right.png" class="drop" />
+						<label>研发部</label>
+						<input type="checkbox" class="selectAll" index="32" />
+						<ol class="yincang">
+							<li>
+								<img src="/systemsetting/img/tra_right.png" class="drop" />
+								<label>研发一部</label>
+								<input type="checkbox" class="sid" index="33" />
+								<div class="sanceng yincang">
+									<label for="">部门一</label><input type="checkbox" class="geren" index="12" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="13" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="14" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="15" />
+								</div>
+							</li>
+							<li>
+								<img src="/systemsetting/img/tra_right.png" class="drop" />
+								<label>研发二部</label>
+								<input type="checkbox" class="sid" index="34" />
+								<div class="sanceng yincang">
+									<label for="">部门一</label><input type="checkbox" class="geren" index="16" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="17" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="18" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="19" />
+								</div>
+							</li>
+							<li>
+								<img src="/systemsetting/img/tra_right.png" class="drop" />
+								<label>研发三部</label>
+								<input type="checkbox" class="sid" index="35" />
+								<div class="sanceng yincang">
+									<label for="">部门一</label><input type="checkbox" class="geren" index="20" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="21" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="22" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="23" />
+								</div>
+							</li>
+							<li>
+								<img src="/systemsetting/img/tra_right.png" class="drop" />
+								<label>研发四部</label>
+								<input type="checkbox" class="sid" index="36" />
+								<div class="sanceng yincang">
+									<label for="">部门一</label><input type="checkbox" class="geren" index="24" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="25" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="26" /><br />
+									<label for="">部门一</label><input type="checkbox" class="geren" index="27" />
+								</div>
+							</li>
+						</ol>
+					</li>
+
+				</ul>
+			</div>
+
+			<div class="selected">
+				<p>已选择的部门(<span class="renshu">0</span>个)</p>
+				<ul>
+
+				</ul>
+				<p class="wancheng">完成</p>
+			</div>
+		</div>
+	</p>
+	<p class="p5">
+		<input type="submit" class="structure_move_ok" value="确定" />
+		<button class="structure_move_cancel">取消</button>
+	</p>
+	<a class="close-reveal-modal">&#215;</a>
 </form>
 <script src="/systemsetting/structure/employee_list_transfer_structure"></script>
-<script src="/systemsetting/js/hsCheckData.js"></script>
-<script>
+<script type="text/javascript" src="/systemsetting/js/select.js" ></script>
+<!--<script src="/systemsetting/js/hsCheckData.js"></script>-->
+<!--<script>
     $('#employee_list_transfer').hsCheckData({
         isShowCheckBox: true,
         data: cityData
     });
-</script>
+</script>-->
