@@ -61,6 +61,9 @@ class Employee extends Base{
      */
     public function getEmployeeByUserids($user_ids)
     {
+        if(empty($user_ids)){
+            return [];
+        }
         return $this->model->table($this->table)
             ->where('id','in',$user_ids)
             ->select();
@@ -80,6 +83,22 @@ class Employee extends Base{
         return $this->model->table($this->table)
             ->where('id','in',$user_ids)
             ->column("truename","id");
+    }
+
+    /**
+     * 按员工ids查询员工姓名和电话
+     * @param $user_ids
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
+     */
+    public function getEmployeeNameAndTelephoneByUserids($user_ids)
+    {
+        if(empty($user_ids)){
+            return [];
+        }
+        return $this->model->table($this->table)
+            ->where('id','in',$user_ids)
+            ->column("truename,telephone","id");
     }
 
     /**
