@@ -317,8 +317,8 @@ class EmployeeImport extends Initialize{
                 //$huanxin_array = ['username'=>$item['telephone'],'password'=>'123456','nickname'=>$item['username']];
                 //$huanxin_json = json_encode($huanxin_array);
                 $huanxin = new HuanxinApi();
-                $reg_info = $huanxin->regUser($this->corp_id,$item['telephone'],$this->default_password,$item['username']);
-                //$reg_info['status'] = 1;//TODO 测试 先关了
+                $reg_info = $huanxin->regUser($this->corp_id,$this->corp_id."_".$add_flg,$this->default_password,$item['username']);
+                //$reg_info['status'] = 1;
                 if (!$reg_info['status']) {
                     exception('注册环信时发生错误!');
                 }
