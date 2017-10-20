@@ -307,8 +307,10 @@ function business_flow_role_list_get_html(){
             var role_item = arr[i];
             console.log("role_item",role_item);
             if(!role_item['have_verification']>0){
+                console.log("break");
                 break;
             }
+            console.log("not break");
             all_html += '<div class="dv1 role_list"><p>'+
                 '<img src="/systemsetting/images/line_purple.jpg" class="img1">'+
                 '<span class="sp1">'+role_item['item_name']+'</span></p></div>'+
