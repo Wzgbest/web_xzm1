@@ -33,7 +33,7 @@ class SpeechCraft extends Base{
      * @param arr $data 话术信息
      */
     public function editArticleInfo($id,$data){
-        return $this->model->table($this->table)->where(['id'=>$id])->update($data);
+        return $this->model->table($this->table)->where('id','in',$id)->update($data);
     }
 
     /**
