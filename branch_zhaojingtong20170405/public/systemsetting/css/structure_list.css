@@ -454,9 +454,9 @@
     line-height: 25px;
     margin-left: 10px;
     text-align: center;
-    color: white;
+    color: #cccccc;
     border: none;
-    background-color: #42a5f5;
+    background-color: #e6e6e6;
 }
 .structure_list .addEmployeeModal .add_employee_select_info {
     height: 30px;
@@ -640,3 +640,15 @@
     left: 300px;
 }
 
+.structure_list .content .dv2 .m-filterNav .u-btnTransfer.active{
+    width: 100px;
+    height: 25px;
+    border-radius: 12.5px;
+    line-height: 25px;
+    margin-left: 10px;
+    text-align: center;
+    color: #fff;
+    border: none;
+    background-color: #42A5F5;
+    
+}
