@@ -306,7 +306,8 @@ function business_flow_role_list_get_html(){
         if(arr[i]['item_id'] == business_flow_now_role_item_id){
             var role_item = arr[i];
             console.log("role_item",role_item);
-            if(!role_item['have_verification']>0){
+            console.log("parseInt(role_item['have_verification'])",parseInt(role_item['have_verification']));
+            if(!parseInt(role_item['have_verification'])>0){
                 console.log("break");
                 break;
             }
