@@ -192,8 +192,9 @@ class Index extends Initialize{
         */
 
         $employeeTaskService = new EmployeeTaskService($this->corp_id);
-        $rankingdata = $employeeTaskService->getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$standard,$num,$page);
+        $rankingdata = $employeeTaskService->getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$id,$standard,$num,$page);
 
+        //var_exp($uids,'$uids');
         //var_exp($rankingdata,'$rankingdata',1);
 
         if(is_array($rankingdata)){
@@ -458,7 +459,7 @@ class Index extends Initialize{
         */
 
         $employeeTaskService = new EmployeeTaskService($this->corp_id);
-        $rankingdata = $employeeTaskService->getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$standard,$num,$page);
+        $rankingdata = $employeeTaskService->getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$id,$standard,$num,$page);
 
         //var_exp($rankingdata,'$rankingdata',1);
 
