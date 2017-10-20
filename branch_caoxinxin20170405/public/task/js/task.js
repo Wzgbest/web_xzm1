@@ -788,7 +788,7 @@ function task_list(target,now_uid,base_url){
         url+="/order_name/"+this.order_name;
         return url;
     };
-
+    //下拉显示更多
     this.init_infinite_scroll=function(){
         var infinite_scroll_config = {
             binder:$("#"+self.target),//滚动条所在对象
@@ -808,7 +808,8 @@ function task_list(target,now_uid,base_url){
                 msgText:"加载中..."
             },
             state: {
-                currPage: 1
+                currPage: 1,
+                isPaused: true
             },
             contentSelector:task_list_sel+" ."+self.base_url+"_load", //列表的样式名称或ID名称
             localMode    : true //是否允许载入具有相同函数的页面，默认为false
@@ -842,7 +843,14 @@ function task_list(target,now_uid,base_url){
         $("#"+self.target).scrollTop(0);
     };
 
+    var dv1_count=$(task_list_sel+" ."+self.base_url+"_load").children('.dv1').length;
+    console.log('dv1_count:'+dv1_count);
     this.init_infinite_scroll();
+    if(dv1_count>=10){
+        this.resume_infinite_scroll();
+    }
+
+
 
     //最上层的任务分类导航 排序规则
     $(task_list_sel+" .nav li").click(function() {
@@ -851,8 +859,16 @@ function task_list(target,now_uid,base_url){
         $(this).addClass("flow");
         self.task_type=$(this).attr('data-id')||'';
         var url=self.get_url(1);
-        self.update_infinite_scroll(self.get_url(2),1);
+
+        self.pause_infinite_scroll();
         loadPage(url,self.base_url);
+        var dv1_count=$(task_list_sel+" ."+self.base_url+"_load").children('.dv1').length;
+        console.log('change_task_type:'+dv1_count);
+        self.update_infinite_scroll(self.get_url(2),1);
+        if(dv1_count>=10){
+            self.resume_infinite_scroll();
+        }
+
     });
 
     //排序
@@ -864,8 +880,16 @@ function task_list(target,now_uid,base_url){
         console.log("change_order_name");
         self.order_name=$(this).attr('data-id')||'';
         var url=self.get_url(1);
-        self.update_infinite_scroll(self.get_url(2),1);
+
+        self.pause_infinite_scroll();
         loadPage(url,self.base_url);
+        var dv1_count=$(task_list_sel+" ."+self.base_url+"_load").children('.dv1').length;
+        console.log('change_order_name:'+dv1_count);
+        self.update_infinite_scroll(self.get_url(2),1);
+        if(dv1_count>=10){
+            self.resume_infinite_scroll();
+        }
+
     });
     //领取红包
     $(task_list_sel+" article").on('click','.picture',function(e){
