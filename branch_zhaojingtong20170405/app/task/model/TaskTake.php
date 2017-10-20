@@ -121,6 +121,7 @@ class TaskTake extends Base{
             ->where($map)
             //->limit($offset,$num)
             ->field("e.id as employee_id,e.telephone,e.truename,t.whether_help,t.id as take_id")
+            //->fetchSql(true)
             ->select();
         return $rankingList;
     }
