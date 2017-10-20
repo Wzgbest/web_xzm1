@@ -149,11 +149,13 @@ function show_node_add(id){
     $(node_sub_panel).append(item_html);
 }
 
-structure_tree.listen("addFun",function(id){
+structure_tree.listen("addFun",function(id,name){
 	console.log("addFun_id",id);
     var struct_file_panel_temp = struct_file_panel;
     if(id){
-        $(struct_file_panel).children('.mange').children('input').val('');
+        $(struct_file_panel+' .pd_panel').removeClass("hide");
+        $(struct_file_panel+' .pd_name').text(name);
+        $(struct_file_panel+' .mange input').val('');
         $(struct_file_panel_temp).reveal("{data-animation:'fade'}");
               
     }
@@ -179,6 +181,7 @@ $(".structure_list .content .fold .title .fa-plus").click(function(){
    
     struct_add_item_pid = 1;
     structure_tree_del_struct_id = 1;
+    $(struct_file_panel+' .pd_panel').addClass("hide");
     $(struct_file_panel_temp).reveal("{data-animation:'fade'}");
     
 });
@@ -263,7 +266,7 @@ structure_tree.listen("editFun",function(id){
 });
 $('.structure_edit').on('click',".p5 input",function(){
     var edit_struct_name = $(this).parent(".p5").siblings(".mange").children('input').val();
-    console.log(edit_struct_name);
+    //console.log(edit_struct_name);
     if(!edit_struct_name){
         return;
     }
@@ -274,8 +277,8 @@ $('.structure_edit').on('click',".p5 input",function(){
     }else{
         add_group_value = 0;
     }
-    console.log(struct_id);
-    console.log(add_group_value);
+    //console.log(struct_id);
+    //console.log(add_group_value);
     $.ajax({
         url: '/systemsetting/structure/renameStructure',
         type: 'post',
@@ -306,8 +309,8 @@ $(struct_item_list_panel).on('click',".node_item .edit_item_remove",function(){
 
 var structure_tree_del_struct_id = 0;
 structure_tree.listen("delFun",function(id){
-    console.log("hldelFun",id);
-    console.log(id);
+    //console.log("hldelFun",id);
+    //console.log(id);
     // class="big-link" data-reveal-id="structure_del" data-animation="fade"
     var struct_del_panel_temp = struct_del_panel;
     if(id){
@@ -393,8 +396,8 @@ var struct_list_employee_move_employee_id = 0;
 function struct_list_employee_move(struct_id,employee_id){
     struct_list_employee_move_struct_id = struct_id;
     struct_list_employee_move_employee_id = employee_id;
-    console.log(struct_list_employee_move_struct_id);
-    console.log(struct_list_employee_move_employee_id);
+    //console.log(struct_list_employee_move_struct_id);
+    //console.log(struct_list_employee_move_employee_id);
     var url = "/systemsetting/structure/move_employee_page/";
     $.ajax({
         url:url,
@@ -466,8 +469,8 @@ structure_tree.listen("resetFun",function(){
 });
 
 structure_tree.listen("reloadFun",function(){
-    console.log("reloadFun");
-    console.log($(".structure_list .structure_tree .node_name"));
+    //console.log("reloadFun");
+    //console.log($(".structure_list .structure_tree .node_name"));
     $(".structure_list .structure_tree .node_name").mouseenter(function(){
         $(this).parent(".node_item").append("<div class='floating_window'></div>");
         $('.floating_window').html($(this).text());
