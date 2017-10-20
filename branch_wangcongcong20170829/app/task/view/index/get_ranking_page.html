@@ -1,9 +1,10 @@
 {eq name="task_type" value="1"}
+{notempty name="rankingdata"}
     {volist name="rankingdata" id="vo" key="key"}
         <ul class="{egt name='self_idx' value='0'}{eq name='self_idx' value='$key-1'}backdrop{/eq}{/egt}">
             <li>{$key}</li>
             <li>{$vo["truename"]}</li>
-            <li>销售一部</li>
+            <li style="white-space:nowrap;overflow:hidden; ">{$vo["struct_name"]}</li>
             <li><span>{$vo["num"]}</span>次</li>
             <li>
                 {if condition="is_array($vo['red_info'])"}
@@ -18,24 +19,28 @@
             </li>
         </ul>
     {/volist}
+{/notempty}
 {/eq}
 {eq name="task_type" value="2"}
+{notempty name="rankingdata"}
     {volist name="rankingdata" id="vo" key="key"}
         <ul class="{egt name='self_idx' value='0'}{eq name='self_idx' value='$key-1'}backdrop{/eq}{/egt}">
             <li>{$key}</li>
             <li>{$vo["truename"]}</li>
-            <li>销售一部</li>
+            <li style="white-space:nowrap;overflow:hidden; ">{$vo["struct_name"]}</li>
             <li><span>{$vo["num"]}</span>次</li>
             <li><span>{$vo["guess_num"]}</span>人支持<span>{$vo["guess_money"]}</span>元</li>
         </ul>
     {/volist}
+{/notempty}
 {/eq}
 {eq name="task_type" value="3"}
+{notempty name="rankingdata"}
     {volist name="rankingdata" id="vo" key="key"}
         <ul class="{egt name='self_idx' value='0'}{eq name='self_idx' value='$key-1'}backdrop{/eq}{/egt}">
 	        <li>{$key}</li>
 	        <li>{$vo["truename"]}</li>
-	        <li>销售一部</li>
+            <li style="white-space:nowrap;overflow:hidden; ">{$vo["struct_name"]}</li>
 	        <li>
 	            {if condition="is_array($vo['red_info'])"}
 	            {eq name="$vo['untook']" value="1"}
@@ -58,5 +63,6 @@
 	        {/if}
 	    </ul>
     {/volist}
+{/notempty}
 {/eq}
 <input type="hidden" class="self_idx" value="{$self_idx}" />
