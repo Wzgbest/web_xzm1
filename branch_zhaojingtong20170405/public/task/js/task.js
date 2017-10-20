@@ -735,7 +735,6 @@ function task_list(target,now_uid,base_url){
                 layer.msg(data.info,{icon:data.status==1?1:2});
                 if(data.status==1){
                     $(task_list_sel+" .pay_ui").trigger('reveal:close');
-                    //TODO 成功打赏
                     $('.task_'+self.now_sel_id+" .tip").html('继续打赏');
                 }
             });
@@ -745,7 +744,6 @@ function task_list(target,now_uid,base_url){
                 layer.msg(data.info,{icon:data.status==1?1:2});
                 if(data.status==1){
                     $(task_list_sel+" .pay_ui").trigger('reveal:close');
-                    //TODO 成功加入任务
                     //不能猜输赢了
                     $('.task_'+self.now_sel_id+" .get_reward").parent().append("<p class='p1'>正在参与任务</p>");
                     $('.task_'+self.now_sel_id+" .get_reward").hide();
@@ -771,7 +769,6 @@ function task_list(target,now_uid,base_url){
                 layer.msg(data.info,{icon:data.status==1?1:2});
                 if(data.status==1){
                     $(task_list_sel+" .pay_ui").trigger('reveal:close');
-                    //TODO 提交猜输赢成功
                     //不能领取任务了
                     $('.task_'+self.now_sel_id+" .guess").parent().append("<p class='p1'>正在参与猜输赢</p>");
                     $('.task_'+self.now_sel_id+" .guess").hide();
@@ -821,10 +818,28 @@ function task_list(target,now_uid,base_url){
 
     this.update_infinite_scroll=function(path,num){
         console.log("update_infinite_scroll");
-        $("#"+self.target).scrollTop(0);
-        $(task_list_sel+" ."+self.base_url+"_load").infinitescroll("update",{path:path,state:{isDone:false,isDuringAjax:false,currPage:num}});
-
+        this.reset_scroll();
+        $(task_list_sel+" ."+self.base_url+"_load").infinitescroll("update",{
+            path:path,
+            state:{
+                isDone:false,
+                isDuringAjax:false,
+                currPage:num
+            }
+        });
         $(task_list_sel+" ."+self.base_url+"_load").infinitescroll("bind");
+    };
+
+    this.pause_infinite_scroll=function(){
+        $(task_list_sel+" ."+self.base_url+"_load").infinitescroll("pause");
+    };
+
+    this.resume_infinite_scroll=function(){
+        $(task_list_sel+" ."+self.base_url+"_load").infinitescroll("resume");
+    };
+
+    this.reset_scroll=function(){
+        $("#"+self.target).scrollTop(0);
     };
 
     this.init_infinite_scroll();
@@ -838,6 +853,12 @@ function task_list(target,now_uid,base_url){
         var url=self.get_url(1);
         self.update_infinite_scroll(self.get_url(2),1);
         loadPage(url,self.base_url);
+    });
+
+    //排序
+    $(task_list_sel+" header .sort .classify p").click(function(){
+        $(this).css("background-color","#e1ebf9");
+        $(this).siblings().css("background-color","#fff");
     });
     $(task_list_sel+" .classify p").click(function() {
         console.log("change_order_name");
@@ -888,9 +909,11 @@ function task_list(target,now_uid,base_url){
             url: '/task/index/show/id/'+id+'/fr/'+self.target,
             type: 'get',
             success: function(data) {
+                self.pause_infinite_scroll();
                 $("#"+self.target+" .task_direct_panel .task_direct_info_panel").html(data);
                 $("#"+self.target+" .task_direct_panel header div ul li.current div").text(nowflag);
                 $("#"+self.target+" .task_list").addClass("hide");
+                self.reset_scroll();
                 $("#"+self.target+" .task_direct_panel").removeClass("hide");
             },
             error: function() {
@@ -906,10 +929,12 @@ function task_list(target,now_uid,base_url){
             type: 'get',
             success: function(data) {
                 //console.log(data);
-                console.log($("#"+self.target+" .new_task_panel"));
-                console.log($("#"+self.target+" .new_task_panel .new_task_info_panel"));
+                self.pause_infinite_scroll();
+                //console.log($("#"+self.target+" .new_task_panel"));
+                //console.log($("#"+self.target+" .new_task_panel .new_task_info_panel"));
                 $("#"+self.target+" .new_task_panel .new_task_info_panel").html(data);
                 $("#"+self.target+" .task_list").addClass("hide");
+                self.reset_scroll();
                 $("#"+self.target+" .new_task_panel").removeClass("hide");
             },
             error: function() {
@@ -920,7 +945,9 @@ function task_list(target,now_uid,base_url){
 
     $("#"+self.target+" .task_info_panel .top .current").click(function(){
         $("#"+self.target+" .task_info_panel").addClass("hide");
+        self.reset_scroll();
         $("#"+self.target+" .task_list").removeClass("hide");
+        self.resume_infinite_scroll();
     });
     $(task_list_sel+" article").on("click",".right .get_reward",function(e){
         e.stopPropagation();
@@ -959,7 +986,6 @@ function task_list(target,now_uid,base_url){
                 //console.log(data);
                 layer.msg(data.info,{icon:data.status==1?1:2});
                 if(data.status==1){
-                    //TODO 成功加入任务
                     that.parent().append("<p class='p1'>正在参与任务</p>");
                     that.hide();
 
@@ -1166,14 +1192,6 @@ function task_list(target,now_uid,base_url){
             }
         });
     });
-    
-    //排序
-$(task_list_sel+" header .sort .classify p").click(function(){
-	
-	$(this).css("background-color","#e1ebf9");
-	$(this).siblings().css("background-color","#fff");
-
-})
 
 }
 
