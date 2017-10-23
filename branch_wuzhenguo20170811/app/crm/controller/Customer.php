@@ -1063,11 +1063,19 @@ class Customer extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $validate_result = $this->validate($customer,'Customer');
+        //验证字段
+        if(true !== $validate_result){
+            $result["info"] = $validate_result;
+            return $result;
+        }
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
         $customerM = new CustomerModel($this->corp_id);
-        $haveTel = $customerM->getCustomerByTel(['telephone'=>$customer['telephone']]);
-        if (!empty($haveTel)) {
-            return ['status'=>0 ,'info'=>"和其他客户手机号重复,请重新输入!"];
+        $haveName = $customerM->getCustomerByName($customer['customer_name']);
+        //var_exp($haveName,'$haveName',1);
+        if (!empty($haveName)) {
+            $result['info']="该名称的客户已存在!";
+            return json($result);
         }
         try{
             $customerM->link->startTrans();
@@ -1154,9 +1162,23 @@ class Customer extends Initialize{
         }
 
         $customer = $this->_getCustomerForInput(0);
+        $validate_result = $this->validate($customer,'Customer');
+        //验证字段
+        if(true !== $validate_result){
+            $result["info"] = $validate_result;
+            return $result;
+        }
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
         $customerM = new CustomerModel($this->corp_id);
         $customerOldData = $customerM->getCustomer($id);
+        if($customerOldData["customer_name"]!=$customer['customer_name']){
+            $haveName = $customerM->getCustomerByName($customer['customer_name'],$id);
+            //var_exp($haveName,'$haveName',1);
+            if (!empty($haveName)) {
+                $result['info']="该名称的客户已存在!";
+                return json($result);
+            }
+        }
         $customer["comm_status"] = input('comm_status',0,'int');
 
         //var_exp($customerOldData,'$customerOldData');

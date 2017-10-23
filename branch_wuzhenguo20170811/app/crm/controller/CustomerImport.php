@@ -187,12 +187,22 @@ class CustomerImport extends Initialize{
         //var_exp($business_index,'$business_index',1);
 
         //校验数据
+        $customerM = new CustomerModel($this->corp_id);
+        $customerIdAndName = $customerM->getAllCustomerIdAndName();
+        //var_exp($customerIdAndName,'$customerIdAndName');
+        $customerName = array_values($customerIdAndName);
+        //var_exp($customerName,'$customerName',1);
+
         $success_num = 0;
         $fail_array = [];
         $customerImport->link->startTrans();
         foreach ($res ['data'] as $item) {
             $item['batch'] = $batch;
             try {
+                if(in_array($item['customer_name'],$customerName)){
+                    exception("客户名称已存在");
+                }
+                $customerName[] = $item['customer_name'];
                 $customer = $customer_default;
                 $location = explode(",",$item['location']);
                 $customer['customer_name'] = $item['customer_name'];
@@ -214,7 +224,6 @@ class CustomerImport extends Initialize{
                     exception($validate_result);
                 }
                 $customerImport->link->startTrans();
-                $customerM = new CustomerModel($this->corp_id);
                 $add_flg = $customerM->addCustomer($customer);
                 if(!$add_flg){
                     exception('添加客户失败!');

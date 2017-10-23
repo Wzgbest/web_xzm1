@@ -57,8 +57,8 @@
             <div>
                 <span class="cont u-area">详细定位</span>
                 <!--<input type="text" name="location" placeholder="请点击地图进行坐标定位"/>-->
-                <input type="hidden" name="lng" value="{$saleChancesVisitData.lng}"/>
-                <input type="hidden" name="lat" value="{$saleChancesVisitData.lat}"/>
+                <input type="hidden" name="lng" class="lng" value="{$saleChancesVisitData.lng}"/>
+                <input type="hidden" name="lat" class="lat" value="{$saleChancesVisitData.lat}"/>
                 <iframe id="mapFrame" name="mapFrame" data-lng="{$saleChancesVisitData.lng}" data-lat="{$saleChancesVisitData.lat}" data-edit="true" src="/index/index/map.html"></iframe>
             </div>
             <div>

@@ -82,9 +82,9 @@
 				<p class="p1">参与人数已满</p>
 				{/if}
 				{if condition="!in_array($uid,explode(',',$task_info['take_employees'])) && $task_info['is_guess'] == 0"}
-				<p class="p2 guess" task_id="{$task_info.id}">猜输赢</p>
+				<p class="p2 guess" task_id="{$task_info.id}">猜冠军</p>
 				{elseif condition="$task_info['is_guess'] == 1" /}
-				<p class="p1">正在参与猜输赢</p>
+				<p class="p1">正在参与猜冠军</p>
 				{/if}
 
 				{/if}
@@ -126,11 +126,11 @@
 						<li>姓名</li>
 						<li>部门</li>
 						<li>{$task_info.target_type|get_target_type_name}</li>
-						<li>猜输赢支持</li>
+						<li>猜冠军支持</li>
 					</ul>
 					<div class="box">
 					</div>
-					<!--<p class="addition"><span class="red">已参与猜输赢</span>：你的任务已有<span class="orange">5</span>人支持，不要辜负他们的期望哦！</p>-->
+					<!--<p class="addition"><span class="red">已参与猜冠军</span>：你的任务已有<span class="orange">5</span>人支持，不要辜负他们的期望哦！</p>-->
 				</div>
 			</div>
 			<div class="right">
