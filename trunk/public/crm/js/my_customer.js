@@ -1,4 +1,7 @@
 $("#frames #myclietsfr .crm_my_customer .my_customer .u-tabList .u-tabOperation .release_customers").click(function(){
+	if(confirm("你确定要释放该客户吗?")!=true){
+		return;
+	}
 	var id = $(this).parent().siblings().children(":checkbox").val();
 	//console.log("id",id);
 	$.ajax({
@@ -121,6 +124,9 @@ $(my_customer_nav_base+" .send_customer_group_message").click(function(){
 });
 my_customer_list_manage.listenSelect("release_customers");
 $(my_customer_nav_base+" .release_customers").click(function(){
+	if(confirm("你确定要释放选中的客户吗?")!=true){
+		return;
+	}
 	var ids = my_customer_list_manage.getAllSelectVal();
 	if(ids==""){
 		return;
