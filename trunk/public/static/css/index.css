@@ -469,7 +469,7 @@ section#subt{
 	z-index: 99;
 }
 /*//地图*/
-#mapFrame{
+.mapFrame{
 	display: inline-block;
     width: 675px;
     height: 400px;
