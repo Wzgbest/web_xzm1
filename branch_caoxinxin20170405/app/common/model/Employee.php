@@ -96,9 +96,14 @@ class Employee extends Base{
         if(empty($user_ids)){
             return [];
         }
-        return $this->model->table($this->table)
-            ->where('id','in',$user_ids)
-            ->column("truename,telephone","id");
+        return $this->model->table($this->table)->alias('a')
+            ->join($this->dbprefix.'structure_employee se','a.id = se.user_id')
+            ->join($this->dbprefix.'structure s','se.struct_id = s.id')
+            ->where('a.id','in',$user_ids)
+            ->group('a.id')
+            ->column("a.truename,a.telephone,group_concat(
+		DISTINCT s.struct_name SEPARATOR ','
+	) AS struct_name","a.id");
     }
 
     /**

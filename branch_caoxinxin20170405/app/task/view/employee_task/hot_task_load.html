@@ -196,9 +196,9 @@
 
                         {/if}
                         {if condition="!in_array($uid,explode(',',$vo['take_employees'])) && $vo['is_guess'] == 0"}
-                            <p class="p2 guess" task_id="{$vo.id}">猜输赢</p>
+                            <p class="p2 guess" task_id="{$vo.id}">猜冠军</p>
                         {elseif condition="$vo['is_guess'] == 1" /}
-                            <p class="p1">正在参与猜输赢</p>
+                            <p class="p1">正在参与猜冠军</p>
                         {/if}
 
                     {/if}
