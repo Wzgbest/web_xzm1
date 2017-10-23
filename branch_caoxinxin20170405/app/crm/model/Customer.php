@@ -1566,6 +1566,22 @@ class Customer extends Base
     public function addCustomer($data){
         return $customer_id = $this->model->table($this->table)->insertGetId($data);
     }
+    public function getCustomerByTel($map){
+        return $this->model->table($this->table)->where($map)->select();
+    }
+
+    public function getCustomerByName($name,$id=0){
+        $query = $this->model->table($this->table)
+            ->where("customer_name",$name);
+
+        if($id>0) {
+            $query->where("id","neq",$id);
+        }
+
+        return $query
+            //->fetchSql(true)
+            ->find();
+    }
 
     public function getCustomerByTelOrName($tel,$name,$id=0){
         $query = $this->model->table($this->table)

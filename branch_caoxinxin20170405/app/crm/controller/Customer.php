@@ -1065,17 +1065,10 @@ class Customer extends Initialize{
         }
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
         $customerM = new CustomerModel($this->corp_id);
-        $haveTel = $customerM->getCustomerByTelOrName($customer['telephone'],$customer['customer_name']);
-        //var_exp($haveTel,'$haveTel',1);
-        if (!empty($haveTel)) {
-            if($haveTel["telephone"]==$customer['telephone']){
-                $result['info']="和其他客户手机号重复,请重新输入!";
-            }else
-                if($haveTel["customer_name"]==$customer['customer_name']){
-                $result['info']="该名称的客户已存在!";
-            }else{
-                $result['info']="客户已存在!";
-            }
+        $haveName = $customerM->getCustomerByName($customer['customer_name']);
+        //var_exp($haveName,'$haveName',1);
+        if (!empty($haveName)) {
+            $result['info']="该名称的客户已存在!";
             return json($result);
         }
         try{
@@ -1166,17 +1159,11 @@ class Customer extends Initialize{
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
         $customerM = new CustomerModel($this->corp_id);
         $customerOldData = $customerM->getCustomer($id);
-        if($customerOldData["telephone"]!=$customer['telephone'] || $customerOldData["customer_name"]!=$customer['customer_name']){
-            $haveTel = $customerM->getCustomerByTelOrName($customer['telephone'],$customer['customer_name'],$id);
-            //var_exp($haveTel,'$haveTel',1);
-            if (!empty($haveTel)) {
-                if($haveTel["telephone"]==$customer['telephone']){
-                    $result['info']="和其他客户手机号重复,请重新输入!";
-                }elseif($haveTel["customer_name"]==$customer['customer_name']){
-                    $result['info']="该名称的客户已存在!";
-                }else{
-                    $result['info']="客户已存在!";
-                }
+        if($customerOldData["customer_name"]!=$customer['customer_name']){
+            $haveName = $customerM->getCustomerByName($customer['customer_name'],$id);
+            //var_exp($haveName,'$haveName',1);
+            if (!empty($haveName)) {
+                $result['info']="该名称的客户已存在!";
                 return json($result);
             }
         }
