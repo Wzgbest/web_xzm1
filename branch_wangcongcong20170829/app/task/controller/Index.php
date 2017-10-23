@@ -285,11 +285,18 @@ class Index extends Initialize{
                 $rankingdata[$ranking_index-1]["untook"] = 0;
             }
         }
+        if($this->request->time()>$taskInfo['task_end_time']){
+            $task_end_flag=1;//任务已经结束
+        }
+        else{
+            $task_end_flag=0;
+        }
 //        var_exp($rankingdata,'$rankingdata',1);
         $this->assign('self_idx',$self_idx);
         $this->assign('rankingdata',$rankingdata);
         $this->assign('uid',$uid);
         $this->assign('create_employee',$taskInfo['create_employee']);
+        $this->assign('task_end_flag',$task_end_flag);//任务是否已经结束的标识
         return view();
     }
     public function employee_data(){
