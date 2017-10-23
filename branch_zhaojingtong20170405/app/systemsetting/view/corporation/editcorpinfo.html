@@ -35,8 +35,8 @@
                 <span style="vertical-align: top;">详细定位</span>
                 <!-- <input type="text" name="corp_dist" type="text"  value="{$data.corp_lat},{$data.corp_lng}"/> -->
                 <!--<input type="text" name="location" placeholder="请点击地图进行坐标定位"/>-->
-                <input type="hidden" name="lng" />
-                <input type="hidden" name="lat" />
+                <input type="hidden" name="corp_lng" class="lng" value="{$data.corp_lng}"/>
+                <input type="hidden" name="corp_lat" class="lat" value="{$data.corp_lat}"/>
                 <iframe id="mapFrame" name="mapFrame" data-lng="{$data.corp_lng}" data-lat="{$data.corp_lat}" data-edit="true" src="/index/index/map.html"></iframe>
             </p>
             <!-- <p class="p2">
