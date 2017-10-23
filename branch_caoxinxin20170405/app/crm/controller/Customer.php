@@ -1053,16 +1053,6 @@ class Customer extends Initialize{
         $customerNegotiate = getCommStatusArr($comm_status);
         return $customerNegotiate;
     }
-    protected function _checkCustomer($customerInfo){
-        $check_flg = false;
-        $customerM = new CustomerModel($this->corp_id);
-        $customerIdAndName = $customerM->getAllCustomerIdAndName();
-        $customerName = array_values($customerIdAndName);
-        if(in_array($customerInfo['customer_name'],$customerName)){
-            $check_flg = true;
-        }
-        return $check_flg;
-    }
     public function add(){
         $result = ['status'=>0 ,'info'=>"新建客户时发生错误！"];
         $userinfo = get_userinfo();
@@ -1075,13 +1065,18 @@ class Customer extends Initialize{
         }
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
         $customerM = new CustomerModel($this->corp_id);
-        if($this->_checkCustomer($customer)){
-            $result['info'] = "客户已存在！";
-            return json($result);
-        }
-        $haveTel = $customerM->getCustomerByTel(['telephone'=>$customer['telephone']]);
+        $haveTel = $customerM->getCustomerByTelOrName($customer['telephone'],$customer['customer_name']);
+        //var_exp($haveTel,'$haveTel',1);
         if (!empty($haveTel)) {
-            return ['status'=>0 ,'info'=>"和其他客户手机号重复,请重新输入!"];
+            if($haveTel["telephone"]==$customer['telephone']){
+                $result['info']="和其他客户手机号重复,请重新输入!";
+            }else
+                if($haveTel["customer_name"]==$customer['customer_name']){
+                $result['info']="该名称的客户已存在!";
+            }else{
+                $result['info']="客户已存在!";
+            }
+            return json($result);
         }
         try{
             $customerM->link->startTrans();
@@ -1171,6 +1166,20 @@ class Customer extends Initialize{
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
         $customerM = new CustomerModel($this->corp_id);
         $customerOldData = $customerM->getCustomer($id);
+        if($customerOldData["telephone"]!=$customer['telephone'] || $customerOldData["customer_name"]!=$customer['customer_name']){
+            $haveTel = $customerM->getCustomerByTelOrName($customer['telephone'],$customer['customer_name'],$id);
+            //var_exp($haveTel,'$haveTel',1);
+            if (!empty($haveTel)) {
+                if($haveTel["telephone"]==$customer['telephone']){
+                    $result['info']="和其他客户手机号重复,请重新输入!";
+                }elseif($haveTel["customer_name"]==$customer['customer_name']){
+                    $result['info']="该名称的客户已存在!";
+                }else{
+                    $result['info']="客户已存在!";
+                }
+                return json($result);
+            }
+        }
         $customer["comm_status"] = input('comm_status',0,'int');
 
         //var_exp($customerOldData,'$customerOldData');
