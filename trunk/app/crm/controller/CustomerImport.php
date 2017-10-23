@@ -202,6 +202,7 @@ class CustomerImport extends Initialize{
                 if(in_array($item['customer_name'],$customerName)){
                     exception("客户名称已存在");
                 }
+                $customerName[] = $item['customer_name'];
                 $customer = $customer_default;
                 $location = explode(",",$item['location']);
                 $customer['customer_name'] = $item['customer_name'];
