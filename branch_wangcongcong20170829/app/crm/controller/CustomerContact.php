@@ -151,6 +151,12 @@ class CustomerContact extends Initialize{
     public function add(){
         $result = ['status'=>0 ,'info'=>"新建联系人时发生错误！"];
         $customerContact = $this->_getCustomerContactForInput("all");
+        $validate_result = $this->validate($customerContact,'customer_contact');
+        //验证字段
+        if(true !== $validate_result){
+            $result["info"] = $validate_result;
+            return $result;
+        }
         $customerContactM = new CustomerContactModel($this->corp_id);
 
         $userinfo = get_userinfo();
@@ -228,6 +234,12 @@ class CustomerContact extends Initialize{
             return json($result);
         }
         $customerContact = $this->_getCustomerContactForInput(0);
+        $validate_result = $this->validate($customerContact,'customer_contact');
+        //验证字段
+        if(true !== $validate_result){
+            $result["info"] = $validate_result;
+            return $result;
+        }
         $customerContactM = new CustomerContactModel($this->corp_id);
 
         $userinfo = get_userinfo();
