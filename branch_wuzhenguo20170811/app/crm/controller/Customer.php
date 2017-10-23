@@ -1065,6 +1065,10 @@ class Customer extends Initialize{
         }
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
         $customerM = new CustomerModel($this->corp_id);
+        $haveTel = $customerM->getCustomerByTel(['telephone'=>$customer['telephone']]);
+        if (!empty($haveTel)) {
+            return ['status'=>0 ,'info'=>"和其他客户手机号重复,请重新输入!"];
+        }
         try{
             $customerM->link->startTrans();
             $customerId = $customerM->addCustomer($customer);

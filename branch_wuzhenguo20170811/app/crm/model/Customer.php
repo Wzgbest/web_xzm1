@@ -1551,6 +1551,11 @@ class Customer extends Base
         return $customer_id = $this->model->table($this->table)->insertGetId($data);
     }
 
+
+    public function getCustomerByTel($map){
+        return $this->model->table($this->table)->where($map)->select();
+    }
+
     /**
      * 根据客户id修改客户信息
      * @param $customer_id
