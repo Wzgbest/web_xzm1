@@ -1063,6 +1063,12 @@ class Customer extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        $validate_result = $this->validate($customer,'Customer');
+        //验证字段
+        if(true !== $validate_result){
+            $result["info"] = $validate_result;
+            return $result;
+        }
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
         $customerM = new CustomerModel($this->corp_id);
         $haveName = $customerM->getCustomerByName($customer['customer_name']);
@@ -1156,6 +1162,12 @@ class Customer extends Initialize{
         }
 
         $customer = $this->_getCustomerForInput(0);
+        $validate_result = $this->validate($customer,'Customer');
+        //验证字段
+        if(true !== $validate_result){
+            $result["info"] = $validate_result;
+            return $result;
+        }
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
         $customerM = new CustomerModel($this->corp_id);
         $customerOldData = $customerM->getCustomer($id);
