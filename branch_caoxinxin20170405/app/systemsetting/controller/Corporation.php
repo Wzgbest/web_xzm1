@@ -60,7 +60,12 @@ class Corporation extends Initialize
         $info = ['status'=>0,"message"=>"修改公司信息时发生错误!"];
         $input = $request->param();
 
-        if (empty($this->corp_id) || empty($input['corp_name']) ||empty($input['corp_tel']) || empty($input['corp_field'])) {
+        if (
+            empty($this->corp_id)
+            || empty($input['corp_name'])
+            ||empty($input['corp_tel'])
+            || empty($input['corp_field'])
+        ) {
             $info['message'] = '参数错误!';
             return $info;
         }
@@ -71,6 +76,8 @@ class Corporation extends Initialize
             'corp_website' => $input['corp_web'],
             'corp_address' => $input['corp_addr'],
             'corp_dist' => $input['corp_dist'],
+            'corp_lng' => $input['corp_lng'],
+            'corp_lat' => $input['corp_lat'],
             'corp_field' => $input['corp_field'],
             'corp_product_keys' => $input['corp_product_keys'],
         ];
@@ -95,14 +102,14 @@ class Corporation extends Initialize
     {
         $input = input('param.');
         $info['status'] = false;
-        if (empty($input['lat']) || empty($input['lng'])) {
+        if (empty($input['corp_lat']) || empty($input['corp_lng'])) {
             $info['message'] = '定位信息不能为空';
             return $info;
         }
 
         $data = [
-            'corp_lat' => $input['lat'],
-            'corp_lng' => $input['lng'],
+            'corp_lat' => $input['corp_lat'],
+            'corp_lng' => $input['corp_lng'],
         ];
 
         $corpM = new CorporationModel($this->corp_id);
