@@ -268,7 +268,7 @@ class SaleChance extends Initialize{
                 $SaleChancesVisitData["visit_place"] = "";
                 $SaleChancesVisitData["partner_notice"] = 0;
                 $SaleChancesVisitData["add_note"] = 0;
-                $SaleChancesVisitData["location"] = '';
+                $SaleChancesVisitData["location"] = $customerData["lat"].",".$customerData["lng"];
             }
             $location = explode(",",$SaleChancesVisitData["location"]);
             $SaleChancesVisitData["lat"] = isset($location[0])&&!empty($location[0])?$location[0]:"36.7075";
