@@ -37,7 +37,7 @@
                 <!--<input type="text" name="location" placeholder="请点击地图进行坐标定位"/>-->
                 <input type="hidden" name="corp_lng" class="lng" value="{$data.corp_lng}"/>
                 <input type="hidden" name="corp_lat" class="lat" value="{$data.corp_lat}"/>
-                <iframe id="mapFrame" name="mapFrame" data-lng="{$data.corp_lng}" data-lat="{$data.corp_lat}" data-edit="true" src="/index/index/map.html"></iframe>
+                <iframe class="mapFrame editcorpinfo_map" name="editcorpinfo_map" data-lng="{$data.corp_lng}" data-lat="{$data.corp_lat}" data-edit="true" src="/index/index/map.html" onload="mapLoad('editcorpinfo_map')"></iframe>
             </p>
             <!-- <p class="p2">
                 <input type="text" class="ipt1" value="{$data.corp_lat}"/><br/>
