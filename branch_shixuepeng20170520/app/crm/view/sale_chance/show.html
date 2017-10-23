@@ -111,7 +111,7 @@
                 <div>
                     <span class="cont u-area">详细定位</span>
                     <!--<input type="text" name="location" placeholder="请点击地图进行坐标定位"/>-->
-                    <iframe id="mapFrame" name="mapFrame" data-lng="{$vo.lng}" data-lat="{$vo.lat}" src="/index/index/map.html"></iframe>
+                    <iframe class="mapFrame sale_chance_show_map" name="sale_chance_show_map" data-lng="{$vo.lng}" data-lat="{$vo.lat}" src="/index/index/map.html" onload="mapLoad('sale_chance_show_map')"></iframe>
                 </div>
                 <div>
                     <span class="cont">结伴提醒：</span>
