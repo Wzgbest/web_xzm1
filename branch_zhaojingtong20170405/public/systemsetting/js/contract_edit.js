@@ -319,26 +319,68 @@ $(contract_item_list_panel).on('click',".redact .compile",function(){
         '<i class="fa fa-remove item_btn item_remove edit_item_remove"></i>';
     $(this).parent().append(edit_html);
 });
+
+$(contract_item_list_panel).on('keydown',".item_text",function(event){
+	if(event.keyCode==13){
+		var edit_flag=$(this).hasClass('edit_item_text');
+		//编辑
+		if(edit_flag){
+			var edit_item_name = $(this).val();
+		    console.log('edit_item_name:'+edit_item_name);
+		    if(!edit_item_name){
+		        return;
+		    }
+		    var edit_item_text = $(this).siblings(".item_name").text();
+		    console.log('edit_item_text'+edit_item_text);
+		    if(!edit_item_text){
+		        return;
+		    }
+		    //edit
+		    var edit_flg = contract_item_list_update(this,edit_item_text,edit_item_name);
+		    console.log('edit_flg:'+edit_flg);
+		    if(edit_flg){
+		        var new_html = contract_item_list_get_html(this);
+		        console.log(new_html);
+		        contract_item_list_update_html(this,new_html);
+		    }
+		}
+		var add_flag=$(this).hasClass('add_item_text');
+		//添加
+		if(add_flag){
+			var add_item_name = $(this).val();
+		    if(!add_item_name){
+		        return;
+		    }
+		    //add
+		    var add_flg = contract_item_list_add(this,add_item_name);
+		    if(add_flg){
+		        var new_html = contract_item_list_get_html(this);
+		        contract_item_list_update_html(this,new_html);
+		    }
+		}
+	}
+})
+
+
 $(contract_item_list_panel).on('click',".redact .edit_item_check",function(){
     var edit_item_name = $(this).siblings(".edit_item_text").val();
-    console.log(edit_item_name);
     if(!edit_item_name){
         return;
     }
     var edit_item_text = $(this).siblings(".item_name").text();
-    console.log(edit_item_text);
     if(!edit_item_text){
         return;
     }
     //edit
     var edit_flg = contract_item_list_update(this,edit_item_text,edit_item_name);
-    console.log(edit_flg);
     if(edit_flg){
         var new_html = contract_item_list_get_html(this);
-        console.log(new_html);
         contract_item_list_update_html(this,new_html);
     }
 });
+
+
+
 $(contract_item_list_panel).on('click',".redact .edit_item_remove",function(){
     $(this).siblings(".item_name").removeClass("hide");
     $(this).siblings(".compile").removeClass("hide");
