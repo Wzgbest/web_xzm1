@@ -183,10 +183,6 @@ class EmployeeTask extends Initialize{
         $this->assign('url_args',$url_args);//搜索条件
 //        var_exp($task_list);
     }
-    public function reward_task()
-    {
-        return view();
-    }
     public function hot_task()
     {
         $this->get_task_list();
