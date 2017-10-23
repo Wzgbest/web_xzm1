@@ -489,14 +489,16 @@ class EmployeeTask extends Initialize{
         $task_id=$taskTakeInfo['task_id'];
         $taskModel=new EmployeeTaskModel($this->corp_id);
         $taskInfo=$taskModel->getTaskInfo($task_id);
+        if($taskInfo['task_end_time']<strtotime("-3 days")){
+            //如果未判定三天之内可以判定，超过三天后判定并自动结算
+            $redata['msg'] = "该任务不再能判定！";
+            return json($redata);
+        }
         if($taskInfo['status']!=2){
             $redata['msg'] = "该任务不在进行中！";
             return json($redata);
         }
-        if($taskInfo['task_end_time']<time()){
-            $redata['msg'] = "该任务已结束！";
-            return json($redata);
-        }
+
 
 
         if($take_id){
