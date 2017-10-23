@@ -94,11 +94,11 @@
                     <!--<input type="text" name="location" placeholder="请点击地图进行坐标定位"/>-->
                     <input type="hidden" name="lng" value="119.1324" />
                     <input type="hidden" name="lat" value="36.7075"  />
-                    <iframe id="mapFrame" name="mapFrame" data-lng="119.1324" data-lat="36.7075" data-edit="true" src="/index/index/map.html"></iframe>
+                    <iframe  class="mapFrame add_page_map" name="add_page_map" data-lng="119.1324" data-lat="36.7075" data-edit="true" src="/index/index/map.html" onload="mapLoad('add_page_map')"></iframe>
                 </div>
                 <div>
                     <span class="cont">公司官网</span>
-                    <input type="url" name="website" title="最多可填写80个字符" placeholder="请输入公司官网"/>
+                    <input type="text" name="website" title="最多可填写80个字符" placeholder="请输入公司官网" />
                 </div>
                 <div>
                     <span class="cont">备注</span>
@@ -271,13 +271,14 @@
 </section>
 <script class="resources library" src="/static/js/area.js" type="text/javascript"></script>
 <script type="text/javascript">_init_area();</script>
+<script type="text/javascript" src="/static/js/map.js"></script>
 <script>
     let interal;
     $("#s_county").change(function(){
-        $("#mapFrame")[0].contentWindow.searchKey($("#s_province").val()+$("#s_city").val()+$(this).val());
+        $(".add_page_map")[0].contentWindow.searchKey($("#s_province").val()+$("#s_city").val()+$(this).val());
     })
     $(".newClient input[name='address']").change(function(){
-        $("#mapFrame")[0].contentWindow.searchKey($("#s_province").val()+$("#s_city").val()+$("#s_county").val()+$(this).val());
+        $(".add_page_map")[0].contentWindow.searchKey($("#s_province").val()+$("#s_city").val()+$("#s_county").val()+$(this).val());
     });
     /*定时搜索，阉割
     $(".newClient input[name='address']").focus(function(){

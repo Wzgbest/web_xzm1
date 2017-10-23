@@ -467,7 +467,7 @@
 	}
 }
 .m-low-nav{
-	position: fixed;
+	position: fixed !important;
     width: 100%;
     top: 112px;
     z-index: 99;
