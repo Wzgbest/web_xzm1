@@ -195,7 +195,10 @@ class Index extends Initialize{
         $rankingdata = $employeeTaskService->getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$id,$standard,$num,$page);
 
         //var_exp($uids,'$uids');
-        //var_exp($rankingdata,'$rankingdata',1);
+//        var_exp($rankingdata,'rankingdata',1);
+
+        $employeeM = new Employee($this->corp_id);
+        $employee_info = $employeeM->getEmployeeNameAndTelephoneByUserids($uids);
 
         if(is_array($rankingdata)){
             $in_employee_idx = array_column($rankingdata,"employee_id");
@@ -205,13 +208,14 @@ class Index extends Initialize{
                     $not_in_employee_idx[] = $uid_item;
                 }
             }
+
+
             if(!empty($not_in_employee_idx)) {
-                $employeeM = new Employee($this->corp_id);
-                $employee_info = $employeeM->getEmployeeNameAndTelephoneByUserids($not_in_employee_idx);
+
                 foreach ($not_in_employee_idx as $uid_item) {
                     $result_item = [];
                     if (isset($employee_info[$uid_item])) {
-                        $result_item = ["employee_id" => $uid_item, "telephone" => $employee_info[$uid_item]["telephone"], "truename" => $employee_info[$uid_item]["truename"], "is_standard" => 0, "num" => 0, "standard_time" => 0];
+                        $result_item = ["employee_id" => $uid_item, "telephone" => $employee_info[$uid_item]["telephone"], "truename" => $employee_info[$uid_item]["truename"],"struct_name"=> $employee_info[$uid_item]["struct_name"], "is_standard" => 0, "num" => 0, "standard_time" => 0];
                     }
                     $rankingdata[] = $result_item;
                 }
@@ -250,8 +254,12 @@ class Index extends Initialize{
         $reward_idx = 0;
         $self_idx = -1;
         for($ranking_index=1;$ranking_index<=count($rankingdata);$ranking_index++){
+
+            $rankingdata[$ranking_index-1]["struct_name"]=$employee_info[$rankingdata[$ranking_index-1]['employee_id']]["struct_name"];
+
             if(!$take_in && $uid!=$taskInfo['create_employee'] && $task_type==2){
-                $rankingdata[$ranking_index-1]["truename"] = mb_substr($rankingdata[$ranking_index-1]["truename"],0,1,'utf-8')."**";
+                $rankingdata[$ranking_index-1]["truename"] ='***';// mb_substr($rankingdata[$ranking_index-1]["truename"],0,1,'utf-8')."**";
+                $rankingdata[$ranking_index-1]["struct_name"]='***';
             }
 
             if(isset($reward_idx_arr[$ranking_index])){
@@ -277,11 +285,18 @@ class Index extends Initialize{
                 $rankingdata[$ranking_index-1]["untook"] = 0;
             }
         }
-        //var_exp($rankingdata,'$rankingdata',1);
+        if($this->request->time()>$taskInfo['task_end_time']){
+            $task_end_flag=1;//任务已经结束
+        }
+        else{
+            $task_end_flag=0;
+        }
+//        var_exp($rankingdata,'$rankingdata',1);
         $this->assign('self_idx',$self_idx);
         $this->assign('rankingdata',$rankingdata);
         $this->assign('uid',$uid);
         $this->assign('create_employee',$taskInfo['create_employee']);
+        $this->assign('task_end_flag',$task_end_flag);//任务是否已经结束的标识
         return view();
     }
     public function employee_data(){
@@ -478,7 +493,7 @@ class Index extends Initialize{
                 foreach ($not_in_employee_idx as $uid_item) {
                     $result_item = [];
                     if (isset($employee_info[$uid_item])) {
-                        $result_item = ["employee_id" => $uid_item, "telephone" => $employee_info[$uid_item]["telephone"], "truename" => $employee_info[$uid_item]["truename"], "is_standard" => 0, "num" => 0, "standard_time" => 0];
+                        $result_item = ["employee_id" => $uid_item, "telephone" => $employee_info[$uid_item]["telephone"], "truename" => $employee_info[$uid_item]["truename"],"struct_name"=> $employee_info[$uid_item]["struct_name"], "is_standard" => 0, "num" => 0, "standard_time" => 0];
                     }
                     $rankingdata[] = $result_item;
                 }
