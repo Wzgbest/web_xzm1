@@ -1079,6 +1079,10 @@ class Customer extends Initialize{
             $result['info'] = "客户已存在！";
             return json($result);
         }
+        $haveTel = $customerM->getCustomerByTel(['telephone'=>$customer['telephone']]);
+        if (!empty($haveTel)) {
+            return ['status'=>0 ,'info'=>"和其他客户手机号重复,请重新输入!"];
+        }
         try{
             $customerM->link->startTrans();
             $customerId = $customerM->addCustomer($customer);
