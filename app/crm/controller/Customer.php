@@ -1053,6 +1053,16 @@ class Customer extends Initialize{
         $customerNegotiate = getCommStatusArr($comm_status);
         return $customerNegotiate;
     }
+    protected function _checkCustomer($customerInfo){
+        $check_flg = false;
+        $customerM = new CustomerModel($this->corp_id);
+        $customerIdAndName = $customerM->getAllCustomerIdAndName();
+        $customerName = array_values($customerIdAndName);
+        if(in_array($customerInfo['customer_name'],$customerName)){
+            $check_flg = true;
+        }
+        return $check_flg;
+    }
     public function add(){
         $result = ['status'=>0 ,'info'=>"新建客户时发生错误！"];
         $userinfo = get_userinfo();
@@ -1065,6 +1075,10 @@ class Customer extends Initialize{
         }
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
         $customerM = new CustomerModel($this->corp_id);
+        if($this->_checkCustomer($customer)){
+            $result['info'] = "客户已存在！";
+            return json($result);
+        }
         try{
             $customerM->link->startTrans();
             $customerId = $customerM->addCustomer($customer);
