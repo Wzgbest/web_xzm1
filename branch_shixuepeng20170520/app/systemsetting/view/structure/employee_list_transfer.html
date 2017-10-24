@@ -19,98 +19,116 @@
 					<img src="/systemsetting/img/search.png" class="search" />
 				</div>
 				<ul>
+					<!--<?php var_dump($struct_tree); ?>-->
+					{notempty name='struct_tree'}
+					{volist name='struct_tree' id='v1'}
 					<li class="bumen">
+						{notempty name='v1.child'}
 						<img src="/systemsetting/img/tra_right.png" class="drop" />
-						<label>销售部</label>
-						<input type="checkbox" class="selectAll" index="28" />
+						{/notempty}
+						<label>{$v1.struct_name}</label>
+						<input type="checkbox" class="selectAll" index="{$v1.id}" />
+						{notempty name='v1.child'}
 						<ol class="yincang">
+							{volist name='v1.child' id='v2'}
 							<li>
+								{notempty name='v2.child'}
 								<img src="/systemsetting/img/tra_right.png" class="drop" />
-								<label>销售一部</label>
-								<input type="checkbox" class="sid" index="29" />
-								<div class="sanceng yincang">
-									<label for="">部门一</label><input type="checkbox" class="geren" index="0" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="1" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="2" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="3" />
-								</div>
+								{/notempty}
+								<label>{$v2.struct_name}</label>
+								<input type="checkbox" class="sid" index="{$v2.id}" />
+								{notempty name='v2.child'}
+								<ol class="yincang">
+									{volist name='v2.child' id='v3'}
+									<li>
+										{notempty name='v3.child'}
+										<img src="/systemsetting/img/tra_right.png" class="drop" />
+										{/notempty}
+										<label>{$v3.struct_name}</label>
+										<input type="checkbox" class="sid" index="{$v3.id}" />
+										{notempty name='v3.child'}
+										<ol class="yincang">
+											{volist name='v3.child' id='v4'}
+											<li>
+												{notempty name='v4.child'}
+												<img src="/systemsetting/img/tra_right.png" class="drop" />
+												{/notempty}
+												<label>{$v4.struct_name}</label>
+												<input type="checkbox" class="sid" index="{$v4.id}" />
+												{notempty name='v4.child'}
+												<div class="sanceng yincang">
+													{volist name='v4.child' id='v5'}
+													<label for="">{$v5.struct_name}</label><input type="checkbox" class="geren" index="{$v5.id}" /><br />
+													{/volist}
+												</div>
+												{/notempty}
+											</li>
+											{/volist}
+										</ol>
+										{/notempty}
+									</li>
+									{/volist}
+								</ol>
+								{/notempty}
 							</li>
-							<li>
-								<img src="/systemsetting/img/tra_right.png" class="drop" />
-								<label>销售二部</label>
-								<input type="checkbox" class="sid" index="30" />
-								<div class="sanceng yincang">
-									<label for="">部门一</label><input type="checkbox" class="geren" index="4" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="5" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="6" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="7" />
-								</div>
-							</li>
-							<li>
-								<img src="/systemsetting/img/tra_right.png" class="drop" />
-								<label>销售三部</label>
-								<input type="checkbox" class="sid" index="31" />
-								<div class="sanceng yincang">
-									<label for="">部门一</label><input type="checkbox" class="geren" index="8" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="9" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="10" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="11" />
-								</div>
-							</li>
+							{/volist}
+						</ol>
+						{/notempty}
+					</li>
 
-						</ol>
-					</li>
-					<li class="bumen">
-						<img src="/systemsetting/img/tra_right.png" class="drop" />
-						<label>研发部</label>
-						<input type="checkbox" class="selectAll" index="32" />
-						<ol class="yincang">
-							<li>
-								<img src="/systemsetting/img/tra_right.png" class="drop" />
-								<label>研发一部</label>
-								<input type="checkbox" class="sid" index="33" />
-								<div class="sanceng yincang">
-									<label for="">部门一</label><input type="checkbox" class="geren" index="12" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="13" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="14" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="15" />
-								</div>
-							</li>
-							<li>
-								<img src="/systemsetting/img/tra_right.png" class="drop" />
-								<label>研发二部</label>
-								<input type="checkbox" class="sid" index="34" />
-								<div class="sanceng yincang">
-									<label for="">部门一</label><input type="checkbox" class="geren" index="16" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="17" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="18" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="19" />
-								</div>
-							</li>
-							<li>
-								<img src="/systemsetting/img/tra_right.png" class="drop" />
-								<label>研发三部</label>
-								<input type="checkbox" class="sid" index="35" />
-								<div class="sanceng yincang">
-									<label for="">部门一</label><input type="checkbox" class="geren" index="20" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="21" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="22" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="23" />
-								</div>
-							</li>
-							<li>
-								<img src="/systemsetting/img/tra_right.png" class="drop" />
-								<label>研发四部</label>
-								<input type="checkbox" class="sid" index="36" />
-								<div class="sanceng yincang">
-									<label for="">部门一</label><input type="checkbox" class="geren" index="24" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="25" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="26" /><br />
-									<label for="">部门一</label><input type="checkbox" class="geren" index="27" />
-								</div>
-							</li>
-						</ol>
-					</li>
+					{/volist}
+					{/notempty}
+					<!--<li class="bumen">-->
+						<!--<img src="/systemsetting/img/tra_right.png" class="drop" />-->
+						<!--<label>研发部</label>-->
+						<!--<input type="checkbox" class="selectAll" index="32" />-->
+						<!--<ol class="yincang">-->
+							<!--<li>-->
+								<!--<img src="/systemsetting/img/tra_right.png" class="drop" />-->
+								<!--<label>研发一部</label>-->
+								<!--<input type="checkbox" class="sid" index="33" />-->
+								<!--<div class="sanceng yincang">-->
+									<!--<label for="">部门一</label><input type="checkbox" class="geren" index="12" /><br />-->
+									<!--<label for="">部门一</label><input type="checkbox" class="geren" index="13" /><br />-->
+									<!--<label for="">部门一</label><input type="checkbox" class="geren" index="14" /><br />-->
+									<!--<label for="">部门一</label><input type="checkbox" class="geren" index="15" />-->
+								<!--</div>-->
+							<!--</li>-->
+							<!--<li>-->
+								<!--<img src="/systemsetting/img/tra_right.png" class="drop" />-->
+								<!--<label>研发二部</label>-->
+								<!--<input type="checkbox" class="sid" index="34" />-->
+								<!--<div class="sanceng yincang">-->
+									<!--<label for="">部门一</label><input type="checkbox" class="geren" index="16" /><br />-->
+									<!--<label for="">部门一</label><input type="checkbox" class="geren" index="17" /><br />-->
+									<!--<label for="">部门一</label><input type="checkbox" class="geren" index="18" /><br />-->
+									<!--<label for="">部门一</label><input type="checkbox" class="geren" index="19" />-->
+								<!--</div>-->
+							<!--</li>-->
+							<!--<li>-->
+								<!--<img src="/systemsetting/img/tra_right.png" class="drop" />-->
+								<!--<label>研发三部</label>-->
+								<!--<input type="checkbox" class="sid" index="35" />-->
+								<!--<div class="sanceng yincang">-->
+									<!--<label for="">部门一</label><input type="checkbox" class="geren" index="20" /><br />-->
+									<!--<label for="">部门一</label><input type="checkbox" class="geren" index="21" /><br />-->
+									<!--<label for="">部门一</label><input type="checkbox" class="geren" index="22" /><br />-->
+									<!--<label for="">部门一</label><input type="checkbox" class="geren" index="23" />-->
+								<!--</div>-->
+							<!--</li>-->
+							<!--<li>-->
+								<!--<img src="/systemsetting/img/tra_right.png" class="drop" />-->
+								<!--<label>研发四部</label>-->
+								<!--<input type="checkbox" class="sid" index="36" />-->
+								<!--<div class="sanceng yincang">-->
+									<!--<label for="">部门一</label><input type="checkbox" class="geren" index="24" /><br />-->
+									<!--<label for="">部门一</label><input type="checkbox" class="geren" index="25" /><br />-->
+									<!--<label for="">部门一</label><input type="checkbox" class="geren" index="26" /><br />-->
+									<!--<label for="">部门一</label><input type="checkbox" class="geren" index="27" />-->
+								<!--</div>-->
+							<!--</li>-->
+						<!--</ol>-->
+					<!--</li>-->
 
 				</ul>
 			</div>
