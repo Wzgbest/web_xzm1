@@ -127,6 +127,16 @@ class Structure extends Initialize
     }
 
     public function employee_list_transfer(){
+        $root_id = 0;
+        $struM = new StructureModel($this->corp_id);
+        $structs = $struM->getAllStructure();
+        $tree = new \myvendor\Tree($structs,['id','struct_pid']);
+        $res = $tree->leaf($root_id);
+//        var_exp($res,'struct_tree');die;
+        $this->assign('structs',$structs);
+        $this->assign('struct_tree',$res);
+        $this->assign('struct_json',json_encode($res));
+        $this->assign('root_id',$root_id);
         return view();
     }
 
