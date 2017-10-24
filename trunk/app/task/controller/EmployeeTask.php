@@ -475,18 +475,21 @@ class EmployeeTask extends Initialize{
      * @return \think\response\Json
      */
     public function task_help(){
-        $take_id=input('take_id');//参与任务的id
-        $unhelp=input('unhelp');//是帮助了还是未帮
+        $task_id=input('task_id',0,"int");//参与任务的id
+        $employee_id=input('employee_id',0,"int");//参与任务的员工id
+        $unhelp=input('unhelp',0,"int");//是帮助了还是未帮
         $redata['success']=false;
         $redata['msg']='操作失败';
+        if(!$task_id || !$employee_id){
+            $redata['msg'] = "参数错误！";
+            return json($redata);
+        }
         $taskTakeModel = new TaskTake($this->corp_id);
-        $con['id']=$take_id;
-        $taskTakeInfo=$taskTakeModel->getTaskTakeInfoById($take_id);
+        $taskTakeInfo=$taskTakeModel->getTaskTakeInfoByTaskIdAndEmployee($task_id,$employee_id);
         if(empty($taskTakeInfo)){
             $redata['msg'] = "未找到任务参与信息！";
             return json($redata);
         }
-        $task_id=$taskTakeInfo['task_id'];
         $taskModel=new EmployeeTaskModel($this->corp_id);
         $taskInfo=$taskModel->getTaskInfo($task_id);
         if(empty($taskInfo)){
@@ -512,9 +515,9 @@ class EmployeeTask extends Initialize{
         }
         $result = false;
         if($unhelp){ //未帮
-            $result=$taskTakeModel->toUnhelp($con);
+            $result=$taskTakeModel->employeeToUnhelp($task_id,$employee_id);
         }else{ //已帮
-            $result=$taskTakeModel->tohelp($con);
+            $result=$taskTakeModel->employeeToHelp($task_id,$employee_id);
         }
         if($result){
             $redata['success']=true;
