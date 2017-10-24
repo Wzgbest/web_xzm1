@@ -135,23 +135,39 @@ function set_userinfo($corp_id,$telephone,$user_arr){
     return $userinfo;
 }
 
+function get_telephone(){
+    $telephone = input('userid','',"string");
+    $access_token = input('access_token','',"string");
+    $cookie_access_token = get_token_by_cookie();
+    //var_exp($telephone,'$telephone0');
+    if(is_web($telephone,$access_token,$cookie_access_token)){
+        $telephone = get_telephone_by_token($cookie_access_token);
+    }
+    return $telephone;
+}
+
 function get_userinfo($telephone=null){
     if(!$telephone){
-        $telephone = input('userid','',"string");
-        //var_exp($telephone,'$telephone0');
-        if(empty($telephone)){
-            $token = get_token_by_cookie();
-            if(empty($token)){
-                //var_exp(00,'00');
-                return [];
-            }
-            //var_exp($token,'$token');
-            $telephone = get_telephone_by_token($token);
-        }
+        $telephone = get_telephone();
+    }
+    //var_exp($telephone,'$telephone');
+    if(!$telephone){
+        return [];
     }
     $userinfo = get_cache_by_tel($telephone,'userinfo');
     //var_exp($userinfo,'$userinfo');
     return $userinfo;
+}
+
+function is_web($telephone=null,$access_token=null,$cookie_access_token=null){
+    $telephone = $telephone?:input('userid','',"string");
+    $access_token = $access_token?:input('access_token','',"string");
+    $cookie_access_token = $cookie_access_token?:get_token_by_cookie();
+    if ((!($telephone||$access_token))/*&&$cookie_access_token*/){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 function check_telphone_and_password($telephone,$password){
@@ -285,7 +301,6 @@ function login($corp_id,$uid,$telephone,$device_type,$ip){
         $result['errnum'] = 6;
         return $result;
     }
-    set_token_to_cookie($save_res['token']);
     set_telephone_by_token($save_res['token'],$telephone);
     set_user_device($telephone,$save_res['token'],$device_type,$corp_id,$uid);
 
@@ -322,7 +337,6 @@ function logout($telephone=null,$token=null){
             return [];
         }
     }
-    set_token_to_cookie(null);
     del_telephone_by_token($token);
     del_user_device_token_cache($telephone,$token);
     set_cache_by_tel($telephone,'userinfo',null);
