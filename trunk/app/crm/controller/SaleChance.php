@@ -1032,10 +1032,11 @@ class SaleChance extends Initialize{
         $sale_id = input('sale_id',0,'int');
         $lat = "".number_format(input('lat',0,'float'),6,".","");
         $lng = "".number_format(input('lng',0,'float'),6,".","");
+        $location_str = input('location_str',"",'string');
         $saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
         try{
             $saleChanceVisitM->link->startTrans();
-            $saleChanceflg = $saleChanceVisitM->sign_in($customer_id,$lat,$lng,$sale_id);
+            $saleChanceflg = $saleChanceVisitM->sign_in($customer_id,$lat,$lng,$location_str,$sale_id);
             if(!$saleChanceflg){
                 exception("签到失败!");
             }
