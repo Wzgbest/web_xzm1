@@ -1,12 +1,17 @@
-//最终值
-let result={
-	dep:[],
-	stf:[],
-	depOrStf:2,
-	result_selctor:'',
-	result_selctor_attr:''
-}
-function select_window(container,depOrStf,result_selctor,result_selctor_attr) {
+function select_window(container,depOrStf,result_selctor,result_selctor_attr,dep_decration,dep_connector,dep_stf_connector,stf_decration,stf_connector) {
+	//最终值
+	let result={
+		dep:[],
+		stf:[],
+		depOrStf:2,
+		result_selctor:'',
+		result_selctor_attr:'',
+		dep_decration:'',
+		dep_connector:'',
+		dep_stf_connector:'',
+		stf_decration:'',
+		stf_connector:''
+	}
 	// container:哪个容器来包含该插件
 	// depOrStf:0代表只选择部门，1代表只选择员工，2代表都选择
 	//result_selctor:最终数据传输到那个选择器
@@ -18,6 +23,26 @@ function select_window(container,depOrStf,result_selctor,result_selctor_attr) {
 		result.result_selctor=result_selctor;
 		result.result_selctor_attr=result_selctor_attr;
 		console.log(result);
+		if(dep_decration){
+			console.log(dep_decration);
+			result.dep_decration=dep_decration;
+		}
+		if (dep_connector) {
+			console.log(dep_connector);
+			result.dep_connector=dep_connector;
+		}
+		if (dep_stf_connector) {
+			console.log(dep_stf_connector);
+			result.dep_stf_connector=dep_stf_connector;
+		}
+		if (stf_decration) {
+			console.log(stf_decration);
+			result.stf_decration=stf_decration;
+		}
+		if (stf_connector) {
+			console.log(stf_connector);
+			result.stf_connector=stf_connector;
+		}
 
 		//开关
 		$(".select-window-container dl dt span").click(function() {
@@ -99,22 +124,23 @@ function select_window(container,depOrStf,result_selctor,result_selctor_attr) {
 			
 			var data_val = '';
 
-			var header = "departments[]=";
-			var delimiter = "&";
+			var header = result.dep_decration;
+			var delimiter = result.dep_connector;
 			var dep_arr = result.dep;
+			console.log(dep_arr);
 			var data_val1 = header+dep_arr.join(delimiter+header);
 			// data_val += header+dep_arr.join(delimiter+header);
 			console.log(data_val1);
 
 
-			header = "employees[]=";
-			delimiter = "&";
+			header = result.stf_decration;
+			delimiter = result.stf_connector;
 			var stf_arr = result.stf;
-			var data_val2 = delimiter+header+stf_arr.join(delimiter+header);
+			var data_val2 = header+stf_arr.join(delimiter+header);
 			// data_val += delimiter+header+stf_arr.join(delimiter+header);
 			console.log(data_val2);
 
-			data_val=data_val1+data_val2;
+			data_val=data_val1+result.dep_stf_connector+data_val2;
 			console.log(data_val);
 
 			if(result.depOrStf==0){
