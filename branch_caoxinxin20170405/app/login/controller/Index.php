@@ -11,8 +11,7 @@ use think\Controller;
 
 class Index extends Controller
 {
-    public function index()
-    {
+    public function index(){
         return view();
     }
 
@@ -21,8 +20,7 @@ class Index extends Controller
      * @return mixed
      * created by messhair
      */
-    public function verifyLogin()
-    {
+    public function verifyLogin(){
         $input = input('param.');
         $telephone = trim($input['telephone']);
         $password = trim($input['password']);
@@ -37,6 +35,7 @@ class Index extends Controller
         $corp_id = $result["corp_id"];
         $user_arr = $result["user_info"];
         $result = login($corp_id,$user_arr["id"],$telephone,$device_type,$ip);
+        set_token_to_cookie($result['access_token']);
         if(!$result["status"]){
             $req_reg["message"] = $result["message"];
             $req_reg["errnum"] = $result["errnum"];
@@ -51,6 +50,7 @@ class Index extends Controller
     }
     public function logout(){
         logout();
+        set_token_to_cookie(null);
         $this->redirect('index/index/index');
     }
 }
