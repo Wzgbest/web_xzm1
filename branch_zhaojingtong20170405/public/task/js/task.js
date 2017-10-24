@@ -948,6 +948,7 @@ function task_list(target,now_uid,base_url){
 
     $(task_list_sel+" header .xinjian ").click(function(){
         //loadPage('/task/index/new_task/fr/'+self.target,self.target);
+        var nowflag=$(task_list_sel+" header ul li.flow div").text();
         $.ajax({
             url: '/task/index/new_task/fr/'+self.target,
             type: 'get',
@@ -957,6 +958,7 @@ function task_list(target,now_uid,base_url){
                 //console.log($("#"+self.target+" .new_task_panel"));
                 //console.log($("#"+self.target+" .new_task_panel .new_task_info_panel"));
                 $("#"+self.target+" .new_task_panel .new_task_info_panel").html(data);
+                $("#"+self.target+" .new_task_panel header div ul li.current div").text(nowflag);
                 $("#"+self.target+" .task_list").addClass("hide");
                 self.reset_scroll();
                 $("#"+self.target+" .new_task_panel").removeClass("hide");
