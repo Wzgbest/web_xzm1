@@ -475,9 +475,8 @@ class EmployeeTask extends Initialize{
      * @return \think\response\Json
      */
     public function task_help(){
-        $task_id=input('task_id',0,"int");//参与任务的id
-        $take_id=input('take_id',0,"int");//参与任务的员工id
-        $unhelp=input('unhelp',0,"int");//是帮助了还是未帮
+        $take_id=input('take_id');//参与任务的id
+        $unhelp=input('unhelp');//是帮助了还是未帮
         $redata['success']=false;
         $redata['msg']='操作失败';
         $taskTakeModel = new TaskTake($this->corp_id);
@@ -487,6 +486,7 @@ class EmployeeTask extends Initialize{
             $redata['msg'] = "未找到任务参与信息！";
             return json($redata);
         }
+        $task_id=$taskTakeInfo['task_id'];
         $taskModel=new EmployeeTaskModel($this->corp_id);
         $taskInfo=$taskModel->getTaskInfo($task_id);
         if(empty($taskInfo)){
