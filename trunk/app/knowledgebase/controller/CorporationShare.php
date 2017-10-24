@@ -29,14 +29,14 @@ class CorporationShare extends Initialize{
         $uid = $userinfo["userid"];
 
         $result = ['status'=>0 ,'info'=>"发布动态时发生错误！"];
-        $msg = input('param.msg');
-        if(!$msg){
+        $msg = input('msg',"","string");
+        if(!empty($msg)){
             exception("参数错误!");
         }
         $imgs = request()->file('img');
-        $img_num = 9;
-        if(count($imgs)>$img_num){
-            exception("上传动态图片不能大于".$img_num."张!");
+        $img_num_max = 9;
+        if(count($imgs)>$img_num_max){
+            exception("上传动态图片不能大于".$img_num_max."张!");
         }
         //trace(var_exp($imgs,'$imgs','return'));
         $infos = [];
@@ -415,86 +415,6 @@ class CorporationShare extends Initialize{
 
     public function add_share_page(){
         return view('new');
-    }
-
-    public function add_share(){
-        $userinfo = get_userinfo();
-        $uid = $userinfo["userid"];
-
-        $result = ['status'=>0 ,'info'=>"发布动态时发生错误！"];
-        $msg = input('param.content');
-        // var_dump($msg);die();
-        if(!$msg){
-            exception("参数错误!");
-        }
-        $imgs = request()->file('img');
-
-        $img_num = 9;
-        if(count($imgs)>$img_num){
-            exception("上传动态图片不能大于".$img_num."张!");
-        }
-        //trace(var_exp($imgs,'$imgs','return'));
-        $infos = [];
-        if($imgs) {
-            $path = ROOT_PATH . 'public' . DS . 'webroot' . DS . $this->corp_id . DS . 'images';
-            foreach($imgs as $img){
-                // var_dump($img);die();
-                $checkFlg = $img->check(["ext"=>config('upload_image.image_ext')]);
-                // trace(var_exp($img,'$img','return'));
-                if(!$checkFlg){
-                    exception("上传动态图片检查失败");
-                }
-                $info = $img->move($path);
-                //trace(var_exp($info,'$info','return'));
-                if($info===false){
-                    exception("上传动态图片失败");
-                }
-                //var_exp($info,'$info');
-                $savename = $info->getSaveName();
-                $infos[] = $savename;
-            }
-        }
-        //trace(var_exp($infos,'$infos','return'));
-        $share["userid"] = $uid;
-        $share["create_time"] = time();
-        $share['type'] = input('type',0,'int');
-        $corporationShareModel = new CorporationShareModel($this->corp_id);
-        $corporationShareContentModel = new CorporationShareContent($this->corp_id);
-        $corporationShareModel->link->startTrans();
-        $content["content"] = $msg;
-        $content['text'] = input('text');
-        $content_id = $corporationShareContentModel->createCorporationShareContent($content);
-        if(!$content_id){
-            exception("发布动态内容失败");
-        }
-        $share["content_id"] = $content_id;
-        $share_id = $corporationShareModel->createCorporationShare($share);
-        //trace(var_exp($share_id,'$share_id','return'));
-        if(!$share_id){
-            $corporationShareModel->link->rollback();
-            exception("发布动态失败");
-        }
-        if($infos){
-            $share_pictures = [];
-            $share_picture["content_id"] = $content_id;
-            $url_path = DS . 'webroot' . DS . $this->corp_id . DS . 'images' . DS;
-            foreach ($infos as $info){
-                $share_picture["path"] = $url_path . $info;
-                $share_pictures[] = $share_picture;
-            }
-            //trace(var_exp($share_pictures,'$share_pictures','return'));
-            $corporationSharePicture = new CorporationSharePicture($this->corp_id);
-            $res = $corporationSharePicture->createMutipleCorporationSharePicture($share_pictures);
-            if(!$res["res"]){
-                $corporationShareModel->link->rollback();
-                exception("上传动态图片失败");
-            }
-        }
-        $corporationShareModel->link->commit();
-        $result['data'] = $share_id;
-        $result['status'] = 1;
-        $result['info'] = "发布成功！";
-        return json($result);
     }
 
     public function reward(){
