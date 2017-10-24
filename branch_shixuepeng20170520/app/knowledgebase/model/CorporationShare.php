@@ -72,7 +72,7 @@ class CorporationShare extends Base{
             ->order($order)
             ->limit($num)
             ->group("cs.id")
-            ->field("cs.*,case when csl.user_id>0 then 1 else 0 end as is_like,case when cst.user_id>0 then 1 else 0 end as is_tip,csco.content,csco.text,GROUP_CONCAT(csp.path) as img,e.telephone,e.truename,e.userpic")//TODO
+            ->field("cs.*,case when csl.user_id>0 then 1 else 0 end as is_like,case when cst.user_id>0 then 1 else 0 end as is_tip,csco.content,csco.share_url,GROUP_CONCAT(csp.path) as img,e.telephone,e.truename,e.userpic")//TODO
             ->select();
         foreach ($corporationShareList as &$corporationShare){
             if($corporationShare["img"]){
