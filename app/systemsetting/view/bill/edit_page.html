@@ -15,7 +15,7 @@
         </ul>
     </div>
     <div class="content">
-        <form name="form_bill_setting" class="form_bill_setting" onsubmit="return false;" method="post">
+        <form name="form_bill_setting" class="form_bill_setting" onsubmit="return false;" onkeydown="if(event.keyCode==13)return false;" method="post">
             <p>
                 <span>发票类型</span>
                 <input type="text" placeholder="百度类" name="bill_type" value="{$billSetting.bill_type}" />
