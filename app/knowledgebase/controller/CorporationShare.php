@@ -30,7 +30,7 @@ class CorporationShare extends Initialize{
 
         $result = ['status'=>0 ,'info'=>"发布动态时发生错误！"];
         $msg = input('msg',"","string");
-        if(!empty($msg)){
+        if(empty($msg)){
             exception("参数错误!");
         }
         $imgs = request()->file('img');
