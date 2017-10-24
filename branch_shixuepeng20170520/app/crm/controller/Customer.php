@@ -1067,7 +1067,7 @@ class Customer extends Initialize{
         //验证字段
         if(true !== $validate_result){
             $result["info"] = $validate_result;
-            return $result;
+            return json($result);
         }
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
         $customerM = new CustomerModel($this->corp_id);
@@ -1166,7 +1166,7 @@ class Customer extends Initialize{
         //验证字段
         if(true !== $validate_result){
             $result["info"] = $validate_result;
-            return $result;
+            return json($result);
         }
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
         $customerM = new CustomerModel($this->corp_id);
