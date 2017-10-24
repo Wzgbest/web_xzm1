@@ -1671,23 +1671,23 @@ function task_details(load_table,id,type,now_uid){
     });
     $(task_details_sel+" .dv2").on("click",".box li .help",function(){
         var that=$(this);
-        var take_id=that.parent('li').attr('data-id');
-        task_whether_help(take_id,true,function(data){
+        var employee_id=that.parent('li').attr('data-id');
+        task_whether_help(employee_id,true,function(data){
             that.parent('li').html('<span>判定已帮</span>');
 
         });
     });
     $(task_details_sel+" .dv2").on("click",".box li .unhelp",function(){
         var that=$(this);
-        var take_id=that.parent('li').attr('data-id');
-        task_whether_help(take_id,false,function(data){
+        var employee_id=that.parent('li').attr('data-id');
+        task_whether_help(employee_id,false,function(data){
             that.parent('li').html('<span>判定未帮</span>');
         });
     });
 
 
-    function task_whether_help(take_id,type,fun){
-        var post_data = "take_id="+take_id;
+    function task_whether_help(employee_id,type,fun){
+        var post_data = "task_id="+self.id+"&employee_id="+employee_id;
         if(!type){
             post_data+="&unhelp=1";
         }
