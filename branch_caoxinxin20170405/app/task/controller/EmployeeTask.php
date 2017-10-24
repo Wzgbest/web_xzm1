@@ -475,20 +475,32 @@ class EmployeeTask extends Initialize{
      * @return \think\response\Json
      */
     public function task_help(){
-        $take_id=input('take_id');//参与任务的id
-        $unhelp=input('unhelp');//是帮助了还是未帮
+        $task_id=input('task_id',0,"int");//参与任务的id
+        $take_id=input('take_id',0,"int");//参与任务的员工id
+        $unhelp=input('unhelp',0,"int");//是帮助了还是未帮
         $redata['success']=false;
         $redata['msg']='操作失败';
         $taskTakeModel = new TaskTake($this->corp_id);
         $con['id']=$take_id;
         $taskTakeInfo=$taskTakeModel->getTaskTakeInfoById($take_id);
         if(empty($taskTakeInfo)){
+            $redata['msg'] = "未找到任务参与信息！";
+            return json($redata);
+        }
+        $taskModel=new EmployeeTaskModel($this->corp_id);
+        $taskInfo=$taskModel->getTaskInfo($task_id);
+        if(empty($taskInfo)){
             $redata['msg'] = "未找到任务！";
             return json($redata);
         }
-        $task_id=$taskTakeInfo['task_id'];
-        $taskModel=new EmployeeTaskModel($this->corp_id);
-        $taskInfo=$taskModel->getTaskInfo($task_id);
+        if($taskInfo["task_type"]!=3){
+            $redata['msg'] = "该任务不是悬赏任务！";
+            return json($redata);
+        }
+        if($taskInfo["create_employee"]!=$this->uid){
+            $redata['msg'] = "你不是该任务的发起人！";
+            return json($redata);
+        }
         if($taskInfo['task_end_time']<strtotime("-3 days")){
             //如果未判定三天之内可以判定，超过三天后判定并自动结算
             $redata['msg'] = "该任务不再能判定！";
@@ -498,23 +510,15 @@ class EmployeeTask extends Initialize{
             $redata['msg'] = "该任务不在进行中！";
             return json($redata);
         }
-
-
-
-        if($take_id){
-            if($unhelp){
-                //未帮
-                $result=$taskTakeModel->toUnhelp($con);
-            }
-            else{
-                //已帮
-                $result=$taskTakeModel->tohelp($con);
-            }
-            if($result)
-            {
-                $redata['success']=true;
-                $redata['msg']='操作成功';
-            }
+        $result = false;
+        if($unhelp){ //未帮
+            $result=$taskTakeModel->toUnhelp($con);
+        }else{ //已帮
+            $result=$taskTakeModel->tohelp($con);
+        }
+        if($result){
+            $redata['success']=true;
+            $redata['msg']='操作成功';
         }
         return json($redata);
     }
