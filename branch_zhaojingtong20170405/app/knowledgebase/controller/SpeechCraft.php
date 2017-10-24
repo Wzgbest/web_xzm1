@@ -18,6 +18,9 @@ class SpeechCraft extends Initialize{
         parent::__construct();
         $this->_speechCraftModel = new SpeechCraftModel($this->corp_id);
     }
+    public function _initialize(){
+        parent::_initialize();
+    }
     public function index(){
    
         $key_word = input('key_word','','string');
