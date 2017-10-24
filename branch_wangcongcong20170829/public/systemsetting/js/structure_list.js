@@ -398,7 +398,7 @@ function struct_list_employee_move(struct_id,employee_id){
     struct_list_employee_move_employee_id = employee_id;
     //console.log(struct_list_employee_move_struct_id);
     //console.log(struct_list_employee_move_employee_id);
-    var url = "/systemsetting/structure/move_employee_page/";
+    var url = "/systemsetting/structure/employee_list_transfer/";
     $.ajax({
         url:url,
         type:'get',
