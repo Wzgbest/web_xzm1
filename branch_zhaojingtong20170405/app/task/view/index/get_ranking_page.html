@@ -53,7 +53,7 @@
 	            {/if}
 	        </li>
 	        {if condition="$vo['whether_help'] eq 0 && $create_employee==$uid "}
-	        <li data-id="{$vo['take_id']}"><a class="unhelp"><span>未帮</span></a>|<a class="help"><span>已帮</span></a></li>
+	        <li data-id="{$vo['employee_id']}"><a class="unhelp"><span>未帮</span></a>|<a class="help"><span>已帮</span></a></li>
 	        {else/}
 	        <li>
                 {eq name='task_end_flag' value='1'}
