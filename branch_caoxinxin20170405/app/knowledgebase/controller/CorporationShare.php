@@ -29,14 +29,14 @@ class CorporationShare extends Initialize{
         $uid = $userinfo["userid"];
 
         $result = ['status'=>0 ,'info'=>"发布动态时发生错误！"];
-        $msg = input('param.msg');
-        if(!$msg){
+        $msg = input('msg',"","string");
+        if(!empty($msg)){
             exception("参数错误!");
         }
         $imgs = request()->file('img');
-        $img_num = 9;
-        if(count($imgs)>$img_num){
-            exception("上传动态图片不能大于".$img_num."张!");
+        $img_num_max = 9;
+        if(count($imgs)>$img_num_max){
+            exception("上传动态图片不能大于".$img_num_max."张!");
         }
         //trace(var_exp($imgs,'$imgs','return'));
         $infos = [];
@@ -422,16 +422,16 @@ class CorporationShare extends Initialize{
         $uid = $userinfo["userid"];
 
         $result = ['status'=>0 ,'info'=>"发布动态时发生错误！"];
-        $msg = input('param.content');
+        $msg = input('content',"","string");
         // var_dump($msg);die();
         if(!$msg){
             exception("参数错误!");
         }
         $imgs = request()->file('img');
 
-        $img_num = 9;
-        if(count($imgs)>$img_num){
-            exception("上传动态图片不能大于".$img_num."张!");
+        $img_num_max = 9;
+        if(count($imgs)>$img_num_max){
+            exception("上传动态图片不能大于".$img_num_max."张!");
         }
         //trace(var_exp($imgs,'$imgs','return'));
         $infos = [];
@@ -462,7 +462,7 @@ class CorporationShare extends Initialize{
         $corporationShareContentModel = new CorporationShareContent($this->corp_id);
         $corporationShareModel->link->startTrans();
         $content["content"] = $msg;
-        $content['text'] = input('text');
+        $content['share_url'] = input('share_url',"","string");
         $content_id = $corporationShareContentModel->createCorporationShareContent($content);
         if(!$content_id){
             exception("发布动态内容失败");
