@@ -72,6 +72,19 @@ class TaskTake extends Base{
     }
 
     /**
+     * 获取某条参与信息
+     * @param $task_id
+     * @param $employee_id
+     * @return array|false|\PDOStatement|string|\think\Model
+     */
+    public function getTaskTakeInfoByTaskIdAndEmployee($task_id,$employee_id){
+        return $this->model->table($this->table)
+            ->where("task_id",$task_id)
+            ->where("take_employee",$employee_id)
+            ->find();
+    }
+
+    /**
      * 已帮
      * @param $con
      * @return int|string
@@ -90,6 +103,39 @@ class TaskTake extends Base{
     public function toUnhelp($con){
         $data['whether_help']=-1;
         $result=$this->model->table($this->table)->where($con)->data($data)->update();
+        return $result;
+
+    }
+
+    /**
+     * 已帮
+     * @param $task_id
+     * @param $employee_id
+     * @return int|string
+     */
+    public function employeeToHelp($task_id,$employee_id){
+        $data['whether_help']=1;
+        $result=$this->model->table($this->table)
+            ->where("task_id",$task_id)
+            ->where("take_employee",$employee_id)
+            ->data($data)
+            ->update();
+        return $result;
+    }
+
+    /**
+     * 未帮
+     * @param $task_id
+     * @param $employee_id
+     * @return int|string
+     */
+    public function employeeToUnhelp($task_id,$employee_id){
+        $data['whether_help']=-1;
+        $result=$this->model->table($this->table)
+            ->where("task_id",$task_id)
+            ->where("take_employee",$employee_id)
+            ->data($data)
+            ->update();
         return $result;
 
     }
