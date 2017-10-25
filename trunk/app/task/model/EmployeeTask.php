@@ -192,13 +192,21 @@ class EmployeeTask extends Base{
         return $standardTaskList;
     }
     public function getAllOverTimeTask($time){
-        $map["et.task_end_time"] = ["lt",$time];
-        $map["et.task_type"] = ["in",[1,2,3]];
-        $map["et.status"] = 2;
         $order = "et.id asc";
         $field = ["et.*"];
         $standardTaskList = $this->model->table($this->table)->alias('et')
-            ->where($map)
+            ->where(function($query)use($time){
+                $map["et.task_end_time"] = ["lt",$time];
+                $map["et.task_type"] = ["in",[1,2]];
+                $map["et.status"] = 2;
+                $query->where($map);
+            })
+            ->whereOr(function($query)use($time){
+                $map["et.task_end_time"] = ["lt",$time+60*60*24*3];
+                $map["et.task_type"] = 3;
+                $map["et.status"] = 2;
+                $query->where($map);
+            })
             ->order($order)
             ->group('et.id')
             ->field($field)
