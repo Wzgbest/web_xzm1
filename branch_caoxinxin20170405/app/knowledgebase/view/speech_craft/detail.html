@@ -4,13 +4,13 @@
 <link rel="stylesheet" href="/knowledgebase/css/index.css" />
 {if condition="$article.article_type == 1"}
 <div class="knowledgebase knowledgebase_speechcraft knowledgebase_speechcraft_detail">
+	<button class="u-btnBack" onclick="backLastPage()">返回</button>
 	<div class="detail_panel detail">
-		<button class="u-btnBack" onclick="backLastPage()">返回</button>
 		<div class="m-divBlock">
 			<h1>{$article.article_name}</h1>
 			<h3><span class="color-blue2">{$article.truename} </span>发布于 {$article.article_edit_time|time_format}</h3>
 		</div>
-		<div class="m-divBlock">
+		<div class="m-divBlock" style="padding-right: 5px;">
 		{$article.article_text}
 		</div>
 	</div>
@@ -25,10 +25,48 @@
 		height: 100%;
 		box-sizing:border-box;
 		border: none;
-		padding-bottom: 64px;
+		/*padding-bottom: 64px;*/
 	}
+	.u-btnBack{
+		width: 60px;
+	    height: 25px;
+	    position: absolute;
+	    right: 40px;
+	    top: 20px;
+	    z-index: 99;
+	    border-radius: 12.5px;
+	    line-height: 25px;
+	    margin-left: 10px;
+	    text-align: center;
+	    color: white;
+	    border: none;
+	    background-color: #42a5f5;
+	}
+	#speech-databasefr{
+		overflow-y:hidden; 
+	}
+	@media screen and (max-width: 640px){
+		.u-btnBack {
+		    display: none !important;
+		}
+		#speech-databasefr{
+			overflow-y:auto; 
+		}
+	}
+
 </style>
+<button class="u-btnBack" onclick="backLastPage()">返回</button>
 <iframe class="article_quote" src="{$article.article_url}"></iframe>
+<script type="text/javascript">
+// window.location.href = "{$article.article_url}";
+	// $(".article_url_content").load("{$article.article_url}");
+let h1 = $(".article_quote").height();
+let w1 = $(".article_quote").width();
+if(w1<=640){
+	$(".article_quote").height(h1-64);
+}
+// console.log(h);
+</script>
 {/if}
 <script type="text/javascript">
 	function backLastPage(argument) {

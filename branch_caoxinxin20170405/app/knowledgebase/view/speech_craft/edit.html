@@ -10,10 +10,10 @@
         </header>
         <section class="m-divBlock m-divBlock2 m-low-detail">
             <div class="radio-select">
-                <input type="radio" name="class" value="0" {eq name="article.article_type" value="1" } checked="checked" {/eq}/>&nbsp;&nbsp;原创&nbsp;&nbsp;
-                <input type="radio" name="class" {eq name="article.article_type" value="2" } checked="checked" {/eq} value="1"/>&nbsp;&nbsp;引用
+                <input type="radio" name="class" value="0" {eq name="article.article_type" value="1" } checked="checked" {/eq} disabled="disabled" />&nbsp;&nbsp;原创&nbsp;&nbsp;
+                <input type="radio" name="class" {eq name="article.article_type" value="2" } checked="checked" {/eq} value="1" disabled="disabled"/>&nbsp;&nbsp;引用
             </div>
-            <form class="original new_article_form" onsubmit="return false;">
+            <form {eq name="article.article_type" value="1"} class="original new_article_form" {else/} class="original hide" {/eq} onsubmit="return false;">
                 <div><span>标题</span><input type="text" name="article_name" placeholder="请输入文章标题" value="{$article.article_name}" /></div>
                 <div><span>分类</span><select name="article_class">
                         {volist name="article_type" id="vo"}
@@ -40,7 +40,7 @@
                     <button onclick="close_new_article();">取消</button>
                 </div>
             </form>
-            <form class="quote hide" onsubmit="return false;">
+            <form {eq name="article.article_type" value="2"} class="quote new_article_form" {else/} class="quote hide" {/eq} onsubmit="return false;">
                 <div><span>标题</span><input type="text" name="article_name" placeholder="请输入文章标题" value="{$article.article_name}"/></div>
                 <div><span>分类</span><select name="article_class">
                         {volist name="article_type" id="vo"}
