@@ -97,7 +97,8 @@ class Login extends Controller
             $info['errnum'] = 2;
             return json($info);
         }
-        $code = rand(100000, 999999);
+        $code = str_pad(rand(0, 999999),4,"0",STR_PAD_LEFT);
+        //var_exp($code,'$code',1);
         $code = 123456;//TODO 测试开启
         $content = '【咕果】感谢您使用本产品，您的手机验证码为' . $code . '请及时填写';
         $res = send_sms($userid, $code, $content);
