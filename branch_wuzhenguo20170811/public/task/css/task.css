@@ -129,8 +129,8 @@ header .sort .classify {
 	width: 80px;
 	height: 96px;
 	background-color: #fff;
-	left: 5px;
-	top: 35px;
+	left: -55px;
+	top: 40px;
 	border-radius: 2px;
 	box-shadow: 1px 1px 5px #cccccc;
 	z-index: 100;
@@ -159,12 +159,14 @@ header .sort .classify p:hover {
 	/*background-color: #edf2fd;*/
 }
 
-header .sort p {
+header .sort p{
 	font-size: 12px;
 	text-align: left;
 	margin-top: 3px;
 }
-
+header .sort .classify p{
+	margin-top: 0;
+}
 header .add img {
 	display: block;
 	margin-left: 10px;
@@ -2177,4 +2179,20 @@ article .dv4 .switch2{
 	top: 0;
 	left: 0;
 	background-color: #f5f7fa;
+}
+#infscr-loading{
+	width: 160px;
+	height: 20px;
+	margin: auto;
+}
+#infscr-loading img{
+	width: 20px;
+	height: 20px;
+	margin:0 auto;
+	margin-right: 5px;
+	vertical-align: middle;
+}
+#infscr-loading div{
+	display: inline-block;
+	vertical-align: middle;
 }
