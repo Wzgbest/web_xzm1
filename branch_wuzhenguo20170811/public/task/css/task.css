@@ -160,8 +160,9 @@ header .sort .classify p:hover {
 }
 
 header .sort p {
-	font-size: 14px;
+	font-size: 12px;
 	text-align: left;
+	margin-top: 3px;
 }
 
 header .add img {
@@ -193,11 +194,11 @@ header .xinjian i {
 article {
 	height: 100%;
 	position: relative;
-	top:40px;
-	left: 0;
+	top:10px;
+	left: -6px;
 	/*overflow: auto;*/
 	margin-left: 10px;
-	margin-top: 10px;
+	margin-top: 40px;
 	overflow: hidden;
 	
 }
