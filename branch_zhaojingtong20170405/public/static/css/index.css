@@ -57,6 +57,7 @@ aside dl dd:hover{
 }
 .ddcurrent{
 	border-left: 2px solid #0c80df;
+	background-color: #0c80df;
 	text-indent: 46px;
 	color: white;
 	font-weight: bold;
