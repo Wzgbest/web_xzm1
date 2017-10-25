@@ -17,13 +17,14 @@
 </div>
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript">
-// window.location.href = "{$article.article_url}";
+// 
 	// $(".article_url_content").load("{$article.article_url}");
 let h1 = window.innerHeight;
 let w1 = window.innerWidth;
 if(w1<=640){
 	$(".knowledgebase_speechcraft_detail").height(h1-64);
 	console.log(640);
+
 }
 // console.log(h);
 </script>
@@ -79,6 +80,8 @@ let w1 = window.innerWidth;
 if(w1<=640){
 	$(".article_quote").height(h1-64);
 	console.log(640);
+	window.location.href = "{$article.article_url}";
+	console.log(640)
 }
 // console.log(h);
 </script>
