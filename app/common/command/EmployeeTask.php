@@ -336,10 +336,27 @@ class EmployeeTask extends Command{
                     }elseif ($task_type==3){
                         $takeList = $taskTakeM->getTaskTakeListByTaskId($id);
                         $needRedEnvelopeEmployeeId = [];
-                        for($i=0;$i<count($takeList);$i++){
-                            if($takeList[$i]["whether_help"]==1){
-                                $needRedEnvelopeEmployeeId[] = $takeList[$i]["take_employee"];
-                                $rankingdata[] = ["employee_id"=>$takeList[$i]["take_employee"]];
+                        $deadline = strtotime("-3 days");
+                        if($taskInfo['task_end_time']<$deadline){
+                            for($i=0;$i<count($takeList);$i++) {
+                                if ($takeList[$i]["whether_help"] >= 0) {
+                                    $needRedEnvelopeEmployeeId[] = $takeList[$i]["take_employee"];
+                                    $rankingdata[] = ["employee_id" => $takeList[$i]["take_employee"]];
+                                }
+                            }
+                        }else{
+                            $select = array_column($takeList,"whether_help");
+                            $hav_not_select = in_array(0,$select);
+                            if($hav_not_select){
+                                var_exp($select, '$select');
+                                break;
+                            }else{
+                                for($i=0;$i<count($takeList);$i++) {
+                                    if ($takeList[$i]["whether_help"] == 1) {
+                                        $needRedEnvelopeEmployeeId[] = $takeList[$i]["take_employee"];
+                                        $rankingdata[] = ["employee_id" => $takeList[$i]["take_employee"]];
+                                    }
+                                }
                             }
                         }
                     }
