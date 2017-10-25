@@ -109,9 +109,7 @@ class Login extends Controller
         }
         $info['message'] = '发送成功';
         $info['status'] = true;
-        if (!$info['status']) {
-            return json($info);
-        }
+        return json($info);
     }
 
     /**
