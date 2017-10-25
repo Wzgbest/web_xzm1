@@ -4,6 +4,7 @@ namespace app\systemsetting\controller;
 use app\common\controller\Initialize;
 use app\systemsetting\model\BillSetting as BillSettingModel;
 use app\common\model\Role as RoleModel;
+use app\crm\model\Bill as BillModel;
 
 class Bill extends Initialize{
     protected $_billSettingModel = null;
@@ -222,11 +223,25 @@ class Bill extends Initialize{
         return json($result);
     }
 
+    public function _checkNotUse($ids){
+        $is_not_use = false;
+        $billM = new BillModel($this->corp_id);
+        $in_use_bill_count = $billM->getAllVerificationBillCount($ids);
+        if($in_use_bill_count==0){
+            $is_not_use = true;
+        }
+        return $is_not_use;
+    }
+
     public function update(){
         $result = ['status'=>0 ,'info'=>"更新发票设置时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){
             $result['info'] = "参数错误！";
+            return json($result);
+        }
+        if(!$this->_checkNotUse($id)){
+            $result['info'] = "存在正在审核中的项目,不能修改！";
             return json($result);
         }
         $billSetting = $this->_getBillSettingForInput();
@@ -260,6 +275,10 @@ class Bill extends Initialize{
         $ids = input("ids");
         if(!$ids){
             $result['info'] = "参数错误！";
+            return json($result);
+        }
+        if(!$this->_checkNotUse($ids)){
+            $result['info'] = "存在正在审核中的项目,不能删除！";
             return json($result);
         }
         $ids_arr = explode(",",$ids);

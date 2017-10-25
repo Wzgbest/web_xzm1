@@ -71,8 +71,7 @@ class ContractSetting extends Base{
      * @param $data
      * @return int|string
      */
-    public function addContractSetting($data)
-    {
+    public function addContractSetting($data){
         return $this->model->table($this->table)->insertGetId($data);
     }
 
@@ -82,8 +81,7 @@ class ContractSetting extends Base{
      * @return int|string
      * @throws \think\Exception
      */
-    public function getContractSettingById($id)
-    {
+    public function getContractSettingById($id){
         return $this->model->table($this->table)->where('id',$id)->find();
     }
 
@@ -94,8 +92,7 @@ class ContractSetting extends Base{
      * @return int|string
      * @throws \think\Exception
      */
-    public function setContractSetting($id,$data)
-    {
+    public function setContractSetting($id,$data){
         return $this->model->table($this->table)->where('id',$id)->update($data);
     }
 

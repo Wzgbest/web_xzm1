@@ -424,6 +424,16 @@ class SaleChance extends Base
         return $this->model->table($this->table)->where('customer_id',$customer_id)->count();
     }
 
+    public function getAllUseBusinessSaleChanceCount($ids){
+        if(empty($ids)){
+            return 0;
+        }
+        return $this->model->table($this->table)->alias('sc')
+            ->where('sc.business_id',"in",$ids)
+            ->where('sc.sale_status',"in",[1,2,3,4])
+            ->count();
+    }
+
     /**添加
      * @param $data array 客户商机数据
      * @return false|\PDOStatement|int|\think\Collection
@@ -447,6 +457,22 @@ class SaleChance extends Base
         ];
         return $this->model->table($this->table)->alias('sc')
             ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
+            ->where('sc.id',$id)
+            ->field($field)
+            ->find();
+    }
+
+    /**获取
+     * @param $id int 客户商机id
+     * @return false|\PDOStatement|int|\think\Collection
+     * created by blu10ph
+     */
+    public function getSaleChanceOrigin($id)
+    {
+        $field = [
+            "sc.*",
+        ];
+        return $this->model->table($this->table)->alias('sc')
             ->where('sc.id',$id)
             ->field($field)
             ->find();
