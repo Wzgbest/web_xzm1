@@ -66,6 +66,17 @@ class ContractSetting extends Base{
         return $contractSettingList;
     }
 
+    public function getContractSettingByRoleIds($role_ids){
+        if(empty($role_ids)){
+            return [];
+        }
+        $map["apply_1|apply_2|apply_3|apply_4|apply_5"] = ["in",$role_ids];
+        return$this->model->table($this->table)
+            ->where($map)
+            ->field('*')//TODO field list
+            ->select();
+    }
+
     /**
      * 添加单个合同设置
      * @param $data
