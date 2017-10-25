@@ -15,7 +15,19 @@
                         <img src="/task/img/note.png" />
                     </div>
                 </div>
-                <p>￥100</p>
+                <p>￥
+                    <?php switch($vo['task_method']){
+                case 1:
+                    echo $vo['reward_amount'];
+                    break;
+                case 2:
+                    echo sprintf("%.2f", $vo['reward_amount']/$vo['partin_count']);
+                    break;
+                case 3:
+                    echo $vo['reward_amount'];
+                    break;
+                } ?>
+                </p>
                 <p>预计奖金</p>
             </div>
         </div>
@@ -29,18 +41,33 @@
                     </div>
                     <div class="fu">
                         <p class="small">奖金</p>
-                        <p class="big">{$vo.re_amount}元/人</p>
+                        <p class="big">{$vo.re_amount}元
+                            {neq name='vo.task_method' value='2'}/人{/neq}
+                        </p>
                         <?php $rewardArray=explode(',',$vo['ranking']); ?>
+                        {neq name='vo.task_method' value='2'}
                         <div class="xuanfu">
                             {volist name="rewardArray" id="v1"}
                             <P><span>{$v1}</span></P>
                             {/volist}
-
                         </div>
+                        {/neq}
                     </div>
                     <div class="len">
                         <p class="small">奖金规则</p>
-                        <p class="big">任务结束后，按完成任务量的最终排名</p>
+                        <p class="big">
+                            <?php switch($vo['task_method']){
+                            case 1:
+                                echo '统计周期时间内，达标的员工获得即时奖励';
+                                break;
+                            case 2:
+                                echo '任务结束，所有达标员工平均分配奖金';
+                                break;
+                            case 3:
+                                echo '任务结束后，按完成任务量最终排名发放奖金';
+                                break;
+                            } ?>
+                        </p>
                     </div>
 
 
@@ -129,7 +156,7 @@
                             <img src="/task/img/note.png" />
                         </div>
                     </div>
-                    <p>￥100</p>
+                    <p>￥<?php echo $vo['reward_amount']*$vo['partin_count'] ?></p>
                     <p>预计奖金</p>
             </div>
         </div>
@@ -249,7 +276,7 @@
                         <img src="/task/img/note.png" />
                     </div>
                 </div>
-                <p>￥100</p>
+                <p>￥{$vo.reward_amount}</p>
                 <p>预计奖金</p>
             </div>
         </div>
