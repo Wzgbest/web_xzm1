@@ -93,6 +93,7 @@ class SaleChanceVisit extends Base{
      * @param $customer_id int 客户id
      * @param $lat double 经度
      * @param $lng double 纬度
+     * @param $location_str string 经纬度对应地址
      * @param $sale_id double 销售机会id
      * @return false|\PDOStatement|int|\think\Collection
      * created by blu10ph
@@ -101,12 +102,12 @@ class SaleChanceVisit extends Base{
         if($sale_id){
             $map["sc.id"] = $sale_id;
         }
+        $map["sc.customer_id"] = $customer_id;
+        $map["sc.sale_status"] = 2;
         $data["scv.sign_in_location"] = $lat.",".$lng;
         $data["scv.sign_in_location_str"] = $location_str;
         $data["scv.visit_ok"] = 1;
         $data["sc.sale_status"] = 3;
-        $map["sc.customer_id"] = $customer_id;
-        $map["sc.sale_status"] = 2;
         return $this->model->table($this->table)->alias('scv')
             ->join($this->dbprefix.'sale_chance sc','sc.id = scv.sale_id',"LEFT")
             ->where($map)
