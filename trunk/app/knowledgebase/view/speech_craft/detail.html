@@ -56,14 +56,17 @@
 
 </style>
 <button class="u-btnBack" onclick="backLastPage()">返回</button>
+<div style="height: 64px"></div>
 <iframe class="article_quote" src="{$article.article_url}"></iframe>
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript">
 // window.location.href = "{$article.article_url}";
 	// $(".article_url_content").load("{$article.article_url}");
-let h1 = $(".article_quote").height();
-let w1 = $(".article_quote").width();
+let h1 = window.innerHeight;
+let w1 = window.innerWidth;
 if(w1<=640){
 	$(".article_quote").height(h1-64);
+	console.log(640);
 }
 // console.log(h);
 </script>
