@@ -6,9 +6,10 @@
 namespace app\systemsetting\controller;
 
 use app\common\controller\Initialize;
-use app\systemsetting\model\ContractSetting as ContractModel;
+use app\systemsetting\model\ContractSetting as ContractSettingModel;
 use think\Request;
 use app\common\model\Role as RoleModel;
+use app\crm\model\Contract as ContractModel;
 
 class Contract extends Initialize{
     protected $_contractSettingModel = null;
@@ -16,7 +17,7 @@ class Contract extends Initialize{
     public function __construct(){
         parent::__construct();
         $corp_id = get_corpid();
-        $this->_contractSettingModel = new ContractModel($corp_id);
+        $this->_contractSettingModel = new ContractSettingModel($corp_id);
     }
     public function index(){
         $contracts = $this->_contractSettingModel->getAllContract();
@@ -201,11 +202,25 @@ class Contract extends Initialize{
         return json($result);
     }
 
+    public function _checkNotUse($ids){
+        $is_not_use = false;
+        $contractM = new ContractModel($this->corp_id);
+        $in_use_contract_count = $contractM->getAllVerificationContractCount($ids);
+        if($in_use_contract_count==0){
+            $is_not_use = true;
+        }
+        return $is_not_use;
+    }
+
     public function update(){
         $result = ['status'=>0 ,'info'=>"更新合同设置时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){
             $result['info'] = "参数错误！";
+            return json($result);
+        }
+        if(!$this->_checkNotUse($id)){
+            $result['info'] = "存在正在审核中的项目,不能修改！";
             return json($result);
         }
         $contractSetting = $this->_getContractSettingForInput();
@@ -239,6 +254,10 @@ class Contract extends Initialize{
         $ids = input("ids");
         if(!$ids){
             $result['info'] = "参数错误！";
+            return json($result);
+        }
+        if(!$this->_checkNotUse($ids)){
+            $result['info'] = "存在正在审核中的项目,不能删除！";
             return json($result);
         }
         $ids_arr = explode(",",$ids);

@@ -129,6 +129,9 @@ class RoleEmployee extends Base
      */
     public function getEmployeeNameListbyRole($role_ids)
     {
+        if(empty($role_ids)){
+            return [];
+        }
         return $this->model->table($this->table)->alias('re')
             ->join(config('database.prefix').'employee e','re.user_id = e.id')
             ->field('re.user_id,re.role_id,e.truename')
