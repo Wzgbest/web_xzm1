@@ -10,15 +10,16 @@ namespace app\systemsetting\validate;
 
 use think\Validate;
 
-class BillSetting extends Validate
-{
+class BillSetting extends Validate{
     protected $rule = [
         'bill_type' => 'require',
         'need_tax_id' => 'require|number',
+        'product_type' => 'require',
     ];
 
     protected $message = [
         'bill_type.require' => '发票设置名称不能为空',
         'need_tax_id.require' => '是否需要公司税号不能为空',
+        'product_type.require' => '产品类型不能为空',
     ];
 }
