@@ -337,9 +337,17 @@ class EmployeeTask extends Command{
                         $takeList = $taskTakeM->getTaskTakeListByTaskId($id);
                         $needRedEnvelopeEmployeeId = [];
                         $deadline = strtotime("-3 days");
+                        var_exp($deadline, '$deadline');
                         if($taskInfo['task_end_time']<$deadline){
                             for($i=0;$i<count($takeList);$i++) {
                                 if ($takeList[$i]["whether_help"] >= 0) {
+                                    if($takeList[$i]["whether_help"]==0){
+                                        var_exp($takeList[$i], '$takeList[$i]');
+                                        $toHelpFlg = $taskTakeM->toHelp(["id"=>$takeList[$i]["id"]]);
+                                        if(!$toHelpFlg){
+                                            exception("系统自动判定已帮发生错误!");
+                                        }
+                                    }
                                     $needRedEnvelopeEmployeeId[] = $takeList[$i]["take_employee"];
                                     $rankingdata[] = ["employee_id" => $takeList[$i]["take_employee"]];
                                 }
