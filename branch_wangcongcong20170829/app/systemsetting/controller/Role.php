@@ -14,6 +14,9 @@ use app\systemsetting\controller\Employee as EmployeeController;
 use app\common\model\Employee as EmployeeModel;
 use app\common\model\Structure as StructureModel;
 use app\common\model\RoleEmployee;
+use app\systemsetting\model\BillSetting as BillSettingModel;
+use app\systemsetting\model\BusinessFlowItemLink as BusinessFlowItemLinkModel;
+use app\systemsetting\model\ContractSetting as ContractSettingModel;
 
 class Role extends Initialize{
     var $paginate_list_rows = 10;
@@ -196,8 +199,7 @@ class Role extends Initialize{
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function showRoles()
-    {
+    public function showRoles(){
         $rol = new RoleModel($this->corp_id);
         $data = $rol->getAllRole();
         return $data;
@@ -209,8 +211,7 @@ class Role extends Initialize{
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function showRules($role_id)
-    {
+    public function showRules($role_id){
         $rol = new RoleModel($this->corp_id);
         $roles = $rol->getRoleInfo($role_id);
         return $roles;
@@ -222,8 +223,7 @@ class Role extends Initialize{
      * @return array created by messhair
      * created by messhair
      */
-    public function addRole($role_name)
-    {
+    public function addRole($role_name){
         $rol = new RoleModel($this->corp_id);
         $data = [
             'role_name'=>$role_name,
@@ -249,8 +249,7 @@ class Role extends Initialize{
      * @return array
      * created by messhair
      */
-    public function editRole(Request $request)
-    {
+    public function editRole(Request $request){
         $input = $request->param();
         $rol = new RoleModel($this->corp_id);
         $data = [
@@ -276,8 +275,7 @@ class Role extends Initialize{
      * @return array|\think\response\View
      * created by messhair
      */
-    public function editRoleRule(Request $request)
-    {
+    public function editRoleRule(Request $request){
         $input = $request->param();
         if ($request->isGet()) {
             $rolRulM = new RoleModel($this->corp_id);
@@ -310,8 +308,7 @@ class Role extends Initialize{
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function showRoleMember(Request $request)
-    {
+    public function showRoleMember(Request $request){
         $input = $request->param();
         $employeeM = new Employee();
         $res = $employeeM->getEmployeeByRole($input['role_id']);
@@ -324,8 +321,7 @@ class Role extends Initialize{
      * @return array|\think\response\View
      * created by messhair
      */
-    public function addRoleMember(Request $request)
-    {
+    public function addRoleMember(Request $request){
         $input = $request->param();
         $employeeM = new Employee();
         if ($request->isGet()) {
@@ -364,15 +360,42 @@ class Role extends Initialize{
         }
     }
 
+    public function _checkNotUse($ids){
+        $is_not_use = false;
+        $billSettingM = new BillSettingModel($this->corp_id);
+        $in_use_bill_setting_count = $billSettingM->getBillSettingByRoleIds($ids);
+        if($in_use_bill_setting_count==0){
+            $is_not_use = true;
+            return $is_not_use;
+        }
+        $businessFlowItemLinkM = new BusinessFlowItemLinkModel($this->corp_id);
+        $in_use_bill_setting_count = $businessFlowItemLinkM->getBusinessFlowSettingByRoleIds($ids);
+        if($in_use_bill_setting_count==0){
+            $is_not_use = true;
+            return $is_not_use;
+        }
+        $contractSettingM = new ContractSettingModel($this->corp_id);
+        $in_use_bill_setting_count = $contractSettingM->getContractSettingByRoleIds($ids);
+        if($in_use_bill_setting_count==0){
+            $is_not_use = true;
+            return $is_not_use;
+        }
+        return $is_not_use;
+    }
+
     /**
      * 删除角色
      * @param Request $request
      * @return array
      * created by messhair
      */
-    public function deleteRole(Request $request)
-    {
+    public function deleteRole(Request $request){
         $input = $request->param();
+        if(!$this->_checkNotUse($input['role_id'])){
+            $result['status'] = false;
+            $result['message'] = "存在正在使用中的审核项目,不能修改！";
+            return json($result);
+        }
         $employeeM = new Employee();
         $res = $employeeM->getEmployeeByRole($input['role_id']);
         if (!empty($res)) {
@@ -402,10 +425,17 @@ class Role extends Initialize{
      * @return array
      * created by messhair
      */
-    public function deleteRoleMember(Request $request)
-    {
+    public function deleteRoleMember(Request $request){
         $result = ['status'=>0 ,'message'=>"删除角色成员失败！"];
         $input = $request->param();
+        $employeeM = new Employee();
+        $res = $employeeM->getEmployeeByRole($input['role_id']);
+        if(!$this->_checkNotUse($input['role_id'])){
+            if(count($res)==1){
+                $result['message'] = "存在正在使用中的审核项目且仅剩一人,不能删除成员！";
+                return json($result);
+            }
+        }
         $role_empM = new RoleEmployee($this->corp_id);
         $data = ['role'=>$input['role_id']];
         $b = $role_empM->deleteMultipleRoleEmployee($input['user_id'], $data);
@@ -424,8 +454,7 @@ class Role extends Initialize{
      * @return array|false|\PDOStatement|string|\think\Model
      * created by messhair
      */
-    public function showEmployeeInfo(EmployeeController $employee)
-    {
+    public function showEmployeeInfo(EmployeeController $employee){
         $input = input('param.');
         $res = $employee->showSingleEmployeeInfo($input['user_id']);
         return $res;
