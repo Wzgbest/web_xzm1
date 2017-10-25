@@ -119,7 +119,7 @@ class Login extends Controller
     public function resetPassword()
     {
         $userid = input('param.userid');
-        $newpass = input('param.newpassword');
+        $newpass = md5(input('param.newpassword'));
         $code = input('param.smscode');
         $info['status'] = false;
         if (!$code) {
@@ -151,7 +151,7 @@ class Login extends Controller
 //        $res = action('Api/resetPassword',['user'=>$userid,'newpass'=>$newpass]);
 //        dump($res);exit;
         if ($reset['action']=='set user password') {
-            $data['password'] = md5($newpass);
+            $data['password'] = $newpass;
             $corp_id = get_corpid($userid);
             if($r_userid["lastlogintime"]==0){
                 $data['lastlogintime'] = 1;
