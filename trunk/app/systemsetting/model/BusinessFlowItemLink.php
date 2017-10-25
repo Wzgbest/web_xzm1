@@ -90,6 +90,17 @@ class BusinessFlowItemLink extends Base{
         return $businessFlowSettingNameList;
     }
 
+    public function getBusinessFlowSettingByRoleIds($role_ids){
+        if(empty($role_ids)){
+            return [];
+        }
+        $map["handle_1|handle_2|handle_3|handle_4|handle_5"] = ["in",$role_ids];
+        return$this->model->table($this->table)
+            ->where($map)
+            ->field('*')//TODO field list
+            ->select();
+    }
+
     /**
      * 添加单个业务流项目
      * @param $data
