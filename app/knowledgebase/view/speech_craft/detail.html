@@ -9,15 +9,16 @@
 			<h1>{$article.article_name}</h1>
 			<h3><span class="color-blue2">{$article.truename} </span>发布于 {$article.article_edit_time|time_format}</h3>
 		</div>
-		<div class="m-divBlock">
+		
 			{if condition="$article.article_type == 1"}
+			<div class="m-divBlock">
 			{$article.article_text}
+			</div>
 			{else/}
-			<iframe src="http://www.163.com"></iframe>
+			<iframe class="article_quote" src="{$article.article_url}"></iframe>
 			
 			{/if}
-		</div>
-	</div>
+		
 </div>
 <script type="text/javascript">
 	function backLastPage(argument) {
