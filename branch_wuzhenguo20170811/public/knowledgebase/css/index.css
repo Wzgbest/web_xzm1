@@ -478,6 +478,9 @@
 	.knowledgebase_speechcraft_detail .u-btnBack{
 		display: none !important;
 	}
+	.knowledgebase_speechcraft_detail{
+		overflow: auto;
+	}
 }
 .m-low-nav{
 	position: fixed !important;
