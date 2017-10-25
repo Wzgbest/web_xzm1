@@ -2,6 +2,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <link rel="stylesheet" href="/knowledgebase/css/index.css" />
+<style type="text/css">
+	.article_quote{
+		width: 100%;
+		height: 100%;
+		box-sizing:border-box;
+		border: none;
+	}
+</style>
+{if condition="$article.article_type == 1"}
 <div class="knowledgebase knowledgebase_speechcraft knowledgebase_speechcraft_detail">
 	<div class="detail_panel detail">
 		<button class="u-btnBack" onclick="backLastPage()">返回</button>
@@ -10,16 +19,24 @@
 			<h3><span class="color-blue2">{$article.truename} </span>发布于 {$article.article_edit_time|time_format}</h3>
 		</div>
 		
-			{if condition="$article.article_type == 1"}
+			<!-- {if condition="$article.article_type == 1"} -->
 			<div class="m-divBlock">
 			{$article.article_text}
 			</div>
-			{else/}
-			<iframe class="article_quote" src="{$article.article_url}"></iframe>
+			<!-- {else/} -->
 			
-			{/if}
+			
+			<!-- {/if} -->
 		
 </div>
+{else/}
+<style>
+	body{
+		margin: 0;
+	}
+</style>
+<iframe class="article_quote" src="{$article.article_url}"></iframe>
+{/if}
 <script type="text/javascript">
 	function backLastPage(argument) {
 		loadPage("/knowledgebase/speech_craft/index",'speech-databasefr')
