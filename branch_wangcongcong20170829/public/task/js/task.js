@@ -925,9 +925,9 @@ function task_list(target, now_uid, base_url) {
 			errorCallback: function() {}, //当出错的时候，比如404页面的时候执行的函数
 			pathParse: undefined,
 			loading: {
-				img: "/static/images/loading.gif",
+				img: "/static/images/load.png",
 				finishedMsg: "没有更多了",
-				msgText: "加载中..."
+				msgText: "页面正在加载，请稍后..."
 			},
 			state: {
 				currPage: 1,
