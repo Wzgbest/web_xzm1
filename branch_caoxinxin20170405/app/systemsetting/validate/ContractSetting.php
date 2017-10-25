@@ -24,7 +24,7 @@ class ContractSetting extends Validate
         'contract_name.require' => '合同设置名称不能为空',
         'start_num.require' => '合同起始编号不能为空',
         'end_num.require' => '合同结束编号不能为空',
-        'current_contract.require' => '当前合同编号不能为空',
+        'current_contract.require' => '当前合同号不能为空',
         'apply_1.require' => '合同审核角色不能为空',
     ];
 }
