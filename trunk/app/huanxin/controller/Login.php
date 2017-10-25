@@ -144,15 +144,15 @@ class Login extends Controller
             $info['errnum'] = 4;
             return json($info);
         }
+        $employee = new Employee($corp_id);
+        $r_userid = $employee->getEmployeeByTel($userid);
         $apiM = new Api();
-        $reset = $apiM ->resetPassword($userid,$newpass);
+        $reset = $apiM ->resetPassword($corp_id."_".$r_userid["id"],$newpass);
 //        $res = action('Api/resetPassword',['user'=>$userid,'newpass'=>$newpass]);
 //        dump($res);exit;
         if ($reset['action']=='set user password') {
             $data['password'] = md5($newpass);
             $corp_id = get_corpid($userid);
-            $employee = new Employee($corp_id);
-            $r_userid = $employee->getEmployeeByTel($userid);
             if($r_userid["lastlogintime"]==0){
                 $data['lastlogintime'] = 1;
             }
