@@ -413,6 +413,16 @@ class Bill extends Base{
         return $map;
     }
 
+    public function getAllVerificationBillCount($ids){
+        if(empty($ids)){
+            return 0;
+        }
+        return $this->model->table($this->table)->alias('sob')
+            ->where('sob.bill_type',"in",$ids)
+            ->where('sob.status',0)
+            ->count();
+    }
+
     public function getBillItem($ids){
         if(empty($ids)){
             return [];
