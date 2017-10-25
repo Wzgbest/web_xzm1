@@ -10,8 +10,7 @@ namespace app\systemsetting\validate;
 
 use think\Validate;
 
-class ContractSetting extends Validate
-{
+class ContractSetting extends Validate{
     protected $rule = [
         'contract_name' => 'require',
         'start_num' => 'require|number',

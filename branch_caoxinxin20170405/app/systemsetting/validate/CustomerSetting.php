@@ -10,8 +10,7 @@ namespace app\systemsetting\validate;
 
 use think\Validate;
 
-class CustomerSetting extends Validate
-{
+class CustomerSetting extends Validate{
     protected $rule = [
         'setting_name' => 'require',
         'protect_customer_day' => 'require|number',

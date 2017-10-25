@@ -10,8 +10,7 @@ namespace app\systemsetting\validate;
 
 use think\Validate;
 
-class BillSetting extends Validate
-{
+class BillSetting extends Validate{
     protected $rule = [
         'bill_type' => 'require',
         'need_tax_id' => 'require|number',
