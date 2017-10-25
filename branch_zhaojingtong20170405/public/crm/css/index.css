@@ -44,7 +44,7 @@
 
 /************************************************************************/
 /*客户列表*/
-#myAllClientsPage,#myAllSaleChancePage{
+.crm_customer .myAllClientsPage,.crm_customer .myAllSaleChancePage{
 	margin-top: 40px;
 }
 
