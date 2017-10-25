@@ -84,10 +84,12 @@
 
             {volist name="saleOrderContractItem" id="voc" key="keyc"}
                 <div class="sale-chance-apply-contract" index="{$keyc}">
-                    <div class="controler">
-                        <div class="add"><i class="fa fa-plus-circle fa-2x"></i></div>
-                        <div class="delete"><i class="fa fa-trash-o fa-2x"></i></div>
-                    </div>
+                    {notpresent name="saleOrderContractData.id"}
+                        <div class="controler">
+                            <div class="add"><i class="fa fa-plus-circle fa-2x"></i></div>
+                            <div class="delete"><i class="fa fa-trash-o fa-2x"></i></div>
+                        </div>
+                    {/notpresent}
                     <div>
                         <span class="cont">合同编号</span>
                         <select name="contract_id" class="contract_no_selecter">
