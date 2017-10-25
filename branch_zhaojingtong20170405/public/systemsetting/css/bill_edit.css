@@ -22,18 +22,12 @@ ol {
 .systemsetting_bill_edit .top {
     /*width: 1120px;*/
     width: 100%;
-    height: 41px;
-    background-color: #fff;
-    margin: 0 10px;
-}
-
-.systemsetting_bill_edit .top {
-    /*width: 1120px;*/
-    width: 100%;
     height: 40px;
     background-color: #fff;
-    margin: 0 10px;
+    margin: 0 2px;
 }
+
+
 
 .systemsetting_bill_edit ul.firNav {
     height: 40px;
@@ -98,7 +92,8 @@ ol {
     width: 100%;
     height: 812px;
     background-color: #fff;
-    margin: auto 10px;
+    /*margin: auto 10px;*/
+    margin-left: 2px;
     margin-top: 6px;
     margin-bottom: 12px;
     padding-top: 30px;
@@ -112,7 +107,7 @@ ol {
 }
 
 .systemsetting_bill_edit .content span {
-    width: 126px;
+    width: 136px;
     height: 36px;
     display: inline-block;
     text-align: right;
