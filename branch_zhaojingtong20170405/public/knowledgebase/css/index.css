@@ -435,12 +435,13 @@
 .knowledgebase_speechcraft_detail .detail{
 	position: relative;
 	height: 100%;
+	overflow-y:auto; 
 }
 .knowledgebase_speechcraft_detail .u-btnBack{
 	width: 60px;
     height: 25px;
     position: absolute;
-    right: 20px;
+    right: 40px;
     top: 20px;
     z-index: 99;
     border-radius: 12.5px;

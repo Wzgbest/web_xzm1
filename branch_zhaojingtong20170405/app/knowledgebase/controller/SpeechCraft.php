@@ -164,7 +164,7 @@ class SpeechCraft extends Initialize{
     编辑文章
      */
     public function editArticle(){
-        $result = ['status'=>0,'info'=>"跟新文章失败!"];
+        $result = ['status'=>0,'info'=>"更新文章失败!"];
 
         $userinfo = get_userinfo();
         $id = input('article_id',0,'int');
@@ -244,7 +244,7 @@ class SpeechCraft extends Initialize{
         // var_dump($id);die();
         if ($id) {
             $result['status'] = 1;
-            $result['info'] = "跟新文章成功";
+            $result['info'] = "更新文章成功";
         }
         // var_dump($id);die();
         return json($result);
