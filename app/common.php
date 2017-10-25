@@ -1443,7 +1443,7 @@ function send_sms ($tel,$code,$content) {
         return ['status'=>true];
     } else {
         $content = '手机号'.$tel.'发送信息失败，原因为：'.$data['Result'];
-        send_mail(config('system_email.user'),config('system_email.pass'),'wangqiwen@winbywin.com', '通信项目短信问题',config('system_email.from_name'), $content);
+        send_mail(config('system_email.user'),config('system_email.pass'),'zhangxiaoyang@winbywin.com', '通信项目短信问题',config('system_email.from_name'), $content);
         return ['status'=>false,'message'=>$content];
     }
 }
