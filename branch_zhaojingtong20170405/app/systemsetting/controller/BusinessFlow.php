@@ -6,6 +6,7 @@ use app\common\model\Role as RoleModel;
 use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
 use app\systemsetting\model\BusinessFlowItem;
 use app\systemsetting\model\BusinessFlowItemLink;
+use app\crm\model\SaleChance as SaleChanceModel;
 
 class BusinessFlow extends Initialize{
     protected $_businessFlowModel = null;
@@ -195,11 +196,25 @@ class BusinessFlow extends Initialize{
         return json($result);
     }
 
+    public function _checkNotUse($ids){
+        $is_not_use = false;
+        $saleChanceM = new SaleChanceModel($this->corp_id);
+        $in_use_contract_count = $saleChanceM->getAllUseBusinessSaleChanceCount($ids);
+        if($in_use_contract_count==0){
+            $is_not_use = true;
+        }
+        return $is_not_use;
+    }
+
     public function update(){
         $result = ['status'=>0 ,'info'=>"更新工作流设置时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){
             $result['info'] = "参数错误！";
+            return json($result);
+        }
+        if(!$this->_checkNotUse($id)){
+            $result['info'] = "存在正在使用中的项目,不能修改！";
             return json($result);
         }
         $businessFlowSetting = $this->_getBusinessFlowSettingForInput();
@@ -250,6 +265,10 @@ class BusinessFlow extends Initialize{
         $ids = input("ids");
         if(!$ids){
             $result['info'] = "参数错误！";
+            return json($result);
+        }
+        if(!$this->_checkNotUse($ids)){
+            $result['info'] = "存在正在使用中的项目,不能删除！";
             return json($result);
         }
         $ids_arr = explode(",",$ids);

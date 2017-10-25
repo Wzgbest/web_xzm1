@@ -626,6 +626,28 @@ class Contract extends Base{
             ->find();
     }
 
+    public function getContractNoAndTypeInfos($ids){
+        if(empty($ids)){
+            return [];
+        }
+        return $this->model->table($this->table)->alias('ca')
+            ->join($this->dbprefix.'contract c','c.applied_id = ca.id',"LEFT")
+            ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
+            ->where('c.id',"in",$ids)
+            ->field(["c.id","c.applied_id","c.contract_no","ca.contract_type","cs.contract_name"])
+            ->find();
+    }
+
+    public function getAllVerificationContractCount($ids){
+        if(empty($ids)){
+            return 0;
+        }
+        return $this->model->table($this->table)->alias('ca')
+            ->where('ca.contract_type',"in",$ids)
+            ->where('ca.status',0)
+            ->count();
+    }
+
     public function setContract($id,$data,$map=null){
         return $this->model->table($this->table)->where('id',$id)->where($map)->update($data);
     }
