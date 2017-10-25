@@ -202,24 +202,27 @@ class Index extends Initialize{
 
         if(is_array($rankingdata)){
             $in_employee_idx = array_column($rankingdata,"employee_id");
+            //var_exp($in_employee_idx,'$in_employee_idx');
             $not_in_employee_idx = [];
             foreach ($uids as $uid_item){
                 if(!in_array($uid_item,$in_employee_idx)){
                     $not_in_employee_idx[] = $uid_item;
                 }
             }
-
+            //var_exp($not_in_employee_idx,'$not_in_employee_idx');
 
             if(!empty($not_in_employee_idx)) {
 
                 foreach ($not_in_employee_idx as $uid_item) {
-                    $result_item = [];
                     if (isset($employee_info[$uid_item])) {
+                        $result_item = [];
                         $result_item = ["employee_id" => $uid_item, "telephone" => $employee_info[$uid_item]["telephone"], "truename" => $employee_info[$uid_item]["truename"],"struct_name"=> $employee_info[$uid_item]["struct_name"], "is_standard" => 0, "num" => 0, "standard_time" => 0];
+                        $rankingdata[] = $result_item;
                     }
-                    $rankingdata[] = $result_item;
                 }
             }
+            //var_exp($employee_info,'$employee_info');
+            //var_exp($rankingdata,'$rankingdata');
         }
         if($task_type==2){
             $guessdata = $this->_getEmployeeGuessMoneyList($id,$uids);
@@ -253,9 +256,10 @@ class Index extends Initialize{
 
         $reward_idx = 0;
         $self_idx = -1;
+//        var_exp($rankingdata,'$rankingdata',1);
         for($ranking_index=1;$ranking_index<=count($rankingdata);$ranking_index++){
-
-            $rankingdata[$ranking_index-1]["struct_name"]=$employee_info[$rankingdata[$ranking_index-1]['employee_id']]["struct_name"];
+//var_exp($rankingdata[$ranking_index-1]["employee_id"],'$rankingdata[$ranking_index-1]["employee_id"]');
+            $rankingdata[$ranking_index-1]["struct_name"]=$employee_info[$rankingdata[$ranking_index-1]["employee_id"]]["struct_name"];
 
             if(!$take_in && $uid!=$taskInfo['create_employee'] && $task_type==2){
                 $rankingdata[$ranking_index-1]["truename"] ='***';// mb_substr($rankingdata[$ranking_index-1]["truename"],0,1,'utf-8')."**";
