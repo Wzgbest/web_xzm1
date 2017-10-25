@@ -154,6 +154,9 @@ class Login extends Controller
             $corp_id = get_corpid($userid);
             $employee = new Employee($corp_id);
             $r_userid = $employee->getEmployeeByTel($userid);
+            if($r_userid["lastlogintime"]==0){
+                $data['lastlogintime'] = 1;
+            }
             $employee->setEmployeeSingleInfo($userid, $data);
             write_log($r_userid['id'],1,'用户修改登录密码',$corp_id);
             $info['status'] = true;
