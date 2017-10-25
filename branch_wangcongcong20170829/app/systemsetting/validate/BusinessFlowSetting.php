@@ -10,8 +10,7 @@ namespace app\systemsetting\validate;
 
 use think\Validate;
 
-class BusinessFlowSetting extends Validate
-{
+class BusinessFlowSetting extends Validate{
     protected $rule = [
         'business_flow_name' => 'require',
         'set_to_role' => 'require',
