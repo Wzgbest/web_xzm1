@@ -93,3 +93,12 @@
     </script>
 </div>
 <link rel="stylesheet" href="/systemsetting/css/corpinfoedit.css" />
+<script>
+    let interal;
+    $("input[name='corp_addr']").change(function(){
+        $(".editcorpinfo_map")[0].contentWindow.searchKey($("input[name='corp_addr']").val());
+    })
+    $("input[name='corp_dist']").change(function(){
+        $(".editcorpinfo_map")[0].contentWindow.searchKey($("input[name='corp_addr']").val()+$(this).val());
+    });
+</script>
