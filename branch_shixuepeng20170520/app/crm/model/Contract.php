@@ -635,7 +635,7 @@ class Contract extends Base{
             ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
             ->where('c.id',"in",$ids)
             ->field(["c.id","c.applied_id","c.contract_no","ca.contract_type","cs.contract_name"])
-            ->find();
+            ->select();
     }
 
     public function getAllVerificationContractCount($ids){
