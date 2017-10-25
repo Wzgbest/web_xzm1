@@ -626,7 +626,7 @@ class Structure extends Initialize
         $group = input('group',0,"int");
         $to_group = input('to_group',0,"int");
         $user_ids = input('user_ids',"","string");
-        if(!$groupid || !$to_groupid || !$user_ids){
+        if(!$group || !$to_group || !$user_ids){
             return [
                 'status'=>false,
                 'message'=>'参数错误'
@@ -646,7 +646,7 @@ class Structure extends Initialize
 
         $edit_userids = [];
         $del_userids = [];
-        foreach ($user_ids_ar as $key => $value) {
+        foreach ($user_ids_arr as $key => $value) {
             $flg = $employeeM->getOneInfo($value,$to_group);
             if (empty($flg)) {
                 $edit_userids[] = $value;
