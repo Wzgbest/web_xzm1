@@ -69,21 +69,21 @@ class EmployeeTask extends Command{
                     $task_type = $taskInfo["task_type"];
                     $pay_type = $taskInfo["pay_type"];
                     $task_method = $taskInfo["task_method"];
-    
+
                     $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($id);
                     $uids = $taskTakeEmployeeIds;
                     //var_exp($uids,'$uids');
                     if($task_type>2){
                         continue;
                     }
-    
+
                     $taskTarget = $taskTargetM->findTaskTargetByTaskId($id);
                     $target_type = $taskTarget["target_type"];
                     $standard = $taskTarget["target_num"];
-    
+
                     $employeeTaskService = new EmployeeTaskService($corp_id);
-                    $rankingdata = $employeeTaskService->getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$standard,20,1);
-    
+                    $rankingdata = $employeeTaskService->getRankingList($target_type,$task_method,$start_time,$end_time,$uids,$id,$standard,20,1);
+
                     $haveRedEnvelopeInfo = $employeeTaskM->getStandardTaskInfoById($id);
 
                     $needRedEnvelopeEmployeeId = [];
@@ -182,6 +182,7 @@ class EmployeeTask extends Command{
             if(empty($over_time_task_list)){
                 continue;
             }
+            var_exp($corp_id,'$corp_id');
             $employeeTaskM = new EmployeeTaskModel($corp_id);
             $taskTargetM = new TaskTargetModel($corp_id);
             $taskRewardM = new TaskRewardModel($corp_id);
@@ -268,6 +269,7 @@ class EmployeeTask extends Command{
                         //返还任务金额
                         $returnMoney = bcmul($returnMoney,100,0);
                         $employeeInfoMap = ["frozen_money"=>["egt",$returnMoney]];
+                        $employeeInfo=[];
                         $employeeInfo["frozen_money"] = ['exp',"frozen_money - $returnMoney"];
                         $employeeInfo["left_money"] = ['exp',"left_money + ".$returnMoney];
                         $update_user = $employeeM->setEmployeeSingleInfoById($taskInfo["create_employee"],$employeeInfo,$employeeInfoMap);
@@ -277,6 +279,7 @@ class EmployeeTask extends Command{
 
                         //返还打赏猜输赢等用户额度
                         foreach($taskGuessAndTipMoneyEmployeeIdx as $employee_id=>$money){
+                            $employeeInfo=[];
                             $employeeInfo["left_money"] = ['exp',"left_money + ".bcmul($money,100,0)];
                             $update_user = $employeeM->setEmployeeSingleInfoById($employee_id,$employeeInfo,$employeeInfoMap);
                             if (!$update_user) {
@@ -300,7 +303,7 @@ class EmployeeTask extends Command{
 
                     if($task_type<3) {
                         $employeeTaskService = new EmployeeTaskService($corp_id);
-                        $rankingdata = $employeeTaskService->getRankingList($target_type, $task_method, $start_time, $end_time, $uids, $standard, 20, 1);
+                        $rankingdata = $employeeTaskService->getRankingList($target_type, $task_method, $start_time, $end_time, $uids,$id, $standard, 20, 1);
                         var_exp($rankingdata, '$rankingdata');
 
                         if($task_type==1) {
@@ -458,6 +461,7 @@ class EmployeeTask extends Command{
                                 ];
                                 $order_datas[] = $order_add_data;
 
+                                $employeeInfo=[];
                                 $employeeInfo["left_money"] = ['exp',"left_money + ".bcmul($reward_amount,100,0)];
                                 $update_user = $employeeM->setEmployeeSingleInfoById($have_employee,$employeeInfo);
                                 if (!$update_user) {
@@ -490,6 +494,7 @@ class EmployeeTask extends Command{
                             //var_exp($taskTipMoneyEmployeeIdx,'$taskTipMoneyEmployeeIdx',1);
                             //返还打赏等用户额度
                             foreach ($taskTipMoneyEmployeeIdx as $employee_id => $money) {
+                                $employeeInfo=[];
                                 $employeeInfo["left_money"] = ['exp', "left_money + ".bcmul($money,100,0)];
                                 $update_user = $employeeM->setEmployeeSingleInfoById($employee_id, $employeeInfo);
                                 if (!$update_user) {
@@ -594,6 +599,7 @@ class EmployeeTask extends Command{
                                 //var_exp($taskGuessMoneyEmployeeIdx,'$taskGuessMoneyEmployeeIdx',1);
                                 //返还猜输赢等用户额度
                                 foreach ($taskGuessMoneyEmployeeIdx as $employee_id => $money) {
+                                    $employeeInfo=[];
                                     $employeeInfo["left_money"] = ['exp', "left_money + ".bcmul($money,100,0)];
                                     $update_user = $employeeM->setEmployeeSingleInfoById($employee_id, $employeeInfo);
                                     if (!$update_user) {
@@ -659,6 +665,7 @@ class EmployeeTask extends Command{
                             if($pay_type==1) {
                                 $employeeMonyField = "corp_".$employeeMonyField;
                             }
+                            $employeeInfo=[];
                             $employeeInfo = [$employeeMonyField=>['exp',$employeeMonyField." + ".$balances]];
                             $update_user = $employeeM->setEmployeeSingleInfoById($taskInfo["create_employee"],$employeeInfo);
                             if (!$update_user) {
@@ -685,6 +692,7 @@ class EmployeeTask extends Command{
                                     $order_datas[] = $order_data;
 
                                     $employeeMonyField = "left_money";
+                                    $employeeInfo=[];
                                     $employeeInfo = [$employeeMonyField=>['exp',$employeeMonyField." + ".bcmul($money,100,0)]];
                                     $update_user = $employeeM->setEmployeeSingleInfoById($taskTakeEmployeeId,$employeeInfo);
                                     if (!$update_user) {
@@ -715,6 +723,7 @@ class EmployeeTask extends Command{
                             if($pay_type==1) {
                                 $employeeMonyField = "corp_".$employeeMonyField;
                             }
+                            $employeeInfo=[];
                             $employeeInfo = [$employeeMonyField=>['exp',$employeeMonyField." + ".bcmul($taskInfo["reward_count"],100,0)]];
                             $update_user = $employeeM->setEmployeeSingleInfoById($taskInfo["create_employee"],$employeeInfo);
                             if (!$update_user) {
@@ -737,6 +746,7 @@ class EmployeeTask extends Command{
                         $employeeMonyField = "corp_".$employeeMonyField;
                     }
                     $taskMoney = bcmul(bcsub($taskInfo["reward_count"],$sentRedEnvelopeMoney,2),100,0);
+                    $employeeInfo=[];
                     $employeeInfo = [$employeeMonyField=>['exp',$employeeMonyField." - ".$taskMoney]];
                     $employeeInfoMap = [$employeeMonyField=>["egt",$taskMoney]];
                     var_exp($employeeInfo,'$employeeInfo');
@@ -744,6 +754,7 @@ class EmployeeTask extends Command{
                     var_exp($taskInfo["create_employee"],'$taskInfo["create_employee"]');
                     $update_user = $employeeM->setEmployeeSingleInfoById($taskInfo["create_employee"],$employeeInfo,$employeeInfoMap);
                     if (!$update_user) {
+                        var_exp($update_user,'$update_user');
                         exception("更新任务冻结金额发生错误!");
                     }
 
