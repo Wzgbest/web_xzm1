@@ -18,46 +18,71 @@
     <div class="content">
         <form name="form_customer_setting" class="form_customer_setting" onsubmit="return false;" method="post">
         <p>
-            <span class="sp1">客户设置名称</span>
+        	<span class="sp1">
+        	    <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+            	<span style="display: inline;vertical-align: middle;">客户设置名称</span>
+			</span>
             <input type="text" placeholder="请输入" name="setting_name" value="{$customerSetting.setting_name}"/>
-        </p>        <p>
-            <span class="sp1">客户保护时间</span>
+        </p>        
+        <p>
+            <span class="sp1">
+            	<img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+            	<span style="display: inline;vertical-align: middle;">客户保护时间</span>
+            </span>
             <input type="text" placeholder="请输入" name="protect_customer_day" value="{$customerSetting.protect_customer_day}"/>
             <span class="sp">天</span>
             <span class="sp2">（员工拥有客户时间）</span>
         </p>
         <p>
-            <span class="sp1">员工可领取单个顾客次数</span>
+            <span class="sp1">
+            	<img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+            	<span style="display: inline;vertical-align: middle;">员工可领取单个客户次数</span>
+            </span>
             <input type="text" placeholder="请输入" name="take_times_employee" value="{$customerSetting.take_times_employee}"/>
             <span class="sp">次</span>
             <span class="sp2">（公海池内员工可持续领取次数）</span>
         </p>
         <p>
-            <span class="sp1">部门可领取单个客户次数</span>
+            <span class="sp1">
+            	<img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+            	<span style="display: inline;vertical-align: middle;">部门可领取单个客户次数</span>
+            </span>
             <input type="text" placeholder="请输入" name="take_times_structure" value="{$customerSetting.take_times_structure}"/>
             <span class="sp">次</span>
             <span class="sp2">（公海池内员工可持续领取次数）</span>
         </p>
         <p>
-            <span class="sp1">停滞客户（销售机会）时间</span>
+            <span class="sp1">
+            	<img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+            	<span style="display: inline;vertical-align: middle;">停滞客户（销售机会）时间</span>
+            </span>
             <input type="text" placeholder="请输入" name="to_halt_day" value="{$customerSetting.to_halt_day}"/>
             <span class="sp">天</span>
             <span class="sp2">（多长时间不维护客户变更为停滞状态，根据公司业务情况设置）</span>
         </p>
         <p>
-            <span class="sp1">有效通话</span>
+            <span class="sp1">
+            	<img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+            	<span style="display: inline;vertical-align: middle;">有效通话</span>
+            </span>
             <input type="text" placeholder="请输入" name="effective_call" value="{$customerSetting.effective_call}"/>
             <span class="sp">秒</span>
             <span class="sp2">（超过此时间为有效通话）</span>
         </p>
         <p>
-            <span class="sp1">客户保护个数</span>
+            <span class="sp1">
+            	<img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+            	<span style="display: inline;vertical-align: middle;">客户保护个数</span>
+            </span>
             <input type="text" class="ipt1" placeholder="请输入" name="protect_customer_num" value="{$customerSetting.protect_customer_num}"/>
             <span class="sp">个</span>
             <span class="sp2">（当前用户最多保护客户个数）</span>
         </p>
         <p class="p6">
-            <span class="sp1">公海池客户名称</span>
+            <span class="sp1">
+            	<img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+            	<span style="display: inline;vertical-align: middle;">公海池客户名称</span>
+            </span>
             <input type="radio" name="public_sea_seen" class="sp3"
                    {eq name="customerSetting.public_sea_seen" value="0"} checked="checked"{/eq}
             / value="0"><span class="sp3">隐藏</span>
