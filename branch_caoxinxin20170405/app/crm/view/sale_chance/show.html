@@ -95,7 +95,7 @@
                 <span class="cont-x">{$vo.sale_status|getSaleStatusName}</span>
             </div>
 
-            {in name="vo.sale_status" value="2,3"}
+            {eq name="vo.sale_status" value="2"}
             <!--拜访：应该显示的部分-->
             <div class="sale-chance-visit-record">
                 <div>
@@ -111,7 +111,7 @@
                 <div>
                     <span class="cont u-area">详细定位</span>
                     <!--<input type="text" name="location" placeholder="请点击地图进行坐标定位"/>-->
-                    <iframe class="mapFrame sale_chance_show_map" name="sale_chance_show_map" data-lng="{$vo.lng}" data-lat="{$vo.lat}" src="/index/index/map.html" onload="mapLoad('sale_chance_show_map')"></iframe>
+                    <iframe class="mapFrame sale_chance_show_map_{$vo.id}" name="sale_chance_show_map_{$vo.id}" data-lng="{$vo.lng}" data-lat="{$vo.lat}" src="/index/index/map.html" onload="mapLoad('sale_chance_show_map_{$vo.id}')"></iframe>
                 </div>
                 <div>
                     <span class="cont">结伴提醒：</span>
@@ -120,7 +120,29 @@
                     <span class="cont-x">{eq name='vo.add_note' value='1'}是{else/}否{/eq}</span>
                 </div>
             </div>
-            {/in}
+            {/eq}
+
+            {eq name="vo.sale_status" value="3"}
+            <!--拜访：应该显示的部分-->
+            <div class="sale-chance-sign-in-record">
+                <div>
+                    <span class="cont">拜访时间：</span>
+                    <span class="cont-x">{$vo.sign_in_time|time_format}</span>
+                    <span class="cont">拜访地点：</span>
+                    <span class="cont-x">{$vo.sign_in_place}</span>
+                </div>
+                <div>
+                    <span class="cont u-area">详细定位</span>
+                    <iframe class="mapFrame sale_chance_show_sign_in_map_{$vo.id}" name="sale_chance_show_sign_in_map_{$vo.id}" data-lng="{$vo.sign_in_lng}" data-lat="{$vo.sign_in_lat}" src="/index/index/map.html" onload="mapLoad('sale_chance_show_sign_in_map_{$vo.id}')"></iframe>
+                </div>
+                <div>
+                    <span class="cont">结伴提醒：</span>
+                    <span class="cont-x">{eq name='vo.partner_notice' value='1'}是{else/}否{/eq}</span>
+                    <span class="cont-max-max">添加到备忘录：</span>
+                    <span class="cont-x">{eq name='vo.add_note' value='1'}是{else/}否{/eq}</span>
+                </div>
+            </div>
+            {/eq}
 
             {in name="vo.sale_status" value="4,5,6,8"}
                 <!--成单：应该显示的部分-->
