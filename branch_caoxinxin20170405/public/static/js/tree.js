@@ -177,15 +177,15 @@ function tree(config) {
         var flg = false;
         for(var idx in data["child"]){
             console.log('data["child"][idx]',data["child"][idx]);
-            flg = data["child"][idx].hasOwnProperty("child");
-            console.log('flg0',flg);
+            if(data["child"][idx]["id"]==id){
+                flg = data["child"][idx].hasOwnProperty("child");
+            }else{
+                flg = this.is_have_child(id,data["child"][idx]);
+            }
+            console.log('flg',flg);
             if(flg){
                 break;
             }
-            if(data["child"][idx]["id"]!=id){
-                flg = this.is_have_child(id,data["child"][idx]);
-            }
-            console.log('flg1',flg);
         }
         return flg;
     };
