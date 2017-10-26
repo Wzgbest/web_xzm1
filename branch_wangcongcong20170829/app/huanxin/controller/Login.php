@@ -106,15 +106,8 @@ class Login extends Controller{
             $req_reg["errnum"] = $info["errnum"];
             return json($req_reg);
         }
-        $device_type_info = get_user_device($telephone,$access_token);
-        if(!$device_type_info){
-            $req_reg['message'] = 'token不正确，请重新登陆';
-            $req_reg['errnum'] = 104;
-            $req_reg['device_type'] = 0;
-            return json($req_reg);
-        }
-        $device_type = $device_type_info["device_type"];
-        logout();
+        $device_type = $info["device_type"];
+        logout($telephone,$access_token);
         set_online($telephone,false,$device_type);
         $req_reg['message'] = 'SUCCESS';
         $req_reg['status'] = true;
