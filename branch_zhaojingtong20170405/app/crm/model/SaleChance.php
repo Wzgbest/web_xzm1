@@ -533,29 +533,21 @@ class SaleChance extends Base
             ->column("group_concat(case when sc.sale_status>0 and sc.sale_status<5 then sc.sale_name end) as sale_names,sum(case when sc.sale_status<1 then 0 when sc.sale_status>4 then 0 else sc.guess_money end) as all_guess_money,sum(case when sc.sale_status=5 then sc.final_money else 0 end) as all_final_money,sum(case when sc.sale_status=5 then sc.payed_money else 0 end) as all_payed_money","customer_id");
     }
 
-    /**获取客户商机预约拜访
-     * @return false|\PDOStatement|int|\think\Collection
-     * created by blu10ph
-     */
-    public function getAllSaleChanceVisitWait(){
-        $map["sc.sale_status"] = 2;
+    public function getNextStatusIsSignInWait($sale_id,$p=1){
+        $map['sc.id'] = $sale_id;
+        $map['bfiln.item_id'] = 3;
         $field = [
-            "sc.id as sale_id",
+            "sc.id",
             "sc.sale_name",
-            "c.id as customer_id",
-            "c.customer_name",
         ];
-        $Sale_visit_list = $this->model->table($this->table)->alias('sc')
-            ->join($this->dbprefix.'sale_chance_visit scv','sc.id = scv.sale_id',"LEFT")
-            ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
+        return $this->model->table($this->table)->alias('sc')
             ->join($this->dbprefix.'business_flow_item_link bfil','bfil.setting_id = sc.business_id and sc.sale_status=bfil.item_id',"LEFT")
-            ->join($this->dbprefix.'business_flow_item_link bfiln','bfiln.setting_id = sc.business_id and bfiln.order_num = bfil.order_num+1 and bfiln.item_id=3',"LEFT")
+            ->join($this->dbprefix.'business_flow_item_link bfiln','bfiln.setting_id = sc.business_id and bfiln.order_num = bfil.order_num+'.$p.' and bfiln.item_id=3',"LEFT")
             ->where($map)
             ->group("sc.id")
-            ->having("sum(CASE WHEN bfiln.item_id = 3 THEN 1 ELSE 0 END)>0")
             ->field($field)
-            ->select();
-        return $Sale_visit_list;
+            ->fetchSql(true)
+            ->find();
     }
 
     /**作废
