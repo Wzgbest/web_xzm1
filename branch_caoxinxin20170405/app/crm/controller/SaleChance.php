@@ -1137,7 +1137,6 @@ class SaleChance extends Initialize{
         return view();
     }
     public function sign_in(){
-        //TODO 签到和预约分离
         $result = ['status'=>0 ,'info'=>"签到时发生错误！"];
         $customer_id = input('customer_id',0,'int');
         if(!$customer_id){
@@ -1167,13 +1166,15 @@ class SaleChance extends Initialize{
             if(!$signInflg){
                 exception("签到失败!");
             }
+
+            //签到后更新到下一步
             $sale_ids = $sale_id?:explode(",",$customerData["sale_id"]);
             $saleChanceflg = $saleChanceSignInM->changeToSignInNextStatus($customer_id,$sale_ids);
             //var_exp($saleChanceflg,'$saleChanceflg',1);
             if(!$saleChanceflg){
                 exception("更新签到状态失败!");
             }
-            //TODO 签到后更新到下一步
+            
             $saleChanceSignInM->link->commit();
             $result['data'] = $saleChanceflg;
         }catch (\Exception $ex){
