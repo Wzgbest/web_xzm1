@@ -21,8 +21,7 @@ class Employee extends Base{
      * @return array
      * created by messhair
      */
-    public function getEmployeeByTel($telephone)
-    {
+    public function getEmployeeByTel($telephone){
 //        return $this->model->table($this->table)->where('telephone',$telephone)->cache('employee_info'.$telephone)->find();
 //        return $this->model->table($this->table)->where('telephone',$telephone)->find();
         return $this->model->table($this->table)->alias('e')
@@ -40,8 +39,7 @@ class Employee extends Base{
      * @return array|false|\PDOStatement|string|\think\Model
      * created by messhair
      */
-    public function getEmployeeByUserid($userid)
-    {
+    public function getEmployeeByUserid($userid){
         return $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','e.id = re.user_id')
             ->join($this->dbprefix.'role r','re.role_id = r.id')
@@ -59,8 +57,7 @@ class Employee extends Base{
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getEmployeeByUserids($user_ids)
-    {
+    public function getEmployeeByUserids($user_ids){
         if(empty($user_ids)){
             return [];
         }
@@ -75,8 +72,7 @@ class Employee extends Base{
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getEmployeeNameByUserids($user_ids)
-    {
+    public function getEmployeeNameByUserids($user_ids){
         if(empty($user_ids)){
             return [];
         }
@@ -91,8 +87,7 @@ class Employee extends Base{
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getEmployeeNameAndTelephoneByUserids($user_ids)
-    {
+    public function getEmployeeNameAndTelephoneByUserids($user_ids){
         if(empty($user_ids)){
             return [];
         }
@@ -112,8 +107,7 @@ class Employee extends Base{
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getEmployeeAndstructureByUserids($user_ids)
-    {
+    public function getEmployeeAndstructureByUserids($user_ids){
         if(empty($user_ids)){
             return [];
         }
@@ -133,8 +127,7 @@ class Employee extends Base{
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getEmployeeByNotRole($role_id, $struct_id, $user_tel_email)
-    {
+    public function getEmployeeByNotRole($role_id, $struct_id, $user_tel_email){
         $map = $this->_getPageEmployeeListWhereSql([
             "role"=>$role_id,
             "structure"=>$struct_id,
@@ -161,8 +154,7 @@ class Employee extends Base{
      * @return int|string
      * created by messhair
      */
-    public function addSingleEmployee($data)
-    {
+    public function addSingleEmployee($data){
         return $this->model->table($this->table)->insertGetId($data);
     }
 
@@ -172,8 +164,7 @@ class Employee extends Base{
      * @return int|string
      * created by messhair
      */
-    public function addMutipleEmployees($data)
-    {
+    public function addMutipleEmployees($data){
         return $this->model->table($this->table)->insertAll($data);
     }
 
@@ -186,8 +177,7 @@ class Employee extends Base{
      * @throws \think\Exception
      * created by messhair
      */
-    public function setEmployeeSingleInfo($telephone,$data,$map=null)
-    {
+    public function setEmployeeSingleInfo($telephone,$data,$map=null){
         return $this->model->table($this->table)->where('telephone',$telephone)->where($map)->update($data);
     }
 
@@ -200,8 +190,7 @@ class Employee extends Base{
      * @throws \think\Exception
      * created by messhair
      */
-    public function setEmployeeSingleInfoById($eid,$data,$map=null)
-    {
+    public function setEmployeeSingleInfoById($eid,$data,$map=null){
         return $this->model->table($this->table)->where('id',$eid)->where($map)->update($data);
     }
 
@@ -210,8 +199,7 @@ class Employee extends Base{
      * @return array
      * created by messhair
      */
-    public function getAllEmployees()
-    {
+    public function getAllEmployees(){
         return $this->model->table($this->table)
             ->where('haveim',0)
             ->field('telephone as username,password,truename as nickname')
@@ -224,8 +212,7 @@ class Employee extends Base{
      * @return int
      * created by messhair
      */
-    public function saveIm($save_up)
-    {
+    public function saveIm($save_up){
         $data=['haveim'=>1];
         return $this->model->table($this->table)
             ->where("id in ('".implode("','",$save_up)."')")
@@ -238,8 +225,7 @@ class Employee extends Base{
      * @return array
      * created by messhair
      */
-    public function getFriendsList($owner)
-    {
+    public function getFriendsList($owner){
         $owner_id = $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
             ->join($this->dbprefix.'role r','re.role_id = r.id')
@@ -261,8 +247,7 @@ class Employee extends Base{
      * @throws \think\Exception
      * created by messhair
      */
-    public function createSystemToken($device_type,$telephone)
-    {
+    public function createSystemToken($device_type,$telephone){
         if($device_type<0){
             return false;
         }
@@ -293,8 +278,7 @@ class Employee extends Base{
      * @return array
      * created by messhair
      */
-    public function getFriendsTel($telephone)
-    {
+    public function getFriendsTel($telephone){
         return $this->model->table($this->table)
             ->where('telephone','<>', $telephone)
             ->column('telephone');
@@ -305,8 +289,7 @@ class Employee extends Base{
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getAllUsers()
-    {
+    public function getAllUsers(){
         $users = $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
             ->join($this->dbprefix.'role r','re.role_id = r.id')
@@ -327,8 +310,7 @@ class Employee extends Base{
      * @return array
      * created by messhair
      */
-    public function getAllTels()
-    {
+    public function getAllTels(){
         return $this->model->table($this->table)->column('telephone');
     }
 
@@ -340,8 +322,7 @@ class Employee extends Base{
      * @throws \think\Exception
      * created by messhair
      */
-    public function reSetPass($telephone,$password)
-    {
+    public function reSetPass($telephone,$password){
         return $this->model->table($this->table)
             ->where('telephone',$telephone)
             ->update('password',$password);
@@ -355,8 +336,7 @@ class Employee extends Base{
      * @throws \think\Exception
      * created by messhair
      */
-    public function setSingleEmployeeInfobyId($id,$data)
-    {
+    public function setSingleEmployeeInfobyId($id,$data){
         return $this->model->table($this->table)->where('id',$id)->update($data);
     }
 
@@ -368,8 +348,7 @@ class Employee extends Base{
      * @throws \think\Exception
      * created by messhair
      */
-    public function setMultipleEmployeeInfoByIds($ids,$data)
-    {
+    public function setMultipleEmployeeInfoByIds($ids,$data){
         return $this->model->table($this->table)->where('id','in',$ids)->update($data);
     }
 
@@ -380,8 +359,7 @@ class Employee extends Base{
      * @throws \think\Exception
      * created by messhair
      */
-    public function deleteMultipleEmployee($ids)
-    {
+    public function deleteMultipleEmployee($ids){
         return $this->model->table($this->table)->where('id','in',$ids)->delete();
     }
 
@@ -393,8 +371,7 @@ class Employee extends Base{
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getEmployeeByRole($role_id, $page=0, $rows = 10)
-    {
+    public function getEmployeeByRole($role_id, $page=0, $rows = 10){
         $field = '`e`.`id`,`e`.`truename`,GROUP_CONCAT( distinct `re`.`role_id`) as role,GROUP_CONCAT( distinct `res`.`role_id`) as role_id,`e`.`telephone`,`e`.`is_leader`,`e`.`worknum`,`e`.`create_time`,GROUP_CONCAT( distinct `s`.`struct_name`) as `struct_name` ';
         $employee_list = $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
@@ -417,8 +394,7 @@ class Employee extends Base{
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getEmployeeCountByRole($role_id)
-    {
+    public function getEmployeeCountByRole($role_id){
         $count = $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
             ->join($this->dbprefix.'role r','re.role_id = r.id')
@@ -455,8 +431,7 @@ class Employee extends Base{
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getNotRoleEmployeeByRole($role_id, $page=0, $rows = 10,$filter=null,$order="worknum",$direction="desc")
-    {
+    public function getNotRoleEmployeeByRole($role_id, $page=0, $rows = 10,$filter=null,$order="worknum",$direction="desc"){
         //排序
         if($direction!="desc" && $direction!="asc"){
             $direction = "desc";
@@ -496,8 +471,7 @@ class Employee extends Base{
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getNotRoleEmployeeCountByRole($role_id,$filter=null)
-    {
+    public function getNotRoleEmployeeCountByRole($role_id,$filter=null){
         $map = $this->_getPageEmployeeListWhereSql($filter);
         $in_role_employee_id_list = $this->getInRoleEmployeeIds($role_id);
         if($in_role_employee_id_list){
@@ -524,8 +498,7 @@ class Employee extends Base{
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getEmployeeByStructId($struct_id,$page=0,$rows=null,$filter=null)
-    {   
+    public function getEmployeeByStructId($struct_id,$page=0,$rows=null,$filter=null){
         //筛选
         $map = $this->_getPageEmployeeListWhereSql($filter);
         $query = $this->model->table($this->table)->alias('e')
@@ -553,8 +526,7 @@ class Employee extends Base{
      * @return int|string
      * created by messhair
      */
-    public function countEmployeeByStructId($struct_id,$filter=null)
-    {
+    public function countEmployeeByStructId($struct_id,$filter=null){
         return $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
             ->join($this->dbprefix.'role r','re.role_id = r.id')
@@ -601,8 +573,7 @@ class Employee extends Base{
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getEmployeeByNotStructId($struct_id,$page=0,$rows=null,$filter=null,$order="worknum",$direction="desc")
-    {
+    public function getEmployeeByNotStructId($struct_id,$page=0,$rows=null,$filter=null,$order="worknum",$direction="desc"){
         //排序
         if($direction!="desc" && $direction!="asc"){
             $direction = "desc";
@@ -641,8 +612,7 @@ class Employee extends Base{
      * @return int|string
      * created by messhair
      */
-    public function countEmployeeByNotStructId($struct_id,$filter=null)
-    {
+    public function countEmployeeByNotStructId($struct_id,$filter=null){
         $map = $this->_getPageEmployeeListWhereSql($filter);
         $in_struct_employee_id_list = $this->getInStructEmployeeIds($struct_id);
         if($in_struct_employee_id_list){
@@ -672,8 +642,7 @@ class Employee extends Base{
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getPageEmployeeList($page = 0,$rows = null,$where = null)
-    {
+    public function getPageEmployeeList($page = 0,$rows = null,$where = null){
         $map = $this->_getPageEmployeeListWhereSql($where);
         $field = '`e`.`id`,`e`.`truename`,GROUP_CONCAT( distinct `re`.`role_id`) as role,`e`.`telephone`,`e`.`is_leader`,case when `e`.`status` = -1 then `e`.`status` else `e`.`on_duty` end as on_duty,`e`.`worknum`,`e`.`email`,`e`.`qqnum`,`e`.`create_time`,GROUP_CONCAT( distinct `r`.`role_name`) as role_name,GROUP_CONCAT( distinct `s`.`struct_name`) as `struct_name` ';
         $employee_list = $this->model->table($this->table)->alias('e')
@@ -690,32 +659,32 @@ class Employee extends Base{
         //var_exp($employee_list,'$employee_list',1);
         return $employee_list;
     }
-     protected function _getPageEmployeeListWhereSql($where){
-         $map = [];
-         if (isset($where['structure']) && $where['structure']) {
-             $map["se.struct_id"] = $where['structure'];
-         }
-         if (isset($where['role']) && $where['role']) {
-             $map["re.role_id"] = $where['role'];
-         }
-         if (isset($where['tel_email']) && $where['tel_email']) {
-             $map["e.truename|e.email|e.telephone"] = ["like","%".$where['tel_email']."%"];
-         }
-         if (isset($where['on_duty']) && $where['on_duty']) {
-             if ($where['on_duty']==-1) {
-                 $map["e.status"] = -1;
-             } else {
-                 $map["e.on_duty"] = $where['on_duty'];
-             }
-         }
-         if (isset($where['worknum']) && $where['worknum']) {
-             $map["e.worknum"] = $where['worknum'];
-         }
-         if (isset($where['truename']) && $where['truename']) {
-             $map["e.truename"] = ["like","%".$where['truename']."%"];
-         }
-         return $map;
-     }
+    protected function _getPageEmployeeListWhereSql($where){
+        $map = [];
+        if (isset($where['structure']) && $where['structure']) {
+            $map["se.struct_id"] = $where['structure'];
+        }
+        if (isset($where['role']) && $where['role']) {
+            $map["re.role_id"] = $where['role'];
+        }
+        if (isset($where['tel_email']) && $where['tel_email']) {
+            $map["e.truename|e.email|e.telephone"] = ["like","%".$where['tel_email']."%"];
+        }
+        if (isset($where['on_duty']) && $where['on_duty']) {
+            if ($where['on_duty']==-1) {
+                $map["e.status"] = -1;
+            } else {
+                $map["e.on_duty"] = $where['on_duty'];
+            }
+        }
+        if (isset($where['worknum']) && $where['worknum']) {
+            $map["e.worknum"] = $where['worknum'];
+        }
+        if (isset($where['truename']) && $where['truename']) {
+            $map["e.truename"] = ["like","%".$where['truename']."%"];
+        }
+        return $map;
+    }
     /**
      * 所有员工总数
      * @param null|array $where[
@@ -726,8 +695,7 @@ class Employee extends Base{
      * @return mixed
      * created by messhair
      */
-    public function countPageEmployeeList($where = null)
-    {
+    public function countPageEmployeeList($where = null){
         $map = $this->_getPageEmployeeListWhereSql($where);
         $count = $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
