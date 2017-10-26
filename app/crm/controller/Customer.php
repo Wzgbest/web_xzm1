@@ -19,7 +19,7 @@ use app\systemsetting\model\CustomerSetting;
 use app\common\model\Business;
 use app\common\model\Employee as EmployeeModel;
 use app\crm\model\SaleChance as SaleChanceModel;
-use app\crm\model\SaleChanceVisit as SaleChanceVisitModel;
+use app\crm\model\SaleChanceSignIn as SaleChanceSignInModel;
 use app\crm\model\CustomerContact as CustomerContactModel;
 use app\crm\model\CustomerTrace as CustomerTraceModel;
 use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
@@ -295,14 +295,14 @@ class Customer extends Initialize{
         $saleChanceM = new SaleChanceModel($this->corp_id);
         $SaleChancesData = $saleChanceM->getAllSaleChancesByCustomerId($info_array["id"]);
         $this->assign("sale_chance",$SaleChancesData);
-        $saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
-        $visitData = $saleChanceVisitM->getLastVisitAndNum($info_array["id"]);
-        //var_exp($visitData,'$visitData',1);
-        if(empty($visitData)){
-            $visitData["last_visit_time"] = "";
-            $visitData["visit_num"] = "0";
+        $saleChanceSignInM = new SaleChanceSignInModel($this->corp_id);
+        $signInData = $saleChanceSignInM->getLastSignInAndNum($info_array["id"]);
+        //var_exp($signInData,'$signInData',1);
+        if(empty($signInData)){
+            $signInData["last_sign_in_time"] = "";
+            $signInData["sign_in_num"] = "0";
         }
-        $this->assign("visit_count",$visitData);
+        $this->assign("sign_in_count",$signInData);
         $callRecordM = new CallRecord($this->corp_id);
         $callRecordData = $callRecordM->getLastCallRecordAndNum($info_array["id"]);
         //var_exp($callRecordData,'$callRecordData',1);
