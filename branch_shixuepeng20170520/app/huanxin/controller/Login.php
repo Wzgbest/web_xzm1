@@ -12,10 +12,8 @@ use app\common\model\RoleEmployee;
 use app\common\model\StructureEmployee;
 use app\huanxin\service\Api;
 
-class Login extends Controller
-{
-    public function index()
-    {
+class Login extends Controller{
+    public function index(){
         return 'index';
     }
 
@@ -25,8 +23,7 @@ class Login extends Controller
      * @param password
      * @return string
      */
-    public function verifyLogin()
-    {
+    public function verifyLogin(){
         $input = input('param.');
         $telephone = trim($input['telephone']);
         $password = trim($input['password']);
@@ -47,6 +44,8 @@ class Login extends Controller
             return json($req_reg);
         }
         $req_reg["access_token"] = $result["access_token"];
+
+        set_online($telephone,true,$device_type);
 
         //获取用户积分
         $scoreM = new EmployeeScore($corp_id);
@@ -77,6 +76,48 @@ class Login extends Controller
         //$req_reg['totaluser'] = $data_all;
         $req_reg['structure'] = $structure;
         $req_reg['loginname'] = $corp_id."_".$user_arr['id'];
+        return json($req_reg);
+    }
+
+    public function verifyOnline(){
+        $input = input('param.');
+        $telephone = trim($input['telephone']);
+        $password = trim($input['password']);
+        $device_type = input('device_type',0,'int');
+        $result = check_telphone_and_password($telephone,$password);
+        if(!$result["status"]){
+            $req_reg["message"] = $result["message"];
+            $req_reg["errnum"] = $result["errnum"];
+            return json($req_reg);
+        }
+        $req_reg['message'] = 'SUCCESS';
+        $req_reg['status'] = true;
+        $req_reg['data'] = get_online($telephone,$device_type);
+        return json($req_reg);
+    }
+
+    public function logout(){
+        $telephone = input('userid','',"string");
+        $access_token = input('access_token','',"string");
+        $req_reg['status'] = false;
+        $info = check_telephone_and_token($telephone,$access_token);
+        if($info["status"]==false) {
+            $req_reg["message"] = $info["message"];
+            $req_reg["errnum"] = $info["errnum"];
+            return json($req_reg);
+        }
+        $device_type_info = get_user_device($telephone,$access_token);
+        if(!$device_type_info){
+            $req_reg['message'] = 'token不正确，请重新登陆';
+            $req_reg['errnum'] = 104;
+            $req_reg['device_type'] = 0;
+            return json($req_reg);
+        }
+        $device_type = $device_type_info["device_type"];
+        logout();
+        set_online($telephone,false,$device_type);
+        $req_reg['message'] = 'SUCCESS';
+        $req_reg['status'] = true;
         return json($req_reg);
     }
 
