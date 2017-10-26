@@ -342,6 +342,18 @@ function logout($telephone=null,$token=null){
     set_cache_by_tel($telephone,'userinfo',null);
 }
 
+function set_online($telephone,$status,$device_type=0){
+    if($status){
+        set_cache_by_tel($telephone,'online_'.$device_type,$status);
+    }else{
+        set_cache_by_tel($telephone,'online_'.$device_type,null);
+    }
+}
+
+function get_online($telephone,$device_type=0){
+    return get_cache_by_tel($telephone,'online_'.$device_type);
+}
+
 /**
  * 设置用户设备信息
  * @param $device_type int 0:other,1:web,2:pc,3:ios:4:android
