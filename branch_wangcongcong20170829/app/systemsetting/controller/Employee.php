@@ -358,6 +358,27 @@ class Employee extends Initialize{
 
     public function changePhone(){
         $result = ['status'=>0 ,'info'=>"更换手机号时发生错误！"];
+        $phone = input('phone',0,'int');
+        $employeeM = new EmployeeModel($this->corp_id);
+        $check_flg = $employeeM->getEmployeeByTel($phone);
+        if($check_flg){
+            $result['info'] = "更换手机号失败！";
+            return json($result);
+        }
+        $this->telephone = $phone;
+        $employM = new EmployeeModel($this->corp_id);
+        $user_info = $employM->getEmployeeByTel($this->telephone);
+        set_userinfo($this->corp_id,$this->telephone,$user_info);
+        set_telephone_by_token($this->access_token,$this->telephone);
+        set_token_by_cookie($this->access_token);
+        set_user_device($this->telephone,$this->access_token,$this->device_type,$this->corp_id,$this->uid);
+        $result['status'] = 1;
+        $result['info'] = "更换手机号成功！";
+        return json($result);
+    }
+
+    public function changeEmployeePhone(){
+        $result = ['status'=>0 ,'info'=>"更换手机号时发生错误！"];
         $id = input('id',0,'int');
         $phone = input('phone',0,'int');
         $employeeM = new EmployeeModel($this->corp_id);
@@ -371,13 +392,6 @@ class Employee extends Initialize{
             $result['info'] = "更换手机号失败！";
             return json($result);
         }
-        $this->telephone = $phone;
-        $employM = new EmployeeModel($this->corp_id);
-        $user_info = $employM->getEmployeeByUserid($id);
-        set_userinfo($this->corp_id,$this->telephone,$user_info);
-        set_telephone_by_token($this->access_token,$this->telephone);
-        set_token_by_cookie($this->access_token);
-        set_user_device($this->telephone,$this->access_token,$this->device_type,$this->corp_id,$this->uid);
         $result['status'] = 1;
         $result['info'] = "更换手机号成功！";
         return json($result);
