@@ -11,7 +11,7 @@ namespace app\task\service;
 use app\crm\model\SaleOrderContract;
 use app\crm\model\CallRecord;
 use app\crm\model\SaleChance;
-use app\crm\model\SaleChanceVisit;
+use app\crm\model\SaleChanceSignIn;
 use app\crm\model\Customer;
 use app\Task\model\TaskTake;
 
@@ -60,11 +60,11 @@ class EmployeeTask{
                 }
                 break;
             case 5:
-                $saleChanceVisitM = new SaleChanceVisit($this->corp_id);
+                $saleChanceSignInM = new SaleChanceSignIn($this->corp_id);
                 if($task_method==1){
-                    $result = $saleChanceVisitM->getSaleChanceVisitStandard($start_time,$end_time,$uids,$standard,$num,$page);
+                    $result = $saleChanceSignInM->getSaleChanceSignInStandard($start_time,$end_time,$uids,$standard,$num,$page);
                 }else{
-                    $result = $saleChanceVisitM->getSaleChanceVisitRanking($start_time,$end_time,$uids,$standard,$num,$page);
+                    $result = $saleChanceSignInM->getSaleChanceSignInRanking($start_time,$end_time,$uids,$standard,$num,$page);
                 }
                 break;
             case 6:
