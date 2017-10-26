@@ -36,6 +36,7 @@ class Index extends Controller
         $user_arr = $result["user_info"];
         $result = login($corp_id,$user_arr["id"],$telephone,$device_type,$ip);
         set_token_to_cookie($result['access_token']);
+        set_online($telephone,true,$device_type);
         if(!$result["status"]){
             $req_reg["message"] = $result["message"];
             $req_reg["errnum"] = $result["errnum"];
