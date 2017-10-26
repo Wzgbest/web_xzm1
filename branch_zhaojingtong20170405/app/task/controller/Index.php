@@ -162,13 +162,6 @@ class Index extends Initialize{
             $take_in = true;
         }
 
-        /*
-        if(!$take_in){
-            $result['info'] = "未参与任务！";
-            return json($result);
-        }
-        */
-
         $taskTarget = $taskTargetM->findTaskTargetByTaskId($id);
         $target_type = $taskTarget["target_type"];
         $standard = $taskTarget["target_num"];
@@ -431,7 +424,7 @@ class Index extends Initialize{
         $end_time = $taskInfo["task_end_time"];
         $task_type = $taskInfo["task_type"];
         $task_method = $taskInfo["task_method"];
-        if($task_type>2){
+        if($task_type>3){
             $result['info'] = "任务类型不符！";
             return json($result);
         }
@@ -450,15 +443,10 @@ class Index extends Initialize{
             $take_in = true;
         }
 
-        if(!$take_in){
-            $result['info'] = "未参与任务！";
-            return json($result);
-        }
-
         $taskTarget = $taskTargetM->findTaskTargetByTaskId($id);
         $target_type = $taskTarget["target_type"];
         $standard = $taskTarget["target_num"];
-        if($task_method>4){
+        if($task_method>5){
             $result['info'] = "任务类型不相符！";
             return json($result);
         }
@@ -503,7 +491,7 @@ class Index extends Initialize{
                 }
             }
         }
-        if($task_type=2){
+        if($task_type==2){
             $guessdata = $this->_getEmployeeGuessMoneyList($id,$uids);
             foreach ($rankingdata as &$ranking_item){
                 if(isset($guessdata[$ranking_item["employee_id"]])){
@@ -528,6 +516,11 @@ class Index extends Initialize{
         $reward_idx = 0;
         $self_idx = -1;
         for($ranking_index=1;$ranking_index<=count($rankingdata);$ranking_index++){
+            if(!$take_in && $uid!=$taskInfo['create_employee'] && $task_type==2){
+                $rankingdata[$ranking_index-1]["truename"] ='***';// mb_substr($rankingdata[$ranking_index-1]["truename"],0,1,'utf-8')."**";
+                $rankingdata[$ranking_index-1]["struct_name"]='***';
+            }
+
             if(isset($reward_idx_arr[$ranking_index])){
                 $reward_idx = $ranking_index;
             }
