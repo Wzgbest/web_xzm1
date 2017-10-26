@@ -24,6 +24,7 @@ use app\crm\model\CustomerTrace as CustomerTraceModel;
 use app\common\model\ParamRemark;
 use app\crm\model\SaleOrderContractItem;
 use app\task\model\TaskTarget;
+use app\crm\model\SaleChanceSignIn as SaleChanceSignInModel;
 
 class SaleChance extends Initialize{
     protected $_activityBusinessFlowItem = [1,2,4];
@@ -571,6 +572,14 @@ class SaleChance extends Initialize{
             return json($result);
         }
 
+        $saleChanceM = new SaleChanceModel($this->corp_id);
+        $signInInfo = $saleChanceM->getNextStatusIsSignInWait($id,2);
+        //var_exp($signInInfo,'$signInInfo',1);
+        $need_sign_num = 0;
+        if($signInInfo){
+            $need_sign_num = 1;
+        }
+
         $table = 'sale_chance';
         $customersTraces = [];
         
@@ -584,8 +593,15 @@ class SaleChance extends Initialize{
                     exception("保存预约拜访信息失败!");
                 }
             }
+            if($need_sign_num>0){
+                $sign_in_save_flg = $this->_update_sign_in($id);
+                if(!$sign_in_save_flg){
+                    exception("保存下一环节上门拜访信息失败!");
+                }
+            }
             if($saleChance["sale_status"]==4){
                 $fine_save_flg = $this->_update_fine($id);
+                //var_exp($fine_save_flg,'$fine_save_flg',1);
                 if($fine_save_flg["status"]!=1){
                     $result['info'] = $fine_save_flg['info'];
                     return json($result);
@@ -594,6 +610,9 @@ class SaleChance extends Initialize{
                 $saleChance["need_money"] = $fine_save_flg["data"]["all_contract_money"];
                 $saleChance["payed_money"] = $fine_save_flg["data"]["all_pay_money"];
                 $saleChance["final_money"] = $fine_save_flg["data"]["all_contract_money"];
+                if(isset($fine_save_flg["data"]["sale_name"])){
+                    $saleChance["sale_name"] = $fine_save_flg["data"]["sale_name"];
+                }
             }
             //var_exp($saleChanceOldData,'$saleChanceOldData');
             //var_exp($saleChance,'$saleChance');
@@ -620,6 +639,7 @@ class SaleChance extends Initialize{
                 );
                 $customersTraces[] = $customersTrace;
             }
+            //var_exp($saleChance,'$saleChance',1);
             $saleChanceflg = $saleChanceM->setSaleChance($id,$saleChance);
             
             if(!empty($customersTraces)){
@@ -740,6 +760,20 @@ class SaleChance extends Initialize{
             $save_flg = true;
         }
         //var_exp($save_flg,'$save_flg',1);
+        return $save_flg;
+    }
+    protected function _update_sign_in($sale_id){
+        $save_flg = false;
+        $saleChanceSignInM = new SaleChanceSignInModel($this->corp_id);
+        $signInInfo = $saleChanceSignInM->getSaleChanceSignInBySaleId($sale_id);
+        //var_exp($signInInfo,'$signInInfo',1);
+        if(!$signInInfo){
+            $data["sale_id"] = $sale_id;
+            $data["sign_in_ok"] = 0;
+            $save_flg = $saleChanceSignInM->addSaleChanceSignIn($data);
+        }else{
+            $save_flg = true;
+        }
         return $save_flg;
     }
     protected function _getSaleChanceFineForInput($sale_id,$add_flg,$update_flg){
@@ -890,55 +924,68 @@ class SaleChance extends Initialize{
             $sale_order_id = $save_flg;
             $sale_order_contract_idx[0] = [$sale_id,$save_flg];
 
-            //申请时多个合同拆分,复制销售机会
-            $saleContractIds = array_column($saleContracts["data"],"contract_id");
-            //var_exp($saleContractIds,'$saleContractIds');
-            $contractAppliedModel = new ContractAppliedModel($this->corp_id);
-            $saleContractNames = $contractAppliedModel->getContractNoAndTypeInfos($saleContractIds);
-            //var_exp($saleContractNames,'$saleContractNames',1);
-            $saleContractNameIdx = [];
-            foreach ($saleContractNames as $saleContractName){
-                $saleContractNameIdx[$saleContractName["id"]] = $saleContractName["contract_name"];
-            }
-            //var_exp($saleContractNameIdx,'$saleContractNameIdx');
-            //$saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
-            //$SaleChancesVisitData = $saleChanceVisitM->getSaleChanceVisitBySaleId($sale_id);
-            $sale_name = $saleChanceData["sale_name"];
-            for ($i=1;$i<count($saleContracts["data"]);$i++){
-                $saleChanceTmp = $saleChanceData;
-                unset($saleChanceTmp["id"]);
-                //var_exp($saleContracts["data"][$i],'$saleContracts["data"][$i]');
-                $contract_name = $saleContractNameIdx[$saleContracts["data"][$i]["contract_id"]];
-                $saleChanceTmp["sale_name"] = $sale_name." - ".($i+1).":".$contract_name;
-                $saleChanceTmp["pid"] = $sale_id;
-                $saleChanceTmp["is_copy"] = 1;
-                $saleChanceTmp["sale_status"] = 4;
-                $saleChanceAddFlg = $saleChanceM->addSaleChance($saleChanceTmp);
-                if(!$saleChanceAddFlg){
-                    $result["info"] = "成单申请拆分销售机会失败!";
-                    return $result;
+            if(count($saleContracts["data"])>1){
+                //申请时多个合同拆分,复制销售机会
+                $saleContractIds = array_column($saleContracts["data"],"contract_id");
+                //var_exp($saleContractIds,'$saleContractIds');
+                $contractAppliedModel = new ContractAppliedModel($this->corp_id);
+                $saleContractNames = $contractAppliedModel->getContractNoAndTypeInfos($saleContractIds);
+                //var_exp($saleContractNames,'$saleContractNames',1);
+                $saleContractNameIdx = [];
+                foreach ($saleContractNames as $saleContractName){
+                    $saleContractNameIdx[$saleContractName["id"]] = $saleContractName["contract_name"];
                 }
-                $sale_order_contract_idx[$i] = [$sale_id,$saleChanceAddFlg];
+                //var_exp($saleContractNameIdx,'$saleContractNameIdx');
 
-                $saleOrderContractData["sale_id"] = $saleChanceAddFlg;
-                $saleOrderContractData["order_num"] = 1;
-                $save_flg = $saleOrderContractM->addSaleOrderContract($saleOrderContractData);
-                if(!$save_flg){
-                    $result["info"] = "成单申请拆分数据保存失败!";
-                    return $result;
-                }
-
-//                if(empty($SaleChancesVisitData)){
-//                    continue;
-//                }
-//                $SaleChancesVisitTmp = $SaleChancesVisitData;
-//                unset($saleChanceTmp["id"]);
-//                $SaleChancesVisitTmp["sale_id"] = $saleChanceAddFlg;
-//                $SaleChancesVisitFlg = $saleChanceVisitM->addSaleChanceVisit($SaleChancesVisitTmp);
-//                if(!$SaleChancesVisitFlg){
-//                    $result["info"] = "成单申请拆分销售机会拜访数据保存失败!";
+                $sale_name = input('sale_name',"","string");
+                $contract_name = $saleContractNameIdx[$saleContracts["data"][0]["contract_id"]];
+                $result_data["sale_name"] = $sale_name." - 1:".$contract_name;
+//                $saleChanceNameUpdate["sale_name"] = $result_data["sale_name"];
+//                $saleChanceflg = $saleChanceM->setSaleChance($sale_id,$saleChanceNameUpdate);
+//                if(!$saleChanceflg){
+//                    $result["info"] = "成单申请拆分更新销售机会名称失败!";
 //                    return $result;
 //                }
+
+                //$saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
+                //$SaleChancesVisitData = $saleChanceVisitM->getSaleChanceVisitBySaleId($sale_id);
+
+                for ($i=1;$i<count($saleContracts["data"]);$i++){
+                    $saleChanceTmp = $saleChanceData;
+                    unset($saleChanceTmp["id"]);
+                    //var_exp($saleContracts["data"][$i],'$saleContracts["data"][$i]');
+                    $contract_name = $saleContractNameIdx[$saleContracts["data"][$i]["contract_id"]];
+                    $saleChanceTmp["sale_name"] = $sale_name." - ".($i+1).":".$contract_name;
+                    $saleChanceTmp["pid"] = $sale_id;
+                    $saleChanceTmp["is_copy"] = 1;
+                    $saleChanceTmp["sale_status"] = 4;
+                    $saleChanceAddFlg = $saleChanceM->addSaleChance($saleChanceTmp);
+                    if(!$saleChanceAddFlg){
+                        $result["info"] = "成单申请拆分销售机会失败!";
+                        return $result;
+                    }
+
+                    $saleOrderContractData["sale_id"] = $saleChanceAddFlg;
+                    $saleOrderContractData["order_num"] = 1;
+                    $save_flg = $saleOrderContractM->addSaleOrderContract($saleOrderContractData);
+                    if(!$save_flg){
+                        $result["info"] = "成单申请拆分数据保存失败!";
+                        return $result;
+                    }
+                    $sale_order_contract_idx[$i] = [$saleChanceAddFlg,$save_flg];
+
+//                    if(empty($SaleChancesVisitData)){
+//                        continue;
+//                    }
+//                    $SaleChancesVisitTmp = $SaleChancesVisitData;
+//                    unset($saleChanceTmp["id"]);
+//                    $SaleChancesVisitTmp["sale_id"] = $saleChanceAddFlg;
+//                    $SaleChancesVisitFlg = $saleChanceVisitM->addSaleChanceVisit($SaleChancesVisitTmp);
+//                    if(!$SaleChancesVisitFlg){
+//                        $result["info"] = "成单申请拆分销售机会拜访数据保存失败!";
+//                        return $result;
+//                    }
+                }
             }
         }else{
             $save_flg = $saleOrderContractM->setSaleOrderContractBySaleId($sale_id,$saleOrderContractData);
@@ -1083,14 +1130,13 @@ class SaleChance extends Initialize{
         return $result;
     }
     public function sign_in_page(){
-        $saleChanceVisitM = new SaleChanceModel($this->corp_id);
-        $saleChanseVisitWaitList = $saleChanceVisitM->getAllSaleChanceVisitWait();
-        //var_exp($saleChanseVisitWaitList,'$saleChanseVisitWaitList',1);
-        $this->assign('wait_list',$saleChanseVisitWaitList);
+        $saleChanceSignInM = new SaleChanceSignInModel($this->corp_id);
+        $saleChanseSignInWaitList = $saleChanceSignInM->getAllSignInWait();
+        //var_exp($saleChanseSignInWaitList,'$saleChanseSignInWaitList',1);
+        $this->assign('wait_list',$saleChanseSignInWaitList);
         return view();
     }
     public function sign_in(){
-        //TODO 签到和预约分离
         $result = ['status'=>0 ,'info'=>"签到时发生错误！"];
         $customer_id = input('customer_id',0,'int');
         if(!$customer_id){
@@ -1101,17 +1147,38 @@ class SaleChance extends Initialize{
         $lat = "".number_format(input('lat',0,'float'),6,".","");
         $lng = "".number_format(input('lng',0,'float'),6,".","");
         $location_str = input('location_str',"",'string');
-        $saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
+        $saleChanceSignInM = new SaleChanceSignInModel($this->corp_id);
+        $time = time();
+        $customerM = new CustomerModel($this->corp_id);
+        $customerData = $customerM->getCustomerAndHaveVisit($customer_id,$sale_id);
+        $need_sign_num = 0;
+        if($customerData){
+            $need_sign_num = $customerData["need_sign_num"];
+        }
+        if($need_sign_num==0){
+            $result['info'] = "没有需要签到的销售机会！";
+            return json($result);
+        }
         try{
-            $saleChanceVisitM->link->startTrans();
-            $saleChanceflg = $saleChanceVisitM->sign_in($customer_id,$lat,$lng,$location_str,$sale_id);
-            if(!$saleChanceflg){
+            $saleChanceSignInM->link->startTrans();
+            $signInflg = $saleChanceSignInM->sign_in($customer_id,$time,$lat,$lng,$location_str,$sale_id);
+            //var_exp($signInflg,'$signInflg',1);
+            if(!$signInflg){
                 exception("签到失败!");
             }
-            $saleChanceVisitM->link->commit();
+
+            //签到后更新到下一步
+            $sale_ids = $sale_id?:explode(",",$customerData["sale_id"]);
+            $saleChanceflg = $saleChanceSignInM->changeToSignInNextStatus($customer_id,$sale_ids);
+            //var_exp($saleChanceflg,'$saleChanceflg',1);
+            if(!$saleChanceflg){
+                exception("更新签到状态失败!");
+            }
+            
+            $saleChanceSignInM->link->commit();
             $result['data'] = $saleChanceflg;
         }catch (\Exception $ex){
-            $saleChanceVisitM->link->rollback();
+            $saleChanceSignInM->link->rollback();
             $result['info'] = $ex->getMessage();
             //$result['info'] = "保存销售机会失败！";
             return json($result);
