@@ -337,6 +337,9 @@ $(role_item_list_panel).on('click', ".role_item .edit_item_remove", function() {
 	$(this).remove();
 });
 $(".systemsetting_role .content .dv1 .del").click(function() {
+	if(confirm("你确定要删除该职位吗?")!=true){
+		return;
+	}
 	var role_id = findRoleId(this);
 	//console.log(role_id);
 	$.ajax({
