@@ -77,7 +77,7 @@
 .knowledgebase_speechcraft_index .speech-list li.manage-list-model input[type="checkbox"]{
 	display: inline-block;
 }
-.knowledgebase_speechcraft_index .batch-delete{
+.knowledgebase_speechcraft_index .batch-delete,.knowledgebase_speechcraft_index .batch-change{
 	width: 80px;
     height: 25px;
     border-radius: 12.5px;
@@ -85,7 +85,7 @@
     text-align: center;
     line-height: 25px;
     color: white;
-    margin: 5px 20px 0 20px;
+    margin: 5px 0 0 20px;
     cursor: pointer;
     float:left;
 }
@@ -194,7 +194,7 @@
 .knowledgebase .new_panel form>div{
 	margin-bottom: 20px;
 }
-.knowledgebase .new_panel form input[type="text"], .knowledgebase .new_panel form select{
+.knowledgebase .new_panel form input[type="text"], .knowledgebase .new_panel form input[type="url"],.knowledgebase .new_panel form select{
 	width: 380px;
 	height: 25px;
 	padding: 5px 10px;
