@@ -409,6 +409,14 @@ class SpeechCraft extends Initialize{
         return view('change_class');
     }
 
+    public function confirmBatchDel(){
+        return view('confirm_batch_delete');
+    }
+
+    public function confirmBatchChange(){
+        return view('confirm_batch_change');
+    }
+
     /**
      * 手机接口 获取所有文章
      * @return [type] [description]
