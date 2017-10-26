@@ -301,6 +301,10 @@ class SaleChance extends Base
             "scv.partner_notice",
             "scv.add_note",
             "scv.visit_ok",
+            "scsi.sign_in_time",
+            "scsi.sign_in_place",
+            "scsi.sign_in_location",
+            "scsi.sign_in_ok",
             "soc.id as order_id",
             "sc.final_money as order_money",
             "soci.pay_money",
@@ -315,6 +319,7 @@ class SaleChance extends Base
             ->join($this->dbprefix.'business scb','scb.id = sc.business_id',"LEFT")
             ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
             ->join($this->dbprefix.'sale_chance_visit scv','scv.sale_id = sc.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance_sign_in scsi','scsi.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'sale_order_contract soc','soc.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'sale_order_contract_item soci','soci.sale_order_id = soc.id',"LEFT")
             ->join($this->dbprefix.'sale_order_bill sob','sob.contract_id = soci.contract_id',"LEFT")
