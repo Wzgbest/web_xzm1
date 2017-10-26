@@ -1512,10 +1512,15 @@ class Customer extends Base
     /**
      * 查询单个客户信息包含是否需要签到
      * @param $cid int 客户id
+     * @param $sale_id int 商机id
      * @return int|string
      * created by blu10ph
      */
-    public function getCustomerAndHaveVisit($cid){
+    public function getCustomerAndHaveVisit($cid,$sale_id=0){
+        $map['c.id'] = $cid;
+        if($sale_id>0){
+            $map['sc.id'] = $sale_id;
+        }
         $field = [
             "c.*",
             "cn.tend_to",
@@ -1523,15 +1528,16 @@ class Customer extends Base
             "cn.profile_correct",
             "cn.call_through",
             "cn.is_wait",
-            "sum(CASE WHEN bfiln.item_id = 3 THEN 1 ELSE 0 END) AS need_sign_num",
-            "group_concat(distinct (CASE WHEN bfiln.item_id = 3 THEN sc.id END)) AS sale_id",
+            "sum(CASE WHEN scsi.sign_in_ok = 0 and bfiln.item_id = 3 THEN 1 ELSE 0 END) AS need_sign_num",
+            "group_concat(distinct (CASE WHEN scsi.sign_in_ok = 0 and bfiln.item_id = 3 THEN sc.id END)) AS sale_id",
         ];
         $customer = $this->model->table($this->table)->alias('c')
             ->join($this->dbprefix.'customer_negotiate cn','cn.customer_id = c.id',"LEFT")
             ->join($this->dbprefix.'sale_chance sc','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'sale_chance_sign_in scsi','scsi.sale_id = sc.id',"LEFT")
             ->join($this->dbprefix.'business_flow_item_link bfil','bfil.setting_id = sc.business_id and sc.sale_status=bfil.item_id',"LEFT")
             ->join($this->dbprefix.'business_flow_item_link bfiln','bfiln.setting_id = sc.business_id and bfiln.order_num = bfil.order_num+1 and bfiln.item_id=3',"LEFT")
-            ->where('c.id',$cid)
+            ->where($map)
             ->group("c.id")
             ->field($field)
             ->find();
