@@ -107,8 +107,8 @@ class Login extends Controller{
             return json($req_reg);
         }
         $device_type = $info["device_type"];
-        logout($telephone,$access_token);
         set_online($telephone,false,$device_type);
+        logout($telephone,$access_token);
         $req_reg['message'] = 'SUCCESS';
         $req_reg['status'] = true;
         return json($req_reg);
