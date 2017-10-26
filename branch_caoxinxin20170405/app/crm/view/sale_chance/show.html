@@ -135,12 +135,6 @@
                     <span class="cont u-area">详细定位</span>
                     <iframe class="mapFrame sale_chance_show_sign_in_map_{$vo.id}" name="sale_chance_show_sign_in_map_{$vo.id}" data-lng="{$vo.sign_in_lng}" data-lat="{$vo.sign_in_lat}" src="/index/index/map.html" onload="mapLoad('sale_chance_show_sign_in_map_{$vo.id}')"></iframe>
                 </div>
-                <div>
-                    <span class="cont">结伴提醒：</span>
-                    <span class="cont-x">{eq name='vo.partner_notice' value='1'}是{else/}否{/eq}</span>
-                    <span class="cont-max-max">添加到备忘录：</span>
-                    <span class="cont-x">{eq name='vo.add_note' value='1'}是{else/}否{/eq}</span>
-                </div>
             </div>
             {/eq}
 
