@@ -1,5 +1,14 @@
  let status = true;//这个值代表是否处于批量管理状态；true代表正常浏览状态，false代表批量管理状态
-
+//列表文章个数控制器
+$(".knowledgebase_speechcraft_index .speech-list input").click(function(){
+   let t =  $(".knowledgebase_speechcraft_index .speech-list .manage-list-model input[type='checkbox']:checked");
+   let s = $(".knowledgebase_speechcraft_index .speech-list li");
+   if(t.length==s.length){
+    $(".knowledgebase_speechcraft_index .manageNav input[type='checkbox']").attr("checked","checked").prop("checked",true);
+   }else{
+    $(".knowledgebase_speechcraft_index .manageNav input[type='checkbox']").removeAttr("checked").prop("checked",false);
+   }
+});
 
 //显示文章内容
 $(".knowledgebase_speechcraft_index .speech-list li").click(function(){
