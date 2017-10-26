@@ -26,6 +26,9 @@
                 {/eq}
                 <div class="batch-delete hide">
                     批量删除
+                </div>
+                <div class="batch-change hide">
+                    批量转移
                 </div>               
             	<div class="clearfix"></div>
             </div>
@@ -90,15 +93,7 @@
         var panel = 'speech-databasefr';
         loadPage(url,panel);
     }else{
-        // console.log($(t).children("input[type='checkbox']").attr("checked"));
-        //选中操作---------------------
-        /*if($(t).attr("data-status")=="true"){
-            $(t).children("input[type='checkbox']").attr("checked","checked").prop("checked",true);
-            $(t).attr("data-status","false");
-        }else{
-            $(t).children("input[type='checkbox']").removeAttr("checked").prop("checked",false);
-            $(t).attr("data-status","true");
-        }*/
+        
     }
 }
 $(".knowledgebase_speechcraft_index .speech-list li .controler .edit3").click(function(){
