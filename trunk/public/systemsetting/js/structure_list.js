@@ -309,9 +309,13 @@ $(struct_item_list_panel).on('click',".node_item .edit_item_remove",function(){
 
 var structure_tree_del_struct_id = 0;
 structure_tree.listen("delFun",function(id){
-    //console.log("hldelFun",id);
-    //console.log(id);
-    // class="big-link" data-reveal-id="structure_del" data-animation="fade"
+    console.log("hldelFun",id);
+    var havChild = structure_tree.isHavChild(id);
+    if(havChild){
+        console.log("havChild",havChild);
+        layer.msg('该部门下存在子部门无法删除!',{icon:2});
+        return;
+    }
     var struct_del_panel_temp = struct_del_panel;
     if(id){
         $.ajax({
