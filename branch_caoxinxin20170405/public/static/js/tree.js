@@ -171,6 +171,24 @@ function tree(config) {
             }
         }
     };
+    this.is_have_child=function(id,data){
+        console.log("id:",id);
+        console.log("is_have_child");
+        var flg = false;
+        for(var idx in data["child"]){
+            console.log('data["child"][idx]',data["child"][idx]);
+            flg = data["child"][idx].hasOwnProperty("child");
+            console.log('flg0',flg);
+            if(flg){
+                break;
+            }
+            if(data["child"][idx]["id"]!=id){
+                flg = this.is_have_child(id,data["child"][idx]);
+            }
+            console.log('flg1',flg);
+        }
+        return flg;
+    };
 
     //load and listen
     this.listen=function(name,fun){
@@ -213,6 +231,9 @@ function tree(config) {
     };
     this.getActivityId=function(){
         return this.activity_id;
+    };
+    this.isHavChild=function(id){
+        return this.is_have_child(id,this.data[0]);
     };
     $(this.target).on('click','.node_plus',function(){
         var is_plus = !$(this).hasClass("node_sub");
