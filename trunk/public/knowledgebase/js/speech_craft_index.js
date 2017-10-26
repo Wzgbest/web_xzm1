@@ -119,11 +119,11 @@ $(".knowledgebase_speechcraft_index .speech-list li .controler .delete").click(f
 });
 //批量删除
 $(".knowledgebase_speechcraft_index .batch-delete").click(function(){
-    let pop =  new popLoad(".knowledgebase_speechcraft_index .delete-change-set-container","/knowledgebase/speech_craft/confirm_batch_delete");
+    let pop =  new popLoad(".knowledgebase_speechcraft_index .delete-change-set-container","/knowledgebase/speech_craft/confirmBatchDel");
 });
 //批量更改分类
 $(".knowledgebase_speechcraft_index .batch-change").click(function(){
-     let pop =  new popLoad(".knowledgebase_speechcraft_index .delete-change-set-container","/knowledgebase/speech_craft/confirm_batch_change");
+     let pop =  new popLoad(".knowledgebase_speechcraft_index .delete-change-set-container","/knowledgebase/speech_craft/confirmBatchChange");
 });
 //删除话术，修改分类，设置置顶
 $(".knowledgebase_speechcraft_index .delete-change-set").change(function(){
