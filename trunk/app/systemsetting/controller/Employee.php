@@ -358,16 +358,22 @@ class Employee extends Initialize{
 
     public function changePhone(){
         $result = ['status'=>0 ,'info'=>"更换手机号时发生错误！"];
+        $id = input('id',0,'int');
         $phone = input('phone',0,'int');
         $employeeM = new EmployeeModel($this->corp_id);
-        $check_flg = $employeeM->getEmployeeByTel($phone);
+        $check_flg = $employeeM->getEmployeeByUserid($id);
+        if(!$check_flg){
+            $result['info'] = "未找到员工！";
+            return json($result);
+        }
+        $check_flg = $employeeM->setEmployeeSingleInfoById($id,["telephone"=>$phone]);
         if($check_flg){
             $result['info'] = "更换手机号失败！";
             return json($result);
         }
         $this->telephone = $phone;
         $employM = new EmployeeModel($this->corp_id);
-        $user_info = $employM->getEmployeeByTel($this->telephone);
+        $user_info = $employM->getEmployeeByUserid($id);
         set_userinfo($this->corp_id,$this->telephone,$user_info);
         set_telephone_by_token($this->access_token,$this->telephone);
         set_token_by_cookie($this->access_token);
