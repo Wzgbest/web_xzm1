@@ -166,6 +166,14 @@ class SaleChance extends Initialize{
                 $SaleChances["lat"] = "36.7075";
                 $SaleChances["lng"] = "119.1324";
             }
+            if(isset($SaleChances["sign_in_location"])){
+                $location = explode(",",$SaleChances["sign_in_location"]);
+                $SaleChances["sign_in_lat"] = isset($location[0])&&!empty($location[0])?$location[0]:"36.7075";
+                $SaleChances["sign_in_lng"] = isset($location[1])&&!empty($location[1])?$location[1]:"119.1324";
+            }else{
+                $SaleChances["sign_in_lat"] = "36.7075";
+                $SaleChances["sign_in_lng"] = "119.1324";
+            }
             if(isset($saleOrderContractItemIdx[$SaleChances["id"]])){
                 $SaleChances["contract_arr"] = $saleOrderContractItemIdx[$SaleChances["id"]];
             }else{
@@ -260,8 +268,8 @@ class SaleChance extends Initialize{
 
         $show_visit = false;
         if(
-            in_array($now_item,[2,3])
-            ||in_array($next_item,[2,3])
+            $now_item == 2
+            ||$next_item == 2
         ){
             $saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
             $SaleChancesVisitData = $saleChanceVisitM->getSaleChanceVisitBySaleId($id);
@@ -282,8 +290,8 @@ class SaleChance extends Initialize{
 
         $show_fine = false;
         if(
-            in_array($now_item,[4,5,6,8])
-            ||in_array($next_item,[4,5,6,8])
+            $now_item==4
+            ||$next_item==4
         ){
             $saleOrderContractM = new SaleOrderContractModel($this->corp_id);
             $saleOrderContractData = $saleOrderContractM->getSaleOrderContractBySaleId($id);

@@ -641,6 +641,9 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 		});
 	};
 	this.sale_chance_edit_send=function(id,customer_id){
+		if(confirm("你确定要提交该成单申请吗?")!=true){
+			return;
+		}
 		console.log(id);
 		console.log(customer_id);
 		var panel = this.panel_base+' .customer_sale_chance';
