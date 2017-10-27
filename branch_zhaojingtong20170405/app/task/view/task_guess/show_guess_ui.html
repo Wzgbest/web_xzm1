@@ -10,7 +10,11 @@
     {volist name="take_list" id="vo"}
         <ul class="number2">
             <li>{$vo["truename"]}</li>
-            <li>{$vo["struct_name"]}</li>
+            <li>
+                <?php $struct_arr=explode(',',$vo["struct_name"]);
+                    echo $struct_arr[count($struct_arr)-1];
+                ?>
+            </li>
             <li>
                 <span class="fill" employee_id="{$vo['employee_id']}" task_id="{$task_id}">下注</span>
             </li>
