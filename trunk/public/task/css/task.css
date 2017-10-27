@@ -1,6 +1,6 @@
 .task {
 	width: 100%;
-	background-color: #f5f7fa;
+	background-color: #ecf0f5;
 }
 
 header {
@@ -206,7 +206,7 @@ article {
 }
 
 article .dv1 {
-	width: 100%;
+	width: 99%;
 	/*height: 660px;*/
 	height: 220px;
 	background-color: #fff;
@@ -214,7 +214,7 @@ article .dv1 {
 	border-bottom: 1px solid #d4d4d4;
 	/*padding-bottom: 30px;*/
 	display: block;
-
+	margin-left: 6px;
 	/*transition:all 1s;*/
 }
 
@@ -357,7 +357,7 @@ article .dv1 .details div {
 article .dv1 .details div .small {
 	height: 16px;
 	font-size: 12px;
-	width: 117px;
+	width: 137px;
 	line-height: 16px;
 	border-left: 2px solid #ff5a00;
 	text-align: left;
@@ -381,7 +381,7 @@ article .dv1 .details .len p:nth-of-type(1) {
 }
 
 article .dv1 .details .len p:nth-of-type(2) {
-	width: 260px;
+	width: 300px;
 }
 
 article .dv1 .details .very p:nth-of-type(1) {
@@ -396,7 +396,7 @@ article .dv1 .details .fu{
 }
 article .dv1 .details .fu .xuanfu{
 	width: 200px;
-	height: 90px;
+	height: 88px;
 	position: absolute;
 	background-color: #fff;
 	z-index: 100;
@@ -447,7 +447,24 @@ article .dv1 .details .flotage span {
 article .dv1 .details .flo:hover .flotage {
 	display: block;
 }
-
+article .dv1:nth-last-of-type(1) .details .flo .flotage{
+	width: 350px;
+	height: 100px;
+	overflow-y: auto;
+	position: absolute;
+	padding-left: 20px;
+	background-color: #fff;
+	z-index: 100;
+	box-shadow: 0 0 5px #9b9292;
+	top: -98px;
+	left: 60px;
+	display: none;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+article .dv1:nth-last-of-type(1) .details .flo:hover .flotage{
+	display: block;
+} 
 article .dv1 .active {
 	padding-top: 10px;
 	margin:0 auto;
@@ -1671,6 +1688,11 @@ article .dv4 .parcel .len span{
 }
 article .dv4 .parcel .len .set{
 	margin-right: 0px;
+	
+}
+article .dv4 .parcel .len .set_width{
+	display: inline-block;
+	width: 134px;
 }
 article .dv4 .left_margin{
 	margin-left: 98px;
