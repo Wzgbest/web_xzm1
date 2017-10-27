@@ -12,6 +12,7 @@
 <script type="text/javascript">
 	$(".pop_content.confirm-batch-delete .pop-submit-btn").click(function(){
 		var ids_arr = new Array();
+		let now_class_id = $(".knowledgebase_speechcraft_index header .m-firNav li.current").attr("speechcraft_in_column");
 	    $(".knowledgebase_speechcraft_index .speech-list li input[type='checkbox']:checked").each(function(index, el) {
 	        ids_arr[index] = $(this).val();
 	    });
@@ -27,7 +28,13 @@
 	        success:function(data){
 	            layer.msg(data.info,{icon:data.status==1?1:2});
 	            if(data.status) {
-	                loadPage("/knowledgebase/speech_craft/index", "speech-databasefr");
+	            	var url = "/knowledgebase/speech_craft/index/class_id/"+now_class_id;
+			        var panel = 'speech-databasefr';
+			        loadPage(url,panel);
+			        // $(".knowledgebase_speechcraft_index .in_column").eq($(arr[0]).index()).addClass("current").siblings().removeClass("current");
+			        in_batch_manage();
+			        $(".delete-change-set-container").children().remove();
+	                // loadPage("/knowledgebase/speech_craft/index", "speech-databasefr");
 	            }
 	        },
 	        error:function(){

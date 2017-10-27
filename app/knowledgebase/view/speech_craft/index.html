@@ -2,9 +2,9 @@
 	<div class="index_panel index">
 		<header>
             <ul class="m-firNav">
-                <li speechcraft_in_column="0" class="in_column current"><div>所有分类</div></li>
+                <li speechcraft_in_column="0" {eq name="class_id" value="0" } class="in_column current" {else/} class="in_column" {/eq}><div>所有分类</div></li>
                 {volist name="article_type" id="vo"}
-                <li speechcraft_in_column="{$vo.id}" class="in_column "><div>{$vo.type_name}</div></li>
+                <li speechcraft_in_column="{$vo.id}" {if condition="$class_id eq $vo.id"} class="in_column current" {else/} class="in_column " {/if}><div>{$vo.type_name}</div></li>
                 {/volist}
                 <!--<li in_column="1" class="in_column "><div>百度业务</div></li>
                 <li in_column="2" class="in_column "><div>网站建设</div></li>-->
