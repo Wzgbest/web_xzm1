@@ -580,16 +580,19 @@ class Index extends Initialize{
             $task_info['task_method'] = input("task_method",0,"int");
         }
         $task_info['content'] = input("content","","string");
+
         $task_info['public_to_take'] = input("public_to_take","","string");
         $public_uids = explode(",",$task_info['public_to_take']);
         $public_uids = array_filter($public_uids);
         $public_uids = array_unique($public_uids);
         $task_info['public_to_take'] = implode(",",$public_uids);
+
         $task_info['public_to_view'] = input("public_to_view","","string");
         $public_uids = explode(",",$task_info['public_to_view']);
         $public_uids = array_filter($public_uids);
         $public_uids = array_unique($public_uids);
         $task_info['public_to_view'] = implode(",",$public_uids);
+        
         $task_info['create_employee'] = $uid;
         $task_info['create_time'] = time();
         $task_info['status'] = 2;
