@@ -1298,7 +1298,7 @@ class SaleChance extends Initialize{
 
             //签到后更新到下一步
             $sale_ids = $sale_id?:explode(",",$customerData["sale_id"]);
-            $saleChanceflg = $saleChanceSignInM->changeToSignInNextStatus($customer_id,$sale_ids);
+            $saleChanceflg = $saleChanceSignInM->changeToSignInStatus($customer_id,$sale_ids);
             //var_exp($saleChanceflg,'$saleChanceflg',1);
             if(!$saleChanceflg){
                 exception("更新签到状态失败!");
