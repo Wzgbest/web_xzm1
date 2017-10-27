@@ -377,24 +377,30 @@ class Employee extends Initialize{
         return json($result);
     }
 
-    public function changeEmployeePhone(){
+    public function changeEmployeePhone($user_id,$telephone){
         $result = ['status'=>0 ,'info'=>"更换手机号时发生错误！"];
-        $id = input('id',0,'int');
-        $phone = input('phone',0,'int');
+        $id = $user_id?$user_id:input('id',0,'int');
+        $phone = $telephone?$telephone:input('phone',0,'int');
         $employeeM = new EmployeeModel($this->corp_id);
         $check_flg = $employeeM->getEmployeeByUserid($id);
         if(!$check_flg){
             $result['info'] = "未找到员工！";
-            return json($result);
+            return $result;
+        }
+        $check_flg = $employeeM->getEmployeeByTel($telephone);
+        if($check_flg){
+            $result['info'] = "手机号已经存在！";
+            return $result;
         }
         $check_flg = $employeeM->setEmployeeSingleInfoById($id,["telephone"=>$phone]);
-        if($check_flg){
+        $check_flg1=UserCorporation::setUserCorpByPhone($phone);
+        if(!$check_flg || $check_flg1===false){
             $result['info'] = "更换手机号失败！";
-            return json($result);
+            return $result;
         }
         $result['status'] = 1;
         $result['info'] = "更换手机号成功！";
-        return json($result);
+        return $result;
     }
 
     /**
@@ -404,18 +410,10 @@ class Employee extends Initialize{
      * @return array|false|\PDOStatement|string|\think\Model
      * created by messhair
      */
-    public function editEmployee(Request $request, $user_id)
+    public function editEmployee(Request $request)
     {
-        if ($request->isGet()) {
-            $employeeM = new EmployeeModel($this->corp_id);
-            $structM = new StructureEmployee($this->corp_id);
-            $employee_info = $employeeM->getEmployeeByUserid($user_id);
-            $struct_info = $structM->getEmployeeStructure($user_id);
-            $employee_info['struct_info'] = $struct_info;
-            $role_info = $structM->getEmployeeStructure($user_id);
-            $employee_info['role_info'] = $role_info;
-            return $employee_info;
-        } elseif ($request->isPost()) {
+
+        if($request->isPost()) {
             $input = array_intersect_key($request->param(),[
                 "truename"=>"",
                 "nickname"=>"",
@@ -430,11 +428,17 @@ class Employee extends Initialize{
                 "wechat"=>"",
                 "struct_id"=>"",
                 "role"=>"",
-                "user_id"=>""
+                "user_id"=>"",
+                "telephone"=>""
             ]);
-            // var_dump($input);die();
-            $input["telephone"]=15888888888;
+//             var_dump($input);die();
+//            $input["telephone"]=15888888888;
             $result = $this->validate($input,'Employee');
+            $user_id = $input['user_id'];
+            $employeeM = new EmployeeModel($this->corp_id);
+            $employee_info = $employeeM->getEmployeeByUserid($user_id);
+            $telephone=$input['telephone'];
+            $pre_telephone=$employee_info['telephone'];
             unset($input["telephone"]);
             $info['status'] = false;
             //验证字段
@@ -452,7 +456,7 @@ class Employee extends Initialize{
             }
             $struct_ids = explode(",",$input['struct_id']);
             $role_ids = explode(",",$input['role']);
-            $user_id = $input['user_id'];
+
             if($input["on_duty"]==-1){
                 $input["on_duty"] = 1;
                 $input["status"] = -1;
@@ -474,7 +478,7 @@ class Employee extends Initialize{
             unset($input['struct_id']);
             unset($input['role']);
             unset($input['user_id']);
-            $employeeM = new EmployeeModel($this->corp_id);
+//            $employeeM = new EmployeeModel($this->corp_id);
             $struct_empM = new StructureEmployee($this->corp_id);
             $role_empM = new RoleEmployee($this->corp_id);
             $structM = new StructureModel($this->corp_id);
@@ -653,11 +657,31 @@ class Employee extends Initialize{
                 
 
                 if ($em_res >= 0 && $res>0 && $del_res>0 && $role_res>0 && $role_del_res>0 && $is_hx>0 && $ad_hx>0 && $del_hx>0 && $set_hx>0) {
-                    $employeeM->link->commit();
-                    return [
-                        'status' => true,
-                        'message' => '修改员工信息成功',
-                    ];
+                    if($pre_telephone!=$telephone){
+                        $result_data=$this->changeEmployeePhone($user_id,$telephone);
+                        if($result_data['status']){
+                            $employeeM->link->commit();
+                            return [
+                                'status' => true,
+                                'message' => '修改员工信息成功',
+                            ];
+                        }
+                        else{
+                            $employeeM->link->rollback();
+                            return [
+                                'status' => false,
+                                'message' => $result_data['info'],
+                            ];
+                        }
+                    }
+                    else{
+                        $employeeM->link->commit();
+                        return [
+                            'status' => true,
+                            'message' => '修改员工信息成功',
+                        ];
+                    }
+
                 } else {
                     $employeeM->link->rollback();
                     $info['message'] = '修改员工信息失败';
