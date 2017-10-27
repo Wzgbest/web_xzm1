@@ -497,6 +497,26 @@ class SaleChance extends Initialize{
             return json($result);
         }
         $saleChanceM = new SaleChanceModel($this->corp_id);
+        $businessFlowItemLinkM = new BusinessFlowItemLink($this->corp_id);
+        $businessFlowItemLinks = $businessFlowItemLinkM->getItemLinkById($saleChance["business_id"]);
+        //var_exp($businessFlowItemLinks,'$businessFlowItemLinks');
+        $this->assign('business_flow_item_links',$businessFlowItemLinks);
+        $businessFlowItemLinkIndex = array_column($businessFlowItemLinks,"id");
+        $this->assign('business_flow_item_link_index',$businessFlowItemLinkIndex);
+        $now_item = $saleChance["sale_status"];
+        $next_item = 0;
+        for($i=0;$i<count($businessFlowItemLinks);$i++){
+            if($businessFlowItemLinks[$i]["item_id"] == $now_item){
+                if($i+1<count($businessFlowItemLinks)){
+                    $next_item = $businessFlowItemLinks[$i+1]["item_id"];
+                    break;
+                }
+            }
+        }
+        $need_sign_num = 0;
+        if($now_item==3 && $next_item==3){
+            $need_sign_num = 1;
+        }
 
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
@@ -526,6 +546,37 @@ class SaleChance extends Initialize{
             $saleChanceM->link->startTrans();
             //var_exp($saleChance,'$saleChance',1);
             $saleChanceId = $saleChanceM->addSaleChance($saleChance);
+
+            if($saleChance["sale_status"]==2){
+                $visit_save_flg = $this->_add_visit($saleChanceId);
+                if(!$visit_save_flg){
+                    //$result['info'] = "保存预约拜访信息失败！";
+                    //return json($result);
+                    exception("保存预约拜访信息失败!");
+                }
+            }
+            if($need_sign_num>0){
+                $sign_in_save_flg = $this->_add_sign_in($saleChanceId);
+                if(!$sign_in_save_flg){
+                    exception("保存下一环节上门拜访信息失败!");
+                }
+            }
+            if($saleChance["sale_status"]==4){
+                $fine_save_flg = $this->_add_fine($saleChanceId,$saleChance);
+                //var_exp($fine_save_flg,'$fine_save_flg',1);
+                if($fine_save_flg["status"]!=1){
+                    $result['info'] = $fine_save_flg['info'];
+                    return json($result);
+                    //exception("保存成单申请信息失败!");
+                }
+                $saleChance["need_money"] = $fine_save_flg["data"]["all_contract_money"];
+                $saleChance["payed_money"] = $fine_save_flg["data"]["all_pay_money"];
+                $saleChance["final_money"] = $fine_save_flg["data"]["all_contract_money"];
+                if(isset($fine_save_flg["data"]["sale_name"])){
+                    $saleChance["sale_name"] = $fine_save_flg["data"]["sale_name"];
+                    $saleChanceflg = $saleChanceM->setSaleChance($saleChanceId,$saleChance);
+                }
+            }
 
             $customerM = new CustomerTraceModel($this->corp_id);
             $customersTrace["new_value"] = $saleChanceId;
@@ -703,6 +754,14 @@ class SaleChance extends Initialize{
         $itemName["add_note"] = ["添加到备忘录","getYesNoName"];
         return $itemName;
     }
+    protected function _add_visit($sale_id){
+        $saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
+        $add_flg = true;
+        $SaleChancesVisitData = $this->_getSaleChanceVisitForInput($sale_id,$add_flg);
+        $save_flg = $saleChanceVisitM->addSaleChanceVisit($SaleChancesVisitData);
+        //var_exp($save_flg,'$save_flg',1);
+        return $save_flg;
+    }
     protected function _update_visit($sale_id){
         $saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
         $SaleChancesVisitOldData = $saleChanceVisitM->getSaleChanceVisitBySaleId($sale_id);
@@ -770,15 +829,21 @@ class SaleChance extends Initialize{
         //var_exp($save_flg,'$save_flg',1);
         return $save_flg;
     }
+    protected function _add_sign_in($sale_id){
+        $save_flg = false;
+        $saleChanceSignInM = new SaleChanceSignInModel($this->corp_id);
+        $data["sale_id"] = $sale_id;
+        $data["sign_in_ok"] = 0;
+        $save_flg = $saleChanceSignInM->addSaleChanceSignIn($data);
+        return $save_flg;
+    }
     protected function _update_sign_in($sale_id){
         $save_flg = false;
         $saleChanceSignInM = new SaleChanceSignInModel($this->corp_id);
         $signInInfo = $saleChanceSignInM->getSaleChanceSignInBySaleId($sale_id);
         //var_exp($signInInfo,'$signInInfo',1);
         if(!$signInInfo){
-            $data["sale_id"] = $sale_id;
-            $data["sign_in_ok"] = 0;
-            $save_flg = $saleChanceSignInM->addSaleChanceSignIn($data);
+            $save_flg = $this->_add_sign_in($sale_id);
         }else{
             $save_flg = true;
         }
@@ -857,25 +922,161 @@ class SaleChance extends Initialize{
         $itemName["need_bill"] = ["需要发票","getYesNoName"];
         return $itemName;
     }
+    protected function _add_fine($sale_id,$saleChanceData){
+        $result = ['status'=>0 ,'info'=>"保存成单申请时发生错误！"];
+        $saleChanceM = new SaleChanceModel($this->corp_id);
+        $saleOrderContractM = new SaleOrderContractModel($this->corp_id);
+        $saleOrderContractItemM = new SaleOrderContractItem($this->corp_id);
+        $add_flg = true;
+        $update_flg = false;
+        $sale_order_id = 0;
+        $sale_order_contract_idx = [];
+        $saleOrderContractData = $this->_getSaleChanceFineForInput($sale_id,$add_flg,$update_flg);
+        //var_exp($saleOrderContractData,'$saleOrderContractData',1);
+        $saleContracts = $this->_getSaleContractsForInput($sale_id,$sale_order_id);
+        if($saleContracts["status"]!=1){
+            $result["info"] = $saleContracts["info"];
+            return $result;
+        }
+        //var_exp($saleContracts,'$saleContracts',1);
+        $result_data = [];
+        if(
+            empty($saleOrderContractData["handle_1"])
+        ){
+            exception("审核人必须选择!");
+        }
+        for($i=2;$i<=6;$i++){
+            if(
+                !empty($saleOrderContractData["handle_".$i])
+                && empty($saleOrderContractData["handle_".($i-1)])
+            ){
+                exception("审核人".($i-1)."不能为空!");
+            }
+        }
+
+        $saleOrderContractData["order_num"] = 1;
+        $save_flg = $saleOrderContractM->addSaleOrderContract($saleOrderContractData);
+        if(!$save_flg){
+            $result["info"] = "成单申请保存失败!";
+            return $result;
+        }
+        $sale_order_contract_idx[0] = [$sale_id,$save_flg];
+
+        if(count($saleContracts["data"])>1){
+            //申请时多个合同拆分,复制销售机会
+            $saleContractIds = array_column($saleContracts["data"],"contract_id");
+            //var_exp($saleContractIds,'$saleContractIds');
+            $contractAppliedModel = new ContractAppliedModel($this->corp_id);
+            $saleContractNames = $contractAppliedModel->getContractNoAndTypeInfos($saleContractIds);
+            //var_exp($saleContractNames,'$saleContractNames',1);
+            $saleContractNameIdx = [];
+            foreach ($saleContractNames as $saleContractName){
+                $saleContractNameIdx[$saleContractName["id"]] = $saleContractName["contract_name"];
+            }
+            //var_exp($saleContractNameIdx,'$saleContractNameIdx');
+
+            $sale_name = input('sale_name',"","string");
+            $contract_name = $saleContractNameIdx[$saleContracts["data"][0]["contract_id"]];
+            $result_data["sale_name"] = $sale_name." - 1:".$contract_name;
+//                $saleChanceNameUpdate["sale_name"] = $result_data["sale_name"];
+//                $saleChanceflg = $saleChanceM->setSaleChance($sale_id,$saleChanceNameUpdate);
+//                if(!$saleChanceflg){
+//                    $result["info"] = "成单申请拆分更新销售机会名称失败!";
+//                    return $result;
+//                }
+
+            //$saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
+            //$SaleChancesVisitData = $saleChanceVisitM->getSaleChanceVisitBySaleId($sale_id);
+
+            for ($i=1;$i<count($saleContracts["data"]);$i++){
+                $saleChanceTmp = $saleChanceData;
+                unset($saleChanceTmp["id"]);
+                //unset($saleChanceTmp["employee_name"]);
+                //var_exp($saleContracts["data"][$i],'$saleContracts["data"][$i]');
+                $contract_name = $saleContractNameIdx[$saleContracts["data"][$i]["contract_id"]];
+                $saleChanceTmp["sale_name"] = $sale_name." - ".($i+1).":".$contract_name;
+                $saleChanceTmp["pid"] = $sale_id;
+                $saleChanceTmp["is_copy"] = 1;
+                $saleChanceTmp["sale_status"] = 4;
+                $saleChanceTmp["need_money"] = $saleContracts["data"][$i]["contract_money"];
+                $saleChanceTmp["payed_money"] = $saleContracts["data"][$i]["pay_money"];
+                $saleChanceTmp["final_money"] = $saleContracts["data"][$i]["contract_money"];
+                $saleChanceAddFlg = $saleChanceM->addSaleChance($saleChanceTmp);
+                if(!$saleChanceAddFlg){
+                    $result["info"] = "成单申请拆分销售机会失败!";
+                    return $result;
+                }
+
+                $saleOrderContractData["sale_id"] = $saleChanceAddFlg;
+                $saleOrderContractData["order_num"] = 1;
+                $save_flg = $saleOrderContractM->addSaleOrderContract($saleOrderContractData);
+                if(!$save_flg){
+                    $result["info"] = "成单申请拆分数据保存失败!";
+                    return $result;
+                }
+                $sale_order_contract_idx[$i] = [$saleChanceAddFlg,$save_flg];
+
+//                    if(empty($SaleChancesVisitData)){
+//                        continue;
+//                    }
+//                    $SaleChancesVisitTmp = $SaleChancesVisitData;
+//                    unset($saleChanceTmp["id"]);
+//                    $SaleChancesVisitTmp["sale_id"] = $saleChanceAddFlg;
+//                    $SaleChancesVisitFlg = $saleChanceVisitM->addSaleChanceVisit($SaleChancesVisitTmp);
+//                    if(!$SaleChancesVisitFlg){
+//                        $result["info"] = "成单申请拆分销售机会拜访数据保存失败!";
+//                        return $result;
+//                    }
+            }
+        }
+
+        $saleContractsIdx = [];
+        $all_contract_money = 0;
+        $all_pay_money = 0;
+        for($key=0;$key<count($saleContracts["data"]);$key++){
+            $saleContractItem = $saleContracts["data"][$key];
+            $saleContractsIdx[$saleContractItem["contract_id"]]=$key;
+            $all_contract_money += $saleContractItem["contract_money"];
+            $all_pay_money += $saleContractItem["pay_money"];
+        }
+        //var_exp($saleContractsIdx,'$saleContractsIdx');
+        $result_data["all_contract_money"] = "".number_format($all_contract_money,2,".","");
+        $result_data["all_pay_money"] = "".number_format($all_pay_money,2,".","");
+
+        $item_infos = [];
+        foreach ($saleContractsIdx as $contract_id=>$idx){
+            $new_item_info = $saleContracts["data"][$saleContractsIdx[$contract_id]];
+            $new_item_info["sale_id"] = $sale_order_contract_idx[$idx][0];
+            $new_item_info["sale_order_id"] = $sale_order_contract_idx[$idx][1];
+            $item_infos[] = $new_item_info;
+        }
+        $saleOrderContractItemAddFlg = $saleOrderContractItemM->addMultipleContractItem($item_infos);
+        if(!$saleOrderContractItemAddFlg){
+            $result["info"] = "成单申请合同关联添加失败!";
+            return $result;
+        }
+
+        $result["status"] = 1;
+        $result["info"] = "成单申请保存成功!";
+        $result["data"] = $result_data;
+        return $result;
+    }
     protected function _update_fine($sale_id){
         $result = ['status'=>0 ,'info'=>"保存成单申请时发生错误！"];
         $saleChanceM = new SaleChanceModel($this->corp_id);
         $saleChanceData = $saleChanceM->getSaleChanceOrigin($sale_id);
         $saleOrderContractM = new SaleOrderContractModel($this->corp_id);
         $saleOrderContractOldData = $saleOrderContractM->getSaleOrderContractBySaleId($sale_id);
+        //var_exp($saleOrderContractOldData,'$saleOrderContractOldData',1);
         $saleOrderContractItemM = new SaleOrderContractItem($this->corp_id);
-        $saleOrderContractItemOld = [];
         $add_flg = false;
         $update_flg = false;
-        $sale_order_id = 0;
-        $sale_order_contract_idx = [];
         if(empty($saleOrderContractOldData)){
-            $add_flg = true;
-            $saleOrderContractOldData["status"] = 3;
-        }else{
+            return $this->_add_fine($sale_id,$saleChanceData);
+        }
             $sale_order_id = $saleOrderContractOldData["id"];
             $saleOrderContractItemOld = $saleOrderContractItemM->getContractItemBySaleId($sale_id);
-        }
+
         //var_exp($saleOrderContractItemOld,'$saleOrderContractItemOld');
         $refresh = input("refresh",0,"int");
         $reply = $saleOrderContractOldData["status"]==3;
@@ -891,12 +1092,11 @@ class SaleChance extends Initialize{
         }
         $order_num = count($saleContracts["data"]);
         $can_update_contract = count($saleOrderContractOldData)?:1;
-        if($order_num>$can_update_contract&&(!$add_flg)){
+        if($order_num>$can_update_contract){
             $result["info"] = "只有第一次提交成单申请时能提交多个合同!";
             return $result;
         }
         //var_exp($saleContracts,'$saleContracts',1);
-        $save_flg = false;
         $result_data = [];
         if(!in_array($saleOrderContractOldData["status"],[2,3])){
             $result["info"] = "成单申请审核中,不能编辑!";
@@ -915,116 +1115,42 @@ class SaleChance extends Initialize{
                 exception("审核人".($i-1)."不能为空!");
             }
         }
-        
+
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
         $now_time = time();
         $customersTraces = [];
         $table = 'sale_chance';
-        
-        if($add_flg){
-            $saleOrderContractData["order_num"] = 1;
-            $save_flg = $saleOrderContractM->addSaleOrderContract($saleOrderContractData);
-            if(!$save_flg){
-                $result["info"] = "成单申请保存失败!";
-                return $result;
-            }
-            $sale_order_id = $save_flg;
-            $sale_order_contract_idx[0] = [$sale_id,$save_flg];
 
-            if(count($saleContracts["data"])>1){
-                //申请时多个合同拆分,复制销售机会
-                $saleContractIds = array_column($saleContracts["data"],"contract_id");
-                //var_exp($saleContractIds,'$saleContractIds');
-                $contractAppliedModel = new ContractAppliedModel($this->corp_id);
-                $saleContractNames = $contractAppliedModel->getContractNoAndTypeInfos($saleContractIds);
-                //var_exp($saleContractNames,'$saleContractNames',1);
-                $saleContractNameIdx = [];
-                foreach ($saleContractNames as $saleContractName){
-                    $saleContractNameIdx[$saleContractName["id"]] = $saleContractName["contract_name"];
-                }
-                //var_exp($saleContractNameIdx,'$saleContractNameIdx');
+        $save_flg = $saleOrderContractM->setSaleOrderContractBySaleId($sale_id,$saleOrderContractData);
 
-                $sale_name = input('sale_name',"","string");
-                $contract_name = $saleContractNameIdx[$saleContracts["data"][0]["contract_id"]];
-                $result_data["sale_name"] = $sale_name." - 1:".$contract_name;
-//                $saleChanceNameUpdate["sale_name"] = $result_data["sale_name"];
-//                $saleChanceflg = $saleChanceM->setSaleChance($sale_id,$saleChanceNameUpdate);
-//                if(!$saleChanceflg){
-//                    $result["info"] = "成单申请拆分更新销售机会名称失败!";
-//                    return $result;
-//                }
-
-                //$saleChanceVisitM = new SaleChanceVisitModel($this->corp_id);
-                //$SaleChancesVisitData = $saleChanceVisitM->getSaleChanceVisitBySaleId($sale_id);
-
-                for ($i=1;$i<count($saleContracts["data"]);$i++){
-                    $saleChanceTmp = $saleChanceData;
-                    unset($saleChanceTmp["id"]);
-                    //var_exp($saleContracts["data"][$i],'$saleContracts["data"][$i]');
-                    $contract_name = $saleContractNameIdx[$saleContracts["data"][$i]["contract_id"]];
-                    $saleChanceTmp["sale_name"] = $sale_name." - ".($i+1).":".$contract_name;
-                    $saleChanceTmp["pid"] = $sale_id;
-                    $saleChanceTmp["is_copy"] = 1;
-                    $saleChanceTmp["sale_status"] = 4;
-                    $saleChanceAddFlg = $saleChanceM->addSaleChance($saleChanceTmp);
-                    if(!$saleChanceAddFlg){
-                        $result["info"] = "成单申请拆分销售机会失败!";
-                        return $result;
-                    }
-
-                    $saleOrderContractData["sale_id"] = $saleChanceAddFlg;
-                    $saleOrderContractData["order_num"] = 1;
-                    $save_flg = $saleOrderContractM->addSaleOrderContract($saleOrderContractData);
-                    if(!$save_flg){
-                        $result["info"] = "成单申请拆分数据保存失败!";
-                        return $result;
-                    }
-                    $sale_order_contract_idx[$i] = [$saleChanceAddFlg,$save_flg];
-
-//                    if(empty($SaleChancesVisitData)){
-//                        continue;
-//                    }
-//                    $SaleChancesVisitTmp = $SaleChancesVisitData;
-//                    unset($saleChanceTmp["id"]);
-//                    $SaleChancesVisitTmp["sale_id"] = $saleChanceAddFlg;
-//                    $SaleChancesVisitFlg = $saleChanceVisitM->addSaleChanceVisit($SaleChancesVisitTmp);
-//                    if(!$SaleChancesVisitFlg){
-//                        $result["info"] = "成单申请拆分销售机会拜访数据保存失败!";
-//                        return $result;
-//                    }
-                }
-            }
-        }else{
-            $save_flg = $saleOrderContractM->setSaleOrderContractBySaleId($sale_id,$saleOrderContractData);
-
-            //var_exp($saleOrderContractOldData,'$saleOrderContractOldData');
-            //var_exp($saleOrderContractData,'$saleOrderContractData');
-            $updateItemName = $this->getUpdateFineItemNameAndType();
-            //var_exp($updateItemName,'$updateItemName');
-            $saleOrderContractDataIntersertData = array_intersect_key($saleOrderContractOldData,$saleOrderContractData);
-            $saleOrderContractDataIntersertData = array_intersect_key($saleOrderContractDataIntersertData,$updateItemName);
-            //unset($saleOrderContractDataIntersertData["update_time"]);
-            //var_exp($saleOrderContractDataIntersertData,'$saleOrderContractDataIntersertData');
-            $saleOrderContractDataDiffData = array_diff_assoc($saleOrderContractDataIntersertData,$saleOrderContractData);
-            //var_exp($saleOrderContractDataDiffData,'$saleOrderContractDataDiffData',1);
+        //var_exp($saleOrderContractOldData,'$saleOrderContractOldData');
+        //var_exp($saleOrderContractData,'$saleOrderContractData');
+        $updateItemName = $this->getUpdateFineItemNameAndType();
+        //var_exp($updateItemName,'$updateItemName');
+        $saleOrderContractDataIntersertData = array_intersect_key($saleOrderContractOldData,$saleOrderContractData);
+        $saleOrderContractDataIntersertData = array_intersect_key($saleOrderContractDataIntersertData,$updateItemName);
+        //unset($saleOrderContractDataIntersertData["update_time"]);
+        //var_exp($saleOrderContractDataIntersertData,'$saleOrderContractDataIntersertData');
+        $saleOrderContractDataDiffData = array_diff_assoc($saleOrderContractDataIntersertData,$saleOrderContractData);
+        //var_exp($saleOrderContractDataDiffData,'$saleOrderContractDataDiffData',1);
 
 
-            foreach ($saleOrderContractDataDiffData as $key=>$saleOrderContractDataDiff){
-                $customersTrace = createCustomersTraceItem(
-                    $uid,
-                    $now_time,
-                    $table,
-                    $saleChanceData["customer_id"],
-                    $key,
-                    $saleOrderContractOldData,
-                    $saleOrderContractData,
-                    $updateItemName,
-                    $saleChanceData["sale_name"]
-                );
-                $customersTraces[] = $customersTrace;
-            }
+        foreach ($saleOrderContractDataDiffData as $key=>$saleOrderContractDataDiff){
+            $customersTrace = createCustomersTraceItem(
+                $uid,
+                $now_time,
+                $table,
+                $saleChanceData["customer_id"],
+                $key,
+                $saleOrderContractOldData,
+                $saleOrderContractData,
+                $updateItemName,
+                $saleChanceData["sale_name"]
+            );
+            $customersTraces[] = $customersTrace;
         }
+
         //empty($saleOrderContractData["contract_id"])||
         $saleOrderContractItemIdx = [];
         for($key=0;$key<count($saleOrderContractItemOld);$key++){
@@ -1042,8 +1168,8 @@ class SaleChance extends Initialize{
             $all_pay_money += $saleContractItem["pay_money"];
         }
         //var_exp($saleContractsIdx,'$saleContractsIdx');
-        $result_data["all_contract_money"] = $all_contract_money;
-        $result_data["all_pay_money"] = $all_pay_money;
+        $result_data["all_contract_money"] = "".number_format($all_contract_money,2,".","");
+        $result_data["all_pay_money"] = "".number_format($all_pay_money,2,".","");
         $updateContractsIdx = array_intersect_key($saleOrderContractItemIdx,$saleContractsIdx);
         $deleteContractsIdx = array_diff_key($saleOrderContractItemIdx,$updateContractsIdx);
         $insaertContractsIdx = array_diff_key($saleContractsIdx,$updateContractsIdx);
@@ -1106,12 +1232,7 @@ class SaleChance extends Initialize{
             $item_infos = [];
             foreach ($insaertContractsIdx as $contract_id=>$idx){
                 $new_item_info = $saleContracts["data"][$saleContractsIdx[$contract_id]];
-                if($add_flg){
-                    $new_item_info["sale_id"] = $sale_order_contract_idx[$idx][0];
-                    $new_item_info["sale_order_id"] = $sale_order_contract_idx[$idx][1];
-                }else{
-                    $new_item_info["sale_order_id"] = $sale_order_id;
-                }
+                $new_item_info["sale_order_id"] = $sale_order_id;
                 $item_infos[] = $new_item_info;
             }
             $saleOrderContractItemAddFlg = $saleOrderContractItemM->addMultipleContractItem($item_infos);

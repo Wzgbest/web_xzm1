@@ -641,9 +641,6 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 		});
 	};
 	this.sale_chance_edit_send=function(id,customer_id){
-		if(confirm("你确定要提交该成单申请吗?")!=true){
-			return;
-		}
 		console.log(id);
 		console.log(customer_id);
 		var panel = this.panel_base+' .customer_sale_chance';
@@ -652,6 +649,9 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 		var sale_chance_edit_form = $(edit_sale_chance_panel+" .editSaleChanceForm").serialize();
 		var status = $(edit_sale_chance_panel+" .editSaleChanceForm .sale-chance-status_selecter").val();
 		if(status==4){
+			if(confirm("你确定要提交该成单申请吗?")!=true){
+				return;
+			}
 			var contracts = $(edit_sale_chance_panel+" .editSaleChanceForm .sale-chance-apply-contract");
 			var contract_num = contracts.length;
 			if(contract_num<=0){
