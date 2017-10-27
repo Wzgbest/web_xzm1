@@ -361,25 +361,29 @@ class Role extends Initialize{
     }
 
     public function _checkNotUse($ids){
-        $is_not_use = false;
+        $is_not_use = true;
         $billSettingM = new BillSettingModel($this->corp_id);
         $in_use_bill_setting_count = $billSettingM->getBillSettingByRoleIds($ids);
-        if($in_use_bill_setting_count==0){
-            $is_not_use = true;
+        if(count($in_use_bill_setting_count)>0){
+            //var_exp($in_use_bill_setting_count,'$in_use_bill_setting_count0',1);
+            $is_not_use = false;
             return $is_not_use;
         }
         $businessFlowItemLinkM = new BusinessFlowItemLinkModel($this->corp_id);
-        $in_use_bill_setting_count = $businessFlowItemLinkM->getBusinessFlowSettingByRoleIds($ids);
-        if($in_use_bill_setting_count==0){
-            $is_not_use = true;
+        $in_use_business_flow_setting_count = $businessFlowItemLinkM->getBusinessFlowSettingByRoleIds($ids);
+        if(count($in_use_business_flow_setting_count)>0){
+            //var_exp($in_use_bill_setting_count,'$in_use_bill_setting_count1',1);
+            $is_not_use = false;
             return $is_not_use;
         }
         $contractSettingM = new ContractSettingModel($this->corp_id);
-        $in_use_bill_setting_count = $contractSettingM->getContractSettingByRoleIds($ids);
-        if($in_use_bill_setting_count==0){
-            $is_not_use = true;
+        $in_use_contract_setting_count = $contractSettingM->getContractSettingByRoleIds($ids);
+        if(count($in_use_contract_setting_count)>0){
+            //var_exp($in_use_bill_setting_count,'$in_use_bill_setting_count2',1);
+            $is_not_use = false;
             return $is_not_use;
         }
+        //var_exp($is_not_use,'$is_not_use',1);
         return $is_not_use;
     }
 
