@@ -35,26 +35,26 @@ function loadStructEmployeeTable(id){
         }
     });
 }
-$(".structure_list .top .add").click(function(){
-    var struct_id = findActivityStructId();
-    console.log(struct_id);
-    if(struct_id>0){
-        var url = "/systemsetting/structure/not_struct_employee_list/id/"+struct_id;
-        $.ajax({
-            url:url,
-            type:'get',
-            async:false,
-            success:function (data) {
-                update_add_employee_num(0);
-                $(struct_add_employee_panel+' .add_employee_list').html(data);
-                $(struct_add_employee_panel).reveal("{data-animation:'fade'}");
-            },
-            error:function(){
-                layer.msg('获取员工信息失败!',{icon:2});
-            }
-        });
-    }
-});
+//$(".structure_list .top .add").click(function(){
+//  var struct_id = findActivityStructId();
+//  console.log(struct_id);
+//  if(struct_id>0){
+//      var url = "/systemsetting/structure/not_struct_employee_list/id/"+struct_id;
+//      $.ajax({
+//          url:url,
+//          type:'get',
+//          async:false,
+//          success:function (data) {
+//              update_add_employee_num(0);
+//              $(struct_add_employee_panel+' .add_employee_list').html(data);
+//              $(struct_add_employee_panel).reveal("{data-animation:'fade'}");
+//          },
+//          error:function(){
+//              layer.msg('获取员工信息失败!',{icon:2});
+//          }
+//      });
+//  }
+//});
 function update_add_employee_num(num){
     $(struct_add_employee_panel+" .select_num").html(num);
 }
@@ -185,6 +185,31 @@ $(".structure_list .content .fold .title .fa-plus").click(function(){
     $(struct_file_panel_temp).reveal("{data-animation:'fade'}");
     
 });
+
+$(struct_list_panel_base).on("click",".u-btnAdd",function(){
+	console.log(struct_list_panel_base);
+    var struct_id = findActivityStructId();
+    console.log(struct_id);
+    if(struct_id>0){
+        var url = "/systemsetting/structure/not_struct_employee_list/id/"+struct_id;
+        $.ajax({
+            url:url,
+            type:'get',
+            async:false,
+            success:function (data) {
+                update_add_employee_num(0);
+                $(struct_add_employee_panel+' .add_employee_list').html(data);
+                $(struct_add_employee_panel).reveal("{data-animation:'fade'}");
+            },
+            error:function(){
+                layer.msg('获取员工信息失败!',{icon:2});
+            }
+        });
+    }
+    
+});
+
+
 $(struct_file_panel).on('click',".p5 input",function(){
  
     var add_struct_name = $(struct_file_panel).children('.mange').children('input').val();
