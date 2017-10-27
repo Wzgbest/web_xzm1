@@ -1,7 +1,11 @@
 {volist name="guess_list" id="vo"}
     <ul>
         <li>{$vo["truename"]}</li>
-        <li>{$vo["struct_name"]}</li>
+        <li>
+            <?php $struct_arr=explode(',',$vo["struct_name"]);
+                    echo $struct_arr[count($struct_arr)-1];
+                ?>
+        </li>
         <li><span>{$vo["guess_employee_num"]}</span>人支持<span>{$vo["money"]}</span>元</li>
     </ul>
 {/volist}
