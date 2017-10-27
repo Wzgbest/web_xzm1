@@ -23,6 +23,7 @@
 		var data = new Array();
 		data[0] = article_id;
 		console.log(class_id);
+		let now_class_id = $(".knowledgebase_speechcraft_index header .m-firNav li.current").attr("speechcraft_in_column");
 	    $.ajax({
 	        url: '/knowledgebase/speech_craft/changeClass',
 	        type: 'POST',
@@ -31,6 +32,11 @@
 	        success:function(data){
 	            layer.msg(data.info,{icon:data.status==1?1:2});
 	            if(data.status) {
+	            	var url = "/knowledgebase/speech_craft/index/class_id/"+now_class_id;
+			        var panel = 'speech-databasefr';
+			        loadPage(url,panel);
+			        // $(".knowledgebase_speechcraft_index .in_column").eq($(arr[0]).index()).addClass("current").siblings().removeClass("current");
+			        in_batch_manage();
 					$(".delete-change-set-container").children().remove();
 	            }
 	        },
