@@ -1122,34 +1122,34 @@ class SaleChance extends Initialize{
         $customersTraces = [];
         $table = 'sale_chance';
 
-            $save_flg = $saleOrderContractM->setSaleOrderContractBySaleId($sale_id,$saleOrderContractData);
+        $save_flg = $saleOrderContractM->setSaleOrderContractBySaleId($sale_id,$saleOrderContractData);
 
-            //var_exp($saleOrderContractOldData,'$saleOrderContractOldData');
-            //var_exp($saleOrderContractData,'$saleOrderContractData');
-            $updateItemName = $this->getUpdateFineItemNameAndType();
-            //var_exp($updateItemName,'$updateItemName');
-            $saleOrderContractDataIntersertData = array_intersect_key($saleOrderContractOldData,$saleOrderContractData);
-            $saleOrderContractDataIntersertData = array_intersect_key($saleOrderContractDataIntersertData,$updateItemName);
-            //unset($saleOrderContractDataIntersertData["update_time"]);
-            //var_exp($saleOrderContractDataIntersertData,'$saleOrderContractDataIntersertData');
-            $saleOrderContractDataDiffData = array_diff_assoc($saleOrderContractDataIntersertData,$saleOrderContractData);
-            //var_exp($saleOrderContractDataDiffData,'$saleOrderContractDataDiffData',1);
+        //var_exp($saleOrderContractOldData,'$saleOrderContractOldData');
+        //var_exp($saleOrderContractData,'$saleOrderContractData');
+        $updateItemName = $this->getUpdateFineItemNameAndType();
+        //var_exp($updateItemName,'$updateItemName');
+        $saleOrderContractDataIntersertData = array_intersect_key($saleOrderContractOldData,$saleOrderContractData);
+        $saleOrderContractDataIntersertData = array_intersect_key($saleOrderContractDataIntersertData,$updateItemName);
+        //unset($saleOrderContractDataIntersertData["update_time"]);
+        //var_exp($saleOrderContractDataIntersertData,'$saleOrderContractDataIntersertData');
+        $saleOrderContractDataDiffData = array_diff_assoc($saleOrderContractDataIntersertData,$saleOrderContractData);
+        //var_exp($saleOrderContractDataDiffData,'$saleOrderContractDataDiffData',1);
 
 
-            foreach ($saleOrderContractDataDiffData as $key=>$saleOrderContractDataDiff){
-                $customersTrace = createCustomersTraceItem(
-                    $uid,
-                    $now_time,
-                    $table,
-                    $saleChanceData["customer_id"],
-                    $key,
-                    $saleOrderContractOldData,
-                    $saleOrderContractData,
-                    $updateItemName,
-                    $saleChanceData["sale_name"]
-                );
-                $customersTraces[] = $customersTrace;
-            }
+        foreach ($saleOrderContractDataDiffData as $key=>$saleOrderContractDataDiff){
+            $customersTrace = createCustomersTraceItem(
+                $uid,
+                $now_time,
+                $table,
+                $saleChanceData["customer_id"],
+                $key,
+                $saleOrderContractOldData,
+                $saleOrderContractData,
+                $updateItemName,
+                $saleChanceData["sale_name"]
+            );
+            $customersTraces[] = $customersTrace;
+        }
 
         //empty($saleOrderContractData["contract_id"])||
         $saleOrderContractItemIdx = [];
