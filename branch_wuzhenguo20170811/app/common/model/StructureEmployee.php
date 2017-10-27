@@ -146,12 +146,10 @@ class StructureEmployee extends Base
 
     /**
      * 查询员工所有部门信息
-     * @param $user_id
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getAllStructureAndEmployee()
-    {
+    public function getAllStructureAndEmployee(){
         return $this->model->table($this->table)->alias('se')
             ->join($this->dbprefix.'structure s','se.struct_id = s.id',"right")
             ->group("s.id")
