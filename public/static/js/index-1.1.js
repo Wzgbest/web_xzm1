@@ -1,3 +1,4 @@
+/*更新了左侧边栏小于1280可点击*/
 var phoneWidth = 0;
 var sideW,sideSwitch;
 //初始化
@@ -14,9 +15,6 @@ function init(){
 	$("#frames .once").width(window.innerWidth - sideW);
 	$("#frames .once").height(window.innerHeight - 40);
 
-
-
-
     // 三级菜单栏固定
     $("#frames .once header").width(window.innerWidth - sideW - 17);
     //四级菜单
@@ -24,7 +22,6 @@ function init(){
     $("#frames .once .m-pageInfoNav").width(window.innerWidth - sideW - 17);
     //话术库
     $("#frames .once .m-low-nav").width(window.innerWidth - sideW - 17);
-
 
 	$(".phone-box").height(window.innerHeight - 80);
 	//隐藏副标题
@@ -42,18 +39,10 @@ init();
 
 //根据屏幕尺寸，设置侧边栏的可用高度
 window.onresize = function() {
-    if(window.innerWidth>1280){
-    	sideW = 220;
-    }else{
-    	sideSwitch = true;
-    	sideW = 50;
-    	miniWindow();
-    }
     changeFramesSize();
 };
+//大小窗口切换
 $("#x-layout").click(function(){
-    //窗口小于1280才点击生效
-	if (window.innerWidth>1280) {
 		sideSwitch = !sideSwitch;
 		if(sideSwitch){
 			miniWindow();
@@ -64,7 +53,6 @@ $("#x-layout").click(function(){
 			sideW = 220;
 			changeFramesSize(); 
 		}		
-	}
 });
 function miniWindow(){
 	
@@ -74,6 +62,7 @@ function miniWindow(){
 	$("#frames").addClass("mini");
 	$("aside dl .ddcontent").addClass("hide");
 	$("aside dl").removeClass("dlcurrent");
+    $("#logo").addClass("mini");
 	asideChange();
 }
 function maxWindow(){
@@ -81,7 +70,8 @@ function maxWindow(){
 	$(".header").removeClass("mini");
 	$("section#subt").removeClass("mini");
 	$("#frames").removeClass("mini");
-	$("aside dl dt i.fa-angle-down").addClass("fa-angle-right").removeClass("fa-angle-down");		
+	$("aside dl dt i.fa-angle-down").addClass("fa-angle-right").removeClass("fa-angle-down");
+    $("#logo").removeClass("mini");		
 	asideChange();
 }
 function subResize() {
@@ -124,13 +114,13 @@ function changeFramesSize() {
 
 //主标题单机事件
 $("aside dl dt").click(function() {
-    if(window.innerWidth>1280&&!sideSwitch){
+
 	    //主标题右侧的小图标切换
 	    $(this).children("i").eq(1).toggleClass("fa-angle-right").toggleClass("fa-angle-down");
 	    //副标题的显示与隐藏切换
 	    $(this).siblings(".ddcontent").toggleClass("hide");
 	    $(this).parent().toggleClass("dlcurrent");
-    }
+
     
 });
 //创建一个存储子标题的数组
