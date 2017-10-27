@@ -153,7 +153,7 @@ class StructureEmployee extends Base
     public function getAllStructureAndEmployee()
     {
         return $this->model->table($this->table)->alias('se')
-            ->join($this->dbprefix.'structure s','se.struct_id = s.id')
+            ->join($this->dbprefix.'structure s','se.struct_id = s.id',"right")
             ->group("s.id")
             ->field('s.id,s.struct_pid,s.struct_name,GROUP_CONCAT( distinct se.user_id) as employee_ids')
             ->select();
