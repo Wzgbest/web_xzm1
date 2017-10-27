@@ -136,7 +136,7 @@ class SaleChanceSignIn extends Base{
             ->update($data);
     }
 
-    public function changeToSignInNextStatus($customer_id,$sale_ids=null){
+    public function changeToSignInStatus($customer_id,$sale_ids=null){
         if($sale_ids){
             $map['sc.id'] = ["in",$sale_ids];
         }
