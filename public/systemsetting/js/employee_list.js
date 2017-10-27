@@ -190,13 +190,16 @@ function employee_list_edit_update(id){
 		data: employee_list_edit_form_data,
 		dataType: 'json',
 		success: function(data) {
-			//console.log(data);
+			console.log('llalal'+data);
             layer.msg(data.message,{icon:data.status==1?1:2});
 			if(data.status) {
 				employee_list_list_manage.reload_list();
 			}
 		},
-		error: function() {
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log('error1'+XMLHttpRequest);
+            console.log('error2'+textStatus);
+            console.log('error3'+errorThrown);
             layer.msg('保存员工信息时发生错误!',{icon:2});
 		},
 	});
