@@ -53,4 +53,9 @@ class UserCorporation extends Db
     {
         return Db::name('user_corporation')->insertAll($data);
     }
+    public static function setUserCorpByPhone($tel)
+    {
+        $data['telephone']=$tel;
+        return Db::name('user_corporation')->where('telephone',$tel)->update($data);
+    }
 }
