@@ -155,7 +155,7 @@ class StructureEmployee extends Base
         return $this->model->table($this->table)->alias('se')
             ->join($this->dbprefix.'structure s','se.struct_id = s.id')
             ->group("s.id")
-            ->field('s.id,s.struct_name,GROUP_CONCAT( distinct se.user_id) as employee_ids')
+            ->field('s.id,s.struct_pid,s.struct_name,GROUP_CONCAT( distinct se.user_id) as employee_ids')
             ->select();
     }
 

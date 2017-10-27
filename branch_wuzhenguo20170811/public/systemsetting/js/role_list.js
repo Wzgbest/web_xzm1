@@ -297,35 +297,6 @@ $(role_item_list_panel).on('keydown', ".item_text", function(event) {
 			});
 		}
 	}
-})
-
-
-$(role_item_list_panel).on('click', ".add_item .add_item_check", function() {
-	var add_role_name = $(role_item_list_panel + " .add_item").children(".add_item_text").val();
-	console.log(add_role_name);
-	if(!add_role_name) {
-		return;
-	}
-	$.ajax({
-		url: '/systemsetting/role/addRole',
-		type: 'post',
-		data: "role_name=" + add_role_name,
-		dataType: "json",
-		success: function(data) {
-			//console.log(data);
-			layer.msg(data.message, {
-				icon: data.status == 1 ? 1 : 2
-			});
-			if(data.status) {
-				loadPage("/systemsetting/role/index", "role-managementfr");
-			}
-		},
-		error: function() {
-			layer.msg('添加职位时发生错误!', {
-				icon: 2
-			});
-		}
-	});
 });
 
 $(role_item_list_panel).on('click', ".role_item .edit_item_remove", function() {
