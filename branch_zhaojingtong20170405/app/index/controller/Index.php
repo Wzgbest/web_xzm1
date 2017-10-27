@@ -35,8 +35,8 @@ class Index extends Initialize{
         $structure_list = [];
         foreach ($structures as &$structure){
             $structure["employee_ids_arr"] = explode(",",$structure["employee_ids"]);
+            $structure_employee[$structure["id"]] = explode(",",$structure["employee_ids"]);
             $structure_list[$structure["id"]] = ["pid"=>$structure["struct_pid"],"name"=>$structure["struct_name"]];
-            $structure_pid[$structure["id"]] = $structure["struct_pid"];
         }
         $employM = new Employee($this->corp_id);
         $friendsInfos = $employM->getAllUsers();
