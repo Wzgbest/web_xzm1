@@ -34,6 +34,7 @@ class SpeechCraft extends Initialize{
         // var_dump($userinfo);die();
         $this->assign('article_type',$article_type);
         $this->assign('all_article',$all_article);
+        $this->assign('class_id',$class_id);
         $this->assign('uid',$uid);
         $this->assign('is_leader',$is_leader);
         return view();
@@ -414,6 +415,8 @@ class SpeechCraft extends Initialize{
     }
 
     public function confirmBatchChange(){
+        $article_type = $this->_speechCraftModel->getAllArticleType();
+        $this->assign('article_type',$article_type);
         return view('confirm_batch_change');
     }
 
