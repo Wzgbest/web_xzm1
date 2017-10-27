@@ -11,9 +11,9 @@
 		</dl>
 		{/volist}
 	</div>
-	<!-- 		<input type="hidden" class="structure_employee" value='{$structure_employee}' />
+			<input type="hidden" class="structure_employee" value='{$structure_employee}' />
             <input type="hidden" class="structure_pid" value='{$structure_pid}' />
-            <input type="hidden" class="employee_name" value='{$employee_name}' /> -->
+            <input type="hidden" class="employee_name" value='{$employee_name}' />
 	<div class="right-content">
 		<div class="right-content-container">
 			<dl class="selected-department active">
@@ -29,13 +29,14 @@
 		<button class="false">取消</button>
 	</div>
 </div>
+<script type="text/javascript" src="/static/js/struct.js"></script>
 <script type="text/javascript">
-
+var data = new Structure($(".structure_employee").val(),$(".structure_pid").val(),$(".employee_name").val());
+console.log(data.d_s);
 </script>
 <style type="text/css">
 .select-window-container{
 	font-size: 14px;
-
 }
 .select-window-container .left-content{
 	width: 250px;

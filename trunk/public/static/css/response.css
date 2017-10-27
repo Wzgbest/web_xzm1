@@ -6,6 +6,10 @@
 		width: 50px;
 		overflow: visible;
 	}
+	#logo.mini{
+		width: 39px;
+		height: 39px;
+	}
 	.header.mini{
 		left: 50px;
 	}
@@ -35,8 +39,9 @@
 	#side.mini aside dl .ddcontent{
 		position: absolute;
 		width: 150px;
+		height: 100%;
 		left: 49px;
-		top: 0;
+		top: 39px;
 		z-index: 99;
 		background-color:#202a2f ;
 	}
