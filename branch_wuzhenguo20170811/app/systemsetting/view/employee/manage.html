@@ -8,225 +8,227 @@
 			</ul>
 		</div>
 		<!--员工列表-->
-		<section>
-			<ul class="m-secNav">
-				<li class="active" onclick="employee_list_newClient();">新建员工</li>
-				<li class="active"><span class="big-link" data-reveal-id="employee_list_import" data-animation="fade">批量导入</span></li>
-				<li class="active employee_import">导入记录</li>
-				<li class="vertical"></li>
-				<li class="exportEmployee"><span>导出</span></li>
-				<li class="delete"><span>删除</span></li>
-				<div class="clearfix"></div>
-			</ul>
-			<div class="m-filterNav">
-				<form class="search_form" onsubmit="return false;">
-					<select name="structure">
-						<option value="">直属部门</option>
-						{volist name="structs" id="vo"}
-						<option value="{$vo.id}" {present name='filter.structure' }{eq name='filter.structure' value='$vo.id' } selected="selected" {/eq}{/present}>{$vo.struct_name}</option>
-						{/volist}
-					</select>
-					<select name="role">
-						<option value="">职位</option>
-						{volist name="roles" id="vo"}
-						<option value="{$vo.id}" {present name='filter.role' }{eq name='filter.role' value='$vo.id' } selected="selected" {/eq}{/present}>{$vo.role_name}</option>
-						{/volist}
-					</select>
-					<select name="on_duty">
-						<option value="">状态</option>
-						<option value="1" {present name='filter.on_duty' }{eq name='filter.on_duty' value='1' } selected="selected" {/eq}{/present}>在职</option>
-						<option value="2" {present name='filter.on_duty' }{eq name='filter.on_duty' value='2' } selected="selected" {/eq}{/present}>休假</option>
-						<option value="-1" {present name='filter.on_duty' }{eq name='filter.on_duty' value='-1' } selected="selected" {/eq}{/present}>离职</option>
-					</select>
-					<input type="text" name="worknum" placeholder="输入工号" value="{present name='filter.worknum'}{$filter.worknum}{/present}" />
-					<input type="text" name="truename" placeholder="输入姓名" value="{present name='filter.truename'}{$filter.truename}{/present}" />
-					<button class="u-btnSearch">查询</button>
-				</form>
-			</div>
-			<div class="m-tableBox">
-				<div class="m-table m-table-nav ">
-                    <ul class="u-tabTitle">
-                        <li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
-                        <li>操作</li>
-                        <div class="clearfix"></div>
-                    </ul>
-                    {volist name="listdata" id="vo"}
-                    <ul class="u-tabList">
-                        <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}" /></li>
-                        <li class="u-tabOperation">
-							<span onclick="employee_list_show('{$vo.id}');">详情</span>
-							<span onclick="employee_list_edit('{$vo.id}',0);">编辑</span>
-							<span onclick="employee_list_del('{$vo.id}');">删除</span>
-						</li>                       
-                        <div class="clearfix"></div>
-                    </ul>
-                    {/volist}
-                </div>
-				<div class="m-table table7 m-table-detail">
-					<ul class="u-tabTitle">
-						<li class="u-tabCheckbox"><input type="checkbox" /></li>
-						<li>操作</li>
-						<li>工号<i class="fa fa-unsorted"></i></li>
-						<li>姓名</li>
-						<li>直属部门<i class="fa fa-unsorted"></i></li>
-						<li>联系方式</li>
-						<li>是否领导<i class="fa fa-unsorted"></i></li>
-						<li>职位<i class="fa fa-unsorted"></i></li>
-						<li>状态</li>
-						<li>创建时间<i class="fa fa-unsorted"></i></li>
-						
-						<div class="clearfix"></div>
-					</ul>
-					{volist name="listdata" id="vo"}
-					<ul class="u-tabList">
-						<li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}" /></li>
-						<li class="u-tabOperation">
-							<span onclick="employee_list_show('{$vo.id}');">详情</span>
-							<span onclick="employee_list_edit('{$vo.id}',0);">编辑</span>
-							<span onclick="employee_list_del('{$vo.id}');">删除</span>
-						</li>
-						<li>{$vo.worknum}</li>
-						<li>{$vo.truename}</li>
-						<li>{$vo.struct_name}</li>
-						<li>{$vo.telephone}</li>
-						<li>{eq name="vo.is_leader" value="1"}是{else/}否{/eq}</li>
-						<li>{$vo.role_name}</li>
-						<li>{$vo.on_duty|getEmployeeOnDutyName}</li>
-						<li>{$vo.create_time|time_format}</li>
-						
-						<div class="clearfix"></div>
-					</ul>
-					{/volist}
+		<div class="content">
+			<section>
+				<ul class="m-secNav">
+					<li class="active" onclick="employee_list_newClient();">新建员工</li>
+					<li class="active"><span class="big-link" data-reveal-id="employee_list_import" data-animation="fade">批量导入</span></li>
+					<li class="active employee_import">导入记录</li>
+					<li class="vertical"></li>
+					<li class="exportEmployee"><span>导出</span></li>
+					<li class="delete"><span>删除</span></li>
+					<div class="clearfix"></div>
+				</ul>
+				<div class="m-filterNav">
+					<form class="search_form" onsubmit="return false;">
+						<select name="structure">
+							<option value="">直属部门</option>
+							{volist name="structs" id="vo"}
+							<option value="{$vo.id}" {present name='filter.structure' }{eq name='filter.structure' value='$vo.id' } selected="selected" {/eq}{/present}>{$vo.struct_name}</option>
+							{/volist}
+						</select>
+						<select name="role">
+							<option value="">职位</option>
+							{volist name="roles" id="vo"}
+							<option value="{$vo.id}" {present name='filter.role' }{eq name='filter.role' value='$vo.id' } selected="selected" {/eq}{/present}>{$vo.role_name}</option>
+							{/volist}
+						</select>
+						<select name="on_duty">
+							<option value="">状态</option>
+							<option value="1" {present name='filter.on_duty' }{eq name='filter.on_duty' value='1' } selected="selected" {/eq}{/present}>在职</option>
+							<option value="2" {present name='filter.on_duty' }{eq name='filter.on_duty' value='2' } selected="selected" {/eq}{/present}>休假</option>
+							<option value="-1" {present name='filter.on_duty' }{eq name='filter.on_duty' value='-1' } selected="selected" {/eq}{/present}>离职</option>
+						</select>
+						<input type="text" name="worknum" placeholder="输入工号" value="{present name='filter.worknum'}{$filter.worknum}{/present}" />
+						<input type="text" name="truename" placeholder="输入姓名" value="{present name='filter.truename'}{$filter.truename}{/present}" />
+						<button class="u-btnSearch">查询</button>
+					</form>
 				</div>
-			</div>
-			{include file="common@common/page"/}
-		</section>
-		<script src="/static/js/list_manage.js"></script>
-		<script language="javascript">
-			var employee_list_list_manage = new list_manage("employee_list", "staff-managementfr", "/systemsetting/employee/manage", '{$p}', '{$num}', '{$max_page}', '0', "");
-		</script>
-		<script src="/systemsetting/js/employee_list.js"></script>
+				<div class="m-tableBox">
+					<div class="m-table m-table-nav ">
+						<ul class="u-tabTitle">
+							<li class="u-tabCheckbox"><input type="checkbox" class="check_all" /></li>
+							<li>操作</li>
+							<div class="clearfix"></div>
+						</ul>
+						{volist name="listdata" id="vo"}
+						<ul class="u-tabList">
+							<li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}" /></li>
+							<li class="u-tabOperation">
+								<span onclick="employee_list_show('{$vo.id}');">详情</span>
+								<span onclick="employee_list_edit('{$vo.id}',0);">编辑</span>
+								<span onclick="employee_list_del('{$vo.id}');">删除</span>
+							</li>
+							<div class="clearfix"></div>
+						</ul>
+						{/volist}
+					</div>
+					<div class="m-table table7 m-table-detail">
+						<ul class="u-tabTitle">
+							<li class="u-tabCheckbox"><input type="checkbox" /></li>
+							<li>操作</li>
+							<li>工号<i class="fa fa-unsorted"></i></li>
+							<li>姓名</li>
+							<li>直属部门<i class="fa fa-unsorted"></i></li>
+							<li>联系方式</li>
+							<li>是否领导<i class="fa fa-unsorted"></i></li>
+							<li>职位<i class="fa fa-unsorted"></i></li>
+							<li>状态</li>
+							<li>创建时间<i class="fa fa-unsorted"></i></li>
 
-		<div class="reveal-modal exportEmployeeUI">
-			<p class="p1">导出</p>
-			<p class="p2">你已选中1~34位员工是否导出</p>
-			<p class="p5">
-				<input type="submit" class="exportEmployeeUIOkBtn" value="确定" />
-				<button class="exportEmployeeUICancelBtn">取消</button>
-			</p>
-			<a class="close-reveal-modal">&#215;</a>
-		</div>
-		<div id="employee_list_import" class="reveal-modal employee_import_ui">
-			<form class="employee_import_from" onsubmit="return false;" method="post" enctype="multipart/form-data">
-				<p class="p1">批量导入</p>
-				<p class="p2">
-					<img class="employee_import_templet_download" src="/static/images/file.jpg" />
-					<span class="employee_import_templet_download" style="font-size: 12px;">导入模板下载</span>
-					<input type="file" name="files" required="required" placeholder="请选择文件" style="width: 256px;height: 26px;border-radius: 6px;background-color: #efefef;" title="选择文件" />
-				</p>
-				<input type="hidden" name="type" value="1" />
+							<div class="clearfix"></div>
+						</ul>
+						{volist name="listdata" id="vo"}
+						<ul class="u-tabList">
+							<li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}" /></li>
+							<li class="u-tabOperation">
+								<span onclick="employee_list_show('{$vo.id}');">详情</span>
+								<span onclick="employee_list_edit('{$vo.id}',0);">编辑</span>
+								<span onclick="employee_list_del('{$vo.id}');">删除</span>
+							</li>
+							<li>{$vo.worknum}</li>
+							<li>{$vo.truename}</li>
+							<li>{$vo.struct_name}</li>
+							<li>{$vo.telephone}</li>
+							<li>{eq name="vo.is_leader" value="1"}是{else/}否{/eq}</li>
+							<li>{$vo.role_name}</li>
+							<li>{$vo.on_duty|getEmployeeOnDutyName}</li>
+							<li>{$vo.create_time|time_format}</li>
+
+							<div class="clearfix"></div>
+						</ul>
+						{/volist}
+					</div>
+				</div>
+				{include file="common@common/page"/}
+			</section>
+			<script src="/static/js/list_manage.js"></script>
+			<script language="javascript">
+				var employee_list_list_manage = new list_manage("employee_list", "staff-managementfr", "/systemsetting/employee/manage", '{$p}', '{$num}', '{$max_page}', '0', "");
+			</script>
+			<script src="/systemsetting/js/employee_list.js"></script>
+
+			<div class="reveal-modal exportEmployeeUI">
+				<p class="p1">导出</p>
+				<p class="p2">你已选中1~34位员工是否导出</p>
 				<p class="p5">
-					<input class="employee_import_submit_btn" type="submit" value="确定" />
-					<button class="employee_import_cancel_btn">取消</button>
+					<input type="submit" class="exportEmployeeUIOkBtn" value="确定" />
+					<button class="exportEmployeeUICancelBtn">取消</button>
 				</p>
 				<a class="close-reveal-modal">&#215;</a>
-			</form>
-		</div>
-		<div id="employee_list_delete" class="reveal-modal employee_delete_ui">
-			<p class="p1">删除</p>
-			<p class="p2">是否要删除这些员工</p>
-			<p class="p5">
-				<input type="submit" class="employee_delete_ok_btn" value="确定" />
-				<button class="employee_delete_cancel_btn">取消</button>
-			</p>
-			<a class="close-reveal-modal">&#215;</a>
-		</div>
-
-		<!--黑色遮罩-->
-		<section id="employee_list_blackBg" class="hide blackBg page-client"></section>
-
-		<!--新建员工-->
-		<section id="employee_list_newClient" class="newClient hide page-client">
-			<header>
-				<h1>新建员工<i class="fa fa-close fa-2x" onclick="employee_list_removeNewClient()"></i></h1>
-			</header>
-			<div class="m-formBox m-form">
-				<form id="employee_list_newClientForm" class="newClientForm" onsubmit="return false;">
-					<div id="form2" class="">
-						<div>
-							<span class="cont">姓名</span>
-							<input type="text" name="truename" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入联系人姓名" />
-
-							<span class="cont">直属部门</span>
-							<select name="struct_id">
-								{volist name="structs" id="vo"}
-								<option value="{$vo.id}">{$vo.struct_name}</option>
-								{/volist}
-							</select>
-						</div>
-						<div>
-							<span class="cont">昵称</span>
-							<input type="text" name="nickname" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入昵称" />
-
-							<span class="cont">工号</span>
-							<input type="text" name="worknum" pattern="[\d\D]{0,10}" title="最多填写10位字符" placeholder="请输入工号" />
-
-						</div>
-						<div style="height: 30px;">
-							<span class="cont">性别</span>
-							<input type="radio" name="gender" value="1" checked="checked" />男
-							<input type="radio" name="gender" value="0" />女
-
-							<span class="cont" style="margin-left: 216px;">是否领导</span>
-							<div class="u-inlineRadio">
-								<input type="radio" name="is_leader" value="1" />是
-								<input type="radio" name="is_leader" value="0" checked="checked" />否
-							</div>
-						</div>
-
-						<div>
-							<span class="cont">手机号</span>
-							<input type="text" name="telephone" pattern="^(?:(?:0\d{2,3}[- ]?[1-9]\d{6,7})|(?:(13[0-9]|15[012356789]|18[0236789]|14[5789])[0-9]{8}))$" title="请输入电话号码" placeholder="请输入电话号码" />
-							<span class="cont">邮箱</span>
-							<input type="email" name="email" placeholder="请输入邮箱" />
-						</div>
-						<div>
-							<span class="cont">座机号</span>
-							<input type="text" name="wired_phone" pattern="^(?:(?:0\d{2,3}[- ]?[1-9]\d{6,7})|(?:(13[0-9]|15[012356789]|18[0236789]|14[5789])[0-9]{8}))$" title="请输入电话号码" placeholder="请输入电话号码" />
-							<span class="cont">QQ号</span>
-							<input type="text" name="qqnum" pattern="[\d]{0,10}" title="请写正确格式" placeholder="请输入QQ号" />
-
-						</div>
-						<div>
-							<span class="cont">分机号</span>
-							<input type="text" name="part_phone" pattern="^(?:(?:0\d{2,3}[- ]?[1-9]\d{6,7})|(?:(13[0-9]|15[012356789]|18[0236789]|14[5789])[0-9]{8}))$" title="请输入电话号码" placeholder="请输入电话号码" />
-
-							<span class="cont">微信号</span>
-							<input type="text" name="wechat" pattern="[\d\D]{0,40}" title="最多填写40位字符" placeholder="请输入微信号" />
-						</div>
-
-						<div>
-							<span class="cont">员工状态</span>
-							<select name="on_duty">
-								<option value="1">在职</option>
-								<option value="2">休假</option>
-							</select>
-							<span class="cont">员工职位</span>
-							<select name="role">
-								{volist name="roles" id="vo"}
-								<option value="{$vo.id}">{$vo.role_name}</option>
-								{/volist}
-							</select>
-						</div>
-						<p class="p5">
-							<input type="submit" onclick="employee_list_add_employee();" value="确定" />
-							<button onclick="employee_list_removeNewClient();">取消</button>
-						</p>
-
-					</div>
+			</div>
+			<div id="employee_list_import" class="reveal-modal employee_import_ui">
+				<form class="employee_import_from" onsubmit="return false;" method="post" enctype="multipart/form-data">
+					<p class="p1">批量导入</p>
+					<p class="p2">
+						<img class="employee_import_templet_download" src="/static/images/file.jpg" />
+						<span class="employee_import_templet_download" style="font-size: 12px;">导入模板下载</span>
+						<input type="file" name="files" required="required" placeholder="请选择文件" style="width: 256px;height: 26px;border-radius: 6px;background-color: #efefef;" title="选择文件" />
+					</p>
+					<input type="hidden" name="type" value="1" />
+					<p class="p5">
+						<input class="employee_import_submit_btn" type="submit" value="确定" />
+						<button class="employee_import_cancel_btn">取消</button>
+					</p>
+					<a class="close-reveal-modal">&#215;</a>
 				</form>
 			</div>
-		</section>
+			<div id="employee_list_delete" class="reveal-modal employee_delete_ui">
+				<p class="p1">删除</p>
+				<p class="p2">是否要删除这些员工</p>
+				<p class="p5">
+					<input type="submit" class="employee_delete_ok_btn" value="确定" />
+					<button class="employee_delete_cancel_btn">取消</button>
+				</p>
+				<a class="close-reveal-modal">&#215;</a>
+			</div>
+
+			<!--黑色遮罩-->
+			<section id="employee_list_blackBg" class="hide blackBg page-client"></section>
+
+			<!--新建员工-->
+			<section id="employee_list_newClient" class="newClient hide page-client">
+				<header>
+					<h1>新建员工<i class="fa fa-close fa-2x" onclick="employee_list_removeNewClient()"></i></h1>
+				</header>
+				<div class="m-formBox m-form">
+					<form id="employee_list_newClientForm" class="newClientForm" onsubmit="return false;">
+						<div id="form2" class="">
+							<div>
+								<span class="cont">姓名</span>
+								<input type="text" name="truename" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入联系人姓名" />
+
+								<span class="cont">直属部门</span>
+								<select name="struct_id">
+									{volist name="structs" id="vo"}
+									<option value="{$vo.id}">{$vo.struct_name}</option>
+									{/volist}
+								</select>
+							</div>
+							<div>
+								<span class="cont">昵称</span>
+								<input type="text" name="nickname" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入昵称" />
+
+								<span class="cont">工号</span>
+								<input type="text" name="worknum" pattern="[\d\D]{0,10}" title="最多填写10位字符" placeholder="请输入工号" />
+
+							</div>
+							<div style="height: 30px;">
+								<span class="cont">性别</span>
+								<input type="radio" name="gender" value="1" checked="checked" />男
+								<input type="radio" name="gender" value="0" />女
+
+								<span class="cont" style="margin-left: 216px;">是否领导</span>
+								<div class="u-inlineRadio">
+									<input type="radio" name="is_leader" value="1" />是
+									<input type="radio" name="is_leader" value="0" checked="checked" />否
+								</div>
+							</div>
+
+							<div>
+								<span class="cont">手机号</span>
+								<input type="text" name="telephone" pattern="^(?:(?:0\d{2,3}[- ]?[1-9]\d{6,7})|(?:(13[0-9]|15[012356789]|18[0236789]|14[5789])[0-9]{8}))$" title="请输入电话号码" placeholder="请输入电话号码" />
+								<span class="cont">邮箱</span>
+								<input type="email" name="email" placeholder="请输入邮箱" />
+							</div>
+							<div>
+								<span class="cont">座机号</span>
+								<input type="text" name="wired_phone" pattern="^(?:(?:0\d{2,3}[- ]?[1-9]\d{6,7})|(?:(13[0-9]|15[012356789]|18[0236789]|14[5789])[0-9]{8}))$" title="请输入电话号码" placeholder="请输入电话号码" />
+								<span class="cont">QQ号</span>
+								<input type="text" name="qqnum" pattern="[\d]{0,10}" title="请写正确格式" placeholder="请输入QQ号" />
+
+							</div>
+							<div>
+								<span class="cont">分机号</span>
+								<input type="text" name="part_phone" pattern="^(?:(?:0\d{2,3}[- ]?[1-9]\d{6,7})|(?:(13[0-9]|15[012356789]|18[0236789]|14[5789])[0-9]{8}))$" title="请输入电话号码" placeholder="请输入电话号码" />
+
+								<span class="cont">微信号</span>
+								<input type="text" name="wechat" pattern="[\d\D]{0,40}" title="最多填写40位字符" placeholder="请输入微信号" />
+							</div>
+
+							<div>
+								<span class="cont">员工状态</span>
+								<select name="on_duty">
+									<option value="1">在职</option>
+									<option value="2">休假</option>
+								</select>
+								<span class="cont">员工职位</span>
+								<select name="role">
+									{volist name="roles" id="vo"}
+									<option value="{$vo.id}">{$vo.role_name}</option>
+									{/volist}
+								</select>
+							</div>
+							<p class="p5">
+								<input type="submit" onclick="employee_list_add_employee();" value="确定" />
+								<button onclick="employee_list_removeNewClient();">取消</button>
+							</p>
+
+						</div>
+					</form>
+				</div>
+			</section>
+		</div>
 	</div>
 	<div class="employee_list_panel employee_info hide">
 	</div>
