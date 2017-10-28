@@ -140,8 +140,6 @@ class EmployeeTask extends Initialize{
         $p = input("p",1,"int");
         $task_type = input('task_type',0,'int');
         $order_name=input('order_name','','string');
-        //var_exp($p);
-
         $map=[];
         $url_args['p']=2;
         $url_args['order_name']=$order_name;

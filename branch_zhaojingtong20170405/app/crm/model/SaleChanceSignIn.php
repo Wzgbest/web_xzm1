@@ -144,7 +144,7 @@ class SaleChanceSignIn extends Base{
         $map['bfiln.item_id'] = 3;
         $data["sc.sale_status"] = ["exp","bfiln.item_id"];
         return $this->model->table($this->table)->alias('scsi')
-            ->join($this->dbprefix.'sale_chance sc','sc.customer_id = scsi.sale_id',"LEFT")
+            ->join($this->dbprefix.'sale_chance sc','sc.id = scsi.sale_id',"LEFT")
             ->join($this->dbprefix.'business_flow_item_link bfil','bfil.setting_id = sc.business_id and sc.sale_status=bfil.item_id',"LEFT")
             ->join($this->dbprefix.'business_flow_item_link bfiln','bfiln.setting_id = sc.business_id and bfiln.order_num = bfil.order_num+1 and bfiln.item_id=3',"LEFT")
             ->where($map)
