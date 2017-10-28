@@ -319,6 +319,9 @@ section#subt{
 	cursor: pointer;
 	position: relative;
 }
+.message-box .message-content-container li p{
+	text-align: left;
+}
 .message-box .message-content-container li:hover{
 	color: #42a5f5;
 }
