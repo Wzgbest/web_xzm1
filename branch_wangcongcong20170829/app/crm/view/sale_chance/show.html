@@ -143,14 +143,21 @@
                 {volist name="vo['contract_arr']" id="voc"}
                     <div class="sale-chance-finish-record">
                         <div>
-                            <span class="cont">合同类型：</span>
-                            <span class="cont-x">{$voc.contract_type_name}<span class="cont-in">收据类型：<span class="cont-in-x">普通收据</span></span></span>
-                            <span class="cont-max-max">合同/收据编号：</span>
-                            <span class="cont-x">{$voc.contract_no}</span>
+                            <h1><span>{$voc.contract_type_name}</span>(合同编号<span>{$voc.contract_no}</span>)</h1>
+                           <!--  <span class="cont">合同类型：</span>
+                           <span class="cont-x">{$voc.contract_type_name}<span class="cont-in">收据类型：<span class="cont-in-x">普通收据</span></span></span>
+                           <span class="cont-max-max">合同/收据编号：</span>
+                           <span class="cont-x">{$voc.contract_no}</span> -->
+                        </div>
+                        <div>
+                            <span class="cont">收据类型：</span><span class="cont-x">普通收据</span>
+                            <span class="cont">打款方式：</span><span class="cont-x">银行转账</span>
                         </div>
                         <div>
                             <span class="cont">合同金额：</span>
                             <span class="cont-x"><span class="number">{$voc.contract_money}</span> 元</span>
+                            <span class="cont">收款银行：</span>
+                            <span class="cont-x">中国交通银行潍坊支行</span>
                         </div>
                         <div>
                             <span class="cont">打款金额：</span>
@@ -196,6 +203,8 @@
                                 {/empty}
                             {/eq}
                             </span>
+                            <span class="cont-max-max">打款方名称：</span>
+                            <span class="cont-x">山东大器天成股份有限公司</span>
                         </div>
                     </div>
                 {/volist}
@@ -205,7 +214,7 @@
             <!--有意向：应该显示的部分-->
             <div class="sale-chance-intentional-record">
                 <span class="cont">备注：</span>
-                <span class="remark">{$vo.remark}</span>
+                <!-- <span class="remark">{$vo.remark}</span> -->
             </div>
             {/egt}
         </div>
