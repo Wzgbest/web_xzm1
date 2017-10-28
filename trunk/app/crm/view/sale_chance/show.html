@@ -92,7 +92,17 @@
             </div>
             <div>
                 <span class="cont">客户状态：</span>
-                <span class="cont-x">{$vo.sale_status|getSaleStatusName}</span>
+                <span class="cont-x">
+                    {$vo.sale_status|getSaleStatusName}
+
+                    {eq name="vo.sale_status" value="4"}
+                        {switch name="vo.order_status"}
+                            {case value="0"} - 审核中{/case}
+                            {case value="2"} - 已驳回{/case}
+                            {case value="3"} - 已撤回{/case}
+                        {/switch}
+                    {/eq}
+                </span>
             </div>
 
             {eq name="vo.sale_status" value="2"}
