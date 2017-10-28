@@ -176,6 +176,14 @@ class Contract extends Initialize{
     public function add(){
         $result = ['status'=>0 ,'info'=>"添加合同设置时发生错误！"];
         $contractSetting = $this->_getContractSettingForInput();
+        if($contractSetting["current_contract"]<$contractSetting["start_num"]){
+            $result['info'] = "当前合同号不能小于合同起始编号！";
+            return $result;
+        }
+        if($contractSetting["current_contract"]>$contractSetting["end_num"]){
+            $result['info'] = "当前合同号不能大于合同结束编号！";
+            return $result;
+        }
         try{
             $validate_result = $this->validate($contractSetting,'ContractSetting');
             //验证字段
@@ -224,6 +232,14 @@ class Contract extends Initialize{
             return json($result);
         }
         $contractSetting = $this->_getContractSettingForInput();
+        if($contractSetting["current_contract"]<$contractSetting["start_num"]){
+            $result['info'] = "当前合同号不能小于合同起始编号！";
+            return $result;
+        }
+        if($contractSetting["current_contract"]>$contractSetting["end_num"]){
+            $result['info'] = "当前合同号不能大于合同结束编号！";
+            return $result;
+        }
         try{
             $validate_result = $this->validate($contractSetting,'ContractSetting');
             //验证字段
