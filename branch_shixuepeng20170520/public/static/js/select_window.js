@@ -22,43 +22,43 @@ function select_window(container,depOrStf,result_selctor,result_selctor_attr,dep
 		depStf(result.depOrStf);
 		result.result_selctor=result_selctor;
 		result.result_selctor_attr=result_selctor_attr;
-		console.log(result);
+		// console.log(result);
 		if(dep_decration){
-			console.log(dep_decration);
+			// console.log(dep_decration);
 			result.dep_decration=dep_decration;
 		}
 		if (dep_connector) {
-			console.log(dep_connector);
+			// console.log(dep_connector);
 			result.dep_connector=dep_connector;
 		}
 		if (dep_stf_connector) {
-			console.log(dep_stf_connector);
+			// console.log(dep_stf_connector);
 			result.dep_stf_connector=dep_stf_connector;
 		}
 		if (stf_decration) {
-			console.log(stf_decration);
+			// console.log(stf_decration);
 			result.stf_decration=stf_decration;
 		}
 		if (stf_connector) {
-			console.log(stf_connector);
+			// console.log(stf_connector);
 			result.stf_connector=stf_connector;
 		}
 
 		//开关
 		$(".select-window-container dl dt span").click(function() {
-			console.log(result.depOrStf);
+			// console.log(result.depOrStf);
 			$(this).parent().parent().toggleClass("active");
 		});
 
 		$(".select-window-container dl dt .fa-myleft").click(function() {
-			console.log(result.depOrStf);
+			// console.log(result.depOrStf);
 			$(this).parent().parent().toggleClass("active");
 		});
 
 		//单个选中人员
 		$(".selecting-department").siblings("dd").click(function(){
 			if(result.depOrStf!=0){
-				console.log($(this));
+				// console.log($(this));
 				let arr = getElementByAttr('dd','data-selected-staff-id',$(this).attr("data-selecting-staff-id"));
 				if(arr.length==0){
 					$(".selected-staff").append('<dd data-selected-staff-id="'+$(this).attr("data-selecting-staff-id")+'">'+$(this).text()+'<i class="fa fa-times-circle-o"></i></dd>');
@@ -161,7 +161,7 @@ function select_window(container,depOrStf,result_selctor,result_selctor_attr,dep
 
 		// 控制部门和员工的选择
 		function depStf(val){
-			console.log(val);
+			// console.log(val);
 			if(val==0){
 				console.log(val);
 				$(".select-window-container .left-content .selecting-department i.fa-myleft").remove();
