@@ -906,8 +906,12 @@ function task_list(target, now_uid, base_url) {
 	this.get_url = function(p) {
 		var url = "/task/employee_task/" + this.base_url + "_load";
 		url += "/p/" + p;
-		url += "/task_type/" + this.task_type;
-		url += "/order_name/" + this.order_name;
+		if(this.task_type){
+            url += "/task_type/" + this.task_type;
+		}
+		if(this.order_name){
+            url += "/order_name/" + this.order_name;
+		}
 		return url;
 	};
 	//下拉显示更多
@@ -993,10 +997,8 @@ function task_list(target, now_uid, base_url) {
 
 	//排序
 	$(task_list_sel + " header .sort .classify p").click(function() {
-		$(this).css("background-color", "#e1ebf9");
-		$(this).siblings().css("background-color", "#fff");
-	});
-	$(task_list_sel + " .classify p").click(function() {
+        $(this).css("background-color", "#e1ebf9");
+        $(this).siblings().css("background-color", "#fff");
 		console.log("change_order_name");
 		self.order_name = $(this).attr('data-id') || '';
 		var url = self.get_url(1);
