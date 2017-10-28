@@ -114,14 +114,13 @@ function changeFramesSize() {
 
 //主标题单机事件
 $("aside dl dt").click(function() {
-
-	    //主标题右侧的小图标切换
-	    $(this).children("i").eq(1).toggleClass("fa-angle-right").toggleClass("fa-angle-down");
-	    //副标题的显示与隐藏切换
-	    $(this).siblings(".ddcontent").toggleClass("hide");
-	    $(this).parent().toggleClass("dlcurrent");
-
-    
+    if(window.innerWidth>1280&&!sideSwitch){
+        //主标题右侧的小图标切换
+        $(this).children("i").eq(1).toggleClass("fa-angle-right").toggleClass("fa-angle-down");
+        //副标题的显示与隐藏切换
+        $(this).siblings(".ddcontent").toggleClass("hide");
+        $(this).parent().toggleClass("dlcurrent");
+    }
 });
 //创建一个存储子标题的数组
 var subtitleGroup = ["index"];
