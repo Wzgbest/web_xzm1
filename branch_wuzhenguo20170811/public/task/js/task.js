@@ -559,7 +559,7 @@ function new_task_form(load_table) {
 			if(max_item < end) {
 				max_item = end;
 			}
-			var item_html = "<li>第<span>" + start + "</span>~<span>" + end + "</span>名，各奖励<span>" + money + "</span>元<i class='fa fa-edit change'></i><i class='fa fa-trash-o trash'></i></li>";
+			var item_html = "<li>第<span>" + start + "</span>~<span>" + end + "</span>名，各奖励<span>" + money + "</span>元<i class='fa fa-trash-o trash'></i></li>";
 			item_list_html += item_html;
 		}
 		var item_html = '<li>奖励前<span class="largest">' + max_item + '</span>名，将支付<span class="total">' + all_money + '</span>元作为激励奖金</li>';
