@@ -519,85 +519,31 @@ function new_task_form(load_table) {
 	});
 
 	this.add_reward_item = function(start, end, money) {
-		//检验在数组中是否有重合,只检验重合
-		var add_idx = -1;
-		for(var idx = 0; idx < self.reward_list.length; idx++) {
-			var start_item = self.reward_list[idx]["start"];
-			//console.log("start",start);
-			var end_item = self.reward_list[idx]["end"];
-			//console.log("end",end);
-			if(start_item <= start && start <= end_item) {
-				layer.msg('开始名次和之前的规则有重叠', {
-					icon: 2
-				});
+		//检验
+		if(self.reward_list.length>0){
+			var last_item = self.reward_list[self.reward_list.length-1];
+			if(start<last_item.end){
 				return;
-			}
-			if(start_item <= end && end <= end_item) {
-				layer.msg('结束名次和之前的规则有重叠', {
-					icon: 2
-				});
-				return;
-			}
-			if(add_idx == -1 && end < start_item) {
-				add_idx = idx;
 			}
 		}
-		console.log("add_idx", add_idx);
-		//按顺序添加到数组
+		//添加到数组
 		var item_temp = {
 			start: start,
 			end: end,
 			money: money
 		};
-		if(add_idx == -1) {
-			self.reward_list.push(item_temp);
-		} else {
-			self.reward_list.splice(add_idx, 0, item_temp);
-		}
+		self.reward_list.push(item_temp);
 		console.log("self.reward_list", self.reward_list);
+		this.reload_reward_list_html();
+		$("#" + self.load_table + " article .num1").val(end + 1);
+		$("#" + self.load_table + " article .num2").val('');
+		$("#" + self.load_table + " article .num3").val('');
 	};
 
-	this.update_reward_item = function(up_idx, start, end, money) {
-		var flg = false;
-		//检验在数组中是否有重合,只检验重合
-		for(var idx = 0; idx < self.reward_list.length; idx++) {
-			if(idx == up_idx) {
-				continue;
-			}
-			var start_item = self.reward_list[idx]["start"];
-			//console.log("start",start);
-			var end_item = self.reward_list[idx]["end"];
-			//console.log("end",end);
-			if(start_item <= start && start <= end_item) {
-				layer.msg('开始名次和之前的规则有重叠', {
-					icon: 2
-				});
-				return flg;
-			}
-			if(start_item <= end && end <= end_item) {
-				layer.msg('结束名次和之前的规则有重叠', {
-					icon: 2
-				});
-				return flg;
-			}
-		}
-		var item_temp = {
-			start: start,
-			end: end,
-			money: money
-		};
-		self.reward_list.splice(up_idx, 1, item_temp);
-		flg = true;
-		return flg;
-	};
-
-	this.del_reward_item = function(start) {
-		for(var idx = 0; idx < self.reward_list.length; idx++) {
-			var start_item = self.reward_list[idx]["start"];
-			if(start == start_item) {
-				self.reward_list.splice(idx, 1);
-			}
-		}
+	this.del_reward_item = function() {
+		var del_item = self.reward_list.pop();
+		this.reload_reward_list_html();
+		$("#" + self.load_table + " article .num1").val(del_item.start);
 	};
 
 	this.reload_reward_list_html = function() {
@@ -653,93 +599,11 @@ function new_task_form(load_table) {
 		}
 
 		self.add_reward_item(start, end, money);
-
-		self.reload_reward_list_html();
-		$("#" + self.load_table + " article .num1").val(end + 1);
-		$("#" + self.load_table + " article .num2").val("");
-		$("#" + self.load_table + " article .num3").val("");
-	});
-
-	//点击编辑
-	$("#" + self.load_table + " article .dv4 ul").on("click", ".change", function() {
-		console.log("item_edit");
-		var start = parseInt($(this).siblings("span:eq(0)").text());
-		for(var idx = 0; idx < self.reward_list.length; idx++) {
-			var start_item = self.reward_list[idx]["start"];
-			if(start == start_item) {
-				self.reward_edit_idx = idx
-				$("#" + self.load_table + " article .num1").val(start);
-				$("#" + self.load_table + " article .num2").val(self.reward_list[idx]["end"]);
-				$("#" + self.load_table + " article .num3").val(self.reward_list[idx]["money"]);
-				$("#" + self.load_table + " article .dv4 .parcel .add").addClass("hide");
-				$("#" + self.load_table + " article .dv4 .parcel .edit_item_check").removeClass("hide");
-				$("#" + self.load_table + " article .dv4 .parcel .edit_item_remove").removeClass("hide");
-			}
-		}
-	});
-	//编辑确认
-	$("#" + self.load_table + " article .dv4 .parcel .edit_item_check").click(function() {
-		console.log("item_edit_check");
-		var start = parseInt($("#" + self.load_table + " article .num1").val());
-		if(!start > 0) {
-			layer.msg('请正确填写开始名次', {
-				icon: 2
-			});
-			return;
-		}
-		var end = parseInt($("#" + self.load_table + " article .num2").val());
-		if(!end > 0) {
-			layer.msg('请正确填写结束名次', {
-				icon: 2
-			});
-			return;
-		}
-		if(start > end) {
-			layer.msg('结束名次不能小于开始名次', {
-				icon: 2
-			});
-			return;
-		}
-		var money = parseInt($("#" + self.load_table + " article .num3").val());
-		if(!start > 0) {
-			layer.msg('请正确填写奖金数', {
-				icon: 2
-			});
-			return;
-		}
-
-		var flg = self.update_reward_item(self.reward_edit_idx, start, end, money);
-		if(!flg) {
-			console.log("item_edit_check_update_false");
-			return;
-		}
-
-		var end_max = self.reward_list[self.reward_list.length - 1]["end"];
-		$("#" + self.load_table + " article .num1").val(end_max + 1);
-		$("#" + self.load_table + " article .num2").val('');
-		$("#" + self.load_table + " article .num3").val('');
-		$("#" + self.load_table + " article .dv4 .parcel .edit_item_check").addClass("hide");
-		$("#" + self.load_table + " article .dv4 .parcel .edit_item_remove").addClass("hide");
-		$("#" + self.load_table + " article .dv4 .parcel .add").removeClass("hide");
-		self.reload_reward_list_html();
-	});
-	//编辑取消
-	$("#" + self.load_table + " article .dv4 .parcel .edit_item_remove").click(function() {
-		console.log("item_edit_remove");
-		var end_max = self.reward_list[self.reward_list.length - 1]["end"];
-		$("#" + self.load_table + " article .num1").val(end_max + 1);
-		$("#" + self.load_table + " article .num2").val('');
-		$("#" + self.load_table + " article .num3").val('');
-		$("#" + self.load_table + " article .dv4 .parcel .edit_item_check").addClass("hide");
-		$("#" + self.load_table + " article .dv4 .parcel .edit_item_remove").addClass("hide");
-		$("#" + self.load_table + " article .dv4 .parcel .add").removeClass("hide");
 	});
 	//点击删除,删除数组中的条目,更新页面
 	$("#" + self.load_table + " article .dv4 ul").on("click", ".trash", function() {
 		console.log("item_trash");
-		var start = parseInt($(this).siblings("span:eq(0)").text());
-		self.del_reward_item(start);
-		self.reload_reward_list_html();
+		self.del_reward_item();
 	});
 
 	//新建tab切换
