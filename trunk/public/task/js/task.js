@@ -535,7 +535,7 @@ function new_task_form(load_table) {
 		self.reward_list.push(item_temp);
 		console.log("self.reward_list", self.reward_list);
 		this.reload_reward_list_html();
-		$("#" + self.load_table + " article .num1").val(end + 1);
+		$("#" + self.load_table + " article .num1").text(end + 1);
 		$("#" + self.load_table + " article .num2").val('');
 		$("#" + self.load_table + " article .num3").val('');
 	};
@@ -543,7 +543,7 @@ function new_task_form(load_table) {
 	this.del_reward_item = function() {
 		var del_item = self.reward_list.pop();
 		this.reload_reward_list_html();
-		$("#" + self.load_table + " article .num1").val(del_item.start);
+		$("#" + self.load_table + " article .num1").text(del_item.start);
 	};
 
 	this.reload_reward_list_html = function() {
@@ -570,7 +570,7 @@ function new_task_form(load_table) {
 	//新建里边点击加号ul显示
 	$("#" + self.load_table + " article .dv4 .parcel .add").click(function() {
 		console.log("add");
-		var start = parseInt($("#" + self.load_table + " article .num1").val());
+		var start = parseInt($("#" + self.load_table + " article .num1").text());
 		if(!start > 0) {
 			layer.msg('请正确填写开始名次', {
 				icon: 2
