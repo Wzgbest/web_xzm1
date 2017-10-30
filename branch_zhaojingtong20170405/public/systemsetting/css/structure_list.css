@@ -350,6 +350,7 @@
     background-color: #42a5f5;
     color: #fff;
     border: 1px solid #dcdcdc;
+    font-size: 16px;
 }
 .structure_list .myModalone .p5 input {
     width: 160px;
@@ -359,6 +360,7 @@
     background-color: #42a5f5;
     color: #fff;
     border: 1px solid #dcdcdc;
+    font-size: 16px;
 }
 .structure_list .myModal .p5 button {
     width: 100px;
@@ -367,12 +369,13 @@
     margin-right: 100px;
     background-color: #fff;
     border: 1px solid #dcdcdc;
+    font-size: 16px;
 }
 .structure_list .myModalone .p5 button {
     width: 160px;
     height: 41px;
     border-radius: 10px;
-
+	font-size: 16px;
     background-color: #fff;
     border: 1px solid #dcdcdc;
 }
@@ -485,6 +488,7 @@
     color: #fff;
     border: 1px solid #dcdcdc;
     margin: 0;
+    font-size: 16px;
 }
 
 .structure_list .addEmployeeModal .p5 .add_employee_cancel {
@@ -496,6 +500,7 @@
     background-color: #fff;
     border: 1px solid #dcdcdc;
     margin: 0 0 0 50px;
+    font-size: 16px;
 }
 
 .structure_list .content .table1 {
