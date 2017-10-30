@@ -10,6 +10,7 @@ use think\Db;
 use think\Controller;
 use app\common\model\Employee;
 use app\common\model\StructureEmployee;
+use app\common\model\Meme;
 
 class Index extends Initialize{
     public function _initialize(){
@@ -56,5 +57,21 @@ class Index extends Initialize{
 
     public function developing(){
         return view();
+    }
+
+    /**
+     * @param $data
+     * @return int|string
+     * 批量添加表情
+     */
+    public function addMutipleMeme($data){
+        $memeModel=new Meme($this->corp_id);
+        $result=false;
+        if($data) {
+            $result=$memeModel->addMutipleMeme($data);
+        }
+
+        return $result;
+
     }
 }
