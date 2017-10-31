@@ -169,6 +169,7 @@
 	background-color: #42a5f5;
 	color: #fff;
 	border: 1px solid #dcdcdc;
+	font-size: 16px;
 }
 
 .edit_corp_info #content .p5 button {
@@ -178,4 +179,5 @@
 	margin-right: auto;
 	background-color: #fff;
 	border: 1px solid #dcdcdc;
+	font-size: 16px;
 }

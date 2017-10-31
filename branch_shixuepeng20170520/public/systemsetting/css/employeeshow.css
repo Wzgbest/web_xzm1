@@ -89,6 +89,7 @@
 .employee_info #content #dv1{
 	width: 380px;
 	float: left;
+	margin-left: 30px;
 }
 .employee_info #content #dv2{
 	width: 600px;
@@ -96,7 +97,7 @@
 }
 .employee_info #content p{
 	margin-bottom: 20px;
-	margin-left: 34px;
+	/*margin-left: 34px;*/
 	/*background-color: red;*/
 }
 .employee_info #content p:nth-child(1){

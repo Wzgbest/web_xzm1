@@ -1600,7 +1600,7 @@ article .dv1 .right .stimulate .cute{
 	background-color: #fad967;
 }
 article .dv4{
-	width: 96%;
+	width: 98%;
 	height: 870px;
 	background-color: #fff;
 	padding-left: 30px;
@@ -1686,6 +1686,15 @@ article .dv4 .parcel .len span{
 	margin-right: 25px;
 
 }
+article .dv4 .parcel .len span.num1{
+	display: inline-block;
+	width: 30px;
+	height: 34px;
+	text-align: center;
+	line-height: 34px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
 article .dv4 .parcel .len .set{
 	margin-right: 0px;
 	
@@ -1744,7 +1753,7 @@ article .dv4 ul li{
 article .dv4 ul li:hover{
 	background-color: #ebf3ff;
 }
-article .dv4 ul li:hover i{
+article .dv4 ul li:nth-last-of-type(2):hover i{
 	display:inline-block;
 }
 article .dv4 ul li i{
@@ -1915,9 +1924,9 @@ article .dv4 .switch2{
 
 
 .task .reveal_eight .import .decide {
-	width: 360px;
+	width: 300px;
 	height: 42px;
-	margin: 56px auto 30px;
+	margin: 36px auto 30px;
 	display: flex;
 	justify-content: space-between;
 }
@@ -1938,10 +1947,11 @@ article .dv4 .switch2{
 	margin-left: 0;
 	background-color: #42a5f5;
 	color: #fff;
+	cursor: pointer;
 }
 
 .task .reveal_eight .import .decide p:nth-child(2) {
-
+	cursor: pointer;
 }
 
 .task .reveal_eight .mima{
@@ -1950,7 +1960,7 @@ article .dv4 .switch2{
 	margin: 40px auto 0px;
 }
 
-.task .reveal_eight .mima{width: 460px;height: 42px;margin: 40px auto 0px;}
+.task .reveal_eight .mima{width: 460px;height: 42px;margin: 25px auto 0px;}
 .task .reveal_eight .box{float:left;width: 372px;height:40px;display: -webkit-box;display:flex;display: -ms-flexbox;display: flex;-webkit-flex-wrap: wrap;-ms-flex-wrap: wrap;flex-wrap: wrap;}
 .task .reveal_eight .box-items {-ms-flex-align: center;-webkit-align-items: center;-webkit-box-align: center;align-items: center;}
 .task .reveal_eight .flex-1{display: block;-webkit-box-flex: 1;-webkit-flex: 1;-ms-flex: 1;flex: 1;width: 0;-webkit-flex-basis: 0;-ms-flex-preferred-size: 0;flex-basis: 0;}
@@ -1990,7 +2000,7 @@ article .dv4 .switch2{
 	width: 200px;
 	height: 32px;
 	background-color: #ffffff;
-	box-shadow: 1px 1px 1px silver;
+	box-shadow: 0px 0px 5px silver;
 	text-align: center;
 	line-height: 32px;
 	position: absolute;
