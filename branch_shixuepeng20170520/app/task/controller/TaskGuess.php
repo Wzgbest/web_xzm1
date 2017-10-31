@@ -149,6 +149,9 @@ class TaskGuess extends Initialize{
             }
             $order_data = [
                 'userid'=>$userinfo['userinfo']['id'],
+                "take_type"=>5,
+                "take_type_sub"=>10,
+                "take_id"=>$task_id,
                 'take_money'=> -$save_money,
                 'take_status'=>1,
                 'took_time'=>$time,
