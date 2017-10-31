@@ -86,10 +86,13 @@ class RedEnvelope extends Initialize{
         //take_cash表记录
         $order_data = [
             'userid'=>$this->uid,
+            'take_type'=>4,
+            'take_id'=>$red_id,
             'take_money'=> -$de_money,
-            'status'=>1,
+            'take_status'=>1,
             'took_time'=>$time,
-            'remark' => '创建红包'
+            'remark' => '创建红包',
+            "status"=>1
         ];
         $redM->link->startTrans();
         try{
