@@ -56,3 +56,7 @@ $("#frames #verification-indexfr .verification_sale_chance .u-tabList .u-tabOper
         }
     });
 });
+//详情展示
+$("#frames #verification-indexfr .verification_sale_chance .u-tabList .verification-sale-chance-show").click(function(){
+    loadPage("/verification/index/detail.html", "#verification-indexfr");
+})
