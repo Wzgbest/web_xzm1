@@ -111,9 +111,10 @@ class TaskTip extends Initialize{
             $order_data = [
                 'userid'=>$userinfo['userinfo']['id'],
                 'take_money'=> -$save_money,
-                'status'=>1,
+                'take_status'=>1,
                 'took_time'=>$time,
-                'remark' => '打赏任务'
+                'remark' => '打赏任务',
+                "status"=>1
             ];
             $tip_from_cash_rec = $cashM->addOrderNumber($order_data);
             if (!$tip_from_cash_rec) {

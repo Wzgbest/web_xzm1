@@ -395,9 +395,10 @@ class EmployeeTask extends Initialize{
             $order_add_data = [
                 'userid'=>$taskInfo["create_employee"],
                 'take_money'=> $returnMoney,
-                'status'=>1,
+                'take_status'=>1,
                 'took_time'=>$time,
-                'remark' => '任务终止退回'
+                'remark' => '任务终止退回',
+                'status'=>1
             ];
             $order_datas[] = $order_add_data;
             $taskGuessAndTipMoneyEmployeeIdx = [];
@@ -408,9 +409,10 @@ class EmployeeTask extends Initialize{
                 $order_add_data = [
                     'userid'=>$taskTipInfo["tip_employee"],
                     'take_money'=> $taskTipInfo["tip_money"],
-                    'status'=>1,
+                    'take_status'=>1,
                     'took_time'=>$time,
-                    'remark' => '猜输赢任务终止退回'
+                    'remark' => '猜输赢任务终止退回',
+                    'status'=>1
                 ];
                 $order_datas[] = $order_add_data;
                 if(isset($taskGuessAndTipMoneyEmployeeIdx[$taskTipInfo["tip_employee"]])){
@@ -426,9 +428,10 @@ class EmployeeTask extends Initialize{
                 $order_add_data = [
                     'userid'=>$taskGuessInfo["guess_employee"],
                     'take_money'=> $taskGuessInfo["guess_money"],
-                    'status'=>1,
+                    'take_status'=>1,
                     'took_time'=>$time,
-                    'remark' => '猜输赢任务终止退回'
+                    'remark' => '猜输赢任务终止退回',
+                    'status'=>1
                 ];
                 $order_datas[] = $order_add_data;
                 $taskGuessAndTipMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] += $taskGuessInfo["guess_money"];

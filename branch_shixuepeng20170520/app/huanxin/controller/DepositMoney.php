@@ -122,9 +122,10 @@ class DepositMoney extends Initialize{
         $cash_data = [
             'userid'=>$this->uid,
             'take_money'=> $total_money,
-            'status'=>2,
+            'take_status'=>2,
             'took_time'=>time(),
-            'remark' => '用户充值'
+            'remark' => '用户充值',
+            "status"=>1
         ];
         //app_alipay_trade表，订单状态改变
         $app_data = [
@@ -200,9 +201,10 @@ class DepositMoney extends Initialize{
             $cash_data = [
                 'userid'=>$alipay_info['userid'],
                 'take_money'=> $in_money,
-                'status'=>2,
+                'take_status'=>2,
                 'took_time'=>time(),
-                'remark' => '用户充值'
+                'remark' => '用户充值',
+                "status"=>1
             ];
             $employM->link->startTrans();
             Corporation::startTrans();
