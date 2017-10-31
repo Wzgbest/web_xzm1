@@ -259,10 +259,13 @@ class CorporationShare extends Initialize{
             }
             $order_data = [
                 'userid'=>$userinfo['userinfo']['id'],
+                "take_type"=>6,
+                "take_type_sub"=>1,
+                "take_id"=>$share_id,
                 'take_money'=> -$save_money,
                 'take_status'=>1,
                 'took_time'=>$time,
-                'remark' => '打赏用户',
+                'remark' => '打赏工作圈',
                 "status"=>1
             ];
             $tip_from_cash_rec = $cashM->addOrderNumber($order_data);
@@ -276,10 +279,13 @@ class CorporationShare extends Initialize{
             }
             $order_data = [
                 'userid'=>$share_data["userid"],
+                "take_type"=>6,
+                "take_type_sub"=>1,
+                "take_id"=>$share_id,
                 'take_money'=> $save_money,
                 'take_status'=>1,
                 'took_time'=>$time,
-                'remark' => '收到打赏',
+                'remark' => '工作圈打赏',
                 "status"=>1
             ];
             $tip_to_cash_rec = $cashM->addOrderNumber($order_data);
