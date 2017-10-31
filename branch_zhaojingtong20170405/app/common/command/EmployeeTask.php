@@ -141,6 +141,9 @@ class EmployeeTask extends Command{
                         foreach($redEnvelopeInfos as $redEnvelopeInfo){
                             $order_data = [
                                 'userid'=>$taskInfo["create_employee"],
+                                "take_type"=>5,
+                                "take_type_sub"=>7,
+                                "take_id"=>$id,
                                 'take_money'=> -$redEnvelopeInfo["money"],
                                 'take_status'=>1,
                                 'took_time'=>$time,
@@ -199,27 +202,48 @@ class EmployeeTask extends Command{
                     if (!$updateTaskResult) {
                         exception("更新超时任务为结算中发生错误!");
                     }
-                    $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($id);
-                    $uids = $taskTakeEmployeeIds;
-                    //var_exp($uids,'$uids');
+                    $takeList = $taskTakeM->getTaskTakeListByTaskId($id);
+                    //var_exp($taskTakeEmployeeList,'$taskTakeEmployeeList');
                     //PK和悬赏任务检测是否有人参与
-                    if($task_type>2&&($task_type+count($uids))<4){
+                    if($task_type>2&&($task_type+count($takeList))<4){
                         //没人参与,任务失败
                         $updateTaskResult = $employeeTaskM->setTaskStatus([$id],2,0);
-                        $returnMoney = $taskInfo["reward_count"];
-
+                        $returnMoney = [];
                         $order_datas = [];
-
-                        $order_add_data = [
-                            'userid'=>$taskInfo["create_employee"],
-                            'take_money'=> $returnMoney,
-                            'take_status'=>1,
-                            'took_time'=>$time,
-                            'remark' => '任务失败退回',
-                            'status'=>1,
-                            "money_type"=>1
-                        ];
-                        $order_datas[] = $order_add_data;
+                        if($task_type==2){
+                            $taskReward = $taskRewardM->findTaskRewardByTaskId($id);
+                            foreach ($takeList as $taskTakeEmployee){
+                                $returnMoney[$taskTakeEmployee["take_employee"]] = $taskReward["reward_money"];
+                                $order_add_data = [
+                                    'userid'=>$taskTakeEmployee["take_employee"],
+                                    "take_type"=>5,
+                                    "take_type_sub"=>8,
+                                    "take_id"=>$id,
+                                    'take_money'=> $returnMoney,
+                                    'take_status'=>1,
+                                    'took_time'=>$time,
+                                    'remark' => '任务失败退回',
+                                    'status'=>1,
+                                    "money_type"=>1
+                                ];
+                                $order_datas[] = $order_add_data;
+                            }
+                        }elseif($task_type==3){
+                            $returnMoney[$taskInfo["create_employee"]] = $taskInfo["reward_count"];
+                            $order_add_data = [
+                                'userid'=>$taskInfo["create_employee"],
+                                "take_type"=>5,
+                                "take_type_sub"=>8,
+                                "take_id"=>$id,
+                                'take_money'=> $returnMoney,
+                                'take_status'=>1,
+                                'took_time'=>$time,
+                                'remark' => '任务失败退回',
+                                'status'=>1,
+                                "money_type"=>1
+                            ];
+                            $order_datas[] = $order_add_data;
+                        }
                         $taskGuessAndTipMoneyEmployeeIdx = [];
 
                         //返还打赏记录
@@ -227,10 +251,13 @@ class EmployeeTask extends Command{
                         foreach($taskTipInfoList as $taskTipInfo){
                             $order_add_data = [
                                 'userid'=>$taskTipInfo["tip_employee"],
+                                "take_type"=>6,
+                                "take_type_sub"=>11,
+                                "take_id"=>$id,
                                 'take_money'=> $taskTipInfo["tip_money"],
                                 'take_status'=>1,
                                 'took_time'=>$time,
-                                'remark' => '猜输赢任务失败退回',
+                                'remark' => '任务失败退回打赏',
                                 'status'=>1,
                                 "money_type"=>1
                             ];
@@ -247,10 +274,13 @@ class EmployeeTask extends Command{
                         foreach($taskGuessInfoList as $taskGuessInfo){
                             $order_add_data = [
                                 'userid'=>$taskGuessInfo["guess_employee"],
+                                "take_type"=>5,
+                                "take_type_sub"=>11,
+                                "take_id"=>$id,
                                 'take_money'=> $taskGuessInfo["guess_money"],
                                 'take_status'=>1,
                                 'took_time'=>$time,
-                                'remark' => '猜输赢任务失败退回',
+                                'remark' => '任务失败退回猜输赢',
                                 'status'=>1,
                                 "money_type"=>1
                             ];
@@ -265,14 +295,16 @@ class EmployeeTask extends Command{
                         }
 
                         //返还任务金额
-                        $returnMoney = bcmul($returnMoney,100,0);
-                        $employeeInfoMap = ["frozen_money"=>["egt",$returnMoney]];
-                        $employeeInfo=[];
-                        $employeeInfo["frozen_money"] = ['exp',"frozen_money - $returnMoney"];
-                        $employeeInfo["left_money"] = ['exp',"left_money + ".$returnMoney];
-                        $update_user = $employeeM->setEmployeeSingleInfoById($taskInfo["create_employee"],$employeeInfo,$employeeInfoMap);
-                        if (!$update_user) {
-                            exception("更新返还任务冻结金额发生错误!");
+                        foreach($returnMoney as $employee_id=>$money) {
+                            $money = bcmul($money, 100, 0);
+                            $employeeInfoMap = ["frozen_money" => ["egt", $money]];
+                            $employeeInfo = [];
+                            $employeeInfo["frozen_money"] = ['exp', "frozen_money - $money"];
+                            $employeeInfo["left_money"] = ['exp', "left_money + " . $money];
+                            $update_user = $employeeM->setEmployeeSingleInfoById($employee_id, $employeeInfo, $employeeInfoMap);
+                            if (!$update_user) {
+                                exception("更新返还任务冻结金额发生错误!");
+                            }
                         }
 
                         //返还打赏猜输赢等用户额度
@@ -332,7 +364,6 @@ class EmployeeTask extends Command{
                             }
                         }
                     }elseif ($task_type==3){
-                        $takeList = $taskTakeM->getTaskTakeListByTaskId($id);
                         $needRedEnvelopeEmployeeId = [];
                         $deadline = strtotime("-3 days");
                         var_exp($deadline, '$deadline');
@@ -476,6 +507,9 @@ class EmployeeTask extends Command{
 
                                 $order_add_data = [
                                     'userid'=>$have_employee,
+                                    "take_type"=>6,
+                                    "take_type_sub"=>2,
+                                    "take_id"=>$id,
                                     'take_money'=> bcmul($reward_amount,100,0),
                                     'take_status'=>1,
                                     'took_time'=>$time,
@@ -501,6 +535,9 @@ class EmployeeTask extends Command{
                             foreach ($tipEmployeeList as $tipInfo){
                                 $order_add_data = [
                                     'userid' => $tipInfo["tip_employee"],
+                                    "take_type"=>6,
+                                    "take_type_sub"=>11,
+                                    "take_id"=>$id,
                                     'take_money' => bcmul($tipInfo["tip_money"],100,0),
                                     'take_status' => 1,
                                     'took_time' => $time,
@@ -608,6 +645,9 @@ class EmployeeTask extends Command{
                                 foreach ($taskGuessInfoList as $taskGuessInfo) {
                                     $order_add_data = [
                                         'userid' => $taskGuessInfo["guess_employee"],
+                                        "take_type"=>5,
+                                        "take_type_sub"=>11,
+                                        "take_id"=>$id,
                                         'take_money' => bcmul($taskGuessInfo["guess_money"],100,0),
                                         'take_status' => 1,
                                         'took_time' => $time,
@@ -650,6 +690,9 @@ class EmployeeTask extends Command{
                     foreach($redEnvelopeInfos as $redEnvelopeInfo){
                         $order_data = [
                             'userid'=>$taskInfo["create_employee"],
+                            "take_type"=>5,
+                            "take_type_sub"=>7,
+                            "take_id"=>$id,
                             'take_money'=> "-".bcmul($redEnvelopeInfo["money"],100,0),
                             'take_status'=>1,
                             'took_time'=>$time,
@@ -676,13 +719,16 @@ class EmployeeTask extends Command{
                             $balances = bcmul($balances,100,0);
                             $order_data = [
                                 'userid' => $taskInfo["create_employee"],
+                                "take_type"=>5,
+                                "take_type_sub"=>8,
+                                "take_id"=>$id,
                                 'take_money' => $balances,
                                 'take_status' => 1,
                                 'took_time' => $time,
                                 'remark' => '任务发放结余',
                                 'status'=>1
                             ];
-                            if ($task_type == 1) {
+                            if ($pay_type == 1) {
                                 $order_data["money_type"] = 2;
                             } else {
                                 $order_data["money_type"] = 1;
@@ -711,6 +757,9 @@ class EmployeeTask extends Command{
                                     //增加非冻结
                                     $order_data = [
                                         'userid' => $taskTakeEmployeeId,
+                                        "take_type"=>5,
+                                        "take_type_sub"=>8,
+                                        "take_id"=>$id,
                                         'take_money' => bcmul($money,100,0),
                                         'take_status' => 1,
                                         'took_time' => $time,
@@ -736,13 +785,16 @@ class EmployeeTask extends Command{
                             //增加非冻结
                             $order_data = [
                                 'userid' => $taskInfo["create_employee"],
+                                "take_type"=>5,
+                                "take_type_sub"=>8,
+                                "take_id"=>$id,
                                 'take_money' => bcmul($taskInfo["reward_count"],100,0),
                                 'take_status' => 1,
                                 'took_time' => $time,
                                 'remark' => '任务失败退回',
                                 'status'=>1
                             ];
-                            if ($task_type == 1) {
+                            if ($pay_type == 1) {
                                 $order_data["money_type"] = 2;
                             } else {
                                 $order_data["money_type"] = 1;
