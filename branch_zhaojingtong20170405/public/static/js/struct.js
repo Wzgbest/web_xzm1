@@ -198,9 +198,9 @@ function Structure(dep_stf,dep_dep,stf_name,show_what,str,selector) {
 			var data_val2 = header+result1.join(delimiter+header);
 			console.log(data_val2);
 
-			data_val=data_val1+self.str[2];+data_val2;
+			data_val=data_val1+self.str[2]+data_val2;
 			console.log(data_val);
-			console.log(self.s_w)
+			console.log(self.s_w);
 			if(self.s_w==0){
 				console.log(0);
 				$(self.selector).attr("data-dep",result2);

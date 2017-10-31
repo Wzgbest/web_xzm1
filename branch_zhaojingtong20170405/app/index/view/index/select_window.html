@@ -4,9 +4,6 @@
 			<li class="dep-name"><i class="fa fa-caret-right fa-myleft"></i><i class="fa fa-caret-down fa-myleft"></i><span>总公司</span><i class="fa fa-user fa-myright" title="添加全员"></i><i class="fa fa-sitemap fa-myright" title="添加部门"></i></li>
 		</ul>
 	</div>
-			<input type="hidden" class="structure_employee" value='{$structure_employee}' />
-            <input type="hidden" class="structure_pid" value='{$structure_list}' />
-            <input type="hidden" class="employee_name" value='{$employee_name}' />
 	<div class="right-content">
 		<div class="right-content-container">
 			<ul class="selected-department active selected-container">
@@ -24,7 +21,7 @@
 <script type="text/javascript" src="/static/js/struct.js"></script>
 <script type="text/javascript">
 console.log($(".select-window-container").parent().attr("data-num"));
-var data = new Structure($(".structure_employee").val(),$(".structure_pid").val(),$(".employee_name").val(),$(".select-window-container").parent().attr("data-num"),$(".select-window-container").parent().attr("data-str"),$(".select-window-container").parent().attr("data-selector"));
+var data = new Structure('{$structure_employee}','{$structure_list}','{$employee_name}',$(".select-window-container").parent().attr("data-num"),$(".select-window-container").parent().attr("data-str"),$(".select-window-container").parent().attr("data-selector"));
 // console.log(data.d_s,data.d_d,data.s_n,data.all_dep,data.divide());
 console.log(data.s_n);
 console.log(data.d_d);
