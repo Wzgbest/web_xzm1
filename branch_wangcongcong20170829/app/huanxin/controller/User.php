@@ -283,8 +283,10 @@ class User extends Initialize{
     public function showMoneyBill(){
         $last_id = input('last_id',0,"int");
         $num = input('mun',10,"int");
+        $money_type = input('money_type',0,"int");
+        $take_type = input('take_type',0,"int");
         $takeCashM = new TakeCashModel($this->corp_id);
-        $bill_list = $takeCashM->getOrderList($this->uid,0,$num,$last_id);
+        $bill_list = $takeCashM->getOrderList($this->uid,$money_type,$take_type,$num,$last_id);
         return json(['status'=>1,'info'=>'账户交易查询成功!','data'=>$bill_list]);
     }
 
@@ -407,9 +409,10 @@ class User extends Initialize{
             'corp_id' =>$this->corp_id,
             'money' => -$fen_money,
             'create_time' => time(),
-            'status' => 1,
+            'take_status' => 1,
             'remark' =>'员工提现',
-            'to_userid' =>$this->uid
+            'to_userid' =>$this->uid,
+            "status"=>1
         ];
         $takeCashM = new TakeCashModel($this->corp_id);
         $corp_cashM = new CorporationCash();
@@ -512,19 +515,21 @@ class User extends Initialize{
         $cash_from_data = [
             'userid'=>$this->uid,
             'take_money'=>-$take_money,
-            'status'=>1,
+            'take_status'=>1,
             'took_time'=>$time,
             'to_userid'=>$to_userinfo['id'],
-            'remark' => '从余额转出'
+            'remark' => '从余额转出',
+            "status"=>1
         ];
         //take_cash表转入记录
         $cash_to_data = [
             'userid'=>$to_userinfo['id'],
             'take_money'=>$take_money,
-            'status'=>2,
+            'take_status'=>2,
             'took_time'=>$time,
             'from_userid'=>$this->uid,
-            'remark' => '收到转账'
+            'remark' => '收到转账',
+            "status"=>1
         ];
         $cashM = new TakeCash($this->corp_id);
         $employM->link->startTrans();

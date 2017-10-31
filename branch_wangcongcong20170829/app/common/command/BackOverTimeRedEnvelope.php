@@ -47,9 +47,10 @@ class BackOverTimeRedEnvelope extends Command{
                 $cash_data = [
                     'userid'=> $from_user,
                     'take_money'=>$money,
-                    'status'=>2,
+                    'take_status'=>2,
                     'took_time'=>$time,
-                    'remark' => '红包到期返还'
+                    'remark' => '红包到期返还',
+                    'status'=>1
                 ];
                 $redM->link->startTrans();
                 try{
