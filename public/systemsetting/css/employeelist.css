@@ -112,6 +112,7 @@
 	background-color: #42a5f5;
 	color: #fff;
 	border: 1px solid #dcdcdc;
+	font-size: 16px;
 }
 
 .sys_employee_list .employee_list .p5 button {
@@ -122,6 +123,7 @@
 	background-color: #fff;
 	border: 1px solid #dcdcdc;
 	margin-left: 50px;
+	font-size: 16px;
 }
 /*弹出框*/
 
