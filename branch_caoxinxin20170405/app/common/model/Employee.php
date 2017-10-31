@@ -263,6 +263,8 @@ class Employee extends Base{
             case 4:
                 $field_name = "app";
                 break;
+            default:
+                $device_type = 0;
         }
         $field_name .= "_token";
         $sys_token=md5($telephone.$device_type.time().rand(10000,99999));
