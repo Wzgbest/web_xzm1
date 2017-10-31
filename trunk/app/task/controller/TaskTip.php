@@ -110,6 +110,9 @@ class TaskTip extends Initialize{
             }
             $order_data = [
                 'userid'=>$userinfo['userinfo']['id'],
+                "take_type"=>6,
+                "take_type_sub"=>2,
+                "take_id"=>$task_id,
                 'take_money'=> -$save_money,
                 'take_status'=>1,
                 'took_time'=>$time,
