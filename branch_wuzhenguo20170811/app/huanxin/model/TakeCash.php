@@ -7,11 +7,9 @@ namespace app\huanxin\model;
 
 use app\common\model\Base;
 
-class TakeCash extends Base
-{
+class TakeCash extends Base{
 
-    public function __construct($corp_id=null)
-    {
+    public function __construct($corp_id=null){
         $this->table = config('database.prefix').'take_cash';
         parent::__construct($corp_id);
     }
@@ -21,8 +19,7 @@ class TakeCash extends Base
      * @param $data
      * @return int|string
      */
-    public function addOrderNumber($data)
-    {
+    public function addOrderNumber($data){
         return $this->model->table($this->table)->insertGetId($data);
     }
 
@@ -31,8 +28,7 @@ class TakeCash extends Base
      * @param $datas
      * @return int|string
      */
-    public function addMutipleOrderNumber($datas)
-    {
+    public function addMutipleOrderNumber($datas){
         return $this->model->table($this->table)->insertAll($datas);
     }
 
@@ -43,7 +39,9 @@ class TakeCash extends Base
      */
     public function getOrderByPage($user,$page=1,$num=10){
         $map["userid"] = $user;
-        $query = $this->model->table($this->table)
+        $field = ["tc.*","et.task_name"];
+        $query = $this->model->table($this->table)->alias("tc")
+            ->join(config('database.prefix').'employee_task et','tc.take_type = 5 and tc.take_id = et.id and ','left')
             ->where($map)
             ->order("id desc");
         if($num){
@@ -54,7 +52,9 @@ class TakeCash extends Base
             }
             $query->limit($offset,$num);
         }
-        $order_list = $query->select();
+        $order_list = $query
+            ->field($field)
+            ->select();
         return $order_list;
     }
 
@@ -63,18 +63,24 @@ class TakeCash extends Base
      * @param $user
      * @return int|string
      */
-    public function getOrderList($user,$type=1,$num=10,$last_id=0){
+    public function getOrderList($user,$type=1,$take_type=0,$num=10,$last_id=0){
         $map["userid"] = $user;
         if($type){
             $map["money_type"] = $type;
         }
+        if($take_type){
+            $map["take_type"] = $take_type;
+        }
         if($last_id){
             $map["id"] = ["lt",$last_id];
         }
-        $order_list = $this->model->table($this->table)
+        $field = ["tc.*","et.task_name"];
+        $order_list = $this->model->table($this->table)->alias("tc")
+            ->join(config('database.prefix').'employee_task et','tc.take_type = 5 and tc.take_id = et.id','left')
             ->where($map)
             ->order("id desc")
             ->limit($num)
+            ->field($field)
             ->select();
         return $order_list;
     }
