@@ -94,6 +94,9 @@ class RedEnvelope extends Initialize{
             'remark' => '创建红包',
             "status"=>1
         ];
+        $res = 0;
+        $de = 0;
+        $cash_rec = 0;
         $redM->link->startTrans();
         try{
             $res = $redM->createRedId($indata);
