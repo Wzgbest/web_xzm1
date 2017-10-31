@@ -74,8 +74,9 @@
 	margin-left: 30px;
 }
 .popUp .pop_content .pop_bill_block .product-type .cont{
-	width: 44px;
-	margin-left: 50px;
+	/*width: 44px;*/
+	text-align: left;
+    margin-left: 50px
 }
 .popUp .pop_content .pop_bill_block .cont-x{
 	width: 270px !important;
