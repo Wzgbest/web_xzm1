@@ -69,7 +69,9 @@ function loadRoleEmployeeTable(role_id) {
 }
 var role_item_list_panel = '.systemsetting_role .content .dv1 .role_item_list';
 var role_add_employee_panel = role_list_panel_base + ' .addEmployeeModal';
-$(".systemsetting_role .top .add").click(function() {
+//$(".systemsetting_role .top .add").click(function() {
+$(panel).on('click','.one i',function(){
+//	alert(1);
 	var role_id = findActivityRoleId();
 	console.log(role_id);
 	if(role_id > 0) {
@@ -89,6 +91,7 @@ $(".systemsetting_role .top .add").click(function() {
 			}
 		});
 	}
+	
 });
 
 function update_add_employee_num(num) {
@@ -207,11 +210,11 @@ $(role_list_panel_base + " .dv1 .compile").click(function() {
 $(role_item_list_panel).on('click', ".role_item .edit_item_check", function() {
 	var edit_role_name = $(this).siblings(".edit_item_text").val();
 	console.log(edit_role_name);
-	if(!edit_role_name) {
+	if(!edit_role_name){
 		return;
 	}
 	var role_id = findRoleId(this);
-	console.log(role_id);
+	console.log(role_id); 
 	$.ajax({
 		url: '/systemsetting/role/editRole',
 		type: 'post',
@@ -234,14 +237,14 @@ $(role_item_list_panel).on('click', ".role_item .edit_item_check", function() {
 	});
 });
 
-$(role_item_list_panel).on('keydown', ".item_text", function(event) {
-	if(event.keyCode == 13) {
+$(role_item_list_panel).on('keydown', ".item_text", function(event){
+	if(event.keyCode == 13){
 		var edit_flag = $(this).hasClass('edit_item_text');
 		//编辑
-		if(edit_flag) {
+		if(edit_flag){
 			var edit_role_name = $(this).val();
 			console.log(edit_role_name);
-			if(!edit_role_name) {
+			if(!edit_role_name){
 				return;
 			}
 			var role_id = findRoleId(this);
@@ -256,11 +259,11 @@ $(role_item_list_panel).on('keydown', ".item_text", function(event) {
 					layer.msg(data.message, {
 						icon: data.status == 1 ? 1 : 2
 					});
-					if(data.status) {
+					if(data.status){
 						loadPage("/systemsetting/role/index", "role-managementfr");
 					}
 				},
-				error: function() {
+				error: function(){
 					layer.msg('编辑职位名时发生错误!', {
 						icon: 2
 					});
@@ -269,7 +272,7 @@ $(role_item_list_panel).on('keydown', ".item_text", function(event) {
 		}
 		var add_flag = $(this).hasClass('add_item_text');
 		//添加
-		if(add_flag) {
+		if(add_flag){
 			var add_role_name = $(this).val();
 			console.log(add_role_name);
 			if(!add_role_name) {

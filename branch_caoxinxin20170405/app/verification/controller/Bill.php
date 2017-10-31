@@ -71,6 +71,12 @@ class Bill extends Initialize{
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
         return view();
     }
+    public function approved_page(){
+        return view();
+    }
+    public function rejected_page(){
+        return view();
+    }
     protected function _getCustomerFilter($filter_column){
         $filter = [];
 

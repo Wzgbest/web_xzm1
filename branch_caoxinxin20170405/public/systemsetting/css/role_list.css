@@ -119,7 +119,12 @@
     margin-left: 25px;
     margin-top: 10px;
 }
-
+.systemsetting_role .content .one i{
+	color: #1F7ED0;	
+	display: block;
+	line-height: 30px;
+	margin-left: 720px;
+}
 .systemsetting_role .content .p1 {
     font-size: 12px;
     float: left;
@@ -350,7 +355,7 @@
 }
 .systemsetting_role .role_list_panel{
     width: 100%;
-    height: 100%;
+    height: 100% !important;
     position: absolute;
     top: 0;
     left: 0;
@@ -443,6 +448,7 @@
     background-color: #42a5f5;
     color: #fff;
     border: 1px solid #dcdcdc;
+    font-size: 16px;
 }
 
 .systemsetting_role .content .addEmployeeModal .p5 .add_employee_cancel {
@@ -454,6 +460,7 @@
     background-color: #fff;
     border: 1px solid #dcdcdc;
     margin-left: 50px;
+    font-size: 16px;
 }
 .systemsetting_role .reveal-modal .close-reveal-modal {
     font-size: 32px;

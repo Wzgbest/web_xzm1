@@ -186,6 +186,7 @@
 	background-color: #42a5f5;
 	color: #fff;
 	border: 1px solid #dcdcdc;
+	font-size: 16px;
 }
 .sys_employee_list .employee_info #content .p5 button{
 	width: 100px;
@@ -194,6 +195,7 @@
 	margin-right: 100px;
 	background-color: #fff;
 	border: 1px solid #dcdcdc;
+	font-size: 16px;
 }
 .sys_employee_list .employee_info #content .right{
 	/*width: 100px;*/
