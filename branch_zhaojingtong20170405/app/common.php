@@ -355,9 +355,9 @@ function logout($telephone=null,$token=null){
 
 function set_online($telephone,$status,$device_type=0){
     if($status){
-        inc_cache_by_tel($telephone,'online_'.$device_type);
+        set_cache_by_tel($telephone,'online_'.$device_type,1);
     }else{
-        dec_cache_by_tel($telephone,'online_'.$device_type);
+        set_cache_by_tel($telephone,'online_'.$device_type,0);
     }
 }
 
