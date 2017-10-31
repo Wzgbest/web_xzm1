@@ -661,13 +661,15 @@ class Api
 
     /**
      * 发送消息
-     * @param  [type] $type   users 给用户发消息。chatgroups: 给群发消息，chatrooms: 给聊天室发消息
+     * @param  string $type   users 给用户发消息。chatgroups: 给群发消息，chatrooms: 给聊天室发消息
      * @param  array  $target 注意这里需要用数组 给用户发送时数组元素是用户名 给群组发送时   数组元素是groupid
-     * @param  [type] $msg    消息内容
-     * @param  [type] $from   表示消息发送者 无此字段Server会默认设置为"from":"admin"
-     * @return [type]         [description]
+     * @param  string $msg_type    消息类型
+     * @param  string $msg    消息内容
+     * @param  string $from   表示消息发送者 无此字段Server会默认设置为"from":"admin"
+     * @param  array $ext   扩展属性，由APP自己定义。可以没有这个字段，但是如果有，值不能是"ext:null"这种形式，否则出错
+     * @return array 返回值
      */
-    public function sendMessage($type,$target=[],$msg,$from=''){
+    public function sendMessage($type,$target=[],$msg='',$msg_type="txt",$from='',$ext=[]){
         if (!$type || empty($target) || !$msg) {
             $info['status'] = false;
             $info['message'] = "参数传输错误";
@@ -677,11 +679,14 @@ class Api
         $req_arr = [];
         $req_arr['target_type'] = $type;
         $req_arr['target'] = $target;
-        $req_arr['msg']['type'] = "txt";
+        $req_arr['msg']['type'] = $msg_type;
         $req_arr['msg']['msg'] = $msg;
 
-        if ($from) {
+        if (!empty($from)) {
             $req_arr['from'] = $from;
+        }
+        if ($ext!=null && !empty($ext)) {
+            $req_arr['ext'] = $ext;
         }
 
         $req_json = json_encode($req_arr,true);

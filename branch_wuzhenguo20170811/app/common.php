@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 use think\Db;
 use think\Request;
+use think\cache;
 use app\common\model\UserCorporation;
 use app\common\model\Umessage;
 use app\common\model\Employee;
@@ -74,6 +75,14 @@ function get_cache_by_corp($corp_id, $name){
 
 function set_cache_by_tel($telephone, $name, $data, $config=null){
     cache("user_cache_".$telephone."_".$name,$data,$config);
+}
+
+function inc_cache_by_tel($telephone, $name){
+    Cache::inc("user_cache_".$telephone."_".$name);
+}
+
+function dec_cache_by_tel($telephone, $name){
+    Cache::dec("user_cache_".$telephone."_".$name);
 }
 
 function get_cache_by_tel($telephone, $name){
@@ -253,6 +262,8 @@ function check_telephone_and_token($telephone,$access_token){
         case 4:
             $field_name = "app";
             break;
+        default:
+            $device_type = 0;
     }
     $field_name .= "_token";
     if($field_name!="web_token"){
@@ -344,14 +355,14 @@ function logout($telephone=null,$token=null){
 
 function set_online($telephone,$status,$device_type=0){
     if($status){
-        set_cache_by_tel($telephone,'online_'.$device_type,$status);
+        inc_cache_by_tel($telephone,'online_'.$device_type);
     }else{
-        set_cache_by_tel($telephone,'online_'.$device_type,null);
+        dec_cache_by_tel($telephone,'online_'.$device_type);
     }
 }
 
 function get_online($telephone,$device_type=0){
-    return get_cache_by_tel($telephone,'online_'.$device_type);
+    return get_cache_by_tel($telephone,'online_'.$device_type)?:0;
 }
 
 /**
@@ -1387,13 +1398,13 @@ function decrypt_email_pass ($input) {
 
 /**
  * 发送邮件
- * @param $sender 发件人邮箱
- * @param $pass 发件人邮箱密码
- * @param $to_user 接收人邮箱
- * @param $title  主题
- * @param $sender_nick 发件人昵称
- * @param string $content 内容
- * @param array $attachment['path','name'] 附件['地址','附件名称']
+ * @param $sender string 发件人邮箱
+ * @param $pass string 发件人邮箱密码
+ * @param $to_user string 接收人邮箱
+ * @param $title string  主题
+ * @param $sender_nick string 发件人昵称
+ * @param $content string  内容
+ * @param $attachment array ['path','name'] 附件['地址','附件名称']
  * @return bool
  * @throws Exception
  * @throws phpmailerException
@@ -1426,15 +1437,6 @@ function send_mail ($sender,$pass,$to_user, $title, $sender_nick='',$content='',
     $status = $mail->send();
     return $status;
 }
-function set_reset_code($tel,$code){
-    //session('reset_code'.$tel,$code);
-    set_cache_by_tel($tel,"reset_code",$code);
-}
-function get_reset_code($tel){
-    //$code = session('reset_code'.$tel);
-    $code = get_cache_by_tel($tel,"reset_code");
-    return $code;
-}
 /**
  * 云径短信平台发送手机验证码
  * @param $tel
@@ -1458,6 +1460,15 @@ function send_sms ($tel,$code,$content) {
         send_mail(config('system_email.user'),config('system_email.pass'),'zhangxiaoyang@winbywin.com', '通信项目短信问题',config('system_email.from_name'), $content);
         return ['status'=>false,'message'=>$content];
     }
+}
+function set_reset_code($tel,$code){
+    //session('reset_code'.$tel,$code);
+    set_cache_by_tel($tel,"reset_code",$code);
+}
+function get_reset_code($tel){
+    //$code = session('reset_code'.$tel);
+    $code = get_cache_by_tel($tel,"reset_code");
+    return $code;
 }
 /**
  * curl并发测试
