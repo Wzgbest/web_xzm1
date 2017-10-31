@@ -57,9 +57,35 @@
                 </form>
             </div>
             <div class="m-tableBox">
-                <div class="m-table table-v-index">
+                <div class="m-table m-table-nav">
+                    <ul class="u-tabTitle">
+                        <li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
+                        <li>销售机会</li>
+                        <li>操作</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                    {volist name="list_data" id="vo"}
+                    <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+                        <li class="sale-chance-name color-blue verification-sale-chance-show">销售机会</li>
+                        <li class="u-tabOperation">
+                            {eq name="vo.sale_status" value="4"}
+                                {eq name="vo.status" value="0"}
+                                    <span class="rejected">驳回</span>
+                                    <span class="approved">通过</span>
+                                    <span class="approved remark" title="备注通过">备注通过</span>
+                                {/eq}
+                            {/eq}
+                        </li>                      
+                        <div class="clearfix"></div>
+                    </ul>
+                    {/volist}
+                </div>
+                <div class="m-table table-v-index m-table-detail">
                     <ul class="u-tabTitle">
                         <li class="u-tabCheckbox"><input type="checkbox"/></li>
+                        <li>销售机会</li>
+                        <li>操作</li>
                         <li>时间<i class="fa fa-caret-up u-tabCilentName"></i></li>
                         <li>合同号</li>
                         <li>负责人</li>
@@ -75,12 +101,13 @@
                         <li>分类</li>
                         <li>备注<i class="fa fa-unsorted"></i></li>
                         <li>对应状态</li>
-                        <li>操作</li>
                         <div class="clearfix"></div>
                     </ul>
                     {volist name="list_data" id="vo"}
                     <ul class="u-tabList">
                         <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+                        <li class="sale-chance-name color-blue">销售机会</li>
+                        <li class="u-tabOperation"></li>
                         <li>{$vo.update_time|time_format}</li>
                         <li>{present name="vo.contract_no"}{$vo.contract_no}{/present}</li>
                         <li>{$vo.employee_name}</li>
@@ -97,16 +124,7 @@
                         <li>{$vo.remark}</li>
                         <li class="status">
                             {$vo.status|getContractAppliedStatusName}
-                        </li>
-                        <li class="u-tabOperation">
-                            {eq name="vo.sale_status" value="4"}
-                                {eq name="vo.status" value="0"}
-                                    <span class="rejected">驳回</span>
-                                    <span class="approved">通过</span>
-                                    <span class="approved remark">备注通过</span>
-                                {/eq}
-                            {/eq}
-                        </li>
+                        </li>                        
                         <div class="clearfix"></div>
                     </ul>
                     {/volist}
