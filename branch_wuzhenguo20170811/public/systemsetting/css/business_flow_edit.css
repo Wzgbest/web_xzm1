@@ -180,6 +180,7 @@
     background-color: #42a5f5;
     color: #fff;
     border: 1px solid #dcdcdc;
+    font-size: 16px;
 }
 .systemsetting_business_flow_edit .content .p5 button{
     width: 100px;
@@ -188,6 +189,7 @@
     /*margin-right: 100px;*/
     background-color: #fff;
     border: 1px solid #dcdcdc;
+    font-size: 16px;
 }
 .systemsetting_business_flow_edit .content .flow {
     margin-top: 30px;

@@ -227,7 +227,12 @@
 	/*margin-top: 5px;*/
 }
 .sale-chance-record{
-	background-color: #f5f8fd;
+    background-color: #f5f8fd
+}
+.sale-chance-record hr{
+	color: #ccc;
+	opacity: 0.2;
+    width: 95%
 }
 .crm_customer .page-info header div{
 	border: none !important;
