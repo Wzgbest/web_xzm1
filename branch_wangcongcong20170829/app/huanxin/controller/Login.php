@@ -28,6 +28,9 @@ class Login extends Controller{
         $telephone = trim($input['telephone']);
         $password = trim($input['password']);
         $device_type = input('device_type',0,'int');
+        if($device_type>4){
+            $device_type = 0;
+        }
         $ip = $this->request->ip();
         $result = check_telphone_and_password($telephone,$password);
         if(!$result["status"]){
