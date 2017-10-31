@@ -871,9 +871,10 @@ class Index extends Initialize{
                 'money_type'=>($taskInfo["task_type"]==1)?2:1,
                 'userid'=>$uid,
                 'take_money'=> -$save_money,
-                'status'=>1,
+                'take_status'=>1,
                 'took_time'=>$time,
-                'remark' => '发起任务'
+                'remark' => '发起任务',
+                "status"=>1
             ];
             $tip_from_cash_rec = $cashM->addOrderNumber($order_data);
             if (!$tip_from_cash_rec) {
@@ -1037,9 +1038,10 @@ class Index extends Initialize{
                 $order_data = [
                     'userid' => $userinfo['userinfo']['id'],
                     'take_money' => -$save_money,
-                    'status' => 1,
+                    'take_status' => 1,
                     'took_time' => $time,
-                    'remark' => '参与任务'
+                    'remark' => '参与任务',
+                    "status"=>1
                 ];
                 $tip_from_cash_rec = $cashM->addOrderNumber($order_data);
                 if (!$tip_from_cash_rec) {
