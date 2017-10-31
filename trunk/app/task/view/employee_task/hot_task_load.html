@@ -292,10 +292,16 @@
                     <p class="very big blue">{$vo.customer_name}</p>
                     {/eq}
                 </div>
-                <div class="very">
+                <div >
+                    <p class="small">奖金</p>
+                    <p class="big">{$vo.re_amount}元/人
+                    </p>
+                </div>
+                <div >
                     <p class="small">任务领取截止时间</p>
                     <p class="big">{$vo.task_take_end_time|date="Y.m.d/H:i:s",###}</p>
                 </div>
+                
             </div>
             <div class="details">
                 <div class="len">

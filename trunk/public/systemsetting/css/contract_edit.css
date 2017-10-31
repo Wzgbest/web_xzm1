@@ -212,6 +212,7 @@ ol {
     background-color: #42a5f5;
     color: #fff;
     border: 1px solid #dcdcdc;
+    font-size: 16px;
 }
 
 .systemsetting_contract_edit .content .p5 button {
@@ -220,6 +221,7 @@ ol {
     border-radius: 10px;
     background-color: #fff;
     border: 1px solid #dcdcdc;
+    font-size: 16px;
 }
 
 .systemsetting_contract_edit .content .p input {
