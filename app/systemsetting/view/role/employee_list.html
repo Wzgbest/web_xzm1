@@ -1,7 +1,17 @@
-<div class="one">
+<div class="one m-filterNav">
+	<form class="search_form" onsubmit="return false;">
     <p class="p1 role_manage ">权限管理</p>
     <p class="p1 employee_manage activity">成员管理</p>
-    <i class="fa fa-plus fa-2x"></i>
+    <select>
+		<option>职位</option>		
+      
+	</select>
+    <input type="text" placeholder="输入工号" name="worknum"/>
+	<input type="text" placeholder="输入姓名" name="truename"/>
+	<button class="u-btnSearch">查询</button>
+    <!--<i class="fa fa-plus fa-2x"></i>-->
+    <button class="u-btnSearch employee_add">新增</button>
+      </form>
 </div>
 <div class="employee_list">
     <div class="m-tableBox">

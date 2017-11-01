@@ -41,7 +41,12 @@ header {
 	height: 18px;
 	
 }
-
+.nav li:hover{
+	border-bottom: 1px solid #42a5f5;
+}
+.nav li:hover div{
+	color: #333333;
+}
 .nav li:last-child div {
 	border: none;
 }
@@ -123,6 +128,9 @@ header .sort {
 	padding-top: 2px;
 	cursor: pointer;
 }
+header .sort:hover img{
+	opacity: 0.8;
+}
 
 header .sort .classify {
 	position: absolute;
@@ -140,7 +148,10 @@ header .sort .classify {
 header .sort:hover .classify {
 	display: block;
 }
+/*header .sort .classify p:hover{
+	background-color: rgb(225, 235, 249);
 
+}*/
 header .sort .classify p {
 	width: 68px;
 	height: 32px;
@@ -167,6 +178,7 @@ header .sort p{
 header .sort .classify p{
 	margin-top: 0;
 }
+
 header .add img {
 	display: block;
 	margin-left: 10px;
@@ -180,8 +192,12 @@ header .xinjian {
 	top: 0;
 	padding-top: 2px;
 	cursor: pointer;
+	/*transition: all 0.2s;*/
 }
-
+/*header .xinjian:hover{
+	
+	transform: translateY(-1px);
+}*/
 header .xinjian p {
 	font-size: 12px;
 	text-align: center;
@@ -191,8 +207,11 @@ header .xinjian i {
 	display: block;
 	color: #1f7ed0;
 	text-align: center;
+	
 }
-
+header .xinjian:hover i{
+	opacity: 0.8;
+}
 article {
 	height: 100%;
 	position: relative;
@@ -512,8 +531,12 @@ article .dv1 .right .p2 {
 	color: #42a5f5;
 	cursor: pointer;
 	margin: 0 auto;
+	
 }
-
+article .dv1 .right .p2:hover{
+	border:1px solid #0c80df;
+	color: #0c80df;
+}
 article .dv1 .right .p4 {
 	font-size: 16px;
 	width: 100px;
@@ -1187,10 +1210,11 @@ article .dv1 .center .details .ouside .inside {
 	margin-left: 0;
 	background-color: #42a5f5;
 	color: #fff;
+	font-size: 16px;
 }
 
 .task .reveal_seven .import .decide p:nth-child(2) {
-
+	font-size: 16px;
 }
 
 .task .reveal_seven .mid {
@@ -1324,7 +1348,8 @@ article .dv2 .left .box ul li a span{
 
 
 article .dv2 .left .box ul:hover{
-	background-color: #e1ebf9;
+	/*background-color: #e1ebf9;*/
+	background-color: #f2f6fd;
 }
 
 article .dv2 .left .addition{
@@ -1366,6 +1391,10 @@ article .dv2 .right .rate{
 	line-height: 32px;
 	border-radius: 5px;
 	color: #42a5f5;
+}
+article .dv2 .right .rate:hover{
+	border: 1px solid #0c80df;
+	color: #0c80df;
 }
 article .dv2 .right .explain .orange{
 	color: #ffb656;
@@ -1597,7 +1626,8 @@ article .dv1 .right .stimulate .cute{
 	font-size: 18px;
 }
 .backdrop{
-	background-color: #fad967;
+	/*background-color: #fad967;*/
+	background-color: #e1ebf9;;
 }
 article .dv4{
 	width: 98%;
@@ -1640,6 +1670,9 @@ article .dv4 .parcel .hezi input{
 	padding-left: 15px;
 	height: 34px;
 	margin-right: 10px;
+}
+article .dv4 .parcel .employee_select_window{
+	width: 505px;
 }
 article .dv4 .parcel .hezi select{
 	width: 255px;
