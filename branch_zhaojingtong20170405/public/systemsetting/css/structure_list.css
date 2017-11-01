@@ -209,6 +209,7 @@
 	width: 110px;
 	height: 25px;
 	border: 1px solid #dddddd;
+	cursor: text;
 }
 .structure_list .content .p1 {
     font-size: 12px;

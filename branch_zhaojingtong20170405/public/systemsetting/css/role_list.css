@@ -112,7 +112,9 @@
     height: 100%;
     float: left;
 }
-
+.systemsetting_role .content .dv2 .employee_list{
+	margin-top: 20px;
+}
 .systemsetting_role .content .one {
     clear: both;
     height: 30px;
@@ -131,6 +133,7 @@
 	border: 1px solid #dddddd;
 	margin-left: 10px;
 	margin-right: 10px;
+	padding-left: 5px;
 }
 .systemsetting_role .content .one i{
 	color: #1F7ED0;	
