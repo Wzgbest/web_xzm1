@@ -70,8 +70,44 @@ class Index extends Initialize{
         if($data) {
             $result=$memeModel->addMutipleMeme($data);
         }
-
         return $result;
+    }
 
+    /**
+     * @param $data
+     * @return bool|int|string
+     * 添加单个表情
+     */
+    public function addSingleMeme($data){
+        $memeModel=new Meme($this->corp_id);
+        $result=false;
+        if($data) {
+            $result=$memeModel->addSingleMeme($data);
+        }
+        return $result;
+    }
+
+    /**
+     * @param $data
+     * @return array
+     * 通过筛选条件查询表情路径
+     */
+    public function getMemePath($data){
+        $memeModel=new Meme($this->corp_id);
+        if(empty($data)){
+            return [];
+        }
+        $result=$memeModel->getMemePath($data);
+        return $result;
+    }
+
+    /**
+     * @return false|\PDOStatement|string|\think\Collection
+     * 全部表情
+     */
+    public function getAllMemeData(){
+        $memeModel=new Meme($this->corp_id);
+        $result=$memeModel->getAllMemeData();
+        return $result;
     }
 }
