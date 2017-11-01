@@ -1,1 +1,30 @@
-发票通过
+<header>
+	<h1>发票审核<i class="fa fa-close fa-2x pop-close-btn"></i></h1>
+</header>
+<div class="pop_content approved-page-pop m-form">
+	<div class="tc _top ">
+		<input type="radio" class="approved-page-radio" name="approved-page-radio" value="1" />使用新发票
+			
+		<input type="radio" class="approved-page-radio" name="approved-page-radio" value="2" />使用追回发票
+	</div>
+	<div class="tc">
+		<span class="cont">发票编号</span>
+		<select class="bill-number-list">
+		</select>
+	</div>
+	<div class="u-submitButton">
+		<button class="pop-submit-btn">通过</button>
+		<button class="pop-close-btn">取消</button>
+	</div>
+</div>
+<style type="text/css">
+	.verification_bill_index .approved-page-pop ._top{
+		font-size: 14px;
+		margin-bottom: 20px;
+	}
+</style>
+<script type="text/javascript">
+	$(".verification_bill_index .approved-page-radio").change(function(){
+		console.log($(".verification_bill_index .approved-page-radio").val());
+	});
+</script>

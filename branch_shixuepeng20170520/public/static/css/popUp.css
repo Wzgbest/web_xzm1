@@ -3,6 +3,17 @@
 	position: absolute;
 	top: 100px;
 	left: 100px;
+	border: 1px solid #e6e6e6;
+	border-radius: 3px;
+}
+/*小型弹窗*/
+.popUp.u-pop-min{
+	width: 580px;
+}
+.popUp.u-pop-min .u-pop-min-content{
+	height: 100px;
+	background-color: #fff;
+	color: #4c4c4c;
 }
 .popUp header{
 	width: 100% !important;
@@ -11,6 +22,46 @@
 	height: 50px !important;
 	background-color: #6b7a99 !important;
 	text-align: center;
+}
+.u-pop-header{
+	height: 45px;
+	font-size: 16px;
+	line-height: 45px;
+	padding: 0 20px;
+	background-color: #fff;
+	border-bottom: 1px solid #e6e6e6;
+}
+.u-pop-header i.fa-close{
+	float: right;
+	color: #ccc;
+	line-height: 30px;
+	margin: 10px 10px 0 0;
+}
+.u-pop-footer{
+	height: 56px;
+	border-top: 1px solid #e6e6e6;
+	background-color: #f4f6f9;
+}
+.u-pop-footer button{
+	width: 90px;
+	height: 35px;
+	line-height: 35px;
+	box-sizing:border-box;
+	border-style: none;
+	border-radius: 3px;
+	margin-top: 10px;
+	float: right;
+}
+.u-pop-footer button.pop-submit-btn{
+	background-color: #78beff;
+	color: white;
+	margin-right: 12px;
+}
+.u-pop-footer button.pop-close-btn{
+	background-color: #fff;
+	color: #666;
+	border:1px solid #dcdcdc;
+	margin-right: 20px;
 }
 .popUp header h1{
 	text-align: center;
@@ -113,40 +164,4 @@
 	text-align: center;
 	font-size: 18px;
 	font-weight: normal;
-}
-
-/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
-#popUpContent{
-	width: 600px;
-	height: 350px;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translateX(-50%) translateY(-50%);
-	background-color: #fff
-}
-#popUpContent header{
-	width: 100%;
-    height: 50px;
-    background-color: #6b7a99;
-}
-#popUpContent header h1{
-	position: relative;
-    color: white;
-    line-height: 50px;
-    text-align: center;
-}
-#popUpContent header .fa-close {
-    position: absolute;
-    color: #939aab;
-    right: 10px;
-    top: 10px;
-}
-#popUpContent #sendMessage{
-	width: 520px;
-	height: 120px;
-	position: relative;
-	left: 50%;
-	top: 50%;
-	transform: translateX(-50%) translateY(-50%);
 }

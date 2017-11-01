@@ -46,62 +46,78 @@
                 </form>
             </div>
             <div class="m-tableBox">
-                <div class="m-table table-v-bill">
+                <div class="m-table m-table-nav">
                     <ul class="u-tabTitle">
                         <li class="u-tabCheckbox"><input type="checkbox"/></li>
-                        <li>申请时间<i class="fa fa-caret-up u-tabCilentName"></i></li>
-                        <li>发票号<i class="fa fa-unsorted"></i></li>
-                        <li>发票类型</li>
-                        <li>开票金额<i class="fa fa-unsorted"></i></li>
-                        <li>对应客户</li>
-                        <li>公司税号</li>
-                        <li>产品类型</li>
-                        <li>认款日期<i class="fa fa-unsorted"></i></li>
                         <li>申请人</li>
-                        <li>打款类型<i class="fa fa-unsorted"></i></li>
-                        <li>打款银行</li>
-                        <!--<li>打款日期<i class="fa fa-unsorted"></i></li>-->
-                        <!--<li>提醒时间<i class="fa fa-unsorted"></i></li>
-                        <li>所在列</li>-->
-                        <!--<li>分类</li>
-                        <li>备注<i class="fa fa-unsorted"></i></li>-->
+                        <li>对应客户</li>
                         <li>操作</li>
                         <div class="clearfix"></div>
                     </ul>
                     {volist name="list_data" id="vo"}
                     <ul class="u-tabList">
                         <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+                        <li class="u-tabLinkWay">{$vo.operator_name}<i class="fa fa-phone"></i></li>
+                        <li class="u-tabCilentName">{$vo.customer_name}</li>
+                        <li class="u-tabOperation">
+                            {eq name="vo.status" value="0"}
+                                <span class="rejected">驳回</span>
+                                <span class="approved {eq name='vo[$vo["now_handle_create_item"]]' value='1'}bill_no{/eq}" bill_no="{$vo.bill_no}">通过</span>
+                                <span class="approved remark {eq name='vo[$vo["now_handle_create_item"]]' value='1'}bill_no{/eq}" title="备注通过">备注通过</span>
+                            {/eq}
+                            {eq name="vo.status" value="4"}
+                                <span class="received">已领取</span>
+                            {/eq}
+                        </li>   
+                        <div class="clearfix"></div>
+                    </ul>
+                    {/volist}
+                </div>
+                <div class="m-table table-v-bill m-table-detail">
+                    <ul class="u-tabTitle">
+                        <li class="u-tabCheckbox"><input type="checkbox"/></li>
+                        <li>申请人</li>
+                        <li>对应客户</li>
+                        <li>操作</li>
+                        <li>申请时间<i class="fa fa-caret-up u-tabCilentName"></i></li>
+                        <li>发票号<i class="fa fa-unsorted"></i></li>
+                        <li>发票类型</li>
+                        <li>开票金额<i class="fa fa-unsorted"></i></li>                       
+                        <li>公司税号</li>
+                        <li>产品类型</li>
+                        <li>认款日期<i class="fa fa-unsorted"></i></li>                        
+                        <li>打款类型<i class="fa fa-unsorted"></i></li>
+                        <li>打款银行</li>                       
+                        <div class="clearfix"></div>
+                    </ul>
+                    {volist name="list_data" id="vo"}
+                    <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+                        <li class="u-tabLinkWay">{$vo.operator_name}<i class="fa fa-phone"></i></li>
+                        <li class="u-tabCilentName">{$vo.customer_name}</li>
+                        <li class="u-tabOperation">
+                            {eq name="vo.status" value="0"}
+                                <span class="rejected">驳回</span>
+                                <span class="approved {eq name='vo[$vo["now_handle_create_item"]]' value='1'}bill_no{/eq}" bill_no="{$vo.bill_no}">通过</span>
+                                <span class="approved-mark remark {eq name='vo[$vo["now_handle_create_item"]]' value='1'}bill_no{/eq}" title="备注通过">备注通过</span>
+                            {/eq}
+                            {eq name="vo.status" value="4"}
+                                <span class="received">已领取</span>
+                            {/eq}
+                        </li>
                         <li>{$vo.create_time|time_format}</li>
                         <li>{$vo.bill_no}</li>
                         <li>{$vo.bill_type_name}</li>
-                        <li>{$vo.bill_money}元</li>
-                        <li class="u-tabCilentName">{$vo.customer_name}</li>
+                        <li>{$vo.bill_money}元</li>                        
                         <li>{$vo.tax_num}</li>
                         <li>{$vo.product_type_name}</li>
                         <li>
                             {notempty name="vo.check_money_time"}
                             {$vo.check_money_time|time_format}
                             {/notempty}
-                        </li>
-                        <li class="u-tabLinkWay">{$vo.operator_name}<i class="fa fa-phone"></i></li>
+                        </li>                       
                         <li>{eq name="vo.pay_type" value="现金"}现金{else/}银行打款{/eq}</li>
-                        <li>{$vo.pay_type}</li>
-                        <!--<li>潍坊中迅推广</li>-->
-
-                        <!--<li>1天23:59</li>
-                        <li>待沟通客户</li>-->
-                        <!--<li>定金审核</li>
-                        <li>客户要求时间急</li>-->
-                        <li class="u-tabOperation">
-                            {eq name="vo.status" value="0"}
-                                <span class="rejected">驳回</span>
-                                <span class="approved {eq name='vo[$vo["now_handle_create_item"]]' value='1'}bill_no{/eq}" bill_no="{$vo.bill_no}">通过</span>
-                                <span class="approved remark {eq name='vo[$vo["now_handle_create_item"]]' value='1'}bill_no{/eq}">备注通过</span>
-                            {/eq}
-                            {eq name="vo.status" value="4"}
-                                <span class="received">已领取</span>
-                            {/eq}
-                        </li>
+                        <li>{$vo.pay_type}</li>                       
                         <div class="clearfix"></div>
                     </ul>
                     {/volist}
@@ -109,6 +125,9 @@
 
             </div>
             {include file="common@common/page"/}
+        </section>
+        <section class="verification_bill_index_pop popUp hide">
+            
         </section>
     </div>
 </div>
@@ -118,3 +137,12 @@
     var verification_bill_list_manage = new list_manage("verification_bill","verification-billfr","/verification/bill/index",'{$p}','{$num}','{$max_page}','{$in_column}',"");
 </script>
 <script src="/verification/js/verification_bill.js"></script>
+<script type="text/javascript" src="/static/js/popUp.js"></script>
+<script type="text/javascript">
+    $(".verification_bill_index .u-tabList .u-tabOperation .approved").click(function(){
+        let pop =  new popLoad(".verification_bill_index_pop","/verification/bill/approved_page");
+    });
+    $(".verification_bill_index .u-tabList .u-tabOperation .rejected").click(function(){
+        let pop =  new popLoad(".verification_bill_index_pop","/verification/bill/rejected_page");
+    });
+</script>

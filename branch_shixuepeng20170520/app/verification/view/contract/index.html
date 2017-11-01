@@ -56,27 +56,10 @@
                 </form>
             </div>
             <div class="m-tableBox">
-                <div class="m-table table-v-contract">
+                <div class="m-table m-table-nav">
                     <ul class="u-tabTitle">
                         <li class="u-tabCheckbox"><input type="checkbox"/></li>
-                        <li>时间<i class="fa fa-caret-up u-tabCilentName"></i></li>
-                        <li>合同类型</li>
-                        <li>合同号</li>
-                        <li>对应业务</li>
-                        <li>产品详情</li>
                         <li>负责人</li>
-                        <li>部门<i class="fa fa-unsorted"></i></li>
-                        <li>客户</li>
-                        <li>签单时间<i class="fa fa-unsorted"></i></li>
-                        <li>到账金额<i class="fa fa-unsorted"></i></li>
-                        <li>合同状态</li>
-                        <li>银行</li>
-                        <!--<li>打款日期<i class="fa fa-unsorted"></i></li>-->
-                        <!--<li>提醒时间<i class="fa fa-unsorted"></i></li>
-                        <li>所在列</li>-->
-                        <!--<li>分类</li>-->
-                        <li>是否开票</li>
-                        <li>对应状态</li>
                         <li>操作</li>
                         <div class="clearfix"></div>
                     </ul>
@@ -89,32 +72,7 @@
                             {$vo.id}
                             {/eq}
                             "/></li>
-                        <li>{$vo.update_time|time_format}</li>
-                        <li>{$vo.contract_type_name}</li>
-                        <li>{present name="vo.contract_no"}{$vo.contract_no}{/present}</li>
-                        <li>{$vo.business_flow_name}</li>
-                        <li>{$vo.sale_name}</li>
                         <li>{$vo.employee_name}</li>
-                        <li>{$vo.struct_name}</li>
-                        <li class="u-tabCilentName">{$vo.customer_name}</li>
-                        <li>2017/03/02</li>
-                        <li>3,000.00元</li>
-                        <li class="u-tabCilentName">全款合同</li>
-
-                        <li>招商银行</li>
-                        <li>是</li>
-
-                        <!--<li>1天23:59</li>
-                        <li>待沟通客户</li>-->
-                        <!--<li>定金审核</li>
-                        <li>客户要求时间急</li>-->
-                        <li class="status">
-                            {eq name="vo.status" value="1"}
-                            {$vo.contract_status|getContractAppliedStatusName}
-                            {else/}
-                            {$vo.status|getContractAppliedStatusName}
-                            {/eq}
-                        </li>
                         <li class="u-tabOperation">
                             {eq name="vo.status" value="0"}
                                 <span class="rejected">驳回</span>
@@ -135,8 +93,84 @@
                     </ul>
                     {/volist}
                 </div>
+                <div class="m-table table-v-contract m-table-detail">
+                    <ul class="u-tabTitle">
+                        <li class="u-tabCheckbox"><input type="checkbox"/></li>
+                        <li>负责人</li>
+                        <li>操作</li>
+                        <li>时间<i class="fa fa-caret-up u-tabCilentName"></i></li>
+                        <li>合同类型</li>
+                        <li>合同号</li>
+                        <li>对应业务</li>
+                        <li>产品详情</li>
+                        
+                        <li>部门<i class="fa fa-unsorted"></i></li>
+                        <li>客户</li>
+                        <li>签单时间<i class="fa fa-unsorted"></i></li>
+                        <li>到账金额<i class="fa fa-unsorted"></i></li>
+                        <li>合同状态</li>
+                        <li>银行</li>
+                        <li>是否开票</li>
+                        <li>对应状态</li>
+                        
+                        <div class="clearfix"></div>
+                    </ul>
+                    {volist name="list_data" id="vo"}
+                    <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="
+                            {eq name='vo.status' value='1'}
+                            {$vo.contract_id}
+                            {else/}
+                            {$vo.id}
+                            {/eq}
+                            "/></li>
+                        <li>{$vo.employee_name}</li>
+                        <li class="u-tabOperation">
+                            {eq name="vo.status" value="0"}
+                                <span class="rejected">驳回</span>
+                                <span class="approved">通过</span>
+                                <span class="approved-remark">备注通过</span>
+                            {/eq}
+                            {eq name="vo.status" value="1"}
+                                <span class="invalid">作废</span>
+                                {eq name="vo.contract_status" value="4"}
+                                    <span class="received">已领取</span>
+                                {/eq}
+                                {eq name="vo.contract_status" value="5"}
+                                    <span class="withdrawal">收回</span>
+                                {/eq}
+                            {/eq}
+                        </li>
+                        <li>{$vo.update_time|time_format}</li>
+                        <li>{$vo.contract_type_name}</li>
+                        <li>{present name="vo.contract_no"}{$vo.contract_no}{/present}</li>
+                        <li>{$vo.business_flow_name}</li>
+                        <li>{$vo.sale_name}</li>
+                        
+                        <li>{$vo.struct_name}</li>
+                        <li class="u-tabCilentName">{$vo.customer_name}</li>
+                        <li>2017/03/02</li>
+                        <li>3,000.00元</li>
+                        <li class="u-tabCilentName">全款合同</li>
+                        <li>招商银行</li>
+                        <li>是</li>
+                        <li class="status">
+                            {eq name="vo.status" value="1"}
+                            {$vo.contract_status|getContractAppliedStatusName}
+                            {else/}
+                            {$vo.status|getContractAppliedStatusName}
+                            {/eq}
+                        </li>
+                        
+                        <div class="clearfix"></div>
+                    </ul>
+                    {/volist}
+                </div>
             </div>
             {include file="common@common/page"/}
+        </section>
+        <section class="verification_contract_index_pop popUp u-pop-min hide">
+            
         </section>
     </div>
 </div>
@@ -146,3 +180,14 @@
     var verification_contract_list_manage = new list_manage("verification_contract","verification-contractfr","/verification/contract/index",'{$p}','{$num}','{$max_page}','{$in_column}',"");
 </script>
 <script src="/verification/js/verification_contract.js"></script>
+<script type="text/javascript" src="/static/js/popUp.js"></script>
+<script type="text/javascript">
+    $(".verification_contract_index .u-tabList .u-tabOperation .approved").click(function(){
+        let id = $(this).parent().siblings().children("input").val();
+        $(".verification_contract_index_pop").attr("id",id);
+        let pop =  new popLoad(".verification_contract_index_pop","/verification/contract/approved_page");
+    });
+    $(".verification_contract_index .u-tabList .u-tabOperation .rejected").click(function(){
+        let pop =  new popLoad(".verification_contract_index_pop","/verification/contract/rejected_page");
+    });
+</script>
