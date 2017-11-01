@@ -97,13 +97,13 @@
 }
 /*审核*/
 .table-v-index{
-	width: 2370px;
+	width: 2507px;
 }
 .table-v-bill{
 	width: 1685px;
 }
 .table-v-contract{
-	width: 2148px;
+	width: 2096px;
 }
 .table-v-count{
 	width: 2238px;
@@ -144,6 +144,9 @@
 	/*color: #666666;*/
 	border-right: 1px solid white;
 }
+/*.m-table .u-tabList:hover{
+	background-color: yellow;
+}*/
 .u-tabCheckbox{
 	text-align: center !important;
 	width: 40px !important;

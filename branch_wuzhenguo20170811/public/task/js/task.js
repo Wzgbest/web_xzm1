@@ -425,10 +425,10 @@ function new_task_form(load_table) {
 				var url = "";
 				if(fr == "task-hallfr") {
 					url = '/task/employee_task/hot_task.html';
-				} else if(fr == "going-task") {
-					url = '/task/going_task/direct_participation.html';
-				} else if(fr == "historical-task") {
-					url = '/task/historical_task/direct.html';
+				} else if(fr == "going-taskfr") {
+					url = '/task/employee_task/direct_participation.html';
+				} else if(fr == "historical-taskfr") {
+					url = '/task/employee_task/historical_task.html';
 				}
 				loadPage(url, fr);
 			} else {

@@ -18,31 +18,25 @@
 			<div>
 				<span class="cont exam-man hide">一审人</span>
 				<select class="exam-man-s hide">
-					<option></option>
 				</select >
 				<span class="cont exam-man hide">二审人</span>
 				<select class="exam-man-s hide">
-					<option></option>
 				</select>
 			</div>
 			<div>
 				<span class="cont exam-man hide">三审人</span>
 				<select class="exam-man-s hide">
-					<option></option>
 				</select>
 				<span class="cont exam-man hide">四审人</span>
 				<select class="exam-man-s hide">
-					<option></option>
 				</select>
 			</div>
 			<div>
 				<span class="cont exam-man hide">五审人</span>
 				<select class="exam-man-s hide">
-					<option></option>
 				</select>
 				<span class="cont exam-man hide">六审人</span>
 				<select class="exam-man-s hide">
-					<option></option>
 				</select>
 			</div>
 		</div>
@@ -87,7 +81,7 @@
 				$(".main-content").eq(row).find(".exam-man-s").eq(d).removeClass("hide");
 				//当前属性值在role_employee_index里对应的数组
 				var arr = role_employee_index[b[c]];
-				$(".main-content").eq(row).find(".exam-man-s").eq(d).html("<option value='0'>请选择</option>");
+				// $(".main-content").eq(row).find(".exam-man-s").eq(d).html("<option value='0'>请选择</option>");
                 var selected='';
 				for(var i=0;i<arr.length;i++){
 				    if(applied && applied[d+1]==arr[i].user_id)
