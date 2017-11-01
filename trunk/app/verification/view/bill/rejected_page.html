@@ -1,1 +1,31 @@
-发票驳回
+<header>
+	<h1>发票驳回<i class="fa fa-close fa-2x pop-close-btn"></i></h1>
+</header>
+<div class="pop_content rejected-page-pop m-form">
+	<div class="tc _top">
+		<h1>驳回原因</h1>
+	</div>
+	<div class="tc  ">
+		<input type="radio" class="rejected-page-radio" name="rejected-page-radio" value="1" />资金未到账
+			
+		<input type="radio" class="rejected-page-radio" name="rejected-page-radio" value="2" />员工已离职
+
+		<input type="radio" class="rejected-page-radio" name="rejected-page-radio" value="3" />其他原因
+	</div>
+
+	<div class="u-submitButton">
+		<button class="pop-submit-btn">驳回</button>
+		<button class="pop-close-btn">取消</button>
+	</div>
+</div>
+<style type="text/css">
+	.verification_bill_index .rejected-page-pop ._top{
+		font-size: 14px;
+		margin-bottom: 20px;
+	}
+</style>
+<script type="text/javascript">
+	$(".verification_bill_index .rejected-page-radio").change(function(){
+		console.log($(".rejected-page-radio:checked").val());
+	});
+</script>
