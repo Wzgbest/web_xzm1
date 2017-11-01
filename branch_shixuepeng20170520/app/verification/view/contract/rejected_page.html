@@ -1,1 +1,50 @@
-合同驳回
+<div class="u-pop-header">
+	合同驳回<i class="fa fa-close fa-2x pop-close-btn"></i>
+</div>
+<div class="u-pop-min-content">
+	<div class="clearfix"></div>
+	<div class="u-pop-radio-content">
+		<input type="radio" class="contract-reject-radio" name="contract-reject-radio" value="单次申请数量过多" checked="checked" />单次申请数量过多
+		<input type="radio" class="contract-reject-radio" name="contract-reject-radio" value="员工离职" />员工离职
+		<input type="radio" class="contract-reject-radio" name="contract-reject-radio" value="其他原因" />其他原因
+	</div>
+</div>
+<div class="u-pop-footer">
+	<button class="pop-close-btn">取消</button>
+	<button class="pop-submit-btn">驳回</button>
+</div>
+<link rel="stylesheet" type="text/css" href="/static/css/popUp.css">
+<style type="text/css">
+	.verification_contract_index_pop .u-pop-min-content .u-pop-radio-content{
+		font-size: 14px;
+		margin-top: 40px;
+		text-align: center;
+	}
+	.verification_contract_index_pop .u-pop-min-content .u-pop-radio-content input[type="radio"]{
+		margin-left: 10px;
+		width: 14px;
+		height: 14px;
+	}
+</style>
+<script type="text/javascript">
+$(".verification_contract_index_pop .pop-submit-btn").click(function(){
+	let id = $(".verification_contract_index_pop").attr("id");
+	let remark = $(".contract-reject-radio:checked").val();
+	let data = "id="+id+"&remark="+remark;
+    $.ajax({
+        url: '/verification/contract/rejected',
+        type: 'post',
+        data: data,
+        success: function(data) {
+            //console.log(data);
+            layer.msg(data.info,{icon:data.status==1?1:2});
+            if(data.status) {
+                verification_contract_list_manage.reload_list();
+            }
+        },
+        error: function() {
+            layer.msg('驳回合同申请时发生错误!',{icon:2});
+        }
+    });
+});
+</script>

@@ -188,6 +188,8 @@
         let pop =  new popLoad(".verification_contract_index_pop","/verification/contract/approved_page");
     });
     $(".verification_contract_index .u-tabList .u-tabOperation .rejected").click(function(){
+        let id = $(this).parent().siblings().children("input").val();
+        $(".verification_contract_index_pop").attr("id",id);
         let pop =  new popLoad(".verification_contract_index_pop","/verification/contract/rejected_page");
     });
 </script>

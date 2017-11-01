@@ -37,6 +37,9 @@
 	line-height: 30px;
 	margin: 10px 10px 0 0;
 }
+.u-pop-radio-content{
+	/*font-size: 12px;*/
+}
 .u-pop-footer{
 	height: 56px;
 	border-top: 1px solid #e6e6e6;
