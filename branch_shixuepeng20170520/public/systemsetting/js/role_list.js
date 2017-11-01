@@ -70,7 +70,7 @@ function loadRoleEmployeeTable(role_id) {
 var role_item_list_panel = '.systemsetting_role .content .dv1 .role_item_list';
 var role_add_employee_panel = role_list_panel_base + ' .addEmployeeModal';
 //$(".systemsetting_role .top .add").click(function() {
-$(panel).on('click','.one i',function(){
+$(panel).on('click','.one .employee_add',function(){
 //	alert(1);
 	var role_id = findActivityRoleId();
 	console.log(role_id);

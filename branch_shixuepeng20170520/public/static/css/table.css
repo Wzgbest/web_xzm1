@@ -144,6 +144,9 @@
 	/*color: #666666;*/
 	border-right: 1px solid white;
 }
+/*.m-table .u-tabList:hover{
+	background-color: yellow;
+}*/
 .u-tabCheckbox{
 	text-align: center !important;
 	width: 40px !important;

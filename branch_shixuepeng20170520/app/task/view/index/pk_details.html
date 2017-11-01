@@ -76,7 +76,7 @@
 				<p class="p1">任务进行中</p>
 				{/if}
 				{/eq}
-				{if condition="in_array($uid,explode(',',$task_info['public_to_take'])) && !in_array($uid,explode(',',$task_info['take_employees'])) && $now_time < $task_info['task_take_end_time'] && $task_info['is_guess'] == 0 && $task_info['partin_count']<$task_info['reward_num']"}
+				{if condition="in_array($uid,explode(',',$task_info['public_to_take'])) && !in_array($uid,explode(',',$task_info['take_employees'])) && $now_time < $task_info['task_take_end_time'] && $now_time >= $task_info['task_take_start_time'] && $task_info['is_guess'] == 0 && $task_info['partin_count']<$task_info['reward_num']"}
 				<p class="p2 get_reward" data-id="{$task_info.id}" task-type="{$task_info.task_type}" task-money="{$task_info.reward_amount}">领取</p>
 				{elseif condition="in_array($uid,explode(',',$task_info['take_employees']))" /}
 				<p class="p1">正在参与任务</p>
