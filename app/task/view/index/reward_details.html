@@ -84,7 +84,7 @@
 				{eq name="task_info.status" value="2"}
 				{if condition="$now_time <= $task_info['task_end_time']"}
 				<!--<p class="p2 tip" task_id="{$task_info.id}">{if condition="in_array($uid,explode(',',$task_info['tip_employees']))"}继续打赏{else/}打赏{/if}</p>-->
-				{if condition="in_array($uid,explode(',',$task_info['public_to_take'])) && !in_array($uid,explode(',',$task_info['take_employees'])) && $now_time < $task_info['task_take_end_time'] && $task_info['is_guess'] == 0 && $task_info['partin_count']<$task_info['reward_num']"}
+				{if condition="in_array($uid,explode(',',$task_info['public_to_take'])) && !in_array($uid,explode(',',$task_info['take_employees'])) && $now_time < $task_info['task_take_end_time'] && $now_time >= $task_info['task_take_start_time'] && $task_info['is_guess'] == 0 && $task_info['partin_count']<$task_info['reward_num'] && $task_info['create_employee']!=$uid"}
 				<p class="p2 get_reward" data-id="{$task_info.id}" task-type="{$task_info.task_type}" task-money="{$task_info.reward_amount}">领取</p>
 				{elseif condition="in_array($uid,explode(',',$task_info['take_employees']))" /}
 				<p class="p1">正在参与任务</p>

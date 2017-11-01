@@ -31,4 +31,37 @@ class Meme extends Base{
 
     }
 
+    /**
+     * @param $data
+     * @return array
+     * 通过筛选条件查询表情路径
+     */
+    public function getMemePath($data){
+        if(empty($data)){
+            return [];
+        }
+        return $this->model->table($this->table)
+            ->where($data)
+            ->column('path');
+    }
+
+    /**
+     * @return false|\PDOStatement|string|\think\Collection
+     * 全部表情
+     */
+    public function getAllMemeData(){
+        return $this->model->table($this->table)
+            ->select();
+
+    }
+
+    /**
+     * @return array
+     * 全部表情的路径
+     */
+    public function getAllMemePath(){
+        return $this->model->table($this->table)
+            ->column('path','id');
+    }
+
 }
