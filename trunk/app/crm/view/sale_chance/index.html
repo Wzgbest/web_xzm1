@@ -50,7 +50,7 @@
                     {volist name="list_data" id="vo"}
                     <ul class="u-tabList">
                         <li>{$vo.update_time|time_format}</li>
-                        <li class="color-blue">{$vo.sale_name}</li>
+                        <li class="color-blue sale_chance_show" customer_id="{$vo.customer_id}" sale_chance_id="{$vo.id}">{$vo.sale_name}</li>
                         <li class="color-blue customer_name" customer_id="{$vo.customer_id}">{$vo.customer_name}</li>
                         <li>{$business_flow_names[$vo['business_id']]}</li>
                         <li>{$vo.sale_status|getSaleStatusName}</li>
