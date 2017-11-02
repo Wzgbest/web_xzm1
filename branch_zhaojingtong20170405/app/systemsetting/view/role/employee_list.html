@@ -1,17 +1,18 @@
 <div class="one m-filterNav">
 	<form class="search_form" onsubmit="return false;">
-    <p class="p1 role_manage ">权限管理</p>
-    <p class="p1 employee_manage activity">成员管理</p>
-    <select>
-		<option>职位</option>		
-      
-	</select>
-    <input type="text" placeholder="输入工号" name="worknum"/>
-	<input type="text" placeholder="输入姓名" name="truename"/>
-	<button class="u-btnSearch">查询</button>
-    <!--<i class="fa fa-plus fa-2x"></i>-->
-    <button class="u-btnSearch employee_add">新增</button>
-      </form>
+        <p class="p1 role_manage ">权限管理</p>
+        <p class="p1 employee_manage activity">成员管理</p>
+        <select name="structure">
+            <option value="">直属部门</option>
+            {volist name="structs" id="vo"}
+            <option value="{$vo.id}" {present name='filter.structure' }{eq name='filter.structure' value='$vo.id' } selected="selected" {/eq}{/present}>{$vo.struct_name}</option>
+            {/volist}
+        </select>
+        <input type="text" name="worknum" placeholder="输入工号" value="{present name='filter.worknum'}{$filter.worknum}{/present}" />
+        <input type="text" name="truename" placeholder="输入姓名" value="{present name='filter.truename'}{$filter.truename}{/present}" />
+        <button class="u-btnSearch">查询</button>
+        <button class="employee_add">新增</button>
+    </form>
 </div>
 <div class="employee_list">
     <div class="m-tableBox">
