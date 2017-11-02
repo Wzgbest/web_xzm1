@@ -1,5 +1,5 @@
-<div class="crm_sale_chance crm_sale_chance_index">
-    <div class="index_panel index number_screening">
+<div class="crm_sale_chance crm_customer crm_sale_chance_index">
+    <div class="index_panel index number_screening customer_from_panel">
 		<header>
             <ul class="m-firNav">
                 <li in_column="1" class="in_column {eq name='in_column' value='1'}current{/eq}"><div>正常跟进（<span>{$listCount.1}</span>）</div></li>
@@ -51,7 +51,7 @@
                     <ul class="u-tabList">
                         <li>{$vo.update_time|time_format}</li>
                         <li class="color-blue">{$vo.sale_name}</li>
-                        <li class="color-blue">{$vo.customer_name}</li>
+                        <li class="color-blue customer_name" customer_id="{$vo.customer_id}">{$vo.customer_name}</li>
                         <li>{$business_flow_names[$vo['business_id']]}</li>
                         <li>{$vo.sale_status|getSaleStatusName}</li>
                         <li>{$vo.guess_money}元</li>
@@ -66,10 +66,26 @@
     	</div>
       </section>
     </div>
-</div>    
+    <div class="customer_info_panel customer_general hide">
+    </div>
+    <div class="customer_info_panel customer_info hide">
+    </div>
+    <div class="customer_info_panel customer_edit hide">
+    </div>
+    <div class="customer_info_panel customer_contact hide">
+    </div>
+    <div class="customer_info_panel customer_sale_chance hide">
+    </div>
+    <div class="customer_info_panel customer_trace hide">
+    </div>
+</div>
 <link rel="stylesheet" href="/crm/css/index.css"/>
 <script src="/static/js/list_manage.js"></script>
 <script language="javascript">
-    var my_bill_list_manage = new list_manage("number_screening","number-screeningfr","/crm/sale_chance/index",'{$p}','{$num}','{$max_page}','{$in_column}',"");
+    var my_sale_chance_list_manage = new list_manage("number_screening","number-screeningfr","/crm/sale_chance/index",'{$p}','{$num}','{$max_page}','{$in_column}',"");
+</script>
+<script src="/crm/js/customer_info_manage.js"></script>
+<script language="javascript">
+    var my_sale_chance_info_manage = new customer_info_manage("sale_chance_index","number-screeningfr",my_sale_chance_list_manage,"{$in_column}","{$in_column|getInColumnName}","{$count}");
 </script>
 <script src="/crm/js/sale_chance_index.js"></script>
