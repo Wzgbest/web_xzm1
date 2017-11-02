@@ -146,6 +146,7 @@
 	            layer.msg(data.info,{icon:data.status==1?1:2});
 				if(data.status==1){
 					$("#create-contract").children().remove();
+                    my_contract_list_manage.reload_list();
 				}
 	        },
 	        error: function() {
