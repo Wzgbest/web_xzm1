@@ -161,6 +161,9 @@ class Index extends Initialize{
         $field = [];
         return $field;
     }
+    public function detail(){
+        return view();
+    }
     public function approved(){
         $result = ['status'=>0 ,'info'=>"通过成单申请时发生错误！"];
         $id = input("id",0,"int");

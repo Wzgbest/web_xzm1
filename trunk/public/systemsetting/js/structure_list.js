@@ -498,6 +498,7 @@ structure_tree.listen("resetFun",function(){
     $(".structure_list .top .add").addClass("hide");
 });
 
+var first_reload = 1;
 structure_tree.listen("reloadFun",function(){
     //console.log("reloadFun");
     //console.log($(".structure_list .structure_tree .node_name"));
@@ -508,6 +509,11 @@ structure_tree.listen("reloadFun",function(){
     $(".structure_list .structure_tree .node_name").mouseleave(function(){
         $(".node_item .floating_window").hide();
     });
+
+    if(first_reload==1){
+        first_reload = 0;
+        $(".structure_list .structure_tree .node_name:eq(0)").click();
+    }
 });
 
 structure_tree.reload();
