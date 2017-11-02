@@ -696,6 +696,7 @@ class Customer extends Base
                 "call_through"=>$customer['call_through'],
                 "is_wait"=> $customer['is_wait'],
             ]);
+            $customer['comm_status_str'] = getCommStatusName($customer['comm_status']);
             if($protect_customer_day_max){
                 $customer['save_time_str'] = time_diff_day_time($protect_customer_day_max*24*60*60-$customer['take_time'],$now_time);
             }else{
