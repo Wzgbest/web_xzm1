@@ -70,7 +70,7 @@ $(".pop_content.change-visible-range .pop-submit-btn").click(function(){
 	console.log("isallsee",isallsee);
 	data+="&is_public="+(isallsee==1?"1":"0");
 	if(isallsee==2){
-		let v_id = $("input.select-window-choosen-staff").attr("data-val");
+		let v_id = $("input.select-window-choosen-staff").attr("data-result");
 		console.log(v_id);
 		data+="&"+v_id;
 	}
