@@ -112,6 +112,17 @@
     height: 100%;
     float: left;
 }
+.systemsetting_role .dv2 .employee_add {
+    width: 60px;
+    height: 25px;
+    border-radius: 12.5px;
+    line-height: 25px;
+    margin-left: 10px;
+    text-align: center;
+    color: white;
+    border: none;
+    background-color: #42a5f5;
+}
 .systemsetting_role .content .dv2 .employee_list{
 	margin-top: 20px;
 }
@@ -501,4 +512,3 @@
     font-weight: bold;
     cursor: pointer;
 }
-

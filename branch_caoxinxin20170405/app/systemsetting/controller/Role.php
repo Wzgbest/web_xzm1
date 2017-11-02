@@ -68,14 +68,18 @@ class Role extends Initialize{
         $employees_count=0;
         $start_num = ($p-1)*$num;
         $end_num = $start_num+$num;
+        $filter = $this->_getCustomerFilter(["structure","worknum","truename"]);
         try{
             $employeeM = new Employee($this->corp_id);
-            $employee_list = $employeeM->getEmployeeByRole($role_id,$start_num,$num);
+            $employee_list = $employeeM->getEmployeeByRole($role_id,$start_num,$num,$filter);
             //var_exp($employee_list,'$employee_list',1);
             $this->assign('listdata',$employee_list);
             $employees_count = $employeeM->getEmployeeCountByRole($role_id);
             //var_exp($employees_count,'$employees_count',1);
             $this->assign("count",$employees_count);
+            $struM = new StructureModel($this->corp_id);
+            $structs = $struM->getAllStructure();
+            $this->assign("structs",$structs);
         }catch (\Exception $ex){
             $this->error($ex->getMessage());
         }
@@ -85,6 +89,7 @@ class Role extends Initialize{
         $this->assign("p",$p);
         $this->assign("num",$num);
         $this->assign("id",$role_id);
+        $this->assign("filter",$filter);
         $this->assign("max_page",$max_page);
         $this->assign("truename",$truename);
         $this->assign("start_num",$employees_count?$start_num+1:0);
@@ -159,18 +164,6 @@ class Role extends Initialize{
             $structure = input("structure",0,"int");
             if($structure){
                 $filter["structure"] = $structure;
-            }
-        }
-        if(in_array("role", $filter_column)){//角色
-            $role = input("role",0,"int");
-            if($role){
-                $filter["role"] = $role;
-            }
-        }
-        if(in_array("on_duty", $filter_column)){//状态
-            $on_duty = input("on_duty",0,"int");
-            if($on_duty){
-                $filter["on_duty"] = $on_duty;
             }
         }
         if(in_array("worknum", $filter_column)){//工号

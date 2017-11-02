@@ -40,10 +40,7 @@ class Employee extends Initialize{
         $end_num = $start_num+$num;
         $order = input("order","id","string");
         $direction = input("direction","desc","string");
-        $userinfo = get_userinfo();
-        $uid = $userinfo["userid"];
         $filter = $this->_getCustomerFilter(["structure","role","on_duty","worknum","truename"]);
-        $field = $this->_getCustomerField([]);
         try{
             $employeeM = new EmployeeModel($this->corp_id);
             $listdata = $employeeM->getPageEmployeeList($start_num,$num,$filter);
