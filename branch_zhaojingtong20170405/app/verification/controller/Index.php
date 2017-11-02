@@ -162,6 +162,15 @@ class Index extends Initialize{
         return $field;
     }
     public function detail(){
+        $id = input("id",0,"int");
+        if(!$id){
+            $this->error("参数错误!");
+        }
+        $saleChanceM = new SaleOrderContractModel($this->corp_id);
+        $SaleOrderContract = $saleChanceM->getSaleOrderByContractId($id);
+        $struct_names = explode(",",$SaleOrderContract["struct_name"]);
+        $SaleOrderContract["struct_name"] = $struct_names[count($struct_names)-1];
+        $this->assign("sale_order_contract",$SaleOrderContract);
         return view();
     }
     public function approved(){
