@@ -371,7 +371,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			}
 		});
 	};
-	this.sale_chance_show=function(customer_id,open_edit_id){
+	this.sale_chance_show=function(customer_id,open_edit_id,only_show){
 		this.id = customer_id;
 		//console.log(this.id);
 		var url = "/crm/sale_chance/show/customer_id/"+this.id+"/fr/"+this.from;
@@ -415,12 +415,12 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				});
 				if(open_edit_id&&open_edit_id>0){
 					var edit_flg = $(panel+" .clientInfoSaleChance .sale-chance-record-"+open_edit_id+" .sale_chance_edit").length;
-					if(edit_flg>0){
-                        self.sale_chance_edit(open_edit_id,0);
-					}else{
+					if(edit_flg==0||only_show==1){
                         var top = $(panel+" .clientInfoSaleChance .sale-chance-record-"+open_edit_id).offset().top;
                         console.log("top",top);
                         $(self.panel_base).scrollTop(top-94-94);
+					}else{
+                        self.sale_chance_edit(open_edit_id,0);
 					}
 				}
 			},
