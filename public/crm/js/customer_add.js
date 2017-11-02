@@ -25,7 +25,7 @@ function customer_add(from,target,list_manage){
 		$(panel+" .add_customer .blackBg").height(window.innerHeight);
 		$(panel+" .add_customer").removeClass("hide");
 		//关闭按钮
-		$(panel+" .add_customer .newClient header h1 .close").click(function(){
+		$(panel+" .add_customer .newClient .u-pop-header .close").click(function(){
 			self.removeNewClient();
 		});
 		//表单1按钮

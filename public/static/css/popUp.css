@@ -6,6 +6,14 @@
 	/*border: 1px solid #e6e6e6;*/
 	border-radius: 3px;
 }
+.popUp input[type="text"], .popUp select, .popUp input[type="email"], .popUp input[type="date"], .popUp input[type="url"], .popUp input[type="datetime-local"] {
+    box-sizing: content-box;
+    width: 250px;
+    height: 35px;
+    padding-left: 16px;
+    margin: 0 0 12px 20px;
+    border: 1px solid #e5e5e5;
+}
 /*小型弹窗*/
 .popUp.u-pop-min{
 	width: 580px;
@@ -14,6 +22,14 @@
 	height: 100px;
 	background-color: #fff;
 	color: #4c4c4c;
+}
+.u-pop-mid-content{
+	height: 140px;
+	background-color: #fff;
+	color: #4c4c4c; 
+	box-sizing:border-box;
+	padding: 30px 0;
+	font-size: 14px;
 }
 .popUp header{
 	width: 100% !important;
@@ -54,17 +70,22 @@
 	border-radius: 3px;
 	margin-top: 10px;
 	float: right;
-}
-.u-pop-footer button.pop-submit-btn{
-	background-color: #78beff;
-	color: white;
 	margin-right: 12px;
 }
+.u-pop-footer button.type1{
+	background-color: #fafafa;
+	color: #758da0;
+	border:1px solid #d1d9de;
+}
+.u-pop-footer button.type2{
+	background-color: #78beff;
+	color: white;
+}
+.u-pop-footer button.pop-submit-btn{
+	
+}
 .u-pop-footer button.pop-close-btn{
-	background-color: #fff;
-	color: #666;
-	border:1px solid #dcdcdc;
-	margin-right: 20px;
+	margin-right: 20px;	
 }
 .popUp header h1{
 	text-align: center;
@@ -88,7 +109,7 @@
 	width: 100%;
 }
 .popUp input[type="text"],.popUp select,.popUp input[type="email"],.popUp input[type="date"],.popUp input[type="url"]{
-	width: 190px !important;
+	/*width: 190px;*/
 }
 .popUp .pop_content .main{
 	margin-bottom: 40px;
