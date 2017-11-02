@@ -57,6 +57,11 @@ $("#frames #verification-indexfr .verification_sale_chance .u-tabList .u-tabOper
     });
 });
 //详情展示
-$("#frames #verification-indexfr .verification_sale_chance .u-tabList .verification-sale-chance-show").click(function(){
-    loadPage("/verification/index/detail.html", "#verification-indexfr");
+$(".verification_sale_chance_index .u-tabList .verification-sale-chance-show").click(function(){
+    console.log($(this).siblings(".u-tabCheckbox").children("input").val());
+    $("#verification-indexfr").attr("show-id",$(this).siblings(".u-tabCheckbox").children("input").val());
+    loadPage("/verification/index/detail", "verification-indexfr");
+});
+$(".verification_sale_chance_detail header .back").click(function(){
+    loadPage("/verification/index/index", "verification-indexfr");
 })
