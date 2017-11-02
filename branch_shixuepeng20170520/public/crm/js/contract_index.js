@@ -24,3 +24,9 @@ $("#frames #my-contractfr .my_contract .u-tabList .u-tabOperation .retract").cli
 		}
 	});
 });
+
+$(".crm_contract .myAllContractPage .m-tableBox .customer_name").click(function(){
+    var id = $(this).attr("customer_id");
+    //console.log("id",id);
+    my_contract_info_manage.general(id);
+});

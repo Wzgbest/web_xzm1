@@ -813,6 +813,66 @@ function getInColumnName($in_column){
     return $in_column_name;
 }
 
+function getSaleChanceInColumnName($in_column){
+    $in_column_name = null;
+    switch ($in_column){
+        case 0:
+            $in_column_name = "所有销售机会";
+            break;
+        case 1:
+            $in_column_name = "正常跟进";
+            break;
+        case 2:
+            $in_column_name = "停滞";
+            break;
+        case 3:
+            $in_column_name = "已成单";
+            break;
+        case 4:
+            $in_column_name = "已输单";
+            break;
+        case 5:
+            $in_column_name = "已作废";
+            break;
+        default:
+            $in_column_name = "无";
+    }
+    return $in_column_name;
+}
+
+function getContractInColumnName($in_column){
+    $in_column_name = null;
+    switch ($in_column){
+        case 0:
+            $in_column_name = "所有合同";
+            break;
+        case 1:
+            $in_column_name = "合同审核中";
+            break;
+        case 2:
+            $in_column_name = "已通过合同";
+            break;
+        case 3:
+            $in_column_name = "已驳回合同";
+            break;
+        case 4:
+            $in_column_name = "已撤回合同";
+            break;
+        case 5:
+            $in_column_name = "已作废合同";
+            break;
+        case 6:
+            $in_column_name = "成单审核中合同";
+            break;
+        case 7:
+            $in_column_name = "已成单合同";
+            break;
+        default:
+            $in_column_name = "无";
+    }
+    return $in_column_name;
+}
+
 function getApplyStatusList(){
     $sale_status_list = [];
     $sale_status_list[] = ["status"=>0,"name"=>"审核中"];
