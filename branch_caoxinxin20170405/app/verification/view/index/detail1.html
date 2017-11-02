@@ -7,30 +7,30 @@
 	            <span class="u-spanInfo">详情</span>
 	        </ul>
 	    </header>
-	    <div class="m-divBlock m-form sale-chance-record sale-chance-record-">
+	    <div class="m-divBlock m-form sale-chance-record sale-chance-record-{$vo.id}">
 	    	<div>
                 <span class="cont">客户名称：</span>
-                <span class="cont-x color-blue2">山东中迅网络传媒</span>
+                <span class="cont-x color-blue2"></span>
                 <span class="cont">对应业务：</span>
-                <span class="cont-x">网站建设</span>
+                <span class="cont-x">{$business_flow_names[$vo['business_id']]}</span>
             </div>
             <div>                
                 <span class="cont">销售机会：</span>
-                <span class="cont-x">销售机会1</span>
+                <span class="cont-x">{$vo.sale_name}</span>
                 <span class="cont">负责人：</span>
-                <span class="cont-x">你妹</span>
+                <span class="cont-x">{$vo.employee_name}</span>
             </div>
             <div>
                 <span class="cont-max-max">预计成单金额：</span>
-                <span class="cont-x"><span class="number">8000</span> 元</span>
+                <span class="cont-x"><span class="number">{$vo.guess_money}</span> 元</span>
                 <span class="cont-max-max">预计成单时间：</span>
-                <span class="cont-x">2017/01/01</span>
+                <span class="cont-x">{$vo.prepay_time|day_format}</span>
             </div>
             
             <hr/>
             <div class="sale-chance-finish-record">
                 <div>
-                    <h1><span>百度糯米合同</span>(合同编号<span></span>)</h1>
+                    <h1><span>{$voc.contract_type_name}</span>(合同编号<span>{$voc.contract_no}</span>)</h1>
                 </div>
                 <div>
                     <span class="cont">收据类型：</span><span class="cont-x">普通收据</span>
@@ -38,14 +38,14 @@
                 </div>
                 <div>
                     <span class="cont">合同金额：</span>
-                    <span class="cont-x"><span class="number">8000</span> 元</span>
+                    <span class="cont-x"><span class="number">{$voc.contract_money}</span> 元</span>
                     <span class="cont">收款银行：</span>
                     <span class="cont-x">中国交通银行潍坊支行</span>
                 </div>
                 <div>
                     <span class="cont">打款金额：</span>
                     <span class="cont-x">
-                        <span class="number">8000</span> 元
+                        <span class="number">{$voc.pay_money}</span> 元
                     </span>
                     <span class="cont-max-max">打款方名称：</span>
                     <span class="cont-x">山东大器天成股份有限公司</span>
@@ -54,8 +54,3 @@
 	    </div>
 	</div>
 </div>
-<link rel="stylesheet" type="text/css" href="/verification/css/verification.css">
-<script type="text/javascript" src="/verification/js/verification_index.js"></script>
-<script type="text/javascript">
-    $(".verification_sale_chance_detail .sale-chance-record").addClass("sale-chance-record-"+$("#verification-indexfr").attr("show-id"));
-</script>
