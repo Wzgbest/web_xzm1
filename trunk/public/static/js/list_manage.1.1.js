@@ -52,6 +52,10 @@ function list_manage(from,target,url,p,num,max,in_column,sub,arr){
             self.jump_page(p);
         }
     });
+    $("."+this.from+" .u-tabControlRow .go").click(function(){
+        var p = parseInt($(this).siblings("input").val());
+        self.jump_page(p);
+    });
 
     //列表动作
     function init(){
