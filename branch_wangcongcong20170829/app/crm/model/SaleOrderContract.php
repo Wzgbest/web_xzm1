@@ -234,6 +234,7 @@ class SaleOrderContract extends Base{
             "soc.*",
             "GROUP_CONCAT( distinct co.contract_no) as contract_no",
             "e.truename as employee_name",
+            "c.customer_name",
             "sc.business_id",
             "sc.sale_name",
             "sc.sale_status",
@@ -464,6 +465,51 @@ class SaleOrderContract extends Base{
     public function getSaleOrderContract($id)
     {
         return $this->model->table($this->table)->where('id',$id)->find();
+    }
+
+    /**获取
+     * @param $id int 销售单id
+     * @return false|\PDOStatement|int|\think\Collection
+     * created by blu10ph
+     */
+    public function getSaleOrderByContractId($id){
+        $field = [
+            "soc.*",
+            "GROUP_CONCAT( distinct co.contract_no) as contract_no",
+            "e.truename as employee_name",
+            "c.customer_name",
+            "bfs.business_flow_name",
+            "sc.business_id",
+            "sc.sale_name",
+            "sc.sale_status",
+            "sc.guess_money",
+            "sc.prepay_time",
+            "sc.need_money",
+            "sc.payed_money",
+            "sc.final_money",
+            "cs.contract_name",
+            "GROUP_CONCAT(distinct soci.pay_money) as pay_money",
+            "GROUP_CONCAT(distinct soci.pay_name) as pay_name",
+            "soci.pay_type",
+            "soci.pay_bank",
+            "c.customer_name",
+            "GROUP_CONCAT( distinct `s`.`struct_name`) as `struct_name`",
+        ];
+        return $this->model->table($this->table)->alias('soc')
+            ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
+            ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract_item soci','soci.sale_order_id = soc.id',"LEFT")
+            ->join($this->dbprefix.'contract co','co.id = soci.contract_id',"LEFT")
+            ->join($this->dbprefix.'contract_applied ca','ca.id = co.applied_id',"LEFT")
+            ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
+            ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
+            ->join($this->dbprefix.'structure_employee se','se.user_id = e.id')
+            ->join($this->dbprefix.'structure_employee ses','se.user_id = e.id')
+            ->join($this->dbprefix.'structure s','se.struct_id = s.id')
+            ->join($this->dbprefix.'business_flow_setting bfs','bfs.id = sc.business_id',"LEFT")
+            ->where('soc.id',$id)
+            ->field($field)
+            ->find();
     }
 
     /**添加
