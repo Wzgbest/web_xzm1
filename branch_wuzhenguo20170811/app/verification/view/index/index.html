@@ -67,7 +67,7 @@
                     {volist name="list_data" id="vo"}
                     <ul class="u-tabList">
                         <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
-                        <li class="sale-chance-name color-blue verification-sale-chance-show" title="点击查看详情">销售机会</li>
+                        <li class="sale-chance-name color-blue verification-sale-chance-show" title="点击查看详情">{$vo.sale_name}</li>
                         <li class="u-tabOperation">
                             {eq name="vo.sale_status" value="4"}
                                 {eq name="vo.status" value="0"}
@@ -107,9 +107,9 @@
                     {volist name="list_data" id="vo"}
                     <ul class="u-tabList">
                         <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
-                        <li class="sale-chance-name color-blue">销售机会</li>
+                        <li class="sale-chance-name color-blue" contract_id="{$vo.id}">{$vo.sale_name}</li>
                         <li class="u-tabOperation"></li>
-                        <li>公司名称</li>
+                        <li>{$vo.customer_name}</li>
                         <li>{$vo.update_time|time_format}</li>
                         <li>{present name="vo.contract_no"}{$vo.contract_no}{/present}</li>
                         <li>{$vo.employee_name}</li>
