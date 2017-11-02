@@ -384,3 +384,5 @@ function role_list_employee_del(role_id, user_id) {
 		}
 	});
 }
+
+$(role_list_panel_base + " .dv1 .role_name:eq(0)").click();
