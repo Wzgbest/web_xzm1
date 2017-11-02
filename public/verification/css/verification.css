@@ -1,3 +1,15 @@
 .verification .m-secNav{
 	margin-top: 40px;
 }
+.verification_sale_chance_detail .sale-chance-record{
+	background-color: #f5f8fd;
+	margin-top: 40px;
+}
+.verification_sale_chance_detail .sale-chance-record hr{
+	color: #ccc;
+    opacity: 0.2;
+    width: 95%;
+}
+.verification_sale_chance_detail .sale-chance-record .sale-chance-finish-record h1{
+	font-size: 1.17em;
+}
