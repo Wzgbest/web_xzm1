@@ -78,6 +78,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 		$(this.panel_base+" .customer_info_panel").siblings(".my_customer").removeClass("hide");
 		$(this.panel_base+" .customer_info_panel").siblings(".public_pool").removeClass("hide");
 		$(this.panel_base+" .customer_info_panel").siblings(".anonymous_pool").removeClass("hide");
+        $(this.panel_base+" .customer_info_panel").siblings(".customer_from_panel").removeClass("hide");
 		if(this.reload_flg){
 			this.list_manage.reload_list();
 		}
