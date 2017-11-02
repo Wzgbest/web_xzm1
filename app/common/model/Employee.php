@@ -373,7 +373,8 @@ class Employee extends Base{
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getEmployeeByRole($role_id, $page=0, $rows = 10){
+    public function getEmployeeByRole($role_id, $page=0, $rows = 10,$filter=[]){
+        $map = $this->_getPageEmployeeListWhereSql($filter);
         $field = '`e`.`id`,`e`.`truename`,GROUP_CONCAT( distinct `re`.`role_id`) as role,GROUP_CONCAT( distinct `res`.`role_id`) as role_id,`e`.`telephone`,`e`.`is_leader`,`e`.`worknum`,`e`.`create_time`,GROUP_CONCAT( distinct `s`.`struct_name`) as `struct_name` ';
         $employee_list = $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
@@ -382,6 +383,7 @@ class Employee extends Base{
             ->join($this->dbprefix.'structure_employee se','e.id = se.user_id')
             ->join($this->dbprefix.'structure s','se.struct_id = s.id')
             ->where("re.role_id",$role_id)
+            ->where($map)
             ->order("e.worknum desc")
             ->group("e.id")
             ->limit($page,$rows)
@@ -636,7 +638,7 @@ class Employee extends Base{
      * 获取所有员工列表
      * @param int $page 当前页
      * @param null $rows 行数
-     * @param null|array $where[
+     * @param null|array $filter[
      *      'struct_id'=>,
      *      'role'=>,
      *      'on_duty'=>,
@@ -644,8 +646,8 @@ class Employee extends Base{
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getPageEmployeeList($page = 0,$rows = null,$where = null){
-        $map = $this->_getPageEmployeeListWhereSql($where);
+    public function getPageEmployeeList($page = 0,$rows = null,$filter = null){
+        $map = $this->_getPageEmployeeListWhereSql($filter);
         $field = '`e`.`id`,`e`.`truename`,GROUP_CONCAT( distinct `re`.`role_id`) as role,`e`.`telephone`,`e`.`is_leader`,case when `e`.`status` = -1 then `e`.`status` else `e`.`on_duty` end as on_duty,`e`.`worknum`,`e`.`email`,`e`.`qqnum`,`e`.`create_time`,GROUP_CONCAT( distinct `r`.`role_name`) as role_name,GROUP_CONCAT( distinct `s`.`struct_name`) as `struct_name` ';
         $employee_list = $this->model->table($this->table)->alias('e')
             ->join($this->dbprefix.'role_employee re','re.user_id = e.id')
