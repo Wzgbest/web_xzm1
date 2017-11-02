@@ -155,6 +155,7 @@ class Contract extends Base{
             'co.status as contract_status',
             'cs.contract_name as contract_type_name',
             "sc.sale_name",
+            "sc.customer_id",
             "sc.sale_status",
             'soc.status as order_status',
             "c.customer_name",
