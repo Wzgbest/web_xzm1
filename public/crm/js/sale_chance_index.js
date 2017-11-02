@@ -15,5 +15,5 @@ $(".crm_sale_chance .myAllSaleChancePage .m-tableBox .sale_chance_show").click(f
     var customer_id = $(this).attr("customer_id");
     var sale_chance_id = $(this).attr("sale_chance_id");
     //console.log("id",id);
-    my_sale_chance_info_manage.sale_chance_show(customer_id,sale_chance_id);
+    my_sale_chance_info_manage.sale_chance_show(customer_id,sale_chance_id,1);
 });
