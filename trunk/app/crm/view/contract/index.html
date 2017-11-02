@@ -1,5 +1,5 @@
-<div class="crm_contract crm_contract_index" style="overflow-x: hidden;">
-	<div class="index_panel index my_contract">
+<div class="crm_contract crm_customer crm_contract_index" style="overflow-x: hidden;">
+	<div class="index_panel index my_contract customer_from_panel">
 		<header>
             <ul class="m-firNav">
                 <li in_column="1" class="in_column {eq name='in_column' value='1'}current{/eq}"><div>合同审核中（<span>{$listCount.1}</span>）</div></li>
@@ -18,7 +18,7 @@
         </header>
         
         <!--我的合同  列表-->
-        <section id="myAllContractPage">
+        <section class="myAllContractPage">
         	<div class="m-divBlock m-divBlock2">
         		<div class="m-filterNav">
                 	<form class="search_form" onsubmit="return false;">
@@ -76,7 +76,7 @@
 							</li>
                         	<li class="assessor">{$vo.assessor_name}</li>
                         	<li class="sale-id">{$vo.sale_name}</li>
-                        	<li class="customer-id color-blue">{$vo.customer_name}</li>
+                        	<li class="customer-id color-blue customer_name" customer_id="{$vo.customer_id}">{$vo.customer_name}</li>
                         	<li class="service">{$vo.business_flow_name}</li>
                         	<li class="order-status">
 								{gt name="vo.sale_status" value="3"}
@@ -110,11 +110,27 @@
         	
         </section>
 	</div>
+	<div class="customer_info_panel customer_general hide">
+	</div>
+	<div class="customer_info_panel customer_info hide">
+	</div>
+	<div class="customer_info_panel customer_edit hide">
+	</div>
+	<div class="customer_info_panel customer_contact hide">
+	</div>
+	<div class="customer_info_panel customer_sale_chance hide">
+	</div>
+	<div class="customer_info_panel customer_trace hide">
+	</div>
 </div>
 <link rel="stylesheet" href="/crm/css/contract.css" />
 <script src="/static/js/list_manage.js"></script>
 <script language="javascript">
 	var my_contract_list_manage = new list_manage("my_contract","my-contractfr","/crm/contract/index",'{$p}','{$num}','{$max_page}','{$in_column}',"");
+</script>
+<script src="/crm/js/customer_info_manage.js"></script>
+<script language="javascript">
+    var my_contract_info_manage = new customer_info_manage("contract_index","my-contractfr",my_contract_list_manage,"{$in_column}","{$in_column|getContractInColumnName}","{$count}");
 </script>
 <script src="/crm/js/contract_index.js"></script>
 <script src="/static/js/PopUp.js"></script>
