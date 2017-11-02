@@ -67,7 +67,7 @@
                     {volist name="list_data" id="vo"}
                     <ul class="u-tabList">
                         <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
-                        <li class="sale-chance-name color-blue verification-sale-chance-show">销售机会</li>
+                        <li class="sale-chance-name color-blue verification-sale-chance-show" title="点击查看详情">销售机会</li>
                         <li class="u-tabOperation">
                             {eq name="vo.sale_status" value="4"}
                                 {eq name="vo.status" value="0"}
