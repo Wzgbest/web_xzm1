@@ -414,7 +414,14 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 					self.bill_apply_retract(edit_id,self.id);
 				});
 				if(open_edit_id&&open_edit_id>0){
-					self.sale_chance_edit(open_edit_id,0);
+					var edit_flg = $(panel+" .clientInfoSaleChance .sale-chance-record-"+open_edit_id+" .sale_chance_edit").length;
+					if(edit_flg>0){
+                        self.sale_chance_edit(open_edit_id,0);
+					}else{
+                        var top = $(panel+" .clientInfoSaleChance .sale-chance-record-"+open_edit_id).offset().top;
+                        console.log("top",top);
+                        $(self.panel_base).scrollTop(top-94-94);
+					}
 				}
 			},
 			error:function(){
