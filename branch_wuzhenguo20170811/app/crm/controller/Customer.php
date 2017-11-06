@@ -27,6 +27,7 @@ use app\common\model\ParamRemark;
 use app\crm\model\CallRecord;
 use app\task\model\TaskTarget;
 use app\common\model\StructureEmployee;
+use app\common\model\Structure;
 
 class Customer extends Initialize{
     var $paginate_list_rows = 10;
@@ -60,6 +61,62 @@ class Customer extends Initialize{
         try{
             $customerM = new CustomerModel($this->corp_id);
             $customers_data = $customerM->getManageCustomer($num,$p,$filter,$field,$order,$direction);
+
+            $all_public_to_employee_ids = [];
+            $all_public_to_department_ids = [];
+            foreach ($customers_data as $customer){
+                $public_to_employee = $customer["public_to_employee"];
+                $public_to_employee_arr = explode(",",$public_to_employee);
+                if($public_to_employee_arr){
+                    $all_public_to_employee_ids = array_merge($all_public_to_employee_ids,$public_to_employee_arr);
+                }
+
+                $public_to_department = $customer["public_to_department"];
+                $public_to_department_arr = explode(",",$public_to_department);
+                if($public_to_department_arr){
+                    $all_public_to_department_ids = array_merge($all_public_to_department_ids,$public_to_department_arr);
+                }
+            }
+
+            $all_public_to_employee_ids = array_filter($all_public_to_employee_ids);
+            $all_public_to_employee_ids = array_unique($all_public_to_employee_ids);
+            $all_public_to_department_ids = array_filter($all_public_to_department_ids);
+            $all_public_to_department_ids = array_unique($all_public_to_department_ids);
+            $employeeM = new EmployeeModel($this->corp_id);
+            $employee_name_idx = $employeeM->getEmployeeNameByUserids($all_public_to_employee_ids);
+            $structure = new Structure($this->corp_id);
+            $structure_name_idx = $structure->getStructureName($all_public_to_department_ids);
+
+            foreach ($customers_data as &$customer){
+                $public_to_employee = $customer["public_to_employee"];
+                $public_to_employee_arr = explode(",",$public_to_employee);
+                $public_to_employee_name_arr = [];
+                if($public_to_employee_arr){
+                    $public_to_employee_arr = array_filter($public_to_employee_arr);
+                    $public_to_employee_arr = array_unique($public_to_employee_arr);
+                    foreach ($public_to_employee_arr as $public_to_employee_id){
+                        if(isset($employee_name_idx[$public_to_employee_id])){
+                            $public_to_employee_name_arr[] = $employee_name_idx[$public_to_employee_id];
+                        }
+                    }
+                }
+                $customer["public_to_employee_name"] = implode(",",$public_to_employee_name_arr);
+
+                $public_to_department = $customer["public_to_department"];
+                $public_to_department_arr = explode(",",$public_to_department);
+                $public_to_department_name_arr = [];
+                if($public_to_department_arr){
+                    $public_to_department_arr = array_filter($public_to_department_arr);
+                    $public_to_department_arr = array_unique($public_to_department_arr);
+                    foreach ($public_to_department_arr as $public_to_department_id){
+                        if(isset($employee_name_idx[$public_to_department_id])){
+                            $public_to_department_name_arr[] = $structure_name_idx[$public_to_department_id];
+                        }
+                    }
+                }
+                $customer["public_to_department_name"] = implode(",",$public_to_department_name_arr);
+            }
+
             $this->assign("listdata",$customers_data);
             $customerM = new CustomerModel($this->corp_id);
             $customers_count = $customerM->getManageCustomerCount($filter,$order,$direction);
