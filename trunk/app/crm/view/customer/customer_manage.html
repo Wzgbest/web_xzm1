@@ -57,7 +57,7 @@
                     {volist name="listdata" id="vo"}
                     <ul class="u-tabList">
                         <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
-                        <li class="u-tabCilentName customer_info_name_show" title="{$vo.customer_name}">{$vo.customer_name}</li>                        
+                        <li class="u-tabCilentName customer_info_name_show" title="{$vo.customer_name}" data-is_public="{$vo.is_public}" data-stf-str="{$vo.public_to_employee_name}" data-dep-str="{$vo.public_to_department_name}">{$vo.customer_name}</li>
                         <div class="clearfix"></div>
                     </ul>
                     {/volist}
