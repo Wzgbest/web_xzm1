@@ -4,7 +4,17 @@
         <div id="logo">
             <!--<img src="/static/images/logo.png" />-->
         </div>
+        {volist name="menu_idx" id="vo"}
         <dl id="#">
+            <dt><i class="fa fa-line-chart"></i><span>&nbsp;&nbsp;{$vo.title}</span><i class="fa fa-angle-right"></i></dt>
+            <div class="ddcontent">
+                {volist name="vo.child" id="voc"}
+                <dd data-subid="{$voc.name}" _src="{:url($voc.url)}">{$voc.title}</dd>
+                {/volist}
+            </div>
+        </dl>
+        {/volist}
+        <!-- dl id="#">
             <dt><i class="fa fa-line-chart"></i><span>&nbsp;&nbsp;数据统计</span><i class="fa fa-angle-right"></i></dt>
             <div class="ddcontent">
                 <dd data-subid="index" _src="{:url('datacount/index/summary')}">简报</dd>
@@ -13,7 +23,7 @@
                 <dd data-subid = "call-count" _src="/index/index/developing.html">通话记录统计</dd>
                 <dd data-subid = "cilents-count" _src="/index/index/developing.html">客户状态统计</dd>
             </div>
-        </dl>
+        </dl -->
         <dl id="#">
             <dt><i class="fa fa-flag"></i><span>&nbsp;&nbsp;任务管理</span><i class="fa fa-angle-right"></i></dt>
             <div class="ddcontent">
