@@ -6,10 +6,10 @@
         </div>
         {volist name="menu_idx" id="vo"}
         <dl id="#">
-            <dt><i class="fa fa-line-chart"></i><span>&nbsp;&nbsp;{$vo.title}</span><i class="fa fa-angle-right"></i></dt>
+            <dt><i class="fa fa-line-chart"></i><span>&nbsp;&nbsp;{$vo.rule_title}</span><i class="fa fa-angle-right"></i></dt>
             <div class="ddcontent">
                 {volist name="vo.child" id="voc"}
-                <dd data-subid="{$voc.name}" _src="{:url($voc.url)}">{$voc.title}</dd>
+                <dd data-subid="{$voc.name}" _src="{:url($voc.url)}">{$voc.rule_title}</dd>
                 {/volist}
             </div>
         </dl>

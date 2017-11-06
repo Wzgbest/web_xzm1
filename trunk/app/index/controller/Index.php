@@ -11,7 +11,7 @@ use think\Controller;
 use app\common\model\Employee;
 use app\common\model\StructureEmployee;
 use app\common\model\Meme;
-use app\common\model\menu;
+use app\common\model\RoleRule;
 
 class Index extends Initialize{
     public function _initialize(){
@@ -20,7 +20,7 @@ class Index extends Initialize{
     public function index(){
         $userinfo = get_userinfo();
         $this->assign("userinfo",$userinfo);
-        $roleRuleM = new menu($this->corp_id);
+        $roleRuleM = new RoleRule($this->corp_id);
         $menus = $roleRuleM->getMenusByUid($this->uid);
         //var_exp($menus,'$menus');
         $menu_idx = [];
