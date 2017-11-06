@@ -76,11 +76,12 @@ class TakeCash extends Base{
         }
         $field = ["tc.*","et.task_name"];
         $order_list = $this->model->table($this->table)->alias("tc")
-            ->join(config('database.prefix').'employee_task et','tc.take_type = 5 and tc.take_id = et.id','left')
+            ->join(config('database.prefix').'employee_task et','tc.take_id = et.id and (tc.take_type = 5 or tc.take_type = 6)','left')
             ->where($map)
-            ->order("id desc")
+            ->order("tc.id desc")
             ->limit($num)
             ->field($field)
+            //->fetchSql(true)
             ->select();
         return $order_list;
     }
