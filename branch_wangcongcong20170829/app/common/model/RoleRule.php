@@ -37,6 +37,26 @@ class RoleRule extends Base
     }
 
     /**
+     * 根据员工id查找对应的权限
+     * @param $uid int 员工id
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by blu10ph
+     */
+    public function getRuleNamesByUid($uid,$status=1){
+        $map['re.user_id'] = $uid;
+        if($status){
+            $map['ru.status'] = $status;
+        }
+        return $this->model->table($this->table)->alias('rr')
+            ->join(config('database.prefix').'role_employee re','rr.role_id = re.role_id')
+            ->join(config('database.prefix').'rule ru','rr.rule_id = ru.id')
+            ->field('ru.rule_name')
+            ->group("ru.id")
+            ->where($map)
+            ->select();
+    }
+
+    /**
      * 根据员工id获取菜单
      * @param $uid int 员工id
      * @return false|\PDOStatement|string|\think\Collection
