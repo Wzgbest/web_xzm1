@@ -514,7 +514,7 @@ buffer	int	否	直播延时,>0的数字,可为空
 		}
 
 		$send_data = http_build_query($this->getSendData($data));
-		$get_data = $this->getData($send_data);
+		$get_data = $this->getData($url,$send_data);
 		$j_data = json_decode($get_data,true);
 
 		if ($j_data['code'] == 200) {
