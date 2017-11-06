@@ -72,7 +72,7 @@
 }
 .m-table-nav{
 	position: absolute;
-	box-shadow: 1px 0px 0px 0px rgba(209, 209, 209, 0.2);
+	box-shadow: 3px 0px 0px 0px rgba(209, 209, 209, 0.2);
 }
 /*列表重构*/
 /*客户管理列表*/
