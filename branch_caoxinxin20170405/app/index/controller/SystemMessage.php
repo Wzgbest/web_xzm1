@@ -9,10 +9,7 @@
 namespace app\index\controller;
 
 use app\common\controller\Initialize;
-use think\Db;
-use think\Controller;
-use app\common\model\Employee;
-use app\common\model\StructureEmployee;
+use app\huanxin\service\Api as HuanxinApi;
 
 class SystemMessage extends Initialize{
     public function _initialize(){
@@ -25,7 +22,19 @@ class SystemMessage extends Initialize{
 
     }
     public function add_msg(){
-
+        $huanxin = new HuanxinApi();
+        $huanxin_flg = $huanxin->sendMessage(
+            "users",
+            ["sdzhongxun_5"],
+            "消息测试",
+            "txt",
+            "",
+            [
+                "message_id"=>1,
+                "message_is_read"=>0,
+                "message_type"=>1,
+            ]
+        );
     }
     public function del_msg(){
 
@@ -34,7 +43,18 @@ class SystemMessage extends Initialize{
 
     }
     public function set_read_msg(){
-
+        $huanxin = new HuanxinApi();
+        $huanxin_flg = $huanxin->sendMessage(
+            "users",
+            ["sdzhongxun_5"],
+            "消息已读",
+            "cmd",
+            "",
+            [
+                "message_id"=>1,
+                "message_is_read"=>1
+            ]
+        );
     }
     public function set_read_msg_by_type(){
 
