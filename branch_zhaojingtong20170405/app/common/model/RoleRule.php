@@ -71,9 +71,9 @@ class RoleRule extends Base
         return $this->model->table($this->table)->alias('rr')
             ->join(config('database.prefix').'rule ru','ru.id = rr.rule_id','left')
             ->join(config('database.prefix').'role_employee re','re.role_id = rr.role_id','left')
-            ->field('ru.id,rr.role_id,ru.pid,ru.type,ru.rule_name,ru.rule_title,ru.name,ru.url,ru.is_jump')
+            ->field('ru.id,rr.role_id,ru.pid,ru.type,ru.rule_name,ru.rule_title,ru.class,ru.name,ru.url,ru.is_jump')
             ->group("ru.id")
-            ->order("ru.pid,ru.short,ru.id")
+            ->order("ru.pid,ru.sort,ru.id")
             ->where($map)
             ->select();
     }
