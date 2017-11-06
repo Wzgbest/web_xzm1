@@ -19,9 +19,10 @@
         </div>
         <div>            
             <span class="cont">协助人</span>
-            <input type="text" placeholder="请输入协助人电话" name="associator_id" />
+            <input type="text" class="create-sale-chance-select-window" placeholder="请输入协助人电话" name="associator_id" />
             <span class="cont">负责人</span>
             <span class="cont-x">{$true_name}</span>
+            <div class="main-content select-window" style="margin:0 auto;" data-num="1" data-str='departments[]=,&,&,employees[]=,&' data-selector=".create-sale-chance-select-window"></div>
         </div>
         <div>
             <span class="cont">业务状态</span>
@@ -49,3 +50,8 @@
         </div>
     </form>
 </div>
+<script type="text/javascript">
+    $(".create-sale-chance-select-window").focus(function(){
+        $(".create-sale-chance .main-content.select-window").load("/index/index/select_window.html");
+    })
+</script>
