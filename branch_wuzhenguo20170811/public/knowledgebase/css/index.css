@@ -13,6 +13,7 @@
 	border-bottom: 2px solid #eee;
 	padding: 15px 20px;
 	position: relative;
+	cursor: pointer;
 }
 .knowledgebase_speechcraft_index .speech-list li .controler{
 	position: absolute;

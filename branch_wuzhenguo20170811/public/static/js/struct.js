@@ -12,7 +12,7 @@ function Structure(dep_stf,dep_dep,stf_name,show_what,str,selector) {
 	this.data_stf = $(selector).attr("data-stf");
 	
 	let self = this;
-
+	console.log(self.selector);
 	//初始化数据
 	this.init = function(){
 		if(self.data_dep||self.data_stf){
@@ -89,6 +89,7 @@ function Structure(dep_stf,dep_dep,stf_name,show_what,str,selector) {
 				self.showAll(arr2[key]);
 			}		
 		}
+		// console.log("显示全部");
 	}
 	//只显示部门
 	this.showDep = function(e){
@@ -100,6 +101,7 @@ function Structure(dep_stf,dep_dep,stf_name,show_what,str,selector) {
 				self.showDep(arr2[key]);
 			}	
 		}
+		// console.log("显示部门");
 	}
 
 	//显示
@@ -118,6 +120,7 @@ function Structure(dep_stf,dep_dep,stf_name,show_what,str,selector) {
 			console.log(self.s_w)
 			layer.msg("参数错误");
 		}
+		// console.log("显示人");
 	}
 	this.show();
 
@@ -182,35 +185,35 @@ function Structure(dep_stf,dep_dep,stf_name,show_what,str,selector) {
 
 
 			var data_val = '';
-			console.log(self.str);
+			// console.log(self.str);
 			var header = self.str[0];//dep修饰符
-			console.log(header);
+			// console.log(header);
 			var delimiter = self.str[1];//dep连接符
-			console.log(delimiter);
+			// console.log(delimiter);
 			var data_val1 = header+result2.join(delimiter+header);
-			console.log(data_val1);
+			// console.log(data_val1);
 
 
 			header = self.str[3];//stf修饰符
-			console.log(header);
+			// console.log(header);
 			delimiter = self.str[4];//stf连接符
-			console.log(delimiter);
+			// console.log(delimiter);
 			var data_val2 = header+result1.join(delimiter+header);
-			console.log(data_val2);
+			// console.log(data_val2);
 
 			data_val=data_val1+self.str[2]+data_val2;
-			console.log(data_val);
-			console.log(self.s_w);
+			// console.log(data_val);
+			// console.log(self.s_w);
 			if(self.s_w==0){
-				console.log(0);
+				// console.log(0);
 				$(self.selector).attr("data-dep",result2);
 				$(self.selector).val("已选择"+result2.length+"个部门").attr("data-result",data_val1);
 			}else if (self.s_w==1) {
-				console.log(1);
+				// console.log(1);
 				$(self.selector).attr("data-stf",result1);
 				$(self.selector).val("已选择"+result1.length+"个人员").attr("data-result",data_val2)
 			}else if(self.s_w==2){
-				console.log(2);
+				// console.log(2);
 				$(self.selector).attr("data-stf",result1).attr("data-dep",result2);
 				$(self.selector).val("已选择"+result2.length+"个部门"+result1.length+"个人员").attr("data-result",data_val);
 			}else{
