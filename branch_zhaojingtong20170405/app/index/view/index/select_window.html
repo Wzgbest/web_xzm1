@@ -21,11 +21,13 @@
 <script type="text/javascript" src="/static/js/struct.js"></script>
 <script type="text/javascript">
 console.log($(".select-window-container").parent().attr("data-num"));
-var data = new Structure('{$structure_employee}','{$structure_list}','{$employee_name}',$(".select-window-container").parent().attr("data-num"),$(".select-window-container").parent().attr("data-str"),$(".select-window-container").parent().attr("data-selector"));
+console.log($(".select-window-container").parents(".once").attr("id"));
+let data = new Structure('{$structure_employee}','{$structure_list}','{$employee_name}',$(".select-window-container").parent().attr("data-num"),$(".select-window-container").parent().attr("data-str"),$(".select-window-container").parent().attr("data-selector"));
 // console.log(data.d_s,data.d_d,data.s_n,data.all_dep,data.divide());
-console.log(data.s_n);
+// data.show();
+/*console.log(data.s_n);
 console.log(data.d_d);
-console.log(data.dep_struct);
+console.log(data.dep_struct);*/
 $("li.dep-name span").click(function(){
 	$(this).parent().parent().toggleClass("active");
 });
