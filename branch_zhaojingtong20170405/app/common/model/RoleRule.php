@@ -17,6 +17,26 @@ class RoleRule extends Base
     }
 
     /**
+     * 根据员工id查找对应的权限
+     * @param $uid int 员工id
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by blu10ph
+     */
+    public function getRulesByUid($uid,$status=1){
+        $map['re.user_id'] = $uid;
+        if($status){
+            $map['ru.status'] = $status;
+        }
+        return $this->model->table($this->table)->alias('rr')
+            ->join(config('database.prefix').'role_employee re','rr.role_id = re.role_id')
+            ->join(config('database.prefix').'rule ru','rr.rule_id = ru.id')
+            ->field('ru.id,rr.role_id,ru.rule_name,ru.rule_title')
+            ->group("ru.id")
+            ->where($map)
+            ->select();
+    }
+
+    /**
      * 根据角色id查找对应的权限
      * @param $role_id 角色id
      * @return false|\PDOStatement|string|\think\Collection
@@ -28,6 +48,17 @@ class RoleRule extends Base
             ->join(config('database.prefix').'rule b','a.rule_id = b.id')
             ->field('a.role_id,a.rule_id,b.rule_name,b.status,b.rule_title')
             ->where('a.role_id',$role_id)->select();
+    }
+
+    /**
+     * 按角色id查询
+     * @param $role_id
+     * @return false|\PDOStatement|string|\think\Collection
+     * created by messhair
+     */
+    public function getRulesFromRole($role_id)
+    {
+        return $this->model->table($this->table)->where('role_id',$role_id)->field('rule_id')->select();
     }
 
     /**
@@ -47,17 +78,6 @@ class RoleRule extends Base
     public function addRoleRule($data)
     {
         return $this->model->table($this->table)->insertAll($data);
-    }
-
-    /**
-     * 按角色id查询
-     * @param $role_id
-     * @return false|\PDOStatement|string|\think\Collection
-     * created by messhair
-     */
-    public function getRulesFromRole($role_id)
-    {
-        return $this->model->table($this->table)->where('role_id',$role_id)->field('rule_id')->select();
     }
 
     /**
