@@ -1679,6 +1679,13 @@ article .dv4 .parcel .hezi select{
 	padding-left: 15px;
 	height: 34px;
 }
+article .dv4 .parcel .main-content{
+	width: 505px;
+	position: absolute;
+	left: 128px;
+	z-index: 999;
+	
+}
 article .dv4 .choice{
 	width: 90%;
 	height: 30px;
@@ -1764,7 +1771,7 @@ article .dv4 .parcel .edit_item_remove{
 	font-size: 18px;
 	margin-left: 10px;
 }
-article .dv4 ul{
+article .dv4 .tab1 ul{
 	width: 520px;
 	/*height: 145px;*/
 	height: 100%;
@@ -1772,10 +1779,10 @@ article .dv4 ul{
 	margin-left: 100px;
 	margin-bottom: 15px;
 }
-article .dv4 ul.point{
+article .dv4 .tab1 ul.point{
 	display: block;
 }
-article .dv4 ul li{
+article .dv4 .tab1 ul li{
 	width: 495px;
 	height: 35px;
 	line-height: 35px;
@@ -1783,26 +1790,26 @@ article .dv4 ul li{
 	font-size: 14px;
 	position: relative;
 }
-article .dv4 ul li:hover{
+article .dv4 .tab1 ul li:hover{
 	background-color: #ebf3ff;
 }
-article .dv4 ul li:nth-last-of-type(2):hover i{
+article .dv4 .tab1 ul li:nth-last-of-type(2):hover i{
 	display:inline-block;
 }
-article .dv4 ul li i{
+article .dv4 .tab1 ul li i{
 	font-size: 18px;
 	color: #77b8ff;
 	position: absolute;
 	line-height: 35px;
 	display: none;
 }
-article .dv4 ul li i:nth-last-of-type(1){
+article .dv4 .tab1 ul li i:nth-last-of-type(1){
 	right: 100px;
 }
-article .dv4 ul li i:nth-last-of-type(2){
+article .dv4 .tab1 ul li i:nth-last-of-type(2){
 	right: 120px;
 }
-article .dv4 ul li:nth-last-of-type(1){
+article .dv4 .tab1 ul li:nth-last-of-type(1){
 	color: #999999;
 }
 article .dv4 ul li:nth-last-of-type(1) span{

@@ -453,10 +453,12 @@ function new_task_form(load_table) {
 			$("#" + self.load_table + " .dv4 .parcel .unit").html("个")
 		}
 	});
+	
+	
 
 	$("#" + self.load_table + " .dv4 .parcel .hezi select[name='task_type']").change(function() {
 		var val = $(this).val();
-		//      console.log(val);
+		      console.log(val);
 		if(val == 1) {
 			$.ajax({
 				url: '/task/index/new_task/fr/' + self.load_table,
@@ -517,6 +519,26 @@ function new_task_form(load_table) {
 		}
 
 	});
+
+	$("#" + self.load_table + " .dv4 .pknew-task-select-window-choosen-staff").focus(function(){
+		console.log('pknew:'+$(this).next().attr('class'));
+		$(this).next().load("/index/index/select_window.html");
+//		$("#" + self.load_table +" .main-content.select-window").load("/index/index/select_window.html");
+	});
+	
+	$("#" + self.load_table  + " .dv4 .new-task-select-window-choosen-staff").focus(function(){
+		console.log('task:'+$(this).next().attr('class'));
+		$(this).next().load("/index/index/select_window.html");
+//		$("#" + self.load_table +" .main-content.select-window").load("/index/index/select_window.html");
+	});
+	$("#" + self.load_table + " .dv4 .rewardnew-task-select-window-choosen-staff").focus(function(){
+		console.log('rewardnew:'+$(this).next().attr('class'));
+		$(this).next().load("/index/index/select_window.html");
+//		$("#" + self.load_table +" .main-content.select-window").load("/index/index/select_window.html");
+	});
+	
+	
+	
 
 	this.add_reward_item = function(start, end, money) {
 		//检验
@@ -961,6 +983,7 @@ function task_list(target, now_uid, base_url) {
 			}
 		});
 	});
+	
 
 	$("#" + self.target + " .task_info_panel .top .current").click(function() {
 		$("#" + self.target + " .task_info_panel").addClass("hide");
