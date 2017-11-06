@@ -528,17 +528,20 @@ function new_task_form(load_table) {
 
 	$("#" + self.load_table + " .dv4 .pknew-task-select-window-choosen-staff").focus(function(){
 		console.log('pknew:'+$(this).next().attr('class'));
+		$(".select-window-container").remove();
 		$(this).next().load("/index/index/select_window.html");
 //		$("#" + self.load_table +" .main-content.select-window").load("/index/index/select_window.html");
 	});
 	
 	$("#" + self.load_table  + " .dv4 .new-task-select-window-choosen-staff").focus(function(){
 		console.log('task:'+$(this).next().attr('class'));
+		$(".select-window-container").remove();
 		$(this).next().load("/index/index/select_window.html");
 //		$("#" + self.load_table +" .main-content.select-window").load("/index/index/select_window.html");
 	});
 	$("#" + self.load_table + " .dv4 .rewardnew-task-select-window-choosen-staff").focus(function(){
 		console.log('rewardnew:'+$(this).next().attr('class'));
+		$(".select-window-container").remove();
 		$(this).next().load("/index/index/select_window.html");
 //		$("#" + self.load_table +" .main-content.select-window").load("/index/index/select_window.html");
 	});
@@ -969,6 +972,8 @@ function task_list(target, now_uid, base_url) {
 
 	$(task_list_sel + " header .xinjian ").click(function() {
 		//loadPage('/task/index/new_task/fr/'+self.target,self.target);
+		let par = $(this).parents(".once").attr("id");
+		console.log(par);
 		$.ajax({
 			url: '/task/index/new_task/fr/' + self.target,
 			type: 'get',
@@ -981,6 +986,7 @@ function task_list(target, now_uid, base_url) {
 				$("#" + self.target + " .task_list").addClass("hide");
 				self.reset_scroll();
 				$("#" + self.target + " .new_task_panel").removeClass("hide");
+				$("#"+par+" .main-content.select-window").attr("data-selector","#"+par+" .new-task-select-window-choosen-staff");
 			},
 			error: function() {
 				layer.msg('加载任务新建出现错误', {
@@ -1257,6 +1263,8 @@ function task_list(target, now_uid, base_url) {
 	$(task_list_sel + " header .xinjian ").click(function() {
 		//loadPage('/task/index/new_task/fr/'+self.target,self.target);
 		var nowflag = $(task_list_sel + " header ul li.flow div").text();
+		let par = $(this).parents(".once").attr("id");
+		console.log(par);
 		$.ajax({
 			url: '/task/index/new_task/fr/' + self.target,
 			type: 'get',
@@ -1270,6 +1278,8 @@ function task_list(target, now_uid, base_url) {
 				$("#" + self.target + " .task_list").addClass("hide");
 				self.reset_scroll();
 				$("#" + self.target + " .new_task_panel").removeClass("hide");
+				console.log(self.target);
+				$("#"+par+" .main-content.select-window").attr("data-selector","#"+par+" .new-task-select-window-choosen-staff");
 			},
 			error: function() {
 				layer.msg('加载任务新建出现错误', {
