@@ -11,6 +11,7 @@ use think\Controller;
 use app\common\model\Employee;
 use app\common\model\StructureEmployee;
 use app\common\model\Meme;
+use app\common\model\menu;
 
 class Index extends Initialize{
     public function _initialize(){
@@ -18,10 +19,23 @@ class Index extends Initialize{
     }
     public function index(){
         $userinfo = get_userinfo();
-        if (empty($userinfo)) {
-            $this->redirect('/login/index/index');
-        }
         $this->assign("userinfo",$userinfo);
+        $roleRuleM = new menu($this->corp_id);
+        $menus = $roleRuleM->getMenusByUid($this->uid);
+        //var_exp($menus,'$menus');
+        $menu_idx = [];
+        foreach ($menus as $menu){
+            if($menu["type"]==0){
+                $menu_idx[$menu["id"]] = $menu;
+            }
+        }
+        foreach ($menus as $menu){
+            if($menu["type"]!=0 && isset($menu_idx[$menu["pid"]])){
+                $menu_idx[$menu["pid"]]["child"][] = $menu;
+            }
+        }
+        //var_exp($menu_idx,'$menu_idx',1);
+        $this->assign("menu_idx",$menu_idx);
         return view();
     }
 
