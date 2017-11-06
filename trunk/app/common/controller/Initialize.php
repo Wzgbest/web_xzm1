@@ -8,6 +8,8 @@ namespace app\common\controller;
 use think\Controller;
 use app\common\model\Employee;
 use app\common\model\UserCorporation;
+use app\common\model\RoleRule;
+use think\Request;
 
 class Initialize extends Controller
 {
@@ -33,7 +35,7 @@ class Initialize extends Controller
             if (!($telephone&&$access_token)){
                 $info['message'] = '用户id为空或token为空';
                 $info['errnum'] = 101;
-                $this->return_error($info);
+                $this->returnAjaxError($info);
             }
             $this->telephone = $telephone;
             $this->access_token = $access_token;
@@ -48,19 +50,59 @@ class Initialize extends Controller
             if($this->device_type==1){
                 $this->redirectToLogin();
             }else{
-                $this->return_error($info);
+                $this->returnAjaxError($info);
             }
         }
 
         $this->uid = $info["userinfo"]["id"];
         $this->corp_id = $info["corp_id"];
         set_userinfo($this->corp_id,$this->telephone,$info["userinfo"]);
+
+        $request = Request::instance();
+        $path = $request->path();
+        //var_exp($path,'$path');
+        $white_list = [
+            "index/index/index",
+            "index/index/map",
+            "index/index/select_window",
+            "index/index/developing",
+        ];
+        if(in_array($path,$white_list)){
+            return;
+        }
+        if(!$this->checkRule($path)){
+            //$this->noRole();
+        }
     }
-    protected function return_error($info){
+    protected function checkRule($rule_name){
+        $check_flg = false;
+        $hav_rules = get_cache_by_tel($this->telephone,"hav_rules");
+        if(!$hav_rules){
+            $roleRuleM = new RoleRule($this->corp_id);
+            $hav_rules = $roleRuleM->getRuleNamesByUid($this->uid);
+            set_cache_by_tel($this->telephone,"hav_rules",$hav_rules,600);
+        }
+        //var_exp($hav_rules,'$hav_rules');
+        if(in_array($rule_name,$hav_rules)){
+            $check_flg = true;
+        }
+        return $check_flg;
+    }
+    protected function returnAjaxError($info){
         echo json_encode($info);
         exit;
     }
     public function redirectToLogin(){
         $this->redirect('/login/index/index');
+    }
+    public function noRole(){
+        //TODO 无访问权限返回页面
+        if($this->device_type==1){
+            $this->error("没有权限!");
+        }else{
+            $info['message'] = '没有权限';
+            $info['errnum'] = 1;
+            $this->returnAjaxError($info);
+        }
     }
 }
