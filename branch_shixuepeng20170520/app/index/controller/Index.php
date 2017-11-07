@@ -20,8 +20,12 @@ class Index extends Initialize{
     public function index(){
         $userinfo = get_userinfo();
         $this->assign("userinfo",$userinfo);
-        $roleRuleM = new RoleRule($this->corp_id);
-        $menus = $roleRuleM->getMenusByUid($this->uid);
+        $menus = get_cache_by_tel($this->telephone,"menus");
+        if(!$menus){
+            $roleRuleM = new RoleRule($this->corp_id);
+            $menus = $roleRuleM->getMenusByUid($this->uid);
+            set_cache_by_tel($this->telephone,"menus",$menus,600);
+        }
         //var_exp($menus,'$menus');
         $menu_idx = [];
         foreach ($menus as $menu){
