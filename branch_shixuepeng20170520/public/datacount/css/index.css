@@ -103,7 +103,7 @@
 /*首页*/
 .summary .self-info{
 	height: 100px;
-	margin-top: 40px;
+	/*margin-top: 40px;*/
 }
 .u-faceContent{
 	width: 170px;

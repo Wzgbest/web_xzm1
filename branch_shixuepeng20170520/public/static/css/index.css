@@ -99,7 +99,7 @@ aside dl i{
 }
 /*顶部栏*/
 .header{
-	height: 39px;
+	height: 40px;
 	/*position: fixed;*/
 	/*top: 0;*/
 	width: 100%;
@@ -160,7 +160,7 @@ aside dl i{
 /*section*/
 section#subt{
 	width: 100%;
-	height: 38px;
+	height: 39px;
 	padding-top: 1px;
 /* 	position: fixed;
 top: 42px;
@@ -230,6 +230,7 @@ left: 220px; */
 #frames .once {
 	/*position: absolute;*/
 	width: 100%;
+	height: 100%;
 /*	left: 0;
 	top: 0;*/
 	border: none;

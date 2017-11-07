@@ -15,8 +15,8 @@ function init(){
 	// $("#frames").width(window.innerWidth - sideW);
 	$("#frames").height(window.innerHeight - 80);
 	// $("#frames .once").width(window.innerWidth - sideW);
-	$("#frames .once").height(window.innerHeight - 40);
-
+	// $("#frames .once").height(window.innerHeight - 40);
+    $(".m-3rd-container").height(window.innerHeight - 120);
     // 三级菜单栏固定
     // $("#frames .once header").width(window.innerWidth - sideW - 17);
     //四级菜单
@@ -40,7 +40,13 @@ function init(){
         }
 	}
 }
+// $(document).ready(function(){
+//   init();  
+// });
+window.onload =function(){
 init();
+};
+
 
 //根据屏幕尺寸，设置侧边栏的可用高度
 window.onresize = function() {
@@ -107,13 +113,14 @@ function changeFramesSize() {
     $("body").height(window.innerHeight);*/
     // $("#frames").width(window.innerWidth - sideW -phoneWidth);
     $("#frames").height(window.innerHeight - 80);
+    $(".m-3rd-container").height(window.innerHeight - 120);
     // $("#frames .once").width(window.innerWidth - sideW-phoneWidth);
     //三四级菜单
     // $("#frames .once header").width(window.innerWidth - sideW-phoneWidth -17);
     $("#frames .once .m-low-nav").width(window.innerWidth - sideW - 17);
     $("#frames .once .m-pageInfoNav").width(window.innerWidth - sideW - 17);
 
-    $("#frames .once").height(window.innerHeight - 80);
+    // $("#frames .once").height(window.innerHeight - 80);
     $(".phone-box").height(window.innerHeight - 80);
     subResize();
 };
