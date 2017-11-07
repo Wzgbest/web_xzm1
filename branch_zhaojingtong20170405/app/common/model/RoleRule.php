@@ -86,10 +86,13 @@ class RoleRule extends Base
      */
     public function getRulesByRole($role_id)
     {
-        return $this->model->table($this->table)->alias('a')
-            ->join(config('database.prefix').'rule b','a.rule_id = b.id')
-            ->field('a.role_id,a.rule_id,b.rule_name,b.status,b.rule_title')
-            ->where('a.role_id',$role_id)->select();
+        return $this->model->table($this->table)->alias('rr')
+            ->join(config('database.prefix').'rule ru','rr.rule_id = ru.id')
+            ->where('rr.role_id',$role_id)
+            ->group("ru.id")
+            ->field('ru.id,rr.role_id,ru.pid,ru.rule_name,ru.rule_title,ru.status')
+            ->order("ru.pid,ru.sort,ru.id")
+            ->select();
     }
 
     /**
@@ -98,9 +101,12 @@ class RoleRule extends Base
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getRulesFromRole($role_id)
+    public function getRuleIdByRoleId($role_id)
     {
-        return $this->model->table($this->table)->where('role_id',$role_id)->field('rule_id')->select();
+        return $this->model->table($this->table)
+            ->where('role_id',$role_id)
+            ->field('rule_id')
+            ->select();
     }
 
     /**
@@ -114,7 +120,8 @@ class RoleRule extends Base
         return $this->model->table($this->table)->alias('a')
             ->join(config('database.prefix').'role b','a.role_id = b.id')
             ->field('a.rule_id,a.role_id,b.role_name')
-            ->where('a.rule_id',$rule_id)->select();
+            ->where('a.rule_id',$rule_id)
+            ->select();
     }
 
     public function addRoleRule($data)
