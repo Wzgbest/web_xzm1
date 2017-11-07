@@ -63,6 +63,7 @@ class Initialize extends Controller
         //var_exp($path,'$path');
         $white_list = [
             "index/index/index",
+            "datacount/index/summary",
             "index/index/map",
             "index/index/select_window",
             "index/index/developing",
