@@ -9,6 +9,7 @@ use app\common\controller\Initialize;
 use app\common\model\Employee;
 use app\common\model\Role as RoleModel;
 use app\common\model\Rule as RuleModel;
+use app\common\model\RoleRule as RoleRuleModel;
 use think\Request;
 use app\systemsetting\controller\Employee as EmployeeController;
 use app\common\model\Employee as EmployeeModel;
@@ -38,23 +39,47 @@ class Role extends Initialize{
     }
 
     public function role_manage(){
-        /*$roles_str_arr = array_column($roles,"roles");
-        $role_ids = [];
-        foreach ($roles_str_arr as $roles_str){
-            $role_ids = array_merge($role_ids,explode(",",$roles_str));
+        $role_id = input("id",0,"int");
+        if(!$role_id){
+            $this->error("参数错误!");
         }
-        $roleM = new RuleModel($this->corp_id);
-        $roles = $roleM->getRulesColumnByIds($role_ids);
-        //var_exp($roles,'$roles',1);
-        foreach ($roles as &$role){
-            $roles_arr = [];
-            $roles_id_arr = explode(",",$role["roles"]);
-            foreach ($roles_id_arr as $roles_id){
-                $roles_arr[] = ["id"=>$roles_id,"role_name"=>$roles[$roles_id]["role_name"],"role_title"=>$roles[$roles_id]["role_title"]];
+        $roleM = new RoleModel($this->corp_id);
+        $role = $roleM->getRoleInfo($role_id);
+        $this->assign('role',$role);
+        $roleRuleM = new RoleRuleModel($this->corp_id);
+        $role_rules = $roleRuleM->getRulesByRole($role_id);
+//        var_exp($role_rules,'$role_rules');
+        $this->assign('role_rules',$role_rules);
+        $role_rule_ids = array_column($role_rules,"id");
+//        var_exp($role_rule_ids,'$role_rule_ids');
+        $this->assign('role_rule_ids',$role_rule_ids);
+
+        $ruleM = new RuleModel($this->corp_id);
+        $all_rules = $ruleM->getAllRules();
+//        var_exp($all_rules,'$all_rules');
+        $this->assign('all_rules',$all_rules);
+
+        $root_id = 0;
+        $tree = new \myvendor\Tree($all_rules);
+        $rule_tree = $tree->leaf($root_id);
+//        var_exp($rule_tree,'$rule_tree');
+        $this->assign('rule_tree',$rule_tree);
+        $rule_list = [];
+        $rule_sub_list = [];
+        foreach ($rule_tree as $rule){
+            $rule_list[] = $rule;
+            $rule_sub_list[$rule["id"]] = false;
+            if(isset($rule["child"])){
+                foreach ($rule["child"] as $rule_c){
+                    $rule_list[] = $rule_c;
+                    $rule_sub_list[$rule_c["id"]] = isset($rule_c["child"])?$rule_c["child"]:false;
+                }
             }
-            $role["roles"] = $roles_arr;
         }
-        $this->assign('roles',$roles);*/
+//        var_exp($rule_list,'$rule_list');
+//        var_exp($rule_sub_list,'$rule_sub_list');
+        $this->assign('rule_list',$rule_list);
+        $this->assign('rule_sub_list',$rule_sub_list);
         return view();
     }
 
@@ -263,36 +288,74 @@ class Role extends Initialize{
     }
 
     /**
-     * 修改角色---权限
-     * @param Request $request  ['role_id','roles']
-     * @return array|\think\response\View
-     * created by messhair
+     * 修改角色数据权限
      */
-    public function editRoleRule(Request $request){
-        $input = $request->param();
-        if ($request->isGet()) {
-            $rolRulM = new RoleModel($this->corp_id);
-            $roles = $rolRulM->getRoleInfo($input['role_id']);
-            $this->assign('roles',$roles);
-            return view();
-        } elseif ($request->isPost()) {
-            $rolRulM = new RoleModel($this->corp_id);
-            $data = [
-                'roles'=>$input['roles']
-            ];
-            $b = $rolRulM->setRole($input['role_id'],$data);
-            if ($b > 0) {
-                return [
-                    'status'=>true,
-                    'message'=>'修改权限成功'
-                ];
-            } else {
-                return [
-                    'status'=>true,
-                    'message'=>'修改权限失败'
-                ];
-            }
+    public function editRoleData(){
+        $result = ['status'=>0 ,'info'=>"修改角色数据权限时发生错误！"];
+        $role_id = input("role_id","0","int");
+        if(!$role_id){
+            $result["info"] = "参数错误!";
+            return json($result);
         }
+        $data_type = input("data_type","0","int");
+        $struct_ids = input("struct_ids/a");
+        if($data_type==4 && empty($struct_ids)){
+            $result["info"] = "参数错误!";
+            return json($result);
+        }
+        $save_flg = false;
+        $data["data_type"] = $data_type;
+        if($data_type==4){
+            //TODO 暂时使用字段记录对应部门,以后改为单独的关系表关联
+            $hav_struct = import(",",$struct_ids);
+            $data["hav_struct"] = $hav_struct;
+        }
+        $rol = new RoleModel($this->corp_id);
+        $save_flg = $rol->setRole($role_id,$data);
+        if ($save_flg > 0) {
+            return [
+                'status'=>true,
+                'message'=>'修改角色名称成功'
+            ];
+        } else {
+            return [
+                'status'=>false,
+                'message'=>'修改角色名称失败'
+            ];
+        }
+    }
+
+    /**
+     * 修改角色对应权限
+     */
+    public function editRoleRule(){
+        $result = ['status'=>0 ,'info'=>"修改角色数据权限时发生错误！"];
+        $role_id = input("role_id","0","int");
+        $rule_ids = input("rule_ids/a");
+        //TODO 从数据库获取该角色现有权限,与传入的新权限进行对比,添加新增的,删除不没有的
+        return json($result);
+    }
+
+    /**
+     * 添加角色对应权限
+     */
+    public function addRoleRule(){
+        $result = ['status'=>0 ,'info'=>"修改角色数据权限时发生错误！"];
+        $role_id = input("role_id","0","int");
+        $rule_id = input("rule_id");
+        //TODO 从数据库获取该角色权限,有的话返回已经有了,没有的话添加并返回结果
+        return json($result);
+    }
+
+    /**
+     * 删除角色对应权限
+     */
+    public function delRoleRule(){
+        $result = ['status'=>0 ,'info'=>"修改角色数据权限时发生错误！"];
+        $role_id = input("role_id","0","int");
+        $rule_id = input("rule_id");
+        //TODO 从数据库获取该角色权限,没有的话返回已经没有了,有的话删除并返回结果
+        return json($result);
     }
 
     /**
