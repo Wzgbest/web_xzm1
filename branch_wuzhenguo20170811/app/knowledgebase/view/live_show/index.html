@@ -6,6 +6,30 @@
 	{if condition="$vo.status == 1"}直播进行中{elseif condition="$vo.status == 2"/}预约中{elseif condition="$vo.status == 3"}结束{/if}
 	开始时间:{$vo.start_time}
 </a>
+<button class="begin_tv" value="{$vo.webinar_id}" target="_blank" href="">开始直播</button>
 {/volist}
 {/present}
 
+<script type="text/javascript">
+	$(".begin_tv").click(function(){
+		var id = $(this).val();
+		console.log(id);
+		$.ajax({
+			url: '/knowledgebase/live_show/start_tv',
+			type: 'POST',
+			dataType: 'json',
+			data: {"id": id},
+			success:function(data){
+				layer.msg(data.info,{icon:data.status==1?1:2});
+				if (data.status) {
+					console.log(1);
+					window.location.href = data.data;
+				}
+			},
+			error:function(){
+				layer.msg('获取直播页面失败!',{icon:2});
+			}
+		});
+		
+	});
+</script>

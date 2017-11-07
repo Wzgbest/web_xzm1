@@ -483,6 +483,18 @@ buffer	int	否	直播延时,>0的数字,可为空
 	//====================================
 	//用户管理
 	
+	/**
+	 * 添加用户
+	 * @param [type]  $third_user_id    第三方用户ID,做为SDK DEMO里的帐号
+	 * @param integer $pass             用户密码,做为SDK DEMO里的密码
+	 * @param string  $phone            用户手机号
+	 * @param string  $name            用户昵称
+	 * @param string  $email            用户邮箱
+	 * @param string  $head             用户头像网络路径
+	 * @param string  $customized_field API用户自己定义的一个字段，长度小于255个字符
+	 * @param string  $customized_value 上述自定义字段的值
+
+	 */
 	public function addUser($third_user_id,$pass=87654321,$phone='',$name='',$email='',$head='',$customized_field='',$customized_value=''){
 		$info = ['status'=>0,'message'=>"添加用户失败"];
 
@@ -528,6 +540,65 @@ buffer	int	否	直播延时,>0的数字,可为空
 		return $info;
 	}
 
+	/**
+	 * 跟新用户信息
+	 * @param [type]  $third_user_id    第三方用户ID,做为SDK DEMO里的帐号
+	 * @param integer $pass             用户密码,做为SDK DEMO里的密码
+	 * @param string  $phone            用户手机号
+	 * @param string  $name            用户昵称
+	 * @param string  $email            用户邮箱
+	 * @param string  $head             用户头像网络路径
+	 * @param string  $customized_field API用户自己定义的一个字段，长度小于255个字符
+	 * @param string  $customized_value 上述自定义字段的值
+	 */
+	public function updateUserInfo($third_user_id,$pass='',$phone='',$name='',$email='',$head='',$customized_field='',$customized_value=''){
+		$info = ['status'=>0,'message'=>"跟新用户信息失败"];
+
+		if (!$third_user_id) {
+			$info['error'] = "用户id不能为空";
+			return $info;
+		}
+		// if (!$pass && !$phone && !$name && !$email && !$head && !$customized_field && !$customized_value) {
+		// 	$info['error'] = "没有可以更新的信息";
+		// 	return $info;
+		// }
+		$url = $this->base_url."user/update";
+		$data['third_user_id'] = $third_user_id;
+		if ($pass) {
+			$data['pass'] = $pass;
+		}
+		if ($phone) {
+			$data['phone'] = $phone;
+		}
+		if ($name) {
+			$data['name'] = $name;
+		}
+		if ($email) {
+			$data['email'] = $email;
+		}
+		if ($head) {
+			$data['head'] = $head;
+		}
+		if ($customized_field) {
+			$data['customized_field'] = $customized_field;
+		}
+		if ($customized_value) {
+			$data['customized_value'] = $customized_value;
+		}
+		$send_data = http_build_query($this->getSendData($data));
+		$get_data = $this->getData($url,$send_data);
+		$j_data = json_decode($get_data,true);
+
+		if ($j_data['code'] == 200) {
+			$info['status'] = 1;
+			$info['message'] = "更新用户信息成功";
+			$info['data'] = $j_data['data'];
+		}else{
+			$info['error'] = $j_data['msg'];
+		}
+
+		return $info;
+	}
 
 
 

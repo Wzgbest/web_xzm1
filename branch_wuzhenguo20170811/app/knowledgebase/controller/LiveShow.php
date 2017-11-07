@@ -21,6 +21,17 @@ class LiveShow extends Initialize
 		return view();
 	}
 
+	//web获取直播的页面
+	public function start_tv(){
+		$id = input('id',0,'int');
+
+		$vhallApi = new VhallApi();
+		$info = $vhallApi->startActivity($id);
+		return $info;
+	}
+
+
+
 
 
 	//k值验证
@@ -30,15 +41,23 @@ class LiveShow extends Initialize
 		$email = input('email','','string');
 		$k = input('k','','string');
 
+		if ($k == $_SESSION['k']) {
+			return $success;
+		}
 
-		return $success;
+		return $fail;
 	}
+
+
+
+
+
 
 	//测试方法
 	public function test(){
 		$vhallApi = new VhallApi();
 
-		$info = $vhallApi->getActivityList();
+		$info = $vhallApi->startActivity("484061604");
 		return $info;
 	}
 }
