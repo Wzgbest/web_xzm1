@@ -45,7 +45,7 @@ class Role extends Base
             ->join(config('database.prefix').'role_rule rr','rr.role_id = ro.id','left')
             ->where('ro.id',$role_id)
             ->group("ro.id")
-            ->field('ro.id,ro.role_name,GROUP_CONCAT( distinct rr.rule_id) as rules')
+            ->field('ro.id,ro.role_name,ro.data_type,ro.hav_struct,GROUP_CONCAT( distinct rr.rule_id) as rules')
             ->find();
     }
 
@@ -55,12 +55,13 @@ class Role extends Base
      * @return array|false|\PDOStatement|string|\think\Model
      * created by blu10ph
      */
-    public function getRoleName($role_ids)
-    {
+    public function getRoleName($role_ids){
         if(empty($role_ids)){
             return [];
         }
-        return $this->model->table($this->table)->where('id',"in",$role_ids)->column("role_name","id");
+        return $this->model->table($this->table)
+            ->where('id',"in",$role_ids)
+            ->column("role_name","id");
     }
 
     /**
