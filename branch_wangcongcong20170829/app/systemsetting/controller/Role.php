@@ -333,6 +333,49 @@ class Role extends Initialize{
         $role_id = input("role_id","0","int");
         $rule_ids = input("rule_ids/a");
         //TODO 从数据库获取该角色现有权限,与传入的新权限进行对比,添加新增的,删除不没有的
+        if (!$role_id || empty($rule_ids)) {
+            $result['info'] = "角色id或权限数据为空";
+            return json($result);
+        }
+
+        $roleRuleM = new RoleRuleModel($this->corp_id);
+        //查询该角色下目前所有的权限
+        $all_rules = $roleRuleM->getRuleIdByRoleId($role_id);
+        $rules_old_arr = [];
+            foreach ($all_rules as $val) {
+                $rules_old_arr[] .=$val['rule_id'];
+            }
+        $add_rules = array_diff($rule_ids,$rules_old_arr);
+        $del_rules = array_diff($rules_old_arr,$rule_ids);
+        $roleRuleM->link->startTrans();
+        try {
+            if (!empty($add_rules)) {
+                foreach ($add_rules as $key => $value) {
+                    $data[$key]['role_id'] = $role_id;
+                    $data[$key]['rule_id'] = $value; 
+                }
+                $flg = $roleRuleM->addRoleRule($data);
+                if (!$flg) {
+                    $result['info'] = "添加新权限失败";
+                    exception("添加新权限失败");
+                }
+            }
+            if (!empty($del_rules)) {
+                $flg = $roleRuleM->deleteRoleRule($role_id,$del_rules);
+                if (!$flg) {
+                    $result['info'] = "删除旧权限失败";
+                    exception("删除旧权限失败");
+                }
+            }
+            $roleRuleM->link->commit();
+        } catch (\Exception $e) {
+            $roleRuleM->link->rollback();
+            return json($result);
+        }
+
+        $result['status'] = 1;
+        $result['info'] = "修改角色权限成功";
+        
         return json($result);
     }
 
@@ -340,10 +383,27 @@ class Role extends Initialize{
      * 添加角色对应权限
      */
     public function addRoleRule(){
-        $result = ['status'=>0 ,'info'=>"修改角色数据权限时发生错误！"];
+        $result = ['status'=>0 ,'info'=>"添加角色数据权限时发生错误！"];
         $role_id = input("role_id","0","int");
-        $rule_id = input("rule_id");
+        $rule_ids = input("rule_ids/a");
         //TODO 从数据库获取该角色权限,有的话返回已经有了,没有的话添加并返回结果
+        if (!$role_id || empty($rule_ids)) {
+            $result['info'] = "角色id或权限数据为空";
+            return json($result);
+        }
+
+        $roleRuleM = new RoleRuleModel($this->corp_id);
+        foreach ($rule_ids as $key => $value) {
+            $data[$key]['role_id'] = $role_id;
+            $data[$key]['rule_id'] = $value; 
+        }
+        $flg = $roleRuleM->addRoleRule($data);
+        if ($flg) {
+            $result['info'] = "添加角色权限成功";
+            $result['status'] = 1;
+        }else{
+            $result['message'] = "添加角色权限失败";
+        }
         return json($result);
     }
 
@@ -353,8 +413,22 @@ class Role extends Initialize{
     public function delRoleRule(){
         $result = ['status'=>0 ,'info'=>"修改角色数据权限时发生错误！"];
         $role_id = input("role_id","0","int");
-        $rule_id = input("rule_id");
+        $rule_ids = input("rule_ids/a");
         //TODO 从数据库获取该角色权限,没有的话返回已经没有了,有的话删除并返回结果
+        if (!$role_id || empty($rule_ids)) {
+            $result['info'] = "角色id或权限数据为空";
+            return json($result);
+        }
+        
+        $roleRuleM = new RoleRuleModel($this->corp_id);
+        $flg = $roleRuleM->deleteRoleRule($role_id,$rule_ids);
+        if ($flg) {
+            $result['info'] = "删除角色权限成功";
+            $result['status'] = 1;
+        }else{
+            $result['message'] = "删除角色权限失败";
+        }
+        
         return json($result);
     }
 

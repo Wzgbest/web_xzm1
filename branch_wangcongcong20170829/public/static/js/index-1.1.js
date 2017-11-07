@@ -30,9 +30,12 @@ function init(){
 	if(sideSwitch){
 		miniWindow();
 	}else{
-		$("aside dl").eq(0).addClass("dlcurrent").children().children("i").eq(1).removeClass("fa-angle-right").addClass("fa-angle-down");
-		$("aside dl").eq(0).children(".ddcontent").removeClass("hide");
-		$("aside dl").eq(0).children("dt").addClass("dtcurrent").siblings(".ddcontent").children("dd").eq(0).addClass("ddcurrent");
+	    //如果存在简报,高亮
+	    if($("aside dl dd[data-subid='index']").length>0){
+            $("aside dl").eq(0).addClass("dlcurrent").children().children("i").eq(1).removeClass("fa-angle-right").addClass("fa-angle-down");
+            $("aside dl").eq(0).children(".ddcontent").removeClass("hide");
+            $("aside dl").eq(0).children("dt").addClass("dtcurrent").siblings(".ddcontent").children("dd").eq(0).addClass("ddcurrent");
+        }
 	}
 }
 init();
