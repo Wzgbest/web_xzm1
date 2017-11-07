@@ -7,16 +7,18 @@ function init(){
 	sideW = window.innerWidth>1280?220:50;
 	sideSwitch = window.innerWidth>1280?false:true;
 	$("#side").height(window.innerHeight);
-	$("header").width(window.innerWidth - sideW);
-	$("section#subt").width(window.innerWidth - sideW);
-	$("#subtitle").width(window.innerWidth - sideW);
-	$("#frames").width(window.innerWidth - sideW);
+    $("#side-right").height(window.innerHeight);
+    $("#side-right").width(window.innerWidth - sideW);
+	// $("header").width(window.innerWidth - sideW);
+	// $("section#subt").width(window.innerWidth - sideW);
+	// $("#subtitle").width(window.innerWidth - sideW);
+	// $("#frames").width(window.innerWidth - sideW);
 	$("#frames").height(window.innerHeight - 80);
-	$("#frames .once").width(window.innerWidth - sideW);
+	// $("#frames .once").width(window.innerWidth - sideW);
 	$("#frames .once").height(window.innerHeight - 40);
 
     // 三级菜单栏固定
-    $("#frames .once header").width(window.innerWidth - sideW - 17);
+    // $("#frames .once header").width(window.innerWidth - sideW - 17);
     //四级菜单
     //客户详情
     $("#frames .once .m-pageInfoNav").width(window.innerWidth - sideW - 17);
@@ -96,23 +98,24 @@ function changeFramesSize() {
 			sideW = 220;
 		}
     $("#side").height(window.innerHeight);
-    $(".header").width(window.innerWidth - sideW);
-    $("section#subt").width(window.innerWidth - sideW);
-    $("#subtitle").width(window.innerWidth - sideW);
-    $("body").width(window.innerWidth);
-    $("body").height(window.innerHeight);
-    $("#frames").width(window.innerWidth - sideW -phoneWidth);
+    $("#side-right").height(window.innerHeight);
+    $("#side-right").width(window.innerWidth - sideW);
+    // $(".header").width(window.innerWidth - sideW);
+    // $("section#subt").width(window.innerWidth - sideW);
+    // $("#subtitle").width(window.innerWidth - sideW);
+    /*$("body").width(window.innerWidth);
+    $("body").height(window.innerHeight);*/
+    // $("#frames").width(window.innerWidth - sideW -phoneWidth);
     $("#frames").height(window.innerHeight - 80);
-    $("#frames .once").width(window.innerWidth - sideW-phoneWidth);
+    // $("#frames .once").width(window.innerWidth - sideW-phoneWidth);
     //三四级菜单
-    $("#frames .once header").width(window.innerWidth - sideW-phoneWidth -17);
+    // $("#frames .once header").width(window.innerWidth - sideW-phoneWidth -17);
     $("#frames .once .m-low-nav").width(window.innerWidth - sideW - 17);
     $("#frames .once .m-pageInfoNav").width(window.innerWidth - sideW - 17);
 
     $("#frames .once").height(window.innerHeight - 80);
     $(".phone-box").height(window.innerHeight - 80);
     subResize();
-    // console.log(555);
 };
 
 //主标题单机事件
@@ -154,9 +157,9 @@ function clicker(e){
         $('#frames').append(html); //添加frame块到页面
         var url = e.attr('_src');
         loadPage(url, f);
-        $("#frames").width(window.innerWidth - 220);
+        // $("#frames").width(window.innerWidth - 220);
         $("#frames").height(window.innerHeight - 80);
-        $("#frames .once").width(window.innerWidth - 220);
+        // $("#frames .once").width(window.innerWidth - 220);
         $("#frames .once").height(window.innerHeight - 80);
         //子标题栏长度增加
         subResize();
