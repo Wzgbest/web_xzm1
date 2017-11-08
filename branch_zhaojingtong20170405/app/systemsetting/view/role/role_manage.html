@@ -43,13 +43,15 @@
             	<p>子模块</p>
                 {volist name="rule_tree" id="vo"}
                 <ul>
-                    {volist name="vo.child" id="voc"}
+                    {present name="vo.child"}
+                        {volist name="vo.child" id="voc"}
                     <li><input type="checkbox" name="rule_ids" value="{$voc.id}"
                                {in name="voc.id" value="$role_rule_ids"}
                                checked="checked"
                                {/in}
                         /><span>{$voc.rule_title}</span></li>
-                    {/volist}
+                        {/volist}
+                    {/present}
                 </ul>
                 {/volist}
             </div>
