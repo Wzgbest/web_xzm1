@@ -82,7 +82,7 @@ class Initialize extends Controller
 //        var_exp($rule_name_arr,'$rule_name_arr');
         $rule_name = implode("/",$rule_name_arr);
         if(!$this->checkRule($rule_name)){
-            $this->noRole();
+//            $this->noRole();
         }
     }
     protected function checkRule($rule_name){
