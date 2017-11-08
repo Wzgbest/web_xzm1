@@ -84,8 +84,10 @@
                         </span>
                     </div>
                     <div>
-                        <span class="cont">介绍人：</span>
-                        <span class="cont-x telephone">{$vo.introducer}{notempty name="vo.introducer"}<i class="fa fa-phone"></i>{/notempty}</span>
+                        <!-- <span class="cont">介绍人：</span>
+                        <span class="cont-x telephone">{$vo.introducer}{notempty name="vo.introducer"}<i class="fa fa-phone"></i>{/notempty}</span> -->
+                        <span class="cont">生日：</span>
+                        <span class="cont-x">{$vo.birthday|day_format}</span>
                         <span class="cont">亲密程度：</span>
                         <span class="cont-x">
                             {switch	name="vo.close_degree"}
@@ -93,10 +95,6 @@
                             {case value="1"}亲密{/case}
                             {/switch}
                         </span>
-                    </div>
-                    <div>
-                        <span class="cont">生日：</span>
-                        <span class="cont-x">{$vo.birthday|day_format}</span>
                     </div>
                     <div>
                         <span class="cont">爱好：</span>
