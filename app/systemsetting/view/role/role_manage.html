@@ -3,22 +3,24 @@
     <p class="p1 employee_manage ">成员管理</p>
 </div>
 <div class="table role_list">
-    <input type="hidden" value="{$role.id}" />
     <div class="up">
         <div class="tab_1">
             <p>数据权限</p>
         </div>
         <div class="tab_2">
             <div class="xuanze" >
-                <input type="radio" name="data_type" {eq name="role.data_type" value="0"} checked="checked" {/eq} /><span>本人</span>
-                <input type="radio" name="data_type" {eq name="role.data_type" value="1"} checked="checked" {/eq} /><span>本部门</span>
-                <input type="radio" name="data_type" {eq name="role.data_type" value="2"} checked="checked" {/eq} /><span>下级部门</span>
-                <input type="radio" name="data_type" {eq name="role.data_type" value="3"} checked="checked" {/eq} /><span>本部门及下级部门</span>
-                <input type="radio" name="data_type" {eq name="role.data_type" value="4"} checked="checked" {/eq} /><span>指定部门</span>
-                <select name="struct_ids">
+                <input type="radio" name="like"/><span>本人</span>
+                <input type="radio" name="like"/><span>本部门</span>
+                <input type="radio" name="like"/><span>本部门及下级部门</span>
+                <input type="radio" name="like"/><span>指定部门</span>
+                <select>
                     <option>请选择部门</option>
                 </select>
             </div>
+            <!--<div class="xuanze">
+                <input type="radio" name="love"/><span>数据统计</span>
+                <input type="radio" name="love"/><span>CRM</span>
+            </div>-->
         </div>
     </div>
     <div class="down">
@@ -27,52 +29,128 @@
         </div>
         <div class="tab_4">
             <div class="left">
+                <p >模块</p>
+                    <!--<li></li>
+                    <li><input type="radio" name="rel"/><span>员工管理</span></li>
+                    <li><input type="radio" name="rel"/><span>员工任务</span></li>
+                    <li><input type="radio" name="rel"/><span>员工成长</span></li>
+                    <li><input type="radio" name="rel"/><span>CRM</span></li>
+                    <li><input type="radio" name="rel"/><span>客户搜集</span></li>
+                    <li><input type="radio" name="rel"/><span>知识库</span></li>
+                    <li><input type="radio" name="rel"/><span>积分商城</span></li>
+                    <li><input type="radio" name="rel"/><span>个人中心</span></li>
+                    <li><input type="radio" name="rel"/><span>系统管理</span></li>-->
+                
+                <ul style="width: 130px;height: 200px;">
+                	<li><input type="checkbox" name="rel"/><span>数据统计</span></li>
+                </ul>
+                <ul style="width: 130px;height: 120px;">
+                	<li><input type="checkbox" name="rel"/><span>任务管理</span></li>
+                </ul>
+                <ul style="width: 130px;height: 40px;">
+                	<li><input type="checkbox" name="rel"/><span>员工成长</span></li>
+                </ul>
+                <ul style="width: 130px;height: 160px;">
+                	<li><input type="checkbox" name="rel"/><span>客户收集</span></li>
+                </ul>
+                <ul style="width: 130px;height:480px;">
+                	<li><input type="checkbox" name="rel"/><span>CRM</span></li>
+                </ul>
+                <ul style="width: 130px;height: 200px;">
+                	<li><input type="checkbox" name="rel"/><span>知识库</span></li>
+                </ul>
+                <ul style="width: 130px;height: 120px;">
+                	<li><input type="checkbox" name="rel"/><span>待我审核</span></li>
+                </ul>
+                <ul style="width: 130px;height: 360px;">
+                	<li><input type="checkbox" name="rel"/><span>系统管理</span></li>
+                </ul>
+                
+            </div>
+            <div class="center">
+            	<p>子模块</p>
+                    <!--<li></li>
+                    <li><input type="radio" name="rel"/><span>员工管理</span></li>
+                    <li><input type="radio" name="rel"/><span>员工任务</span></li>
+                    <li><input type="radio" name="rel"/><span>员工成长</span></li>
+                    <li><input type="radio" name="rel"/><span>CRM</span></li>
+                    <li><input type="radio" name="rel"/><span>客户搜集</span></li>
+                    <li><input type="radio" name="rel"/><span>知识库</span></li>
+                    <li><input type="radio" name="rel"/><span>积分商城</span></li>
+                    <li><input type="radio" name="rel"/><span>个人中心</span></li>
+                    <li><input type="radio" name="rel"/><span>系统管理</span></li>-->
+                
                 <ul>
-                    <li>模块</li>
-                    {volist name="rule_list" id="vo"}
-                        {eq name="vo.type" value="0"}
-                    <li><span>{$vo.rule_title}</span></li>
-                        {else/}
-                    <li><input type="checkbox" name="rule_ids"
-                               {in name="vo.id" value="role_rule_ids"}
-                               checked="checked"
-                               {/in}
-                            /><span>{$vo.rule_title}</span></li>
-                        {/eq}
-                    {/volist}
-                    <li>----------------------</li>
-                    <li><input type="checkbox" name="rule_ids"/><span>数据统计</span></li>
-                    <li><input type="checkbox" name="rule_ids"/><span>员工任务</span></li>
-                    <li><input type="checkbox" name="rule_ids"/><span>员工成长</span></li>
-                    <li><input type="checkbox" name="rule_ids"/><span>CRM</span></li>
-                    <li><input type="checkbox" name="rule_ids"/><span>客户搜集</span></li>
-                    <li><input type="checkbox" name="rule_ids"/><span>知识库</span></li>
-                    <li><input type="checkbox" name="rule_ids"/><span>积分商城</span></li>
-                    <li><input type="checkbox" name="rule_ids"/><span>个人中心</span></li>
-                    <li><input type="checkbox" name="rule_ids"/><span>系统管理</span></li>
-                    <li><input type="checkbox" name="rule_ids"/><span>员工管理</span></li>
+                	<li><input type="checkbox" name="rel"/><span>简报</span></li>
+                	<li><input type="checkbox" name="rel"/><span>日报统计</span></li>
+                	<li><input type="checkbox" name="rel"/><span>销售漏斗</span></li>
+                	<li><input type="checkbox" name="rel"/><span>通话记录统计</span></li>
+                	<li><input type="checkbox" name="rel"/><span>客户状态统计</span></li>
+                </ul>
+                <ul>
+                	<li><input type="checkbox" name="rel"/><span>任务大厅</span></li>
+                	<li><input type="checkbox" name="rel"/><span>我的任务</span></li>
+                	<li><input type="checkbox" name="rel"/><span>历史任务</span></li>
+                	
+                </ul>
+                <ul>
+                	<li><input type="checkbox" name="rel"/><span>我们的成长</span></li>
+                	
+                </ul>
+                <ul>
+                	<li><input type="checkbox" name="rel"/><span>搜索引擎搜索</span></li>
+                	<li><input type="checkbox" name="rel"/><span>按地区搜索</span></li>
+                	<li><input type="checkbox" name="rel"/><span>中迅库</span></li>
+                	<li><input type="checkbox" name="rel"/><span>我搜集的客户</span></li>
+                
+                </ul>
+                <ul>
+                	<li><input type="checkbox" name="rel"/><span>客户管理</span></li>
+                	<li><input type="checkbox" name="rel"/><span>我的客户</span></li>
+                	<li><input type="checkbox" name="rel"/><span>公海池</span></li>
+                	<li><input type="checkbox" name="rel"/><span>销售机会</span></li>
+                	<li><input type="checkbox" name="rel"/><span>待处理客户</span></li>
+                	<li><input type="checkbox" name="rel"/><span>我的订单</span></li>
+                	<li><input type="checkbox" name="rel"/><span>我的合同</span></li>
+                	<li><input type="checkbox" name="rel"/><span>我的发票</span></li>
+                	<li><input type="checkbox" name="rel"/><span>下属客户</span></li>
+                	<li><input type="checkbox" name="rel"/><span>下属销售机会</span></li>
+                	<li><input type="checkbox" name="rel"/><span>邮件</span></li>
+                	<li><input type="checkbox" name="rel"/><span>通话助手</span></li>
+                	
+                </ul>
+                <ul>
+                	<li><input type="checkbox" name="rel"/><span>中迅大课堂</span></li>
+                	<li><input type="checkbox" name="rel"/><span>直播</span></li>
+                	<li><input type="checkbox" name="rel"/><span>话术库</span></li>
+                	<li><input type="checkbox" name="rel"/><span>工作圈</span></li>
+                	<li><input type="checkbox" name="rel"/><span>企业云盘</span></li>
+                </ul>
+                <ul>
+                	<li><input type="checkbox" name="rel"/><span>合同审核</span></li>
+                	<li><input type="checkbox" name="rel"/><span>成单审核</span></li>
+                	<li><input type="checkbox" name="rel"/><span>发票审核</span></li>
+                	
+                </ul>
+                <ul>
+                	<li><input type="checkbox" name="rel"/><span>公司信息</span></li>
+                	<li><input type="checkbox" name="rel"/><span>部门管理</span></li>
+                	<li><input type="checkbox" name="rel"/><span>职位管理</span></li>
+                	<li><input type="checkbox" name="rel"/><span>员工管理</span></li>
+                	<li><input type="checkbox" name="rel"/><span>业务流管理</span></li>
+                	<li><input type="checkbox" name="rel"/><span>合同设置</span></li>
+                	<li><input type="checkbox" name="rel"/><span>发票设置</span></li>
+                	<li><input type="checkbox" name="rel"/><span>工作参数设置</span></li>
+                	<li><input type="checkbox" name="rel"/><span>密码修改</span></li>
                 </ul>
             </div>
             <div class='right'>
+            	<p>功能</p>
                 <ul>
-                    <li>功能</li>
-                    {volist name="rule_sub_list" id="vo"}
-                    <li>
-                        {neq name="vo" value="false"}
-                            {volist name="vo" id="voc"}
-                    <input type="checkbox" name="rule_ids" value="{$voc.id}"
-                               {in name="vo.id" value="role_rule_ids"}
-                               checked="checked"
-                               {/in}
-                    /><span>{$voc.rule_title}</span>
-                            {/volist}
-                        {/neq}
-                    </li>
-                    {/volist}
-                    <li>-----------------------</li>
-                    <li><input type="checkbox" name="rule_ids"/><span>导出数据</span></li>
-                    <li><input type="checkbox" name="rule_ids"/><span>导出数据</span><input type="checkbox" name="rule_ids"/><span>增删改</span></li>
-                    <li><input type="checkbox" name="rule_ids"/><span>增删改查</span></li>
+                    
+                    <li><input type="checkbox"/><span>导出数据</span><input type="checkbox" name="choice"/><span>增删改</span><input type="checkbox" name="choice"/><span>增删改</span></li>
+                    <li><input type="checkbox" name="choice"/><span>导出数据</span><input type="checkbox" name="choice"/><span>增删改</span><input type="checkbox" name="choice"/><span>增删改</span></li>
+                    <li><input type="checkbox"/><span>增删改查</span></li>
                     <li></li>
                     <li></li>
                     <li></li>
