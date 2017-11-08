@@ -205,7 +205,7 @@
 }
 /*表单*/
 .crm_customer .newClientForm{
-	margin-top: 100px;
+	/*margin-top: 100px;*/
 	/*padding-left: 30px;*/
 }
 .newClientInfoForm,.newClientContactForm,.newClientSaleChanceForm{
@@ -219,7 +219,7 @@
 /************************************************************************/
 /*客户详情*/
 .page-info .page-info-detail{
-	margin-top: 100px;
+	/*margin-top: 100px;*/
 }
 .crm_customer .page-info header i{
 	line-height: 40px;
@@ -227,7 +227,7 @@
 	/*margin-top: 5px;*/
 }
 .sale-chance-record{
-    background-color: #f5f8fd
+    /*background-color: #f5f8fd*/
 }
 .sale-chance-record hr{
 	color: #ccc;
@@ -246,12 +246,12 @@
 }
 .crm_customer .m-pageInfoNav{
 	height: 54px;
-	/*margin-top: 45px;*/
+	margin-top: 1px;
 	/*border-top: 5px solid #f5f7fa;*/
 	border-bottom: 1px solid #e5e5e5;
 	background-color: #fff;
-	position: fixed;
-    top: 122px;
+	/*position: fixed;*/
+    /*top: 122px;*/
     width: 100%;
     z-index: 100;
 }

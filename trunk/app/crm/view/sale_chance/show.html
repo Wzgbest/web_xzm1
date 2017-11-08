@@ -1,5 +1,5 @@
 <!--客户详情-->
-<section class="page-info">
+<section class="page-info h100 o-h">
     <header>
         <ul class="m-firNav">
             <li class="current back"><div>我的所有客户（<span>160</span>）</div></li>
@@ -17,221 +17,223 @@
         <div class="clearfix"></div>
     </ul>
     <!--新建销售机会-->
-    <section class="clientInfoSaleChance page-info-detail" >
-        <div class="new-sale-chance">
-            <i class="fa fa-plus fa-2x"></i>
-            新建销售机会
-        </div>
+    <div class="m-4th-container">
+        <section class="clientInfoSaleChance page-info-detail" >
+            <div class="new-sale-chance">
+                <i class="fa fa-plus fa-2x"></i>
+                新建销售机会
+            </div>
 
-        <!--销售机会-->
-        {volist name="sale_chance" id="vo"}
-        <div class="m-divBlock m-form sale-chance-record sale-chance-record-{$vo.id}">
-            <div class="z-recordState">
-                {lt name="vo.sale_status" value="5"}
-                    {if condition="($vo.sale_status==4) AND ($vo.order_status==0)"}
-                        <div class="z-backspace">
-                            <div class="edit2 sale_chance_reply">
-                                <i class="fa fa-2x fa-reply"></i></br>
-                                <span>撤回</span>
+            <!--销售机会-->
+            {volist name="sale_chance" id="vo"}
+            <div class="m-divBlock m-form sale-chance-record sale-chance-record-{$vo.id}">
+                <div class="z-recordState">
+                    {lt name="vo.sale_status" value="5"}
+                        {if condition="($vo.sale_status==4) AND ($vo.order_status==0)"}
+                            <div class="z-backspace">
+                                <div class="edit2 sale_chance_reply">
+                                    <i class="fa fa-2x fa-reply"></i></br>
+                                    <span>撤回</span>
+                                </div>
                             </div>
-                        </div>
-                    {elseif condition="($vo.sale_status==4) AND ($vo.order_status==2)"/}
-                        <div class="z-reapply">
-                            <div class="edit2 sale_chance_refresh">
-                                <i class="fa fa-2x fa-refresh" style="margin-left: 13px;"></i></br>
-                                <span>重新申请</span>
+                        {elseif condition="($vo.sale_status==4) AND ($vo.order_status==2)"/}
+                            <div class="z-reapply">
+                                <div class="edit2 sale_chance_refresh">
+                                    <i class="fa fa-2x fa-refresh" style="margin-left: 13px;"></i></br>
+                                    <span>重新申请</span>
+                                </div>
                             </div>
-                        </div>
-                    {else/}
-                        <div class="z-modify">
-                            <div class="edit2 sale_chance_edit">
-                                <i class="fa fa-file-text-o fa-2x"></i></br>
-                                <span>编辑</span>
+                        {else/}
+                            <div class="z-modify">
+                                <div class="edit2 sale_chance_edit">
+                                    <i class="fa fa-file-text-o fa-2x"></i></br>
+                                    <span>编辑</span>
+                                </div>
+                                <div class="edit2 sale_chance_invalid">
+                                    <i class="fa fa-2x fa-file-excel-o"></i></br>
+                                    <span>作废</span>
+                                </div>
                             </div>
-                            <div class="edit2 sale_chance_invalid">
-                                <i class="fa fa-2x fa-file-excel-o"></i></br>
-                                <span>作废</span>
-                            </div>
-                        </div>
-                    {/if}
-                {/lt}
-                {eq name="vo.sale_status" value="5"}
-                <div class="z-win">
-                    <img src="/crm/img/win.png" />
-                </div>
-                {/eq}
-                {eq name="vo.sale_status" value="6"}
-                <div class="z-lose">
-                    <img src="/crm/img/lose.png" />
-                </div>
-                {/eq}
-                {eq name="vo.sale_status" value="7"}
-                <div class="z-invalid">
-                    <img src="/crm/img/invalid.png" />
-                </div>
-                {/eq}
-                <input type="hidden" class="edit_id" value="{$vo.id}"/>
-            </div>
-            <div>
-                <span class="cont">销售机会：</span>
-                <span class="cont-x">{$vo.sale_name}</span>
-                <span class="cont">对应业务：</span>
-                <span class="cont-x">{$business_flow_names[$vo['business_id']]}</span>
-            </div>
-            <div>
-                <span class="cont-max-max">预计成单金额：</span>
-                <span class="cont-x"><span class="number">{$vo.guess_money}</span> 元</span>
-                <span class="cont-max-max">预计成单时间：</span>
-                <span class="cont-x">{$vo.prepay_time|day_format}</span>
-            </div>
-            <div>                
-                <span class="cont">协助人：</span>
-                <span class="cont-x telephone">{$vo.associator_id}<i class="fa fa-phone"></i></span>
-                <span class="cont">负责人：</span>
-                <span class="cont-x">{$vo.employee_name}</span>
-            </div>
-            <div>
-                <span class="cont">客户状态：</span>
-                <span class="cont-x">
-                    {$vo.sale_status|getSaleStatusName}
-
-                    {eq name="vo.sale_status" value="4"}
-                        {switch name="vo.order_status"}
-                            {case value="0"} - 审核中{/case}
-                            {case value="2"} - 已驳回{/case}
-                            {case value="3"} - 已撤回{/case}
-                        {/switch}
-                    {/eq}
-                </span>
-            </div>
-            <hr/>
-            {eq name="vo.sale_status" value="2"}
-            <!--拜访：应该显示的部分-->
-            <div class="sale-chance-visit-record">
-                <div>
-                    <span class="cont">拜访时间：</span>
-                    <span class="cont-x">{$vo.visit_time|time_format}</span>
-                    <span class="cont">拜访地点：</span>
-                    <span class="cont-x">{$vo.visit_place}</span>
-                </div>
-                <!-- <div>
-                    <span class="cont">&nbsp;</span>
-                    <img src="/systemsetting/images/map.jpg" />
-                </div> -->
-                <div>
-                    <span class="cont u-area">详细定位</span>
-                    <!--<input type="text" name="location" placeholder="请点击地图进行坐标定位"/>-->
-                    <iframe class="mapFrame sale_chance_show_map_{$vo.id}" name="sale_chance_show_map_{$vo.id}" data-lng="{$vo.lng}" data-lat="{$vo.lat}" src="/index/index/map.html" onload="mapLoad('sale_chance_show_map_{$vo.id}')"></iframe>
-                </div>
-                <div>
-                    <span class="cont">结伴提醒：</span>
-                    <span class="cont-x">{eq name='vo.partner_notice' value='1'}是{else/}否{/eq}</span>
-                    <span class="cont-max-max">添加到备忘录：</span>
-                    <span class="cont-x">{eq name='vo.add_note' value='1'}是{else/}否{/eq}</span>
-                </div>
-            </div>
-            {/eq}
-
-            {eq name="vo.sale_status" value="3"}
-            <!--拜访：应该显示的部分-->
-            <div class="sale-chance-sign-in-record">
-                <div>
-                    <span class="cont">拜访时间：</span>
-                    <span class="cont-x">{$vo.sign_in_time|time_format}</span>
-                    <span class="cont">拜访地点：</span>
-                    <span class="cont-x">{$vo.sign_in_place}</span>
-                </div>
-                <div>
-                    <span class="cont u-area">详细定位</span>
-                    <iframe class="mapFrame sale_chance_show_sign_in_map_{$vo.id}" name="sale_chance_show_sign_in_map_{$vo.id}" data-lng="{$vo.sign_in_lng}" data-lat="{$vo.sign_in_lat}" src="/index/index/map.html" onload="mapLoad('sale_chance_show_sign_in_map_{$vo.id}')"></iframe>
-                </div>
-            </div>
-            {/eq}
-
-            {in name="vo.sale_status" value="4,5,6,8"}
-                <!--成单：应该显示的部分-->
-                {volist name="vo['contract_arr']" id="voc"}
-                    <div class="sale-chance-finish-record">
-                        <div>
-                            <h1><span>{$voc.contract_type_name}</span>(合同编号<span>{$voc.contract_no}</span>)</h1>
-                           <!--  <span class="cont">合同类型：</span>
-                           <span class="cont-x">{$voc.contract_type_name}<span class="cont-in">收据类型：<span class="cont-in-x">普通收据</span></span></span>
-                           <span class="cont-max-max">合同/收据编号：</span>
-                           <span class="cont-x">{$voc.contract_no}</span> -->
-                        </div>
-                        <div>
-                            <span class="cont">收据类型：</span><span class="cont-x">普通收据</span>
-                            <span class="cont">打款方式：</span><span class="cont-x">银行转账</span>
-                        </div>
-                        <div>
-                            <span class="cont">合同金额：</span>
-                            <span class="cont-x"><span class="number">{$voc.contract_money}</span> 元</span>
-                            <span class="cont">收款银行：</span>
-                            <span class="cont-x">中国交通银行潍坊支行</span>
-                        </div>
-                        <div>
-                            <span class="cont">打款金额：</span>
-                            <span class="cont-x">
-                                <span class="number">{$voc.pay_money}</span> 元
-                            {eq name="vo.sale_status" value="5"}
-                                {empty name="voc.bill_id"}
-                                    <span class="cont-in color-blue bill-apply" contract_item_id="{$voc.id}">申请发票</span>
-                                {else/}
-                                    {switch	name="voc.bill_status"}
-                                        {case value="0"}
-                                            <span class="cont-in color-blue bill-apply-retract">撤回发票申请</span>
-                                        {/case}
-                                        {case value="1"}
-                                            <span class="cont-in color-yellow">发票申请已通过</span>
-                                        {/case}
-                                        {case value="2"}
-                                            <span class="cont-in color-yellow bill-apply">发票申请已驳回</span>
-                                        {/case}
-                                        {case value="3"}
-                                            <span class="cont-in color-yellow bill-apply">发票申请已撤回</span>
-                                        {/case}
-                                        {case value="4"}
-                                            <span class="cont-in color-green">发票待领取</span>
-                                        {/case}
-                                        {case value="5"}
-                                            <span class="cont-in color-yellow">发票已领取</span>
-                                        {/case}
-                                        {case value="6"}
-                                            <span class="cont-in color-yellow">已作废</span>
-                                        {/case}
-                                        {case value="7"}
-                                            <span class="cont-in color-yellow">已收回</span>
-                                        {/case}
-                                        {case value="8"}
-                                            <span class="cont-in color-yellow">已提醒</span>
-                                        {/case}
-                                        {case value="9"}
-                                            <span class="cont-in color-yellow">已退款</span>
-                                        {/case}
-                                        {default /}
-                                    {/switch}
-                                {/empty}
-                            {/eq}
-                            </span>
-                            <span class="cont-max-max">打款方名称：</span>
-                            <span class="cont-x">山东大器天成股份有限公司</span>
-                        </div>
+                        {/if}
+                    {/lt}
+                    {eq name="vo.sale_status" value="5"}
+                    <div class="z-win">
+                        <img src="/crm/img/win.png" />
                     </div>
-                {/volist}
-            {/in}
+                    {/eq}
+                    {eq name="vo.sale_status" value="6"}
+                    <div class="z-lose">
+                        <img src="/crm/img/lose.png" />
+                    </div>
+                    {/eq}
+                    {eq name="vo.sale_status" value="7"}
+                    <div class="z-invalid">
+                        <img src="/crm/img/invalid.png" />
+                    </div>
+                    {/eq}
+                    <input type="hidden" class="edit_id" value="{$vo.id}"/>
+                </div>
+                <div>
+                    <span class="cont">销售机会：</span>
+                    <span class="cont-x">{$vo.sale_name}</span>
+                    <span class="cont">对应业务：</span>
+                    <span class="cont-x">{$business_flow_names[$vo['business_id']]}</span>
+                </div>
+                <div>
+                    <span class="cont-max-max">预计成单金额：</span>
+                    <span class="cont-x"><span class="number">{$vo.guess_money}</span> 元</span>
+                    <span class="cont-max-max">预计成单时间：</span>
+                    <span class="cont-x">{$vo.prepay_time|day_format}</span>
+                </div>
+                <div>                
+                    <span class="cont">协助人：</span>
+                    <span class="cont-x telephone">{$vo.associator_id}<i class="fa fa-phone"></i></span>
+                    <span class="cont">负责人：</span>
+                    <span class="cont-x">{$vo.employee_name}</span>
+                </div>
+                <div>
+                    <span class="cont">客户状态：</span>
+                    <span class="cont-x">
+                        {$vo.sale_status|getSaleStatusName}
 
-            {egt name="vo.sale_status" value="1"}
-            <!--有意向：应该显示的部分-->
-            <div class="sale-chance-intentional-record">
-                <span class="cont">备注：</span>
-                <!-- <span class="remark">{$vo.remark}</span> -->
+                        {eq name="vo.sale_status" value="4"}
+                            {switch name="vo.order_status"}
+                                {case value="0"} - 审核中{/case}
+                                {case value="2"} - 已驳回{/case}
+                                {case value="3"} - 已撤回{/case}
+                            {/switch}
+                        {/eq}
+                    </span>
+                </div>
+                <hr/>
+                {eq name="vo.sale_status" value="2"}
+                <!--拜访：应该显示的部分-->
+                <div class="sale-chance-visit-record">
+                    <div>
+                        <span class="cont">拜访时间：</span>
+                        <span class="cont-x">{$vo.visit_time|time_format}</span>
+                        <span class="cont">拜访地点：</span>
+                        <span class="cont-x">{$vo.visit_place}</span>
+                    </div>
+                    <!-- <div>
+                        <span class="cont">&nbsp;</span>
+                        <img src="/systemsetting/images/map.jpg" />
+                    </div> -->
+                    <div>
+                        <span class="cont u-area">详细定位</span>
+                        <!--<input type="text" name="location" placeholder="请点击地图进行坐标定位"/>-->
+                        <iframe class="mapFrame sale_chance_show_map_{$vo.id}" name="sale_chance_show_map_{$vo.id}" data-lng="{$vo.lng}" data-lat="{$vo.lat}" src="/index/index/map.html" onload="mapLoad('sale_chance_show_map_{$vo.id}')"></iframe>
+                    </div>
+                    <div>
+                        <span class="cont">结伴提醒：</span>
+                        <span class="cont-x">{eq name='vo.partner_notice' value='1'}是{else/}否{/eq}</span>
+                        <span class="cont-max-max">添加到备忘录：</span>
+                        <span class="cont-x">{eq name='vo.add_note' value='1'}是{else/}否{/eq}</span>
+                    </div>
+                </div>
+                {/eq}
+
+                {eq name="vo.sale_status" value="3"}
+                <!--拜访：应该显示的部分-->
+                <div class="sale-chance-sign-in-record">
+                    <div>
+                        <span class="cont">拜访时间：</span>
+                        <span class="cont-x">{$vo.sign_in_time|time_format}</span>
+                        <span class="cont">拜访地点：</span>
+                        <span class="cont-x">{$vo.sign_in_place}</span>
+                    </div>
+                    <div>
+                        <span class="cont u-area">详细定位</span>
+                        <iframe class="mapFrame sale_chance_show_sign_in_map_{$vo.id}" name="sale_chance_show_sign_in_map_{$vo.id}" data-lng="{$vo.sign_in_lng}" data-lat="{$vo.sign_in_lat}" src="/index/index/map.html" onload="mapLoad('sale_chance_show_sign_in_map_{$vo.id}')"></iframe>
+                    </div>
+                </div>
+                {/eq}
+
+                {in name="vo.sale_status" value="4,5,6,8"}
+                    <!--成单：应该显示的部分-->
+                    {volist name="vo['contract_arr']" id="voc"}
+                        <div class="sale-chance-finish-record">
+                            <div>
+                                <h1><span>{$voc.contract_type_name}</span>(合同编号<span>{$voc.contract_no}</span>)</h1>
+                               <!--  <span class="cont">合同类型：</span>
+                               <span class="cont-x">{$voc.contract_type_name}<span class="cont-in">收据类型：<span class="cont-in-x">普通收据</span></span></span>
+                               <span class="cont-max-max">合同/收据编号：</span>
+                               <span class="cont-x">{$voc.contract_no}</span> -->
+                            </div>
+                            <div>
+                                <span class="cont">收据类型：</span><span class="cont-x">普通收据</span>
+                                <span class="cont">打款方式：</span><span class="cont-x">银行转账</span>
+                            </div>
+                            <div>
+                                <span class="cont">合同金额：</span>
+                                <span class="cont-x"><span class="number">{$voc.contract_money}</span> 元</span>
+                                <span class="cont">收款银行：</span>
+                                <span class="cont-x">中国交通银行潍坊支行</span>
+                            </div>
+                            <div>
+                                <span class="cont">打款金额：</span>
+                                <span class="cont-x">
+                                    <span class="number">{$voc.pay_money}</span> 元
+                                {eq name="vo.sale_status" value="5"}
+                                    {empty name="voc.bill_id"}
+                                        <span class="cont-in color-blue bill-apply" contract_item_id="{$voc.id}">申请发票</span>
+                                    {else/}
+                                        {switch	name="voc.bill_status"}
+                                            {case value="0"}
+                                                <span class="cont-in color-blue bill-apply-retract">撤回发票申请</span>
+                                            {/case}
+                                            {case value="1"}
+                                                <span class="cont-in color-yellow">发票申请已通过</span>
+                                            {/case}
+                                            {case value="2"}
+                                                <span class="cont-in color-yellow bill-apply">发票申请已驳回</span>
+                                            {/case}
+                                            {case value="3"}
+                                                <span class="cont-in color-yellow bill-apply">发票申请已撤回</span>
+                                            {/case}
+                                            {case value="4"}
+                                                <span class="cont-in color-green">发票待领取</span>
+                                            {/case}
+                                            {case value="5"}
+                                                <span class="cont-in color-yellow">发票已领取</span>
+                                            {/case}
+                                            {case value="6"}
+                                                <span class="cont-in color-yellow">已作废</span>
+                                            {/case}
+                                            {case value="7"}
+                                                <span class="cont-in color-yellow">已收回</span>
+                                            {/case}
+                                            {case value="8"}
+                                                <span class="cont-in color-yellow">已提醒</span>
+                                            {/case}
+                                            {case value="9"}
+                                                <span class="cont-in color-yellow">已退款</span>
+                                            {/case}
+                                            {default /}
+                                        {/switch}
+                                    {/empty}
+                                {/eq}
+                                </span>
+                                <span class="cont-max-max">打款方名称：</span>
+                                <span class="cont-x">山东大器天成股份有限公司</span>
+                            </div>
+                        </div>
+                    {/volist}
+                {/in}
+
+                {egt name="vo.sale_status" value="1"}
+                <!--有意向：应该显示的部分-->
+                <div class="sale-chance-intentional-record">
+                    <span class="cont">备注：</span>
+                    <!-- <span class="remark">{$vo.remark}</span> -->
+                </div>
+                {/egt}
             </div>
-            {/egt}
-        </div>
-        {/volist}
-        <div id="create-bill"  class="popUp hide">
+            {/volist}
+            <div id="create-bill"  class="popUp hide">
 
-        </div>
-    </section>
+            </div>
+        </section>
+    </div>
 </section>
 <script src="/crm/js/PopUp.js"></script>
