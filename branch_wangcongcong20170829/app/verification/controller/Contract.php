@@ -169,7 +169,11 @@ class Contract extends Initialize{
         $contractAppliedM = new ContractAppliedModel($this->corp_id);
         $use_withdrawal = input("use_withdrawal",0,"int");
         $contract_id = input("contract_id",0,"int");
-        if($use_withdrawal&&!$contract_id){
+        if(!$use_withdrawal){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        if($use_withdrawal==2&&!$contract_id){
             $result['info'] = "参数错误！";
             return json($result);
         }
