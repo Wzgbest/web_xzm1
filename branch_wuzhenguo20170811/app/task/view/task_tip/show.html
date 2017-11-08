@@ -1,6 +1,6 @@
 {volist name="tip_list" id="vo"}
     <ul>
-        <li>{$vo["tip_time"]|time_format="m.d"}&nbsp;{$vo["tip_time"]|time_format="i:s"}</li>
+        <li>{$vo["tip_time"]|time_format="m.d"}&nbsp;{$vo["tip_time"]|time_format="H:i:s"}</li>
         {eq name="vo['tip_employee']" value="$uid"}
         <li class="orange">
             你

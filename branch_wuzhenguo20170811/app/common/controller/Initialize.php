@@ -71,8 +71,18 @@ class Initialize extends Controller
         $request = Request::instance();
         $path = $request->path();
 //        var_exp($path,'$path');
-        if(!$this->checkRule($path)){
-            //$this->noRole();
+        $path_arr = explode("/",$path);
+        $rule_name_arr = [];
+        for($i=0;$i<3;$i++){
+            if(!isset($path_arr[$i])){
+                break;
+            }
+            $rule_name_arr[$i] = $path_arr[$i];
+        }
+//        var_exp($rule_name_arr,'$rule_name_arr');
+        $rule_name = implode("/",$rule_name_arr);
+        if(!$this->checkRule($rule_name)){
+            $this->noRole();
         }
     }
     protected function checkRule($rule_name){
