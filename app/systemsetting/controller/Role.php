@@ -67,10 +67,19 @@ class Role extends Initialize{
         $rule_list = [];
         $rule_sub_list = [];
         foreach ($rule_tree as $rule){
+            $child_num = 0;
+            if(isset($rule["child"])){
+                $child_num = count($rule["child"]);
+            }
+            $rule["child_num"] = $child_num;
             $rule_list[] = $rule;
-            $rule_sub_list[$rule["id"]] = false;
             if(isset($rule["child"])){
                 foreach ($rule["child"] as $rule_c){
+                    $sub_child_num = 0;
+                    if(isset($rule_c["child"])){
+                        $sub_child_num = count($rule_c["child"]);
+                    }
+                    $rule_c["child_num"] = $sub_child_num;
                     $rule_list[] = $rule_c;
                     $rule_sub_list[$rule_c["id"]] = isset($rule_c["child"])?$rule_c["child"]:false;
                 }
