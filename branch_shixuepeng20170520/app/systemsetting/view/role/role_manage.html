@@ -14,9 +14,11 @@
                 <input type="radio" name="data_type" {eq name="role.data_type" value="2"} checked="checked" {/eq} /><span>下级部门</span>
                 <input type="radio" name="data_type" {eq name="role.data_type" value="3"} checked="checked" {/eq} /><span>本部门及下级部门</span>
                 <input type="radio" name="data_type" {eq name="role.data_type" value="4"} checked="checked" {/eq} /><span>指定部门</span>
-                <select name="struct_ids">
+                <!--<select name="struct_ids">
                     <option>请选择部门</option>
-                </select>
+                </select>-->
+                <input type="text" class="role_manage-select-window-choosen-staff" data-dep="" data-stf=""  placeholder="请选择部门" />
+				<div class="main-content select-window" style="margin:0 auto;" data-num="0" data-str='departments[]=,&,&,employees[]=,&' data-selector=".role_manage-select-window-choosen-staff"></div>
             </div>
         </div>
     </div>
@@ -25,6 +27,7 @@
             <p>权限功能</p>
         </div>
         <div class="tab_4">
+        
             <div class="left">
                 <p >模块</p>
                 {volist name="rule_list" id="vo"}
@@ -73,6 +76,16 @@
                     {/volist}
                 </ul>
             </div>
+            
+            
+            
         </div>
+        <button>保存</button>
     </div>
 </div>
+
+<script>
+	$(".role_manage-select-window-choosen-staff").focus(function(){
+		$(".main-content.select-window").load("/index/index/select_window.html");
+	});
+</script>
