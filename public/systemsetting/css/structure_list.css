@@ -524,6 +524,16 @@
    /*测试时删除的*/
     cursor: pointer;
 }
+.structure_list .content .structure_move form input{
+	margin-top: 20px;
+	margin-left: 50px;
+}
+.structure_list .content .main-content{
+	width: 505px;
+    position: absolute;
+    left: 50px;
+    top: 110px;
+}
 .structure_list .table{
     clear: both;
     width: 852px;
