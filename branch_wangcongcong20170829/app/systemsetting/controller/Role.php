@@ -22,6 +22,8 @@ use app\systemsetting\model\ContractSetting as ContractSettingModel;
 class Role extends Initialize{
     var $paginate_list_rows = 10;
     public function _initialize(){
+        $this->rule_map = [];
+        $this->rule_map["systemsetting/role/role_manage"] = "systemsetting/role/index/select";
         parent::_initialize();
         $this->paginate_list_rows = config("paginate.list_rows");
     }
