@@ -132,3 +132,16 @@ textarea {
 .pointer{
   cursor: pointer;
 }
+.h100{
+  height: 100%;
+}
+.o-x-h{
+  overflow-x:hidden; 
+}
+.o-y-h{
+  overflow-y:hidden; 
+}
+.m-3rd-container{
+  width: 100%;
+  overflow: auto;
+}
