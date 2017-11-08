@@ -141,7 +141,54 @@ textarea {
 .o-y-h{
   overflow-y:hidden; 
 }
+.o-h{
+  overflow: hidden;
+}
 .m-3rd-container{
   width: 100%;
   overflow: auto;
+  background-color: #ecf0f5;
+}
+.m-3rd-content{
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px 15px;
+  height: 100%;
+  /*background-color: white;*/
+}
+.m-3rd-content-container{
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  position: relative;
+}
+.m-3rd-footer{
+  width: 100%;
+  height: 60px;
+  position: absolute;
+  bottom: 0;
+  border-top: 1px solid #eee;
+  padding-right: 20px;
+  padding-top: 10px;
+  box-sizing:border-box;
+}
+.m-3rd-footer .btn{
+  width: 100px;
+  height: 40px;
+  box-sizing:border-box;
+  border-radius: 3px;
+  float: right;
+  line-height: 40px;
+  font-size: 15px;
+  text-align: center;
+  margin-left: 10px;
+}
+.m-3rd-footer .btn1{
+  border: 1px solid #dcdcdc;
+  color: #666;
+  background-color: white;
+}
+.m-3rd-footer .btn2{
+  background-color: #78beff;
+  color: white;
 }
