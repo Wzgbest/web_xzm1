@@ -7,14 +7,14 @@
         新建客户<i class="fa fa-close fa-2x close"></i>
     </div>
     <div class="m-formBox m-form">
-        <!-- <div class="process">
-            <div class="circle state1 current"><span>客户信息</span></div>
-            <div class="rect line1"></div>
-            <div class="circle state2"><span>联系人信息</span></div>
-            <div class="rect line2"></div>
-            <div class="circle state3"><span>销售机会</span></div>
-            <div class="clearfix"></div>
-        </div> -->
+<!--         <div class="process">
+    <div class="circle state1 current"><span>客户信息</span></div>
+    <div class="rect line1"></div>
+    <div class="circle state2"><span>联系人信息</span></div>
+    <div class="rect line2"></div>
+    <div class="circle state3"><span>销售机会</span></div>
+    <div class="clearfix"></div>
+</div> -->
         <form class="newClientForm newClientInfoForm {$fr}newClientForm" onsubmit="return false;">
             <div class="form1">
                 <div>
@@ -273,7 +273,7 @@
 <script class="resources library" src="/static/js/area.js" type="text/javascript"></script>
 <script type="text/javascript">_init_area();</script>
 <script>
-    let interal;
+    // let interal;
     $("#s_county").change(function(){
         $(".add_page_map")[0].contentWindow.searchKey($("#s_province").val()+$("#s_city").val()+$(this).val());
     })

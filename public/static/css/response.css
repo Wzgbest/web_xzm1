@@ -1,6 +1,7 @@
 	#side.mini{
 		width: 50px;
 		overflow: visible;
+		position: relative;
 	}
 	#side.mini aside{
 		width: 50px;
@@ -19,7 +20,7 @@
 	}
 	/*iframe*/
 	#frames.mini{
-		left: 50px;
+		/*left: 50px;*/
 	}
 	#side.mini aside dl dt span{
 		display: none;

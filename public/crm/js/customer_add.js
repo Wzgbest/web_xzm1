@@ -269,26 +269,18 @@ function customer_add(from,target,list_manage){
 	this.next_contact=function(){
 		$(self.panel_base+" .add_customer .newClient .newClientInfoForm .form1").addClass("hide");
 		$(self.panel_base+" .add_customer .newClient .newClientContactForm .form2").removeClass("hide");
-		$(self.panel_base+" .add_customer .newClient .process .circle").eq(1).addClass("current");
-		$(self.panel_base+" .add_customer .newClient .process .rect").eq(0).addClass("current");
 	};
 	this.next_sale_chance=function(){
 		$(self.panel_base+" .add_customer .newClient .newClientContactForm .form2").addClass("hide");
 		$(self.panel_base+" .add_customer .newClient .newClientSaleChanceForm .form3").removeClass("hide");
-		$(self.panel_base+" .add_customer .newClient .process .circle").addClass("current");
-		$(self.panel_base+" .add_customer .newClient .process .rect").addClass("current");
 	};
 	this.pre_customer=function(){
 		$(self.panel_base+" .add_customer .newClient .newClientContactForm .form2").addClass("hide");
 		$(self.panel_base+" .add_customer .newClient .newClientInfoForm .form1").removeClass("hide");
-		$(self.panel_base+" .add_customer .newClient .process .circle").removeClass("current").eq(0).addClass("current");
-		$(self.panel_base+" .add_customer .newClient .process .rect").removeClass("current");
 	};
 	this.pre_contact=function(){
 		$(self.panel_base+" .add_customer .newClient .newClientSaleChanceForm .form3").addClass("hide");
 		$(self.panel_base+" .add_customer .newClient .newClientContactForm .form2").removeClass("hide");
-		$(self.panel_base+" .add_customer .newClient .process .circle").eq(2).removeClass("current");
-		$(self.panel_base+" .add_customer .newClient .process .rect").eq(1).removeClass("current");
 	};
 
 
