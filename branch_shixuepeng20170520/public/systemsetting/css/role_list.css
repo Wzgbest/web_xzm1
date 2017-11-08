@@ -129,7 +129,7 @@
 .systemsetting_role .content .one {
     clear: both;
     height: 30px;
-    margin-left: 25px;
+    margin-left: 5px;
     margin-top: 10px;
 }
 .systemsetting_role .content .one select{
@@ -155,19 +155,21 @@
 .systemsetting_role .content .p1 {
     font-size: 12px;
     float: left;
-    width: 67px;
-    height: 30px;
+    width: 112px;
+    height: 35px;
     text-align: center;
     line-height: 30px;
-    border: 1px solid #e5e5e5;
+    border: 1px solid #d1d9de;
     padding: 0px;
     border-top: 2px solid #e5e5e5;
     cursor: pointer;
 }
 .systemsetting_role .content .one .activity{
-    border-top: 2px solid #77b8ff;
-    background-color: #ffffff;
+    /*border-top: 2px solid #77b8ff;*/
+    color: #fff;
+    background-color: #249e92;
     cursor: pointer;
+    color: #fff;
 }
 
 .systemsetting_role .content .two {
@@ -266,7 +268,7 @@
     width: 852px;
     height: 519px;
     border: 1px solid #e5e5e5;
-    margin-left: 25px;
+    margin-left: 5px;
 
 }
 .systemsetting_role .m-tableBox{
@@ -274,8 +276,8 @@
     margin-left: 25px;
 }
 .systemsetting_role .tab_1{
-    width: 133px;
-    height: 80px;
+    width: 112px;
+    height: 56px;
     float: left;
     border-bottom:1px solid #e5e5e5 ;
     border-right: 1px solid #e5e5e5;
@@ -283,24 +285,24 @@
 }
 .systemsetting_role .tab_1 p{
     text-align: center;
-    line-height: 80px;
+    line-height: 56px;
     font-size: 12px;
 
 }
 .systemsetting_role .tab_2{
     width: 718px;
-    height: 81px;
+    height: 56px;
     float: left;
     /*border-bottom:1px solid #e5e5e5 ;*/
 }
 
 .systemsetting_role .tab_2 div{
     width: 718px;
-    height: 40px;
+    height: 56px;
 }
 .systemsetting_role .tab_2 .xuanze {
     border-bottom: 1px solid #e5e5e5;
-    line-height: 40px;
+    line-height: 56px;
 }
 .systemsetting_role .tab_2 .xuanze  input{
     vertical-align: middle;
@@ -317,8 +319,11 @@
     margin-left: 10px;
     cursor: pointer;
 }
+.systemsetting_role .down{
+	clear: both;
+}
 .systemsetting_role .tab_3{
-    width: 133px;
+    width: 112px;
     height: 440px;
     float: left;
     border-right: 1px solid #e5e5e5;
@@ -334,42 +339,82 @@
     width: 718px;
     height: 440px;
     float: left;
-
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 .systemsetting_role .tab_4 .left{
-    width: 220px;
+    width: 130px;
+    height: 440px;
+    float: left;
+    border-right: 1px solid #e5e5e5;
+
+}
+.systemsetting_role .tab_4 .center{
+    width: 150px;
     height: 440px;
     float: left;
     border-right: 1px solid #e5e5e5;
 
 }
 .systemsetting_role .tab_4 .right{
-    width: 496px;
+    /*width: 435px;最后改过来*/
+   width: 400px;
     height: 440px;
-    float: right;
+    float:left;
+}
+.systemsetting_role .tab_4 .left p{
+	width: 130px;
+    height: 40px;
+    background-color: #f2eaed;
+    text-align: center;
+    line-height: 40px;
+    font-size: 14px;
+}
+.systemsetting_role .tab_4 .center p{
+	width: 150px;
+    height: 40px;
+    background-color: #e8e7d9;
+    text-align: center;
+    line-height: 40px;
+    font-size: 14px;
+}
+.systemsetting_role .tab_4 .right p{
+	width:400px;
+    height: 40px;
+    background-color: #e6dbe8;
+    text-align: center;
+    line-height: 40px;
+    font-size: 14px;
 }
 .systemsetting_role .tab_4 .left ul li{
-    width: 220px;
+    width: 130px;
+    height: 39px;
+    border-top:1px solid #e5e5e5;
+
+}
+.systemsetting_role .tab_4 .center ul li{
+    width: 150px;
     height: 39px;
     border-top:1px solid #e5e5e5;
 
 }
 .systemsetting_role .tab_4 .right ul li{
-    width: 498px;
+	/*width: 435px;最后改过来*/
+    width: 400px;
     height: 39px;
     border-top:1px solid #e5e5e5;
 
 }
-.systemsetting_role .tab_4 ul li:nth-child(1){
+/*.systemsetting_role .tab_4 ul li:nth-child(1){
     border-top:none;
     background-color: #f2f6fd;
     text-align: center;
     line-height: 40px;
-}
-.systemsetting_role .tab_4 ul li:nth-child(11){
+}*/
+/*.systemsetting_role .tab_4 ul li:nth-child(11){
 
     height: 40px;
-}
+}*/
 .systemsetting_role .tab_4 ul li input{
     vertical-align: middle;
     cursor: pointer;

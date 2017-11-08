@@ -88,7 +88,7 @@ $("#frames #verification-billfr .verification_bill .u-tabList .u-tabOperation .r
             }
         },
         error: function() {
-            layer.msg('驳回发票申请时发生错误!',{icon:2});
+            layer.msg('已领取发票申请时发生错误!',{icon:2});
         }
     });
 });
