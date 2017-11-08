@@ -24,6 +24,7 @@ class Role extends Initialize{
     public function _initialize(){
         $this->rule_map = [];
         $this->rule_map["systemsetting/role/role_manage"] = "systemsetting/role/index/select";
+        $this->rule_map["systemsetting/role/employee_list"] = "systemsetting/role/index/select";
         parent::_initialize();
         $this->paginate_list_rows = config("paginate.list_rows");
     }
