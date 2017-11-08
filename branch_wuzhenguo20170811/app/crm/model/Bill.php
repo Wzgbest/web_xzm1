@@ -502,6 +502,15 @@ class Bill extends Base{
             ->find();
     }
 
+    public function getLastBillByType($type){
+        $map['status'] = ['gt',0];
+        $map['bill_type'] = $type;
+        return $this->model->table($this->table)
+            ->where($map)
+            ->order("id desc")
+            ->find();
+    }
+
     public function setBill($id,$data,$map=null){
         return $this->model->table($this->table)->where('id',$id)->where($map)->update($data);
     }

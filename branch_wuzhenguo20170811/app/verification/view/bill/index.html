@@ -137,12 +137,12 @@
     var verification_bill_list_manage = new list_manage("verification_bill","verification-billfr","/verification/bill/index",'{$p}','{$num}','{$max_page}','{$in_column}',"");
 </script>
 <script src="/verification/js/verification_bill.js"></script>
-<script type="text/javascript" src="/static/js/popUp.js"></script>
+<script type="text/javascript" src="/static/js/PopUp.js"></script>
 <script type="text/javascript">
     $(".verification_bill_index .u-tabList .u-tabOperation .approved").click(function(){
         let id = $(this).parent().siblings().children("input").val();
         $(".verification_bill_index_pop").attr("id",id);
-        let pop =  new popLoad(".verification_bill_index_pop","/verification/bill/approved_page");
+        let pop =  new popLoad(".verification_bill_index_pop","/verification/bill/approved_page/id/"+id);
     });
     $(".verification_bill_index .u-tabList .u-tabOperation .rejected").click(function(){
         let id = $(this).parent().siblings().children("input").val();
