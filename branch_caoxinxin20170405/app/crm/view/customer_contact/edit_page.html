@@ -51,17 +51,15 @@
             </select>
         </div>
         <div>
-            <span class="cont">介绍人</span>
-            <input type="text" name="introducer" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入介绍人" value="{$customer_contact.introducer}"/>
+            <!-- <span class="cont">介绍人</span>
+            <input type="text" name="introducer" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入介绍人" value="{$customer_contact.introducer}"/> -->
+            <span class="cont">生日</span>
+            <input type="date" name="birthday" value="{$customer_contact.birthday|day_format}" />
             <span class="cont">亲密程度</span>
             <select name="close_degree">
                 <option value="0" {eq name='customer_contact.close_degree' value='0'} selected="selected"{/eq}>不亲密</option>
                 <option value="1" {eq name='customer_contact.close_degree' value='1'} selected="selected"{/eq}>亲密</option>
             </select>
-        </div>
-        <div>
-            <span class="cont">生日</span>
-            <input type="date" name="birthday" value="{$customer_contact.birthday|day_format}" />
         </div>
         <div>
             <span class="cont u-area">爱好</span>
