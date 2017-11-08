@@ -90,20 +90,20 @@
     padding-top: 21px;
 }
 
-.customer_setting_edit .content p {
+.customer_setting_edit .content form>p {
     margin-bottom: 14px;
     margin-left: 34px;
     /*background-color: red;*/
 }
 
-.customer_setting_edit .content .p5 {
-    margin-top: 89px;
+.customer_setting_edit .p5 {
+    /*margin-top: 389px;*/
     margin-left: 340px;
 }
 
-.customer_setting_edit .content .p5 input {
-    width: 100px;
-    height: 41px;
+.customer_setting_edit .p5 input {
+    width: 100px !important;
+    height: 41px !important;
     border-radius: 10px;
     margin-right: 100px;
     background-color: #42a5f5;
@@ -113,7 +113,7 @@
     font-size: 16px;
 }
 
-.customer_setting_edit .content .p5 button {
+.customer_setting_edit .p5 button {
     width: 100px;
     height: 41px;
     border-radius: 10px;
