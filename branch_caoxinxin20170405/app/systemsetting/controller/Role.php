@@ -50,7 +50,12 @@ class Role extends Initialize{
         $role = $roleM->getRoleInfo($role_id);
         $this->assign('role',$role);
         $hav_struct = $role["hav_struct"];
-        $hav_struct_args = "struct_ids[]=".implode("&struct_ids[]=",explode(",",$role["hav_struct"]));
+        $hav_struct_arr = explode(",",$role["hav_struct"]);
+        $struM = new StructureModel($this->corp_id);
+        $struct_names = $struM->getStructureName($hav_struct_arr);
+        $struct_names_str = implode(",",$struct_names);
+        $this->assign('struct_names_str',$struct_names_str);
+        $hav_struct_args = "struct_ids[]=".implode("&struct_ids[]=",$hav_struct_arr);
         $this->assign('hav_struct_args',$hav_struct_args);
         $roleRuleM = new RoleRuleModel($this->corp_id);
         $role_rules = $roleRuleM->getRulesByRole($role_id);

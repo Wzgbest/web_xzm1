@@ -14,7 +14,7 @@
                 <input type="radio" name="data_type" {eq name="role.data_type" value="2"} checked="checked" {/eq} value="2" /><span>下级部门</span>
                 <input type="radio" name="data_type" {eq name="role.data_type" value="3"} checked="checked" {/eq} value="3" /><span>本部门及下级部门</span>
                 <input type="radio" name="data_type" {eq name="role.data_type" value="4"} checked="checked" {/eq} value="4" /><span>指定部门</span>
-                <input type="text" class="role_manage-select-window-choosen-staff" data-dep="{$role.hav_struct}" data-stf="" data-result="{$hav_struct_args}" placeholder="请选择部门" />
+                <input type="text" class="role_manage-select-window-choosen-staff" data-dep="{$role.hav_struct}" data-stf="" data-result="{$hav_struct_args}" placeholder="请选择部门" value="{$struct_names_str}"/>
 				<div class="main-content select-window" style="margin:0 auto;" data-num="0" data-str='struct_ids[]=,&,&,employees[]=,&' data-selector=".role_manage-select-window-choosen-staff"></div>
             </div>
         </div>
