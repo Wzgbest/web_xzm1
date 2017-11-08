@@ -185,7 +185,7 @@
     $(".verification_contract_index .u-tabList .u-tabOperation .approved").click(function(){
         let id = $(this).parent().siblings().children("input").val();
         $(".verification_contract_index_pop").attr("id",id);
-        let pop =  new popLoad(".verification_contract_index_pop","/verification/contract/approved_page/id/"+id);
+        let pop =  new popLoad(".verification_contract_index_pop","/verification/contract/approved_page/id/"+id.trim());
     });
     $(".verification_contract_index .u-tabList .u-tabOperation .rejected").click(function(){
         let id = $(this).parent().siblings().children("input").val();
