@@ -9,16 +9,13 @@
         </div>
         <div class="tab_2">
             <div class="xuanze" >
-                <input type="radio" name="data_type" {eq name="role.data_type" value="0"} checked="checked" {/eq} /><span>本人</span>
-                <input type="radio" name="data_type" {eq name="role.data_type" value="1"} checked="checked" {/eq} /><span>本部门</span>
-                <input type="radio" name="data_type" {eq name="role.data_type" value="2"} checked="checked" {/eq} /><span>下级部门</span>
-                <input type="radio" name="data_type" {eq name="role.data_type" value="3"} checked="checked" {/eq} /><span>本部门及下级部门</span>
-                <input type="radio" name="data_type" {eq name="role.data_type" value="4"} checked="checked" {/eq} /><span>指定部门</span>
-                <!--<select name="struct_ids">
-                    <option>请选择部门</option>
-                </select>-->
-                <input type="text" class="role_manage-select-window-choosen-staff" data-dep="" data-stf=""  placeholder="请选择部门" />
-				<div class="main-content select-window" style="margin:0 auto;" data-num="0" data-str='departments[]=,&,&,employees[]=,&' data-selector=".role_manage-select-window-choosen-staff"></div>
+                <input type="radio" name="data_type" {eq name="role.data_type" value="0"} checked="checked" {/eq} value="0" /><span>本人</span>
+                <input type="radio" name="data_type" {eq name="role.data_type" value="1"} checked="checked" {/eq} value="1" /><span>本部门</span>
+                <input type="radio" name="data_type" {eq name="role.data_type" value="2"} checked="checked" {/eq} value="2" /><span>下级部门</span>
+                <input type="radio" name="data_type" {eq name="role.data_type" value="3"} checked="checked" {/eq} value="3" /><span>本部门及下级部门</span>
+                <input type="radio" name="data_type" {eq name="role.data_type" value="4"} checked="checked" {/eq} value="4" /><span>指定部门</span>
+                <input type="text" class="role_manage-select-window-choosen-staff" data-dep="{$role.hav_struct}" data-stf="" data-result="{$hav_struct_args}" placeholder="请选择部门" value="{$struct_names_str}"/>
+				<div class="main-content select-window" style="margin:0 auto;" data-num="0" data-str='struct_ids[]=,&,&,employees[]=,&' data-selector=".role_manage-select-window-choosen-staff"></div>
             </div>
         </div>
     </div>
@@ -33,7 +30,7 @@
                 {volist name="rule_list" id="vo"}
                     {eq name="vo.type" value="0"}
                 <ul style="width: 130px;height: {$vo.child_num*40}px;">
-                    <li><input type="checkbox" name="rule_ids" value="{$vo.id}"
+                    <li><input type="checkbox" name="rule_ids" pid="{$vo.pid}" value="{$vo.id}"
                                {in name="vo.id" value="$role_rule_ids"}
                                checked="checked"
                                {/in}
@@ -48,7 +45,7 @@
                 <ul>
                     {present name="vo.child"}
                         {volist name="vo.child" id="voc"}
-                    <li><input type="checkbox" name="rule_ids" value="{$voc.id}"
+                    <li><input type="checkbox" name="rule_ids" pid="{$vo.pid}" value="{$voc.id}"
                                {in name="voc.id" value="$role_rule_ids"}
                                checked="checked"
                                {/in}
@@ -65,7 +62,7 @@
                     <li>
                         {neq name="vo" value="false"}
                             {volist name="vo" id="voc"}
-                        <input type="checkbox" name="rule_ids" value="{$voc.id}"
+                        <input type="checkbox" name="rule_ids" pid="{$vo.pid}" value="{$voc.id}"
                                {in name="voc.id" value="$role_rule_ids"}
                                checked="checked"
                                {/in}
@@ -80,7 +77,7 @@
             
             
         </div>
-        <button>保存</button>
+        <button class="save_rule">保存</button>
     </div>
 </div>
 

@@ -675,6 +675,10 @@ class Contract extends Base{
             ->count();
     }
 
+    public function setContractInfo($id,$data,$map=null){
+        return $this->model->table($this->dbprefix."contract")->where('id',$id)->where($map)->update($data);
+    }
+
     public function setContract($id,$data,$map=null){
         return $this->model->table($this->table)->where('id',$id)->where($map)->update($data);
     }

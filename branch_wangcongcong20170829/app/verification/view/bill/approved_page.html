@@ -2,6 +2,7 @@
 	发票审核<i class="fa fa-close fa-2x pop-close-btn"></i>
 </div>
 <div class="u-pop-mid2-content approved-page-pop">
+	{eq name="input_bill_no" value="1"}
 	<div class="tc _top ">
 		<span>上一个发票编号：
 			{present name="bill_last"}
@@ -15,6 +16,7 @@
 		<span class="cont">发票编号</span>
 		<input type="text" class="bill-num" placeholder="请输入发票号" />
 	</div>
+	{/eq}
 	<div class="tc">
 		<span class="cont" style="margin-left: 25px;">备注</span>
 		<input type="text" class="u-mark" />
@@ -33,6 +35,3 @@
 		margin: 0 5px 0 20px;
 	}
 </style>
-<script type="text/javascript">
-
-</script>
