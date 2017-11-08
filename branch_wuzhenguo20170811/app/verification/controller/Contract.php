@@ -79,6 +79,19 @@ class Contract extends Initialize{
         if(empty($contractApplied)){
             $this->error("未找到合同申请");
         }
+        $contract_apply_status = $contractApplied["contract_apply_status"];
+        if(empty($contract_apply_status) || $contract_apply_status>=6){
+            $result['info'] = "审批流程出现问题,请联系管理员！";
+            return json($result);
+        }
+        $contractSettingModel = new ContractModel($this->corp_id);
+        $contract_setting = $contractSettingModel->getContractSettingById($contractApplied["contract_type"]);
+        //如果当前审核生成合同号
+        $input_contract_no = 0;
+        if($contract_setting["create_contract_num_".$contract_apply_status]==1){
+            $input_contract_no = 1;
+        }
+        $this->assign("input_contract_no",$input_contract_no);
         $withdrawal_contracts = $contractAppliedM->getAllWithdrawalContract($contractApplied["contract_type"]);
         //var_exp($withdrawal_contracts,'$withdrawal_contracts',1);
         $this->assign("withdrawal_contracts",$withdrawal_contracts);
@@ -217,7 +230,7 @@ class Contract extends Initialize{
                     $contract_map["status"] = 7;
                     $contract_arr["applied_id"] = $id;
                     $contract_arr["status"] = 4;
-                    $contractUpdateFlg = $contractAppliedM->setContract($contract_id,$contract_arr,$contract_map);
+                    $contractUpdateFlg = $contractAppliedM->setContractInfo($contract_id,$contract_arr,$contract_map);
                     if(!$contractUpdateFlg){
                         exception("审批失败,更新追回合同时出现错误！");
                     }

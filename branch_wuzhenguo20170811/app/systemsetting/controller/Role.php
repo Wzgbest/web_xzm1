@@ -49,6 +49,14 @@ class Role extends Initialize{
         $roleM = new RoleModel($this->corp_id);
         $role = $roleM->getRoleInfo($role_id);
         $this->assign('role',$role);
+        $hav_struct = $role["hav_struct"];
+        $hav_struct_arr = explode(",",$role["hav_struct"]);
+        $struM = new StructureModel($this->corp_id);
+        $struct_names = $struM->getStructureName($hav_struct_arr);
+        $struct_names_str = implode(",",$struct_names);
+        $this->assign('struct_names_str',$struct_names_str);
+        $hav_struct_args = "struct_ids[]=".implode("&struct_ids[]=",$hav_struct_arr);
+        $this->assign('hav_struct_args',$hav_struct_args);
         $roleRuleM = new RoleRuleModel($this->corp_id);
         $role_rules = $roleRuleM->getRulesByRole($role_id);
 //        var_exp($role_rules,'$role_rules');
@@ -329,16 +337,19 @@ class Role extends Initialize{
                 $result['info'] = "修改数据权限失败";
                 exception("修改数据权限失败");
             }
-            $result = $this->_editRoleData($role_id,$data_type,$struct_ids);
+            $result = $this->_editRoleRule($role_id,$rule_ids);
             if (!$result["status"]) {
                 $result['info'] = "修改功能权限失败";
                 exception("修改功能权限失败");
             }
+            $result['status'] = 1;
+            $result['info'] = "修改功能权限成功!";
             $roleRuleM->link->commit();
-        } catch (\Exception $e) {
+        } catch (\Exception $ex) {
             $roleRuleM->link->rollback();
-            return json($result);
+            //$result['info'] = $ex->getMessage();
         }
+        return json($result);
     }
 
     /**
@@ -347,14 +358,26 @@ class Role extends Initialize{
     protected function _editRoleData($role_id,$data_type,$struct_ids){
         $result = ['status'=>0 ,'info'=>"修改角色数据权限时发生错误！"];
         $data["data_type"] = $data_type;
+        $hav_struct = '';
         if($data_type==4){
             //TODO 暂时使用字段记录对应部门,以后改为单独的关系表关联
-            $hav_struct = import(",",$struct_ids);
+            $hav_struct = implode(",",$struct_ids);
             $data["hav_struct"] = $hav_struct;
         }
         $rol = new RoleModel($this->corp_id);
-        $result["data"] = $rol->setRole($role_id,$data);
-        $result["status"] = $result["data"]>0;
+        $role_info = $rol->getRoleInfo($role_id);
+        $flg = false;
+        if($role_info["data_type"]!=$data_type||$hav_struct!=$role_info["hav_struct"]){
+            $flg = $rol->setRole($role_id,$data);
+//            var_exp($flg,'$flg_data_type');
+        }else{
+            $flg = true;
+        }
+        if(!$flg){
+            return $result;
+        }
+        $result["status"] = 1;
+        $result["info"] = "修改角色数据权限成功!";
         return $result;
     }
 
@@ -386,30 +409,32 @@ class Role extends Initialize{
         $roleRuleM = new RoleRuleModel($this->corp_id);
         //查询该角色下目前所有的权限
         $all_rules = $roleRuleM->getRuleIdByRoleId($role_id);
-        $rules_old_arr = [];
-        foreach ($all_rules as $val) {
-            $rules_old_arr[] .=$val['rule_id'];
-        }
+        $rules_old_arr = array_column($all_rules,"rule_id");
+//        var_exp($rule_ids,'$rule_ids');
         $add_rules = array_diff($rule_ids,$rules_old_arr);
+//        var_exp($add_rules,'$add_rules');
         $del_rules = array_diff($rules_old_arr,$rule_ids);
+//        var_exp($del_rules,'$del_rules');
         $roleRuleM->link->startTrans();
         try {
             if (!empty($add_rules)) {
                 $result = $this->_addRoleRule($role_id,$add_rules);
+//                var_exp($result,'$result_addRoleRule');
                 if (!$result["status"]) {
                     $result['info'] = "添加新权限失败";
                     exception("添加新权限失败");
                 }
             }
             if (!empty($del_rules)) {
-                $result = $this->_delRoleRule($role_id,$rule_ids);
+                $result = $this->_delRoleRule($role_id,$del_rules);
+//                var_exp($result,'$result_delRoleRule');
                 if (!$result["status"]) {
                     $result['info'] = "删除旧权限失败";
                     exception("删除旧权限失败");
                 }
             }
             $roleRuleM->link->commit();
-        } catch (\Exception $e) {
+        } catch (\Exception $ex) {
             $roleRuleM->link->rollback();
             return json($result);
         }
@@ -445,6 +470,7 @@ class Role extends Initialize{
             $data[$key]['role_id'] = $role_id;
             $data[$key]['rule_id'] = $value;
         }
+//        var_exp($data,'$data_addRoleRule');
         $flg = $roleRuleM->addRoleRule($data);
         if(!$flg){
             return $result;
@@ -476,6 +502,7 @@ class Role extends Initialize{
     protected function _delRoleRule($role_id,$rule_ids){
         $result = ['status'=>0 ,'info'=>"修改角色权限功能时发生错误！"];
         $roleRuleM = new RoleRuleModel($this->corp_id);
+//        var_exp($rule_ids,'$rule_ids_deleteRoleRule');
         $flg = $roleRuleM->deleteRoleRule($role_id,$rule_ids);
         if(!$flg){
             return $result;

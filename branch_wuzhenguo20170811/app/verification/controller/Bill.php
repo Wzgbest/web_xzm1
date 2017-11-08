@@ -78,6 +78,14 @@ class Bill extends Initialize{
         }
         $billM = new BillModel($this->corp_id);
         $bill_info = $billM->getBillById($id);
+        $bill_handle_status = $bill_info["handle_status"];
+        $billSettingModel = new BillSettingModel($this->corp_id);
+        $contractSetting = $billSettingModel->getBillSettingById($bill_info["bill_type"]);
+        $input_bill_no = 0;
+        if($contractSetting["create_bill_num_".$bill_handle_status]==1){
+            $input_bill_no = 1;
+        }
+        $this->assign("input_bill_no",$input_bill_no);
         $bill_last = $billM->getLastBillByType($bill_info["bill_type"]);
         //var_exp($bill_last,'$bill_last',1);
         $this->assign('bill_last',$bill_last);
