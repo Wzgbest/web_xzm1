@@ -20,6 +20,32 @@ class Contract extends Base{
     }
     /**
      * 查询所有合同
+     * @param $type int 合同类型
+     * @param $user_id int 用户id
+     * @return array|false
+     * @throws \think\Exception
+     */
+    public function getAllWithdrawalContract($type,$user_id=null){
+        //筛选
+        $map = [];
+        $map["ca.contract_type"] = $type;
+        $map["c.status"] = 7;
+        if($user_id){
+            $map["ca.employee_id"] = $user_id;
+        }
+
+        $contractList = $this->model->table($this->dbprefix."contract")->alias('c')
+            ->join($this->table.' ca','ca.id = c.applied_id',"LEFT")
+            ->join($this->dbprefix.'contract_setting cs','cs.id = ca.contract_type',"LEFT")
+            ->where($map)
+            ->order("c.id desc")
+            ->field('c.*,ca.contract_type,ca.contract_num,cs.contract_name as contract_type_name')
+            //->fetchSql(true)
+            ->select();
+        return $contractList;
+    }
+    /**
+     * 查询所有合同
      * @param $user_id int 用户id
      * @param $type int 合同类型
      * @param $status array 状态
