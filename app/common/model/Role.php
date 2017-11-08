@@ -85,7 +85,10 @@ class Role extends Base
      */
     public function setRole($id,$data)
     {
-        return $this->model->table($this->table)->where('id',$id)->update($data);
+        return $this->model->table($this->table)
+            ->where('id',$id)
+            //->fetchSql(true)
+            ->update($data);
     }
 
     /**

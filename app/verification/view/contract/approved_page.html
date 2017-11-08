@@ -2,9 +2,9 @@
     合同审核<i class="fa fa-close fa-2x pop-close-btn"></i>
 </div>
 <div class="u-pop-mid2-content approved-page-pop">
+    {eq name="input_contract_no" value="1"}
     <div class="tc _top ">
-        <input type="radio" class="approved-page-radio" name="approved-page-radio" value="1" />使用新合同号
-
+        <input type="radio" class="approved-page-radio" name="approved-page-radio" value="1" checked="checked" />使用新合同号
         <input type="radio" class="approved-page-radio" name="approved-page-radio" value="2" />使用追回合同号
     </div>
     <div class="tc">
@@ -15,6 +15,7 @@
             {/volist}
         </select>
     </div>
+    {/eq}
     <div class="tc">
         <span class="cont" style="margin-left: -23px;">备注</span>
         <input type="text" class="u-mark">
