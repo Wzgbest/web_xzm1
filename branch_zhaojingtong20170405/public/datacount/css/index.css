@@ -1,7 +1,7 @@
  header{
 	height: 40px;
 	background-color: white;
-	box-shadow: -1px 2px #ebedf0;
+	box-shadow: 0 2px #ebedf0;
 }
  .m-firNav{
 	height: 40px;
@@ -103,7 +103,7 @@
 /*首页*/
 .summary .self-info{
 	height: 100px;
-	margin-top: 40px;
+	/*margin-top: 40px;*/
 }
 .u-faceContent{
 	width: 170px;

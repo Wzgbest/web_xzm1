@@ -112,7 +112,7 @@
 	margin: 0 10px 0 10px;
 }
 .speech-list{
-	margin-top: 110px;
+	margin-top: 60px;
 }
 .speech-list li:hover {
 	background-color: #f0f0f0;
@@ -214,7 +214,7 @@
 }
 /*工作圈*/
 .knowledgebase_company_library_index .library-list{
-	margin-top: 100px;
+	margin-top: 60px;
 }
 .knowledgebase_company_library_index .library-list .lib-content{
 	padding:10px 0 0 85px;
