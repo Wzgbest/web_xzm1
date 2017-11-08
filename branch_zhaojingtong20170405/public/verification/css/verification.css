@@ -2,8 +2,10 @@
 	/*margin-top: 40px;*/
 }
 .verification_sale_chance_detail .sale-chance-record{
-	background-color: #f5f8fd;
-	margin-top: 40px;
+	margin: 0;
+	box-sizing:border-box;
+	padding-top:40px;
+	padding-bottom: 0; 
 }
 .verification_sale_chance_detail .sale-chance-record hr{
 	color: #ccc;

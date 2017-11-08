@@ -17,6 +17,7 @@ function init(){
 	// $("#frames .once").width(window.innerWidth - sideW);
 	// $("#frames .once").height(window.innerHeight - 40);
     $(".m-3rd-container").height(window.innerHeight - 120);
+    // $(".m-3rd-content").height(window.innerHeight - 120);
     // 三级菜单栏固定
     // $("#frames .once header").width(window.innerWidth - sideW - 17);
     //四级菜单
