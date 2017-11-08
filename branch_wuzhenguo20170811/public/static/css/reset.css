@@ -149,6 +149,11 @@ textarea {
   overflow: auto;
   background-color: #ecf0f5;
 }
+.m-4th-container{
+  width: 100%;
+  overflow: auto;
+  background-color: #ecf0f5;
+}
 .m-3rd-content{
   width: 100%;
   box-sizing: border-box;
@@ -182,6 +187,7 @@ textarea {
   font-size: 15px;
   text-align: center;
   margin-left: 10px;
+  cursor: pointer;
 }
 .m-3rd-footer .btn1{
   border: 1px solid #dcdcdc;
