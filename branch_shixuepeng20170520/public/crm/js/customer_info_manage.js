@@ -158,8 +158,9 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				self.show_panel(panel,data);
 				$(panel+" .m-form .customer_info_edit_show").click(function(){
 					self.edit(self.id,1);
+					changeFramesSize();
 				});
-			changeFramesSize();
+			
 			},
 			error:function(){
                 layer.msg('获取客户信息失败!',{icon:2});
@@ -184,6 +185,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				$(panel+" .m-form .u-submitButton .customer_edit_cancel").click(function(){
 					self.edit_updated_show();
 				});
+				changeFramesSize();
 			},
 			error:function(){
                 layer.msg('获取客户信息失败!',{icon:2});
