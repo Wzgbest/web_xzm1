@@ -70,9 +70,9 @@ class Initialize extends Controller
 
         $request = Request::instance();
         $path = $request->path();
-//        var_exp($path,'$path');
+        var_exp($path,'$path');
         if(!$this->checkRule($path)){
-            $this->noRole();
+            //$this->noRole();
         }
     }
     protected function checkRule($rule_name){
@@ -86,7 +86,7 @@ class Initialize extends Controller
             $hav_rules = $roleRuleM->getRuleNamesByUid($this->uid);
             set_cache_by_tel($this->telephone,"hav_rules",$hav_rules,600);
         }
-//        var_exp($hav_rules,'$hav_rules');
+        var_exp($hav_rules,'$hav_rules');
         if(in_array($rule_name,$hav_rules)){
             $check_flg = true;
         }
