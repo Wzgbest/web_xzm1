@@ -180,12 +180,12 @@
     var verification_contract_list_manage = new list_manage("verification_contract","verification-contractfr","/verification/contract/index",'{$p}','{$num}','{$max_page}','{$in_column}',"");
 </script>
 <script src="/verification/js/verification_contract.js"></script>
-<script type="text/javascript" src="/static/js/popUp.js"></script>
+<script type="text/javascript" src="/static/js/PopUp.js"></script>
 <script type="text/javascript">
     $(".verification_contract_index .u-tabList .u-tabOperation .approved").click(function(){
         let id = $(this).parent().siblings().children("input").val();
         $(".verification_contract_index_pop").attr("id",id);
-        let pop =  new popLoad(".verification_contract_index_pop","/verification/contract/approved_page");
+        let pop =  new popLoad(".verification_contract_index_pop","/verification/contract/approved_page/id/"+id);
     });
     $(".verification_contract_index .u-tabList .u-tabOperation .rejected").click(function(){
         let id = $(this).parent().siblings().children("input").val();

@@ -361,7 +361,7 @@ class SaleChance extends Initialize{
             //var_exp($role_employee_index,'$role_employee_index',1);
             $this->assign('role_employee_index',$role_employee_index);
 
-            $contract_status = [5,8];
+            $contract_status = 5;
             $contractAppliedModel = new ContractAppliedModel($this->corp_id);
             $contracts = $contractAppliedModel->getAllContractNoAndType($uid,null,[],$contract_status,null,$inContractId);
             //var_exp($contracts,'$contracts',1);
