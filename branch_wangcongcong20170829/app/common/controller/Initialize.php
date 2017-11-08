@@ -80,7 +80,7 @@ class Initialize extends Controller
             return true;
         }
         $check_flg = false;
-        $hav_rules = get_cache_by_tel($this->telephone,"hav_rules");
+        $hav_rules = false;//get_cache_by_tel($this->telephone,"hav_rules");
         if(!$hav_rules){
             $roleRuleM = new RoleRule($this->corp_id);
             $hav_rules = $roleRuleM->getRuleNamesByUid($this->uid);
