@@ -12,11 +12,11 @@
 }*/
 /************************************************************************/
 /*header*/
-.crm_customer header{
+/* .crm_customer header{
 	height: 40px;
 	background-color: white;
 	box-shadow: -1px 2px #ebedf0;
-}
+} */
 .crm_customer .m-firNav{
 	width: 960px;
 	height: 40px;
@@ -48,7 +48,7 @@
 /************************************************************************/
 /*客户列表*/
 .crm_customer .myAllClientsPage,.crm_customer .myAllSaleChancePage{
-	margin-top: 40px;
+	/*margin-top: 40px;*/
 }
 
 .crm_customer .m-secNav{
