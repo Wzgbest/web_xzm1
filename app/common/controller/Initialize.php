@@ -19,6 +19,8 @@ class Initialize extends Controller
     protected $access_token;
     protected $device_type;
     protected $rule_white_list;
+    protected $hav_rules;
+    protected $rule_map;
 
     public function _initialize(){
         $telephone = input('userid','',"string");
@@ -81,6 +83,9 @@ class Initialize extends Controller
         }
 //        var_exp($rule_name_arr,'$rule_name_arr');
         $rule_name = implode("/",$rule_name_arr);
+        if(isset($this->rule_map[$rule_name])){
+            $rule_name = $this->rule_map[$rule_name];
+        }
         if(!$this->checkRule($rule_name)){
 //            $this->noRole();
         }
@@ -90,14 +95,14 @@ class Initialize extends Controller
             return true;
         }
         $check_flg = false;
-        $hav_rules = false;//get_cache_by_tel($this->telephone,"hav_rules");
-        if(!$hav_rules){
+        $this->hav_rules = false;//get_cache_by_tel($this->telephone,"hav_rules");
+        if(!$this->hav_rules){
             $roleRuleM = new RoleRule($this->corp_id);
-            $hav_rules = $roleRuleM->getRuleNamesByUid($this->uid);
-            set_cache_by_tel($this->telephone,"hav_rules",$hav_rules,600);
+            $this->hav_rules = $roleRuleM->getRuleNamesByUid($this->uid);
+            set_cache_by_tel($this->telephone,"hav_rules",$this->hav_rules,600);
         }
 //        var_exp($hav_rules,'$hav_rules');
-        if(in_array($rule_name,$hav_rules)){
+        if(in_array($rule_name,$this->hav_rules)){
             $check_flg = true;
         }
         return $check_flg;
