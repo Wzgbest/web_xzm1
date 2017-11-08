@@ -39,7 +39,7 @@ class RoleRule extends Base
     /**
      * 根据员工id查找对应的权限
      * @param $uid int 员工id
-     * @return false|\PDOStatement|string|\think\Collection
+     * @return array
      * created by blu10ph
      */
     public function getRuleNamesByUid($uid,$status=1){
