@@ -216,7 +216,7 @@ $(role_item_list_panel).on('click', ".role_item .edit_item_check", function() {
 	var role_id = findRoleId(this);
 	console.log(role_id); 
 	$.ajax({
-		url: '/systemsetting/role/editRole',
+		url: '/systemsetting/role/editRoleName',
 		type: 'post',
 		data: "role_id=" + role_id + "&role_name=" + edit_role_name,
 		dataType: "json",

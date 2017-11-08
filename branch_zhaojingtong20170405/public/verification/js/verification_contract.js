@@ -8,9 +8,11 @@
 
 //通过
 $(".verification_contract_index_pop").on("click",".approved-page-pop .pop-submit-btn",function(){
-    let id = $(".verification_contract_index_pop").attr("id");
+    let id = $(".verification_contract_index_pop").attr("id").trim();
     let remark = $(".verification_contract_index_pop .approved-page-pop .u-mark").val();
-    let data = "id="+id+"&remark="+remark;
+    let use_withdrawal = $(".verification_contract_index_pop .approved-page-pop .approved-page-radio").val();
+    let contract_id = $(".verification_contract_index_pop .approved-page-pop .contract-number-list").val();
+    let data = "id="+id+"&remark="+remark+"&use_withdrawal="+use_withdrawal+"&contract_id="+contract_id;
     $.ajax({
         url: '/verification/contract/approved',
         type: 'post',
@@ -35,6 +37,10 @@ $(".verification_contract_index_pop").on("click",".rejected-page-pop .pop-submit
     let remark = $(".contract-reject-radio:checked").val();
     if(remark=="其他原因"){
         remark=$(".verification_contract_index_pop .rejected-page-pop .u-mark").val();
+    }
+    if(remark==""){
+        layer.msg('请输入原因',{icon:2});
+        return 0;
     }
     let data = "id="+id+"&remark="+remark;
     $.ajax({

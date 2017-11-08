@@ -25,7 +25,7 @@ $(".verification_bill_index_pop").on("click",".approved-page-pop .pop-submit-btn
     //     }
     // }
     if(bill_no==""){
-        alert("请输入发票号");
+        layer.msg('请输入发票号',{icon:2});
         return 0;
     }
     var data = "id="+id+"&bill_no="+bill_no+"&remark="+remark;
@@ -51,6 +51,10 @@ $(".verification_bill_index_pop").on("click",".rejected-page-pop .pop-submit-btn
     var remark = $(".verification_bill_index_pop .rejected-page-radio:checked").val();
     if(remark=="其他原因"){
         remark = $(".verification_bill_index_pop .u-mark").val();
+    }
+    if(remark==""){
+        layer.msg('请输入原因',{icon:2});
+        return 0;
     }
     var data = "id="+id+"&remark="+remark;
     $.ajax({
