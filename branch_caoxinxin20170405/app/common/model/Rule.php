@@ -20,9 +20,9 @@ class Rule extends Base
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getAllRules()
+    public function getAllRules($status=1)
     {
-        return $this->model->table($this->table)->select();
+        return $this->model->table($this->table)->where("status",$status)->select();
     }
 
     /**
