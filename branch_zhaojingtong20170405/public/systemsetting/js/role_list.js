@@ -387,26 +387,3 @@ function role_list_employee_del(role_id, user_id) {
 
 $(role_list_panel_base + " .dv1 .role_name:eq(0)").click();
 
-
-
-
-//保存
-//$(panel).on('click', " button", function() {
-//	var role_id = findActivityRoleId();
-//	loadRuleManage(role_id);
-//	
-//});
-//$.ajax({
-//  url:url,
-//  type:'get',
-//  async:false,
-//  success:function (data) {
-//     
-//      $('#frames #'+rule_list_hide_panel).addClass("hide");
-//      $('#frames #'+panel).html(data);
-//      $('#frames #'+panel).removeClass("hide");
-//  },
-//  error:function(){
-//      layer.msg('获取权限信息失败!',{icon:2});
-//  }
-//});
