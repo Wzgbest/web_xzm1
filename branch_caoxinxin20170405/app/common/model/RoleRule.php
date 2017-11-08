@@ -50,10 +50,9 @@ class RoleRule extends Base
         return $this->model->table($this->table)->alias('rr')
             ->join(config('database.prefix').'role_employee re','rr.role_id = re.role_id')
             ->join(config('database.prefix').'rule ru','rr.rule_id = ru.id')
-            ->field('ru.rule_name')
             ->group("ru.id")
             ->where($map)
-            ->select();
+            ->column('ru.rule_name','ru.id');
     }
 
     /**
