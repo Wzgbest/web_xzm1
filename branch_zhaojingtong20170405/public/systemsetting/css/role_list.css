@@ -266,7 +266,7 @@
 .systemsetting_role .table{
     clear: both;
     width: 852px;
-    height: 519px;
+    height: 539px;
     border: 1px solid #e5e5e5;
     margin-left: 5px;
 
@@ -322,9 +322,19 @@
 .systemsetting_role .down{
 	clear: both;
 }
+.systemsetting_role .down button{
+	width: 80px;
+	height: 30px;
+	background-color: #78beff;
+	text-align: center;
+	line-height: 30px;
+	color: #fff;
+	margin-left: 580px;
+	border-radius: 5px;
+}
 .systemsetting_role .tab_3{
     width: 112px;
-    height: 440px;
+    height: 460px;
     float: left;
     border-right: 1px solid #e5e5e5;
     background-color: #ebf3ff;
