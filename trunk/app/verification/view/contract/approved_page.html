@@ -1,16 +1,18 @@
 <div class="u-pop-header">
-	合同审核<i class="fa fa-close fa-2x pop-close-btn"></i>
+    合同审核<i class="fa fa-close fa-2x pop-close-btn"></i>
 </div>
 <div class="u-pop-mid2-content approved-page-pop">
-	<div class="tc _top ">
+    <div class="tc _top ">
         <input type="radio" class="approved-page-radio" name="approved-page-radio" value="1" />使用新合同号
-            
+
         <input type="radio" class="approved-page-radio" name="approved-page-radio" value="2" />使用追回合同号
     </div>
     <div class="tc">
         <span class="cont" style="margin-left: -50px;">合同编号</span>
         <select class="contract-number-list">
-            <option value="1">1</option>
+            {volist name="withdrawal_contracts" id="vo"}
+            <option value="{$vo.id}">{$vo.contract_no}</option>
+            {/volist}
         </select>
     </div>
     <div class="tc">
@@ -19,16 +21,16 @@
     </div>
 </div>
 <div class="approved-page-pop u-pop-footer">
-	<button class="pop-close-btn type1 ">取消</button>
-	<button class="pop-submit-btn type2">通过</button>
+    <button class="pop-close-btn type1 ">取消</button>
+    <button class="pop-submit-btn type2">通过</button>
 </div>
 <link rel="stylesheet" type="text/css" href="/static/css/popUp.css">
 <style type="text/css">
-	.verification_contract_index_pop .u-pop-min-content h1{
-		line-height: 100px;
-		font-weight: normal;
-		font-size: 14px;
-	}
+    .verification_contract_index_pop .u-pop-min-content h1{
+        line-height: 100px;
+        font-weight: normal;
+        font-size: 14px;
+    }
     .verification_contract_index_pop .approved-page-pop ._top{
         font-size: 14px;
         margin-bottom: 20px;
