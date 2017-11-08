@@ -97,7 +97,7 @@ $("#frames #verification-contractfr .verification_contract .u-tabList .u-tabOper
             }
         },
         error: function() {
-            layer.msg('作废时发生错误!',{icon:2});
+            layer.msg('已领取时发生错误!',{icon:2});
         }
     });
 });
@@ -121,7 +121,7 @@ $("#frames #verification-contractfr .verification_contract .u-tabList .u-tabOper
             }
         },
         error: function() {
-            layer.msg('作废时发生错误!',{icon:2});
+            layer.msg('收回时发生错误!',{icon:2});
         }
     });
 });

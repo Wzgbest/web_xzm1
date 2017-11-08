@@ -18,6 +18,7 @@ class Initialize extends Controller
     protected $telephone;
     protected $access_token;
     protected $device_type;
+    protected $rule_white_list;
 
     public function _initialize(){
         $telephone = input('userid','',"string");
@@ -58,24 +59,26 @@ class Initialize extends Controller
         $this->corp_id = $info["corp_id"];
         set_userinfo($this->corp_id,$this->telephone,$info["userinfo"]);
 
-        $request = Request::instance();
-        $path = $request->path();
-        //var_exp($path,'$path');
-        $white_list = [
+        //权限白名单
+        $this->rule_white_list = [
             "index/index/index",
             "datacount/index/summary",
             "index/index/map",
             "index/index/select_window",
             "index/index/developing",
         ];
-        if(in_array($path,$white_list)){
-            return;
-        }
+
+        $request = Request::instance();
+        $path = $request->path();
+        //var_exp($path,'$path');
         if(!$this->checkRule($path)){
             //$this->noRole();
         }
     }
     protected function checkRule($rule_name){
+        if(in_array($rule_name,$this->rule_white_list)){
+            return true;
+        }
         $check_flg = false;
         $hav_rules = get_cache_by_tel($this->telephone,"hav_rules");
         if(!$hav_rules){
