@@ -20,7 +20,7 @@ class Index extends Initialize{
     public function index(){
         $userinfo = get_userinfo();
         $this->assign("userinfo",$userinfo);
-        $menus = get_cache_by_tel($this->telephone,"menus");
+        $menus = false;//get_cache_by_tel($this->telephone,"menus");
         if(!$menus){
             $roleRuleM = new RoleRule($this->corp_id);
             $menus = $roleRuleM->getMenusByUid($this->uid);
