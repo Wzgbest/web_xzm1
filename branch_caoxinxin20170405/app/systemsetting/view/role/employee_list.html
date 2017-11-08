@@ -2,7 +2,9 @@
 	<form class="search_form" onsubmit="return false;">
         <p class="p1 role_manage ">权限管理</p>
         <p class="p1 employee_manage activity">成员管理</p>
-        <select name="structure">
+       
+        <div class="box">
+        	<select name="structure">
             <option value="">直属部门</option>
             {volist name="structs" id="vo"}
             <option value="{$vo.id}" {present name='filter.structure' }{eq name='filter.structure' value='$vo.id' } selected="selected" {/eq}{/present}>{$vo.struct_name}</option>
@@ -12,6 +14,8 @@
         <input type="text" name="truename" placeholder="输入姓名" value="{present name='filter.truename'}{$filter.truename}{/present}" />
         <button class="u-btnSearch">查询</button>
         <button class="employee_add">新增</button>
+        </div>
+       
     </form>
 </div>
 <div class="employee_list">
