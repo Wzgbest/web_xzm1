@@ -72,6 +72,15 @@ class Bill extends Initialize{
         return view();
     }
     public function approved_page(){
+        $id = input("id",0,"int");
+        if(!$id){
+            $this->error("参数错误!");
+        }
+        $billM = new BillModel($this->corp_id);
+        $bill_info = $billM->getBillById($id);
+        $bill_last = $billM->getLastBillByType($bill_info["bill_type"]);
+        //var_exp($bill_last,'$bill_last',1);
+        $this->assign('bill_last',$bill_last);
         return view();
     }
     public function rejected_page(){
