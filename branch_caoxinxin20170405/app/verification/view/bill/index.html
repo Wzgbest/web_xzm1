@@ -63,7 +63,7 @@
                             {eq name="vo.status" value="0"}
                                 <span class="rejected">驳回</span>
                                 <span class="approved {eq name='vo[$vo["now_handle_create_item"]]' value='1'}bill_no{/eq}" bill_no="{$vo.bill_no}">通过</span>
-                                <span class="approved remark {eq name='vo[$vo["now_handle_create_item"]]' value='1'}bill_no{/eq}" title="备注通过">备注通过</span>
+                                <!-- <span class="approved remark {eq name='vo[$vo["now_handle_create_item"]]' value='1'}bill_no{/eq}" title="备注通过">备注通过</span> -->
                             {/eq}
                             {eq name="vo.status" value="4"}
                                 <span class="received">已领取</span>
@@ -99,7 +99,7 @@
                             {eq name="vo.status" value="0"}
                                 <span class="rejected">驳回</span>
                                 <span class="approved {eq name='vo[$vo["now_handle_create_item"]]' value='1'}bill_no{/eq}" bill_no="{$vo.bill_no}">通过</span>
-                                <span class="approved-mark remark {eq name='vo[$vo["now_handle_create_item"]]' value='1'}bill_no{/eq}" title="备注通过">备注通过</span>
+                                <!-- <span class="approved-mark remark {eq name='vo[$vo["now_handle_create_item"]]' value='1'}bill_no{/eq}" title="备注通过">备注通过</span> -->
                             {/eq}
                             {eq name="vo.status" value="4"}
                                 <span class="received">已领取</span>
@@ -126,7 +126,7 @@
             </div>
             {include file="common@common/page"/}
         </section>
-        <section class="verification_bill_index_pop popUp hide">
+        <section class="verification_bill_index_pop u-pop-min popUp hide">
             
         </section>
     </div>
@@ -140,9 +140,13 @@
 <script type="text/javascript" src="/static/js/popUp.js"></script>
 <script type="text/javascript">
     $(".verification_bill_index .u-tabList .u-tabOperation .approved").click(function(){
+        let id = $(this).parent().siblings().children("input").val();
+        $(".verification_bill_index_pop").attr("id",id);
         let pop =  new popLoad(".verification_bill_index_pop","/verification/bill/approved_page");
     });
     $(".verification_bill_index .u-tabList .u-tabOperation .rejected").click(function(){
+        let id = $(this).parent().siblings().children("input").val();
+        $(".verification_bill_index_pop").attr("id",id);
         let pop =  new popLoad(".verification_bill_index_pop","/verification/bill/rejected_page");
     });
 </script>
