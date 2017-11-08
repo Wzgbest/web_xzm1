@@ -67,6 +67,7 @@ function loadRoleEmployeeTable(role_id) {
 		}
 	});
 }
+
 var role_item_list_panel = '.systemsetting_role .content .dv1 .role_item_list';
 var role_add_employee_panel = role_list_panel_base + ' .addEmployeeModal';
 //$(".systemsetting_role .top .add").click(function() {
@@ -387,3 +388,57 @@ function role_list_employee_del(role_id, user_id) {
 
 $(role_list_panel_base + " .dv1 .role_name:eq(0)").click();
 
+
+$(panel).on('click', ".tab_2 .xuanze input[name='data_type']", function() {
+    $(panel+" .tab_2 .xuanze input[name='data_type']").attr("checked",false);
+    $(this).prop('checked',true);
+    $(this).attr("checked","checked");
+});
+
+$(panel).on('click', ".tab_4 input[name='rule_ids']", function() {
+    console.log("checked",$(this));
+    var val = $(this).prop('checked');
+    console.log("val",val);
+    if(val){
+        $(this).prop('checked',true);
+        $(this).attr("checked","checked");
+	}else{
+        $(this).prop('checked',false);
+        $(this).removeAttr("checked");
+	}
+});
+
+//保存
+$(panel).on('click', ".save_rule", function() {
+    var role_id = findActivityRoleId();
+    var data_type = $(panel+" .tab_2 .xuanze input[name='data_type'][checked='checked']").val();
+    var struct_ids = $(panel+" .tab_2 .xuanze .role_manage-select-window-choosen-staff").attr("data-result");
+    var rule_ids_arr = [];
+    var rule_ids = "";
+    console.log($(panel+" .tab_4 input[name='rule_ids'][checked='checked']"));
+    $(panel+" .tab_4 input[name='rule_ids'][checked='checked']").each(function(){
+        rule_ids_arr.push($(this).val());
+    });
+    console.log("rule_ids_arr",rule_ids_arr);
+    rule_ids+="rule_ids[]="+rule_ids_arr.join("&rule_ids[]=");
+
+	var data = "role_id=" + role_id + "&data_type=" + data_type + "&" + struct_ids + "&" + rule_ids;
+	console.log("data",data);
+	var url = "/systemsetting/role/editRoleAll/";
+    $.ajax({
+        url: url,
+        type: 'post',
+        async: false,
+        dataType: "json",
+        data: data,
+        success:function (data) {
+            layer.msg(data.info,{icon:data.status==1?1:2});
+        	if(data.status==1){
+                loadRuleManage(role_id);
+			}
+        },
+        error:function(){
+            layer.msg('保存权限信息失败!',{icon:2});
+        }
+    });
+});
