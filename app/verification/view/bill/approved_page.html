@@ -1,20 +1,21 @@
 <div class="u-pop-header">
 	发票审核<i class="fa fa-close fa-2x pop-close-btn"></i>
 </div>
-<div class="u-pop-mid-content approved-page-pop">
+<div class="u-pop-mid2-content approved-page-pop">
 	<div class="tc _top ">
-		<input type="radio" class="approved-page-radio" name="approved-page-radio" value="1" />使用新发票
-			
-		<input type="radio" class="approved-page-radio" name="approved-page-radio" value="2" />使用追回发票
+		<span>上一个发票编号：12138</span>
 	</div>
 	<div class="tc">
 		<span class="cont">发票编号</span>
-		<select class="bill-number-list">
-		</select>
+		<input type="text" class="bill-num" placeholder="请输入发票号" />
 	</div>
+    <div class="tc">
+        <span class="cont" style="margin-left: 25px;">备注</span>
+        <input type="text" class="u-mark" />
+    </div>
 </div>
-<div class="u-pop-footer">
-	<button class="pop-submit-btn type1">取消</button>
+<div class="approved-page-pop u-pop-footer">
+	<button class="pop-close-btn type1">取消</button>
 	<button class="pop-submit-btn type2">通过</button>
 </div>
 <style type="text/css">
@@ -27,41 +28,5 @@
 	}
 </style>
 <script type="text/javascript">
-	$(".verification_bill_index .approved-page-radio").change(function(){
-		console.log($(".verification_bill_index .approved-page-radio").val());
-	});
-	$("#").click(function(){
-    var id = $(this).parent().siblings().children("input").val();
-    var remark = "";
-    var bill_no = "";
-    if($(this).hasClass("remark")){
-        remark = prompt("请输入备注","");
-        if (remark==null || remark==""){
-            return;
-        }
-    }
-    if($(this).hasClass("bill_no")){
-        bill_no = $(this).attr("bill_no");
-        bill_no = prompt("请输入发票号",bill_no);
-        if (bill_no==null || bill_no==""){
-            return;
-        }
-    }
-    var data = "id="+id+"&bill_no="+bill_no+"&remark="+remark;
-    $.ajax({
-        url: '/verification/bill/approved',
-        type: 'post',
-        data: data,
-        success: function(data) {
-            //console.log(data);
-            layer.msg(data.info,{icon:data.status==1?1:2});
-            if(data.status) {
-                verification_bill_list_manage.reload_list();
-            }
-        },
-        error: function() {
-            layer.msg('通过发票申请时发生错误!',{icon:2});
-        }
-    });
-});
+	
 </script>
