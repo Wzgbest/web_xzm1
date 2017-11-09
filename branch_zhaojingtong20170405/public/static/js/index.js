@@ -286,3 +286,36 @@ $(document).ready(function() {
         }
     });
 });
+
+//删除数据
+function delData(options,callback){
+    var index=layer.open({
+        content: options.title,
+        btn: ['确认', '取消'],
+        shadeClose: false,
+        yes:function(){
+            $.ajax({
+                type: 'POST',
+                url: options.url,
+                data: {id:options.id},
+                success: function(data) {
+                    if (data.status) {
+                        layer.msg(data.message, {icon: 1});
+                        if(callback){
+                            callback();
+                        }
+                    } else {
+                        layer.msg(data.message, {icon: 2});
+                    }
+                },
+                error: function() {
+                    console.log('保存失败，未连接到服务器！');
+                }
+            });
+            layer.close(index);
+        },
+        cancel:function(){
+            layer.close(index);
+        }
+    });
+}
