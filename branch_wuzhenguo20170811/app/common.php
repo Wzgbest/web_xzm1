@@ -1981,3 +1981,30 @@ function get_employee_truename($uids){
     $employeeNames = $employeeModel->getEmployeeNameByUserids($uids);
     return $employeeNames;
 }
+
+/**
+ * @param $type
+ * @return null|string
+ * 规则类型对应的名称
+ * 0菜单组,1内部方法,2外部url,3功能点
+ */
+function get_rule_type_name($type){
+    $type_name = null;
+    switch ($type){
+        case 0:
+            $type_name = "菜单组";
+            break;
+        case 1:
+            $type_name = "内部方法";
+            break;
+        case 2:
+            $type_name = "外部url";
+            break;
+        case 3:
+            $type_name = "功能点";
+            break;
+        default:
+            $type_name = "无";
+    }
+    return $type_name;
+}

@@ -1,0 +1,62 @@
+<div id="top">
+    <ul class="firNav">
+        <li onclick="rule_list_show_list();" class="current"><div>权限管理</div></li>
+        <i class="fa fa-angle-right fa-2x"></i>
+        <span class="span-info">编辑</span>
+    </ul>
+</div>
+<div id="content">
+    <form id="rule_list_edit_form" class="rule_list_edit_form" onsubmit="return false;">
+        <div class="dv1">
+            <p class="p3">
+                <span>规则名</span>
+                <input type="text" name="rule_title" value="{$info.rule_title}"/>
+            </p>
+            <p class="p6">
+                <span>父级</span>
+                <select name="pid">
+                    <option value="0">第一级</option>
+                    {volist name="firstLevelData" id="first"}
+                    <option value="{$first.id}" {eq name="info.pid" value="$first['id']"}selected="selected"{/eq} >{$first.rule_title}</option>
+                    {/volist}
+                </select>
+            </p>
+            <p class="p1 p3">
+                <span>菜单类名</span>
+                <input type="text" name="class" value="{$info.class}"/>
+            </p>
+            <p class="p4">
+                <span>url</span>
+                <input type="text" name="url" value="{$info.url}"/>
+            </p>
+        </div>
+        <div class="dv2">
+            <p class="p3">
+                <span>英文标识</span>
+                <input type="text" name="rule_name" value="{$info.rule_name}"/>
+            </p>
+            <p class="p2">
+                <img src="/systemsetting/images/corp_info.jpg" />
+                <span>类型</span>
+                <select name="type">
+                    <option value="0" {eq name="info.type" value="0"}selected="selected"{/eq} >菜单组</option>
+                    <option value="1" {eq name="info.type" value="1"}selected="selected"{/eq} >内部方法</option>
+                    <option value="2" {eq name="info.type" value="2"}selected="selected"{/eq} >外部url</option>
+                    <option value="3" {eq name="info.type" value="3"}selected="selected"{/eq}>功能点</option>
+                </select>
+            </p>
+            <p class="p1">
+                <span>菜单标识</span>
+                <input type="text" name="name" value="{$info.name}" />
+            </p>
+            <p class="p4">
+                <span>排序</span>
+                <input type="text" name="sort" value="{$info.sort}" />
+            </p>
+        </div>
+        <p class="p5">
+            <input type="submit" onclick="rule_list_edit_update('{$id}');" value="保存"/>
+            <button onclick="rule_list_panel_close('{$id}');">取消</button>
+        </p>
+    </form>
+</div>

@@ -381,7 +381,7 @@ function new_task_form(load_table) {
 			});
 			return false;
 		}
-		var public_to_take_str = $(form_sel + " .public_to_take").attr("data-id");
+		var public_to_take_str = $(form_sel + " .public_to_take").attr("data-stf");
 		if(public_to_take_str == '') {
 			layer.msg('请选择面向群体!', {
 				icon: 2
@@ -710,6 +710,10 @@ function new_task_form(load_table) {
 		console.log("pop-submit-btn");
 		var pay_type = $("#" + self.load_table + " .new_task_info_panel .pay_ui input[type='radio']:checked").val();
 		self.add_task(self.get_pay_password(), pay_type);
+    });
+    $("#" + self.load_table + " .new_task_panel .pay_ui").on("click", ".pop-close-btn", function() {
+        console.log("tip_cancel");
+        $("#" + self.load_table + " .pay_ui").trigger('reveal:close');
 	});
 	$("#" + self.load_table + " .new_task_panel").on("click", ".new_task_info_panel .new_task_cancel", function() {
 		$("#" + self.load_table + " .task_info_panel").addClass("hide");
@@ -1388,7 +1392,7 @@ function task_details(load_table, id, type, now_uid) {
 				console.log(task_details_sel);
 				if(data.status == 1) {
 					$(task_details_sel + " .pay_ui").trigger('reveal:close');
-					//TODO 成功打赏
+					// 成功打赏
 					$(task_details_sel + " .tip").html('继续打赏'); //详情页的状态更新
 					$(".task_" + self.id + " .details .tip").html('继续打赏'); //列表页的状态更新
 					var pre_money = Number($(task_details_sel + " .dv2 .explain .orange").text());
@@ -1415,7 +1419,7 @@ function task_details(load_table, id, type, now_uid) {
 				});
 				if(data.status == 1) {
 					$(task_details_sel + " .pay_ui").trigger('reveal:close');
-					//TODO 成功加入任务
+					// 成功加入任务
 					//不能猜输赢了
 					//详情页的状态更新
 					$(task_details_sel + " .get_reward").parent().append("<p class='p1'>正在参与任务</p>");
@@ -1453,7 +1457,7 @@ function task_details(load_table, id, type, now_uid) {
 				});
 				if(data.status == 1) {
 					$(task_details_sel + " .pay_ui").trigger('reveal:close');
-					//TODO 提交猜输赢成功
+					// 提交猜输赢成功
 					//不能领取任务了
 					//详情页的状态更新
 					$(task_details_sel + " .guess").parent().append("<p class='p1'>正在参与猜输赢</p>");
@@ -1511,6 +1515,26 @@ function task_details(load_table, id, type, now_uid) {
 					});
 					$(task_details_sel + " .pay_ui").reveal("{data-animation:'fade'}");
 					$(task_details_sel + " .tip_ui").trigger('reveal:close');
+
+
+                    //TODO 成功加入任务
+                    that.parent().append("<p class='p1'>正在参与任务</p>");
+                    that.hide();
+
+                    //列表页的状态更新
+                    $(".task_" + self.id + " .details .get_reward").parent().append("<p class='p1'>正在参与任务</p>");
+                    $(".task_" + self.id + " .details .get_reward").hide();
+
+                    //数量以及参与人的更新
+                    var partin_count = Number(that.parents('.task_details').find('.partin_count').text()) + 1;
+                    that.parents('.task_details').find('.partin_count').text(partin_count);
+                    that.parents('.task_details').find('.user_' + now_uid).addClass('color-blue');
+
+                    $('.task_' + self.id + " .partin_count").text(partin_count);
+                    $('.task_' + self.id + " .user_" + now_uid).addClass('color-blue');
+
+                    self.update_ranking();
+
 				},
 				error: function() {
 					layer.msg('加载参与任务支付出现错误', {
@@ -1525,7 +1549,7 @@ function task_details(load_table, id, type, now_uid) {
 					icon: data.status == 1 ? 1 : 2
 				});
 				if(data.status == 1) {
-					//TODO 成功加入任务
+					// 成功加入任务
 					that.parent().append("<p class='p1'>正在参与任务</p>");
 					that.hide();
 
@@ -1540,6 +1564,8 @@ function task_details(load_table, id, type, now_uid) {
 
 					$('.task_' + self.id + " .partin_count").text(partin_count);
 					$('.task_' + self.id + " .user_" + now_uid).addClass('color-blue');
+
+                    self.update_ranking();
 				}
 			});
 		}
