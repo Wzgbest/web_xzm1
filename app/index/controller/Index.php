@@ -73,6 +73,10 @@ class Index extends Initialize{
         return view();
     }
 
+    public function call(){
+        return view();
+    }
+
     public function developing(){
         return view();
     }
