@@ -710,6 +710,10 @@ function new_task_form(load_table) {
 		console.log("pop-submit-btn");
 		var pay_type = $("#" + self.load_table + " .new_task_info_panel .pay_ui input[type='radio']:checked").val();
 		self.add_task(self.get_pay_password(), pay_type);
+    });
+    $("#" + self.load_table + " .new_task_panel .pay_ui").on("click", ".pop-close-btn", function() {
+        console.log("tip_cancel");
+        $("#" + self.load_table + " .pay_ui").trigger('reveal:close');
 	});
 	$("#" + self.load_table + " .new_task_panel").on("click", ".new_task_info_panel .new_task_cancel", function() {
 		$("#" + self.load_table + " .task_info_panel").addClass("hide");
