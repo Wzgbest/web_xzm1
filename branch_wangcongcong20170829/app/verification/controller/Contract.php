@@ -229,6 +229,7 @@ class Contract extends Initialize{
                 if($use_withdrawal){
                     $contract_map["status"] = 7;
                     $contract_arr["applied_id"] = $id;
+                    $contract_arr["group_field"] = '';
                     $contract_arr["status"] = 4;
                     $contractUpdateFlg = $contractAppliedM->setContractInfo($contract_id,$contract_arr,$contract_map);
                     if(!$contractUpdateFlg){

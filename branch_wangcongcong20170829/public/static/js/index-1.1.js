@@ -25,7 +25,7 @@ function init(){
     //客户详情
     // $("#frames .once .m-pageInfoNav").width(window.innerWidth - sideW - 17);
     //话术库
-    $("#frames .once .m-low-nav").width(window.innerWidth - sideW - 17);
+//  $("#frames .once .m-low-nav").width(window.innerWidth - sideW - 17);
 
 	$(".phone-box").height(window.innerHeight - 80);
 	//隐藏副标题
@@ -120,7 +120,7 @@ function changeFramesSize() {
     // $("#frames .once").width(window.innerWidth - sideW-phoneWidth);
     //三四级菜单
     // $("#frames .once header").width(window.innerWidth - sideW-phoneWidth -17);
-    $("#frames .once .m-low-nav").width(window.innerWidth - sideW - 17);
+//  $("#frames .once .m-low-nav").width(window.innerWidth - sideW - 17);
     // $("#frames .once .m-pageInfoNav").width(window.innerWidth - sideW - 17);
 
     // $("#frames .once").height(window.innerHeight - 80);
@@ -134,8 +134,10 @@ $("aside dl dt").click(function() {
         //主标题右侧的小图标切换
         $(this).children("i").eq(1).toggleClass("fa-angle-right").toggleClass("fa-angle-down");
         //副标题的显示与隐藏切换
-        $(this).siblings(".ddcontent").toggleClass("hide");
-        $(this).parent().toggleClass("dlcurrent");
+        if(window.innerWidth>1280&&!sideSwitch){
+        	$(this).siblings(".ddcontent").toggleClass("hide");
+        	$(this).parent().toggleClass("dlcurrent");
+        }       
     }
 });
 //创建一个存储子标题的数组
@@ -170,7 +172,7 @@ function clicker(e){
         // $("#frames").width(window.innerWidth - 220);
         $("#frames").height(window.innerHeight - 80);
         // $("#frames .once").width(window.innerWidth - 220);
-        $("#frames .once").height(window.innerHeight - 80);
+//      $("#frames .once").height(window.innerHeight - 80);
         //子标题栏长度增加
         subResize();
     } else {//已存在
