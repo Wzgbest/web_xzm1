@@ -1511,6 +1511,26 @@ function task_details(load_table, id, type, now_uid) {
 					});
 					$(task_details_sel + " .pay_ui").reveal("{data-animation:'fade'}");
 					$(task_details_sel + " .tip_ui").trigger('reveal:close');
+
+
+                    //TODO 成功加入任务
+                    that.parent().append("<p class='p1'>正在参与任务</p>");
+                    that.hide();
+
+                    //列表页的状态更新
+                    $(".task_" + self.id + " .details .get_reward").parent().append("<p class='p1'>正在参与任务</p>");
+                    $(".task_" + self.id + " .details .get_reward").hide();
+
+                    //数量以及参与人的更新
+                    var partin_count = Number(that.parents('.task_details').find('.partin_count').text()) + 1;
+                    that.parents('.task_details').find('.partin_count').text(partin_count);
+                    that.parents('.task_details').find('.user_' + now_uid).addClass('color-blue');
+
+                    $('.task_' + self.id + " .partin_count").text(partin_count);
+                    $('.task_' + self.id + " .user_" + now_uid).addClass('color-blue');
+
+                    self.update_ranking();
+
 				},
 				error: function() {
 					layer.msg('加载参与任务支付出现错误', {
@@ -1540,6 +1560,8 @@ function task_details(load_table, id, type, now_uid) {
 
 					$('.task_' + self.id + " .partin_count").text(partin_count);
 					$('.task_' + self.id + " .user_" + now_uid).addClass('color-blue');
+
+                    self.update_ranking();
 				}
 			});
 		}
