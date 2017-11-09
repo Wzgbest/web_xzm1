@@ -381,7 +381,7 @@ function new_task_form(load_table) {
 			});
 			return false;
 		}
-		var public_to_take_str = $(form_sel + " .public_to_take").attr("data-id");
+		var public_to_take_str = $(form_sel + " .public_to_take").attr("data-stf");
 		if(public_to_take_str == '') {
 			layer.msg('请选择面向群体!', {
 				icon: 2
