@@ -1,0 +1,853 @@
+.abs {
+	position: absolute
+}
+
+.main {
+	float: left;
+	height: 70px;
+	overflow: hidden
+}
+
+.main {
+	width: 100%;
+	background-position: -2px -570px;
+	background-repeat: no-repeat
+}
+
+.bkg {
+	background-image: url(../image/res.png);
+}
+
+.st {
+	width: 300px;
+	height: 57px;
+	line-height: 24px;
+	margin-top: 7px;
+	margin-left: 1px;
+	display: block;
+	overflow: hidden
+}
+
+.st ul {
+	width: 100%
+}
+
+.st ul li.ext {
+	width: 128px
+}
+
+div.exts_st00, div.exts_st01, div.exts_st10, div.exts_st11, div.exts_ds,
+	div.us0, div.us1, div.us2, div.us3, div.us4 {
+	padding-left: 32px;
+	overflow: hidden;
+	margin-left: 2px;
+	background-repeat: no-repeat;
+	cursor: pointer
+}
+
+div.exts_st00, div.exts_st01 {
+	background-position: 0 -840px
+}
+
+div.exts_st00:hover, div.exts_st01:hover {
+	background-position: 0 -864px
+}
+
+div.exts_st10 {
+	background-position: 0 -792px
+}
+
+div.exts_st10:hover {
+	background-position: 0 -816px
+}
+
+div.exts_st11 {
+	background-position: 0 -985px
+}
+
+div.exts_st11:hover {
+	background-position: 0 -1009px
+}
+
+div.exts_ds {
+	background-position: 0 -1033px
+}
+
+div.us0 {
+	background-position: 0 -648px
+}
+
+div.us0:hover {
+	background-position: 0 -672px
+}
+
+div.us1 {
+	background-position: 0 -744px
+}
+
+div.us1:hover {
+	background-position: 0 -768px
+}
+
+div.us2 {
+	background-position: 0 -696px
+}
+
+div.us2:hover {
+	background-position: 0 -720px
+}
+
+div.us3 {
+	background-position: 0 -936px
+}
+
+div.us3:hover {
+	background-position: 0 -960px
+}
+
+div.us4 {
+	background-position: 0 -888px
+}
+
+div.us4:hover {
+	background-position: 0 -912px
+}
+
+.hs {
+	width: 100%;
+	height: 29px;
+	line-height: 29px;
+	margin-top: 2px;
+	margin-left: 0px;
+	display: block;
+	overflow: hidden
+}
+
+.hs ul {
+	margin-left: 0px
+}
+
+.hs ul li.hs_item {
+	margin-left: 10px;
+	cursor: pointer
+}
+
+.hs_get {
+	font-weight: 700;
+	color: #c00
+}
+
+.hs_miss {
+	font-weight: 700;
+	color: #090
+}
+
+.hs_nodeal {
+	font-weight: 700;
+	color: #090
+}
+
+.fc {
+	width: 100%;
+	height: 29px;
+	margin-top: 4px;
+	margin-left: 6px;
+	_margin-left: 4px;
+	display: block
+}
+
+.fc input.numinput {
+	font-family: "微软雅黑", sans-serif, Arial, Verdana;
+	border: 0;
+	height: 22px;
+	line-height: 22px;
+	width: 145px;
+	margin: 0px;
+	padding: 0;
+	background: none
+}
+
+.fc input.focus {
+	font-size: 18px;
+	font-weight: 700;
+	color: #000
+}
+
+.fc input.blur {
+	font-size: 14px;
+	font-weight: 300;
+	color: #777
+}
+
+.fc ul.top {
+	width: 240px;
+	height: 30px;
+	background-repeat: no-repeat;
+	overflow: hidden
+}
+
+.fc ul.top li div {
+	width: 16px;
+	height: 16px;
+	background-repeat: no-repeat;
+	display: block
+}
+
+.fc ul.top li.tip {
+	width: 100%;
+	margin: 0px;
+	padding: 0 5px 0 5px;
+	height: 28px;
+	line-height: 28px;
+	*height: 24px;
+	*line-height: 24px;
+	display: none
+}
+
+.fc ul.top li.dials {
+	width: 26px;
+	cursor: pointer
+}
+
+.fc ul.top li.calloperation {
+	width: 29px;
+	cursor: pointer
+}
+
+.fc ul.top li.hangoperation {
+	width: 29px;
+	cursor: pointer
+}
+
+.fc ul.top li.import {
+	display: block;
+	height: 26px;
+	width: 145px;
+	margin: 1px 0 0 0;
+	padding: 0;
+	font-size: 18px
+}
+
+.fc ul.top li.callinfo {
+	display: none;
+	height: 26px;
+	width: 145px;
+	margin: 1px 0 0 0;
+	padding: 0;
+	font-size: 18px
+}
+
+.fc ul.bottom {
+	height: 25px;
+	margin-top: 3px
+}
+
+.fc ul.bottom li {
+	width: 24px;
+	height: 23px;
+	background-repeat: no-repeat;
+	display: block;
+	cursor: pointer
+}
+
+.fc ul.bottom li.callsettings {
+	/**width: 120px **/
+}
+
+.fc ul.bottom li.callextoperation {
+	width: 96px
+}
+
+.fc ul.bottom li.callextoperation div ul {
+	width: 24px;
+	height: 23px;
+	background-repeat: no-repeat;
+	display: block
+}
+
+.fc div.fc_devolve ul.active {
+	background-position: -96px -410px;
+	cursor: pointer
+}
+
+.fc div.fc_devolve ul.active:hover {
+	background-position: -96px -440px
+}
+
+.fc div.fc_devolve ul.disable {
+	background-position: -72px -320px;
+	cursor: default
+}
+
+.fc div.fc_keep ul.active {
+	background-position: -120px -410px;
+	cursor: pointer
+}
+
+.fc div.fc_keep ul.active:hover {
+	background-position: -120px -440px
+}
+
+.fc div.fc_keep ul.disable {
+	background-position: -96px -320px;
+	cursor: default
+}
+
+.fc div.fc_ask ul.active {
+	background-position: -144px -410px;
+	cursor: pointer
+}
+
+.fc div.fc_ask ul.active:hover {
+	background-position: -144px -440px
+}
+
+.fc div.fc_ask ul.disable {
+	background-position: -120px -320px;
+	cursor: default
+}
+
+.fc div.fc_multi ul.active {
+	background-position: -168px -410px;
+	cursor: pointer
+}
+
+.fc div.fc_multi ul.active:hover {
+	background-position: -168px -440px
+}
+
+.fc div.fc_multi ul.disable {
+	background-position: -144px -320px;
+	cursor: default
+}
+
+.fc div.fc_satisfy ul.active {
+	background-position: -192px -410px;
+	cursor: pointer
+}
+
+.fc div.fc_satisfy ul.active:hover {
+	background-position: -192px -440px
+}
+
+.fc div.fc_satisfy ul.disable {
+	background-position: -168px -320px;
+	cursor: default
+}
+
+.big {
+	height: 55px;
+	margin-top: 8px
+}
+
+.big ul.top {
+	height: 55px
+}
+
+.big ul.top li div {
+	width: 16px;
+	height: 16px;
+	background-repeat: no-repeat;
+	display: block
+}
+
+.big ul.top li.dials {
+	margin-top: 1px
+}
+
+.big ul.top li.tip {
+	display: block
+}
+
+.big ul.top li.calloperation {
+	margin-top: 1px
+}
+
+.big ul.top li.hangoperation {
+	margin-top: 1px
+}
+
+.big ul.top li.import {
+	display: block;
+	height: 26px;
+	width: 145px;
+	margin: 1px 0 0 0;
+	padding: 0;
+	font-size: 18px
+}
+
+.big ul.top li.callinfo {
+	margin: 1px 0 0 0
+}
+
+.big ul.bottom {
+	height: 48px;
+	margin-top: 3px
+}
+
+.big ul.bottom li {
+	width: 48px;
+	height: 48px;
+	background-repeat: no-repeat;
+	display: block;
+	cursor: pointer
+}
+
+.big ul.bottom li.callsettings {
+	/**width: 240px**/
+}
+
+.big ul.bottom li.callextoperation {
+	width: 192px
+}
+
+.big ul.bottom li.callextoperation div ul {
+	width: 48px;
+	height: 48px
+}
+
+.big div.fc_devolve ul.active {
+	background-position: -48px -1000px
+}
+
+.big div.fc_devolve ul.active:hover {
+	background-position: 0 -1000px
+}
+
+.big div.fc_devolve ul.disable {
+	background-position: -96px -1000px
+}
+
+.big div.fc_keep ul.active {
+	background-position: -48px -1100px
+}
+
+.big div.fc_keep ul.active:hover {
+	background-position: 0 -1100px
+}
+
+.big div.fc_keep ul.disable {
+	background-position: -96px -1100px
+}
+
+.big div.fc_ask ul.active {
+	background-position: -48px -1050px
+}
+
+.big div.fc_ask ul.active:hover {
+	background-position: 0 -1050px
+}
+
+.big div.fc_ask ul.disable {
+	background-position: -96px -1050px
+}
+
+.big div.fc_multi ul.active {
+	background-position: -48px -1150px
+}
+
+.big div.fc_multi ul.active:hover {
+	background-position: 0 -1150px
+}
+
+.big div.fc_multi ul.disable {
+	background-position: -96px -1150px
+}
+
+.big div.fc_satisfy ul.active {
+	background-position: -48px -1350px
+}
+
+.big div.fc_satisfy ul.active:hover {
+	background-position: 0 -1350px
+}
+
+.big div.fc_satisfy ul.disable {
+	background-position: -96px -1350px
+}
+
+.big ul.nocall {
+	heiht: 55px;
+	background-position: 0 -660px;
+	background-repeat: no-repeat
+}
+
+.big ul.firstcall {
+	background-position: 0 -720px
+}
+
+.big input.numinput {
+	margin-top: 1px;
+	background: none
+}
+
+.big li.callsettings div {
+	width: 48px;
+	height: 48px;
+	background-repeat: no-repeat;
+	display: block;
+	cursor: pointer
+}
+
+.big div.getphonenumber {
+	background-position: -48px -900px
+}
+
+.big div.getphonenumber:hover {
+	background-position: 0 -900px
+}
+
+.big div.getphonenumber_ds {
+	background-position: -144px -900px
+}
+
+.big div.getphonenumber_ds:hover {
+	background-position: -96px -900px
+}
+
+.big div.getphonenumberds {
+	background-position: -96px -900px
+}
+
+.big div.phoneset {
+	background-position: -48px -800px
+}
+
+.big div.phoneset:hover {
+	background-position: 0 -800px
+}
+
+.big div.knowledge {
+	background-position: -48px -850px
+}
+
+.big div.knowledge:hover {
+	background-position: 0 -850px
+}
+
+.big div.phonereset {
+	background-position: -48px -950px
+}
+
+.big div.phonereset:hover {
+	background-position: 0 -950px
+}
+
+.big div.sms {
+	background-position: -48px -1300px
+}
+
+.big div.sms:hover {
+	background-position: 0 -1300px
+}
+
+.sc {
+	width: 100%;
+	height: 29px;
+	margin-top: 4px;
+	margin-left: 6px;
+	_margin-left: 4px;
+	display: block
+}
+
+.sc ul.top {
+	width: 240px;
+	height: 30px;
+	background-repeat: no-repeat;
+	overflow: hidden
+}
+
+.sc ul.top li div {
+	width: 16px;
+	height: 16px;
+	background-repeat: no-repeat;
+	display: block
+}
+
+.sc ul.top li.dials {
+	width: 26px;
+	cursor: pointer
+}
+
+.sc ul.top li.calloperation {
+	width: 29px;
+	cursor: pointer
+}
+
+.sc ul.top li.hangoperation {
+	width: 29px;
+	cursor: pointer
+}
+
+.sc ul.top li.import {
+	display: block;
+	height: 26px;
+	width: 145px;
+	margin: 1px 0 0 0;
+	padding: 0;
+	font-size: 18px
+}
+
+.sc ul.top li.callinfo {
+	display: block;
+	height: 26px;
+	width: 145px;
+	margin: 1px 0 0 0;
+	padding: 0;
+	font-size: 18px
+}
+
+.sc ul.bottom {
+	height: 25px;
+	margin-top: 3px
+}
+
+.sc ul.bottom li {
+	width: 24px;
+	height: 23px;
+	background-repeat: no-repeat;
+	display: block;
+	cursor: pointer
+}
+
+.sc ul.bottom li.callsettings {
+	width: 72px
+}
+
+.sc ul.bottom li.callextoperation {
+	width: 96px
+}
+
+.sc ul.bottom li.callextoperation div ul {
+	width: 24px;
+	height: 23px;
+	background-repeat: no-repeat;
+	display: block
+}
+
+div.sc_devolve ul.disable {
+	background-position: -72px -320px;
+	cursor: default
+}
+
+div.sc_keep ul.disable {
+	background-position: -96px -320px;
+	cursor: default
+}
+
+div.sc_ask ul.disable {
+	background-position: -120px -320px;
+	cursor: default
+}
+
+div.sc_multi ul.disable {
+	background-position: -144px -320px;
+	cursor: default
+}
+
+div.sc_satisfy ul.disable {
+	background-position: -168px -320px;
+	cursor: default
+}
+
+div.sc_devolve ul.active {
+	background-position: -96px -350px
+}
+
+div.sc_devolve ul.active:hover {
+	background-position: -96px -380px
+}
+
+div.sc_keep ul.active {
+	background-position: -120px -350px
+}
+
+div.sc_keep ul.active:hover {
+	background-position: -120px -380px
+}
+
+div.sc_ask ul.active {
+	background-position: -144px -350px
+}
+
+div.sc_ask ul.active:hover {
+	background-position: -144px -380px
+}
+
+div.sc_multi ul.active {
+	background-position: -168px -350px
+}
+
+div.sc_multi ul.active:hover {
+	background-position: -168px -380px
+}
+
+div.sc_satisfy ul.active {
+	background-position: -192px -350px
+}
+
+div.sc_satisfy ul.active:hover {
+	background-position: -192px -380px
+}
+
+ul.nocall {
+	background-position: 0 -239px
+}
+
+ul.firstcall {
+	background-position: 0 -505px
+}
+
+ul.secondcall {
+	background-position: 0 -535px
+}
+
+li.callsettings div {
+	width: 24px;
+	height: 23px;
+	background-repeat: no-repeat;
+	display: block;
+	cursor: pointer
+}
+
+div.getphonenumber {
+	background-position: 0 -290px
+}
+
+div.getphonenumber:hover {
+	background-position: 0 -320px
+}
+
+div.getphonenumber_ds {
+	background-position: -168px -290px
+}
+
+div.getphonenumber_ds:hover {
+	background-position: -168px -320px
+}
+
+div.getphonenumberds {
+	background-position: -168px -290px
+}
+
+div.phoneset {
+	background-position: -24px -290px
+}
+
+div.phoneset:hover {
+	background-position: -24px -320px
+}
+
+div.knowledge {
+	background-position: -48px -290px
+}
+
+div.knowledge:hover {
+	background-position: -48px -320px
+}
+
+div.phonereset {
+	background-position: 0 -350px
+}
+
+div.phonereset:hover {
+	background-position: 0 -380px
+}
+
+div.sms {
+	background-position: -24px -350px
+}
+
+div.sms:hover {
+	background-position: -24px -380px
+}
+
+div.dialsbt {
+	background-position: 0 -270px;
+	margin: 6px
+}
+
+div.dialsbt:hover {
+	background-position: -66px -270px
+}
+
+div.calloutbt, div.answerbt {
+	background-position: -16px -268px;
+	margin: 6px 0 0 8px
+}
+
+div.calloutbt:hover, div.answerbt:hover {
+	background-position: -82px -268px
+}
+
+div.calldsbt, div.answerdsbt {
+	background-position: -132px -268px;
+	margin: 6px 0 0 8px
+}
+
+div.waiting {
+	margin: 6px 0 0 8px;
+	cursor: default
+}
+
+div.hangupbt {
+	background-position: -49px -270px;
+	margin: 8px 0 0 7px
+}
+
+div.hangupbt:hover {
+	background-position: -115px -270px
+}
+
+div.hangupdsbt {
+	background-position: -150px -270px;
+	margin: 8px
+}
+
+div.level0, div.level1, div.level2, div.level3, div.levelr, div.level5 {
+	display: block;
+	background-repeat: no-repeat;
+	width: 32px;
+	padding: 0px;
+	height: 16px;
+	margin: 3px 0 0 0
+}
+
+div.level5 {
+	background-position: -203px -350px
+}
+
+div.level4 {
+	background-position: -203px -375px
+}
+
+div.level3 {
+	background-position: -203px -400px
+}
+
+div.level2 {
+	background-position: -203px -425px
+}
+
+div.level1 {
+	background-position: -203px -450px
+}
+
+div.level0 {
+	background-position: -203px -475px
+}
+
+.timing {
+	font-family: serif, Arial, "Times New Roman";
+	font-weight: 700;
+	color: #c00;
+	padding-left: 3px;
+}
+
+.big li.callsettings div.aa {
+	width: 45px;
+	height: 25px;
+	background-repeat: no-repeat;
+	display: block;
+	cursor: pointer
+}
