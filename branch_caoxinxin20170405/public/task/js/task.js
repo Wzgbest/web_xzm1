@@ -1392,7 +1392,7 @@ function task_details(load_table, id, type, now_uid) {
 				console.log(task_details_sel);
 				if(data.status == 1) {
 					$(task_details_sel + " .pay_ui").trigger('reveal:close');
-					//TODO 成功打赏
+					// 成功打赏
 					$(task_details_sel + " .tip").html('继续打赏'); //详情页的状态更新
 					$(".task_" + self.id + " .details .tip").html('继续打赏'); //列表页的状态更新
 					var pre_money = Number($(task_details_sel + " .dv2 .explain .orange").text());
@@ -1419,7 +1419,7 @@ function task_details(load_table, id, type, now_uid) {
 				});
 				if(data.status == 1) {
 					$(task_details_sel + " .pay_ui").trigger('reveal:close');
-					//TODO 成功加入任务
+					// 成功加入任务
 					//不能猜输赢了
 					//详情页的状态更新
 					$(task_details_sel + " .get_reward").parent().append("<p class='p1'>正在参与任务</p>");
@@ -1457,7 +1457,7 @@ function task_details(load_table, id, type, now_uid) {
 				});
 				if(data.status == 1) {
 					$(task_details_sel + " .pay_ui").trigger('reveal:close');
-					//TODO 提交猜输赢成功
+					// 提交猜输赢成功
 					//不能领取任务了
 					//详情页的状态更新
 					$(task_details_sel + " .guess").parent().append("<p class='p1'>正在参与猜输赢</p>");
@@ -1529,7 +1529,7 @@ function task_details(load_table, id, type, now_uid) {
 					icon: data.status == 1 ? 1 : 2
 				});
 				if(data.status == 1) {
-					//TODO 成功加入任务
+					// 成功加入任务
 					that.parent().append("<p class='p1'>正在参与任务</p>");
 					that.hide();
 
