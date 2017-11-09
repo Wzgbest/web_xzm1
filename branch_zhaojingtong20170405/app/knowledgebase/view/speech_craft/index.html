@@ -1,5 +1,5 @@
-<div class="knowledgebase knowledgebase_speechcraft knowledgebase_speechcraft_index">
-	<div class="index_panel index">
+<div class="knowledgebase knowledgebase_speechcraft knowledgebase_speechcraft_index h100">
+	<div class="index_panel index h100">
 		<header>
             <ul class="m-firNav">
                 <li speechcraft_in_column="0" {eq name="class_id" value="0" } class="in_column current" {else/} class="in_column" {/eq}><div>所有分类</div></li>
@@ -33,51 +33,53 @@
             	<div class="clearfix"></div>
             </div>
         </section>
-        <div class="manageNav m-filterNav hide" data-status="false">
-            <input type="checkbox" /><span>全选</span>
-            <select class="select_class">
-                <option value="0">分类</option>
-                {volist name="article_type" id="vo"}
-                <option value="{$vo.id}">{$vo.type_name}</option>
-                {/volist}
-            </select>
-            <select>
-                <option>发表时间</option>
-            </select>
-        </div>
-        <ul class="speech-list">
-        {if condition="$all_article neq null"}
-            {volist name="all_article" id="vo"}
-                {eq name="vo.in_show" value="1"}
-                <!-- onclick="article_info_show('{$vo.id}');" -->
-                <li class="" data-status = "true"; data-craft-id="{$vo.id}"  {eq name="vo.in_top" value="1"} class="speech-hot" {/eq}>
-                    <input type="checkbox" value="{$vo.id}" />
-                    <h1>{$vo.article_name}{eq name="vo.in_top" value="1" }<span class="hot">置顶</span>{/eq}</h1>
-                    <h2>{$vo.article_content}</h2>
-                    <select class="delete-change-set">
-                        <option>   </option>
-                        <option value="1">删除话术</option>
-                        <option value="2">修改分类</option>
-                        <option value="3">设为置顶</option>
-                    </select>
-                    <h3>更新时间：<span>{$vo.article_edit_time|time_format}</span></h3>
-                    {if condition="$vo.add_user eq $uid"}
-                    <div class="controler">
-                        <div class="edit3" data-id="{$vo.id}" ><i class="fa fa-file-text-o fa-2x"></i></div>
-                        <div class="delete" data-id="{$vo.id}"><i class="fa fa-trash-o fa-2x"></i></div>
-                    </div>
-                    {/if}
-                </li>
-                {/eq}
-            {/volist}
-            {else/}
-            {eq name="is_leader" value="1"}
-            <h2 class="no-list">该分类还未添加话术，您可以<span class="color-blue new-speechcraft2">添加话术</span>，也可以<span class="color-blue delete-speech-class">删除分类</span></h2>
-            {/eq}
-            {/if}
-        </ul>
-        <div class="popUp delete-change-set-container hide">
-            
+        <div class="m-4th-container">
+	        <div class="manageNav m-filterNav hide" data-status="false">
+	            <input type="checkbox" /><span>全选</span>
+	            <select class="select_class">
+	                <option value="0">分类</option>
+	                {volist name="article_type" id="vo"}
+	                <option value="{$vo.id}">{$vo.type_name}</option>
+	                {/volist}
+	            </select>
+	            <select>
+	                <option>发表时间</option>
+	            </select>
+	        </div>
+	        <ul class="speech-list">
+	        {if condition="$all_article neq null"}
+	            {volist name="all_article" id="vo"}
+	                {eq name="vo.in_show" value="1"}
+	                <!-- onclick="article_info_show('{$vo.id}');" -->
+	                <li class="" data-status = "true"; data-craft-id="{$vo.id}"  {eq name="vo.in_top" value="1"} class="speech-hot" {/eq}>
+	                    <input type="checkbox" value="{$vo.id}" />
+	                    <h1>{$vo.article_name}{eq name="vo.in_top" value="1" }<span class="hot">置顶</span>{/eq}</h1>
+	                    <h2>{$vo.article_content}</h2>
+	                    <select class="delete-change-set">
+	                        <option>   </option>
+	                        <option value="1">删除话术</option>
+	                        <option value="2">修改分类</option>
+	                        <option value="3">设为置顶</option>
+	                    </select>
+	                    <h3>更新时间：<span>{$vo.article_edit_time|time_format}</span></h3>
+	                    {if condition="$vo.add_user eq $uid"}
+	                    <div class="controler">
+	                        <div class="edit3" data-id="{$vo.id}" ><i class="fa fa-file-text-o fa-2x"></i></div>
+	                        <div class="delete" data-id="{$vo.id}"><i class="fa fa-trash-o fa-2x"></i></div>
+	                    </div>
+	                    {/if}
+	                </li>
+	                {/eq}
+	            {/volist}
+	            {else/}
+	            {eq name="is_leader" value="1"}
+	            <h2 class="no-list">该分类还未添加话术，您可以<span class="color-blue new-speechcraft2">添加话术</span>，也可以<span class="color-blue delete-speech-class">删除分类</span></h2>
+	            {/eq}
+	            {/if}
+	        </ul>
+	        <div class="popUp delete-change-set-container hide">
+	            
+	        </div>
         </div>
 	</div>  
 </div>
