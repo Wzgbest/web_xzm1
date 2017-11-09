@@ -492,6 +492,7 @@ class SaleOrderContract extends Base{
             "GROUP_CONCAT(distinct soci.pay_name) as pay_name",
             "soci.pay_type",
             "soci.pay_bank",
+            "soci.contract_money",
             "c.customer_name",
             "GROUP_CONCAT( distinct `s`.`struct_name`) as `struct_name`",
         ];
