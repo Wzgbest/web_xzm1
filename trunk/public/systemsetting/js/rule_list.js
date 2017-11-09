@@ -112,32 +112,12 @@ function rule_list_edit_update(id){
 }
 
 function rule_list_del(id){
-    var index=layer.open({
-        content: '确认要删除吗？请谨慎操作',
-        btn: ['确认', '取消'],
-        shadeClose: false,
-        yes:function(){
-            $.ajax({
-                type: 'POST',
-                url:'/systemsetting/rule/delRule.html',
-                data: {id:id},
-                success: function(data) {
-                    if (data.status) {
-                        layer.msg(data.message, {icon: 1});
-                        rule_list_list_manage.reload_list();
-
-                    } else {
-                        layer.msg(data.message, {icon: 2});
-                    }
-                },
-                error: function() {
-                    console.log('保存失败，未连接到服务器！');
-                }
-            });
-            layer.close(index);
-        },
-        cancel:function(){
-            layer.close(index);
-        }
+    var options = {
+        id:id,
+        url: "/systemsetting/rule/delRule.html",
+        title: '您确认删除？此操作不可恢复，请谨慎操作！'
+    };
+    delData(options,function(){
+        rule_list_list_manage.reload_list();
     });
 }
