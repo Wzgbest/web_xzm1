@@ -84,14 +84,16 @@ class Contract extends Initialize{
             $result['info'] = "审批流程出现问题,请联系管理员！";
             return json($result);
         }
-        $contractSettingModel = new ContractModel($this->corp_id);
-        $contract_setting = $contractSettingModel->getContractSettingById($contractApplied["contract_type"]);
-        //如果当前审核生成合同号
-        $input_contract_no = 0;
-        if($contract_setting["create_contract_num_".$contract_apply_status]==1){
-            $input_contract_no = 1;
+        $select_contract = 0;
+        if($contractApplied["contract_num"]==1){
+            $contractSettingModel = new ContractModel($this->corp_id);
+            $contract_setting = $contractSettingModel->getContractSettingById($contractApplied["contract_type"]);
+            //如果当前审核生成合同号
+            if($contract_setting["create_contract_num_".$contract_apply_status]==1){
+                $select_contract = 1;
+            }
         }
-        $this->assign("input_contract_no",$input_contract_no);
+        $this->assign("select_contract",$select_contract);
         $withdrawal_contracts = $contractAppliedM->getAllWithdrawalContract($contractApplied["contract_type"]);
         //var_exp($withdrawal_contracts,'$withdrawal_contracts',1);
         $this->assign("withdrawal_contracts",$withdrawal_contracts);
@@ -218,15 +220,21 @@ class Contract extends Initialize{
             if($contract_setting["create_contract_num_".$contract_apply_status]==1){
                 $use_withdrawal = input("use_withdrawal",0,"int");
                 $contract_id = input("contract_id",0,"int");
-                if(!$use_withdrawal){
-                    $result['info'] = "参数错误！";
-                    return json($result);
+                $select_contract = false;
+                if($contractApplied["contract_num"]==1){
+                    if(!$use_withdrawal){
+                        $result['info'] = "参数错误！";
+                        return json($result);
+                    }
+                    if($use_withdrawal==2&&!$contract_id){
+                        $result['info'] = "参数错误！";
+                        return json($result);
+                    }
+                    if($use_withdrawal==2){
+                        $select_contract = true;
+                    }
                 }
-                if($use_withdrawal==2&&!$contract_id){
-                    $result['info'] = "参数错误！";
-                    return json($result);
-                }
-                if($use_withdrawal){
+                if($select_contract){
                     $contract_map["status"] = 7;
                     $contract_arr["applied_id"] = $id;
                     $contract_arr["group_field"] = '';
