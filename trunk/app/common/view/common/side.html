@@ -5,6 +5,7 @@
             <!--<img src="/static/images/logo.png" />-->
         </div>
         {volist name="menu_idx" id="vo"}
+        {present name="vo.child"}
         <dl id="#">
             <dt><i class="{$vo.class}"></i><span>&nbsp;&nbsp;{$vo.rule_title}</span><i class="fa fa-angle-right"></i></dt>
             <div class="ddcontent">
@@ -13,6 +14,7 @@
                 {/volist}
             </div>
         </dl>
+        {/present}
         {/volist}
     </aside>
 </section>
