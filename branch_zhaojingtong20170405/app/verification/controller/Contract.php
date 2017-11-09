@@ -180,16 +180,6 @@ class Contract extends Initialize{
             return json($result);
         }
         $contractAppliedM = new ContractAppliedModel($this->corp_id);
-        $use_withdrawal = input("use_withdrawal",0,"int");
-        $contract_id = input("contract_id",0,"int");
-        if(!$use_withdrawal){
-            $result['info'] = "参数错误！";
-            return json($result);
-        }
-        if($use_withdrawal==2&&!$contract_id){
-            $result['info'] = "参数错误！";
-            return json($result);
-        }
         $remark = input("remark",null,"string");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
@@ -226,6 +216,16 @@ class Contract extends Initialize{
             $contract_setting = $contractSettingModel->getContractSettingById($contractApplied["contract_type"]);
             //如果当前审核生成合同号
             if($contract_setting["create_contract_num_".$contract_apply_status]==1){
+                $use_withdrawal = input("use_withdrawal",0,"int");
+                $contract_id = input("contract_id",0,"int");
+                if(!$use_withdrawal){
+                    $result['info'] = "参数错误！";
+                    return json($result);
+                }
+                if($use_withdrawal==2&&!$contract_id){
+                    $result['info'] = "参数错误！";
+                    return json($result);
+                }
                 if($use_withdrawal){
                     $contract_map["status"] = 7;
                     $contract_arr["applied_id"] = $id;
