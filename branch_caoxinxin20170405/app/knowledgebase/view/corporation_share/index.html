@@ -1,5 +1,5 @@
-<div class="knowledgebase knowledgebase_company_library knowledgebase_company_library_index">
-	<div class="index_panel index">
+<div class="knowledgebase knowledgebase_company_library knowledgebase_company_library_index h100">
+	<div class="index_panel index h100">
 		<header>
             <ul class="m-firNav">
                 <li in_column="0" class="in_column current"><div>工作圈</div></li>
@@ -17,169 +17,171 @@
             	<div class="clearfix"></div>
             </div>
         </section>
-    	<ul class="library-list">
-    	{volist name="share_list" id="vo"}
-    		{eq name="vo.img" value=""}
-    		<li class="m-divBlock m-divBlock2 lib" share_id="{$vo.id}">
-    			<div class="lib-content">
-        			<div class="face">
-        				<img src="{$vo.userpic}" />
-        			</div>
-        			<h1 class="name">{$vo.truename}</h1>
-        			<h2 class="time">{$vo.create_time|time_format}</h2>
-        			<h3 class="description">{$vo.content}</h3>
-        			{neq name="vo.share_url" value=""}
-        			<div class="content">
-        				<div class="link">
-        					<span class="color-blue">立即查看 >></span>
-        				</div>
-        			</div>
-        			{/neq}
-	        	</div>
-	        	<ul class="lib-operator">
-	        		<li class="comment"><i class="fa fa-commenting"></i><span>评论</span></li>
-	        		<li {eq name="vo.is_like" value="1" } class="praise active" {else/} class="praise" {/eq}><i class="fa fa-thumbs-up"></i><span>赞</span></li>	        		
-	        		<li {eq name="vo.is_tip" value="1" } class="reward active" {else/} class="reward" {/eq}><i class="fa fa-dollar"></i><span>打赏</span></li>
-	        		<div class="clearfix"></div>
-	        	</ul>
-	        	<div class="clearfix"></div>
-	        	<div class="lib-reply hide">
-	        		<ul class="reply-now">
-	        			<li>
-	        				<div class="face"><img src="{$userinfo.userpic}" /></div>
-	        				<input type="text" name="reply-now"/>
-	        				<div class="reply-operator">
-	        					<i class="fa fa-smile-o color-yellow fa-2x"></i>	        					
-	        					<button class="fr">评论</button>
+        <div class="m-4th-container fa-x-h">
+	    	<ul class="library-list">
+	    	{volist name="share_list" id="vo"}
+	    		{eq name="vo.img" value=""}
+	    		<li class="m-divBlock m-divBlock2 lib" share_id="{$vo.id}">
+	    			<div class="lib-content">
+	        			<div class="face">
+	        				<img src="{$vo.userpic}" />
+	        			</div>
+	        			<h1 class="name">{$vo.truename}</h1>
+	        			<h2 class="time">{$vo.create_time|time_format}</h2>
+	        			<h3 class="description">{$vo.content}</h3>
+	        			{neq name="vo.share_url" value=""}
+	        			<div class="content">
+	        				<div class="link">
+	        					<span class="color-blue">立即查看 >></span>
 	        				</div>
-	        			</li>	        			
-	        		</ul>
-	        		<ul class="reply-ago">
-	        		{volist name="vo.comment_list" id="com"}
-	        			{eq name="com.reply_comment_id" value="0"}
-	        			<li comment_id="{$com.id}">
-	        				<div class="face"><img src="{$com.replyer_pic}" /></div>
-	        				<div class="reply-ago-content">
-	        					<span class="name color-blue2">{$com.replyer_name}</span><span>：</span><span class="content">{$com.reply_content}</span>
-	        				</div>
-	        				<div class="reply-ago-operator">
-	        					<span class="datetime">{$com.comment_time|time_format}</span>
-	        					<ul class="fr">
-	        						<li>回复</li>
-	        						
+	        			</div>
+	        			{/neq}
+		        	</div>
+		        	<ul class="lib-operator">
+		        		<li class="comment"><i class="fa fa-commenting"></i><span>评论</span></li>
+		        		<li {eq name="vo.is_like" value="1" } class="praise active" {else/} class="praise" {/eq}><i class="fa fa-thumbs-up"></i><span>赞</span></li>	        		
+		        		<li {eq name="vo.is_tip" value="1" } class="reward active" {else/} class="reward" {/eq}><i class="fa fa-dollar"></i><span>打赏</span></li>
+		        		<div class="clearfix"></div>
+		        	</ul>
+		        	<div class="clearfix"></div>
+		        	<div class="lib-reply hide">
+		        		<ul class="reply-now">
+		        			<li>
+		        				<div class="face"><img src="{$userinfo.userpic}" /></div>
+		        				<input type="text" name="reply-now"/>
+		        				<div class="reply-operator">
+		        					<i class="fa fa-smile-o color-yellow fa-2x"></i>	        					
+		        					<button class="fr">评论</button>
+		        				</div>
+		        			</li>	        			
+		        		</ul>
+		        		<ul class="reply-ago">
+		        		{volist name="vo.comment_list" id="com"}
+		        			{eq name="com.reply_comment_id" value="0"}
+		        			<li comment_id="{$com.id}">
+		        				<div class="face"><img src="{$com.replyer_pic}" /></div>
+		        				<div class="reply-ago-content">
+		        					<span class="name color-blue2">{$com.replyer_name}</span><span>：</span><span class="content">{$com.reply_content}</span>
+		        				</div>
+		        				<div class="reply-ago-operator">
+		        					<span class="datetime">{$com.comment_time|time_format}</span>
+		        					<ul class="fr">
+		        						<li>回复</li>
+		        						
+		        					</ul>
+		        				</div>
+		        			</li>
+		        			{else/}
+		        			<li comment_id="{$com.id}">
+		        				<div class="face"><img src="{$com.replyer_pic}" /></div>
+		        				<div class="reply-ago-content">
+		        					<span class="name color-blue2" >{$com.replyer_name}</span><span class="reply-reply">&nbsp;回复&nbsp;<span class="name2 color-blue2">{$com.reviewer_name}</span></span><span>：</span><span class="content">{$com.reply_content}</span>
+		        				</div>
+		        				<div class="reply-ago-operator">
+		        					<span class="datetime">{$com.comment_time|time_format}</span>
+		        					<ul class="fr">
+		        						<li>回复</li>
+		        						
+		        					</ul>
+		        				</div>
+		        			</li>
+		        			{/eq}
+		        			{/volist}
+		        		</ul>
+		        	</div>
+	    		</li>
+	    		{else/}
+	    		<li class="m-divBlock m-divBlock2 lib" share_id="{$vo.id}">
+	    			<div class="lib-content">
+	        			<div class="face">
+	        				<img src="{$vo.userpic}" />
+	        			</div>
+	        			<h1 class="name">{$vo.truename}</h1>
+	        			<h2 class="time">{$vo.create_time|time_format}</h2>
+	        			<h3 class="description">{$vo.content}</h3>
+	        			<div class="content">
+	        				<div class="picture">
+	        					<ul class="pic-grid">
+	        					{volist name="vo.img" id="im"}
+	        						<li><img src="{$im}"/></li>
+	        					{/volist}
+	        						<div class="clearfix"></div>
+	        					</ul>
+	        					<div class="pic-show hide">
+	        						<button class="pack-up-btn">收起</button>
+	        						<img src=""/>
+	        					</div>
+	        					<ul class="pic-list hide">
+	        						{volist name="vo.img" id="im"}
+	        						<li><img src="{$im}" class="pointer" /></li>
+	        						{/volist}
+	        						<div class="clearfix"></div>
 	        					</ul>
 	        				</div>
-	        			</li>
-	        			{else/}
-	        			<li comment_id="{$com.id}">
-	        				<div class="face"><img src="{$com.replyer_pic}" /></div>
-	        				<div class="reply-ago-content">
-	        					<span class="name color-blue2" >{$com.replyer_name}</span><span class="reply-reply">&nbsp;回复&nbsp;<span class="name2 color-blue2">{$com.reviewer_name}</span></span><span>：</span><span class="content">{$com.reply_content}</span>
-	        				</div>
-	        				<div class="reply-ago-operator">
-	        					<span class="datetime">{$com.comment_time|time_format}</span>
-	        					<ul class="fr">
-	        						<li>回复</li>
-	        						
-	        					</ul>
-	        				</div>
-	        			</li>
-	        			{/eq}
-	        			{/volist}
-	        		</ul>
-	        	</div>
-    		</li>
-    		{else/}
-    		<li class="m-divBlock m-divBlock2 lib" share_id="{$vo.id}">
-    			<div class="lib-content">
-        			<div class="face">
-        				<img src="{$vo.userpic}" />
-        			</div>
-        			<h1 class="name">{$vo.truename}</h1>
-        			<h2 class="time">{$vo.create_time|time_format}</h2>
-        			<h3 class="description">{$vo.content}</h3>
-        			<div class="content">
-        				<div class="picture">
-        					<ul class="pic-grid">
-        					{volist name="vo.img" id="im"}
-        						<li><img src="{$im}"/></li>
-        					{/volist}
-        						<div class="clearfix"></div>
-        					</ul>
-        					<div class="pic-show hide">
-        						<button class="pack-up-btn">收起</button>
-        						<img src=""/>
-        					</div>
-        					<ul class="pic-list hide">
-        						{volist name="vo.img" id="im"}
-        						<li><img src="{$im}" class="pointer" /></li>
-        						{/volist}
-        						<div class="clearfix"></div>
-        					</ul>
-        				</div>
-        			</div>
-	        	</div>
-	        	<ul class="lib-operator">
-	        		<li class="comment"><i class="fa fa-commenting"></i><span>评论</span></li>
-	        		<li {eq name="vo.is_like" value="1" } class="praise active" {else/} class="praise" {/eq}><i class="fa fa-thumbs-up"></i><span>赞</span></li>	        		
-	        		<li {eq name="vo.is_tip" value="1" } class="reward active" {else/} class="reward" {/eq}><i class="fa fa-dollar"></i><span>打赏</span></li>
-	        		<div class="clearfix"></div>
-	        	</ul>
-	        	<div class="clearfix"></div>
-	        	<div class="lib-reply hide">
-	        		<ul class="reply-now">
-	        			<li>
-	        				<div class="face"><img src="{$userinfo.userpic}" /></div>
-	        				<input type="text" name="reply-now"/>
-	        				<div class="reply-operator">
-	        					<i class="fa fa-smile-o color-yellow fa-2x"></i>	        					
-	        					<button class="fr">评论</button>
-	        				</div>
-	        			</li>	        			
-	        		</ul>
-	        		<ul class="reply-ago">
-	        		{volist name="vo.comment_list" id="com"}
-	        			{eq name="com.reply_comment_id" value="0"}
-	        			<li comment_id="{$com.id}">
-	        				<div class="face"><img src="{$com.replyer_pic}" /></div>
-	        				<div class="reply-ago-content">
-	        					<span class="name color-blue2"  >{$com.replyer_name}</span><span>：</span><span class="content">{$com.reply_content}</span>
-	        				</div>
-	        				<div class="reply-ago-operator">
-	        					<span class="datetime">{$com.comment_time|time_format}</span>
-	        					<ul class="fr">
-	        						<li>回复</li>
-	        						
-	        					</ul>
-	        				</div>
-	        			</li>
-	        			{else/}
-	        			<li comment_id="{$com.id}">
-	        				<div class="face"><img src="{$com.replyer_pic}" /></div>
-	        				<div class="reply-ago-content">
-	        					<span class="name color-blue2">{$com.replyer_name}</span><span class="reply-reply">&nbsp;回复&nbsp;<span class="name2 color-blue2">{$com.reviewer_name}</span></span><span>：</span><span class="content">{$com.reply_content}</span>
-	        				</div>
-	        				<div class="reply-ago-operator">
-	        					<span class="datetime">{$com.comment_time|time_format}</span>
-	        					<ul class="fr">
-	        						<li>回复</li>
-	        						
-	        					</ul>
-	        				</div>
-	        			</li>
-	        			{/eq}
-	        			{/volist}
-	        		</ul>
-	        	</div>
-    		</li>
-    		{/eq}
-    	{/volist}
-    	</ul>
-    	<div class="reward-pop popUp hide">
-    		
-    	</div>
-    	<div class="pay-pop popUp hide">
-    		
+	        			</div>
+		        	</div>
+		        	<ul class="lib-operator">
+		        		<li class="comment"><i class="fa fa-commenting"></i><span>评论</span></li>
+		        		<li {eq name="vo.is_like" value="1" } class="praise active" {else/} class="praise" {/eq}><i class="fa fa-thumbs-up"></i><span>赞</span></li>	        		
+		        		<li {eq name="vo.is_tip" value="1" } class="reward active" {else/} class="reward" {/eq}><i class="fa fa-dollar"></i><span>打赏</span></li>
+		        		<div class="clearfix"></div>
+		        	</ul>
+		        	<div class="clearfix"></div>
+		        	<div class="lib-reply hide">
+		        		<ul class="reply-now">
+		        			<li>
+		        				<div class="face"><img src="{$userinfo.userpic}" /></div>
+		        				<input type="text" name="reply-now"/>
+		        				<div class="reply-operator">
+		        					<i class="fa fa-smile-o color-yellow fa-2x"></i>	        					
+		        					<button class="fr">评论</button>
+		        				</div>
+		        			</li>	        			
+		        		</ul>
+		        		<ul class="reply-ago">
+		        		{volist name="vo.comment_list" id="com"}
+		        			{eq name="com.reply_comment_id" value="0"}
+		        			<li comment_id="{$com.id}">
+		        				<div class="face"><img src="{$com.replyer_pic}" /></div>
+		        				<div class="reply-ago-content">
+		        					<span class="name color-blue2"  >{$com.replyer_name}</span><span>：</span><span class="content">{$com.reply_content}</span>
+		        				</div>
+		        				<div class="reply-ago-operator">
+		        					<span class="datetime">{$com.comment_time|time_format}</span>
+		        					<ul class="fr">
+		        						<li>回复</li>
+		        						
+		        					</ul>
+		        				</div>
+		        			</li>
+		        			{else/}
+		        			<li comment_id="{$com.id}">
+		        				<div class="face"><img src="{$com.replyer_pic}" /></div>
+		        				<div class="reply-ago-content">
+		        					<span class="name color-blue2">{$com.replyer_name}</span><span class="reply-reply">&nbsp;回复&nbsp;<span class="name2 color-blue2">{$com.reviewer_name}</span></span><span>：</span><span class="content">{$com.reply_content}</span>
+		        				</div>
+		        				<div class="reply-ago-operator">
+		        					<span class="datetime">{$com.comment_time|time_format}</span>
+		        					<ul class="fr">
+		        						<li>回复</li>
+		        						
+		        					</ul>
+		        				</div>
+		        			</li>
+		        			{/eq}
+		        			{/volist}
+		        		</ul>
+		        	</div>
+	    		</li>
+	    		{/eq}
+	    	{/volist}
+	    	</ul>
+	    	<div class="reward-pop popUp hide">
+	    		
+	    	</div>
+	    	<div class="pay-pop popUp hide">
+	    		
+	    	</div>
     	</div>
     </div>
 </div>
