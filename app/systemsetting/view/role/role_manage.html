@@ -62,7 +62,7 @@
                     <li>
                         {neq name="vo" value="false"}
                             {volist name="vo" id="voc"}
-                        <input type="checkbox" name="rule_ids" pid="{$vo.pid}" value="{$voc.id}"
+                        <input type="checkbox" name="rule_ids" pid="{$voc.pid}" value="{$voc.id}"
                                {in name="voc.id" value="$role_rule_ids"}
                                checked="checked"
                                {/in}
