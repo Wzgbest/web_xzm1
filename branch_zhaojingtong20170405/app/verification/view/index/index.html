@@ -1,5 +1,5 @@
-<div class="verification verification_sale_chance verification_sale_chance_index" style="overflow-x: hidden;">
-    <div class="index_panel index verification_sale_chance">
+<div class="verification verification_sale_chance verification_sale_chance_index h100 o-h">
+    <div class="index_panel index verification_sale_chance h100">
         <!--header-->
         <header>
             <ul class="m-firNav">
@@ -12,129 +12,131 @@
         </header>
 
         <!--客户列表-->
-        <section>
-            <ul class="m-secNav">
-                <li>通过</li>
-                <li>驳回</li>
-                <li>导出报表</li>
-                <div class="clearfix"></div>
-            </ul>
-            <div class="m-filterNav">
-                <form class="search_form" onsubmit="return false;">
-                    <select name="contract_type">
-                        <option value="">合同类型</option>
-                        {volist name="contract_type_list" id="vo"}
-                            <option value="{$vo.id}" {present name='filter.contract_type'}{eq name='filter.contract_type' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.contract_name}</option>
-                        {/volist}
-                    </select>
-                    <select name="structure">
-                        <option value="">对应部门</option>
-                        {volist name="structs" id="vo"}
-                            <option value="{$vo.id}" {present name='filter.structure' }{eq name='filter.structure' value='$vo.id' } selected="selected" {/eq}{/present}>{$vo.struct_name}</option>
-                        {/volist}
-                    </select>
-                    <select name="business_id">
-                        <option value="">对应业务</option>
-                        {volist name="business_flows" id="vo"}
-                            <option value="{$vo.id}" {present name='filter.business_id' }{eq name='filter.business_id' value='$vo.id' } selected="selected" {/eq}{/present}>{$vo.business_flow_name}</option>
-                        {/volist}
-                    </select>
-                    <select name="pay_type">
-                        <option value="">打款方式</option>
-                        <option value="1" {present name='filter.pay_type' }{eq name='filter.pay_type' value='1' } selected="selected" {/eq}{/present}>现金</option>
-                        <option value="2" {present name='filter.pay_type' }{eq name='filter.pay_type' value='2' } selected="selected" {/eq}{/present}>银行打款</option>
-                    </select>
-                    <select name="order_status">
-                        <option value="">订单状态</option>
-                        {volist name="apply_status_list" id="vo"}
-                            <option value="{$vo.status}" {present name='filter.order_status' }{eq name='filter.order_status' value='$vo.status' } selected="selected" {/eq}{/present}>{$vo.name}</option>
-                        {/volist}
-                    </select>
-                    <input type="text" name="contract_no" placeholder="输入合同号" value="{present name='filter.contract_no'}{$filter.contract_no}{/present}"/>
-                    <input type="text" name="apply_employee" placeholder="输入负责人姓名" value="{present name='filter.apply_employee'}{$filter.apply_employee}{/present}"/>
-                    <input type="text" name="customer_name" placeholder="输入客户姓名" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
-                    <button class="u-btnSearch">查询</button>
-                </form>
-            </div>
-            <div class="m-tableBox">
-                <div class="m-table m-table-nav">
-                    <ul class="u-tabTitle">
-                        <li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
-                        <li>销售机会</li>
-                        <li>操作</li>
-                        <div class="clearfix"></div>
-                    </ul>
-                    {volist name="list_data" id="vo"}
-                    <ul class="u-tabList">
-                        <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
-                        <li class="sale-chance-name color-blue verification-sale-chance-show" title="点击查看详情">{$vo.sale_name}</li>
-                        <li class="u-tabOperation">
-                            {eq name="vo.sale_status" value="4"}
-                                {eq name="vo.status" value="0"}
-                                    <span class="rejected">驳回</span>
-                                    <span class="approved">通过</span>
-                                    <span class="approved remark" title="备注通过">备注通过</span>
+        <div class="m-3rd-container">
+           <section style="background-color: white">
+                <ul class="m-secNav">
+                    <li>通过</li>
+                    <li>驳回</li>
+                    <li>导出报表</li>
+                    <div class="clearfix"></div>
+                </ul>
+                <div class="m-filterNav">
+                    <form class="search_form" onsubmit="return false;">
+                        <select name="contract_type">
+                            <option value="">合同类型</option>
+                            {volist name="contract_type_list" id="vo"}
+                                <option value="{$vo.id}" {present name='filter.contract_type'}{eq name='filter.contract_type' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.contract_name}</option>
+                            {/volist}
+                        </select>
+                        <select name="structure">
+                            <option value="">对应部门</option>
+                            {volist name="structs" id="vo"}
+                                <option value="{$vo.id}" {present name='filter.structure' }{eq name='filter.structure' value='$vo.id' } selected="selected" {/eq}{/present}>{$vo.struct_name}</option>
+                            {/volist}
+                        </select>
+                        <select name="business_id">
+                            <option value="">对应业务</option>
+                            {volist name="business_flows" id="vo"}
+                                <option value="{$vo.id}" {present name='filter.business_id' }{eq name='filter.business_id' value='$vo.id' } selected="selected" {/eq}{/present}>{$vo.business_flow_name}</option>
+                            {/volist}
+                        </select>
+                        <select name="pay_type">
+                            <option value="">打款方式</option>
+                            <option value="1" {present name='filter.pay_type' }{eq name='filter.pay_type' value='1' } selected="selected" {/eq}{/present}>现金</option>
+                            <option value="2" {present name='filter.pay_type' }{eq name='filter.pay_type' value='2' } selected="selected" {/eq}{/present}>银行打款</option>
+                        </select>
+                        <select name="order_status">
+                            <option value="">订单状态</option>
+                            {volist name="apply_status_list" id="vo"}
+                                <option value="{$vo.status}" {present name='filter.order_status' }{eq name='filter.order_status' value='$vo.status' } selected="selected" {/eq}{/present}>{$vo.name}</option>
+                            {/volist}
+                        </select>
+                        <input type="text" name="contract_no" placeholder="输入合同号" value="{present name='filter.contract_no'}{$filter.contract_no}{/present}"/>
+                        <input type="text" name="apply_employee" placeholder="输入负责人姓名" value="{present name='filter.apply_employee'}{$filter.apply_employee}{/present}"/>
+                        <input type="text" name="customer_name" placeholder="输入客户姓名" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
+                        <button class="u-btnSearch">查询</button>
+                    </form>
+                </div>
+                <div class="m-tableBox" style="position: relative;">
+                    <div class="m-table m-table-nav">
+                        <ul class="u-tabTitle">
+                            <li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
+                            <li>销售机会</li>
+                            <li>操作</li>
+                            <div class="clearfix"></div>
+                        </ul>
+                        {volist name="list_data" id="vo"}
+                        <ul class="u-tabList">
+                            <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+                            <li class="sale-chance-name color-blue verification-sale-chance-show" title="点击查看详情">{$vo.sale_name}</li>
+                            <li class="u-tabOperation">
+                                {eq name="vo.sale_status" value="4"}
+                                    {eq name="vo.status" value="0"}
+                                        <span class="rejected">驳回</span>
+                                        <span class="approved">通过</span>
+                                        <span class="approved remark" title="备注通过">备注通过</span>
+                                    {/eq}
                                 {/eq}
-                            {/eq}
-                        </li>                      
-                        <div class="clearfix"></div>
-                    </ul>
-                    {/volist}
-                </div>
-                <div class="m-table table-v-index m-table-detail">
-                    <ul class="u-tabTitle">
-                        <li class="u-tabCheckbox"><input type="checkbox"/></li>
-                        <li>销售机会</li>
-                        <li>操作</li>
-                        <li>公司名称</li>
-                        <li>时间<i class="fa fa-caret-up u-tabCilentName"></i></li>
-                        <li>合同号</li>
-                        <li>负责人</li>
-                        <li>部门<i class="fa fa-unsorted"></i></li>
-                        <li>对应业务</li>
-                        <li>产品详情</li>
-                        <li>应收金额<i class="fa fa-unsorted"></i></li>
-                        <li>已收金额<i class="fa fa-unsorted"></i></li>
-                        <li>打款金额</li>
-                        <li>收款银行（本公司）</li>
-                        <li>打款名称</li>
-                        <li>打款日期<i class="fa fa-unsorted"></i></li>
-                        <li>分类</li>
-                        <li>备注<i class="fa fa-unsorted"></i></li>
-                        <li>对应状态</li>
-                        <div class="clearfix"></div>
-                    </ul>
-                    {volist name="list_data" id="vo"}
-                    <ul class="u-tabList">
-                        <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
-                        <li class="sale-chance-name color-blue" contract_id="{$vo.id}">{$vo.sale_name}</li>
-                        <li class="u-tabOperation"></li>
-                        <li>{$vo.customer_name}</li>
-                        <li>{$vo.update_time|time_format}</li>
-                        <li>{present name="vo.contract_no"}{$vo.contract_no}{/present}</li>
-                        <li>{$vo.employee_name}</li>
-                        <li>{$vo.struct_name}</li>
-                        <li>{$business_flow_names[$vo['business_id']]}</li>
-                        <li>{$vo.prod_desc}</li>
-                        <li>{$vo.final_money}元</li>
-                        <li>{$vo.payed_money}元</li>
-                        <li class="u-tabLinkWay">{$vo.pay_money}元</i></li>
-                        <li>无</li>
-                        <li>{$vo.pay_name}</li>
-                        <li>2017/03/02</li>
-                        <li>无</li>
-                        <li>{$vo.remark}</li>
-                        <li class="status">
-                            {$vo.status|getContractAppliedStatusName}
-                        </li>                        
-                        <div class="clearfix"></div>
-                    </ul>
-                    {/volist}
-                </div>
+                            </li>                      
+                            <div class="clearfix"></div>
+                        </ul>
+                        {/volist}
+                    </div>
+                    <div class="m-table table-v-index m-table-detail">
+                        <ul class="u-tabTitle">
+                            <li class="u-tabCheckbox"><input type="checkbox"/></li>
+                            <li>销售机会</li>
+                            <li>操作</li>
+                            <li>公司名称</li>
+                            <li>时间<i class="fa fa-caret-up u-tabCilentName"></i></li>
+                            <li>合同号</li>
+                            <li>负责人</li>
+                            <li>部门<i class="fa fa-unsorted"></i></li>
+                            <li>对应业务</li>
+                            <li>产品详情</li>
+                            <li>应收金额<i class="fa fa-unsorted"></i></li>
+                            <li>已收金额<i class="fa fa-unsorted"></i></li>
+                            <li>打款金额</li>
+                            <li>收款银行（本公司）</li>
+                            <li>打款名称</li>
+                            <li>打款日期<i class="fa fa-unsorted"></i></li>
+                            <li>分类</li>
+                            <li>备注<i class="fa fa-unsorted"></i></li>
+                            <li>对应状态</li>
+                            <div class="clearfix"></div>
+                        </ul>
+                        {volist name="list_data" id="vo"}
+                        <ul class="u-tabList">
+                            <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+                            <li class="sale-chance-name color-blue" contract_id="{$vo.id}">{$vo.sale_name}</li>
+                            <li class="u-tabOperation"></li>
+                            <li>{$vo.customer_name}</li>
+                            <li>{$vo.update_time|time_format}</li>
+                            <li>{present name="vo.contract_no"}{$vo.contract_no}{/present}</li>
+                            <li>{$vo.employee_name}</li>
+                            <li>{$vo.struct_name}</li>
+                            <li>{$business_flow_names[$vo['business_id']]}</li>
+                            <li>{$vo.prod_desc}</li>
+                            <li>{$vo.final_money}元</li>
+                            <li>{$vo.payed_money}元</li>
+                            <li class="u-tabLinkWay">{$vo.pay_money}元</i></li>
+                            <li>无</li>
+                            <li>{$vo.pay_name}</li>
+                            <li>2017/03/02</li>
+                            <li>无</li>
+                            <li>{$vo.remark}</li>
+                            <li class="status">
+                                {$vo.status|getContractAppliedStatusName}
+                            </li>                        
+                            <div class="clearfix"></div>
+                        </ul>
+                        {/volist}
+                    </div>
 
-            </div>
-            {include file="common@common/page"/}
-        </section>
+                </div>
+                {include file="common@common/page"/}
+            </section> 
+        </div>       
     </div>
 </div>
 <link rel="stylesheet" type="text/css" href="/verification/css/verification.css">
