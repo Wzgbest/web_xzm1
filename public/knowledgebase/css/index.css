@@ -14,6 +14,7 @@
 	padding: 15px 20px;
 	position: relative;
 	cursor: pointer;
+	background-color: white;
 }
 .knowledgebase_speechcraft_index .speech-list li .controler{
 	position: absolute;
@@ -97,9 +98,11 @@
 
 
 .knowledgebase_speechcraft_index .manageNav{
-	margin: 20px 0 0 20px;
-	margin-top: 110px;
-    margin-bottom: -100px; 
+	padding: 20px 0 0 20px;
+	margin: 0;
+	background-color: #fff;
+	/*margin-top: 110px;
+    margin-bottom: -100px; */
 }
 .knowledgebase_speechcraft_index .manageNav input[type="checkbox"]{
 	text-align: center;
@@ -112,7 +115,7 @@
 	margin: 0 10px 0 10px;
 }
 .speech-list{
-	margin-top: 60px;
+	/*margin-top: 60px;*/
 }
 .speech-list li:hover {
 	background-color: #f0f0f0;
@@ -214,7 +217,10 @@
 }
 /*工作圈*/
 .knowledgebase_company_library_index .library-list{
-	margin-top: 60px;
+	/*margin-top: 60px;*/
+}
+.knowledgebase_company_library_index .library-list .lib{
+	margin-right: 0;
 }
 .knowledgebase_company_library_index .library-list .lib-content{
 	padding:10px 0 0 85px;
@@ -484,10 +490,10 @@
 	}
 }
 .m-low-nav{
-	position: fixed !important;
+	/*position: fixed !important;*/
     width: 100%;
-    top: 112px;
-    z-index: 99;
+    /*top: 112px;
+    z-index: 99;*/
     padding:0;
     border: 0;
 }
