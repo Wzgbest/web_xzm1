@@ -2247,9 +2247,10 @@ article .dv4 .switch2{
 
 .task_info_panel{
 	width: 100%;
-	position: absolute;
+	/*height: 100%;*/
+	/*position: absolute;
 	top: 0;
-	left: 0;
+	left: 0;*/
 	background-color: #f5f7fa;
 }
 #infscr-loading{
