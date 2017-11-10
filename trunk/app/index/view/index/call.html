@@ -1,7 +1,42 @@
 <i class="fa fa-close"></i>
 <div class="m-divBlock m-divBlock2 m-divBlock4">
-    <h1 class="call-number">17186761671</h1>
-    <h4><i class="fa fa-phone color-green"></i>&nbsp;&nbsp;通话中...&nbsp;&nbsp;<span class="color-yellow">00:00:00</span></h4>
+    <h1 class="call-number">请拨号</h1>
+    <ul class="bkg top fl nocall">
+        
+        <li class="dials fl">
+            <div id="fc_dials" class="dialsbt bkg" title="拨号盘" onclick="operation.dialsBt()"></div>
+        </li>
+        <li class="callinfo fl" id="fc_callinfo"></li>
+        <li class="import fl" id="fc_import">
+
+        </li>
+        <li class="calloperation fl">
+            <div id="fc_callbt" class="calldsbt bkg" title="当前电话状态不可通过此入口拨打电话" onclick="operation.callBt(this)"></div>
+            <div id="fc_calling" class="waiting" style="display:none" title="请求中..请稍后.."><img src="/static/image/loading.gif" /></div>
+        </li>
+        <li class="hangoperation fl">
+            <div id="fc_hangbt" class="hangupdsbt bkg" title="挂断" onclick="operation.hangBt(this)"></div>
+            <div id="fc_hanguping" class="waiting" style="display:none" title="请求中..请稍后..">
+                <img src="/static/image/loading.gif" />
+            </div>
+        </li>
+        <li class="calloperation fl">
+            <div id="fc_callbt" class="calldsbt bkg" title="当前电话状态不可通过此入口拨打电话"
+            onclick="operation.callBt(this)"></div>
+            <div id="fc_calling" class="waiting" style="display:none" title="请求中..请稍后..">
+                <img src="/static/image/loading.gif" />
+            </div>
+        </li>
+        <li class="hangoperation fl"><div id="fc_hangbt" class="hangupdsbt bkg" title="挂断"
+            onclick="operation.hangBt(this)"></div>
+            <div id="fc_hanguping" class="waiting" style="display:none" title="请求中..请稍后..">
+                <img src="/static/image/loading.gif" />
+            </div>
+        </li>
+    </ul>
+    <li  ></li>
+    <h4 id='fc_tip' class="tip"><i class="fa fa-phone color-green"></i><span class="fl"
+          style="width:80px;height:28px;line-height:28px;overflow:hidden;display:none;"></span><span class="fl">正在初始化电话&nbsp;,&nbsp;请稍候&nbsp;...</span><span id="fc_timing" class="color-yellow" title="当前状态持续时间">00:00:00</span></h4>
     <div class="dial">
         <div class="clearfix"></div>
         <div class="row1">
@@ -12,8 +47,8 @@
         <div class="row1">
             <!-- <input id="phone-number" value="" class="row1 row2 "/> -->
             <input id="callInput" type="text" class = "row1 row2 numinput blur" value="点此输入号码" onfocus="
-                    this.className='numinput focus';this.value.indexOf('点此输入号码')!=-1?this.value=this.value.replace('点此输入号码',''):''
-                    " onblur="this.value==''||this.value=='点此输入号码'?(this.value='点此输入号码',this.className='numinput blur'):this.className='numinput focus'" ondblclick="this.value=''" onkeydown="operation.keydownFn(event,this)" onkeyup="operation.keyupFn(this)" title="回车拨号,Esc或双击清空"/>
+                    this.className='numinput focus row1 row2';this.value.indexOf('点此输入号码')!=-1?this.value=this.value.replace('点此输入号码',''):''
+                    " onblur="this.value==''||this.value=='点此输入号码'?(this.value='点此输入号码',this.className='numinput blur row1 row2'):this.className='numinput focus row1 row2'" ondblclick="this.value=''" onkeydown="operation.keydownFn(event,this)" onkeyup="operation.keyupFn(this)" title="回车拨号,Esc或双击清空"/>
             <div class="delete" id="num-dele">
                 <i class="fa fa-backward fa-2x"></i>
             </div>
@@ -53,7 +88,7 @@
 </div>
 <div id="main" class="main bkg">
     <div id="fc" class="fc fl big">
-        <ul class="bkg top fl nocall">
+        <!-- <ul class="bkg top fl nocall">
             <li id='fc_tip' class="tip"><span class="fl"
               style="width:80px;height:28px;line-height:28px;overflow:hidden;display:none;"></span><span class="fl">正在初始化电话&nbsp;,&nbsp;请稍候&nbsp;...</span><span
               id="fc_timing" class='fr' style="padding-right:20px;" title="当前状态持续时间"></span></li>
@@ -87,7 +122,7 @@
                     <img src="../image/loading.gif" />
                 </div>
             </li>
-        </ul>
+        </ul> -->
         <ul class="bottom fl">
             <li class="fl callsettings">
                 <div id="phonereset" class="phonereset fl bkg" title="电话复位/重新加载" onclick="operation.phoneResetBt(this)"></div>
@@ -111,6 +146,35 @@
         </ul>
     </div>
 </div>
+<script type="text/javascript" src="/static/call_js/md5.js"></script>
+<script type="text/javascript">
+    let data = {
+        appid:'',
+        secretkey: '',
+        secretkey : '',        
+        admin_uin : '',
+        uin : '',
+        strid : '',
+        utc : "",
+        input : "",
+        md5_str : ""
+    }
+    data.appid = '4b08a3d3-8bde-4d96-b467-c41bcd08c552';
+    data.secretkey = hex_md5(data.appid + '*(**)*' + data.appkey).toUpperCase();
+    // data.secretkey = data.secretkey.;        
+    data.admin_uin = '9796221';
+    data.uin = '9796249';
+    data.strid = 'sdzhcs2';
+    date = new Date();
+    data.utc = parseInt(date.getTime() / 1000);
+    data.input = data.admin_uin + '&' + data.uin + '&'+ data.strid + '&' + data.appid + '&' + data.secretkey + '&' + data.utc;
+    data.md5_str = hex_md5(data.input).toUpperCase();
+    console.log(data.utc,data.md5_str);
+    function getData(){
+        
+    }
+
+</script>
 <script>
 var token = "";
 var AreaTipObj = null;
