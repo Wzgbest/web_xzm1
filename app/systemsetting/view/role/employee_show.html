@@ -5,7 +5,8 @@
         <span class="span-info">员工详情</span>
     </ul>
 </div>
-<div id="content">
+<div class="m-3rd-container o-x-h">
+   <div id="content">
     <div id="dv1">
         <p>
             <span class="left">姓名</span>
@@ -51,9 +52,9 @@
             <span class="left">员工状态</span>
             <span class="colon">:</span>
             <span class="right">
-                {switch	name="employee.on_duty"}
-				{case value="1"}在职{/case}
-				{case value="2"}休假{/case}
+                {switch name="employee.on_duty"}
+                {case value="1"}在职{/case}
+                {case value="2"}休假{/case}
                 {/switch}
             </span>
 
@@ -104,5 +105,8 @@
         </p>
 
     </div>
+    <div class="clearfix"></div>
+</div> 
 </div>
+
 <link rel="stylesheet" href="/systemsetting/css/employeeshow.css" />
