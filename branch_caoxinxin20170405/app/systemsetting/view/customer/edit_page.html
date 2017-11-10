@@ -96,43 +96,9 @@
                 <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
                 <span style="display: inline;vertical-align: middle;">该设置对应部门</span>
             </span>
-            <input type="text" class="pknew-task-select-window-choosen-staff" data-dep="" data-stf=""  placeholder="请选择" />
-            <div class="main-content select-window" style="margin:0 auto;" data-num="0" data-str='departments[]=,&,&,employees[]=,&' data-selector=".pknew-task-select-window-choosen-staff"></div>
+            <input type="text" class="pknew-task-select-window-choosen-staff customer_setting-choosen-staff" data-dep="" data-stf="" data-result="" placeholder="请选择" />
+            <div class="main-content select-window stomer_setting-select-window" style="margin:0 auto;" data-num="0" data-str='set_to_structure[]=,&,&,employees[]=,&' data-selector=".pknew-task-select-window-choosen-staff"></div>
         </p>
-       
-        <!--<p class="fuxuan">该设置对应部门<i class="fa fa-sort-desc"></i></p>
-        <p class="yixuan">
-            {volist name="structures" id="vo"}
-                {if condition="in_array($vo.id,$customerSetting.set_to_structure_arr)"}
-                    <span>{$vo.struct_name}<input type="hidden" name="set_to_structure[]" value="{$vo.id}"/></span>
-                {/if}
-            {/volist}
-        </p>
-        <div style="clear: both">
-            <div class="xuanze">
-                <ul>
-                    {volist name="structures" id="vo"}
-                        {if condition="in_array($vo.id,$customerSetting.set_to_structure_arr)"}
-                            <li><input type="checkbox" checked="checked" value="{$vo.id}"/><span class="sp3">{$vo.struct_name}</span></li>
-                        {else/}
-                            <li><input type="checkbox" value="{$vo.id}"/><span class="sp3">{$vo.struct_name}</span></li>
-                        {/if}
-                    {/volist}
-                </ul>
-            </div>
-
-            <div class="xuanzhong">
-                <p>已选择<span>{:count($customerSetting.set_to_structure_arr)}</span>个对象</p>
-                <ul>
-                    {volist name="structures" id="vo"}
-                        {if condition="in_array($vo.id,$customerSetting.set_to_structure_arr)"}
-                            <li index="{$vo.id}">{$vo.struct_name}<img src="/systemsetting/images/delelet.png" index="{$vo.id}"></li>
-                        {/if}
-                    {/volist}
-                </ul>
-                <p class="wancheng">完成</p>
-            </div>-->
-        </div>
 
         <p class="p5">
             <input type="hidden" name="id" value="{$customerSetting.id}"/>
@@ -147,11 +113,16 @@
 <link rel="stylesheet" href="/systemsetting/css/customersetting.css" />
 <script language="JavaScript">
     $('#customer_setting_submit').click(function() {
-        console.log($(".form_customer_setting").serialize());
+        var form_data = $(".form_customer_setting").serialize();
+        console.log('form_data',form_data);
+        var set_to_structure = $(".customer_setting-choosen-staff").attr("data-result");
+        console.log('set_to_structure',set_to_structure);
+        form_data += "&"+set_to_structure;
+        console.log('form_data',form_data);
         $.ajax({
             url: '{$url}',
             type: 'post',
-            data: $(".form_customer_setting").serialize(),
+            data: form_data,
             dataType: 'json',
             success: function(data) {
                 //console.log(data);
@@ -166,61 +137,8 @@
         });
     });
 
-//  $('.customer_setting_edit .xuanze').on('click', "input", function() {
-//      var index = $(this).val() //index为input的自定义index
-//      if ($(this).prop('checked') == true) {
-//          var main = $(this).next().html();
-//          $('.customer_setting_edit .xuanzhong ul').append('<li index = ' + index + '>' + main + '<img src=' + "/systemsetting/images/delelet.png" + ' index = "' + index + '"/></li>')
-//      } else {
-//          $('.customer_setting_edit .xuanzhong ul li').each(function() {
-//              if ($(this).attr('index') == index) {
-//                  $(this).remove();
-//              }
-//          })
-//      }
-//      systemsetting_customer_setting_update_sel_num();
-//  });
-//  function systemsetting_customer_setting_update_sel_num(){
-//      var allLength=$('.customer_setting_edit .xuanzhong ul li').length;
-//      console.log(allLength);
-//      $(".customer_setting_edit .xuanzhong p span").html(allLength);
-//  }
-//  $('.customer_setting_edit .xuanzhong').on('click', "ul li img", function() {
-//      var index1 = $(this).attr("index");
-//
-//      var self = $(this);
-//      $('.customer_setting_edit .xuanze input').each(function() {
-//          if ($(this).val() == index1) {
-//              $(this).prop('checked', false);
-//              $(self).parent().remove();
-//          }
-//      });
-//      systemsetting_customer_setting_update_sel_num();
-//  });
-//
-//  $('.customer_setting_edit .fuxuan').click(function() {
-//
-//      $('.customer_setting_edit .fuxuan i').toggleClass("rotate");
-//          	
-//      $('.customer_setting_edit .xuanze').toggle();
-//      $('.customer_setting_edit .xuanzhong').toggle();
-//  });
-//  $(".customer_setting_edit .wancheng").click(function() {
-//     
-//      $(".customer_setting_edit .yixuan").empty();
-//      $(".customer_setting_edit .xuanzhong ul li").each(function() {
-//          var content = $(this).text();
-//          var index = $(this).attr("index");
-//        
-//          $('.customer_setting_edit .yixuan').append('<span >' + content + '<input type="hidden" name="set_to_structure[]" value="'+index+'"/></span>')
-//      });
-//
-//      $('.customer_setting_edit .xuanze').css('display', 'none');
-//      $('.customer_setting_edit .xuanzhong').css('display', 'none')
-//  });
-
-	$(".pknew-task-select-window-choosen-staff").focus(function(){
-		$(".main-content.select-window").load("/index/index/select_window.html");
+	$(".customer_setting-choosen-staff").focus(function(){
+		$(".stomer_setting-select-window").load("/index/index/select_window.html");
 	});
 
 </script>
