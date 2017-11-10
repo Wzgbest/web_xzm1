@@ -818,7 +818,7 @@ class Structure extends Initialize
         $target = [];
         $target[] = $groupid;
         $a = $huanxin->updateGroupInfo($groupid,$group_info);
-        $b = $huanxin->sendMessage('chatgroups',$target,$from_name."修改了群名称");
+        // $b = $huanxin->sendMessage('chatgroups',$target,$from_name."修改了群名称");
         if (isset($a['error']) || isset($b['error'])) {
             $result['error_1'] = $a['error'];
             $result['error_2'] = $b['error'];
