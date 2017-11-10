@@ -295,9 +295,14 @@ class CustomerImport extends Initialize{
         if(!$ids){
             $this->error("参数错误!");
         }
-        $ids_arr = explode(",",$ids);
+        $ids_arr = [];
+        if(!is_array($ids)){
+            $ids_arr = explode(",",$ids);
+        }else{
+            $ids_arr = $ids;
+        }
         $ids_arr = array_map("intval",$ids_arr);
-        //var_exp($ids_arr,'$ids_arr',1);
+        var_exp($ids_arr,'$ids_arr',1);
         $scale = input('scale',0,'int');
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
