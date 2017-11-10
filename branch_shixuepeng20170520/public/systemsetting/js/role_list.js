@@ -353,6 +353,7 @@ function role_list_employee_show(id) {
 			$('#frames #' + panel + " .firNav .current").click(function() {
 				$('#frames #' + panel).addClass("hide");
 			});
+			changeFramesSize();
 		},
 		error: function() {
 			layer.msg('获取员工信息失败!', {
