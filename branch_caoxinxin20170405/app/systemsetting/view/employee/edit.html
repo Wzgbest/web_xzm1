@@ -5,11 +5,12 @@
         <span class="span-info">详情</span>
     </ul>
 </div>
-<div id="content">
+<div class="m-3rd-container o-x-h">
+   <div id="content">
     <form id="employee_list_edit_form" class="employee_list_edit_form" onsubmit="return false;">
         <div class="dv1">
             <p class="p3">
-            	<img src="/systemsetting/images/corp_info.jpg" />
+                <img src="/systemsetting/images/corp_info.jpg" />
                 <span>姓名</span>
                 <input type="text" name="truename" value="{$employee.truename}"/>
             </p>
@@ -18,13 +19,13 @@
                 <input type="text" name="nickname" value="{$employee.nickname}" />
             </p>
             <p class="p1 p3">
-           		<img src="/systemsetting/images/corp_info.jpg" />
+                <img src="/systemsetting/images/corp_info.jpg" />
                 <span>性别</span>
                 <input type="radio" name="gender" {eq name="employee.gender" value="1"} checked="checked"{/eq} value="1"/>男
                 <input type="radio" name="gender" {eq name="employee.gender" value="0"} checked="checked"{/eq} value="0" class="ipt"/>女
             </p>
             <p class="p4">
-            	<img src="/systemsetting/images/corp_info.jpg" />
+                <img src="/systemsetting/images/corp_info.jpg" />
                 <span>手机号</span>
                 <input type="text" name="telephone" value="{$employee.telephone}"/>
                 <!--<span class="right">{$employee.telephone}</span>-->
@@ -65,12 +66,12 @@
                 </select>
             </p>
             <p class="p2">
-            	<img src="/systemsetting/images/corp_info.jpg" />
+                <img src="/systemsetting/images/corp_info.jpg" />
                 <span>工号</span>
                 <input type="text" name="worknum" value="{$employee.worknum}" />
             </p>
             <p class="p1">
-            	<img src="/systemsetting/images/corp_info.jpg" />
+                <img src="/systemsetting/images/corp_info.jpg" />
                 <span>是否领导</span>
                 <input type="radio" name="is_leader" {eq name="employee.is_leader" value="1"} checked="checked"{/eq} value="1"/>是
                 <input type="radio" name="is_leader" {eq name="employee.is_leader" value="0"} checked="checked"{/eq} value="0" class="ipt"/>否
@@ -93,5 +94,7 @@
             <button onclick="employee_list_panel_close('{$id}');">取消</button>
         </p>
     </form>
+</div> 
 </div>
+
 <link rel="stylesheet" href="/systemsetting/css/employeeedit.css" />

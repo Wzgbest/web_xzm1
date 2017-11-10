@@ -90,6 +90,9 @@ function rule_list_panel_close(){
 }
 
 function rule_list_edit_update(id){
+    if(!rule_list_check_form_html5($("#rule_list_edit_form").get(0).elements)){
+        return;
+    }
     var rule_list_edit_form_data = $(".rule_list_edit_form").serialize();
     rule_list_edit_form_data += "&id="+id;
     //console.log(employee_list_edit_form_data);
