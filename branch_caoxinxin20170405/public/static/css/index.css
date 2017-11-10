@@ -425,10 +425,12 @@ left: 220px; */
 }
 .phone-box .row4 .on{
 	height: 40px;
+	line-height: 40px;
 	background-color:#89c247 ;
 }
 .phone-box .row4 .off{
 	height: 40px;
+	line-height: 40px;
 	background-color: #e01515;
 }
 .phone-box .row4 .off i{
