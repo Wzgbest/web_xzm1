@@ -15,8 +15,8 @@ use app\knowledgebase\model\LiveShow;
 class VhallApi
 {	
 	private $base_url = 'http://e.vhall.com/api/vhallapi/v2/';
-	private $secret_key = "84cf773a64e7f188be20b5e4064fff43";
-	private $app_key = "04b23a05121ae10e4cb826c65a24babf";
+	private $secret_key = "3f4039ea2f7b13033c9fd31d4b156263";
+	private $app_key = "8485e7bbd2468c3a18f792341a3ea263";
 	private $common_param = array();
 
 	public function __construct()
@@ -71,7 +71,7 @@ class VhallApi
 		buffer	int	否	>0的数字,可为空,直播延时，单位为秒，默认为3
 		is_allow_extension	int	否	默认为1表示开启并发扩展包，传其他参数表示不开启，流量套餐或没有并发扩展包时忽略此参数
 	 */
-	public function createActivity($cropid,$subject,$start_time,$introduction=null,$user_id=null,$use_global_k=0,$exist_3rd_auth=0,$auth_url='',$failure_url='',$topics='',$layout='',$type='',$auto_record=0,$is_chat=0,$host='',$buffer=3,$is_allow_extension=0){
+	public function createActivity($cropid,$subject,$start_time,$introduction=null,$layout=0,$user_id=null,$use_global_k=0,$exist_3rd_auth=0,$auth_url='',$failure_url='',$topics='',$type='',$auto_record=0,$is_chat=0,$host='',$buffer=3,$is_allow_extension=0){
 		$info = [
 		'status'=>0,
 		'message'=>"创建活动失败",
@@ -465,7 +465,7 @@ buffer	int	否	直播延时,>0的数字,可为空
 		}
 		$send_data = http_build_query($this->getSendData($data));
 		$get_data = $this->getData($url,$send_data);
-		$j_data = json_decode($get_data);
+		$j_data = json_decode($get_data,true);
 
 		if ($j_data['code'] == 200) {
 			$info['status'] = 1;
@@ -600,6 +600,97 @@ buffer	int	否	直播延时,>0的数字,可为空
 		return $info;
 	}
 
+	/**
+	 * 获取用户id
+	 * @param  [type] $third_user_id [description]
+	 * @return [type]                [description]
+	 */
+	public function getUserId($third_user_id){
+		$info = ['message'=>"获取用户id失败",'status'=>0];
+
+		if (!$third_user_id) {
+			$info['message'] = "请输入正确的名称";
+		}
+
+		$url = $this->base_url."user/get-user-id";
+		$data['third_user_id'] = $third_user_id;
+		$send_data = http_build_query($this->getSendData($data));
+		$get_data = $this->getData($url,$send_data);
+		$j_data = json_decode($get_data,true);
+
+		if ($j_data['code'] == 200) {
+			$info['status'] = 1;
+			$info['message'] = "获取用户id成功";
+			$info['data'] = $j_data['data'];
+		}else{
+			$info['error'] = $j_data['msg'];
+		}
+
+		return $info;
+	}
+
+	/**
+	 * 更改用户权限
+	 * @param [type]  $user_id 用户id
+	 * @param [type]  $is_child 是否是子帐号 1是 0不是
+	 * @param integer $assign   分配量，父账号是流量套餐时单位为（G）且可支持小数点后两位，父账号是并发套餐时单位为（人）仅支持整数
+	 * 
+	 * 如需要用户具有直播权限，is_child请传1，assign大于0或在子账号管理中的用量分配方式修改为“动态”
+	 */
+	public function setUserPower($user_id,$is_child,$assign=10){
+		$info = ['status'=>0,'message'=>"设置用户权限失败"];
+
+		if (!$user_id || !$is_child || !$assign) {
+			$info["message"] = "用户参数出现错误";
+			return $info;
+		}
+
+		$url = $this->base_url."user/change-user-power";
+		$data['user_id'] = $user_id;
+		$data['is_child'] = $is_child;
+		$data['assign'] = $assign;
+		$send_data = http_build_query($this->getSendData($data));
+		$get_data = $this->getData($url,$send_data);
+		$j_data = json_decode($get_data,true);
+
+		if ($j_data['code'] == 200) {
+			$info['status'] = 1;
+			$info['message'] = "用户权限设置成功";
+		}else{
+			$info['error'] = $j_data['msg'];
+		}
+
+		return $info;
+	}
+
+	/**
+	 * 获取用户权限
+	 * @param  [type] $user_id [description]
+	 * @return [type]          [description]
+	 */
+	public function getUserPower($user_id){
+		$info = ['message'=>"获取用户权限失败",'status'=>0];
+
+		if (!$user_id) {
+			$info['message'] = "请输入正确的用户id";
+		}
+
+		$url = $this->base_url."user/get-user-power";
+		$data['user_id'] = $user_id;
+		$send_data = http_build_query($this->getSendData($data));
+		$get_data = $this->getData($url,$send_data);
+		$j_data = json_decode($get_data,true);
+
+		if ($j_data['code'] == 200) {
+			$info['status'] = 1;
+			$info['message'] = "获取用户权限成功";
+			$info['data'] = $j_data['data'];
+		}else{
+			$info['error'] = $j_data['msg'];
+		}
+
+		return $info;
+	}
 
 
 	/**
