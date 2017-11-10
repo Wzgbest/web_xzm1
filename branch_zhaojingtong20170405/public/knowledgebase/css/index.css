@@ -398,6 +398,7 @@
 .knowledgebase_company_library_index .library-list .lib-content .pic-list li img{
 	width: 100%;
 	height: 100%;
+	cursor: url(/static/cursor/big.cur),auto;
 }
 .reward-pop h2,.pay-pop h2,.pay-pop h3{
 	text-align: center;

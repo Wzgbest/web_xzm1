@@ -805,12 +805,12 @@ div.hangupdsbt {
 }
 
 div.level0, div.level1, div.level2, div.level3, div.levelr, div.level5 {
-	display: block;
+	/*display: block;
 	background-repeat: no-repeat;
 	width: 32px;
 	padding: 0px;
 	height: 16px;
-	margin: 3px 0 0 0
+	margin: 3px 0 0 0*/
 }
 
 div.level5 {
@@ -830,7 +830,7 @@ div.level2 {
 }
 
 div.level1 {
-	background-position: -203px -450px
+	/*background-position: -203px -450px*/
 }
 
 div.level0 {
