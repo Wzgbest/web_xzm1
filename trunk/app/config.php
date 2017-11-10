@@ -290,4 +290,9 @@ return [
     'take_cash' =>[
         'min_money' =>100,//提现最小金额，单位分
     ],
+    'tq'=>[
+        'appid'=>'4b08a3d3-8bde-4d96-b467-c41bcd08c552',
+        'appkey'=>'key',
+        'expire' => 60*60*2-60,
+    ],
 ];
