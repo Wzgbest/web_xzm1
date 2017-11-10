@@ -1,4 +1,4 @@
-<div class="systemsetting_business_flow systemsetting_business_flow_edit">
+<div class="systemsetting_business_flow systemsetting_business_flow_edit h100 o-h">
     <div class="top">
         <ul class="firNav">
             <li class="current" onclick="loadPage('{:url('index')}','business-flowfr');">
@@ -14,7 +14,8 @@
             </span>
         </ul>
     </div>
-    <div class="content">
+    <div class="m-3rd-container o-x-h">
+      <div class="content">
         <form name="form_business_flow_setting" class="form_business_flow_setting" onsubmit="return false;" method="post">
             <p>
                 <span class="sp1">业务名称</span>
@@ -23,7 +24,7 @@
             <p class="fuxuan">应有此业务角色<i class="fa fa-sort-desc"></i></p>
             <p class="yixuan">
                 {volist name="roles" id="vo"}
-                    {if	condition="in_array($vo.id,$business_flow_setting.set_to_role_arr)"}
+                    {if condition="in_array($vo.id,$business_flow_setting.set_to_role_arr)"}
                         <span>{$vo.role_name}<input type="hidden" name="set_to_role[]" value="{$vo.id}"/></span>
                     {/if}
                 {/volist}
@@ -32,7 +33,7 @@
                     <div class="xuanze">
                         <ul>
                             {volist name="roles" id="vo"}
-                                {if	condition="in_array($vo.id,$business_flow_setting.set_to_role_arr)"}
+                                {if condition="in_array($vo.id,$business_flow_setting.set_to_role_arr)"}
                                     <li><input type="checkbox" checked="checked" value="{$vo.id}"/><span class="sp3">{$vo.role_name}</span></li>
                                 {else/}
                                     <li><input type="checkbox" value="{$vo.id}"/><span class="sp3">{$vo.role_name}</span></li>
@@ -46,7 +47,7 @@
                         <p>已选择<span>{:count($business_flow_setting.set_to_role_arr)}</span>个对象</p>
                         <ul>
                             {volist name="roles" id="vo"}
-                                {if	condition="in_array($vo.id,$business_flow_setting.set_to_role_arr)"}
+                                {if condition="in_array($vo.id,$business_flow_setting.set_to_role_arr)"}
                                     <li index="{$vo.id}">{$vo.role_name}<img src="/systemsetting/images/delelet.png" index="{$vo.id}"></li>
                                 {/if}
                             {/volist}
@@ -71,7 +72,9 @@
                 <button onclick="loadPage('{:url('index')}','business-flowfr');">取消</button>
             </p>
         </form>
+    </div>  
     </div>
+    
 </div>
 <link rel="stylesheet" href="/systemsetting/css/business_flow_edit.css" />
 <script language="JavaScript">

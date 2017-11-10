@@ -136,7 +136,7 @@ textarea {
   height: 100%;
 }
 .o-x-h{
-  overflow-x:hidden; 
+  overflow-x:hidden !important; 
 }
 .o-y-h{
   overflow-y:hidden; 
@@ -197,4 +197,16 @@ textarea {
 .m-3rd-footer .btn2{
   background-color: #78beff;
   color: white;
+}
+.p-r{
+  position: relative;
+}
+.b-w{
+  background-color: white;
+}
+.b-x{
+  box-sizing:border-box;
+}
+.w100{
+  width: 100%;
 }

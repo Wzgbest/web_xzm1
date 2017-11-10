@@ -1,5 +1,5 @@
-<div class="sys_rule sys_rule_list">
-    <div class="rule_list_panel rule_list">
+<div class="sys_rule sys_rule_list h100 o-h">
+    <div class="rule_list_panel rule_list h100 o-h">
         <div class="top">
             <ul class="firNav">
                 <li class="current">
@@ -8,8 +8,9 @@
             </ul>
         </div>
         <!--权限列表-->
-        <div class="content">
-            <section>
+        <div class="m-3rd-container o-x-h">
+          <div class="content">
+            <section class="b-w">
                 <ul class="m-secNav">
                     <li class="active rule_add" onclick="rule_list_newRule();">新增</li>
                     <div class="clearfix"></div>
@@ -19,7 +20,7 @@
 
                     </form>
                 </div>
-                <div class="m-tableBox">
+                <div class="m-tableBox p-r">
                     <div class="m-table m-table-nav ">
                         <ul class="u-tabTitle">
                             <li>操作</li>
@@ -116,11 +117,11 @@
                     <form id="rule_list_newRuleForm" class="newRuleForm" onsubmit="return false;">
                         <div id="form2" class="">
                             <div>
-                                <span class="cont">规则名</span>
-                                <input type="text" name="rule_title" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入规则名" />
+                                <span class="cont"><span class="u-required">＊</span>规则名</span>
+                                <input type="text" name="rule_title" required="required" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入规则名" />
 
-                                <span class="cont">英文标识</span>
-                                <input type="text" name="rule_name"  placeholder="请输入英文标识" />
+                                <span class="cont"><span class="u-required">＊</span>英文标识</span>
+                                <input type="text" name="rule_name" required="required"  placeholder="请输入英文标识" />
                             </div>
                             <div>
                                 <span class="cont">父级</span>
@@ -161,7 +162,9 @@
                     </form>
                 </div>
             </section>
+        </div>  
         </div>
+        
     </div>
     <div class="rule_list_panel rule_info hide">
     </div>

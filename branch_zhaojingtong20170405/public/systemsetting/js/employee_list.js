@@ -156,6 +156,7 @@ function employee_list_show(id){
 			$('#frames #'+employee_list_hide_panel).addClass("hide");
 			$('#frames #'+panel).html(data);
 			$('#frames #'+panel).removeClass("hide");
+			changeFramesSize();
 		},
 		error:function(){
             layer.msg('获取员工信息失败!',{icon:2});
@@ -174,6 +175,7 @@ function employee_list_edit(id,status){
 			$('#frames #'+employee_list_hide_panel).addClass("hide");
 			$('#frames #'+panel).html(data);
 			$('#frames #'+panel).removeClass("hide");
+			changeFramesSize();
 		},
 		error:function(){
             layer.msg('获取员工信息失败!',{icon:2});
