@@ -80,10 +80,14 @@ class Customer extends Initialize{
         $map["id"] = $id;
         try{
             $customerSetting = $this->_customerSettingModel->getCustomerSetting(1,0,$map,"");
+            //var_exp($customerSetting,'$customerSetting');
             $this->assign("customerSetting",$customerSetting);
             $structure = new Structure($this->corp_id);
             $structures = $structure->getAllStructure();
             $this->assign("structures",$structures);
+            $structure_names = $structure->getStructureName($customerSetting["set_to_structure_arr"]);
+            $structure_names_str = implode(",",$structure_names);
+            $this->assign("structure_names_str",$structure_names_str);
         }catch (\Exception $ex){
             $this->error($ex->getMessage());
         }
