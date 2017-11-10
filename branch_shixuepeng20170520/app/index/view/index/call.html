@@ -150,6 +150,7 @@
 <script type="text/javascript">
     let data = {
         appid:'',
+        appkey:"",
         secretkey: '',
         secretkey : '',        
         admin_uin : '',
@@ -160,6 +161,7 @@
         md5_str : ""
     }
     data.appid = '4b08a3d3-8bde-4d96-b467-c41bcd08c552';
+    data.appkey = "key",
     data.secretkey = hex_md5(data.appid + '*(**)*' + data.appkey).toUpperCase();
     // data.secretkey = data.secretkey.;        
     data.admin_uin = '9796221';
@@ -169,10 +171,15 @@
     data.utc = parseInt(date.getTime() / 1000);
     data.input = data.admin_uin + '&' + data.uin + '&'+ data.strid + '&' + data.appid + '&' + data.secretkey + '&' + data.utc;
     data.md5_str = hex_md5(data.input).toUpperCase();
-    console.log(data.utc,data.md5_str);
+    console.log(data.utc,data.md5_str,data.strid);
+    let h = "http://vip.agent.tq.cn/vip/open/auth/token?admin_uin="+data.admin_uin+"&uin="+data.uin+"&strid="+data.strid+"&appid="+data.appid+"&ct="+data.utc+"&sign="+data.md5_str;
+    console.log(h);
     function getData(){
-        
+        $.get(h,function(data,status){
+            alert("数据: " + data + "\n状态: " + status);
+        });
     }
+    getData();
 
 </script>
 <script>
