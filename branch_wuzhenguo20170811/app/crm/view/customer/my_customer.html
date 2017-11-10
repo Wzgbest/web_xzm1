@@ -1,5 +1,5 @@
-<div class="crm_customer crm_my_customer">
-    <div class="my_customer_panel my_customer" style="height: 100%">
+<div class="crm_customer crm_my_customer h100 o-h">
+    <div class="my_customer_panel my_customer h100" >
         <!--header-->
         <header>
             <ul class="m-firNav">
@@ -16,7 +16,8 @@
         </header>
 
         <!--客户列表-->
-        <section class="myAllClientsPage" >
+        <div class="m-3rd-container">
+            <section class="myAllClientsPage b-w" >
             <ul class="m-secNav">
                 <li class="active showNewClient">新建客户</li>
                 <li class="active"><span class="big-link" data-reveal-id="my_customer_import" data-animation="fade">导入客户</span></li>
@@ -62,7 +63,7 @@
                     <button class="u-btnSearch">查询</button>
                 </form>
             </div>
-            <div class="m-tableBox">
+            <div class="m-tableBox p-r">
                 <div class="m-table m-table-nav">
                     <ul class="u-tabTitle">
                         <li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
@@ -134,6 +135,8 @@
             </div>
             {include file="common@common/page"/}
         </section>
+        </div>
+        
         <script src="/static/js/list_manage.1.1.js"></script>
         <script language="javascript">
             var arr = [[0,1,2,3,4,5,6,7,9,10,11,12,13,14,15,16],[0,1,2,3,4,5,6,9,10,11,12,14,16],[0,1,2,3,4,5,6,9,10,11,12,14,16],[0,1,2,3,4,5,6,9,10,11,12,14,16],[0,1,2,3,4,5,6,9,10,11,12,14,16],[0,1,2,3,4,5,6,9,10,11,12,14,16],[0,1,2,3,4,5,6,9,10,11,12,14,16],[0,1,2,3,4,5,7,8,9,10,11,13,14,16],[0,1,2,3,4,5,6,9,10,11,12,14,16]];

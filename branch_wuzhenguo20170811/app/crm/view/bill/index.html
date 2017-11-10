@@ -1,5 +1,5 @@
-<div class="crm_bill crm_bill_index" style="overflow-x: hidden;">
-	<div class="index_panel index my_bill">
+<div class="crm_bill crm_bill_index h100 o-h">
+	<div class="index_panel index my_bill h100">
 		<header>
 			<ul class="m-firNav">
 				<li in_column="1" class="in_column {eq name='in_column' value='1'}current{/eq}"><div>发票审核中（<span>{$listCount.1}</span>）</div></li>
@@ -16,7 +16,8 @@
 		</header>
 
 		<!--我的发票  列表-->
-		<section id="myAllBillPage">
+		<div class="m-3rd-container">
+			<section class="b-w">
 			<div class="m-divBlock m-divBlock2">
 				<ul class="m-secNav">
 					<li class="export-report">导出报表</li>
@@ -99,6 +100,8 @@
 				{include file="common@common/page"/}
 			</div>
 		</section>
+		</div>
+		
 		<!--<section id="create-bill" class="popUp hide">
 
         </section>-->

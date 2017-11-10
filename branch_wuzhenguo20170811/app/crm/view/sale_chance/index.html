@@ -1,5 +1,5 @@
-<div class="crm_sale_chance crm_customer crm_sale_chance_index">
-    <div class="index_panel index number_screening customer_from_panel">
+<div class="crm_sale_chance crm_customer crm_sale_chance_index h100 o-h">
+    <div class="index_panel index number_screening customer_from_panel h100">
 		<header>
             <ul class="m-firNav">
                 <li in_column="1" class="in_column {eq name='in_column' value='1'}current{/eq}"><div>正常跟进（<span>{$listCount.1}</span>）</div></li>
@@ -12,9 +12,10 @@
         </header>
     
     <!--销售机会列表-->
-   	  <section class="myAllSaleChancePage">
-    	<div class="m-divBlock m-divBlock2">
-    		<div class="m-filterNav">
+    <div class="m-3rd-container">
+        <section class="b-w">
+        <div class="m-divBlock m-divBlock2">
+            <div class="m-filterNav">
                 <form class="search_form" onsubmit="return false;">
                     <select name="business_id">
                         <option value="">对应业务</option>
@@ -33,10 +34,10 @@
                     <button class="u-btnSearch">查询</button>
                 </form>
             </div>
-            <div class="m-tableBox">
-            	<!--sale-chance-all为正常跟进、停滞、已输单、已作废、所有销售机会表格（表格结构相同） table5定义宽度-->
-            	<div class="m-table table5 sale-chance-all">
-            		<ul class="u-tabTitle">
+            <div class="m-tableBox p-r">
+                <!--sale-chance-all为正常跟进、停滞、已输单、已作废、所有销售机会表格（表格结构相同） table5定义宽度-->
+                <div class="m-table table5 sale-chance-all">
+                    <ul class="u-tabTitle">
                         <li>最后变更时间<i class="fa fa-caret-down"></i></li>
                         <li>销售机会<i class="fa fa-unsorted"></i></li>
                         <li>对应客户</li>
@@ -60,11 +61,13 @@
                         <div class="clearfix"></div>
                     </ul>
                     {/volist}
-            	</div>
+                </div>
             </div>
             {include file="common@common/page"/}
-    	</div>
+        </div>
       </section>
+    </div>
+   	  
     </div>
     <div class="customer_info_panel customer_general hide">
     </div>
