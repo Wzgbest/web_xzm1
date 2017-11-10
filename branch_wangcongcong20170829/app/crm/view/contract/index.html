@@ -1,5 +1,5 @@
-<div class="crm_contract crm_customer crm_contract_index" style="overflow-x: hidden;">
-	<div class="index_panel index my_contract customer_from_panel">
+<div class="crm_contract crm_customer crm_contract_index h100 o-h">
+	<div class="index_panel index my_contract customer_from_panel h100">
 		<header>
             <ul class="m-firNav">
                 <li in_column="1" class="in_column {eq name='in_column' value='1'}current{/eq}"><div>合同审核中（<span>{$listCount.1}</span>）</div></li>
@@ -18,99 +18,102 @@
         </header>
         
         <!--我的合同  列表-->
-        <section class="myAllContractPage">
-        	<div class="m-divBlock m-divBlock2">
-        		<div class="m-filterNav">
-                	<form class="search_form" onsubmit="return false;">
-                    	<select name="contract_type">
-                	        <option value="">合同类型</option>
-							{volist name="contract_type_list" id="vo"}
-								<option value="{$vo.id}" {present name='filter.contract_type'}{eq name='filter.contract_type' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.contract_name}</option>
-							{/volist}
-                	    </select>
-                    	<select name="business_id">
-                     	    <option value="">对应业务</option>
-							{volist name="business_flow_list" id="vo"}
-								<option value="{$vo.id}" {present name='filter.business_id'}{eq name='filter.business_id' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.business_flow_name}</option>
-							{/volist}
-                 	    </select>
-                	    <input type="text" name="contract_no" placeholder="输入合同编码" value="{present name='filter.contract_no'}{$filter.contract_no}{/present}"/>
-                	    <input type="text" name="customer_name" placeholder="输入客户名称" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
-               	    	<button class="u-btnSearch">查询</button>
-              	  	</form>
-           	 	</div>
-           	 	<div class="m-tableBox">
-           	 		<div class="m-table table-contract">
-                    	<ul class="u-tabTitle">
-                        	<li class="creat-time">申请时间<i class="fa fa-unsorted"></i></li>
-                        	<li class="update-time">状态变更时间<i class="fa fa-unsorted"></i></li>
-                        	<li class="contract-number">合同编码</li>
-                        	<li class="contract-type">合同类型</li>
-                        	<li class="contract-status">合同状态</li>
-                        	<li class="assessor">审核人</li>
-                        	<li class="sale-id">销售机会</li>
-                        	<li class="customer-id">对应客户</li>
-                        	<li class="service">对应业务</li>
-                        	<li class="order-status">订单状态</li>
-                        	<li class="status">对应状态</li>
-                        	<li class="reject-reson">驳回理由</li>
-                        	<li class="operate">操作</li>
-                        	<div class="clearfix"></div>
-                    	</ul>
-						{volist name="list_data" id="vo"}
-                    	<ul class="u-tabList"><input type="hidden" value="{$vo.id}"/>
-                        	<li class="creat-time">{$vo.create_time|day_format}</li>
-                        	<li class="update-time">{$vo.update_time|day_format}</li>
-                        	<li class="contract-number">
-								{present name="vo.contract_no"}
-									{$vo.contract_no}
-								{/present}
-							</li>
-                        	<li class="contract-type">{$vo.contract_type_name}</li>
-                        	<li class="contract-status">
-								{eq name="vo.status" value="1"}
-									{$vo.contract_status|getContractAppliedStatusName}
-								{else/}
-									{$vo.status|getContractAppliedStatusName}
-								{/eq}
-							</li>
-                        	<li class="assessor">{$vo.assessor_name}</li>
-                        	<li class="sale-id">{$vo.sale_name}</li>
-                        	<li class="customer-id color-blue customer_name" customer_id="{$vo.customer_id}">{$vo.customer_name}</li>
-                        	<li class="service">{$vo.business_flow_name}</li>
-                        	<li class="order-status">
-								{gt name="vo.sale_status" value="3"}
-									{$vo.sale_status|getSaleStatusName}
-								{/gt}
-							</li>
-                        	<li class="status">
-								{gt name="vo.sale_status" value="3"}
-									{$vo.sale_status|getSaleStatusName}
-								{else/}
-									{eq name="vo.status" value="1"}
-										{$vo.contract_status|getContractAppliedStatusName}
-									{else/}
-										{$vo.status|getContractAppliedStatusName}
-									{/eq}
-								{/gt}
-							</li>
-                        	<li class="reject-reson">{$vo.remark}</li>
-                        	<li class="u-tabOperation">
-								{eq name="vo.status" value="0"}<span class="retract">撤回</span>{/eq}
-							</li>
-                        	<div class="clearfix"></div>
-                    	</ul>
-						{/volist}
-           	 		</div>
-           	 	</div>
-           	 	{include file="common@common/page"/}
-        	</div>
+        <div class="m-3rd-container">
+          <section class="b-w">
+            <div class="m-divBlock m-divBlock2">
+                <div class="m-filterNav">
+                    <form class="search_form" onsubmit="return false;">
+                        <select name="contract_type">
+                            <option value="">合同类型</option>
+                            {volist name="contract_type_list" id="vo"}
+                                <option value="{$vo.id}" {present name='filter.contract_type'}{eq name='filter.contract_type' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.contract_name}</option>
+                            {/volist}
+                        </select>
+                        <select name="business_id">
+                            <option value="">对应业务</option>
+                            {volist name="business_flow_list" id="vo"}
+                                <option value="{$vo.id}" {present name='filter.business_id'}{eq name='filter.business_id' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.business_flow_name}</option>
+                            {/volist}
+                        </select>
+                        <input type="text" name="contract_no" placeholder="输入合同编码" value="{present name='filter.contract_no'}{$filter.contract_no}{/present}"/>
+                        <input type="text" name="customer_name" placeholder="输入客户名称" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
+                        <button class="u-btnSearch">查询</button>
+                    </form>
+                </div>
+                <div class="m-tableBox p-r">
+                    <div class="m-table table-contract">
+                        <ul class="u-tabTitle">
+                            <li class="creat-time">申请时间<i class="fa fa-unsorted"></i></li>
+                            <li class="update-time">状态变更时间<i class="fa fa-unsorted"></i></li>
+                            <li class="contract-number">合同编码</li>
+                            <li class="contract-type">合同类型</li>
+                            <li class="contract-status">合同状态</li>
+                            <li class="assessor">审核人</li>
+                            <li class="sale-id">销售机会</li>
+                            <li class="customer-id">对应客户</li>
+                            <li class="service">对应业务</li>
+                            <li class="order-status">订单状态</li>
+                            <li class="status">对应状态</li>
+                            <li class="reject-reson">驳回理由</li>
+                            <li class="operate">操作</li>
+                            <div class="clearfix"></div>
+                        </ul>
+                        {volist name="list_data" id="vo"}
+                        <ul class="u-tabList"><input type="hidden" value="{$vo.id}"/>
+                            <li class="creat-time">{$vo.create_time|day_format}</li>
+                            <li class="update-time">{$vo.update_time|day_format}</li>
+                            <li class="contract-number">
+                                {present name="vo.contract_no"}
+                                    {$vo.contract_no}
+                                {/present}
+                            </li>
+                            <li class="contract-type">{$vo.contract_type_name}</li>
+                            <li class="contract-status">
+                                {eq name="vo.status" value="1"}
+                                    {$vo.contract_status|getContractAppliedStatusName}
+                                {else/}
+                                    {$vo.status|getContractAppliedStatusName}
+                                {/eq}
+                            </li>
+                            <li class="assessor">{$vo.assessor_name}</li>
+                            <li class="sale-id">{$vo.sale_name}</li>
+                            <li class="customer-id color-blue customer_name" customer_id="{$vo.customer_id}">{$vo.customer_name}</li>
+                            <li class="service">{$vo.business_flow_name}</li>
+                            <li class="order-status">
+                                {gt name="vo.sale_status" value="3"}
+                                    {$vo.sale_status|getSaleStatusName}
+                                {/gt}
+                            </li>
+                            <li class="status">
+                                {gt name="vo.sale_status" value="3"}
+                                    {$vo.sale_status|getSaleStatusName}
+                                {else/}
+                                    {eq name="vo.status" value="1"}
+                                        {$vo.contract_status|getContractAppliedStatusName}
+                                    {else/}
+                                        {$vo.status|getContractAppliedStatusName}
+                                    {/eq}
+                                {/gt}
+                            </li>
+                            <li class="reject-reson">{$vo.remark}</li>
+                            <li class="u-tabOperation">
+                                {eq name="vo.status" value="0"}<span class="retract">撤回</span>{/eq}
+                            </li>
+                            <div class="clearfix"></div>
+                        </ul>
+                        {/volist}
+                    </div>
+                </div>
+                {include file="common@common/page"/}
+            </div>
         </section>
         <section id="create-contract" class="popUp hide">
-        	
-        </section>
+            
+        </section>  
+        </div>
+        
 	</div>
-	<div class="customer_info_panel customer_general hide">
+	<!-- <div class="customer_info_panel customer_general hide">
 	</div>
 	<div class="customer_info_panel customer_info hide">
 	</div>
@@ -121,7 +124,7 @@
 	<div class="customer_info_panel customer_sale_chance hide">
 	</div>
 	<div class="customer_info_panel customer_trace hide">
-	</div>
+	</div> -->
 </div>
 <link rel="stylesheet" href="/crm/css/contract.css" />
 <script src="/static/js/list_manage.js"></script>

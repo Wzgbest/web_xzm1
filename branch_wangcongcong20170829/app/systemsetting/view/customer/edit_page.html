@@ -1,4 +1,4 @@
-<div class="customer_setting_edit">
+<div class="customer_setting_edit h100 o-h">
     <div id="top">
         <ul class="firNav">
             <li class="current" onclick="loadPage('{:url('index')}','customer-settingfr');">
@@ -15,19 +15,20 @@
         </ul>
 
     </div>
-    <div class="content">
+    <div class="m-3rd-container o-x-h">
+      <div class="content">
         <form name="form_customer_setting" class="form_customer_setting" onsubmit="return false;" method="post">
         <p>
-        	<span class="sp1">
-        	    <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
-            	<span style="display: inline;vertical-align: middle;">客户设置名称</span>
-			</span>
+            <span class="sp1">
+                <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+                <span style="display: inline;vertical-align: middle;">客户设置名称</span>
+            </span>
             <input type="text" placeholder="请输入" name="setting_name" value="{$customerSetting.setting_name}"/>
         </p>        
         <p>
             <span class="sp1">
-            	<img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
-            	<span style="display: inline;vertical-align: middle;">客户保护时间</span>
+                <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+                <span style="display: inline;vertical-align: middle;">客户保护时间</span>
             </span>
             <input type="text" placeholder="请输入" name="protect_customer_day" value="{$customerSetting.protect_customer_day}"/>
             <span class="sp">天</span>
@@ -35,8 +36,8 @@
         </p>
         <p>
             <span class="sp1">
-            	<img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
-            	<span style="display: inline;vertical-align: middle;">员工可领取单个客户次数</span>
+                <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+                <span style="display: inline;vertical-align: middle;">员工可领取单个客户次数</span>
             </span>
             <input type="text" placeholder="请输入" name="take_times_employee" value="{$customerSetting.take_times_employee}"/>
             <span class="sp">次</span>
@@ -44,8 +45,8 @@
         </p>
         <p>
             <span class="sp1">
-            	<img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
-            	<span style="display: inline;vertical-align: middle;">部门可领取单个客户次数</span>
+                <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+                <span style="display: inline;vertical-align: middle;">部门可领取单个客户次数</span>
             </span>
             <input type="text" placeholder="请输入" name="take_times_structure" value="{$customerSetting.take_times_structure}"/>
             <span class="sp">次</span>
@@ -53,8 +54,8 @@
         </p>
         <p>
             <span class="sp1">
-            	<img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
-            	<span style="display: inline;vertical-align: middle;">停滞客户（销售机会）时间</span>
+                <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+                <span style="display: inline;vertical-align: middle;">停滞客户（销售机会）时间</span>
             </span>
             <input type="text" placeholder="请输入" name="to_halt_day" value="{$customerSetting.to_halt_day}"/>
             <span class="sp">天</span>
@@ -62,8 +63,8 @@
         </p>
         <p>
             <span class="sp1">
-            	<img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
-            	<span style="display: inline;vertical-align: middle;">有效通话</span>
+                <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+                <span style="display: inline;vertical-align: middle;">有效通话</span>
             </span>
             <input type="text" placeholder="请输入" name="effective_call" value="{$customerSetting.effective_call}"/>
             <span class="sp">秒</span>
@@ -71,8 +72,8 @@
         </p>
         <p>
             <span class="sp1">
-            	<img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
-            	<span style="display: inline;vertical-align: middle;">客户保护个数</span>
+                <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+                <span style="display: inline;vertical-align: middle;">客户保护个数</span>
             </span>
             <input type="text" class="ipt1" placeholder="请输入" name="protect_customer_num" value="{$customerSetting.protect_customer_num}"/>
             <span class="sp">个</span>
@@ -80,8 +81,8 @@
         </p>
         <p class="p6">
             <span class="sp1">
-            	<img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
-            	<span style="display: inline;vertical-align: middle;">公海池客户名称</span>
+                <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+                <span style="display: inline;vertical-align: middle;">公海池客户名称</span>
             </span>
             <input type="radio" name="public_sea_seen" class="sp3"
                    {eq name="customerSetting.public_sea_seen" value="0"} checked="checked"{/eq}
@@ -92,17 +93,17 @@
         </p>
         <p>
             <span class="sp1">
-            	<img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
-            	<span style="display: inline;vertical-align: middle;">该设置对应部门</span>
+                <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+                <span style="display: inline;vertical-align: middle;">该设置对应部门</span>
             </span>
             <input type="text" class="pknew-task-select-window-choosen-staff" data-dep="" data-stf=""  placeholder="请选择" />
-		    <div class="main-content select-window" style="margin:0 auto;" data-num="0" data-str='departments[]=,&,&,employees[]=,&' data-selector=".pknew-task-select-window-choosen-staff"></div>
+            <div class="main-content select-window" style="margin:0 auto;" data-num="0" data-str='departments[]=,&,&,employees[]=,&' data-selector=".pknew-task-select-window-choosen-staff"></div>
         </p>
        
         <!--<p class="fuxuan">该设置对应部门<i class="fa fa-sort-desc"></i></p>
         <p class="yixuan">
             {volist name="structures" id="vo"}
-                {if	condition="in_array($vo.id,$customerSetting.set_to_structure_arr)"}
+                {if condition="in_array($vo.id,$customerSetting.set_to_structure_arr)"}
                     <span>{$vo.struct_name}<input type="hidden" name="set_to_structure[]" value="{$vo.id}"/></span>
                 {/if}
             {/volist}
@@ -111,7 +112,7 @@
             <div class="xuanze">
                 <ul>
                     {volist name="structures" id="vo"}
-                        {if	condition="in_array($vo.id,$customerSetting.set_to_structure_arr)"}
+                        {if condition="in_array($vo.id,$customerSetting.set_to_structure_arr)"}
                             <li><input type="checkbox" checked="checked" value="{$vo.id}"/><span class="sp3">{$vo.struct_name}</span></li>
                         {else/}
                             <li><input type="checkbox" value="{$vo.id}"/><span class="sp3">{$vo.struct_name}</span></li>
@@ -124,7 +125,7 @@
                 <p>已选择<span>{:count($customerSetting.set_to_structure_arr)}</span>个对象</p>
                 <ul>
                     {volist name="structures" id="vo"}
-                        {if	condition="in_array($vo.id,$customerSetting.set_to_structure_arr)"}
+                        {if condition="in_array($vo.id,$customerSetting.set_to_structure_arr)"}
                             <li index="{$vo.id}">{$vo.struct_name}<img src="/systemsetting/images/delelet.png" index="{$vo.id}"></li>
                         {/if}
                     {/volist}
@@ -139,7 +140,9 @@
             <button onclick="loadPage('{:url('index')}','customer-settingfr');">取消</button>
         </p>
         </form>
+    </div>  
     </div>
+    
 </div>
 <link rel="stylesheet" href="/systemsetting/css/customersetting.css" />
 <script language="JavaScript">
