@@ -1530,6 +1530,40 @@ function get_reset_code($tel){
     $code = get_cache_by_tel($tel,"reset_code");
     return $code;
 }
+function curl_get($url,$timeout=30){
+    $ch = curl_init();
+    if($timeout>0){
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+    }
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
+    curl_setopt($ch, CURLOPT_MAXREDIRS, 4);
+    curl_setopt($ch, CURLOPT_ENCODING, ""); //必须解压缩防止乱码
+    $data = curl_exec($ch);
+    curl_close($ch);
+    return $data;
+}
+function curl_post($url,$param,$timeout=30){
+    $ch = curl_init();
+    if($timeout>0){
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+    }
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
+    curl_setopt($ch, CURLOPT_MAXREDIRS, 4);
+    curl_setopt($ch, CURLOPT_ENCODING, ""); //必须解压缩防止乱码
+    curl_setopt($ch, CURLOPT_POST, TRUE);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
+    $data = curl_exec($ch);
+    curl_close($ch);
+    return $data;
+}
 /**
  * curl并发测试
  * @param $urls
