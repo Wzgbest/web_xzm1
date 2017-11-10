@@ -52,8 +52,9 @@ class Contract extends Initialize{
             //var_exp($status_list,'$status_list',1);
             $this->assign('apply_status_list',$apply_status_list);
         }catch (\Exception $ex){
-            print_r($ex->getTrace());die();
-            $this->error($ex->getMessage());
+            //var_exp($ex->getMessage(),'$ex->getMessage()',1);
+            //var_exp($ex->getTrace(),'$ex->getTrace()',1);
+            $this->error("列表加载失败!");
         }
         $max_page = ceil($customers_count/$num);
         $in_column = isset($filter["in_column"])?$filter["in_column"]:0;

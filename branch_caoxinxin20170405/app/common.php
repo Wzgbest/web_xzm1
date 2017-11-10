@@ -369,7 +369,7 @@ function get_online($telephone,$device_type=0){
  * 设置用户设备信息
  * @param $device_type int 0:other,1:web,2:pc,3:ios:4:android
  * @return int
- * created by blu10p
+ * created by blu10ph
  */
 function set_user_device($telephone,$token,$device_type,$corp_id,$uid){
     $user_info = [
