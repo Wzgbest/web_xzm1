@@ -29,6 +29,12 @@ class Rule extends Initialize{
         $redata['status']=false;
         $redata['message']='操作失败';
         $data=input('post.');
+        $res = $this->validate($data,'Rule');
+        //验证字段
+        if(true !== $res){
+            $redata['message'] = $res;
+            return $redata;
+        }
         if($data){
             $result=$this->_RuleModel->addRule($data);
             if($result){
@@ -61,6 +67,12 @@ class Rule extends Initialize{
         $redata['status']=false;
         $redata['message']='操作失败';
         $data=input('post.');
+        $res = $this->validate($data,'Rule');
+        //验证字段
+        if(true !== $res){
+            $redata['message'] = $res;
+            return $redata;
+        }
         if($data){
             $result=$this->_RuleModel->editRule($data);
             if($result!==false){
