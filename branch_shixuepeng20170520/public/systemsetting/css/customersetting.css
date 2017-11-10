@@ -98,7 +98,7 @@
 
 .customer_setting_edit .p5 {
     /*margin-top: 389px;*/
-    margin-left: 340px;
+    margin-left: 340px !important;
 }
 
 .customer_setting_edit .p5 input {
