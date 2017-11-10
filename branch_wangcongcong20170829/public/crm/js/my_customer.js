@@ -78,26 +78,12 @@ $(my_customer_base+" .my_customer_import_ui .my_customer_import_cancel_btn").cli
 
 my_customer_list_manage.listenSelect("exportCustomer");
 $(my_customer_nav_base+" .exportCustomer").click(function(){
-	var ids = my_customer_list_manage.getAllSelectVal();
+    var ids = my_customer_list_manage.getAllSelectVal(" ",",");
 	if(ids==""){
 		return;
 	}
-	//console.log(ids);
-	$.ajax({
-		url: '/crm/customer_import/exportCustomer',
-		type: 'post',
-		data: ids,
-		success: function(data) {
-			//console.log(data);
-            layer.msg(data.info,{icon:data.status==1?1:2});
-			if(data.status) {
-				my_customer_list_manage.reload_list();
-			}
-		},
-		error: function() {
-            layer.msg('导出客户时发生错误!',{icon:2});
-		}
-	});
+    console.log(ids);
+    window.open("/crm/customer_import/exportCustomer/ids/"+ids);
 });
 my_customer_list_manage.listenSelect("send_customer_group_message");
 $(my_customer_nav_base+" .send_customer_group_message").click(function(){
