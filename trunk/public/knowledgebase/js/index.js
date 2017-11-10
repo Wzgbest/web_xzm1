@@ -20,13 +20,14 @@ $(".knowledgebase .new_panel .radio-select input[name='class']").change(function
 // console.log($(".knowledgebase_company_library_index .library-list .lib-content .pic-grid li img"));
 $(".knowledgebase_company_library_index .library-list .lib-content .pic-grid li img").click(function(){
 	$(this).parents(".pic-grid").addClass("hide").siblings().removeClass("hide");
-	$(this).parents(".pic-grid").siblings(".pic-show").removeClass("hide").children("img").attr("src",$(this).attr("src"));
+	$(this).parents(".pic-grid").siblings(".pic-show").removeClass("hide").children().children("img").attr("src",$(this).attr("src"));
 	$(this).parents(".pic-grid").siblings(".pic-list").removeClass("hide").children("li").eq($(this).parent().index()).addClass("current");
 });
 $(".knowledgebase_company_library_index .library-list .lib-content .pic-list li img").click(function(){
 	$(this).parent("li").addClass("current").siblings("li").removeClass("current");
 	$(this).parent("li").parent("ul").siblings(".pic-show").children("img").attr("src",$(this).attr("src"));
 })
+//收起
 $(".knowledgebase_company_library_index .library-list .lib-content .pic-show .pack-up-btn").click(function(){
 	console.log(1);
 	$(this).parent(".pic-show").addClass("hide").siblings(".pic-list").addClass("hide").siblings(".pic-grid").removeClass("hide");
