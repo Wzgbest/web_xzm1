@@ -149,31 +149,9 @@
 <script type="text/javascript" src="/static/call_js/md5.js"></script>
 <script type="text/javascript">
     let data = {
-        appid:'',
-        secretkey: '',
-        secretkey : '',        
-        admin_uin : '',
-        uin : '',
-        strid : '',
-        utc : "",
-        input : "",
-        md5_str : ""
+        appid:'{$call_config.appid}',
+        access_token:'{$call_config.access_token}'
     }
-    data.appid = '4b08a3d3-8bde-4d96-b467-c41bcd08c552';
-    data.secretkey = hex_md5(data.appid + '*(**)*' + data.appkey).toUpperCase();
-    // data.secretkey = data.secretkey.;        
-    data.admin_uin = '9796221';
-    data.uin = '9796249';
-    data.strid = 'sdzhcs2';
-    date = new Date();
-    data.utc = parseInt(date.getTime() / 1000);
-    data.input = data.admin_uin + '&' + data.uin + '&'+ data.strid + '&' + data.appid + '&' + data.secretkey + '&' + data.utc;
-    data.md5_str = hex_md5(data.input).toUpperCase();
-    console.log(data.utc,data.md5_str);
-    function getData(){
-        
-    }
-
 </script>
 <script>
 var token = "";
