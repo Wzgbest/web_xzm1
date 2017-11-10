@@ -1,4 +1,4 @@
-<div class="edit_corp_info">
+<div class="edit_corp_info h100 o-h">
     <div id="top">
         <ul class="firNav">
             <li onclick="loadPage('{:url('/systemsetting/corporation/showcorpinfo')}','company-informationfr');" class="current">
@@ -9,7 +9,8 @@
         	<span class="span-info">编辑</span>
         </ul>
     </div>
-    <div id="content">
+    <div class="m-3rd-container o-x-h">
+       <div id="content">
         <form name="form_corp" class="form_corp" onsubmit="return false;" method="post">
             <p>
                 <img src="/systemsetting/images/corp_info.jpg" />
@@ -69,7 +70,9 @@
                 <button onclick="loadPage('{:url('/systemsetting/corporation/showcorpinfo')}','company-informationfr');">取消</button>
             </p>
         </form>
+    </div> 
     </div>
+    
     <script language="javascript">
         $('#corp_submit').click(function() {
             console.log($(".form_corp").serialize());

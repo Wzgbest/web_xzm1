@@ -1,13 +1,14 @@
 <link rel="stylesheet" href="/crm/css/index.css"/>
-<div class="crm_customer crm_customer_manage">
-    <div class="customer_manage_panel customer_manage">
+<div class="crm_customer crm_customer_manage o-h">
+    <div class="customer_manage_panel customer_manage h100 o-h">
         <header>
             <ul class="m-firNav">
                 <li class="in_column current"><div>客户管理</div></li>
             </ul>
         </header>
         <!--客户列表-->
-        <section class="myAllClientsManagerPage">
+        <div class="m-3rd-container">
+            <section class="myAllClientsManagerPage b-w">
             <ul class="m-secNav">
                 <li class="exportCustomer">导出</li>
                 <li class="delete">删除</li>
@@ -52,7 +53,7 @@
                     <button class="u-btnSearch">查询</button>
                 </form>
             </div>
-            <div class="m-tableBox">
+            <div class="m-tableBox p-r">
                 <div class="m-table m-table-nav">
                     <ul class="u-tabTitle">
                         <li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
@@ -108,6 +109,8 @@
         <section class="crm-customer-manage-pop popUp hide">
             
         </section>
+        </div>
+        
         <script src="/static/js/list_manage.js"></script>
         <script language="javascript">
             var customer_manage_list_manage = new list_manage("customer_manage","cilents-managefr","/crm/customer/customer_manage",'{$p}','{$num}','{$max_page}','0',"");

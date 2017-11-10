@@ -1,4 +1,4 @@
-<div class="customer_setting_list block_list">
+<div class="customer_setting_list block_list h100 o-h">
 	<div id="top">
 		<ul class="firNav">
 			<li class="current">
@@ -6,7 +6,8 @@
 			</li>
 		</ul>
 	</div>
-	<div class="content">
+	<div class="m-3rd-container o-x-h">
+		<div class="content">
 		{volist name="listdata" id="vo"}
 		<a href="javascript:loadPage('{:url('edit_page',['id'=>$vo.id])}','customer-settingfr');" class="content_link">
 			<div class="content_item">
@@ -22,6 +23,8 @@
 			</div>
 		</a>
 	</div>
+	</div>
+	
 </div>
 <link rel="stylesheet" href="/static/css/block_list.css" />
 <link rel="stylesheet" href="/systemsetting/css/customersettinglist.css" />

@@ -1,4 +1,4 @@
-<div class="show_corp_info">
+<div class="show_corp_info h100 o-h">
     <div id="top">
         <ul class="firNav">
             <li class="current">
@@ -7,7 +7,8 @@
             <!--<i class="fa fa-angle-right fa-2x"></i>-->
         </ul>
     </div>
-    <div id="content">
+    <div class="m-3rd-container o-x-h">
+      <div id="content">
         <p>
             <span class="left">公司名称</span>
             <span class="colon">:</span>
@@ -65,7 +66,9 @@
             <i class="fa fa-file-text"></i>
             <p>编辑</p>
         </div>
+    </div>  
     </div>
+    
     <script>
         $('#compile').click(function() {
             loadPage("{:url('/systemsetting/corporation/editcorpinfo')}","company-informationfr");
