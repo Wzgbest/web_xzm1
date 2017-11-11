@@ -20,6 +20,9 @@ function pop(id,url,clicker){
 	   $(id).children().remove();
 	   $("#blackBg").addClass("hide");
 	}); 
+	$(document).on('click', id+" .pop-submit-btn", function() {
+	   $("#blackBg").addClass("hide");
+	}); 
 }
 function popLoad(id,url){
 
@@ -38,6 +41,9 @@ function popLoad(id,url){
 	});   	
     $(document).on('click', id+" .pop-close-btn", function() {
 	   $(id).children().remove();
+	   $("#blackBg").addClass("hide");
+	}); 
+	$(document).on('click', id+" .pop-submit-btn", function() {
 	   $("#blackBg").addClass("hide");
 	}); 
 }
