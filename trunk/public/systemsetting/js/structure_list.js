@@ -153,8 +153,13 @@ structure_tree.listen("addFun",function(id,name){
 	console.log("addFun_id",id);
     var struct_file_panel_temp = struct_file_panel;
     if(id){
-        $(struct_file_panel+' .pd_panel').removeClass("hide");
-        $(struct_file_panel+' .pd_name').text(name);
+        console.log("addFun_struct_name",name);
+        if(name){
+            $(struct_file_panel+' .pd_panel').removeClass("hide");
+            $(struct_file_panel+' .pd_name').text(name);
+        }else{
+            $(struct_file_panel+' .pd_panel').addClass("hide");
+        }
         $(struct_file_panel+' .mange input').val('');
         $(struct_file_panel_temp).reveal("{data-animation:'fade'}");
               
