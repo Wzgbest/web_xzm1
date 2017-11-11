@@ -69,6 +69,8 @@ class Customer extends Initialize{
         $structure = new Structure($this->corp_id);
         $structures = $structure->getAllStructure();
         $this->assign("structures",$structures);
+        $set_to_structure_args = '';
+        $this->assign("set_to_structure_args",$set_to_structure_args);
         $this->assign("url",url("add"));
         return view("edit_page");
     }
@@ -83,6 +85,8 @@ class Customer extends Initialize{
             $customerSetting = $this->_customerSettingModel->getCustomerSetting(1,0,$map,"");
             //var_exp($customerSetting,'$customerSetting');
             $this->assign("customerSetting",$customerSetting);
+            $set_to_structure_args = "set_to_structure[]=".implode("&set_to_structure[]=",$customerSetting["set_to_structure_arr"]);
+            $this->assign("set_to_structure_args",$set_to_structure_args);
             $structure = new Structure($this->corp_id);
             $structures = $structure->getAllStructure();
             $this->assign("structures",$structures);
