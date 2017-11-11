@@ -63,7 +63,7 @@
                     <button class="u-btnSearch">查询</button>
                 </form>
             </div>
-            <div class="m-tableBox p-r">
+            <div class="m-tableBox p-r o-h">
                 <div class="m-table m-table-nav">
                     <ul class="u-tabTitle">
                         <li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
@@ -84,7 +84,8 @@
                     </ul>
                     {/volist}
                 </div>
-                <div class="m-table m-table-detail">
+                <div class="o-a w100">
+                   <div class="m-table m-table-detail">
                     <ul class="u-tabTitle">
                         <li class="u-tabCheckbox"><input type="checkbox"/></li>
                         <li>客户名称<i class="fa fa-caret-down"></i></li>
@@ -131,7 +132,9 @@
                         <div class="clearfix"></div>
                     </ul>
                     {/volist}
+                </div> 
                 </div>
+                
             </div>
             {include file="common@common/page"/}
         </section>
