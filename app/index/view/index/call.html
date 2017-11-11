@@ -88,7 +88,7 @@
 </div>
 <div id="main" class="main bkg">
     <div id="fc" class="fc fl big">
-        <!-- <ul class="bkg top fl nocall">
+        <ul class="bkg top fl nocall">
             <li id='fc_tip' class="tip"><span class="fl"
               style="width:80px;height:28px;line-height:28px;overflow:hidden;display:none;"></span><span class="fl">正在初始化电话&nbsp;,&nbsp;请稍候&nbsp;...</span><span
               id="fc_timing" class='fr' style="padding-right:20px;" title="当前状态持续时间"></span></li>
@@ -122,7 +122,7 @@
                     <img src="../image/loading.gif" />
                 </div>
             </li>
-        </ul> -->
+        </ul>
         <ul class="bottom fl">
             <li class="fl callsettings">
                 <div id="phonereset" class="phonereset fl bkg" title="电话复位/重新加载" onclick="operation.phoneResetBt(this)"></div>
@@ -148,10 +148,11 @@
 </div>
 <script type="text/javascript" src="/static/call_js/md5.js"></script>
 <script type="text/javascript">
-    let data = {
+    var data = {
         appid:'{$call_config.appid}',
         access_token:'{$call_config.access_token}'
     }
+    console.log(data.access_token);
 </script>
 <script>
 var token = "";
