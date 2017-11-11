@@ -65,6 +65,7 @@ class Customer extends Initialize{
             "set_to_structure_arr"=>[],
         ];
         $this->assign("customerSetting",$customerSetting);
+        $this->assign("structure_names_str","");
         $structure = new Structure($this->corp_id);
         $structures = $structure->getAllStructure();
         $this->assign("structures",$structures);
