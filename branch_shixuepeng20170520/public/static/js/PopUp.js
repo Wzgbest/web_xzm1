@@ -1,6 +1,7 @@
 function pop(id,url,clicker){
     $(clicker).click(function(){
     	console.log($(this));
+    	$(document.body).append("<li></li>");
     	$.ajax({
         	url: url,
         	type: 'get',
@@ -19,6 +20,7 @@ function pop(id,url,clicker){
 	}); 
 }
 function popLoad(id,url){
+	$(document.body).append("<li></li>");
 	$.ajax({
     	url: url,
     	type: 'get',
