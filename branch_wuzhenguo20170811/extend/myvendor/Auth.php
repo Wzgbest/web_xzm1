@@ -89,16 +89,18 @@ class Auth
 
     /**
      * 检查权限
-     * @param name string|array  需要验证的规则列表,支持逗号分隔的权限规则或索引数组
-     * @param uid  int           认证用户的id
-     * @param string mode        执行check的模式
-     * @param relation string    如果为 'or' 表示满足任一条规则即通过验证;如果为 'and'则表示需满足所有规则才能通过验证
+     * @param $name string|array  需要验证的规则列表,支持逗号分隔的权限规则或索引数组
+     * @param $uid  int           认证用户的id
+     * @param $type  int           认证逻辑
+     * @param $mode string        执行check的模式
+     * @param $relation string    如果为 'or' 表示满足任一条规则即通过验证;如果为 'and'则表示需满足所有规则才能通过验证
      * @return boolean           通过验证返回true;失败返回false
      */
     public function check($name, $uid, $type = 1, $mode = 'url', $relation = 'or')
     {
-        if (!$this->_config['AUTH_ON'])
+        if (!$this->_config['AUTH_ON']){
             return true;
+        }
         $authList = $this->getAuthList($uid, $type); //获取用户需要验证的所有有效规则列表
         if (is_string($name)) {
             $name = strtolower($name);
@@ -109,6 +111,7 @@ class Auth
             }
         }
         $list = array(); //保存验证通过的规则名
+        $REQUEST = array();
         if ($mode == 'url') {
             $REQUEST = unserialize(strtolower(serialize($_REQUEST)));
         }
@@ -137,7 +140,7 @@ class Auth
 
     /**
      * 根据用户id获取用户组,返回值为数组
-     * @param  uid int     用户id
+     * @param  $uid int     用户id
      * @return array       用户所属的用户组 array(
      *  array('uid'=>'用户id',
      * 'group_id'=>'用户组id',
@@ -160,8 +163,9 @@ class Auth
 
     /**
      * 获得权限列表
-     * @param integer $uid 用户id
-     * @param integer $type
+     * @param int $uid 用户id
+     * @param int $type
+     * @return array
      */
     protected function getAuthList($uid, $type)
     {
@@ -187,7 +191,9 @@ class Auth
         }
 
         //读取用户组所有权限规则
-        $rules = $this->model->table($this->_config['AUTH_RULE'])->where("type = $type and status =1 and id in(" . implode(',', $ids) . ")")->field('condition,name')->select();
+        $rules = $this->model->table($this->_config['AUTH_RULE'])
+            ->where("type = $type and status =1 and id in(" . implode(',', $ids) . ")")
+            ->field('condition,name')->select();
         //循环规则，判断结果。
         $authList = array();   //
 //        $user = $this->getUserInfo($uid);//获取用户信息,一维数组
@@ -195,6 +201,7 @@ class Auth
             if (!empty($rule['condition'])) { //根据condition进行验证
                 $command = preg_replace('/\{(\w*?)\}/', '$user[\'\\1\']', $rule['condition']);
                 //dump($command);//debug
+                $condition = false;
                 @(eval('$condition=(' . $command . ');'));
                 if ($condition) {
                     $authList[] = strtolower($rule['name']);
@@ -214,6 +221,8 @@ class Auth
 
     /**
      * 获得用户资料,根据自己的情况读取数据库
+     * @param int $uid 用户id
+     * @return array 用户信息
      */
     protected function getUserInfo($uid)
     {
