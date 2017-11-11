@@ -29,7 +29,7 @@ use app\common\model\Picture as PictureModel;
  * created by messhair
  */
 function check_tel ($tel) {
-    return preg_match('/^(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}/',$tel);
+    return preg_match('/^(13[0-9]|15[012356789]|17[0236789]|18[0236789]|14[57])[0-9]{8}/',$tel);
 }
 
 /**
