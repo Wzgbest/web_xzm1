@@ -13,7 +13,7 @@ $(".verification_contract_index_pop").on("change",".approved-page-radio",functio
 $(".verification_contract_index_pop").on("click",".approved-page-pop .pop-submit-btn",function(){
     let id = $(".verification_contract_index_pop").attr("id").trim();
     let remark = $(".verification_contract_index_pop .approved-page-pop .u-mark").val();
-    let use_withdrawal = $(".verification_contract_index_pop .approved-page-pop .approved-page-radio").val();
+    let use_withdrawal = $(".verification_contract_index_pop .approved-page-pop .approved-page-radio:checked").val();
     let contract_id = $(".verification_contract_index_pop .approved-page-pop .contract-number-list").val();
     let data = "id="+id+"&remark="+remark+"&use_withdrawal="+use_withdrawal+"&contract_id="+contract_id;
     $.ajax({

@@ -10,7 +10,7 @@
     <div class="tc">
         <span class="cont" style="margin-left: -50px;">合同编号</span>
         <select class="contract-number-list">
-            {volist name="withdrawal_contracts" id="vo"}
+            {volist name="withdrawal_contracts" id="vo" empty="<option value=''>暂无追回合同</option>"}
             <option value="{$vo.id}">{$vo.contract_no}</option>
             {/volist}
         </select>
