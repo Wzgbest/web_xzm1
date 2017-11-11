@@ -52,6 +52,7 @@ function tree(config) {
                 class_str+=" is_last";
                 is_last_node = true;
             }
+            this.tree_index[node_item["id"]] = node_item;
             for(var j=1;j<=level;j++){
                 var is_last_head = j==level;
                 if(is_last_head){
@@ -160,15 +161,15 @@ function tree(config) {
             }
         }
     };
-    this.get_name_by_id=function(id,data){
-        //console.log("get_name_by_id");
-        for(var idx in data["child"]){
-            if(data["child"][idx]["id"]==id){
-                //console.log('data["child"][idx]',data["child"][idx]);
-                return data["child"][idx]["struct_name"];
-            }else{
-                return this.get_name_by_id(id,data["child"][idx]);
-            }
+    this.get_name_by_id=function(id){
+        console.log("get_name_by_id",id);
+        console.log("this.tree_index",this.tree_index);
+        if(this.tree_index.hasOwnProperty(id)){
+            console.log("struct_name",this.tree_index[id]["struct_name"]);
+            return this.tree_index[id]["struct_name"];
+        }else{
+            console.log("struct_name",false);
+            return false;
         }
     };
     this.is_have_child=function(id,data){
@@ -198,6 +199,7 @@ function tree(config) {
     };
     this.reload=function(){
         console.log("reload");
+        this.tree_index = new Array();
         this.tree_html = '<div class="five_tree">'+this.get_html(this.data,[true])+'</div>';
         $(this.target).html(this.tree_html);
         if(self.listen_arr.reloadFun!=null){
@@ -269,8 +271,8 @@ function tree(config) {
     $(this.target).on('click','.node .add',function(){
         if(self.listen_arr.addFun!=null){
             var id = self.getId(this);
-            //console.log("add",id);
-            var name = self.get_name_by_id(id,self.data[0]);
+            console.log("add",id);
+            var name = self.get_name_by_id(id);
             self.listen_arr.addFun(id,name);
         }
     });
