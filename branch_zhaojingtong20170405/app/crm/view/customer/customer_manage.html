@@ -53,7 +53,7 @@
                     <button class="u-btnSearch">查询</button>
                 </form>
             </div>
-            <div class="m-tableBox p-r">
+            <div class="m-tableBox p-r o-h">
                 <div class="m-table m-table-nav">
                     <ul class="u-tabTitle">
                         <li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
@@ -68,41 +68,43 @@
                     </ul>
                     {/volist}
                 </div>
-
-                <div class="m-table m-table-detail">
-                    <ul class="u-tabTitle">
-                        <li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
-                        <li>客户名称<i class="fa fa-caret-down"></i></li>
-                        <li>客户级别<i class="fa fa-unsorted"></i></li>
-                        <li>客户状态</li>
-                        <li>客户来源</li>
-                        <li>可见范围</li>
-                        <li>跟踪人</li>
-                        <li>维护人</li>
-                        <li>添加人</li>
-                        <li>添加时间<i class="fa fa-unsorted"></i></li>
-                        <li>沟通结果<i class="fa fa-unsorted"></i></li>
-                        <li>获取途径</li>
-                        <div class="clearfix"></div>
-                    </ul>
-                    {volist name="listdata" id="vo"}
-                    <ul class="u-tabList">
-                        <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
-                        <li class="u-tabCilentName customer_info_name_show">{$vo.customer_name}</li>
-                        <li>{$vo.grade}</li>
-                        <li>{$vo.belongs_to|getBelongsToManageName}</li>
-                        <li>{$vo.resource_from|getResourceFromName}</li>
-                        <li>{eq name="vo.is_public" value="1"}全公司{else/}{notempty name="vo.public_to_employee"}指定人{/notempty}{notempty name="vo.public_to_department"}指定部门{/notempty}{/eq}</li>
-                        <li>{$vo.tracer}</li>
-                        <li>{$vo.guardian}</li>
-                        <li>{$vo.add_man}</li>
-                        <li>{$vo.add_time}</li>
-                        <li>{$vo.comm_status|getCommStatusName}</li>
-                        <li>{$vo.take_type|getTakeTypeFromName}</li>
-                        <div class="clearfix"></div>
-                    </ul>
-                    {/volist}
+                <div class="w100 o-a">
+                    <div class="m-table m-table-detail">
+                        <ul class="u-tabTitle">
+                            <li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
+                            <li>客户名称<i class="fa fa-caret-down"></i></li>
+                            <li>客户级别<i class="fa fa-unsorted"></i></li>
+                            <li>客户状态</li>
+                            <li>客户来源</li>
+                            <li>可见范围</li>
+                            <li>跟踪人</li>
+                            <li>维护人</li>
+                            <li>添加人</li>
+                            <li>添加时间<i class="fa fa-unsorted"></i></li>
+                            <li>沟通结果<i class="fa fa-unsorted"></i></li>
+                            <li>获取途径</li>
+                            <div class="clearfix"></div>
+                        </ul>
+                        {volist name="listdata" id="vo"}
+                        <ul class="u-tabList">
+                            <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+                            <li class="u-tabCilentName customer_info_name_show">{$vo.customer_name}</li>
+                            <li>{$vo.grade}</li>
+                            <li>{$vo.belongs_to|getBelongsToManageName}</li>
+                            <li>{$vo.resource_from|getResourceFromName}</li>
+                            <li>{eq name="vo.is_public" value="1"}全公司{else/}{notempty name="vo.public_to_employee"}指定人{/notempty}{notempty name="vo.public_to_department"}指定部门{/notempty}{/eq}</li>
+                            <li>{$vo.tracer}</li>
+                            <li>{$vo.guardian}</li>
+                            <li>{$vo.add_man}</li>
+                            <li>{$vo.add_time}</li>
+                            <li>{$vo.comm_status|getCommStatusName}</li>
+                            <li>{$vo.take_type|getTakeTypeFromName}</li>
+                            <div class="clearfix"></div>
+                        </ul>
+                        {/volist}
+                    </div>
                 </div>
+                
             </div>
             {include file="common@common/page"/}
         </section>
