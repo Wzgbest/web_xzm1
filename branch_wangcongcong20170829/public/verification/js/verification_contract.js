@@ -5,7 +5,10 @@
 // +----------------------------------------------------------------------
 // | Author: blu10ph <blu10ph@gmail.com> <http://www.blu10ph.cn>
 // +----------------------------------------------------------------------
-
+$(".verification_contract_index_pop").on("change",".approved-page-radio",function(){
+    $(this).attr("checked","checked").prop("checked",true);
+    $(this).siblings().removeAttr("checked").prop("checked",false);
+}); 
 //通过
 $(".verification_contract_index_pop").on("click",".approved-page-pop .pop-submit-btn",function(){
     let id = $(".verification_contract_index_pop").attr("id").trim();
