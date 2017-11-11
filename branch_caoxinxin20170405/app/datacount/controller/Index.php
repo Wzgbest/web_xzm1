@@ -9,6 +9,7 @@
 namespace app\datacount\controller;
 
 use app\common\controller\Initialize;
+use app\common\model\StructureEmployee;
 
 class Index extends Initialize{
     public function __construct(){
@@ -22,7 +23,17 @@ class Index extends Initialize{
         if (empty($userinfo)) {
             $this->redirect('/login/index/index');
         }
+//        var_exp($userinfo,'$userinfo');
         $this->assign("userinfo",$userinfo);
+        $role_arr = explode(",",$userinfo["role"]);
+//        var_exp($role_arr,'$role_arr');
+        $role_last = array_pop($role_arr);
+        $role_last = $role_last?:"";
+        $this->assign("role",$role_last);
+        $structureEmployeeModel = new StructureEmployee($this->corp_id);
+        $structure = $structureEmployeeModel->findEmployeeStructure($this->uid);
+//        var_exp($structure,'$structure');
+        $this->assign("structure",$structure);
         return view();
     }
 }
