@@ -22,7 +22,7 @@ function customer_add(from,target,list_manage){
 		var html = '<div class="add_customer hide">';
 		html += data+'</div>';
 		$(panel).append(html);
-		$(panel+" .add_customer .blackBg").height(window.innerHeight);
+		// $(panel+" .add_customer .blackBg").height(window.innerHeight);
 		$(panel+" .add_customer").removeClass("hide");
 		//关闭按钮
 		$(panel+" .add_customer .newClient .u-pop-header .close").click(function(){
