@@ -139,13 +139,16 @@
 /*新建客户*/
 .crm_customer .newClient{
 	width: 900px;
-	height: 550px;
+	height: 450px;
 	position: absolute;
 	left: 66px;
 	top: 96px;
 	background-color: #fff;
 	/*overflow-y: auto;
 	overflow-x:hidden ;*/
+}
+.crm_customer .newClient .m-form{
+	height: 400px;
 }
 .crm_customer .newClient header{
 	width: 100% !important;
