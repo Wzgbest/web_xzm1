@@ -1,6 +1,7 @@
 function pop(id,url,clicker){
     $(clicker).click(function(){
     	console.log($(this));
+
     	$.ajax({
         	url: url,
         	type: 'get',
@@ -8,6 +9,7 @@ function pop(id,url,clicker){
         	success: function(data) {
             	$(id).html(data);
             	$(id).removeClass("hide");
+            	$("#blackBg").removeClass("hide");
         	},
         	error: function() {
                 layer.msg('加载失败!',{icon:2});
@@ -16,9 +18,11 @@ function pop(id,url,clicker){
     });
     $(document).on('click', id+" .pop-close-btn", function() {
 	   $(id).children().remove();
+	   $("#blackBg").addClass("hide");
 	}); 
 }
 function popLoad(id,url){
+
 	$.ajax({
     	url: url,
     	type: 'get',
@@ -26,6 +30,7 @@ function popLoad(id,url){
     	success: function(data) {
         	$(id).html(data);
         	$(id).removeClass("hide");
+        	$("#blackBg").removeClass("hide");
     	},
     	error: function() {
             layer.msg('加载失败!',{icon:2});
@@ -33,6 +38,7 @@ function popLoad(id,url){
 	});   	
     $(document).on('click', id+" .pop-close-btn", function() {
 	   $(id).children().remove();
+	   $("#blackBg").addClass("hide");
 	}); 
 }
 function popUp(e){
