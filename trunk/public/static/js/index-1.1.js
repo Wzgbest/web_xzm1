@@ -12,7 +12,6 @@ function init(){
 	$("#frames").height(window.innerHeight - 80);
     $(".m-3rd-container").height(window.innerHeight - 120);
     $(".m-4th-container").height(window.innerHeight - 176);
-    console.log($("#side").height(),window.innerHeight);
 
 	$(".phone-box").height(window.innerHeight - 80);
 	//隐藏副标题
@@ -98,7 +97,6 @@ function changeFramesSize() {
     $(".m-4th-container").height(window.innerHeight - 176);
     $(".phone-box").height(window.innerHeight - 80);
     subResize();
-    console.log($("#side").height(),window.innerHeight);
 };
 
 //主标题单机事件
