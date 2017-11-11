@@ -210,7 +210,7 @@ textarea {
 .w100{
   width: 100%;
 }
-.blackBg{
+#blackBg{
   position: fixed;
   width: 100%;
   top: 0;
