@@ -227,7 +227,7 @@ class Contract extends Initialize{
                         $result['info'] = "参数错误！";
                         return json($result);
                     }
-                    if($use_withdrawal==2&&!$contract_id){
+                    if($use_withdrawal==2&&$contract_id<=0){
                         $result['info'] = "参数错误！";
                         return json($result);
                     }
@@ -242,7 +242,7 @@ class Contract extends Initialize{
                     $contract_arr["status"] = 4;
                     $contractUpdateFlg = $contractAppliedM->setContractInfo($contract_id,$contract_arr,$contract_map);
                     if(!$contractUpdateFlg){
-                        exception("审批失败,更新追回合同时出现错误！");
+                        exception("审批失败,更新追回合同信息时出现错误！");
                     }
                     $verificatioLogRemark .= "使用追回合同!";
                 }else{
