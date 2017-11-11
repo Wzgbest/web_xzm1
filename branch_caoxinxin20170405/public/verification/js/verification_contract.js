@@ -8,6 +8,14 @@
 $(".verification_contract_index_pop").on("change",".approved-page-radio",function(){
     $(this).attr("checked","checked").prop("checked",true);
     $(this).siblings().removeAttr("checked").prop("checked",false);
+    if($(".approved-page-radio:checked").val()==1){
+        $(".contract-number-list").addClass("hide");
+        $(".contract-new-number-list").removeClass("hide");
+    }
+    if($(".approved-page-radio:checked").val()==2){
+        $(".contract-new-number-list").addClass("hide");
+        $(".contract-number-list").removeClass("hide");
+    }
 }); 
 //通过
 $(".verification_contract_index_pop").on("click",".approved-page-pop .pop-submit-btn",function(){
