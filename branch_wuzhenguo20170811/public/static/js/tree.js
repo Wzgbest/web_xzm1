@@ -179,7 +179,7 @@ function tree(config) {
         for(var idx in data["child"]){
             console.log('data["child"][idx]',data["child"][idx]);
             if(data["child"][idx]["id"]==id){
-                flg = data["child"][idx].hasOwnProperty("child");
+                flg = data["child"][idx].hasOwnProperty("child")&&data["child"][idx]["child"].length>0;
             }else{
                 flg = this.is_have_child(id,data["child"][idx]);
             }
