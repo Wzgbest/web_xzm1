@@ -17,11 +17,20 @@
             <span class="cont-max">预计成单时间</span>
             <input type="date" name="prepay_time" value="{$sale_chance.prepay_time|day_format}" />
         </div>
-        <div>            
+        <div>
             <span class="cont">协助人</span>
-            <input type="text" placeholder="请输入协助人电话" name="associator_id" value="{$sale_chance.associator_id}" />
+            <input type="text" class="create-sale-chance-select-window" placeholder="请输入协助人电话"
+                   value="已选择{:count($sale_chance.associator_arr)}个成员"
+                   data-stf="{$sale_chance.associator_id}"
+                   data-dep=""
+                   data-result="
+                        {volist name='sale_chance.associator_arr' id='vo'}
+                            associator_id[]={$vo}&
+                        {/volist}
+                    " />
             <span class="cont">负责人</span>
             <span class="cont-x">{$sale_chance.employee_name}</span>
+            <div class="main-content select-window" style="margin:0 auto;" data-num="1" data-str='departments[]=,&,&,associator_id[]=,&' data-selector=".create-sale-chance-select-window"></div>
         </div>
         <div>
             <span class="cont">业务状态</span>
