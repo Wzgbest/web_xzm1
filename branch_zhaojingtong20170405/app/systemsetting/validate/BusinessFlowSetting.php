@@ -17,7 +17,7 @@ class BusinessFlowSetting extends Validate{
     ];
 
     protected $message = [
-        'bill_type.require' => '工作流名称不能为空',
+        'business_flow_name.require' => '工作流名称不能为空',
         'set_to_role.require' => '拥有此业务角色不能为空',
     ];
 }
