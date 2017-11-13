@@ -280,6 +280,7 @@ function business_flow_role_list_item_html(item_handle,name,i){
     var add_html = '<div class="dv1 role_list handle_role handle_role_other" handle_num="'+(i+1)+'">';
     add_html += '<p><span>'+name+' 审核角色'+(i+1)+'</span>';
     add_html += '<select class="handle">';
+    add_html += '<option value="0">请选择</option>';
     for(var j=0;j<business_flow_setting_role_arr.length;j++){
         var business_flow_setting_item = business_flow_setting_role_arr[j];
         add_html += '<option';
