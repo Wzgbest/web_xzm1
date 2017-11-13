@@ -10,10 +10,12 @@
     <form id="rule_list_edit_form" class="rule_list_edit_form" onsubmit="return false;">
         <div class="dv1">
             <p class="p3">
-                <span><span class="u-required">＊</span>规则名</span>
+                <!--<span><span class="u-required">＊</span>规则名</span>-->
+                <img src="/systemsetting/images/corp_info.jpg" />
+                <span class="u-required">规则名</span>
                 <input type="text" name="rule_title" value="{$info.rule_title}"/>
             </p>
-            <p class="p6">
+            <p class="p4">
                 <span>父级</span>
                 <select name="pid">
                     <option value="0">第一级</option>
@@ -22,11 +24,11 @@
                     {/volist}
                 </select>
             </p>
-            <p class="p1 p3">
+            <p class="p6">
                 <span>菜单类名</span>
                 <input type="text" name="class" value="{$info.class}"/>
             </p>
-            <p class="p4">
+            <p class="p7">
                 <span>url</span>
                 <input type="text" name="url" value="{$info.url}"/>
             </p>
@@ -46,8 +48,10 @@
                     <option value="3" {eq name="info.type" value="3"}selected="selected"{/eq}>功能点</option>
                 </select>
             </p>
-            <p class="p1">
-                <span><span class="u-required">＊</span>菜单标识</span>
+            <p class="p6">
+                <!--<span><span class="u-required">＊</span>菜单标识</span>-->
+                <img src="/systemsetting/images/corp_info.jpg" />
+                <span class="u-required">菜单标识</span>
                 <input type="text" name="name" value="{$info.name}" />
             </p>
             <p class="p4">
@@ -62,3 +66,4 @@
     </form>
 </div> 
 </div>
+<link rel="stylesheet" href="/systemsetting/css/rule_edit.css" />
