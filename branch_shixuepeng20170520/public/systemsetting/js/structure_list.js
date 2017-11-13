@@ -479,6 +479,7 @@ function struct_list_employee_move_to(struct_id,employee_id,to_struct_id){
         }
     });
 }
+//批量转移
 $(struct_list_panel_base).on("click",".employee_list_transfer_btn",function(){
     if(!$(this).hasClass("active")){
         return ;
@@ -488,8 +489,12 @@ $(struct_list_panel_base).on("click",".employee_list_transfer_btn",function(){
         url:url,
         type:'get',
         success:function (data) {
-            $(struct_list_panel_base+" .employee_list_transfer").html(data);
-            $(struct_list_panel_base+" .employee_list_transfer").reveal("{data-animation:'fade'}");
+            // $(struct_list_panel_base+" .employee_list_transfer").html(data);
+            // $(struct_list_panel_base+" .employee_list_transfer").reveal("{data-animation:'fade'}");
+
+            $(struct_list_panel_base+" .structure_move").html(data);
+            $(struct_list_panel_base+" .structure_move").reveal("{data-animation:'fade'}");
+
         },
         error:function(){
             layer.msg('加载批量转移员工部门失败!',{icon:2});
