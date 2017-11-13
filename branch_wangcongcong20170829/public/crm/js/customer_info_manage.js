@@ -388,8 +388,14 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 				$(sale_chance_panel+" .new-sale-chance").click(function(){
 					self.sale_chance_add(self.id);
                     $(sale_chance_panel+" .new-sale-chance").addClass("hide");
-
 				});
+                $(sale_chance_panel).on("focus",".create-sale-chance-select-window",function(){
+                	console.log("create-sale-chance-select-window");
+                    $(sale_chance_panel+" .select-window-container").remove();
+                    console.log($(this).siblings(".select-window"));
+                    $(this).siblings(".select-window").load("/index/index/select_window.html");
+                    // $(sale_chance_panel+" .select-window").load("/index/index/select_window.html");
+                });
 				$(panel+" .clientInfoSaleChance .sale-chance-record .sale_chance_edit").click(function(){
 					var edit_id = $(this).parent().siblings(":input").val();
 					self.sale_chance_edit(edit_id,0);
@@ -464,6 +470,8 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 		var new_sale_chance_panel = sale_chance_panel+" .create-sale-chance";
 		var sale_chance_add_from = $(new_sale_chance_panel+" .newSaleChanceForm").serialize();
 		sale_chance_add_from += "&customer_id="+customer_id+"&fr="+this.from;
+        var sale_chance_add_select_associator = $(new_sale_chance_panel+" .newSaleChanceForm .create-sale-chance-select-window").attr("data-stf");
+        sale_chance_add_from+="&associator_id="+sale_chance_add_select_associator;
 		this.reload_flg = 1;
 		//console.log(sale_chance_add_from);
 		$.ajax({
@@ -657,6 +665,8 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 		var sale_chance_panel = panel+" .clientInfoSaleChance";
 		var edit_sale_chance_panel = sale_chance_panel+" .edit-sale-chance-"+id;
 		var sale_chance_edit_form = $(edit_sale_chance_panel+" .editSaleChanceForm").serialize();
+        var sale_chance_edit_select_associator = $(edit_sale_chance_panel+" .editSaleChanceForm .create-sale-chance-select-window").attr("data-stf");
+        sale_chance_edit_form+="&associator_id="+sale_chance_edit_select_associator;
 		var status = $(edit_sale_chance_panel+" .editSaleChanceForm .sale-chance-status_selecter").val();
 		if(status==4){
 			if(confirm("你确定要提交该成单申请吗?")!=true){

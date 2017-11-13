@@ -16,9 +16,9 @@
         <li class="customer_trace_show">跟踪记录（{$customer_trace_num}）</li>
         <div class="clearfix"></div>
     </ul>
-    <!--新建销售机会-->
     <div class="m-4th-container">
         <section class="clientInfoSaleChance page-info-detail" >
+            <!--新建销售机会-->
             <div class="new-sale-chance">
                 <i class="fa fa-plus fa-2x"></i>
                 新建销售机会
@@ -87,7 +87,7 @@
                 </div>
                 <div>                
                     <span class="cont">协助人：</span>
-                    <span class="cont-x telephone">{$vo.associator_id}<i class="fa fa-phone"></i></span>
+                    <span class="cont-x telephone">已选择{:count($vo.associator_arr)}个成员<i class="fa fa-phone"></i></span>
                     <span class="cont">负责人：</span>
                     <span class="cont-x">{$vo.employee_name}</span>
                 </div>
@@ -236,4 +236,3 @@
         </section>
     </div>
 </section>
-<script src="/crm/js/PopUp.js"></script>
