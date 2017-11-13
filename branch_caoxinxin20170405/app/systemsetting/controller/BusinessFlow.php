@@ -227,7 +227,7 @@ class BusinessFlow extends Initialize{
         }catch (\Exception $ex){
             $this->_businessFlowModel->link->rollback();
 //            $result['info'] = $ex->getMessage();
-            $result['info'] = $ex->getTraceAsString();
+//            $result['info'] = $ex->getTraceAsString();
             return json($result);
         }
         $result['status'] = 1;
