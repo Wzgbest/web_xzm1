@@ -158,6 +158,11 @@ class SaleChance extends Initialize{
         //$this->assign("sale_contract_idx",$saleOrderContractItemIdx);
         //$this->assign("sale_contract_arr",$saleOrderContractItemArr);
         foreach ($SaleChancesData as &$SaleChances){
+            if(!empty($SaleChances["associator_id"])){
+                $SaleChances["associator_arr"] = explode(",",$SaleChances["associator_id"]);
+            }else{
+                $SaleChances["associator_arr"] = [];
+            }
             if(isset($SaleChances["location"])){
                 $location = explode(",",$SaleChances["location"]);
                 $SaleChances["lat"] = isset($location[0])&&!empty($location[0])?$location[0]:"36.7075";
@@ -234,6 +239,11 @@ class SaleChance extends Initialize{
         $SaleChancesData = $saleChanceM->getSaleChance($id);
         if(empty($SaleChancesData)){
             $this->error("未找到销售机会！");
+        }
+        if(!empty($SaleChancesData["associator_id"])){
+            $SaleChancesData["associator_arr"] = explode(",",$SaleChancesData["associator_id"]);
+        }else{
+            $SaleChancesData["associator_arr"] = [];
         }
         $this->assign("sale_chance",$SaleChancesData);
         $customerM = new CustomerModel($this->corp_id);
@@ -716,7 +726,7 @@ class SaleChance extends Initialize{
         }catch (\Exception $ex){
             $saleChanceM->link->rollback();
             $result['info'] = $ex->getMessage();
-            print_r($ex->getTrace());
+//            print_r($ex->getTrace());
             //$result['info'] = "保存销售机会失败！";
             return json($result);
         }
