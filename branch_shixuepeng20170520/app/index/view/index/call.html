@@ -2,41 +2,25 @@
 <div class="m-divBlock m-divBlock2 m-divBlock4">
     <h1 class="call-number">请拨号</h1>
     <ul class="bkg top fl nocall">
-        
-        <li class="dials fl">
+        <!--拨号盘  -->
+<!--         <li class="dials fl">
             <div id="fc_dials" class="dialsbt bkg" title="拨号盘" onclick="operation.dialsBt()"></div>
-        </li>
+        </li> -->
+        <!-- 通话基本信息区 -->
         <li class="callinfo fl" id="fc_callinfo"></li>
-        <li class="import fl" id="fc_import">
+        <!-- 号码输入框所在容器 -->
+        <li class="import fl" id="fc_import"></li>
 
-        </li>
-        <li class="calloperation fl">
-            <div id="fc_callbt" class="calldsbt bkg" title="当前电话状态不可通过此入口拨打电话" onclick="operation.callBt(this)"></div>
-            <div id="fc_calling" class="waiting" style="display:none" title="请求中..请稍后.."><img src="/static/image/loading.gif" /></div>
-        </li>
-        <li class="hangoperation fl">
-            <div id="fc_hangbt" class="hangupdsbt bkg" title="挂断" onclick="operation.hangBt(this)"></div>
-            <div id="fc_hanguping" class="waiting" style="display:none" title="请求中..请稍后..">
-                <img src="/static/image/loading.gif" />
-            </div>
-        </li>
-        <li class="calloperation fl">
-            <div id="fc_callbt" class="calldsbt bkg" title="当前电话状态不可通过此入口拨打电话"
-            onclick="operation.callBt(this)"></div>
-            <div id="fc_calling" class="waiting" style="display:none" title="请求中..请稍后..">
-                <img src="/static/image/loading.gif" />
-            </div>
-        </li>
-        <li class="hangoperation fl"><div id="fc_hangbt" class="hangupdsbt bkg" title="挂断"
-            onclick="operation.hangBt(this)"></div>
-            <div id="fc_hanguping" class="waiting" style="display:none" title="请求中..请稍后..">
-                <img src="/static/image/loading.gif" />
-            </div>
-        </li>
+        
     </ul>
-    <li  ></li>
-    <h4 id='fc_tip' class="tip"><i class="fa fa-phone color-green"></i><span class="fl"
-          style="width:80px;height:28px;line-height:28px;overflow:hidden;display:none;"></span><span class="fl">正在初始化电话&nbsp;,&nbsp;请稍候&nbsp;...</span><span id="fc_timing" class="color-yellow" title="当前状态持续时间">00:00:00</span></h4>
+    <li id='fc_tip' class="tip">
+        <!--归属地提示区  -->
+        <span id="fc_gsd" class="fl" style="width:80px;height:28px;line-height:28px;overflow:hidden;display:none;"></span>
+        <!-- 通话状态提示区 -->
+        <span id="fc_status" class="fl">正在初始化电话&nbsp;,&nbsp;请稍候&nbsp;...</span>
+        <!-- 计时区 -->
+        <span id="fc_timing" class="color-yellow" title="当前状态持续时间">00:00:00</span>
+    </li>
     <div class="dial">
         <div class="clearfix"></div>
         <div class="row1">
@@ -44,8 +28,8 @@
             <div class="u-block1">三方通话</div>
             <div class="u-block1">请求协助</div>
         </div>
-        <div class="row1">
-            <!-- <input id="phone-number" value="" class="row1 row2 "/> -->
+        <div class="row1" id="fc_import">
+            <!-- 号码输入框 -->
             <input id="callInput" type="text" class = "row1 row2 numinput blur" value="点此输入号码" onfocus="
                     this.className='numinput focus row1 row2';this.value.indexOf('点此输入号码')!=-1?this.value=this.value.replace('点此输入号码',''):''
                     " onblur="this.value==''||this.value=='点此输入号码'?(this.value='点此输入号码',this.className='numinput blur row1 row2'):this.className='numinput focus row1 row2'" ondblclick="this.value=''" onkeydown="operation.keydownFn(event,this)" onkeyup="operation.keyupFn(this)" title="回车拨号,Esc或双击清空"/>
@@ -74,55 +58,24 @@
             <button class="u-block1 u-block2 num">#</button>
         </div>
         <h1 class="row1 row3 row4">
-            <!-- <div class="on"><i class="fa fa-phone"></i>&nbsp;&nbsp;拨打</div> -->
-            <div id="fc_callbt" class="on" title="当前电话状态不可通过此入口拨打电话" onclick="operation.callBt(this)"><i class="fa fa-phone"></i>&nbsp;&nbsp;拨打</div>
-            <div class="off hide"><i class="fa fa-phone"></i>&nbsp;&nbsp;挂断</div>
+            <!-- 拨打/接听(通话1区)按钮 -->
+            <div id="fc_callbt" class="on" title="当前电话状态不可通过此入口拨打电话" onclick="operation.callBt(this)"><i class="fa fa-phone"></i>&nbsp;&nbsp;拨打</div><div id="fc_calling" class="waiting" style="display:none" title="请求中..请稍后..">
+                <img src="/static/image/loading.gif" />
+            </div>
+            <div id="fc_hangbt" class="hangupdsbt bkg off hide" title="挂断" onclick="operation.hangBt(this)"><i class="fa fa-phone"></i>&nbsp;&nbsp;挂断</div><div id="fc_hanguping" class="waiting" style="display:none" title="请求中..请稍后..">
+            <img src="../image/loading.gif" />
+          </div></li>
+            
         </h1>
-    </div>
-</div>
-<div class="m-divBlock m-divBlock2 m-divBlock4">
-    <div class="click-node">
-        <i class="fa fa-tags color-green"></i>&nbsp;&nbsp;打点<i class="fa fa-plus fr"></i>
-    </div>
-    <ul class="nodes"></ul>
-</div>
-<div id="main" class="main bkg">
-    <div id="fc" class="fc fl big">
-        <ul class="bkg top fl nocall">
-            <li id='fc_tip' class="tip"><span class="fl"
-              style="width:80px;height:28px;line-height:28px;overflow:hidden;display:none;"></span><span class="fl">正在初始化电话&nbsp;,&nbsp;请稍候&nbsp;...</span><span
-              id="fc_timing" class='fr' style="padding-right:20px;" title="当前状态持续时间"></span></li>
-            <li class="dials fl">
-                <div id="fc_dials" class="dialsbt bkg" title="拨号盘" onclick="operation.dialsBt()"></div>
-            </li>
-            <li class="callinfo fl" id="fc_callinfo"></li>
-            <li class="import fl" id="fc_import">
+        <li class="hangoperation fl">
+            <!-- 挂断(通话1区)按钮 -->
+           
+            <!-- 挂断(通话1区)按钮激活时过渡 -->
 
-            </li>
-            <li class="calloperation fl">
-                <div id="fc_callbt" class="calldsbt bkg" title="当前电话状态不可通过此入口拨打电话" onclick="operation.callBt(this)"></div>
-                <div id="fc_calling" class="waiting" style="display:none" title="请求中..请稍后.."><img src="../image/loading.gif" /></div>
-            </li>
-            <li class="hangoperation fl">
-                <div id="fc_hangbt" class="hangupdsbt bkg" title="挂断" onclick="operation.hangBt(this)"></div>
-                <div id="fc_hanguping" class="waiting" style="display:none" title="请求中..请稍后..">
-                    <img src="../image/loading.gif" />
-                </div>
-            </li>
-            <li class="calloperation fl">
-                <div id="fc_callbt" class="calldsbt bkg" title="当前电话状态不可通过此入口拨打电话"
-                onclick="operation.callBt(this)"></div>
-                <div id="fc_calling" class="waiting" style="display:none" title="请求中..请稍后..">
-                    <img src="../image/loading.gif" />
-                </div>
-            </li>
-            <li class="hangoperation fl"><div id="fc_hangbt" class="hangupdsbt bkg" title="挂断"
-                onclick="operation.hangBt(this)"></div>
-                <div id="fc_hanguping" class="waiting" style="display:none" title="请求中..请稍后..">
-                    <img src="../image/loading.gif" />
-                </div>
-            </li>
-        </ul>
+            <div id="fc_hanguping" class="waiting" style="display:none" title="请求中..请稍后..">
+                <img src="/static/image/loading.gif" />
+            </div>
+        </li>
         <ul class="bottom fl">
             <li class="fl callsettings">
                 <div id="phonereset" class="phonereset fl bkg" title="电话复位/重新加载" onclick="operation.phoneResetBt(this)"></div>
@@ -144,6 +97,17 @@
                 </div>
             </li>
         </ul>
+    </div>
+</div>
+<div class="m-divBlock m-divBlock2 m-divBlock4">
+    <div class="click-node">
+        <i class="fa fa-tags color-green"></i>&nbsp;&nbsp;打点<i class="fa fa-plus fr"></i>
+    </div>
+    <ul class="nodes"></ul>
+</div>
+<div id="main" class="main bkg">
+    <div id="fc" class="fc fl big">
+        
     </div>
 </div>
 <script type="text/javascript" src="/static/call_js/md5.js"></script>
