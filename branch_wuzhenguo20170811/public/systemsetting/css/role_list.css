@@ -13,7 +13,9 @@
     position: relative;
     border-bottom: 5px solid #ECF0F5;
 }
-
+.systemsetting_role .m-3rd-container{
+	background-color: #fff;
+}
 .systemsetting_role ul.firNav {
     height: 40px;
     margin-left: 1px;

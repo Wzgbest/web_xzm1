@@ -20,6 +20,9 @@
     position: relative;
     border-bottom: 5px solid #ecf0f5;
 }
+.structure_list .m-3rd-container{
+	background-color: #fff;
+}
 
 .structure_list .fold {
     width: 272px;
