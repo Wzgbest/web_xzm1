@@ -13,7 +13,8 @@ use app\task\model\TaskTip;
 use app\task\model\EmployeeTask as EmployeeTaskModel;
 use app\task\model\TaskComment as TaskCommentModel;
 use app\common\model\Employee;
-use app\task\model\TaskTake;
+use app\task\model\TaskTake as TaskTakeModel;
+use app\task\model\TaskReward as TaskRewardModel;
 use app\huanxin\model\TakeCash;
 use app\task\model\TaskGuess as TaskGuessModel;
 use app\task\model\TaskTip as TaskTipModel;
@@ -470,11 +471,15 @@ class EmployeeTask extends Initialize{
                 $taskGuessAndTipMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] += $taskGuessInfo["guess_money"];
             }
 
-            //var_exp($order_datas,'$order_datas_task_fail');
-            $add_cash_rec = $cashM->addMutipleOrderNumber($order_datas);
-            if (!$add_cash_rec) {
-                exception("添加任务终止退回记录发生错误!");
+//            var_exp($order_datas,'$order_datas');
+            if($order_datas){
+                $add_cash_rec = $cashM->addMutipleOrderNumber($order_datas);
+//            var_exp($add_cash_rec,'$add_cash_rec',1);
+                if (!$add_cash_rec) {
+                    exception("添加任务终止退回记录发生错误!");
+                }
             }
+
 
             //返还任务金额
             foreach($returnMoney as $employee_id=>$money) {
@@ -500,7 +505,8 @@ class EmployeeTask extends Initialize{
             $employeeTaskM->link->commit();
         }catch(\Exception $ex){
             $employeeTaskM->link->rollback();
-            return json($redata);
+//            return json($redata);
+            return $ex->getTrace();
         }
         $redata['status']=1;
         $redata['info']='操作成功';
