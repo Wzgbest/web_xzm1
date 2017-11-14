@@ -240,6 +240,9 @@ class Contract extends Initialize{
         $contract_applied_item["status"] = 0;
         $contract_applied_item["contract_apply_status"] = 1;
         foreach ($contract_apply as $apply){
+            if(empty($apply)){
+                continue;
+            }
             if(empty(intval($apply["type"]))){
                 $result['info'] = "合同类型不能为空！";
                 return json($result);
