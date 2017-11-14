@@ -285,7 +285,7 @@ class SaleChance extends Initialize{
             $SaleChancesVisitData = $saleChanceVisitM->getSaleChanceVisitBySaleId($id);
             if(empty($SaleChancesVisitData)){
                 $SaleChancesVisitData["visit_time"] = time();
-                $SaleChancesVisitData["visit_place"] = "";
+                $SaleChancesVisitData["visit_place"] = $customerData["address"];
                 $SaleChancesVisitData["partner_notice"] = 0;
                 $SaleChancesVisitData["add_note"] = 0;
                 $SaleChancesVisitData["location"] = $customerData["lat"].",".$customerData["lng"];
