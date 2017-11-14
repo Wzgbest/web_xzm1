@@ -118,6 +118,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 			self.trace_show(self.id);
 			changeFramesSize();
 		});
+        changeFramesSize();
 	};
 	this.general=function(id){
 		this.id = id;
