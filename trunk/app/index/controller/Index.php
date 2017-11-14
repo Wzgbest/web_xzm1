@@ -104,6 +104,10 @@ class Index extends Initialize{
         return view();
     }
 
+    public function echo_one(){
+        return '1';
+    }
+
     /**
      * @param $data
      * @return int|string
