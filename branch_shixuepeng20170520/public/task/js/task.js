@@ -196,7 +196,7 @@ function task_add(new_task_form_data, callback) {
 			callback(data);
 		},
 		error: function() {
-			layer.msg('打赏失败!', {
+			layer.msg('保存任务失败!', {
 				icon: 2
 			});
 		}
