@@ -289,9 +289,11 @@ class EmployeeTask extends Command{
                         }
 
                         var_exp($order_datas,'$order_datas_task_fail');
-                        $add_cash_rec = $cashM->addMutipleOrderNumber($order_datas);
-                        if (!$add_cash_rec) {
-                            exception("添加任务失败退回记录发生错误!");
+                        if(!empty($order_datas)){
+                            $add_cash_rec = $cashM->addMutipleOrderNumber($order_datas);
+                            if (!$add_cash_rec) {
+                                exception("添加任务失败退回记录发生错误!");
+                            }
                         }
 
                         //返还任务金额
