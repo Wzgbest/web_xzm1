@@ -213,13 +213,13 @@ class EmployeeTask extends Command{
                         if($task_type==2){
                             $taskReward = $taskRewardM->findTaskRewardByTaskId($id);
                             foreach ($takeList as $taskTakeEmployee){
-                                $returnMoney[$taskTakeEmployee["take_employee"]] = $taskReward["reward_money"];
+                                $returnMoney[$taskTakeEmployee["take_employee"]] = $taskReward["reward_amount"];
                                 $order_add_data = [
                                     'userid'=>$taskTakeEmployee["take_employee"],
                                     "take_type"=>5,
                                     "take_type_sub"=>8,
                                     "take_id"=>$id,
-                                    'take_money'=> $returnMoney,
+                                    'take_money'=> $taskReward["reward_amount"],
                                     'take_status'=>1,
                                     'took_time'=>$time,
                                     'remark' => '任务失败退回',
@@ -235,7 +235,7 @@ class EmployeeTask extends Command{
                                 "take_type"=>5,
                                 "take_type_sub"=>8,
                                 "take_id"=>$id,
-                                'take_money'=> $returnMoney,
+                                'take_money'=> $taskInfo["reward_count"],
                                 'take_status'=>1,
                                 'took_time'=>$time,
                                 'remark' => '任务失败退回',
