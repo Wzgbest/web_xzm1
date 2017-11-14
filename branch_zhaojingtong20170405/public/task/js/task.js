@@ -816,7 +816,7 @@ function task_list(target, now_uid, base_url) {
 	//下拉显示更多
 	this.init_infinite_scroll = function() {
 		var infinite_scroll_config = {
-			binder: $("#" + self.target), //滚动条所在对象
+			binder: $("#" + self.target+" .m-3rd-container"), //滚动条所在对象
 			navSelector: "." + self.base_url + "_load .more", //导航的选择器，会被隐藏
 			nextSelector: "." + self.base_url + "_load .more a", //包含下一页链接的选择器
 			itemSelector: ".dv1", //你将要取回的选项(内容块)
