@@ -302,7 +302,7 @@ class CustomerImport extends Initialize{
             $ids_arr = $ids;
         }
         $ids_arr = array_map("intval",$ids_arr);
-        var_exp($ids_arr,'$ids_arr',1);
+//        var_exp($ids_arr,'$ids_arr',1);
         $scale = input('scale',0,'int');
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
