@@ -39,7 +39,12 @@
 						</div>
 						<div class="fu">
 							<p class="small">奖金</p>
-							<p class="big">{$task_info.re_amount}元
+							<p class="big">
+								{if condition=" $task_info['re_amount_min'] eq $task_info['re_amount_max'] "}
+								{$task_info.re_amount}元
+								{else/}
+								{$task_info.re_amount_min}~{$task_info.re_amount_max}元
+								{/if}
 								{neq name='task_info.task_method' value='2'}/人{/neq}
 							</p>
 							<?php $rewardArray=explode(',',$task_info['ranking']); ?>
