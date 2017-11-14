@@ -394,7 +394,26 @@ class EmployeeTask extends Initialize{
             $takeList = $taskTakeM->getTaskTakeListByTaskId($task_id);
             $returnMoney = [];
             $order_datas = [];
-            if($taskInfo["task_type"]==2){
+            if($taskInfo["task_type"]==1){
+                $returnMoney[$taskInfo["create_employee"]] = $taskInfo["reward_count"];
+                $order_add_data = [
+                    'userid'=>$taskInfo["create_employee"],
+                    "take_type"=>5,
+                    "take_type_sub"=>8,
+                    "take_id"=>$task_id,
+                    'take_money'=> $taskInfo["reward_count"],
+                    'take_status'=>1,
+                    'took_time'=>$time,
+                    'remark' => '任务失败退回',
+                    'status'=>1
+                ];
+                if($taskInfo["pay_type"]==1){
+                    $order_add_data["money_type"] = 2;
+                }else{
+                    $order_add_data["money_type"] = 1;
+                }
+                $order_datas[] = $order_add_data;
+            }elseif($taskInfo["task_type"]==2){
                 $taskReward = $taskRewardM->findTaskRewardByTaskId($task_id);
                 foreach ($takeList as $taskTakeEmployee){
                     $returnMoney[$taskTakeEmployee["take_employee"]] = $taskReward["reward_money"];
@@ -403,7 +422,7 @@ class EmployeeTask extends Initialize{
                         "take_type"=>5,
                         "take_type_sub"=>8,
                         "take_id"=>$task_id,
-                        'take_money'=> $returnMoney,
+                        'take_money'=> $taskReward["reward_money"],
                         'take_status'=>1,
                         'took_time'=>$time,
                         'remark' => '任务失败退回',
@@ -419,7 +438,7 @@ class EmployeeTask extends Initialize{
                     "take_type"=>5,
                     "take_type_sub"=>8,
                     "take_id"=>$task_id,
-                    'take_money'=> $returnMoney,
+                    'take_money'=> $taskInfo["reward_count"],
                     'take_status'=>1,
                     'took_time'=>$time,
                     'remark' => '任务失败退回',
@@ -472,7 +491,7 @@ class EmployeeTask extends Initialize{
             }
 
 //            var_exp($order_datas,'$order_datas');
-            if($order_datas){
+            if(!empty($order_datas)){
                 $add_cash_rec = $cashM->addMutipleOrderNumber($order_datas);
 //            var_exp($add_cash_rec,'$add_cash_rec',1);
                 if (!$add_cash_rec) {
@@ -483,11 +502,15 @@ class EmployeeTask extends Initialize{
 
             //返还任务金额
             foreach($returnMoney as $employee_id=>$money) {
+                $employeeMonyField = "";
+                if($taskInfo["pay_type"]==1){
+                    $employeeMonyField = "corp_";
+                }
                 $money = bcmul($money, 100, 0);
-                $employeeInfoMap = ["frozen_money" => ["egt", $money]];
+                $employeeInfoMap = [$employeeMonyField."frozen_money" => ["egt", $money]];
                 $employeeInfo = [];
-                $employeeInfo["frozen_money"] = ['exp', "frozen_money - $money"];
-                $employeeInfo["left_money"] = ['exp', "left_money + " . $money];
+                $employeeInfo[$employeeMonyField."frozen_money"] = ['exp', $employeeMonyField."frozen_money - $money"];
+                $employeeInfo[$employeeMonyField."left_money"] = ['exp', $employeeMonyField."left_money + " . $money];
                 $update_user = $employeeM->setEmployeeSingleInfoById($employee_id, $employeeInfo, $employeeInfoMap);
                 if (!$update_user) {
                     exception("更新返还任务冻结金额发生错误!");
