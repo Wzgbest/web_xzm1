@@ -415,7 +415,7 @@ class EmployeeTask extends Initialize{
                 $order_datas[] = $order_add_data;
             }elseif($taskInfo["task_type"]==2){
                 $taskReward = $taskRewardM->findTaskRewardByTaskId($task_id);
-                var_exp($taskReward,'$taskReward');
+//                var_exp($taskReward,'$taskReward');
                 foreach ($takeList as $taskTakeEmployee){
                     $returnMoney[$taskTakeEmployee["take_employee"]] = $taskReward["reward_amount"];
                     $order_add_data = [
@@ -491,7 +491,7 @@ class EmployeeTask extends Initialize{
                 $taskGuessAndTipMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] += $taskGuessInfo["guess_money"];
             }
 
-            var_exp($order_datas,'$order_datas',1);
+//            var_exp($order_datas,'$order_datas',1);
             if(!empty($order_datas)){
                 $add_cash_rec = $cashM->addMutipleOrderNumber($order_datas);
 //            var_exp($add_cash_rec,'$add_cash_rec',1);
