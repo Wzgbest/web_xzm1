@@ -600,9 +600,6 @@ class Index extends Initialize{
     }
     protected function _getTaskTargetForInput($task_method){
         $task_target_info['target_type'] = input("target_type",0,"int");
-        if(in_array($task_method,[4,5])){
-            $task_target_info['target_type'] = $task_method+2;
-        }
         if($task_target_info['target_type']<=0){
             return [];
         }
@@ -743,6 +740,7 @@ class Index extends Initialize{
             $taskInfo["task_method"] = 5;
         }
         $taskTargetInfo = $this->_getTaskTargetForInput($taskInfo["task_method"]);
+//        var_exp($taskTargetInfo,'$taskTargetInfo',1);
         if(empty($taskTargetInfo)){
             $result['info'] = '任务目标参数错误';
             return json($result);
