@@ -21,7 +21,7 @@ class Index extends Initialize{
     public function index(){
         $userinfo = get_userinfo();
         $this->assign("userinfo",$userinfo);
-        $menus = get_cache_by_tel($this->telephone,"menus");
+        $menus = false;//get_cache_by_tel($this->telephone,"menus");
         if(!$menus){
             $roleRuleM = new RoleRule($this->corp_id);
             $menus = $roleRuleM->getMenusByUid($this->uid);
@@ -75,7 +75,7 @@ class Index extends Initialize{
     }
 
     public function call(){
-        $call_config = false;//get_cache_by_tel($this->telephone,"call_config");
+        $call_config = get_cache_by_tel($this->telephone,"call_config");
         if(!$call_config){
             $tq_config = config('tq');
             $call_config["appid"] = $tq_config["appid"];
@@ -102,6 +102,10 @@ class Index extends Initialize{
 
     public function developing(){
         return view();
+    }
+
+    public function echo_one(){
+        return '1';
     }
 
     /**
