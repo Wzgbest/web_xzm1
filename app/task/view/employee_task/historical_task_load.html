@@ -40,7 +40,12 @@
                     </div>
                     <div class="fu">
                         <p class="small">奖金</p>
-                        <p class="big">{$vo.re_amount}元
+                        <p class="big">
+                            {if condition=" $vo['re_amount_min'] eq $vo['re_amount_max'] "}
+                            {$vo.re_amount}元
+                            {else/}
+                            {$vo.re_amount_min}~{$vo.re_amount_max}元
+                            {/if}
                             {neq name='vo.task_method' value='2'}/人{/neq}
                         </p>
                         <?php $rewardArray=explode(',',$vo['ranking']); ?>
