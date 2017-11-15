@@ -393,6 +393,7 @@ article .dv1 .details div .big {
 	text-align: left;
 	margin-left: 12px;
 	margin-right: 10px;
+	height: 14px;
 }
 
 article .dv1 .details .len p:nth-of-type(1) {
@@ -428,10 +429,11 @@ article .dv1 .details .fu .xuanfu{
 }
 article .dv1 .details .fu .xuanfu p{
 	width:200px;
-	height: 30px;
-	font-size: 16px;
+	height: 20px;
+	font-size: 14px;
 	margin-left: 20px;
-	line-height: 30px;
+	line-height: 20px;
+	margin-bottom: 2px;
 }
 article .dv1 .details .fu:hover .xuanfu{
 	display: block;
