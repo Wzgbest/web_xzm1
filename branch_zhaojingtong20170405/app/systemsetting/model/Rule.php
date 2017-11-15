@@ -43,7 +43,7 @@ class Rule extends Base{
      * 第一级的列表
      */
     public function getFirstLevelData(){
-        $map['pid']=0;
+        $map['type']=array('neq','3');
         $map['status']=1;
         return $this->model->table($this->table)->field('id,pid,rule_title')->where($map)->select();
     }
