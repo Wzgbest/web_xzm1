@@ -259,6 +259,7 @@ fs_state = function(){
 				onagent_create : function(event, from, to,	args) {
 					console.log("客户呼入/点击外呼,座席响铃");
 					var phone =  phoneMsg(JSON.parse(args));
+					console.log(phone);
 					if(!phone)
 						return;
 					operationUI.agent_create(phone.callUI);
@@ -266,6 +267,7 @@ fs_state = function(){
 				onagent_ring : function(event, from, to,args) {
 					console.log("座席响铃");
 					var phone =  phoneMsg(JSON.parse(args));
+					console.log(phone);
 					if(!phone)
 						return;
 					operationUI.agent_ring(phone.callUI);
@@ -273,6 +275,7 @@ fs_state = function(){
 				onagent_answer : function(event, from, to,args) {
 					console.log("座席应答");
 					var phone =  phoneMsg(JSON.parse(args));
+					console.log(phone);
 					if(!phone)
 						return;
 					operationUI.agent_answer(phone.callUI);
@@ -280,6 +283,7 @@ fs_state = function(){
 				onagent_hangup : function(event, from, to,args) {
 					console.log("座席挂机");
 					var phone =  phoneMsg(JSON.parse(args));
+					console.log(phone);
 					if(!phone)
 						return;
 					operationUI.agent_hangup(phone.callUI);
