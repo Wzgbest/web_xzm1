@@ -610,6 +610,7 @@ class SaleChance extends Initialize{
     public function add(){
         $result = ['status'=>0 ,'info'=>"新建销售机会时发生错误！"];
         $saleChance = $this->_getSaleChanceForInput(1);
+//        var_exp($saleChance,'$saleChance');
         if(empty($saleChance["sale_name"])){
             $result['info'] = "销售机会名称不能为空!";
             return json($result);
@@ -625,7 +626,7 @@ class SaleChance extends Initialize{
         $saleChanceM = new SaleChanceModel($this->corp_id);
         $businessFlowItemLinkM = new BusinessFlowItemLink($this->corp_id);
         $businessFlowItemLinks = $businessFlowItemLinkM->getItemLinkById($saleChance["business_id"]);
-        //var_exp($businessFlowItemLinks,'$businessFlowItemLinks');
+//        var_exp($businessFlowItemLinks,'$businessFlowItemLinks');
         $this->assign('business_flow_item_links',$businessFlowItemLinks);
         $businessFlowItemLinkIndex = array_column($businessFlowItemLinks,"id");
         $this->assign('business_flow_item_link_index',$businessFlowItemLinkIndex);
@@ -639,10 +640,12 @@ class SaleChance extends Initialize{
                 }
             }
         }
+//        var_exp($next_item,'$next_item');
         $need_sign_num = 0;
-        if($now_item==3 && $next_item==3){
+        if($now_item==3 || $next_item==3){
             $need_sign_num = 1;
         }
+//        var_exp($need_sign_num,'$need_sign_num',1);
 
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
