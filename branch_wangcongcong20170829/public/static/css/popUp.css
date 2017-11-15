@@ -12,7 +12,7 @@
     width: 234px;
     height: 35px;
     padding-left: 16px;
-    margin: 0 0 12px 20px;
+    margin: 0 0 12px 20px !important;
     border: 1px solid #e5e5e5;
 }
 /*小型弹窗*/

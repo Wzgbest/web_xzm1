@@ -36,6 +36,7 @@ var common = {
         this.addCls(ele, newC);
     },
     setStyle: function(ele, name, value) {
+        console.log(ele,name,value);
         ele.style[name] = value;
     },
     show: function(ele) {
@@ -72,13 +73,15 @@ var cells = {
     FcItem: {
         Dials: common.$("fc_dials"),// 拨号盘
         CallInfo: common.$("fc_callinfo"),// 通话基本信息区
-        AreaTip: common.$("fc_tip").firstChild,// 归属地提示区
-        CallTip: common.$("fc_tip").childNodes[1],// 通话状态提示区
+        // AreaTip: common.$("fc_tip").firstChild,// 归属地提示区
+        AreaTip: common.$("fc_gsd"),// 归属地提示区
+        // CallTip: common.$("fc_tip").childNodes[1],// 通话状态提示区
+        CallTip: common.$("fc_status"),// 通话状态提示区
         timing: common.$("fc_timing"),// 计时区
         Import: common.$("fc_import"),// 号码输入框所在容器
         ImportInput: common.$("fc_import").firstChild,// 号码输入框
         CallBt: common.$("fc_callbt"),// 拨打/接听(通话1区)按钮
-        Calling: common.$("fc_callbt").nextSibling,// 拨打(通话1区)按钮激活时过渡
+        Calling: common.$("fc_calling"),// 拨打(通话1区)按钮激活时过渡
         HangBt: common.$("fc_hangbt"),// 挂断(通话1区)按钮
         Hanguping: common.$("fc_hangbt").nextSibling,// 挂断(通话1区)按钮激活时过渡
         phoneReset: common.$("phonereset"),// 复位按钮
@@ -86,8 +89,7 @@ var cells = {
         MultiBt: common.$("fc_multibt"),// 多方通话按钮
         KeepBt: common.$("fc_keepbt"),// 保持按钮
         AskBt: common.$("fc_askbt"),// 咨询按钮
-        DevolveBt: common.$("fc_devolvebt")
-    // 转移按钮
+        DevolveBt: common.$("fc_devolvebt")// 转移按钮
     }
 };
 /*
@@ -137,6 +139,7 @@ function initGlobal() {
         // 当前消息时间戳
         }
     };
+    console.log(global);
 };
 initGlobal(); // 当电话在电话工具条中区域位置变更时，需调用此函数
 
@@ -156,11 +159,13 @@ TQPhone.prototype = {
             common.chaCls(this.pos.CallInfo.parentNode, "firstcall", "nocall");
             common.hide(this.pos.CallInfo);
             common.show(this.pos.Import);
+            console.log("noCallMode",this.pos.CallInfo.parentNode);
         };
         this.callingMode = function() {
             common.chaCls(this.pos.CallInfo.parentNode, "nocall", "firstcall");
             common.show(this.pos.CallInfo);
             common.hide(this.pos.Import);
+             console.log("callingMode",this.pos.CallInfo.parentNode);
         };
     },
     setPhone: function() {
@@ -222,9 +227,13 @@ TQPhone.prototype = {
      * ringMode 响铃时处理(仅电话1区)
      */
     ringMode: function() {
+        console.log("B");
         this.setPhoneArea();
+        console.log("B");
         common.hide(this.pos.Calling);
+        console.log("B");
         common.show(this.pos.CallBt);
+        console.log("B");
     },
     /*
      * teamCalling 内部拨打分机响铃时处理
@@ -279,6 +288,7 @@ TQPhone.prototype = {
      * 电话信息提示
      */
     setTip: function(tip, notiming) {
+        console.log("setTip: ",this.pos);
         this.pos.CallInfo.innerHTML = this.phone.clientNum || "";// 信息区显示客户号码
         this.pos.CallTip.innerHTML = tip;// 提示区
         if (notiming)
@@ -346,7 +356,7 @@ var phoneStatusNoList = function() {
         "key": "Available",
         "value": "hand_idle"
     }, {
-        "key": "On-Break",
+        "key": "On Break",
         "value": "hand_busy"
     }, {
         "key": "Break",
@@ -372,6 +382,7 @@ var getValueByKey = function(property, key) {
     var noList = allNoList[property];
     for ( var i in noList) {
         if (noList[i].key == key) {
+            console.log(noList[i].value);
             return noList[i].value;
         }
     }
@@ -439,8 +450,13 @@ var operation = {
               },
               success: function(ret) {
                   cells.FcItem.CallTip.innerHTML = "正在拨打,请稍后...";
-                  common.show(obj.nextSibling);
-                  common.hide(obj);
+                  console.log(cells);
+                  
+                  console.log($(obj));
+                  console.log($(obj).next());
+                  // common.show(obj.nextSibling);
+                  console.log(obj);
+                  // common.hide(obj);
               }
         };
         var makeCallCallBack = function(ret, jsonObject) { 
@@ -603,20 +619,26 @@ var operation = {
  * @param {Function} 监听成功的回调函数
  */
 demo.monitorEvent("seatState", function(message, jsonObject) {
+    console.log(message,jsonObject);
     common.print(message,"ws");
     var seat_dbid = message.phoneseat.seat_dbid;
     var phoneSeatMessage = message.phoneseat;
     var timestamp = phoneSeatMessage.timestamp;
     var status = phoneSeatMessage.status;
+    console.log(seat_dbid,phoneSeatMessage,timestamp,status);
     // 初始化一次
     if(!global.extensionInfo[seat_dbid]){
+        console.log("初始化一次");
         global.extensionInfo[seat_dbid] = {
            "seat_dbid": seat_dbid
        };
        global.extensionInfo[seat_dbid].callUI = new TQPhone(phoneSeatMessage); 
+       console.log("初始化一次");
     }
     var seat_status_value = getValueByKey("phoneStatusNoList", status);
+    console.log(seat_status_value);
     eval("eventState." + seat_status_value + "('" + JSON.stringify(phoneSeatMessage) + "')");
+    console.log("eventState." + seat_status_value + "('" + JSON.stringify(phoneSeatMessage) + "')");
     /*
      * eval("eventState.hand_busy('" +
      * '{"phoneseat":{"lastchange":1508322086,"seat_dbid":28921,"status":"On-Break","timestamp":1508377698733035}}' +
