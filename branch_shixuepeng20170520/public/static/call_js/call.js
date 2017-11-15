@@ -165,7 +165,7 @@ TQPhone.prototype = {
             common.chaCls(this.pos.CallInfo.parentNode, "nocall", "firstcall");
             common.show(this.pos.CallInfo);
             common.hide(this.pos.Import);
-             console.log("callingMode",this.pos.CallInfo.parentNode);
+             console.log("callingMode",this.pos);
         };
     },
     setPhone: function() {
@@ -180,9 +180,11 @@ TQPhone.prototype = {
             case 0:
                 common.disable(this.pos.DevolveBt);
                 // common.active(this.pos.DevolveBt);
+                console.log("0disable",this.pos.DevolveBt);
                 break;
             case 1:
                 common.active(this.pos.DevolveBt);
+                console.log("1active",this.pos.DevolveBt);
                 break;
         }
         ;
@@ -192,9 +194,11 @@ TQPhone.prototype = {
         switch (parseInt(_ask, 10)) {
             case 0:
                 common.disable(this.pos.AskBt);
+                console.log("0disable",this.pos.AskBt);
                 break;
             case 1:
                 common.active(this.pos.AskBt);
+                console.log("1active",this.pos.AskBt);
                 break;
         }
         ;
@@ -204,9 +208,11 @@ TQPhone.prototype = {
         switch (parseInt(_keep, 10)) {
             case 0:
                 common.disable(this.pos.KeepBt);
+                console.log("0disable",this.pos.KeepBt);
                 break;
             case 1:
                 common.active(this.pos.KeepBt);
+                console.log("1active",this.pos.KeepBt);
                 break;
         }
         ;
@@ -216,9 +222,11 @@ TQPhone.prototype = {
         switch (parseInt(_multi, 10)) {
             case 0:
                 common.disable(this.pos.MultiBt);
+                console.log("0disable",this.pos.MultiBt);
                 break;
             case 1:
                 common.active(this.pos.MultiBt);
+                console.log("1active",this.pos.MultiBt);
                 break;
         }
         ;
@@ -228,7 +236,7 @@ TQPhone.prototype = {
      */
     ringMode: function() {
         console.log("B");
-        this.setPhoneArea();
+        // this.setPhoneArea();
         console.log("B");
         common.hide(this.pos.Calling);
         console.log("B");
@@ -262,6 +270,7 @@ TQPhone.prototype = {
      * setPhoneArea 设置号码归属地
      */
     setPhoneArea: function() {
+        console.log(phoneLocalUrl);
         if (phoneLocalUrl) {
             common.show(this.pos.AreaTip);
             AreaTipObj = this.pos.AreaTip;
@@ -395,11 +404,14 @@ var getValueByKey = function(property, key) {
  */
 var demo = browserfly.noConflict();
 var successCallBack = function() {
+    console.log("初始化完成");
     common.print("初始化完成....","ws");
 };
 var errorCallBack = function(ret) {
+    console.log(ret);
     cells.FcItem["CallTip"].innerHTML = ret.errmsg;
     common.print(ret,"ws");
+    // console.log(ret);
 };
 /**
  * 初始化配置
@@ -435,6 +447,7 @@ var operation = {
         var callNumber = callInput.value;
         if(callNumber.length>6&&callNumber.indexOf("****")!=-1&&callNumber.indexOf("*****")==-1&&clientEncNum!=false){
             callNumber = clientEncNum;
+            console.log(callNumber);
         }else{
             callNumber=="点此输入号码"?callNumber="":"";
             if(callNumber&&callNumber.length != 33&&this.phoneRule.test(callNumber)){
@@ -442,11 +455,13 @@ var operation = {
                 callInput.value = callNumber;
             };
             if(!callNumber){alert("请输入电话号码");callInput.focus();return};
+             console.log(callNumber);
         }
         var makeCallOption = {
               phone: callNumber, // 电话号码
               error: function(ret) {
                   cells.FcItem.CallTip.innerHTML = "拨打错误,"+JSON.stringify(ret);
+                  console.log(JSON.stringify(ret));
               },
               success: function(ret) {
                   cells.FcItem.CallTip.innerHTML = "正在拨打,请稍后...";
