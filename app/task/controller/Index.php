@@ -294,6 +294,7 @@ class Index extends Initialize{
         $this->assign('uid',$uid);
         $this->assign('create_employee',$taskInfo['create_employee']);
         $this->assign('task_end_flag',$task_end_flag);//任务是否已经结束的标识
+        $this->assign('target_type',$target_type);//任务目标类型,1:通话数,2:商机数,3:成交额,4:成单数,5:拜访数,6:新增客户数
         return view();
     }
     public function employee_data(){

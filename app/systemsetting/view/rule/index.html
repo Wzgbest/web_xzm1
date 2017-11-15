@@ -45,6 +45,17 @@
                             <div class="clearfix"></div>
                         </ul>
                         </ul>
+                        {notempty name="v2.child"}
+                        {volist name="v2.child" id="v3"}
+                        <ul class="u-tabList">
+                            <li class="u-tabOperation">
+                                <span onclick="rule_list_edit('{$v3.id}',0);">编辑</span>
+                                <span onclick="rule_list_del('{$v3.id}');">删除</span>
+                            </li>
+                            <div class="clearfix"></div>
+                        </ul>
+                        {/volist}
+                        {/notempty}
                         {/volist}
                         {/notempty}
                         {/volist}
@@ -91,6 +102,23 @@
                             <li>{$v2.url}</li>
                             <div class="clearfix"></div>
                         </ul>
+                            {notempty name="v2.child"}
+                            {volist name="v2.child" id="v3"}
+                            <ul class="u-tabList">
+                                <li class="u-tabOperation">
+                                    <span onclick="rule_list_edit('{$v3.id}',0);">编辑</span>
+                                    <span onclick="rule_list_del('{$v3.id}');">删除</span>
+                                </li>
+                                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$v3.rule_title}</li>
+                                <li>{$v3.type|get_rule_type_name}</li>
+                                <li>{$v3.rule_name}</li>
+                                <li>{$v3.class}</li>
+                                <li>{$v3.name}</li>
+                                <li>{$v3.url}</li>
+                                <div class="clearfix"></div>
+                            </ul>
+                            {/volist}
+                            {/notempty}
                         {/volist}
                         {/notempty}
                         {/volist}
@@ -131,8 +159,13 @@
                                 <span class="cont">父级</span>
                                 <select name="pid">
                                     <option value="0">第一级</option>
-                                    {volist name="firstLevelData" id="first"}
+                                    {volist name="firstLevelTree" id="first"}
                                         <option value="{$first.id}">{$first.rule_title}</option>
+                                        {notempty name="first.child"}
+                                        {volist name="first.child" id="second"}
+                                            <option value="{$second.id}">&nbsp;&nbsp;&nbsp;&nbsp;{$second.rule_title}</option>
+                                        {/volist}
+                                        {/notempty}
                                     {/volist}
                                 </select>
                                 <span class="cont">类型</span>

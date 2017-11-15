@@ -19,8 +19,13 @@
                 <span>父级</span>
                 <select name="pid">
                     <option value="0">第一级</option>
-                    {volist name="firstLevelData" id="first"}
+                    {volist name="firstLevelTree" id="first"}
                     <option value="{$first.id}" {eq name="info.pid" value="$first['id']"}selected="selected"{/eq} >{$first.rule_title}</option>
+                    {notempty name="first.child"}
+                    {volist name="first.child" id="second"}
+                    <option value="{$second.id}" {eq name="info.pid" value="$second['id']"}selected="selected"{/eq} >&nbsp;&nbsp;&nbsp;&nbsp;{$second.rule_title}</option>
+                    {/volist}
+                    {/notempty}
                     {/volist}
                 </select>
             </p>
