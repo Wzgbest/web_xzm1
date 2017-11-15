@@ -62,7 +62,13 @@ function update_bill_setting_handle(index,type,value){
         if(type==1){
             bill_setting_handle_arr[index-1].handle = value;
         }else if(type==2){
-            bill_setting_handle_arr[index-1].create_bill_num = value;
+            for (idx in bill_setting_handle_arr){
+                if((index-1)==idx){
+                    bill_setting_handle_arr[index-1].create_bill_num = value;
+                }else{
+                    bill_setting_handle_arr[idx].create_bill_num = 0;
+                }
+            }
         }
     }
     //console.log(bill_setting_handle_arr);
@@ -167,6 +173,8 @@ $(".systemsetting_bill_edit .content").on("click",".handle_role .switch_panel",f
     console.log(index);
     var value = $(this).hasClass("close")?1:0;
     console.log(value);
+    $(".systemsetting_bill_edit .content .handle_role .switch_panel").addClass("close");
+    $(".systemsetting_bill_edit .content .handle_role .switch_panel input").val(0);
     if(value){
         $(this).removeClass("close");
     }else{
