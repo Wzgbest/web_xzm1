@@ -52,7 +52,13 @@ function update_contract_setting_apply(index,type,value){
         if(type==1){
             contract_setting_apply_arr[index-1].apply = value;
         }else if(type==2){
-            contract_setting_apply_arr[index-1].create_contract_num = value;
+            for (idx in contract_setting_apply_arr){
+                if((index-1)==idx){
+                    contract_setting_apply_arr[index-1].create_contract_num = value;
+                }else{
+                    contract_setting_apply_arr[idx].create_contract_num = 0;
+                }
+            }
         }
     }
     //console.log(contract_setting_apply_arr);
@@ -163,6 +169,8 @@ $(".systemsetting_contract_edit .content").on("click",".apply_role .create_contr
     update_contract_setting_apply_html();
 });
 $(".systemsetting_contract_edit .content").on("click",".apply_role .switch_panel",function(){
+    $(".systemsetting_contract_edit .content .apply_role .switch_panel").addClass("close");
+    $(".systemsetting_contract_edit .content .apply_role .switch_panel input").val(0);
     var index = get_contract_setting_apply_tools_index(this);
     console.log(index);
     var value = $(this).hasClass("close")?1:0;
