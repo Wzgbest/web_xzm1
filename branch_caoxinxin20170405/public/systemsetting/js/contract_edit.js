@@ -169,12 +169,12 @@ $(".systemsetting_contract_edit .content").on("click",".apply_role .create_contr
     update_contract_setting_apply_html();
 });
 $(".systemsetting_contract_edit .content").on("click",".apply_role .switch_panel",function(){
-    $(".systemsetting_contract_edit .content .apply_role .switch_panel").addClass("close");
-    $(".systemsetting_contract_edit .content .apply_role .switch_panel input").val(0);
     var index = get_contract_setting_apply_tools_index(this);
     console.log(index);
     var value = $(this).hasClass("close")?1:0;
     console.log(value);
+    $(".systemsetting_contract_edit .content .apply_role .switch_panel").addClass("close");
+    $(".systemsetting_contract_edit .content .apply_role .switch_panel input").val(0);
     if(value){
         $(this).removeClass("close");
     }else{
