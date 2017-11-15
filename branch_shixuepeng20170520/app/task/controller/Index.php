@@ -600,26 +600,23 @@ class Index extends Initialize{
     }
     protected function _getTaskTargetForInput($task_method){
         $task_target_info['target_type'] = input("target_type",0,"int");
-        if($task_target_info['target_type']<=0){
-            return [];
-        }
         $task_target_info['target_num'] = input("target_num",0,"int");
-        $task_target_info['target_customer'] = input("target_customer",0,"int");
-        if($task_method==5){
-            if($task_target_info['target_customer']<=0){
-                //return [];
-            }
-        }
         $task_target_info['target_method']=input("target_method",0,"int");
 
-        if($task_target_info['target_method']==1) {
-            $task_target_info['target_description']=input("target_description","","string");
-            if(empty($task_target_info['target_description'])){
-                return [];
+        if($task_method==5){
+            if($task_target_info['target_method']==1) {
+                $task_target_info['target_description']=input("target_description","","string");
+                if(empty($task_target_info['target_description'])){
+                    return [];
+                }
+            }elseif($task_target_info['target_method']==2) {
+                $task_target_info['target_customer']=input("target_customer","","int");
+                if(!$task_target_info['target_customer']){
+                    return [];
+                }
             }
-        }elseif($task_target_info['target_method']==2) {
-            $task_target_info['target_customer']=input("target_customer","","int");
-            if(!$task_target_info['target_customer']){
+        }else{
+            if($task_target_info['target_type']<=0){
                 return [];
             }
         }
