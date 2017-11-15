@@ -14,15 +14,19 @@ class Rule extends Initialize{
         $this->_RuleModel = new RuleModel($this->corp_id);
     }
     public function index(){
-        $firstLevelData=$this->_RuleModel->getFirstLevelData();
-
         $root_id = 0;
+        $firstLevelData=$this->_RuleModel->getFirstLevelData();
+        $firstLevelTree = new \myvendor\Tree($firstLevelData,['id','pid']);
+        $firstLevelTree = $firstLevelTree->leaf($root_id);
+//        var_exp($firstLevelTree,'$firstLevelTree',1);
+
+
         $rules = $this->_RuleModel->getAllRuleList($map=array('status'=>1),$field='*',$order="sort",$direction="asc");
         $tree = new \myvendor\Tree($rules,['id','pid']);
         $res = $tree->leaf($root_id);
 
         $this->assign('rule_tree',$res);
-        $this->assign('firstLevelData',$firstLevelData);
+        $this->assign('firstLevelTree',$firstLevelTree);
         return view();
     }
     public function addRule(){
@@ -52,14 +56,17 @@ class Rule extends Initialize{
             $this->error("参数错误！");
         }
 
+        $root_id = 0;
         $firstLevelData=$this->_RuleModel->getFirstLevelData();
+        $firstLevelTree = new \myvendor\Tree($firstLevelData,['id','pid']);
+        $firstLevelTree = $firstLevelTree->leaf($root_id);
 
         $map['id']=$id;
         $info = $this->_RuleModel->getRuleInfo($map);
 
         $this->assign("id",$id);
         $this->assign("fr",input('fr'));
-        $this->assign('firstLevelData',$firstLevelData);
+        $this->assign('firstLevelTree',$firstLevelTree);
         $this->assign("info",$info);
         return view();
     }
