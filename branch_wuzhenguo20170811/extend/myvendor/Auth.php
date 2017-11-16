@@ -64,17 +64,18 @@ class Auth
     //默认配置
     protected $_config = array(
         'AUTH_ON' => true,                      // 认证开关
-        'AUTH_TYPE' => 1,                         // 认证方式，1为实时认证；2为登录认证。
-        'AUTH_GROUP' => 'auth_group',        // 用户组数据表名
-        'AUTH_GROUP_ACCESS' => 'auth_group_access', // 用户-用户组关系表
-        'AUTH_RULE' => 'auth_rule',         // 权限规则表
-        'AUTH_USER' => 'member'             // 用户信息表
+        'AUTH_TYPE' => 1,                       // 认证方式，1为实时认证；2为登录认证。
+        'AUTH_GROUP' => 'role',                 // 用户组数据表名
+        'AUTH_GROUP_ACCESS' => 'role_employee', // 用户-用户组关系表
+        'AUTH_RULE' => 'rule',                  // 权限规则表
+        'AUTH_USER' => 'employee',              // 用户信息表
+        'AUTH_RULE_ACCESS' => 'role_rule' // 用户组-规则关系表
     );
     protected $model;
 
     public function __construct($corp_id)
     {
-        $prefix = config('database.prefix');
+        $prefix = config('db_config1.prefix');
         $this->_config['AUTH_GROUP'] = $prefix . $this->_config['AUTH_GROUP'];
         $this->_config['AUTH_RULE'] = $prefix . $this->_config['AUTH_RULE'];
         $this->_config['AUTH_USER'] = $prefix . $this->_config['AUTH_USER'];
@@ -96,7 +97,7 @@ class Auth
      * @param $relation string    如果为 'or' 表示满足任一条规则即通过验证;如果为 'and'则表示需满足所有规则才能通过验证
      * @return boolean           通过验证返回true;失败返回false
      */
-    public function check($name, $uid, $type = 1, $mode = 'url', $relation = 'or')
+    public function check($name, $uid, $type = 0, $mode = 'url', $relation = 'or')
     {
         if (!$this->_config['AUTH_ON']){
             return true;
@@ -153,10 +154,12 @@ class Auth
         static $groups = array();
         if (isset($groups[$uid]))
             return $groups[$uid];
-        $user_groups = $this->model->table($this->_config['AUTH_GROUP_ACCESS'])->alias('a')
-            ->where("a.uid='$uid' and g.status='1'")
-            ->join($this->_config['AUTH_GROUP'] . " g", "a.group_id=g.id")
-            ->field('g.rules')->select();
+        $user_groups = $this->model->table($this->_config['AUTH_GROUP_ACCESS'])->alias('aga')
+            ->join($this->_config['AUTH_GROUP'] . " ag", "aga.role_id=ag.id")
+            ->join($this->_config['AUTH_RULE_ACCESS'] . " ra", "ra.role_id=ag.id")
+            ->where("aga.user_id",$uid)
+            ->field('ra.rule_id')
+            ->select();
         $groups[$uid] = $user_groups ?: array();
         return $groups[$uid];
     }
@@ -174,26 +177,37 @@ class Auth
         if (isset($_authList[$uid . $t])) {
             return $_authList[$uid . $t];
         }
-        if ($this->_config['AUTH_TYPE'] == 2 && isset($_SESSION['_AUTH_LIST_' . $uid . $t])) {
-            return $_SESSION['_AUTH_LIST_' . $uid . $t];
-        }
+        //不适用session
+//        if ($this->_config['AUTH_TYPE'] == 2 && isset($_SESSION['_AUTH_LIST_' . $uid . $t])) {
+//            return $_SESSION['_AUTH_LIST_' . $uid . $t];
+//        }
 
         //读取用户所属用户组
+//        $groups = $this->getGroups($uid);
+//        $ids = array();//保存用户所属用户组设置的所有权限规则id
+//        foreach ($groups as $g) {
+//            $ids = array_merge($ids, explode(',', trim($g['rule_id'], ',')));
+//        }
+//        $ids = array_unique($ids);
+
         $groups = $this->getGroups($uid);
-        $ids = array();//保存用户所属用户组设置的所有权限规则id
-        foreach ($groups as $g) {
-            $ids = array_merge($ids, explode(',', trim($g['rules'], ',')));
-        }
-        $ids = array_unique($ids);
+        $ids = array_column($groups,"rule_id");//保存用户所属用户组设置的所有权限规则id
+//        var_exp($ids,'$ids');
         if (empty($ids)) {
             $_authList[$uid . $t] = array();
             return array();
         }
 
         //读取用户组所有权限规则
+        $rules_map["id"] = ["in",$ids];
+        if($type){
+            $rules_map["type"] = $type;
+        }
         $rules = $this->model->table($this->_config['AUTH_RULE'])
-            ->where("type = $type and status =1 and id in(" . implode(',', $ids) . ")")
-            ->field('condition,name')->select();
+            ->where($rules_map)
+            ->field('condition,rule_name')
+            ->select();
+//        var_exp($rules,'$rules');
         //循环规则，判断结果。
         $authList = array();   //
 //        $user = $this->getUserInfo($uid);//获取用户信息,一维数组
@@ -204,11 +218,11 @@ class Auth
                 $condition = false;
                 @(eval('$condition=(' . $command . ');'));
                 if ($condition) {
-                    $authList[] = strtolower($rule['name']);
+                    $authList[] = strtolower($rule['rule_name']);
                 }
             } else {
                 //只要存在就记录
-                $authList[] = strtolower($rule['name']);
+                $authList[] = strtolower($rule['rule_name']);
             }
         }
         $_authList[$uid . $t] = $authList;
