@@ -54,7 +54,11 @@ function check_alipay_account ($alipay) {
  * @return bool
  * created by messhair
  */
-function check_auth ($rule,$uid) {
+function check_auth ($rule,$uid=0) {
+    if(!$uid){
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+    }
     $corp_id = get_corpid();
     $auth = new \myvendor\Auth($corp_id);
     if (!$auth->check($rule,$uid)) {
