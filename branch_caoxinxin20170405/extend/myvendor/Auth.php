@@ -153,10 +153,11 @@ class Auth
         static $groups = array();
         if (isset($groups[$uid]))
             return $groups[$uid];
-        $user_groups = $this->model->table($this->_config['AUTH_GROUP_ACCESS'])->alias('a')
-            ->where("a.uid='$uid' and g.status='1'")
-            ->join($this->_config['AUTH_GROUP'] . " g", "a.group_id=g.id")
-            ->field('g.rules')->select();
+        $user_groups = $this->model->table($this->_config['AUTH_GROUP_ACCESS'])->alias('aga')
+            ->join($this->_config['AUTH_GROUP'] . " ag", "aga.group_id=ag.id")
+            ->where("aga.uid='$uid' and ag.status='1'")
+            ->field('ag.rules')
+            ->select();
         $groups[$uid] = $user_groups ?: array();
         return $groups[$uid];
     }
@@ -193,7 +194,8 @@ class Auth
         //读取用户组所有权限规则
         $rules = $this->model->table($this->_config['AUTH_RULE'])
             ->where("type = $type and status =1 and id in(" . implode(',', $ids) . ")")
-            ->field('condition,name')->select();
+            ->field('condition,name')
+            ->select();
         //循环规则，判断结果。
         $authList = array();   //
 //        $user = $this->getUserInfo($uid);//获取用户信息,一维数组
