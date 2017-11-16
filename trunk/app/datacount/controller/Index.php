@@ -34,6 +34,11 @@ class Index extends Initialize{
         $structure = $structureEmployeeModel->findEmployeeStructure($this->uid);
 //        var_exp($structure,'$structure');
         $this->assign("structure",$structure);
+//        $role_flg = check_auth("datacount/index/summary");
+//        var_exp($role_flg,'$role_flg',1);
+//        if(!$role_flg){
+//            $this->error("没有权限查看数据简报!");
+//        }
         return view();
     }
 }
