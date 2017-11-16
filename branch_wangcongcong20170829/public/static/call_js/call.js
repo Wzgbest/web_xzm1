@@ -403,8 +403,10 @@ var getValueByKey = function(property, key) {
  * @return 返回单一入口 demo = browerify
  */
 var demo = browserfly.noConflict();
+console.log(demo);
 var successCallBack = function() {
     console.log("初始化完成");
+    console.log(demo);
     common.print("初始化完成....","ws");
 };
 var errorCallBack = function(ret) {
@@ -474,7 +476,8 @@ var operation = {
                   // common.hide(obj);
               }
         };
-        var makeCallCallBack = function(ret, jsonObject) { 
+        var makeCallCallBack = function(ret, jsonObject) {
+            console.log(ret); 
             common.print(ret,"ws");
         };
         demo.invokeEvent("makecall", makeCallOption, makeCallCallBack);   
