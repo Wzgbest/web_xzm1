@@ -81,14 +81,20 @@
 	float: right;
 	margin-right: 12px;
 }
+/*白色*/
 .u-pop-footer button.type1{
 	background-color: #fafafa;
 	color: #758da0;
 	border:1px solid #d1d9de;
 }
+/*蓝色*/
 .u-pop-footer button.type2{
 	background-color: #78beff;
 	color: white;
+}
+/*长的*/
+.u-pop-footer button.type3{
+	width: 160px;
 }
 .u-pop-footer button.pop-submit-btn{
 	

@@ -539,3 +539,7 @@ left: 220px; */
 i.fa{
 	cursor: pointer;
 }
+.main-content.select-window{
+	position: absolute;
+	z-index: 99;
+}
