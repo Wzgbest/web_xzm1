@@ -15,6 +15,12 @@ $(".phone-box").on("click","i.fa-close",function(){
     $("#phone-number").val("");
     changeFramesSize();
 });
+$("#frames").on("click","i.fa-phone",function(){
+    console.log($(this).parent().text());
+    $(".phone-box").removeClass("hide");
+    $("#callInput").val($(this).parent().text());
+    operation.callBt($(this).parent().text());
+});
 //按键
 var pn = document.getElementById("phone-number");
 var number = document.getElementsByClassName("num");

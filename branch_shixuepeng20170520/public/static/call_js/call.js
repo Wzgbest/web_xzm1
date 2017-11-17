@@ -36,7 +36,7 @@ var common = {
         this.addCls(ele, newC);
     },
     setStyle: function(ele, name, value) {
-        console.log(ele,name,value);
+        // console.log(ele,name,value);
         ele.style[name] = value;
     },
     show: function(ele) {
@@ -180,11 +180,11 @@ TQPhone.prototype = {
             case 0:
                 common.disable(this.pos.DevolveBt);
                 // common.active(this.pos.DevolveBt);
-                console.log("0disable",this.pos.DevolveBt);
+                console.log("转移按钮状态0disable",this.pos.DevolveBt);
                 break;
             case 1:
                 common.active(this.pos.DevolveBt);
-                console.log("1active",this.pos.DevolveBt);
+                console.log("转移按钮状态 1active",this.pos.DevolveBt);
                 break;
         }
         ;
@@ -194,11 +194,11 @@ TQPhone.prototype = {
         switch (parseInt(_ask, 10)) {
             case 0:
                 common.disable(this.pos.AskBt);
-                console.log("0disable",this.pos.AskBt);
+                console.log("咨询按钮状态0disable",this.pos.AskBt);
                 break;
             case 1:
                 common.active(this.pos.AskBt);
-                console.log("1active",this.pos.AskBt);
+                console.log("咨询按钮状态1active",this.pos.AskBt);
                 break;
         }
         ;
@@ -208,11 +208,11 @@ TQPhone.prototype = {
         switch (parseInt(_keep, 10)) {
             case 0:
                 common.disable(this.pos.KeepBt);
-                console.log("0disable",this.pos.KeepBt);
+                console.log("保持按钮状态0disable",this.pos.KeepBt);
                 break;
             case 1:
                 common.active(this.pos.KeepBt);
-                console.log("1active",this.pos.KeepBt);
+                console.log("保持按钮状态1active",this.pos.KeepBt);
                 break;
         }
         ;
@@ -222,11 +222,11 @@ TQPhone.prototype = {
         switch (parseInt(_multi, 10)) {
             case 0:
                 common.disable(this.pos.MultiBt);
-                console.log("0disable",this.pos.MultiBt);
+                console.log("多方会话按钮状态0disable",this.pos.MultiBt);
                 break;
             case 1:
                 common.active(this.pos.MultiBt);
-                console.log("1active",this.pos.MultiBt);
+                console.log("多方会话按钮状态1active",this.pos.MultiBt);
                 break;
         }
         ;
@@ -462,17 +462,17 @@ var operation = {
         var makeCallOption = {
               phone: callNumber, // 电话号码
               error: function(ret) {
-                  cells.FcItem.CallTip.innerHTML = "拨打错误,"+JSON.stringify(ret);
-                  console.log(JSON.stringify(ret));
+                  cells.FcItem.CallTip.innerHTML = "<b style='color:#275A33'>拨打错误,"+ret.errmsg+"</b>";
+                  console.log(JSON.stringify(ret),ret);
               },
               success: function(ret) {
-                  cells.FcItem.CallTip.innerHTML = "正在拨打,请稍后...";
+                  cells.FcItem.CallTip.innerHTML = "<b style='color:#275A33'>正在拨打,请稍后...</b>";
                   console.log(cells);
                   
-                  console.log($(obj));
-                  console.log($(obj).next());
+                  // console.log($(obj));
+                  // console.log($(obj).next());
                   // common.show(obj.nextSibling);
-                  console.log(obj);
+                  // console.log(obj);
                   // common.hide(obj);
               }
         };
@@ -480,6 +480,8 @@ var operation = {
             console.log(ret); 
             common.print(ret,"ws");
         };
+        $(".phone-box h1.call-number").text(callNumber);
+        // console.log($(".phone-box h1.call-number"));
         demo.invokeEvent("makecall", makeCallOption, makeCallCallBack);   
     },
 
@@ -490,17 +492,21 @@ var operation = {
         if(common.hasCls(obj,"hangupdsbt")){
             return
         }else{
+            console.log("hangBt");
             this.hangup(obj);
-            common.show(obj.nextSibling);
-            common.hide(obj);
+            // common.show(obj.nextSibling);
+            // common.hide(obj);
         }
     },
     hangup:function(obj){
+        console.log("hangup");
         var hangupOption = {
             error: function(ret) {
+                console.log(ret);
                 common.print(ret,"ws");
             },
             success: function(ret) {
+                console.log(ret);
                 common.print(ret,"ws");
             }
         };
@@ -655,8 +661,9 @@ demo.monitorEvent("seatState", function(message, jsonObject) {
     }
     var seat_status_value = getValueByKey("phoneStatusNoList", status);
     console.log(seat_status_value);
-    eval("eventState." + seat_status_value + "('" + JSON.stringify(phoneSeatMessage) + "')");
     console.log("eventState." + seat_status_value + "('" + JSON.stringify(phoneSeatMessage) + "')");
+    eval("eventState." + seat_status_value + "('" + JSON.stringify(phoneSeatMessage) + "')");
+    
     /*
      * eval("eventState.hand_busy('" +
      * '{"phoneseat":{"lastchange":1508322086,"seat_dbid":28921,"status":"On-Break","timestamp":1508377698733035}}' +
@@ -672,8 +679,10 @@ demo.monitorEvent("seatState", function(message, jsonObject) {
  * @param {Function} 监听成功的回调函数
  */
 demo.monitorEvent("callEvent", function(message, jsonObject) {
+    console.log("callEvent",message,jsonObject);
     common.print(message,"ws");
     var call_state = message.call_event.call_state;
+    console.log("eventState." + call_state + "('" + JSON.stringify(message.call_event) + "')");
     eval("eventState." + call_state + "('" + JSON.stringify(message.call_event) + "')");
 });
 /**
@@ -683,6 +692,7 @@ demo.monitorEvent("callEvent", function(message, jsonObject) {
  * @param {Function} 监听成功的回调函数
  */
 demo.monitorEvent("callTip", function(message, jsonObject) {
+    console.log("该事件在座席响铃事件（call_state：agent_ring）时推送callTip",message,jsonObject);
     common.print(message,"ws");
 })
 
