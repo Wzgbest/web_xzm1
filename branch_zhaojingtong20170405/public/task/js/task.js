@@ -1,3 +1,6 @@
+$(".task article .dv4").height(window.innerHeight - 130);
+$(".task article .dv4 .content-scroll").height(window.innerHeight - 220);
+
 var content = "<ul class='number2'><li></li><li></li><li></li><li></li><li></li></ul>";
 //$("#myModalone .table").append(content);
 var t;
