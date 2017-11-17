@@ -67,8 +67,8 @@
                                 <span class="cont-x">{$sale_order_contract.pay_name}</span>
                             </div>
                             <div>
-                                <span class="cont">备注：</span>
-                                <span class="cont-x"></span>
+                                <span class="cont ver_top">备注：</span>
+                                <textarea class="u-remark" placeholder="请输入备注"></textarea>
                             </div>
                         </div>
             	    </div>
@@ -78,10 +78,10 @@
                         {/gt}
                         {eq name="sale_order_contract.status" value="0"}
                             <div class="btn btn1 rejected-btn">驳回</div>
-                            <div class="btn btn1 approved-btn">通过</div>
+                            <div class="btn btn2 approved-btn">通过</div>
                         {/eq}
                         {gt name="previous_id" value="0"}
-                        <div class="btn btn2 previous-btn" id="{$previous_id}">上一条</div>
+                        <div class="btn btn1 previous-btn" id="{$previous_id}">上一条</div>
                         {/gt}
                     </div>
                 </div>
