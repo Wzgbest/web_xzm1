@@ -13,6 +13,7 @@ use app\common\model\StructureEmployee;
 use app\common\model\Meme;
 use app\common\model\RoleRule;
 use app\index\service\TQCallApi;
+use app\index\model\SystemMessage as SystemMessageModel;
 
 class Index extends Initialize{
     public function _initialize(){
@@ -21,6 +22,17 @@ class Index extends Initialize{
     public function index(){
         $userinfo = get_userinfo();
         $this->assign("userinfo",$userinfo);
+        $systemM = new SystemMessageModel($this->corp_id);
+        $msg_list = $systemM->getMsgList($this->uid);
+        $system_msg_count = $systemM->getNotReadMsgCount($this->uid,1);
+        $tast_msg_count = $systemM->getNotReadMsgCount($this->uid,3);
+        $crm_msg_count = $systemM->getNotReadMsgCount($this->uid,4);
+        $knowledge_msg_count = $systemM->getNotReadMsgCount($this->uid,5);
+        $this->assign('msg_list',$msg_list);
+        $this->assign('system_msg_count',$system_msg_count);
+        $this->assign('tast_msg_count',$tast_msg_count);
+        $this->assign('crm_msg_count',$crm_msg_count);
+        $this->assign('knowledge_msg_count',$knowledge_msg_count);
         $menus = false;//get_cache_by_tel($this->telephone,"menus");
         if(!$menus){
             $roleRuleM = new RoleRule($this->corp_id);
