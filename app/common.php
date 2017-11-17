@@ -49,8 +49,8 @@ function check_alipay_account ($alipay) {
 
 /**
  * 权限验证
- * @param $rule 权限名称 string
- * @param $uid 用户id
+ * @param $rule string 权限名称
+ * @param $uid int 用户id
  * @return bool
  * created by messhair
  */

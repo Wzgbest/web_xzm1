@@ -10,8 +10,10 @@
         <div class="m-3rd-container">
             <div class="m-3rd-content">
                 <div class="m-3rd-content-container">
+                    <input type="hidden" class="sale-chance-record-id" name="sale_order_contract_id" value="{$sale_order_contract.id}">
+                    <input type="hidden" class="sale-chance-record-ids" name="sale_order_contract_ids" value="{$sale_order_contract_ids}">
                     <div class="clearfix"></div>
-            	    <div class="m-divBlock m-form sale-chance-record  sale-chance-record-">
+            	    <div class="m-divBlock m-form sale-chance-record">
             	    	<div>
                             <span class="cont">客户名称：</span>
                             <span class="cont-x color-blue2">{$sale_order_contract.customer_name}</span>
@@ -70,11 +72,17 @@
                             </div>
                         </div>
             	    </div>
-                    <div class="m-3rd-footer">
-                        <div class="btn btn1">下一条</div>
-                        <div class="btn btn1">驳回</div>
-                        <div class="btn btn1">通过</div>
-                        <div class="btn btn2">上一条</div>
+                    <div class="m-3rd-footer detail_panel_footer">
+                        {gt name="next_id" value="0"}
+                        <div class="btn btn1 next-btn" id="{$next_id}">下一条</div>
+                        {/gt}
+                        {eq name="sale_order_contract.status" value="0"}
+                            <div class="btn btn1 rejected-btn">驳回</div>
+                            <div class="btn btn1 approved-btn">通过</div>
+                        {/eq}
+                        {gt name="previous_id" value="0"}
+                        <div class="btn btn2 previous-btn" id="{$previous_id}">上一条</div>
+                        {/gt}
                     </div>
                 </div>
             </div>
@@ -83,6 +91,3 @@
 </div>
 <link rel="stylesheet" type="text/css" href="/verification/css/verification.css">
 <script type="text/javascript" src="/verification/js/verification_index.js"></script>
-<script type="text/javascript">
-    $(".verification_sale_chance_detail .sale-chance-record").addClass("sale-chance-record-"+$("#verification-indexfr").attr("show-id"));
-</script>
