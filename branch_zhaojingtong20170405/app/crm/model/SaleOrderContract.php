@@ -279,6 +279,72 @@ class SaleOrderContract extends Base{
     /**
      * @param $uid int 员工id
      * @param $filter array 合同筛选条件
+     * @param $order string 排序字段
+     * @param $direction string 排序顺序
+     * @return false|\PDOStatement|array|\think\Collection
+     * created by blu10ph
+     */
+    public function getVerificationSaleOrderIdsContractByPage($uid,$filter=null,$order="soc.create_time",$direction="desc"){
+        //筛选
+        $map = $this->_getMapByFilter($filter,["contract_type","structure","business_id","pay_type","order_status","contract_no","apply_employee","customer_name"]);
+        if(!isset($map["soc.status"])){
+            $map["soc.status"] = ["neq",3];
+        }
+        //$map["soc.handle_now"] = $uid;
+        $mapStr = "find_in_set('".$uid."',soc.handle_now)";
+        $having = null;
+        if(array_key_exists("in_column", $filter)){
+            $in_column = $filter["in_column"];
+            if($in_column>0){
+                $having = " (case when sc.sale_status = 4 and soc.status = 0 then 1 
+            when sc.sale_status = 5 and soc.status = 1 then 7 
+            when sc.sale_status = 4 and soc.status = 2 then 8 
+            when sc.sale_status = 9 then 9 
+            else 10 end ) = $in_column ";
+            }
+        }
+
+        //排序
+        if($direction!="desc" && $direction!="asc"){
+            $direction = "desc";
+        }
+        $order = $order." ".$direction;
+
+        $field = [
+            "soc.id",
+            "soc.status",
+            "sc.sale_status"
+        ];
+        $query = $this->model->table($this->table)->alias('soc');
+        $sale_chance_list = $query
+            ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
+            ->join($this->dbprefix.'customer c','sc.customer_id = c.id',"LEFT")
+            ->join($this->dbprefix.'sale_order_contract_item soci','soci.sale_order_id = soc.id',"LEFT")
+            ->join($this->dbprefix.'contract co','co.id = soci.contract_id',"LEFT")
+            ->join($this->dbprefix.'contract_applied ca','ca.id = co.applied_id',"LEFT")
+            ->join($this->dbprefix.'employee e','sc.employee_id = e.id',"LEFT")
+            ->join($this->dbprefix.'structure_employee se','se.user_id = e.id')
+            ->join($this->dbprefix.'structure_employee ses','se.user_id = e.id')
+            ->join($this->dbprefix.'structure s','se.struct_id = s.id')
+            ->where($map)
+            ->where($mapStr)
+            ->field($field)
+            ->group("soc.id")
+            ->order($order)
+            ->having($having)
+            ->select();
+        //var_exp($sale_chance_list,'$sale_chance_list',1);
+        //var_exp($query->getLastSql(),'lastsql',1);
+        if(empty($sale_chance_list)){
+            return [];
+        }
+        $sale_chance_ids = array_column($sale_chance_list,"id");
+        return $sale_chance_ids;
+    }
+
+    /**
+     * @param $uid int 员工id
+     * @param $filter array 合同筛选条件
      * @return false|\PDOStatement|string|\think\Collection
      * created by blu10ph
      */
