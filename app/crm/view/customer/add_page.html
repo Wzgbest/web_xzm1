@@ -108,13 +108,13 @@
                     <input type="radio" name="belongs_to" value="2" />公海池
                     <div class="allStaff hide"></div>
                 </div>
-                <div class="u-submitButton">
+                <!-- <div class="u-submitButton">
                     <button class="add_new_customer">保存并添加下一客户</button>
                     <button class="save_customer">保存</button>
                     <button class="add_customer_next">下一步</button>
                     <button class="add_customer_cancel">取消</button>
-                    <!--<input type="submit" />-->
-                </div>
+                    <!--<input type="submit" />
+                </div> -->
             </div>
         </form>
         <form class="newClientForm newClientContactForm {$fr}newClientContactForm" onsubmit="return false;">
@@ -195,13 +195,13 @@
                     <span class="cont"></span> -->
                     <textarea name="remark" style="resize:both;" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
                 </div>
-                <div class="u-submitButton">
+                <!-- <div class="u-submitButton">
                     <button class="add_contact_new_customer">保存并添加下一客户</button>
                     <button class="save_customer_contact">保存</button>
                     <button class="add_customer_contact_previous">上一步</button>
                     <button class="add_customer_contact_next">下一步</button>
                     <button class="add_customer_cancel">取消</button>
-                </div>
+                </div> -->
             </div>
         </form>
         <form class="newClientForm newClientSaleChanceForm {$fr}newClientSaleChanceForm" onsubmit="return false;">
@@ -246,20 +246,33 @@
                     <span class="cont"></span> -->
                     <textarea name="remark" style="resize:both;" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注"></textarea>
                 </div>
-                <div class="u-submitButton">
+<!--                 <div class="u-submitButton">
                     <button class="add_sale_chance_new_customer">保存并添加下一客户</button>
                     <button class="save_sale_chance">保存</button>
                     <button class="add_sale_chance_previous">上一步</button>
                     <button class="add_customer_cancel">取消</button>
-                </div>
+                </div> -->
             </div>
         </form>
     </div>
-    <div class="u-pop-footer hide">
-        <button class="pop-submit-btn type1">取消</button>
-        <button class="pop-close-btn type2">下一步</button>
-        <button class="pop-submit-btn type1">保存</button>
-        <button class="pop-close-btn type1">保存并添加下一个客户</button>
+    <div class="u-pop-footer customer-add-page-footer1">
+        <button class="type1 add_customer_cancel">取消</button>
+        <button class="type2 add_customer_next">下一步</button>
+        <button class="type1 save_customer">保存</button>
+        <button class="type1 type3 add_new_customer">保存并添加新客户</button>
+    </div>
+    <div class="u-pop-footer customer-add-page-footer2 hide">
+        <button class="type1 add_customer_cancel">取消</button>
+        <button class="type2 add_customer_contact_next">下一步</button>
+        <button class="type1 add_customer_contact_previous">上一步</button>
+        <button class="type1 save_customer_contact">保存</button>
+        <button class="type1 type3 add_contact_new_customer">保存并添加新联系人</button>
+    </div>
+    <div class="u-pop-footer customer-add-page-footer3 hide">
+        <button class="type1 add_customer_cancel">取消</button>
+        <button class="type1 add_sale_chance_previous">上一步</button>
+        <button class="type2 save_sale_chance">保存</button>
+        <button class="type1 type3 add_sale_chance_new_customer">保存并添加新商机</button>
     </div>
 </section>
 <script class="resources library" src="/static/js/area.js" type="text/javascript"></script>

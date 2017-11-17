@@ -29,58 +29,58 @@ function customer_add(from,target,list_manage){
 			self.removeNewClient();
 		});
 		//表单1按钮
-		$(panel+" .add_customer .newClient .m-form .newClientInfoForm .add_new_customer").click(function(){
+		$(panel+" .add_customer .customer-add-page-footer1 .add_new_customer").click(function(){
 			//保存并添加下一位客户
 			self.add_customer(0);
 		});
-		$(panel+" .add_customer .newClient .m-form .newClientInfoForm .save_customer").click(function(){
+		$(panel+" .add_customer .customer-add-page-footer1 .save_customer").click(function(){
 			//保存
 			self.add_customer(3);
 		});
-		$(panel+" .add_customer .newClient .m-form .newClientInfoForm .add_customer_next").click(function(){
+		$(panel+" .add_customer .customer-add-page-footer1 .add_customer_next").click(function(){
 			//下一步
 			self.add_customer(2);
 
 		});
-		$(panel+" .add_customer .newClient .m-form .newClientInfoForm .add_customer_cancel").click(function(){
+		$(panel+" .add_customer .customer-add-page-footer1 .add_customer_cancel").click(function(){
 			//取消
 			self.removeNewClient();
 		});
 		//表单2按钮
-		$(panel+" .add_customer .newClient .m-form .newClientContactForm .add_contact_new_customer").click(function(){
+		$(panel+" .add_customer .customer-add-page-footer2 .add_contact_new_customer").click(function(){
 			//保存并添加下一位客户
 			self.add_contact(0);
 		});
-		$(panel+" .add_customer .newClient .m-form .newClientContactForm .save_customer_contact").click(function(){
+		$(panel+" .add_customer .customer-add-page-footer2 .save_customer_contact").click(function(){
 			//保存
 			self.add_contact(3);
 		});
-		$(panel+" .add_customer .newClient .m-form .newClientContactForm .add_customer_contact_previous").click(function(){
+		$(panel+" .add_customer .customer-add-page-footer2 .add_customer_contact_previous").click(function(){
 			//上一步
 			self.add_contact(1);
 		});
-		$(panel+" .add_customer .newClient .m-form .newClientContactForm .add_customer_contact_next").click(function(){
+		$(panel+" .add_customer .customer-add-page-footer2 .add_customer_contact_next").click(function(){
 			//下一步
 			self.add_contact(2);
 		});
-		$(panel+" .add_customer .newClient .m-form .newClientContactForm .add_customer_cancel").click(function(){
+		$(panel+" .add_customer .customer-add-page-footer2 .add_customer_cancel").click(function(){
             //取消
 			self.removeNewClient();
 		});
 		//表单3按钮
-		$(panel+" .add_customer .newClient .m-form .newClientSaleChanceForm .add_sale_chance_new_customer").click(function(){
+		$(panel+" .add_customer .customer-add-page-footer3 .add_sale_chance_new_customer").click(function(){
             //保存并添加下一位
 			self.add_sale_chance(0);
 		});
-		$(panel+" .add_customer .newClient .m-form .newClientSaleChanceForm .save_sale_chance").click(function(){
+		$(panel+" .add_customer .customer-add-page-footer3 .save_sale_chance").click(function(){
             //保存
 			self.add_sale_chance(3);
 		});
-		$(panel+" .add_customer .newClient .m-form .newClientSaleChanceForm .add_sale_chance_previous").click(function(){
+		$(panel+" .add_customer .customer-add-page-footer3 .add_sale_chance_previous").click(function(){
             //上一步
 			self.add_sale_chance(1);
 		});
-		$(panel+" .add_customer .newClient .m-form .newClientSaleChanceForm .add_customer_cancel").click(function(){
+		$(panel+" .add_customer .customer-add-page-footer3 .add_customer_cancel").click(function(){
             //取消
 			self.removeNewClient();
 		});
@@ -269,18 +269,26 @@ function customer_add(from,target,list_manage){
 	this.next_contact=function(){
 		$(self.panel_base+" .add_customer .newClient .newClientInfoForm .form1").addClass("hide");
 		$(self.panel_base+" .add_customer .newClient .newClientContactForm .form2").removeClass("hide");
+		$(self.panel_base+" .add_customer .customer-add-page-footer1").addClass("hide");
+		$(self.panel_base+" .add_customer .customer-add-page-footer2").removeClass("hide");
 	};
 	this.next_sale_chance=function(){
 		$(self.panel_base+" .add_customer .newClient .newClientContactForm .form2").addClass("hide");
 		$(self.panel_base+" .add_customer .newClient .newClientSaleChanceForm .form3").removeClass("hide");
+		$(self.panel_base+" .add_customer .customer-add-page-footer2").addClass("hide");
+		$(self.panel_base+" .add_customer .customer-add-page-footer3").removeClass("hide");
 	};
 	this.pre_customer=function(){
 		$(self.panel_base+" .add_customer .newClient .newClientContactForm .form2").addClass("hide");
 		$(self.panel_base+" .add_customer .newClient .newClientInfoForm .form1").removeClass("hide");
+		$(self.panel_base+" .add_customer .customer-add-page-footer2").addClass("hide");
+		$(self.panel_base+" .add_customer .customer-add-page-footer1").removeClass("hide");
 	};
 	this.pre_contact=function(){
 		$(self.panel_base+" .add_customer .newClient .newClientSaleChanceForm .form3").addClass("hide");
 		$(self.panel_base+" .add_customer .newClient .newClientContactForm .form2").removeClass("hide");
+		$(self.panel_base+" .add_customer .customer-add-page-footer3").addClass("hide");
+		$(self.panel_base+" .add_customer .customer-add-page-footer2").removeClass("hide");
 	};
 
 

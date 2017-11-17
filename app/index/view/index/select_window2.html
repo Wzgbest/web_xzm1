@@ -1,0 +1,161 @@
+<div class="select-window-container">
+	<div class="left-content">
+		{volist name="structures" id="vo"}
+		<dl>
+			<dt class="selecting-department"><i class="fa fa-caret-right fa-myleft"></i><i class="fa fa-caret-down fa-myleft"></i><span data-selecting-department-id="{$vo.id}">{$vo.struct_name}</span><i class="fa fa-user fa-myright" title="添加全员"></i><i class="fa fa-sitemap fa-myright" title="添加部门"></i></dt>
+			{volist name="vo.employee_ids_arr" id="voe"}
+				{if condition="isset($employees[$voe])"}
+					<dd data-selecting-staff-id="{$voe}">{$employees[$voe]["nickname"]}</dd>
+				{/if}
+			{/volist}
+		</dl>
+		{/volist}
+	</div>
+			<input type="hidden" class="structure_employee" value='{$structure_employee}' />
+            <input type="hidden" class="structure_pid" value='{$structure_list}' />
+            <input type="hidden" class="employee_name" value='{$employee_name}' />
+	<div class="right-content">
+		<div class="right-content-container">
+			<dl class="selected-department active">
+				<dt><i class="fa fa-caret-right fa-myleft"></i><i class="fa fa-caret-down fa-myleft"></i><span>已选择部门(<p>0</p>)</span></dt>
+				<!-- <dd data-selected-department-id="0">销售一部<i class="fa fa-times-circle-o"></i></dd> -->
+			</dl>
+			<dl class="selected-staff active">
+				<dt><i class="fa fa-caret-right fa-myleft"></i><i class="fa fa-caret-down fa-myleft"></i><span>已选择员工(<p>0</p>)</span></dt>
+				<!-- <dd data-selected-staff-id="0">费玉清<i class="fa fa-times-circle-o"></i></dd> -->
+			</dl>
+		</div>		
+		<button class="true">确定</button>
+		<button class="false">取消</button>
+	</div>
+</div>
+<script type="text/javascript" src="/static/js/struct.js"></script>
+<script type="text/javascript">
+var data = new Structure($(".structure_employee").val(),$(".structure_pid").val(),$(".employee_name").val());
+// console.log(data.d_s,data.d_d,data.s_n,data.all_dep,data.divide());
+// console.log(data.s_n);
+// console.log(data.all_dep);
+console.log(data.divide());
+</script>
+<style type="text/css">
+.select-window-container{
+	font-size: 14px;
+}
+.select-window-container .left-content{
+	width: 250px;
+	height: 280px;
+	box-shadow: 0px 6px 24px 0px rgba(0, 0, 0, 0.14);
+	background-color:white;
+	float: left; 
+	margin-right: 5px;
+	overflow: auto;
+}
+.select-window-container  dl{
+	cursor: pointer;
+}
+.select-window-container  dl dd{
+	position: relative;
+}
+.select-window-container  dl dt{
+	height: 40px;
+	line-height: 40px;
+	position: relative;
+}
+.select-window-container  dl dt:hover{
+	background-color: #edf2fd;
+}
+.select-window-container  dl dd:hover{
+	background-color: #edf2fd;
+}
+.select-window-container .left-content dl dt:hover i.fa-myright{
+	display: inline-block;
+}
+.select-window-container  dl dt i{
+	position: absolute;
+	font-size: 1.5em;
+	top: 10px;
+}
+.select-window-container  dl dt i.fa-myleft{
+	left: 20px;
+	color: #b2b2b2;
+}
+.select-window-container .left-content dl dt i.fa-caret-right{
+	
+}
+.select-window-container  dl dt i.fa-caret-down{
+	display: none;
+}
+.select-window-container  dl.active dt i.fa-caret-right{
+	display: none;
+}
+.select-window-container  dl.active dt i.fa-caret-down{
+	display: inline-block;
+}
+.select-window-container .left-content dl dt i.fa-user{
+	right: 53px;
+	color: #42a5f5;
+	display: none;
+}
+.select-window-container .left-content dl dt i.fa-sitemap{
+	right:20px; 
+	color: #42a5f5;
+	display: none;
+}
+.select-window-container  dl dt span{
+	display: inline-block;
+	width: 100%;
+	text-indent: 45px;
+}
+.select-window-container dl dd{
+	line-height: 30px;
+	padding-left: 46px;
+	display: none;
+}
+.select-window-container dl.active dd{
+	display: block;
+}
+.select-window-container .right-content{
+	width: 250px;
+	height: 220px;
+	padding-bottom: 60px;
+	box-shadow: 0px 6px 24px 0px rgba(0, 0, 0, 0.14);
+	background-color:white; 
+	float: left;
+	position: relative;
+}
+.select-window-container .right-content dl dt span p{
+	display: inline;
+}
+.select-window-container .right-content .right-content-container{
+	height: 220px;
+	overflow: auto;
+}
+.select-window-container .right-content dl dd i.fa-times-circle-o{
+	font-size: 1.5em;
+	color: #42a5f5;
+	right: 20px;
+	top: 4px;
+	position: absolute;
+	display: none;
+}
+.select-window-container .right-content dl dd:hover i.fa-times-circle-o{
+	display: inline-block;
+}
+.select-window-container .right-content button{
+	position: absolute;
+	bottom: 15px;
+	width: 90px;
+	/*left: 80px;*/
+	border-style: none;
+	height: 30px;
+	border-radius: 5px;
+	background-color: #42a5f5;
+	color: white;
+}
+.select-window-container .right-content button.true{
+	left: 30px;
+}
+.select-window-container .right-content button.false{
+	left: 130px;
+}
+</style>

@@ -78,3 +78,45 @@ $(".verification_sale_chance_detail .detail_panel_footer .previous-btn").click(f
     var ids = $(".verification_sale_chance_detail .sale-chance-record-ids").val();
     loadPage("/verification/index/detail/id/"+id+"/ids/"+ids, "verification-indexfr");
 });
+//成单申请详情页通过
+$(".verification_sale_chance_detail .approved-btn").click(function(){
+    let id = $(".verification_sale_chance_detail .sale-chance-record-id").val();
+    var remark = $(".verification_sale_chance_detail .u-remark").val();
+    var data = "id="+id+"&remark="+remark;
+    $.ajax({
+        url: '/verification/index/approved',
+        type: 'post',
+        data: data,
+        success: function(data) {
+            //console.log(data);
+            layer.msg(data.info,{icon:data.status==1?1:2});
+            if(data.status) {
+                verification_sale_chance_list_manage.reload_list();
+            }
+        },
+        error: function() {
+            layer.msg('通过成单申请时发生错误!',{icon:2});
+        }
+    });
+});
+//成单申请详情页驳回
+$(".verification_sale_chance_detail .rejected-btn").click(function(){
+    let id = $(".verification_sale_chance_detail .sale-chance-record-id").val();
+    var remark = $(".verification_sale_chance_detail .u-remark").val();
+    var data = "id="+id+"&remark="+remark;
+    $.ajax({
+        url: '/verification/index/rejected',
+        type: 'post',
+        data: data,
+        success: function(data) {
+            //console.log(data);
+            layer.msg(data.info,{icon:data.status==1?1:2});
+            if(data.status) {
+                verification_sale_chance_list_manage.reload_list();
+            }
+        },
+        error: function() {
+            layer.msg('驳回成单申请时发生错误!',{icon:2});
+        }
+    });
+});
