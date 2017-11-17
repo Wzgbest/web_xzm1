@@ -3,14 +3,14 @@ $("#nav-call").click(function(){
     $(this).addClass("current");
 	clicker($(this));
 	$(".phone-box").removeClass("hide");
-    $(".phone-box").load("/index/index/call");
+    
 	phoneWidth = $(".phone-box").width()+10;
 	changeFramesSize();
 });
 $(".phone-box").on("click","i.fa-close",function(){
     $("#nav-call").removeClass("current");
     $(".phone-box").addClass("hide");
-    $(".phone-box").empty();
+    // $(".phone-box").empty();
     phoneWidth = 0;
     $("#phone-number").val("");
     changeFramesSize();
