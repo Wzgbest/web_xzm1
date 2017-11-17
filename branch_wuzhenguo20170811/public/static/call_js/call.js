@@ -410,7 +410,7 @@ var successCallBack = function() {
     common.print("初始化完成....","ws");
 };
 var errorCallBack = function(ret) {
-    console.log(ret);
+    console.log("初始化失败",ret);
     cells.FcItem["CallTip"].innerHTML = ret.errmsg;
     common.print(ret,"ws");
     // console.log(ret);
