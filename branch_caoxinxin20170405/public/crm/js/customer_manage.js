@@ -90,11 +90,11 @@ change_customers_visible_range=function(is_public,employees,departments){
 };
 customer_manage_list_manage.listenSelect("imposed_release_customers");
 $(customer_manage_nav_base+" .imposed_release_customers").click(function(){
-    if(confirm("你确定要释放选中的客户吗?")!=true){
-        return;
-    }
     var ids = customer_manage_list_manage.getAllSelectVal();
     if(ids==""){
+        return;
+    }
+    if(confirm("你确定要释放选中的客户吗?")!=true){
         return;
     }
     //console.log(ids);
