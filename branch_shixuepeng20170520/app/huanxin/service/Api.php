@@ -682,7 +682,7 @@ class Api
         $req_arr['msg']['type'] = $msg_type;
         $req_arr['msg']['msg'] = $msg;
 
-        if (!empty($from)) {
+        if ($from) {
             $req_arr['from'] = $from;
         }
         if ($ext!=null && !empty($ext)) {
