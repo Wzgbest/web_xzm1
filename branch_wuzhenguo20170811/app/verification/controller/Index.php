@@ -40,6 +40,9 @@ class Index extends Initialize{
             $SaleOrderContractsData = $saleChanceM->getVerificationSaleOrderContractByPage($uid,$num,$p,$filter,$field,$order,$direction);
             //var_exp($SaleOrderContractsData,'$SaleOrderContractsData',1);
             $this->assign("list_data",$SaleOrderContractsData);
+            $SaleOrderContractIds = $saleChanceM->getVerificationSaleOrderIdsContractByPage($uid,$filter,$order,$direction);
+//            var_exp($SaleOrderContractIds,'$SaleOrderContractIds',1);
+            $this->assign("list_ids",json_encode($SaleOrderContractIds,true));
             $customers_count = $saleChanceM->getVerificationSaleChanceCount($uid,$filter);
             $this->assign("count",$customers_count);
             $listCount = $saleChanceM->getVerificationColumnNum($uid,$filter);
@@ -166,11 +169,38 @@ class Index extends Initialize{
         if(!$id){
             $this->error("参数错误!");
         }
+
         $saleChanceM = new SaleOrderContractModel($this->corp_id);
         $SaleOrderContract = $saleChanceM->getSaleOrderByContractId($id);
         $struct_names = explode(",",$SaleOrderContract["struct_name"]);
         $SaleOrderContract["struct_name"] = $struct_names[count($struct_names)-1];
         $this->assign("sale_order_contract",$SaleOrderContract);
+
+        $next_id = 0;
+        $previous_id = 0;
+        $ids = input("ids","","string");
+        $ids_arr = json_decode($ids,true);
+//        var_exp($ids_arr,'$ids_arr');
+        if($ids_arr){
+            $now_idx = array_search($id,$ids_arr);
+//            var_exp($now_idx,'$now_idx');
+            $next_id = 0;
+            $previous_id = 0;
+            if($now_idx!==false){
+                if($now_idx>0){
+                    $previous_id = $ids_arr[$now_idx-1];
+                }
+//                var_exp($previous_id,'$previous_id');
+                if($now_idx<(count($ids_arr)-1)){
+                    $next_id = $ids_arr[$now_idx+1];
+                }
+//                var_exp((count($ids_arr)-1),'(count($ids))');
+//                var_exp($next_id,'$next_id');
+            }
+        }
+        $this->assign("sale_order_contract_ids",$ids);
+        $this->assign("previous_id",$previous_id);
+        $this->assign("next_id",$next_id);
         return view();
     }
     public function approved(){
