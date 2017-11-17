@@ -59,9 +59,22 @@ $("#frames #verification-indexfr .verification_sale_chance .u-tabList .u-tabOper
 //详情展示
 $(".verification_sale_chance_index .u-tabList .verification-sale-chance-show").click(function(){
     var id = $(this).siblings(".u-tabCheckbox").children("input").val();
+    var ids = $(this).attr("ids");
     console.log("id",id);
-    loadPage("/verification/index/detail/id/"+id, "verification-indexfr");
+    loadPage("/verification/index/detail/id/"+id+"/ids/"+ids, "verification-indexfr");
 });
 $(".verification_sale_chance_detail header .back").click(function(){
     loadPage("/verification/index/index", "verification-indexfr");
-})
+});
+$(".verification_sale_chance_detail .detail_panel_footer .next-btn").click(function(){
+    var id = $(this).attr("id");
+    console.log("id",id);
+    var ids = $(".verification_sale_chance_detail .sale-chance-record-ids").val();
+    loadPage("/verification/index/detail/id/"+id+"/ids/"+ids, "verification-indexfr");
+});
+$(".verification_sale_chance_detail .detail_panel_footer .previous-btn").click(function(){
+    var id = $(this).attr("id");
+    console.log("id",id);
+    var ids = $(".verification_sale_chance_detail .sale-chance-record-ids").val();
+    loadPage("/verification/index/detail/id/"+id+"/ids/"+ids, "verification-indexfr");
+});
