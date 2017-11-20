@@ -1,0 +1,29 @@
+<p class="p1">打赏</p>
+<div class="money">
+    <span>￥</span>
+    <input type="text" class="tip_money" placeholder="00.00" />
+</div>
+
+<p class="bar">总共打赏<span class="orange">{$all_tip_money}</span>元
+    {gt name="my_tip_money" value="0"}
+    （你已打赏<span class="orange">{$my_tip_money}</span>元）
+    {else/}
+    （你还未进行打赏）
+    {/gt}
+</p>
+
+<div class="mid">
+</div>
+<div class="import">
+    <div class="decide">
+        <p class="tip_go">
+            {gt name="my_tip_money" value="0"}
+                继续打赏
+            {else/}
+                打赏
+            {/gt}
+        </p>
+        <p class="tip_cancel">取消</p>
+    </div>
+</div>
+<a class="close-reveal-modal">&#215;</a>

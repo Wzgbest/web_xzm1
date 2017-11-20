@@ -1,0 +1,82 @@
+<div class="m-filterNav">
+  <form class="search_form" onsubmit="return false;">
+	<select name="role">
+		<option>职位</option>
+		{volist name="roles" id="vo"}
+          <option value="{$vo.id}" {present name='filter.role'}{eq name='filter.role' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.role_name}</option>
+        {/volist}
+	</select>
+
+	<input type="text" placeholder="输入工号" name="worknum" value="{present name='filter.worknum'}{$filter.worknum}{/present}"/>
+	<input type="text" placeholder="输入姓名" name="truename" value="{present name='filter.truename'}{$filter.truename}{/present}"/>
+	<button class="u-btnSearch">查询</button>
+	<button class="u-btnSearch u-btnAdd ">新增</button>
+	<button class="u-btnTransfer employee_list_transfer_btn">批量转移</button>
+  </form>
+</div>
+<div class="employee_list">
+	<div class="m-tableBox">
+		<div class="m-table m-table-nav ">
+			<ul class="u-tabTitle">
+				<li class="u-tabCheckbox"><input type="checkbox" class="check_all" /></li>
+				<li>操作</li>
+				<div class="clearfix"></div>
+			</ul>
+			{volist name="listdata" id="vo"}
+			<ul class="u-tabList">
+				<li class="u-tabCheckbox"><input type="checkbox" /></li>
+				<li class="u-tabOperation">
+					{if condition="strpos($vo.struct_id,',')"}
+					<span onclick="struct_list_employee_del('{$id}','{$vo.user_id}');">删除</span> {/if}
+					<span onclick="struct_list_employee_move('{$id}','{$vo.user_id}');">移至</span>
+				</li>
+				<div class="clearfix"></div>
+			</ul>
+			{/volist}
+		</div>
+		<div class="m-table table3 m-table-detail">
+			<ul class="u-tabTitle">
+				<li class="u-tabCheckbox"><input type="checkbox" class="check_all" /></li>
+				<li>操作</li>
+				<li>序号</li>
+				<li>工号<i class="fa fa-sort-desc"></i></li>
+				<li>姓名<i class="fa fa-unsorted"></i></li>
+				<li>角色</li>
+				<li>是否部门领导人</li>
+				<li>注册手机号</li>
+				<li>邮箱</li>
+
+				<div class="clearfix"></div>
+			</ul>
+			{volist name="listdata" id="vo" key="key"}
+			<ul class="u-tabList">
+				<li class="u-tabCheckbox"><input type="checkbox" /></li>
+				<li class="u-tabOperation">
+					{if condition="strpos($vo.struct_id,',')"}
+					<span onclick="struct_list_employee_del('{$id}','{$vo.user_id}');">删除</span> {/if}
+					<span onclick="struct_list_employee_move('{$id}','{$vo.user_id}');">移至</span>
+				</li>
+				<li>{$key+$start_num-1}</li>
+				<li>{$vo.worknum}</li>
+				<li>{$vo.truename}</li>
+				<li>{$vo.role_name}</li>
+				<li>{$vo.is_leader|getYesNoName}</li>
+				<li>{$vo.telephone}</li>
+				<li>{$vo.email}</li>
+
+				<div class="clearfix"></div>
+			</ul>
+			{/volist}
+		</div>
+	</div>
+	{include file="common@common/page"/}
+</div>
+
+<div class="reveal-modal employee_list_transfer">
+</div>
+
+<script src="/static/js/list_manage.js"></script>
+<script language="javascript">
+	var employee_list_list_manage = new list_manage("content", "division-managementfr", "/systemsetting/structure/employee_list/id/{$id}", '{$p}', '{$num}', '{$max_page}', '0', " .dv2");
+	employee_list_list_manage.listenSelect("employee_list_transfer_btn");
+</script>

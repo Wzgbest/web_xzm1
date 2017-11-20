@@ -1,0 +1,85 @@
+<link rel="stylesheet" href="/task/css/task.css" />
+
+<div class="task task_list h100">
+    <div>
+        <header>
+            <ul class="nav">
+                <li class="flow" data-id="1">
+                    <div>直接参与（<span>{$task_count.1}</span>）</div>
+                </li>
+                <li data-id="2">
+                    <div>间接参与（<span>{$task_count.2}</span>）</div>
+                </li>
+                <li data-id="3">
+                    <div>我发起的（<span>{$task_count.3}</span>）</div>
+                </li>
+            </ul>
+            <div class="sort">
+                <img src="/task/img/sort.png" />
+                <p>排序</p>
+                <div class="classify">
+                    <p data-id="create_time" style="background-color: rgb(225, 235, 249);">按时间</p>
+                    <p data-id="reward_amount">按奖金</p>
+                    <p data-id="like_count">按热度</p>
+                </div>
+            </div>
+            <div class="xinjian">
+                <i class="fa fa-plus fa-2x"></i>
+                <p>新建任务</p>
+            </div>
+        </header>
+        <div class="m-3rd-container">
+            <div>
+                <article class="direct_participation_load" id="direct_participation">
+                    {include file="employee_task/direct_participation_load"/}
+                </article>
+            </div>
+
+            <div class="reveal-modal reveal_six guess_ui">
+            </div>
+
+            <div class="reveal-modal reveal_seven tip_ui">
+            </div>
+
+            <div class="reveal-modal reveal_eight pay_ui pay-pop">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="task_info_panel new_task_panel h100 hide">
+    <header>
+        <div class="top">
+            <ul class="firNav">
+                <li class="current">
+                    <div>间接参与（<span>7</span>）</div>
+                </li>
+                <i class="fa fa-angle-right fa-2x"></i>
+                <span class="span-info">新建任务</span>
+            </ul>
+        </div>
+    </header>
+    <div class="m-3rd-container">
+    	<div class="new_task_info_panel"></div>
+    </div>
+</div>
+<div class="task_info_panel task_direct_panel h100 hide">
+    <header>
+        <div class="top">
+            <ul class="firNav">
+                <li class="current">
+                    <div>间接参与（<span>7</span>）</div>
+                </li>
+                <i class="fa fa-angle-right fa-2x"></i>
+                <span class="span-info">任务详情</span>
+            </ul>
+        </div>
+    </header>
+    <div class="m-3rd-container">
+    	<div class="task_direct_info_panel h100"></div>
+    </div>   
+</div>
+<script src="/vendor/infinite/jquery.infinitescroll.js"></script>
+<script type="text/javascript" src="/task/js/task.js"></script>
+<script>
+    new task_list("going-taskfr",'{$uid}','direct_participation');
+</script>

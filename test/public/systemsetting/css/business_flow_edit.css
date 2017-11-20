@@ -1,0 +1,507 @@
+.systemsetting_business_flow_edit {
+    width: 100%;
+    height: 770px;
+    /*background-color: #ecf0f5;*/
+}
+
+.systemsetting_business_flow_edit .top {
+    /*width: 1120px;*/
+    width: 100%;
+    height: 40px;
+    background-color: #fff;
+    margin:0 2px;
+}
+
+
+.systemsetting_business_flow_edit .m-3rd-container{
+	background-color: #fff;
+}
+.systemsetting_business_flow_edit ul.firNav {
+    height: 40px;
+    margin-left: 1px;
+    /*padding: 10px 0;*/
+    box-shadow: -1px 2px #ebedf0;
+}
+
+.systemsetting_business_flow_edit ul.firNav li {
+    float: left;
+    color: #b2b2b2;
+    height: 20px;
+    /*width: 130px;*/
+    padding: 10px 0;
+    /*line-height: 20px;*/
+    /*padding: 0 10px;*/
+    /*border-right:2px solid #b2b2b2 ;*/
+}
+
+.systemsetting_business_flow_edit ul.firNav li:hover {
+    cursor: pointer;
+}
+
+.systemsetting_business_flow_edit ul.firNav li div {
+    line-height: 20px;
+    padding: 0 5px;
+    font-size: 12px;
+    /*border-right:2px solid #b2b2b2 ;*/
+}
+
+.systemsetting_business_flow_edit ul.firNav li:last-child div {
+    border: none;
+}
+
+.systemsetting_business_flow_edit ul.firNav li.current {
+    color: #333333;
+    border-bottom: 1px solid #42a5f5;
+}
+
+.systemsetting_business_flow_edit .top ul i {
+    height: 20px;
+    display: inline-block;
+    padding-left: 3px;
+    font-size: 16px;
+    line-height: 40px;
+    color: #999999;
+    vertical-align: middle;
+}
+
+.systemsetting_business_flow_edit .top ul span {
+    display: inline-block;
+    height: 20px;
+    vertical-align: middle;
+    padding-left: 5px;
+    font-size: 12px;
+    line-height: 40px;
+    color: #999999;
+}
+
+.systemsetting_business_flow_edit .content {
+    /*width: 1090px;*/
+    width: 100%;
+    /*height: 812px;*/
+    height: 100%;
+    background-color: #fff;
+    /*margin: auto 10px;*/
+    margin-left: 2px;
+    /*margin-top: 6px;*/
+    border-top: 6px solid #ecf0f5;
+    margin-bottom: 12px;
+    padding-top: 30px;
+    padding-left: 30px;
+   
+}
+
+.systemsetting_business_flow_edit .content div {
+    width: 496px;
+    /*float: left;*/
+    /*background-color: red;*/
+}
+
+.systemsetting_business_flow_edit .content div .img1 {
+    width: 2px;
+    height: 20px;
+    vertical-align: middle;
+    margin-left: 70px;
+}
+.systemsetting_business_flow_edit .content .sp1{
+    display: inline-block;
+    width: 120px;
+    text-align: right;
+    margin-right:16px ;
+    font-size: 14px;
+}
+
+.systemsetting_business_flow_edit .content select {
+    vertical-align: middle;
+    width: 236px;
+    padding-left: 15px;
+    height: 35px;
+    margin-left: 18px;
+}
+
+.systemsetting_business_flow_edit .content div input {
+    width: 221px;
+    height: 36px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: 18px;
+}
+
+.systemsetting_business_flow_edit .content p {
+    margin-bottom: 14px;
+}
+
+.systemsetting_business_flow_edit .content .ipt1 {
+    width: 116px;
+    height: 36px;
+}
+
+.systemsetting_business_flow_edit .content .ipt2 {
+    width: 111px;
+    height: 36px;
+    margin-left: 5px;
+}
+
+.systemsetting_business_flow_edit .content p .img2 {
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+.systemsetting_business_flow_edit .content .p1 {
+    font-size: 12px;
+    color: #b3b3b3;
+    margin-left: 146px;
+    margin-bottom: 25px;
+}
+
+.systemsetting_business_flow_edit .content .sp2 {
+    font-size: 12px;
+    color: #b3b3b3;
+    width: 240px;
+    margin: 0px;
+    text-align: left;
+    vertical-align: bottom;
+}
+
+.systemsetting_business_flow_edit .content .ps1 {
+    margin-top: 50px;
+}
+
+.systemsetting_business_flow_edit .content .ps2 {
+    margin-top: 157px;
+}
+.systemsetting_business_flow_edit .content .p5{
+    width: 500px;
+    height: 42px;
+    margin-top: 156px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.systemsetting_business_flow_edit .content .p5 input{
+    width: 100px;
+    height: 41px;
+    border-radius: 10px;
+    margin-right: 100px;
+    background-color: #42a5f5;
+    color: #fff;
+    border: 1px solid #dcdcdc;
+    font-size: 16px;
+}
+.systemsetting_business_flow_edit .content .p5 button{
+    width: 100px;
+    height: 41px;
+    border-radius: 10px;
+    /*margin-right: 100px;*/
+    background-color: #fff;
+    border: 1px solid #dcdcdc;
+    font-size: 16px;
+}
+.systemsetting_business_flow_edit .content .flow {
+    margin-top: 30px;
+}
+
+.systemsetting_business_flow_edit .content .flow input {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    padding: 0;
+    margin-right: 5px;
+    vertical-align: middle;
+    margin-left: 25px;
+}
+
+.systemsetting_business_flow_edit .content input {
+    width: 222px;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 36px;
+    margin-left: 25px;
+}
+
+.systemsetting_business_flow_edit .content .sp {
+    display: inline-block;
+    width: 120px;
+    text-align: right;
+    margin-right: 16px;
+}
+
+.systemsetting_business_flow_edit .content .flow .sp6 {
+    margin-left: 0px;
+    vertical-align: middle;
+    color: #bebebe;
+}
+
+.systemsetting_business_flow_edit .content .flow .sp3 {
+    /*margin-right: 20px;*/
+    vertical-align: middle;
+}
+
+.systemsetting_business_flow_edit .content .flow {
+    margin-top: 30px;
+    clear: both;
+}
+
+.systemsetting_business_flow_edit .content .flow input {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    padding: 0;
+    margin-right: 5px;
+    vertical-align: middle;
+    margin-left: 25px;
+}
+.systemsetting_business_flow_edit .content .p6{
+    margin-top: 40px;
+    margin-left: 135px;
+}
+
+.systemsetting_business_flow_edit .content .p6 input{
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    padding: 0;
+    margin-right: 5px;
+    vertical-align: middle;
+    margin-left: 25px;
+
+}
+.systemsetting_business_flow_edit .content .item_add_panel{
+    margin-top: 40px;
+}
+
+.systemsetting_business_flow_edit .content .item_add_panel input{
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    padding: 0;
+    margin-right: 5px;
+    vertical-align: middle;
+    margin-left: 25px;
+
+}
+.systemsetting_business_flow_edit .content .item_add_panel .item{
+    width: 86px;
+    height: 26px;
+    display: inline-block;
+    text-align: center;
+    line-height: 26px;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 50px;
+    background-color: #ebf3ff;
+    position: relative;
+}
+.systemsetting_business_flow_edit .content .item_add_panel .item .arrows{
+    position:absolute;
+    top:8px;
+    left: -49px;
+}
+
+.systemsetting_business_flow_edit .content .item_add_panel .item .item_name{
+    width: 86px;
+    height: 26px;
+    display: inline-block;
+    text-align: center;
+    line-height: 26px;
+    margin: 0;
+    background-color: #ebf3ff;
+}
+.systemsetting_business_flow_edit .content .item_add_panel .item .del{
+    position:absolute;
+    top:-5px;
+    left: 80px;
+    cursor: pointer;
+}
+
+.systemsetting_business_flow_edit .content .p7{
+    margin-top: 30px;
+}
+
+.systemsetting_business_flow_edit .content .p7 input{
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    padding: 0;
+    margin-right: 5px;
+    vertical-align: middle;
+    margin-left: 25px;
+
+}
+
+.systemsetting_business_flow_edit .content .full {
+    width: 100%;
+    height: 5px;
+}
+
+.systemsetting_business_flow_edit .content .role_list .sp1 {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    vertical-align: middle;
+    width: 97px;
+    margin: 0px;
+}
+.systemsetting_business_flow_edit .content .handle_role .create_bill_num {
+    display: inline-block;
+    width: 16px;
+    padding:0;
+    height: 16px;
+    margin: 0;
+}
+.systemsetting_business_flow_edit .content .handle_role .bill_num_tip {
+    width: 70px;
+}
+.systemsetting_business_flow_edit .content .handle_role .add{
+    display: none;
+}
+.systemsetting_business_flow_edit .content .handle_role:nth-last-child(3) .add{
+    display: inline-block;
+}
+.systemsetting_business_flow_edit .content .handle_role .del{
+    display: none;
+}
+.systemsetting_business_flow_edit .content .handle_role:hover .del{
+    display: inline-block;
+}
+.systemsetting_business_flow_edit .content .handle_role:nth-child(2) .del{
+    display: inline-block;
+}
+
+.systemsetting_business_flow_edit .content .sp3 {
+    /*margin-right: 20px;*/
+    vertical-align: middle;
+}
+
+.systemsetting_business_flow_edit .content .sp6 {
+    margin-left: 0px;
+    vertical-align: middle;
+    color: #bebebe;
+}
+
+.systemsetting_business_flow_edit .content .fuxuan {
+    width: 160px;
+    height: 35px;
+    background-color: #eaf2fe;
+    color: #42a5f5;
+    text-align: center;
+    line-height: 35px;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    float: left;
+}
+
+.systemsetting_business_flow_edit .content .yixuan {
+    width: 850px;
+    height: 35px;
+    /*background-color: #eaf2fe;*/
+    color: #42a5f5;
+    text-align: left;
+    line-height: 35px;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    float: left;
+    margin-left: 30px;
+}
+
+.systemsetting_business_flow_edit .content p.yixuan span {
+    color: #000;
+    margin-right: 30px;
+}
+
+.systemsetting_business_flow_edit .content .fuxuan i {
+    margin-left: 20px;
+}
+.systemsetting_business_flow_edit .content .fuxuan i.rotate{
+	transform: rotate(-90deg);
+}
+.systemsetting_business_flow_edit .content div.xuanze {
+    display: none;
+    width: 160px;
+    height: 320px;
+    border: 1px solid #C0C0C0;
+    float: left;
+    margin-top: 0px;
+    background-color: #fff;
+    /*margin-left: 3px;*/
+    position: absolute;
+    /*left: 40px;*/
+    z-index: 999;
+    top: 185px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.systemsetting_business_flow_edit .content div.xuanzhong {
+    display: none;
+    width: 160px;
+    height: 320px;
+    border: 1px solid #C0C0C0;
+    float: left;
+    margin-top: 0px;
+    background-color: #fff;
+    margin-left: 0px;
+    position: absolute;
+    left: 192px;
+    z-index: 9999;
+    
+}
+
+.systemsetting_business_flow_edit .content .xuanzhong ul {
+	height: 200px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	width: 160px;
+	border-bottom:1px solid silver;
+}
+
+
+.systemsetting_business_flow_edit .content .xuanze ul li {
+    width: 160px;
+    height: 32px;
+    /*border-bottom: 1px solid red;*/
+    line-height: 32px;
+}
+
+.systemsetting_business_flow_edit .content .xuanze ul li input {
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+}
+
+.systemsetting_business_flow_edit .content .xuanzhong p {
+    width: 160px;
+    height: 35px;
+    background-color: #f2f2f2;
+    color: #a3a3a3;
+    text-align: center;
+    line-height: 35px;
+    margin-left: 0;
+    margin-bottom: 0px;
+}
+
+.systemsetting_business_flow_edit .content .xuanzhong li {
+    width: 140px;
+    height: 32px;
+    /*border-bottom: 1px solid red;*/
+    margin-left: 20px;
+    line-height: 32px;
+    position: relative;
+}
+
+.systemsetting_business_flow_edit .content .xuanzhong li img {
+    margin-left: 30px;
+    position: absolute;
+    right:40px;
+    top:12px;
+    cursor: pointer;
+}
+
+.systemsetting_business_flow_edit .content .xuanzhong .wancheng {
+    width: 90px;
+    height: 30px;
+    background-color: #42a5f5;
+    color: #fff;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 10px;
+    margin: 40px auto 10px;
+}

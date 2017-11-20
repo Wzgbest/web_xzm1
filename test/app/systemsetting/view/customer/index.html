@@ -1,0 +1,30 @@
+<div class="customer_setting_list block_list h100 o-h">
+	<div id="top">
+		<ul class="firNav">
+			<li class="current">
+				<div>工作参数设置</div>
+			</li>
+		</ul>
+	</div>
+	<div class="m-3rd-container o-x-h">
+		<div class="content">
+		{volist name="listdata" id="vo"}
+		<a href="javascript:loadPage('{:url('edit_page',['id'=>$vo.id])}','customer-settingfr');" class="content_link">
+			<div class="content_item">
+				<h4 class="content_title">{$vo.setting_name}</h4> {volist name="vo.set_to_structure_arr" id="svo" length="4"}
+				<p class="content_info">{$structure_name[$svo]}</p>
+				{/volist}
+			</div>
+		</a>
+		{/volist}
+		<a href="javascript:loadPage('{:url('add_page')}','customer-settingfr');" class="content_link add">
+			<div class="content_item">
+				<h2 class="content_sub_title">+</h2>
+			</div>
+		</a>
+	</div>
+	</div>
+	
+</div>
+<link rel="stylesheet" href="/static/css/block_list.css" />
+<link rel="stylesheet" href="/systemsetting/css/customersettinglist.css" />

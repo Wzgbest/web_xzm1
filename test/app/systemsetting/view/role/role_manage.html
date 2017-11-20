@@ -1,0 +1,89 @@
+<div class="one">
+    <p class="p1 role_manage activity">权限管理</p>
+    <p class="p1 employee_manage ">成员管理</p>
+</div>
+<div class="table role_list">
+    <div class="up">
+        <div class="tab_1">
+            <p>数据权限</p>
+        </div>
+        <div class="tab_2">
+            <div class="xuanze" >
+                <input type="radio" name="data_type" {eq name="role.data_type" value="0"} checked="checked" {/eq} value="0" /><span>本人</span>
+                <input type="radio" name="data_type" {eq name="role.data_type" value="1"} checked="checked" {/eq} value="1" /><span>本部门</span>
+                <input type="radio" name="data_type" {eq name="role.data_type" value="2"} checked="checked" {/eq} value="2" /><span>下级部门</span>
+                <input type="radio" name="data_type" {eq name="role.data_type" value="3"} checked="checked" {/eq} value="3" /><span>本部门及下级部门</span>
+                <input type="radio" name="data_type" {eq name="role.data_type" value="4"} checked="checked" {/eq} value="4" /><span>指定部门</span>
+                <input type="text" class="role_manage-select-window-choosen-staff" data-dep="{$role.hav_struct}" data-stf="" data-result="{$hav_struct_args}" placeholder="请选择部门" value="{$struct_names_str}"/>
+				<div class="main-content select-window" style="margin:0 auto;" data-num="0" data-str='struct_ids[]=,&,&,employees[]=,&' data-selector=".role_manage-select-window-choosen-staff"></div>
+            </div>
+        </div>
+    </div>
+    <div class="down">
+        <div class="tab_3">
+            <p>权限功能</p>
+        </div>
+        <div class="tab_4">
+        
+            <div class="left">
+                <p >模块</p>
+                {volist name="rule_list" id="vo"}
+                    {eq name="vo.type" value="0"}
+                <ul style="width: 130px;height: {$vo.child_num*40}px;">
+                    <li><input type="checkbox" name="rule_ids" pid="{$vo.pid}" value="{$vo.id}"
+                               {in name="vo.id" value="$role_rule_ids"}
+                               checked="checked"
+                               {/in}
+                        /><span>{$vo.rule_title}</span></li>
+                </ul>
+                    {/eq}
+                {/volist}
+            </div>
+            <div class="center">
+            	<p>子模块</p>
+                {volist name="rule_tree" id="vo"}
+                <ul>
+                    {present name="vo.child"}
+                        {volist name="vo.child" id="voc"}
+                    <li><input type="checkbox" name="rule_ids" pid="{$vo.pid}" value="{$voc.id}"
+                               {in name="voc.id" value="$role_rule_ids"}
+                               checked="checked"
+                               {/in}
+                        /><span>{$voc.rule_title}</span></li>
+                        {/volist}
+                    {/present}
+                </ul>
+                {/volist}
+            </div>
+            <div class='right'>
+            	<p>功能</p>
+                <ul>
+                    {volist name="rule_sub_list" id="vo"}
+                    <li>
+                        {neq name="vo" value="false"}
+                            {volist name="vo" id="voc"}
+                        <input type="checkbox" name="rule_ids" pid="{$voc.pid}" value="{$voc.id}"
+                               {in name="voc.id" value="$role_rule_ids"}
+                               checked="checked"
+                               {/in}
+                        /><span>{$voc.rule_title}</span>
+                            {/volist}
+                        {/neq}
+                    </li>
+                    {/volist}
+                </ul>
+            </div>
+            
+            
+            
+        </div>
+        <button class="save_rule">保存</button>
+    </div>
+</div>
+
+<script>
+	$(".role_manage-select-window-choosen-staff").focus(function(){
+		$(".select-window-container").remove();
+		$("#frames #role-managementfr .systemsetting_role .content .main-content.select-window").load("/index/index/select_window.html");
+	});
+</script>

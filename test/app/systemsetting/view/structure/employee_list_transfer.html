@@ -1,0 +1,25 @@
+<!--<link rel="stylesheet" href="/static/css/hsCheckData.css" />-->
+<!--<link rel="stylesheet" href="/systemsetting/css/hsCheckData.css" />-->
+<link rel="stylesheet" href="/systemsetting/css/select.css" />
+<form class="employee_import_from m-form" onsubmit="return false;" method="post" enctype="multipart/form-data">
+	<p class="p1">转移</p>
+	<input type="text" class="pknew-task-select-window-choosen-staff" data-dep="" data-stf=""  placeholder="请选择" />
+	<div class="main-content select-window" style="margin:0 auto;" data-num="0" data-str='departments[]=,&,&,employees[]=,&' data-selector=".pknew-task-select-window-choosen-staff"></div>
+					
+	<!--<button class="ployee-select-window">选择</button><input class="select-window-employee-import" type="text" data-dep='' data-stf='' disabled=""/>-->
+	<!--<div class="employee-select-window" data-num="0" data-str='departments[]=,&,&,employees[]=,&' data-selector=".select-window-employee-import"></div>-->
+	<p class="p5">
+		<input type="submit" class="structure_move_ok" value="确定" />
+		<button class="structure_move_cancel">取消</button>
+	</p>
+	<a class="close-reveal-modal">&#215;</a>
+</form>
+<script src="/systemsetting/structure/employee_list_transfer_structure"></script>
+<script type="text/javascript" src="/systemsetting/js/select.js" ></script>
+
+<script>
+	$(".pknew-task-select-window-choosen-staff").focus(function(){
+		$(".select-window-container").remove();
+		$("#frames #division-managementfr .structure_list .content .main-content.select-window").load("/index/index/select_window.html");
+	});
+</script>

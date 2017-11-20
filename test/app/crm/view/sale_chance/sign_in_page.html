@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>等待签到列表</title>
+</head>
+<body>
+{volist name="wait_list" id="vo" empty="不存在的!~"}
+<a href="{:url('crm/sale_chance/sign_in',['customer_id'=>$vo.customer_id,'sale_id'=>$vo.sale_id,'lat'=>36.713159,'lng'=>119.113672,'location_str'=>'山东省潍坊市胜利西街和平路金艺大厦7F'])}">{$vo.customer_name}->{$vo.sale_name}</a><br/><br/>
+{/volist}
+</body>
+</html>

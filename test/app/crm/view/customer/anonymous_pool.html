@@ -1,0 +1,100 @@
+<div class="crm_customer crm_anonymous_pool">
+    <div class="anonymous_pool_panel anonymous_pool">
+        <!--客户列表-->
+        <section id="myAllClientsPage" >
+            <ul class="m-secNav">
+                <li class="active showNewClient">新建</li>
+                <li class="active">导入</li>
+                <li class="active customer_import">导入记录</li>
+                <li class="take_customers">批量申领</li>
+                <div class="clearfix"></div>
+            </ul>
+            <div class="m-filterNav">
+                <form class="search_form" onsubmit="return false;">
+                    <select name="resource_from">
+                        <option value="">客户来源</option>
+                        <option value="1" {present name='filter.resource_from'}{eq name='filter.resource_from' value='1'} selected="selected"{/eq}{/present}>员工添加</option>
+                        <option value="2" {present name='filter.resource_from'}{eq name='filter.resource_from' value='2'} selected="selected"{/eq}{/present}>批量导入</option>
+                        <option value="3" {present name='filter.resource_from'}{eq name='filter.resource_from' value='3'} selected="selected"{/eq}{/present}>员工搜集</option>
+                    </select>
+                    <select name="is_public">
+                        <option value="">可见范围</option>
+                        <option value="1" {present name='filter.is_public'}{eq name='filter.is_public' value='1'} selected="selected"{/eq}{/present}>转介绍</option>
+                        <option value="2" {present name='filter.is_public'}{eq name='filter.is_public' value='2'} selected="selected"{/eq}{/present}>指定人</option>
+                        <option value="3" {present name='filter.is_public'}{eq name='filter.is_public' value='3'} selected="selected"{/eq}{/present}>指定部门</option>
+                    </select>
+                    <input type="text" name="customer_name" placeholder="输入客户名称" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
+                    <button class="u-btnSearch">查询</button>
+                </form>
+            </div>
+            <div class="m-tableBox">
+                <div class="m-table table3">
+                    <ul class="u-tabTitle">
+                        <li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
+                        <li>客户名称<i class="fa fa-caret-down"></i></li>
+                        <li>客户来源<i class="fa fa-unsorted"></i></li>
+                        <li>添加批次<i class="fa fa-unsorted"></i></li>
+                        <li>添加人</li>
+                        <li>展示范围</li>
+                        <li>创建时间<i class="fa fa-unsorted"></i></li>
+                        <li>操作</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                    {volist name="listdata" id="vo"}
+                    <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+                        <li class="u-tabCilentName customer_info_name_show">{$vo.customer_name}</li>
+                        <li>{$vo.resource_from|getResourceFromName}</li>
+                        <li>{$vo.add_batch}</li>
+                        <li>{$vo.add_man}</li>
+                        <li>{$vo.add_time}</li>
+                        <li>{eq name="vo.is_public" value="1"}全公司{else/}{notempty name="vo.public_to_employee"}指定人{/notempty}{notempty name="vo.public_to_department"}指定部门{/notempty}{/eq}</li>
+                        <li class="u-tabOperation">
+                            <span class="take_customer">申领</span>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                    {/volist}
+                </div>
+            </div>
+            {include file="common@common/page"/}
+        </section>
+        <script src="/static/js/list_manage.js"></script>
+        <script language="javascript">
+            var anonymous_pool_list_manage = new list_manage("anonymous_pool","high-seafr","/crm/customer/public_customer_pool",'{$p}','{$num}','{$max_page}','0',"");
+        </script>
+        <script src="/crm/js/customer_add.js"></script>
+        <script language="javascript">
+            var anonymous_pool_add = new customer_add("anonymous_pool","high-seafr",anonymous_pool_list_manage);
+        </script>
+        <script src="/crm/js/customer_import.js"></script>
+        <script language="javascript">
+            var anonymous_pool_customer_import = new customer_import("#frames #high-seafr .crm_anonymous_pool .customer_import_record",2);
+        </script>
+        <script src="/crm/js/anonymous_pool.js"></script>
+    </div>
+    <div class="anonymous_pool_panel customer_info_panel customer_general hide">
+    </div>
+    <div class="anonymous_pool_panel customer_info_panel customer_info hide">
+    </div>
+    <div class="anonymous_pool_panel customer_info_panel customer_edit hide">
+    </div>
+    <div class="anonymous_pool_panel customer_info_panel customer_contact hide">
+    </div>
+    <div class="anonymous_pool_panel customer_info_panel customer_sale_chance hide">
+    </div>
+    <div class="anonymous_pool_panel customer_info_panel customer_trace hide">
+    </div>
+    <div class="anonymous_pool_panel customer_info_panel customer_import_record hide">
+        <header>
+            <ul class="m-firNav">
+                <li class="current"><div style="border: none;">公海池</div></li>
+                <i class="fa fa-angle-right fa-2x" style="line-height: 40px;margin-left: 5px;"></i><span class="u-spanInfo">导入记录</span>
+            </ul>
+        </header>
+        <div class="customer_import_record_list">
+
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="/crm/css/index.css"/>

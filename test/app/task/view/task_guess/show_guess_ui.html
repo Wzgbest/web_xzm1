@@ -1,0 +1,32 @@
+
+<p class="p1">猜冠军</p>
+<ul class="number1">
+    <li>姓名</li>
+    <li>部门</li>
+    <li></li>
+
+</ul>
+<div class="list">
+    {volist name="take_list" id="vo"}
+        <ul class="number2">
+            <li>{$vo["truename"]}</li>
+            <li>
+                <?php $struct_arr=explode(',',$vo["struct_name"]);
+                    echo $struct_arr[count($struct_arr)-1];
+                ?>
+            </li>
+            <li>
+                <span class="fill" employee_id="{$vo['employee_id']}" task_id="{$task_id}">下注</span>
+            </li>
+        </ul>
+    {/volist}
+</div>
+<p class="compare">最近下注（当前下注池为<span class="orange">{$task_all_guess_money}</span>元）</p>
+<ul class="list_head">
+    <li>姓名</li>
+    <li>部门</li>
+    <li>猜冠军支持</li>
+</ul>
+<div class="box">
+</div>
+<a class="close-reveal-modal">&#215;</a>

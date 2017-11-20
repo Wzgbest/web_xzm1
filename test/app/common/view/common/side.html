@@ -1,0 +1,21 @@
+<!--侧边栏-->
+<section id="side">
+    <aside class="_panel-box">
+        <div id="logo">
+            <!--<img src="/static/images/logo.png" />-->
+        </div>
+        {volist name="menu_idx" id="vo"}
+        {present name="vo.child"}
+        <dl id="#">
+            <dt><i class="{$vo.class}"></i><span>&nbsp;&nbsp;{$vo.rule_title}</span><i class="fa fa-angle-right"></i></dt>
+            <div class="ddcontent">
+                {volist name="vo.child" id="voc"}
+                <dd data-subid="{$voc.name}" _src="{:url($voc.url)}">{$voc.rule_title}</dd>
+                {/volist}
+            </div>
+        </dl>
+        {/present}
+        {/volist}
+    </aside>
+</section>
+<div id="blackBg" class="blackBg hide"></div>

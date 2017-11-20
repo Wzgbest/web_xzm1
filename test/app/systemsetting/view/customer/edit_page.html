@@ -1,0 +1,145 @@
+<div class="customer_setting_edit h100 o-h">
+    <div id="top">
+        <ul class="firNav">
+            <li class="current" onclick="loadPage('{:url('index')}','customer-settingfr');">
+                <div>客户设置</div>
+            </li>
+            <i class="fa fa-angle-right fa-2x"></i>
+            <span class="span-info">
+                {gt name="customerSetting.id" value="0"}
+                    {$customerSetting.setting_name}
+                {else/}
+                    添加客户设置
+                {/gt}
+            </span>
+        </ul>
+
+    </div>
+    <div class="m-3rd-container o-x-h">
+      <div class="content">
+        <form name="form_customer_setting" class="form_customer_setting" onsubmit="return false;" method="post">
+        <p>
+            <span class="sp1">
+                <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+                <span style="display: inline;vertical-align: middle;">客户设置名称</span>
+            </span>
+            <input type="text" placeholder="请输入" name="setting_name" value="{$customerSetting.setting_name}"/>
+        </p>        
+        <p>
+            <span class="sp1">
+                <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+                <span style="display: inline;vertical-align: middle;">客户保护时间</span>
+            </span>
+            <input type="text" placeholder="请输入" name="protect_customer_day" value="{$customerSetting.protect_customer_day}"/>
+            <span class="sp">天</span>
+            <span class="sp2">（员工拥有客户时间）</span>
+        </p>
+        <p>
+            <span class="sp1">
+                <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+                <span style="display: inline;vertical-align: middle;">员工可领取单个客户次数</span>
+            </span>
+            <input type="text" placeholder="请输入" name="take_times_employee" value="{$customerSetting.take_times_employee}"/>
+            <span class="sp">次</span>
+            <span class="sp2">（公海池内员工可持续领取次数）</span>
+        </p>
+        <p>
+            <span class="sp1">
+                <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+                <span style="display: inline;vertical-align: middle;">部门可领取单个客户次数</span>
+            </span>
+            <input type="text" placeholder="请输入" name="take_times_structure" value="{$customerSetting.take_times_structure}"/>
+            <span class="sp">次</span>
+            <span class="sp2">（公海池内员工可持续领取次数）</span>
+        </p>
+        <p>
+            <span class="sp1">
+                <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+                <span style="display: inline;vertical-align: middle;">停滞客户（销售机会）时间</span>
+            </span>
+            <input type="text" placeholder="请输入" name="to_halt_day" value="{$customerSetting.to_halt_day}"/>
+            <span class="sp">天</span>
+            <span class="sp2">（多长时间不维护客户变更为停滞状态，根据公司业务情况设置）</span>
+        </p>
+        <p>
+            <span class="sp1">
+                <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+                <span style="display: inline;vertical-align: middle;">有效通话</span>
+            </span>
+            <input type="text" placeholder="请输入" name="effective_call" value="{$customerSetting.effective_call}"/>
+            <span class="sp">秒</span>
+            <span class="sp2">（超过此时间为有效通话）</span>
+        </p>
+        <p>
+            <span class="sp1">
+                <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+                <span style="display: inline;vertical-align: middle;">客户保护个数</span>
+            </span>
+            <input type="text" class="ipt1" placeholder="请输入" name="protect_customer_num" value="{$customerSetting.protect_customer_num}"/>
+            <span class="sp">个</span>
+            <span class="sp2">（当前用户最多保护客户个数）</span>
+        </p>
+        <p class="p6">
+            <span class="sp1">
+                <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+                <span style="display: inline;vertical-align: middle;">公海池客户名称</span>
+            </span>
+            <input type="radio" name="public_sea_seen" class="sp3"
+                   {eq name="customerSetting.public_sea_seen" value="0"} checked="checked"{/eq}
+            / value="0"><span class="sp3">隐藏</span>
+            <input type="radio" name="public_sea_seen" class="sp3"
+                   {eq name="customerSetting.public_sea_seen" value="1"} checked="checked"{/eq}
+            / value="1"><span class="sp3">显示</span>
+        </p>
+        <p>
+            <span class="sp1">
+                <img src="/systemsetting/images/corp_info.jpg" style="vertical-align: middle;"/>
+                <span style="display: inline;vertical-align: middle;">该设置对应部门</span>
+            </span>
+            <input type="text" class="pknew-task-select-window-choosen-staff customer_setting-choosen-staff" data-dep="{$customerSetting.set_to_structure}" data-stf="" data-result="{$set_to_structure_args}" placeholder="请选择" value="{$structure_names_str}" />
+            <div class="main-content select-window stomer_setting-select-window" style="margin:0 auto;" data-num="0" data-str='set_to_structure[]=,&,&,employees[]=,&' data-selector=".pknew-task-select-window-choosen-staff"></div>
+        </p>
+
+        <p class="p5">
+            <input type="hidden" name="id" value="{$customerSetting.id}"/>
+            <input id="customer_setting_submit" type="submit" value="保存" />
+            <button onclick="loadPage('{:url('index')}','customer-settingfr');">取消</button>
+        </p>
+        </form>
+    </div>  
+    </div>
+    
+</div>
+<link rel="stylesheet" href="/systemsetting/css/customersetting.css" />
+<script language="JavaScript">
+    $('#customer_setting_submit').click(function() {
+        var form_data = $(".form_customer_setting").serialize();
+        console.log('form_data',form_data);
+        var set_to_structure = $(".customer_setting-choosen-staff").attr("data-result");
+        console.log('set_to_structure',set_to_structure);
+        form_data += "&"+set_to_structure;
+        console.log('form_data',form_data);
+        $.ajax({
+            url: '{$url}',
+            type: 'post',
+            data: form_data,
+            dataType: 'json',
+            success: function(data) {
+                //console.log(data);
+                layer.msg(data.info,{icon:data.status==1?1:2});
+                if(data.status) {
+                    loadPage("/systemsetting/customer/index","customer-settingfr");
+                }
+            },
+            error: function() {
+
+            },
+        });
+    });
+
+	$(".customer_setting-choosen-staff").focus(function(){
+		$(".select-window-container").remove();
+		$(".customer_setting_edit .stomer_setting-select-window").load("/index/index/select_window.html");
+	});
+
+</script>

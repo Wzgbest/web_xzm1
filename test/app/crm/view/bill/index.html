@@ -1,0 +1,115 @@
+<div class="crm_bill crm_bill_index h100 o-h">
+	<div class="index_panel index my_bill h100">
+		<header>
+			<ul class="m-firNav">
+				<li in_column="1" class="in_column {eq name='in_column' value='1'}current{/eq}"><div>发票审核中（<span>{$listCount.1}</span>）</div></li>
+				<li in_column="2" class="in_column {eq name='in_column' value='2'}current{/eq}"><div>已通过发票（<span>{$listCount.2}</span>）</div></li>
+				<li in_column="3" class="in_column {eq name='in_column' value='3'}current{/eq}"><div>已驳回发票（<span>{$listCount.3}</span>）</div></li>
+				<li in_column="4" class="in_column {eq name='in_column' value='4'}current{/eq}"><div>已撤回发票（<span>{$listCount.4}</span>）</div></li>
+				<li in_column="5" class="in_column {eq name='in_column' value='5'}current{/eq}"><div>已作废发票（<span>{$listCount.5}</span>）</div></li>
+				<li in_column="0" class="in_column {eq name='in_column' value='0'}current{/eq}"><div>所有发票（<span>{$listCount.0}</span>）</div></li>
+			</ul>
+			<!--<div id="bill-apply">
+                <i class="fa fa-clipboard"></i><br />
+                发票申请
+            </div>-->
+		</header>
+
+		<!--我的发票  列表-->
+		<div class="m-3rd-container">
+			<section class="b-w">
+			<div class="m-divBlock m-divBlock2">
+				<ul class="m-secNav">
+					<li class="export-report">导出报表</li>
+					<div class="clearfix"></div>
+				</ul>
+				<div class="m-filterNav">
+					<form class="search_form" onsubmit="return false;">
+						<select name="bill_type">
+							<option value="">发票类型</option>
+							{volist name="bill_name" id="vo" key="key"}
+								<option value="{$key-1}" {present name='filter.bill_type'}{eq name='filter.bill_type' value='$key-1'} selected="selected"{/eq}{/present}>{$vo}</option>
+							{/volist}
+						</select>
+						<select name="product_type">
+							<option value="">产品类型</option>
+							{volist name="product_type_name" id="vo"}
+							<option value="{$vo}" {present name='filter.product_type'}{eq name='filter.product_type' value='$vo'} selected="selected"{/eq}{/present}>{$vo}</option>
+							{/volist}
+						</select>
+						<select name="pay_type">
+							<option value="">收款银行</option>
+							{volist name="pay_type_name" id="vo"}
+							<option value="{$vo}" {present name='filter.pay_type'}{eq name='filter.pay_type' value='$vo'} selected="selected"{/eq}{/present}>{$vo}</option>
+							{/volist}
+						</select>
+						<input type="text" name="apply_employee" placeholder="输入申请人" value="{present name='filter.apply_employee'}{$filter.apply_employee}{/present}"/>
+						<input type="text" name="customer_name" placeholder="输入对应客户" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
+						<input type="text" name="tax_num" placeholder="输入公司税号" value="{present name='filter.tax_num'}{$filter.tax_num}{/present}"/>
+						<button class="u-btnSearch">查询</button>
+					</form>
+				</div>
+				<div class="m-tableBox">
+					<div class="m-table table-bill">
+						<ul class="u-tabTitle">
+							<li class="u-tabCheckbox"><input type="checkbox"/></li>
+							<li class="creat-time">申请时间<i class="fa fa-unsorted"></i></li>
+							<li class="update-time">状态变更时间<i class="fa fa-unsorted"></i></li>
+							<li class="bill-number">发票号</li>
+							<li class="bill-type">发票类型</li>
+							<li class="bill-money">开票金额</li>
+							<li class="client">对应客户</li>
+							<li class="tax-num">公司税号</li>
+							<li class="product-type">产品类型</li>
+							<li class="data-money">认款日期</li>
+							<li class="bill-assessor">审核人</li>
+							<li class="pay-type">打款类型</li>
+							<li class="pay-way">打款方式</li>
+							<li class="bill-status">发票状态</li>
+							<li class="operate">操作</li>
+							<div class="clearfix"></div>
+						</ul>
+						{volist name="list_data" id="vo"}
+						<ul class="u-tabList">
+							<li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+							<li class="creat-time">{$vo.create_time|time_format}</li>
+							<li class="update-time">{$vo.update_time|time_format}</li>
+							<li class="bill-number">{$vo.bill_no}</li>
+							<li class="bill-type">{$vo.bill_type_name}</li>
+							<li class="bill-money">{$vo.bill_money}元</li>
+							<li class="client">{$vo.customer_name}</li>
+							<li class="tax-num">{$vo.tax_num}</li>
+							<li class="product-type">{$vo.product_type_name}</li>
+							<li class="data-money">
+								{notempty name="vo.check_money_time"}
+									{$vo.check_money_time|time_format}
+								{/notempty}
+							</li>
+							<li class="bill-assessor">{$vo.assessor_name}</li>
+							<li class="pay-type">{eq name="vo.pay_type" value="现金"}现金{else/}银行打款{/eq}</li>
+							<li class="pay-way">{$vo.pay_type}</li>
+							<li class="bill-status">{$vo.status|getBillStatusName}</li>
+							<li class="u-tabOperation">
+								{eq name="vo.status" value="0"}<span class="retract">撤回</span>{/eq}
+							</li>
+							<div class="clearfix"></div>
+						</ul>
+						{/volist}
+					</div>
+				</div>
+				{include file="common@common/page"/}
+			</div>
+		</section>
+		</div>
+		
+		<!--<section id="create-bill" class="popUp hide">
+
+        </section>-->
+	</div>
+</div>
+<link rel="stylesheet" href="/crm/css/contract.css" />
+<script src="/static/js/list_manage.js"></script>
+<script language="javascript">
+	var my_bill_list_manage = new list_manage("my_bill","my-billfr","/crm/bill/index",'{$p}','{$num}','{$max_page}','{$in_column}',"");
+</script>
+<script src="/crm/js/bill_index.js"></script>

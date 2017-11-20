@@ -1,0 +1,32 @@
+<header>
+	<h1>删除话术分类<i class="fa fa-close fa-2x pop-close-btn"></i></h1>
+</header>
+<div class="pop_content deleteClass">
+	<h2>确定删除分类</h2>
+	<div class="u-submitButton">
+		<button class="pop-submit-btn">删除</button>
+		<button class="pop-close-btn">取消</button>
+	</div>
+</div>
+<link rel="stylesheet" type="text/css" href="/static/css/popUp.css">
+<script type="text/javascript">
+	$(".pop_content.deleteClass .pop-submit-btn").click(function(){
+		var class_id = $(".knowledgebase_speechcraft_index .index_panel .m-firNav li.current").attr("speechcraft_in_column");
+		$.ajax({
+			url: '/knowledgebase/speech_craft/deleteClass',
+			type: 'POST',
+			dataType: 'json',
+			data: {'class_id': class_id},
+			success:function(data){
+				layer.msg(data.info,{icon:data.status==1?1:2});
+	            if(data.status) {
+	                loadPage("/knowledgebase/speech_craft/index", "speech-databasefr");
+	            }
+			},
+			error:function(){
+				layer.msg('删除失败!',{icon:2});
+			}
+		});
+
+	});
+</script>

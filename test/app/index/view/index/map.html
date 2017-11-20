@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=duOUzCcv4fenBaOVSORs3uyd9AMTaNNF"></script>
+		<style>
+			html,body,#mapLocation{
+				margin: 0;
+				width:100%;
+				height: 100%;
+			}	
+		</style>
+	</head>
+	<body>
+		<div id="mapLocation">
+			
+		</div>
+	<script>
+		// let selector;
+		var map,local,sel;
+		function map_init(selector){
+			console.log(selector);
+			console.log("iframe."+selector);
+			sel = selector;
+			var lng = window.parent.$("iframe."+selector).attr("data-lng");
+			var lat = window.parent.$("iframe."+selector).attr("data-lat");
+			var edt = window.parent.$("iframe."+selector).attr("data-edit");
+			console.log(lng,lat,edt);
+
+			if(edt){
+				 map = new BMap.Map("mapLocation"); 
+				// var point = new BMap.Point(119.13248199999998, 36.707589999999996);
+				map.addEventListener("click", showInfo);
+				console.log(200);
+				var point = new BMap.Point(lng,lat);
+				var marker = new BMap.Marker(point);// 创建标注
+				map.addOverlay(marker);             // 将标注添加到地图中
+				marker.enableDragging();
+			}else{
+				 map = new BMap.Map("mapLocation", {enableMapClick:false}); 
+				// var point = new BMap.Point(lng,lat);
+				console.log(100);
+				map.disableDragging();
+				var point = new BMap.Point(lng,lat);
+				var marker = new BMap.Marker(point);// 创建标注
+				map.addOverlay(marker);             // 将标注添加到地图中
+				marker.disableDragging();
+				map.addEventListener("click", showInfo);
+			}
+			
+			
+			// var point = new BMap.Point(119.13248199999998, 36.707589999999996);
+			map.centerAndZoom(point, 12);  // 初始化地图,设置中心点坐标和地图级别
+			
+		//	map.addEventListener("tilesloaded",function(){alert("地图加载完毕");});
+	//		map.addControl(new BMap.MapTypeControl());   //添加地图类型控件
+			map.setCurrentCity("潍坊");          // 设置地图显示的城市 此项是必须设置的
+			map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+			
+			/*var marker = new BMap.Marker(point);// 创建标注
+			map.addOverlay(marker);             // 将标注添加到地图中
+			marker.enableDragging();*/
+			 local = new BMap.LocalSearch(map, {
+				renderOptions:{map: map}
+			});
+		}						
+		function searchKey(key){
+			local.search(key);
+		}		
+		function showInfo(e){
+			map.clearOverlays(); 
+			let marker =new BMap.Marker(e.point);
+			map.addOverlay(marker);  
+			window.parent.$("#mapFrame").siblings("input[name='lat']").val(e.point.lat);
+			window.parent.$("iframe."+sel).siblings(".lng").val(e.point.lng);
+			window.parent.$("iframe."+sel).siblings(".lat").val(e.point.lat);		}
+		
+	</script>
+	</body>
+</html>

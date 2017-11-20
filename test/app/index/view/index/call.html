@@ -1,0 +1,140 @@
+<i class="fa fa-close"></i>
+<div class="m-divBlock m-divBlock2 m-divBlock4">
+    <h1 class="call-number">请拨号</h1>
+    <ul class="bkg top fl nocall">
+        <!--拨号盘  -->
+<!--         <li class="dials fl">
+            <div id="fc_dials" class="dialsbt bkg" title="拨号盘" onclick="operation.dialsBt()"></div>
+        </li> -->
+        <!-- 通话基本信息区 -->
+        <li class="callinfo fl" id="fc_callinfo"></li>
+        <!-- 号码输入框所在容器 -->
+        <li class="import fl" id="fc_import"></li>
+
+        
+    </ul>
+    <li id='fc_tip' class="tip">
+        <!--归属地提示区  -->
+        <span id="fc_gsd" class="fl" style="width:80px;height:28px;line-height:28px;overflow:hidden;display:none;"></span>
+        <!-- 通话状态提示区 -->
+        <span id="fc_status" class="fl">正在初始化电话&nbsp;,&nbsp;请稍候&nbsp;...</span>
+        <!-- 计时区 -->
+        <span id="fc_timing" class="color-yellow" title="当前状态持续时间">00:00:00</span>
+    </li>
+    <div class="dial">
+        <div class="clearfix"></div>
+        <div class="row1">
+            <div class="u-block1 current">主通话</div>
+            <div class="u-block1">三方通话</div>
+            <div class="u-block1">请求协助</div>
+        </div>
+        <div class="row1" id="fc_import">
+            <!-- 号码输入框 -->
+            <input id="callInput" type="text" class = "row1 row2 numinput blur" value="点此输入号码" onfocus="
+                    this.className='numinput focus row1 row2';this.value.indexOf('点此输入号码')!=-1?this.value=this.value.replace('点此输入号码',''):''
+                    " onblur="this.value==''||this.value=='点此输入号码'?(this.value='点此输入号码',this.className='numinput blur row1 row2'):this.className='numinput focus row1 row2'" ondblclick="this.value=''" onkeydown="operation.keydownFn(event,this)" onkeyup="operation.keyupFn(this)" title="回车拨号,Esc或双击清空"/>
+            <div class="delete" id="num-dele">
+                <i class="fa fa-backward fa-2x"></i>
+            </div>
+        </div>
+        <div class="row1 row3">
+            <button class="u-block1 u-block2 num">1</button>
+            <button class="u-block1 u-block2 num">2</button>
+            <button class="u-block1 u-block2 num">3</button>
+        </div>
+        <div class="row1 row3">
+            <button class="u-block1 u-block2 num">4</button>
+            <button class="u-block1 u-block2 num">5</button>
+            <button class="u-block1 u-block2 num">6</button>
+        </div>
+        <div class="row1 row3">
+            <button class="u-block1 u-block2 num">7</button>
+            <button class="u-block1 u-block2 num">8</button>
+            <button class="u-block1 u-block2 num">9</button>
+        </div>
+        <div class="row1 row3">
+            <button class="u-block1 u-block2 num">*</button>
+            <button class="u-block1 u-block2 num">0</button>
+            <button class="u-block1 u-block2 num">#</button>
+        </div>
+        <h1 class="row1 row3 row4">
+            <!-- 拨打/接听(通话1区)按钮 -->
+            <div id="fc_callbt" class="on" title="当前电话状态不可通过此入口拨打电话" onclick="operation.callBt(this)"><i class="fa fa-phone"></i>&nbsp;&nbsp;拨打</div><div id="fc_calling" class="waiting" style="display:none" title="请求中..请稍后..">
+                <img src="/static/image/loading.gif" />
+            </div>
+            <div id="fc_hangbt" class="hangupdsbt bkg off hide" title="挂断" onclick="operation.hangBt(this)"><i class="fa fa-phone"></i>&nbsp;&nbsp;挂断</div><div id="fc_hanguping" class="waiting" style="display:none" title="请求中..请稍后..">
+            <img src="../image/loading.gif" />
+          </div></li>
+            
+        </h1>
+        <li class="hangoperation fl">
+            <!-- 挂断(通话1区)按钮 -->
+           
+            <!-- 挂断(通话1区)按钮激活时过渡 -->
+
+            <div id="fc_hanguping" class="waiting" style="display:none" title="请求中..请稍后..">
+                <img src="/static/image/loading.gif" />
+            </div>
+        </li>
+        <ul class="bottom fl">
+            <li class="fl callsettings">
+                <div id="phonereset" class="phonereset fl bkg" title="电话复位/重新加载" onclick="operation.phoneResetBt(this)"></div>
+            </li>
+            <li class="fl callextoperation" style="display:block;">
+                <div class="fc_devolve fl">
+                    <ul id="fc_devolvebt" class="disable fl bkg" title="转移" onclick="operation.devolveBt(this)"></ul>
+                </div>
+            </li>
+            <li style="display:none;">
+                <div class="fc_ask fl" style="width:45px;">
+                    <ul id="fc_askbt" class="disable fl bkg" title="咨询" onclick="operation.askBt(this)"></ul>
+                </div>
+                <div class="fc_keep fl" style="width:45px;">
+                    <ul id="fc_keepbt" class="disable fl bkg" title="保持" onclick="operation.keepBt(this)"></ul>
+                </div>
+                <div class="fc_multi fl" style="width:45px;">
+                    <ul id="fc_multibt" class="disable fl bkg" title="多方通话" onclick="operation.multiBt(this)"></ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="m-divBlock m-divBlock2 m-divBlock4">
+    <div class="click-node">
+        <i class="fa fa-tags color-green"></i>&nbsp;&nbsp;打点<i class="fa fa-plus fr"></i>
+    </div>
+    <ul class="nodes"></ul>
+</div>
+<div id="main" class="main bkg">
+    <div id="fc" class="fc fl big">
+        
+    </div>
+</div>
+<script type="text/javascript" src="/static/call_js/md5.js"></script>
+<script type="text/javascript">
+    var data = {
+        appid:'{$call_config.appid}',
+        access_token:'{$call_config.access_token}'
+    }
+    console.log(data.access_token);
+</script>
+<script>
+var token = "";
+var AreaTipObj = null;
+var phoneLocalUrl = null;
+function phonenumcallback(area){
+    if(AreaTipObj&&area&&typeof(area)=="object"){
+        AreaTipObj.innerHTML = area.area;
+        AreaTipObj.title = area.area
+    };
+};
+function setPhoneArea(phoneNum){
+    //
+};
+</script>
+<!-- 电话js -->
+<script src="/static/call_js/config.js"></script>
+<script src="/static/call_js/jsmc.min.js"></script>
+<script src="/static/call_js/state-machine.js"></script>
+<script src="/static/call_js/call.js"></script>
+<script src="/static/call_js/fs_state.js"></script>

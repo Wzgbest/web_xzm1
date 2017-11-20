@@ -1,0 +1,229 @@
+<link rel="stylesheet" href="/task/css/task.css" />
+
+<div class="task task_details">
+	<article>
+		<div class="dv1">
+			<div class="left">
+				<img src="/task/img/incentive_task.png" class="img1" />
+				<div class="border-right">
+					<p>发布人</p>
+					<div class="name">{$task_info.truename}
+						<div class="roll">
+							<img src="/task/img/phone.png" />
+							<img src="/task/img/note.png" />
+						</div>
+					</div>
+					<p>￥
+						<?php switch($task_info['task_method']){
+						case 1:
+							echo $task_info['reward_amount'];
+							break;
+						case 2:
+							echo sprintf("%.2f", $task_info['reward_amount']/$task_info['partin_count']);
+							break;
+						case 3:
+							echo $task_info['reward_amount'];
+							break;
+						} ?>
+					</p>
+					<p>预计奖金</p>
+				</div>
+			</div>
+			<div class="center">
+				<p class="theme">{$task_info.task_name}</p>
+				<div>
+					<div class="details">
+						<div>
+							<p class="small">考核项目</p>
+							<p class="big">{$task_info.target_type|get_target_type_name}</p>
+						</div>
+						<div class="fu">
+							<p class="small">奖金</p>
+							<p class="big">
+								{if condition=" $task_info['re_amount_min'] eq $task_info['re_amount_max'] "}
+								{$task_info.re_amount}元
+								{else/}
+								{$task_info.re_amount_min}~{$task_info.re_amount_max}元
+								{/if}
+								{neq name='task_info.task_method' value='2'}/人{/neq}
+							</p>
+							<?php $rewardArray=explode(',',$task_info['ranking']); ?>
+							{neq name='task_info.task_method' value='2'}
+							<div class="xuanfu">
+								{volist name="rewardArray" id="v1"}
+								<P><span>{$v1}</span></P>
+								{/volist}
+							</div>
+							{/neq}
+						</div>
+						<div class="len">
+							<p class="small">奖金规则</p>
+							<p class="big">
+								<?php switch($task_info['task_method']){
+								case 1:
+									echo '统计周期时间内，达标的员工获得即时奖励';
+									break;
+								case 2:
+									echo '任务结束，所有达标员工平均分配奖金';
+									break;
+								case 3:
+									echo '任务结束后，按完成任务量最终排名发放奖金';
+									break;
+								} ?>
+							</p>
+						</div>
+					</div>
+					<div class="details">
+						<div class="len">
+							<p class="small">统计周期</p>
+							<p class="big">{$task_info.task_start_time|date="Y.m.d/H:i",###}-{$task_info.task_end_time|date="Y.m.d/H:i",###}</p>
+						</div>
+						<div class="len flo">
+							<p class="small">面向群体</p>
+							<p class="very big"><?php $array=explode(',',$task_info['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共<?php echo count(explode(',',$task_info['public_to_take'])) ?>人参与）</p>
+							<div class="flotage">
+								{notempty name="task_info['public_to_take_array']"}{foreach name="task_info['public_to_take_array']" item="v" key="k"}<span class="{in name='k' value='$task_info.take_employees'}color-blue{/in}">{$v}</span>{/foreach}{/notempty}
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="right">
+        <div class="within">
+            <div class="active details">
+				{eq name="task_info.status" value="2"}
+				{if condition="$now_time <= $task_info['task_end_time']"}
+				<!--<p class="p2 tip" task_id="{$task_info.id}">{if condition="in_array($uid,explode(',',$task_info['tip_employees']))"}继续打赏{else/}打赏{/if}</p>-->
+
+				{eq name="uid" value="$task_info['create_employee']"}
+				{if condition="strtotime('-1 day') < $task_info['create_time'] && $now_time < $task_info['task_end_time'] "}
+				<p class="p2 end_task" data-id="{$task_info.id}">终止任务</p>
+				{/if}
+				{if condition="!in_array($uid,explode(',',$task_info['take_employees']))"}
+				<p class="p1">任务进行中</p>
+				{/if}
+				{/eq}
+
+				{if condition="in_array($uid,explode(',',$task_info['take_employees']))"}
+				<p class="p1">正在参与任务</p>
+				{/if}
+				{/if}
+				{/eq}
+				{eq name="task_info.is_token" value="1"}
+				<p class="p6">已领{$task_info.total_money}元</p>
+				{/eq}
+				{eq name="task_info.status" value="0"}<p class="p3">任务被终止</p>{/eq}
+				{eq name="task_info.status" value="1"}<p class="p4">任务未生效</p>{/eq}
+				{if condition="$now_time > $task_info['task_end_time']"}
+				<p class="p4">任务结束</p>
+				{/if}
+            </div>
+            <!--<div class="comment">-->
+                <!--<div>-->
+                    <!--<img src="/task/img/comment.png" class="task_details comment_incentive" task_id="{$task_info.id}" />-->
+                    <!--<span>{$task_info.comment_count}</span>-->
+                <!--</div>-->
+                <!--<div style="text-align: right;">-->
+                    <!--{eq name="task_info.is_like" value="1"}-->
+                    <!--<img src="/task/img/praise.png" class="add" task_id="{$task_info.id}" index_img="2"/>-->
+                    <!--{else/}-->
+                    <!--<img src="/task/img/zan.png" class="add" task_id="{$task_info.id}" index_img="1"/>-->
+                    <!--{/eq}-->
+                    <!--<span class="yi">{$task_info.like_count}</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+    </div>
+		</div>
+		<div class="dv2 ">
+			<div class="left ">
+	
+				<div>
+					<p class="title ">激励排行榜</p>
+					<ul class="list_head ">
+						<li>名次</li>
+						<li>姓名</li>
+						<li>部门</li>
+						<li>{$task_info.target_type|get_target_type_name}</li>
+						<li>奖金</li>
+					</ul>
+					<div class="box ">
+					</div>
+					<!--<p class="addition "><span class="red ">已领取任务</span>：你已完成任务指标，排名奖金还需超越<span class="orange ">2</span>人才能获得，距离获得奖金还需拨打<span class="orange ">5</span>次电话才有机会！</p>-->
+				</div>
+		
+			</div>
+
+			<div class="right ">
+				<div class="hezi ">
+					<p class="title ">打赏详情</p>
+
+				</div>
+				<p class="explain ">任务已得到奖金
+					<span class="orange ">{$all_tip_money}</span>元
+					<span class="gray ">
+						{gt name="my_tip_money " value="0 "}
+							（你已打赏<span class="my_tip_money">{$my_tip_money}</span>元）
+						{else/}
+							（你还未进行打赏）
+						{/gt}
+					</span>
+				</p>
+				{eq name="task_info.status" value="2"}
+				{if condition="$now_time <= $task_info['task_end_time']"}
+				<p class="rate tip ">
+					{gt name="my_tip_money " value="0 "}
+						继续打赏
+					{else/}
+						打赏
+					{/gt}
+				</p>
+				{/if}
+				{/eq}
+				<div class="particulars">
+				</div>
+			</div>
+		</div>
+		<div class="dv3 ">
+			<p class="title ">评论<span>（{$task_info.comment_count}）</span></p>
+			<div class="up ">
+				<!--<input type="text " placeholder="回复刘大宝 " />-->
+				<textarea placeholder="请输入评论 " class="content "></textarea>
+				<div class="like ">
+					<div class="left ">
+						<img src="/task/img/face.png " />
+					</div>
+					<div class="right ">
+						<p data-id="{$task_info.id} " now-truename="{$truename} ">评论</p>
+						{eq name="task_info.is_like " value="1 "}
+						<img src="/task/img/praise.png " class="add " task_id="{$task_info.id} " index_img="2 "/>
+						{else/}
+						<img src="/task/img/zan.png " class="add " task_id="{$task_info.id} " index_img="1 "/>
+						{/eq}
+						<span class="yi ">{$task_info.like_count}</span>
+					</div>
+				</div>
+			</div>
+			<div class="down ">
+				<div class="review ">
+				</div>
+			</div>
+		</div>
+
+
+		<div class="reveal-modal reveal_six guess_ui ">
+		</div>
+
+		<div class="reveal-modal reveal_seven tip_ui ">
+		</div>
+
+		<div class="reveal-modal reveal_eight pay_ui pay-pop ">
+		</div>
+	</article>
+
+	<script type="text/javascript " src="/task/js/task.js "></script>
+	<script type="text/javascript ">
+		new task_details("{$fr} ","{$id} ","{$task_type}","{$uid}");
+	</script>
+</div>

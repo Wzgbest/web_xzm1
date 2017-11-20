@@ -1,0 +1,306 @@
+.customer_setting_edit {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    font-family: "微软雅黑";
+    width: 100%;
+    /*height: 810px;*/
+    height: 100%;
+    /*background-color: #ecf0f5;*/
+}
+
+
+.customer_setting_edit #top {
+    /*width: 1120px;*/
+    width: 100%;
+    height: 40px;
+    background-color: #fff;
+    margin: 0 2px;
+
+}
+.customer_setting_edit .m-3rd-container{
+	background-color: #fff;
+}
+.customer_setting_edit ul.firNav {
+    height: 40px;
+    margin-left: 1px;
+    /*padding: 10px 0;*/
+    box-shadow: -1px 2px #ebedf0;
+}
+
+.customer_setting_edit ul.firNav li {
+    float: left;
+    color: #b2b2b2;
+    height: 20px;
+    /*width: 130px;*/
+    padding: 10px 0;
+    /*line-height: 20px;*/
+    /*padding: 0 10px;*/
+    /*border-right:2px solid #b2b2b2 ;*/
+}
+
+.customer_setting_edit ul.firNav li:hover {
+    cursor: pointer;
+}
+
+.customer_setting_edit ul.firNav li div {
+    line-height: 20px;
+    padding: 0 5px;
+    font-size: 12px;
+    /*border-right:2px solid #b2b2b2 ;*/
+}
+
+.customer_setting_edit ul.firNav li:last-child div {
+    border: none;
+}
+
+.customer_setting_edit ul.firNav li.current {
+    color: #333333;
+    border-bottom: 1px solid #42a5f5;
+}
+
+.customer_setting_edit #top ul i {
+    height: 20px;
+    display: inline-block;
+    padding-left: 3px;
+    font-size: 16px;
+    line-height: 40px;
+    color: #999999;
+    vertical-align: middle;
+}
+
+.customer_setting_edit #top ul span {
+    display: inline-block;
+    height: 20px;
+    vertical-align: middle;
+    padding-left: 5px;
+    font-size: 12px;
+    line-height: 40px;
+    color: #999999;
+}
+
+.customer_setting_edit .content {
+    width: 100%;
+    /*width: 1120px;*/
+    /*height: 800px;*/
+    /*height: 100%;*/
+    background-color: #fff;
+    /*margin: auto 10px;*/
+    margin-left:2px;
+    /*margin-top: 6px;*/
+    border-top:6px solid #ecf0f5;
+    margin-bottom: 12px;
+    padding-top: 21px;
+
+}
+
+.customer_setting_edit .content form>p {
+    margin-bottom: 14px;
+    margin-left: 34px;
+    /*background-color: red;*/
+}
+
+.customer_setting_edit .p5 {
+    /*margin-top: 389px;*/
+    margin-left: 340px !important;
+}
+
+.customer_setting_edit .p5 input {
+    width: 100px !important;
+    height: 41px !important;
+    border-radius: 10px;
+    margin-right: 100px;
+    background-color: #42a5f5;
+    color: #fff;
+    border: 1px solid #dcdcdc;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.customer_setting_edit .p5 button {
+    width: 100px;
+    height: 41px;
+    border-radius: 10px;
+    margin-right: 100px;
+    background-color: #fff;
+    border: 1px solid #dcdcdc;
+    font-size: 16px;
+}
+
+.customer_setting_edit .content .sp1 {
+    display: inline-block;
+    width: 190px;
+    text-align: right;
+    margin-right: 16px;
+    font-size: 14px;
+}
+
+.customer_setting_edit .content input {
+    width: 100px;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 36px;
+    margin-right: 16px;
+}
+
+.customer_setting_edit .content .p6 {
+    margin-top: 20px;
+}
+
+.customer_setting_edit .content .p6 input {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    padding: 0;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.customer_setting_edit .content .sp2 {
+    display: inline-block;
+    width: 350px;
+    text-align: right;
+    font-size: 12px;
+    color: #B3B3B3;
+    text-align: left;
+}
+
+.customer_setting_edit .content .sp {
+    font-size: 14px;
+}
+
+.customer_setting_edit .content .sp3 {
+    /*margin-right: 20px;*/
+    vertical-align: middle;
+}
+
+.customer_setting_edit .content .sp6 {
+    margin-left: 0px;
+    vertical-align: middle;
+    color: #bebebe;
+}
+
+.customer_setting_edit .content .fuxuan {
+    width: 160px;
+    height: 35px;
+    background-color: #eaf2fe;
+    color: #42a5f5;
+    text-align: center;
+    line-height: 35px;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    float: left;
+}
+
+
+.customer_setting_edit .content .yixuan {
+    width: 800px;
+    height: 35px;
+    /*background-color: #eaf2fe;*/
+    color: #42a5f5;
+    text-align: left;
+    line-height: 35px;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    float: left;
+}
+
+.customer_setting_edit .content p.yixuan span {
+    color: #000;
+    margin-right: 15px;
+    display: inline-block;
+    width: 100px;
+}
+
+.customer_setting_edit .content .fuxuan i {
+    margin-left: 20px;
+    cursor: pointer;
+}
+.customer_setting_edit .content .fuxuan i.rotate{
+	transform: rotate(-90deg);
+}
+
+.customer_setting_edit .content div.xuanze {
+    display: none;
+    width: 160px;
+    height: 320px;
+    border: 1px solid #C0C0C0;
+    float: left;
+    margin-top: 0px;
+    background-color: #fff;
+    margin-left: 34px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.customer_setting_edit .content div.xuanzhong ul{
+	height: 200px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	width: 160px;
+	border-bottom:1px solid silver;
+}
+.customer_setting_edit .content div.xuanzhong {
+    display: none;
+    width: 160px;
+    height: 320px;
+    border: 1px solid #C0C0C0;
+    float: left;
+    margin-top: 0px;
+    background-color: #fff;
+    margin-left: 0px;
+    overflow-y: auto;
+}
+
+.customer_setting_edit .content .xuanze ul {}
+
+.customer_setting_edit .content .xuanze ul li {
+    width: 160px;
+    height: 32px;
+    /*border-bottom: 1px solid red;*/
+    line-height: 32px;
+}
+
+.customer_setting_edit .content .xuanze ul li input {
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+    margin-left: 14px;
+}
+
+.customer_setting_edit .content .xuanzhong p {
+    width: 160px;
+    height: 35px;
+    background-color: #f2f2f2;
+    color: #a3a3a3;
+    text-align: center;
+    line-height: 35px;
+    margin-left: 0;
+    margin-bottom: 0px;
+}
+
+.customer_setting_edit .content .xuanzhong li {
+    width: 140px;
+    height: 32px;
+    /*border-bottom: 1px solid red;*/
+    margin-left: 20px;
+    line-height: 32px;
+    position: relative;
+}
+
+.customer_setting_edit .content .xuanzhong li img {
+    margin-left: 30px;
+    position: absolute;
+    right:40px;
+    top:12px;
+}
+
+.customer_setting_edit .content .xuanzhong .wancheng {
+    width: 90px;
+    height: 30px;
+    background-color: #42a5f5;
+    color: #fff;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 10px;
+    margin: 40px auto 10px;
+}

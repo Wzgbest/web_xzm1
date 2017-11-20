@@ -1,0 +1,158 @@
+<header>
+	<h1>合同申请<i class="fa fa-close fa-2x pop-close-btn"></i></h1>
+</header>
+<div class="pop_content m-form">
+	<div class="main" id="create-apply-container">
+		<div class="main-content">
+			<div>
+				<span class="cont">合同类型</span>
+				<select class="type-class">
+					<option value="0">请选择</option>
+					{volist name="contract_type_list" id="vo"}
+					<option value="{$vo.id}">{$vo.contract_name}</option>
+					{/volist}
+				</select>
+				<span class="cont">合同数量</span>
+				<input type="text" class="contract-number"/>
+			</div>
+			<div>
+				<span class="cont exam-man hide">一审人</span>
+				<select class="exam-man-s hide">
+				</select >
+				<span class="cont exam-man hide">二审人</span>
+				<select class="exam-man-s hide">
+				</select>
+			</div>
+			<div>
+				<span class="cont exam-man hide">三审人</span>
+				<select class="exam-man-s hide">
+				</select>
+				<span class="cont exam-man hide">四审人</span>
+				<select class="exam-man-s hide">
+				</select>
+			</div>
+			<div>
+				<span class="cont exam-man hide">五审人</span>
+				<select class="exam-man-s hide">
+				</select>
+				<span class="cont exam-man hide">六审人</span>
+				<select class="exam-man-s hide">
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="add">
+		<i class="fa fa-plus fa-2x color-blue"></i>
+	</div>
+	<div class="u-submitButton">
+		<button class="pop-submit-btn">申请</button>
+		<button class="pop-close-btn">取消</button>
+	</div>
+</div>
+<!-- <link rel="stylesheet" href="/static/css/popUp.css" /> -->
+<script>
+	var exm = document.getElementsByClassName("exam-man");
+	var m_c = document.getElementsByClassName("main-content");
+	var len1 = exm.length;
+	var contract_type_list_json = '{$contract_type_list_json}';
+	var role_employee_index = '{$role_employee_index}';
+	var last_contract_list_json='{$last_contract_list_json}';
+	contract_type_list_json = JSON.parse(contract_type_list_json);
+	role_employee_index = JSON.parse(role_employee_index);
+    last_contract_list_json = JSON.parse(last_contract_list_json);
+	//合同类型选择事件
+	$("#create-apply-container").on("change",".type-class",function(){
+		//点击的是哪一行的select
+		var row = $(this).parents(".main-content").index();
+		//改变后的合同类型的value
+		var a = $(this).val();
+		//value在contract_type_list_json里面对应的类
+		var b = contract_type_list_json[a];
+		var applied= last_contract_list_json[a]||'';
+		//一个简单变量
+		var c ;
+		//计数器d
+		var d = 0;
+		//遍历类b
+		for(c in b){
+		//如果当前属性的值不是空
+			if(b[c]&&b[c]>0){
+				$(".main-content").eq(row).find(".exam-man").eq(d).removeClass("hide");
+				$(".main-content").eq(row).find(".exam-man-s").eq(d).removeClass("hide");
+				//当前属性值在role_employee_index里对应的数组
+				var arr = role_employee_index[b[c]];
+				// $(".main-content").eq(row).find(".exam-man-s").eq(d).html("<option value='0'>请选择</option>");
+                var selected='';
+				for(var i=0;i<arr.length;i++){
+				    if(applied && applied[d+1]==arr[i].user_id)
+					{
+                        selected="selected";
+
+					}
+					$(".main-content").eq(row).find(".exam-man-s").eq(d).append("<option value='"+arr[i].user_id+"'"+selected+">"+arr[i].truename+"</option>");
+                    selected='';
+				}
+				d++;
+			}else{
+				break;
+			}			
+		};
+		for(d;d<len1;d++){
+				$(".main-content").eq(row).find(".exam-man").eq(d).addClass("hide");
+				$(".main-content").eq(row).find(".exam-man-s").eq(d).addClass("hide");
+		}	
+	});
+
+//add按钮事件	
+	var t = $("#create-contract .main-content").html();
+	$("#create-contract .add").click(function(){
+		//小于合同类型的数量
+		if(m_c.length<5){
+			var div = document.createElement("div");
+			div.setAttribute("class","main-content");
+			div.innerHTML = t;
+			document.getElementById("create-apply-container").appendChild(div);
+		}else{
+            layer.msg('不能再添加了!',{icon:2});
+		}		
+	});
+	function Contract(type,num,apply_num){
+		this.type = type,
+		this.num = num
+	}
+	$(".pop-submit-btn").click(function(){
+		var arry = new Array(m_c.length);
+		console.log(arry);
+		for(var i=0;i<m_c.length;i++){
+			var m = $(".main-content").eq(i);
+			var val1 = m.find(".type-class").val();
+			var val2 = m.find(".contract-number").val();
+			var exms = m.find(".exam-man-s").not(".hide");
+			
+			console.log(val1,val2,exms.length);
+			var contract = new Contract(val1,val2,exms.length)
+			arry[i] = "";
+			for(var j=1;j<=exms.length;j++){
+				contract["apply_"+j] = exms.eq(j-1).val();
+			}
+			arry[i] = contract;
+		}
+		console.log(arry);
+		$.ajax({
+	        url: '/crm/contract/apply',
+	        type: 'post',
+	        data: "contract_apply="+JSON.stringify(arry),
+	        success: function(data) {
+	            layer.msg(data.info,{icon:data.status==1?1:2});
+				if(data.status==1){
+					$("#create-contract").children().remove();
+                    my_contract_list_manage.reload_list();
+				}
+	        },
+	        error: function() {
+                layer.msg('申请时发生错误!',{icon:2});
+	        }
+	    });
+
+	});
+</script>

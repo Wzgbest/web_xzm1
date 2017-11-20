@@ -1,0 +1,390 @@
+{notempty name="task_list"}
+{volist name="task_list" id="vo"}
+{eq name="vo.task_type" value="1"}
+<div class="dv1 task_{$vo.id}" task_id="{$vo.id}">
+    {eq name="vo.is_token" value="0"}
+    <div class="mengceng m_c" hongbao_id="{$vo.redid}">{/eq}
+    <div class="left">
+        <img src="/task/img/incentive_task.png" class="img1" />
+        <div class="border-right">
+            <p>发布人</p>
+            <div class="name">{$vo.truename}
+                <div class="roll">
+                    <img src="/task/img/phone.png" />
+                    <img src="/task/img/note.png" />
+                </div>
+            </div>
+            <p>￥
+                <?php switch($vo['task_method']){
+                case 1:
+                    echo $vo['reward_amount'];
+                    break;
+                case 2:
+                    echo sprintf("%.2f", $vo['reward_amount']/$vo['partin_count']);
+                    break;
+                case 3:
+                    echo $vo['reward_amount'];
+                    break;
+                } ?>
+            </p>
+            <p>预计奖金</p>
+        </div>
+    </div>
+    <div class="center">
+        <p class="theme">{$vo.task_name}</p>
+        <div>
+            <div class="details">
+            	<div>
+                    <p class="small">考核项目</p>
+                    <p class="big">{$vo.target_type|get_target_type_name}</p>
+                </div>
+            	<div class="fu">
+                    <p class="small">奖金</p>
+                    <p class="big">
+                        {if condition=" $vo['re_amount_min'] eq $vo['re_amount_max'] "}
+                        {$vo.re_amount}元
+                        {else/}
+                        {$vo.re_amount_min}~{$vo.re_amount_max}元
+                        {/if}
+
+
+                        {neq name='vo.task_method' value='2'}/人{/neq}
+                    </p>
+                    <?php $rewardArray=explode(',',$vo['ranking']); ?>
+                    {neq name='vo.task_method' value='2'}
+                    <div class="xuanfu">
+                        {volist name="rewardArray" id="v1"}
+                        <P><span>{$v1}</span></P>
+                        {/volist}
+                    </div>
+                    {/neq}
+                </div>
+                <div class="len">
+                    <p class="small">奖金规则</p>
+                    <p class="big">
+                        <?php switch($vo['task_method']){
+                        case 1:
+                            echo '统计周期时间内，达标的员工获得即时奖励';
+                            break;
+                        case 2:
+                            echo '任务结束，所有达标员工平均分配奖金';
+                            break;
+                        case 3:
+                            echo '任务结束后，按完成任务量最终排名发放奖金';
+                            break;
+                        } ?>
+                    </p>
+                </div>
+            </div>
+            <div class="details">
+               <div class="len">
+                    <p class="small">统计周期</p>
+                   <p class="big">{$vo.task_start_time|date="Y.m.d/H:i",###}-{$vo.task_end_time|date="Y.m.d/H:i",###}</p>
+                </div>
+                <div class="very flo">
+                    <p class="small">面向群体</p>
+                    <p class="very big"><?php $array=explode(',',$vo['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共<span class="partin_count"><?php echo count(explode(',',$vo['public_to_take'])) ?></span>人参与）</p>
+                    <div class="flotage">
+                        {notempty name="vo['public_to_take_array']"}{foreach name="vo['public_to_take_array']" item="v" key="k"}<span class="user_{$k} {in name='k' value='$vo.take_employees'} color-blue{/in}">{$v}</span>{/foreach}{/notempty}
+                    </div>
+                </div>
+              
+            </div>
+        </div>
+    </div>
+    <div class="right">
+        <div class="within">
+            <div class="active details" >
+                {eq name="vo.status" value="2"}
+                    {if condition="$now_time <= $vo['task_end_time']"}
+                        <p class="p2 tip" task_id="{$vo.id}">{if condition="in_array($uid,explode(',',$vo['tip_employees']))"}继续打赏{else/}打赏{/if}</p>
+
+                        {eq name="uid" value="$vo['create_employee']"}
+                            {if condition="strtotime('-1 day') < $vo['create_time'] && $now_time < $vo['task_end_time'] "}
+                            <p class="p2 end_task" data-id="{$vo.id}">终止任务</p>
+                            {/if}
+                            {if condition="!in_array($uid,explode(',',$vo['take_employees']))"}
+                            <p class="p1">任务进行中</p>
+                            {/if}
+                        {/eq}
+
+                        {if condition="in_array($uid,explode(',',$vo['take_employees']))"}
+                        <p class="p1">正在参与任务</p>
+                        {/if}
+                    {/if}
+                {/eq}
+                {eq name="vo.is_token" value="1"}
+                <p class="p6">已领{$vo.total_money}元</p>
+                {/eq}
+                {eq name="vo.status" value="0"}<p class="p3">任务被终止</p>{/eq}
+                {eq name="vo.status" value="1"}<p class="p4">任务未生效</p>{/eq}
+                {if condition="$now_time > $vo['task_end_time']"}
+                    <p class="p4">任务结束</p>
+                {/if}
+
+
+            </div>
+            <div class="comment">
+                <div>
+                    <img src="/task/img/comment.png" class="task_details comment_incentive" task_id="{$vo.id}" />
+                    <span>{$vo.comment_count}</span>
+                </div>
+                <div style="text-align: right;">
+                    {eq name="vo.is_like" value="1"}
+                    <img src="/task/img/praise.png" class="add" task_id="{$vo.id}" index_img="2"/>
+                    {else/}
+                    <img src="/task/img/zan.png" class="add" task_id="{$vo.id}" index_img="1"/>
+                    {/eq}
+                    <span class="yi">{$vo.like_count}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {eq name="vo.is_token" value="0"}
+    <img src="/task/img/redPacket.png" class="picture"/>
+    </div>{/eq}
+</div>
+{/eq}
+{eq name="vo.task_type" value="2"}
+<div class="dv1 task_{$vo.id}" task_id="{$vo.id}">
+    {eq name="vo.is_token" value="0"}
+    <div class="mengceng m_c" hongbao_id="{$vo.redid}">{/eq}
+    <div class="left">
+    	
+        <img src="/task/img/task.png" class="img1" />
+        <div class="border-right">
+       
+            <p>发布人</p>
+            <div class="name">{$vo.truename}
+                <div class="roll">
+                    <img src="/task/img/phone.png" />
+                    <img src="/task/img/note.png" />
+                </div>
+            </div>
+            <p>￥<?php echo $vo['reward_amount']*$vo['partin_count'] ?></p>
+            <p>预计奖金</p>
+     
+       </div>
+    </div>
+    <div class="center">
+        <p class="theme">{$vo.task_name}</p>
+        <div>
+            <div class="details">
+            	<div>
+                    <p class="small">PK项目</p>
+                    <p class="big">{$vo.target_type|get_target_type_name}</p>
+                </div>
+                <div>
+                    <p class="small">PK金额</p>
+                    <p class="big">
+                        {eq name="vo.reward_type" value="2"}{$vo.reward_amount}{/eq}
+                        {eq name="vo.reward_type" value="1"}{$vo.reward_amount/$vo.partin_count|floor}{/eq}
+
+                        元
+                    </p>
+                </div>
+                <div class="len">
+                    <p class="small">任务领取截止时间</p>
+                    <p class="big">{$vo.task_take_end_time|date="Y.m.d/H:i",###}</p>
+                </div>
+               
+                
+            </div>
+            <div class="details">
+                
+                 <div class="len">
+                     <p class="small">统计周期</p>
+                     <p class="big">{$vo.task_start_time|date="Y.m.d/H:i",###}-{$vo.task_end_time|date="Y.m.d/H:i",###}</p>
+                </div>
+                <div class="very flo">
+                    <p class="small">面向群体</p>
+                    <p class="very big"><?php $array=explode(',',$vo['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共<?php echo count(explode(',',$vo['public_to_take'])) ?>人，已参与<span class="partin_count">{$vo.partin_count}</span>人）</p>
+                    <div class="flotage">
+                        {notempty name="vo['public_to_take_array']"}{foreach name="vo['public_to_take_array']" item="v" key="k"}<span class="user_{$k}  {in name='k' value='$vo.take_employees'} color-blue{/in}">{$v}</span>{/foreach}{/notempty}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="right">
+        <div class="within">
+            <div class="active details">
+                {eq name="vo.status" value="2"}
+                    {if condition="$now_time <= $vo['task_end_time']"}
+                        <p class="p2 tip" task_id="{$vo.id}">{if condition="in_array($uid,explode(',',$vo['tip_employees']))"}继续打赏{else/}打赏{/if}</p>
+                        {eq name="uid" value="$vo['create_employee']"}
+                            {if condition="($vo['is_take'] neq 1 or $vo['take_employees'].'' eq $uid.'') && $now_time < $vo['task_end_time'] "}
+                                <p class="p2 end_task" data-id="{$vo.id}">终止任务</p>
+                            {/if}
+                            {if condition="!in_array($uid,explode(',',$vo['take_employees']))"}
+                            <p class="p1">任务进行中</p>
+                            {/if}
+                        {/eq}
+                        {if condition="in_array($uid,explode(',',$vo['public_to_take'])) && !in_array($uid,explode(',',$vo['take_employees'])) && $now_time < $vo['task_take_end_time'] && $now_time >= $vo['task_take_start_time'] && $vo['is_guess'] == 0 && $vo['partin_count']<$vo['reward_num']"}
+                            <p class="p2 get_reward" data-id="{$vo.id}" task-type="{$vo.task_type}" task-money="{$vo.reward_amount}">领取</p>
+                        {elseif condition="in_array($uid,explode(',',$vo['take_employees']))" /}
+                            <p class="p1">正在参与任务</p>
+                        {elseif condition="$vo['partin_count']>=$vo['reward_num']"}
+                            <p class="p1">参与人数已满</p>
+                        {else /}
+
+                        {/if}
+                        {if condition="!in_array($uid,explode(',',$vo['take_employees'])) && $vo['is_guess'] == 0"}
+                            <p class="p2 guess" task_id="{$vo.id}">猜冠军</p>
+                        {elseif condition="$vo['is_guess'] == 1" /}
+                            <p class="p1">正在参与猜冠军</p>
+                        {/if}
+
+                    {/if}
+                {/eq}
+                {eq name="vo.is_token" value="1"}
+               	<p class="p6">已领{$vo.total_money}元</p>
+                {/eq}
+                {eq name="vo.status" value="0"}<p class="p3">任务被终止</p>{/eq}
+                {eq name="vo.status" value="1"}<p class="p4">任务未生效</p>{/eq}
+                {if condition="$now_time > $vo['task_end_time']"}
+                <p class="p4">任务结束</p>
+                {/if}
+            </div>
+
+            <div class="comment">
+                <div>
+                    <img src="/task/img/comment.png" class="task_details comment_pk" task_id="{$vo.id}" />
+                    <span>{$vo.comment_count}</span>
+                </div>
+                <div style="text-align: right;">
+                    {eq name="vo.is_like" value="1"}
+                    <img src="/task/img/praise.png" class="add" task_id="{$vo.id}" index_img="2"/>
+                    {else/}
+                    <img src="/task/img/zan.png" class="add" task_id="{$vo.id}" index_img="1"/>
+                    {/eq}
+                    <span class="yi">{$vo.like_count}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {eq name="vo.is_token" value="0"}
+    <img src="/task/img/redPacket.png" class="picture"/>
+    </div>{/eq}
+</div>
+{/eq}
+{eq name="vo.task_type" value="3"}
+<div class="dv1 task_{$vo.id}" task_id="{$vo.id}">
+    {eq name="vo.is_token" value="0"}
+    <div class="mengceng m_c" hongbao_id="{$vo.redid}">{/eq}
+    <div class="left">
+        <img src="/task/img/reward_task.png" class="img1" />
+        <div class="border-right">
+            <p>发布人</p>
+            <div class="name">{$vo.truename}
+                <div class="roll">
+                    <img src="/task/img/phone.png" />
+                    <img src="/task/img/note.png" />
+                </div>
+            </div>
+            <p>￥{$vo.reward_amount}</p>
+            <p>预计奖金</p>
+        </div>
+    </div>
+    <div class="center">
+        <p class="theme">{$vo.task_name}</p>
+        <div>
+            <div class="details">
+                <div class="len">
+                    {eq name="vo['target_method']" value="1"}
+                    <p class="small">其他需求</p>
+                    <p class="very big">{$vo.target_description}</p>
+                    {else/}
+                    <p class="small">帮跟客户</p>
+                    <p class="very big blue">{$vo.customer_name}</p>
+                    {/eq}
+                </div>
+                <div >
+                    <p class="small">奖金</p>
+                    <p class="big">{$vo.re_amount}元/人
+                    </p>
+                </div>
+                <div >
+                    <p class="small">任务领取截止时间</p>
+                    <p class="big">{$vo.task_take_end_time|date="Y.m.d/H:i:s",###}</p>
+                </div>
+                
+            </div>
+            <div class="details">
+                <div class="len">
+                    <p class="small">任务周期</p>
+                    <p class="big">{$vo.task_start_time|date="Y.m.d/H:i",###}-{$vo.task_end_time|date="Y.m.d/H:i",###}</p>
+                </div>
+                <div class="very flo">
+                    <p class="small">面向群体</p>
+                    <p class="very big"><?php $array=explode(',',$vo['public_to_truename']); if(count($array)>1){echo $array[0].','.$array[1].'等';}elseif($array){echo $array[0];}else{echo '';} ?>（共<?php echo count(explode(',',$vo['public_to_take'])) ?>人，已参与<span class="partin_count">{$vo.partin_count}</span>人）</p>
+                    <div class="flotage">
+                        {notempty name="vo['public_to_take_array']"}{foreach name="vo['public_to_take_array']" item="v" key="k"}<span class="user_{$k}  {in name='k' value='$vo.take_employees'} color-blue{/in}">{$v}</span>{/foreach}{/notempty}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="right">
+        <div class="within">
+            <div class="active details">
+                {eq name="vo.status" value="2"}
+                    {if condition="$now_time <= $vo['task_end_time']"}
+                        <p class="p2 tip" task_id="{$vo.id}">{if condition="in_array($uid,explode(',',$vo['tip_employees']))"}继续打赏{else/}打赏{/if}</p>
+                        {if condition="in_array($uid,explode(',',$vo['public_to_take'])) && !in_array($uid,explode(',',$vo['take_employees'])) && $now_time < $vo['task_take_end_time'] && $now_time >= $vo['task_take_start_time'] && $vo['is_guess'] == 0 && $vo['partin_count']<$vo['reward_num'] && $vo['create_employee']!=$uid"}
+                        <p class="p2 get_reward" data-id="{$vo.id}" task-type="{$vo.task_type}" task-money="{$vo.reward_amount}">领取</p>
+                        {elseif condition="in_array($uid,explode(',',$vo['take_employees']))" /}
+                        <p class="p1">正在参与任务</p>
+                        {elseif condition="$vo['partin_count']>=$vo['reward_num']"}
+                        <p class="p1">参与人数已满</p>
+                        {/if}
+                        {eq name="uid" value="$vo['create_employee']"}
+                            {if condition="$vo['partin_count'] eq 0 && $now_time < $vo['task_end_time'] "}
+                            <p class="p2 end_task" data-id="{$vo.id}">终止任务</p>
+                            {/if}
+                            {if condition="!in_array($uid,explode(',',$vo['take_employees']))"}
+                            <p class="p1">任务进行中</p>
+                            {/if}
+                        {/eq}
+
+                    {/if}
+                {/eq}
+                {eq name="vo.is_token" value="1"}
+                <p class="p6">已领{$vo.total_money}元</p>
+                {/eq}
+                {eq name="vo.status" value="0"}<p class="p3">任务被终止</p>{/eq}
+                {eq name="vo.status" value="1"}<p class="p3">任务未生效</p>{/eq}
+                {if condition="$now_time > $vo['task_end_time']"}
+                    <p class="p4">任务结束</p>
+                {/if}
+
+            </div>
+            <div class="comment">
+                <div>
+                    <img src="/task/img/comment.png" class="task_details comment_reward" task_id="{$vo.id}" />
+                    <span>{$vo.comment_count}</span>
+                </div>
+                <div style="text-align: right;">
+                    {eq name="vo.is_like" value="1"}
+                    <img src="/task/img/praise.png" class="add" task_id="{$vo.id}" index_img="2"/>
+                    {else/}
+                    <img src="/task/img/zan.png" class="add" task_id="{$vo.id}" index_img="1"/>
+                    {/eq}
+                    <span class="yi">{$vo.like_count}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {eq name="vo.is_token" value="0"}
+    <img src="/task/img/redPacket.png" class="picture"/>
+    </div>{/eq}
+</div>
+{/eq}
+{/volist}
+{eq name="p" value="1"}
+<p class="more">
+    <a class="page_next" href="{:url('task/employee_task/hot_task_load',$url_args)}"></a>
+</p>
+{/eq}
+{/notempty}

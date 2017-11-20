@@ -1,0 +1,213 @@
+<div class="sys_rule sys_rule_list h100 o-h">
+    <div class="rule_list_panel rule_list h100 o-h">
+        <div class="top">
+            <ul class="firNav">
+                <li class="current">
+                    <div>权限管理</div>
+                </li>
+            </ul>
+        </div>
+        <!--权限列表-->
+        <div class="m-3rd-container o-x-h">
+          <div class="content">
+            <section class="b-w">
+                <ul class="m-secNav">
+                    <li class="active rule_add" onclick="rule_list_newRule();">新增</li>
+                    <div class="clearfix"></div>
+                </ul>
+                <div class="m-filterNav">
+                    <form class="search_form" onsubmit="return false;">
+
+                    </form>
+                </div>
+                <div class="m-tableBox p-r">
+                    <div class="m-table m-table-nav ">
+                        <ul class="u-tabTitle">
+                            <li>操作</li>
+                            <div class="clearfix"></div>
+                        </ul>
+                        {notempty name="rule_tree"}
+                        {volist name="rule_tree" id="v1"}
+                        <ul class="u-tabList">
+                            <li class="u-tabOperation">
+                                <span onclick="rule_list_edit('{$v1.id}',0);">编辑</span>
+                                <span onclick="rule_list_del('{$v1.id}');">删除</span>
+                            </li>
+                            <div class="clearfix"></div>
+                        </ul>
+                        {notempty name="v1.child"}
+                        {volist name="v1.child" id="v2"}
+                        <ul class="u-tabList">
+                            <li class="u-tabOperation">
+                                <span onclick="rule_list_edit('{$v2.id}',0);">编辑</span>
+                                <span onclick="rule_list_del('{$v2.id}');">删除</span>
+                            </li>
+                            <div class="clearfix"></div>
+                        </ul>
+                        </ul>
+                        {notempty name="v2.child"}
+                        {volist name="v2.child" id="v3"}
+                        <ul class="u-tabList">
+                            <li class="u-tabOperation">
+                                <span onclick="rule_list_edit('{$v3.id}',0);">编辑</span>
+                                <span onclick="rule_list_del('{$v3.id}');">删除</span>
+                            </li>
+                            <div class="clearfix"></div>
+                        </ul>
+                        {/volist}
+                        {/notempty}
+                        {/volist}
+                        {/notempty}
+                        {/volist}
+                        {/notempty}
+                    </div>
+                    <div class="m-table table7 m-table-detail">
+                        <ul class="u-tabTitle">
+                            <li>操作</li>
+                            <li>规则名</li>
+                            <li>类型</li>
+                            <li>规则英文标识</li>
+                            <li>菜单类名</li>
+                            <li>菜单标识</li>
+                            <li>url</li>
+                            <div class="clearfix"></div>
+                        </ul>
+                        {notempty name="rule_tree"}
+                        {volist name="rule_tree" id="v1"}
+                        <ul class="u-tabList">
+                            <li class="u-tabOperation">
+                                <span onclick="rule_list_edit('{$v1.id}',0);">编辑</span>
+                                <span onclick="rule_list_del('{$v1.id}');">删除</span>
+                            </li>
+                            <li>{$v1.rule_title}</li>
+                            <li>{$v1.type|get_rule_type_name}</li>
+                            <li>{$v1.rule_name}</li>
+                            <li>{$v1.class}</li>
+                            <li>{$v1.name}</li>
+                            <li>{$v1.url}</li>
+                            <div class="clearfix"></div>
+                        </ul>
+                        {notempty name="v1.child"}
+                        {volist name="v1.child" id="v2"}
+                        <ul class="u-tabList">
+                            <li class="u-tabOperation">
+                                <span onclick="rule_list_edit('{$v2.id}',0);">编辑</span>
+                                <span onclick="rule_list_del('{$v2.id}');">删除</span>
+                            </li>
+                            <li>&nbsp;&nbsp;&nbsp;&nbsp;{$v2.rule_title}</li>
+                            <li>{$v2.type|get_rule_type_name}</li>
+                            <li>{$v2.rule_name}</li>
+                            <li>{$v2.class}</li>
+                            <li>{$v2.name}</li>
+                            <li>{$v2.url}</li>
+                            <div class="clearfix"></div>
+                        </ul>
+                            {notempty name="v2.child"}
+                            {volist name="v2.child" id="v3"}
+                            <ul class="u-tabList">
+                                <li class="u-tabOperation">
+                                    <span onclick="rule_list_edit('{$v3.id}',0);">编辑</span>
+                                    <span onclick="rule_list_del('{$v3.id}');">删除</span>
+                                </li>
+                                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$v3.rule_title}</li>
+                                <li>{$v3.type|get_rule_type_name}</li>
+                                <li>{$v3.rule_name}</li>
+                                <li>{$v3.class}</li>
+                                <li>{$v3.name}</li>
+                                <li>{$v3.url}</li>
+                                <div class="clearfix"></div>
+                            </ul>
+                            {/volist}
+                            {/notempty}
+                        {/volist}
+                        {/notempty}
+                        {/volist}
+                        {/notempty}
+                    </div>
+                </div>
+            </section>
+
+            <script src="/systemsetting/js/rule_list.js"></script>
+            <script language="javascript">
+                var rule_list_list_manage = new list_rule("rule_list", "rule-managementfr", "/systemsetting/rule/index");
+            </script>
+
+
+            <!--黑色遮罩-->
+            <section id="rule_list_blackBg" class="hide blackBg page-rule"></section>
+
+            <!--新增权限-->
+            <section id="rule_list_newRule" class="newRule hide popUp page-rule">
+                <header>
+                    <h1>新增权限<i class="fa fa-close fa-2x" onclick="rule_list_removeNewRule()"></i></h1>
+                </header>
+                <div class="m-formBox m-form" style="background-color: white;">
+                    <form id="rule_list_newRuleForm" class="newRuleForm" onsubmit="return false;">
+                        <div id="form2" class="">
+                            <div>
+                                <!--<span class="cont"><span class="u-required">＊</span>规则名</span>-->
+                                <img src="/systemsetting/images/corp_info.jpg" />
+                				<span>规则名</span>
+                                <input type="text" name="rule_title" required="required" pattern="[\S]{0,10}" title="最多可填写10个字符" placeholder="请输入规则名" />
+
+								<img src="/systemsetting/images/corp_info.jpg" />
+                                <!--<span class="cont"><span class="u-required">＊</span>英文标识</span>-->
+                                <span>英文标识</span>
+                                <input type="text" name="rule_name" required="required"  placeholder="请输入英文标识" />
+                            </div>
+                            <div>
+                                <span class="cont">父级</span>
+                                <select name="pid">
+                                    <option value="0">第一级</option>
+                                    {volist name="firstLevelTree" id="first"}
+                                        <option value="{$first.id}">{$first.rule_title}</option>
+                                        {notempty name="first.child"}
+                                        {volist name="first.child" id="second"}
+                                            <option value="{$second.id}">&nbsp;&nbsp;&nbsp;&nbsp;{$second.rule_title}</option>
+                                        {/volist}
+                                        {/notempty}
+                                    {/volist}
+                                </select>
+                                <span class="cont">类型</span>
+                                <select name="type">
+                                    <option value="0">菜单组</option>
+                                    <option value="1">内部方法</option>
+                                    <option value="2">外部url</option>
+                                    <option value="3">功能点</option>
+                                </select>
+                            </div>
+                            <div>
+                                <span class="cont">菜单类名</span>
+                                <input type="text" name="class"  placeholder="请输入菜单类名" />
+
+                                <span class="cont">菜单标识</span>
+                                <input type="text" name="name"  placeholder="请输入菜单标识" />
+                            </div>
+                            <div>
+                                <span class="cont">url</span>
+                                <input type="text" name="url"  placeholder="请输入url" />
+                                <span class="cont">排序</span>
+                                <input type="text" name="sort"  placeholder="请输入排序" />
+                            </div>
+
+                            <p class="p5">
+                                <input type="submit" onclick="rule_list_add_rule();" value="确定" />
+                                <button onclick="rule_list_removeNewRule();">取消</button>
+                            </p>
+
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>  
+        </div>
+        
+    </div>
+    <div class="rule_list_panel rule_info hide">
+    </div>
+</div>
+<link rel="stylesheet" href="/static/css/index.css" />
+<link rel="stylesheet" href="/static/css/table.css" />
+<link rel="stylesheet" href="/static/css/form.css" />
+<link rel="stylesheet" href="/static/css/divBlock.css" />
+<link rel="stylesheet" href="/systemsetting/css/rule_list.css" />

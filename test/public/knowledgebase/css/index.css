@@ -1,0 +1,503 @@
+#speech-databasefr{
+/*	margin-top: 100px;
+    box-sizing: border-box;
+    padding-bottom: 100px;*/
+}
+#company-libraryfr{
+	/*margin-top: 100px;*/
+    /*box-sizing: border-box;*/
+    /*padding-bottom: 10px;*/
+}
+.knowledgebase_speechcraft_index .speech-list li{
+	height: 98px;
+	border-bottom: 2px solid #eee;
+	padding: 15px 20px;
+	position: relative;
+	cursor: pointer;
+	background-color: white;
+}
+.knowledgebase_speechcraft_index .speech-list li .controler{
+	position: absolute;
+	right: 40px;
+	top: 20px;
+}
+.knowledgebase_speechcraft_index .speech-list li .controler .fa{
+	color: #999;
+}
+.knowledgebase_speechcraft_index .speech-list li .edit3{
+	display: none;
+}
+.knowledgebase_speechcraft_index .speech-list li .edit3 .fa:hover{
+	color: #42A5F5;
+}
+.knowledgebase_speechcraft_index .speech-list li .delete .fa:hover{
+	color: #ef5350;
+}
+.knowledgebase_speechcraft_index .speech-list li .delete{
+	display: none;
+	margin-left: 10px;
+}
+.knowledgebase_speechcraft_index .speech-list li.manage-list-model{
+	height: 40px;
+	border-bottom: none;
+	padding: 0 20px;
+}
+.knowledgebase_speechcraft_index .speech-list li.manage-list-model .hot{
+	display: none !important;
+}
+.knowledgebase_speechcraft_index .speech-list li.manage-list-model .controler{
+	display: none;
+}
+.knowledgebase_speechcraft_index .speech-list li.manage-list-model h1{
+	font-size: 14px;
+	color: #4c4c4c;
+	display: inline-block;
+	line-height: 40px;
+	margin: 0 20px;
+}
+.knowledgebase_speechcraft_index .speech-list li.manage-list-model h2{
+	display: none;
+}
+.knowledgebase_speechcraft_index .speech-list li.manage-list-model h3{
+	display:inline-block;
+	line-height: 40px;
+	float: right;
+}
+.knowledgebase_speechcraft_index .speech-list li.manage-list-model select{
+	float: right;
+	width: 22px;
+	height: 30px;
+	margin: 5px 20px;
+	display: inline-block;
+}
+.knowledgebase_speechcraft_index .speech-list li select{
+	display: none;
+}
+.knowledgebase_speechcraft_index .speech-list li input[type="checkbox"]{
+	display: none;
+}
+.knowledgebase_speechcraft_index .speech-list li.manage-list-model input[type="checkbox"]{
+	display: inline-block;
+}
+.knowledgebase_speechcraft_index .batch-delete,.knowledgebase_speechcraft_index .batch-change{
+	width: 80px;
+    height: 25px;
+    border-radius: 12.5px;
+    background-color: #42A5F5;
+    text-align: center;
+    line-height: 25px;
+    color: white;
+    margin: 5px 0 0 20px;
+    cursor: pointer;
+    float:left;
+}
+.knowledgebase_speechcraft_index .no-list{
+	text-align: center;
+	margin-top: 100px;
+}    
+
+
+.knowledgebase_speechcraft_index .manageNav{
+	padding: 20px 0 0 20px;
+	margin: 0;
+	background-color: #fff;
+	/*margin-top: 110px;
+    margin-bottom: -100px; */
+}
+.knowledgebase_speechcraft_index .manageNav input[type="checkbox"]{
+	text-align: center;
+}
+.knowledgebase_speechcraft_index .manageNav span{
+	line-height: 40px;
+	margin: 0 10px 0 5px;
+}
+.knowledgebase_speechcraft_index .manageNav select{
+	margin: 0 10px 0 10px;
+}
+.speech-list{
+	/*margin-top: 60px;*/
+}
+.speech-list li:hover {
+	background-color: #f0f0f0;
+}
+.speech-list li:hover .edit3,.speech-list li:hover .delete{
+	display: inline-block;;
+}
+.speech-list li h1{
+	font-size: 20px;
+	line-height: 32px;
+	margin-bottom: 10px;
+}
+.speech-list .hot{
+	display: inline-block;
+	width: 40px;
+	height: 18px;
+	margin:0 0 7px 10px;
+	text-align: center;
+	line-height: 18px;
+	font-size: 12px;
+	color: white;
+	background-color: red;
+	border-radius: 8px;
+}
+.speech-list .speech-hot .hot{
+	display: inline-block;
+}
+.speech-list li h2{
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: normal;
+	margin-bottom: 10px;
+}
+.speech-list li h3{
+	font-size: 14px;
+	color: #b2b2b2;
+	line-height: 20px;
+	font-weight: normal;
+}
+.knowledgebase_speechcraft_index .search_form{
+	margin-top: 5px;
+}
+.knowledgebase .new-company-library{
+	width: 40px;
+	text-align: center;
+	color: #42A5F5;
+	cursor: pointer;
+}
+.knowledgebase .new-speechcraft{
+	width: 80px;
+	height: 25px;
+	border-radius: 12.5px;
+	background-color: #42A5F5;
+	text-align: center;
+	line-height: 25px;
+	color: white;
+	margin: 5px 20px 0 0;
+	cursor: pointer;
+}
+.knowledgebase .batch-manage{
+	height: 25px;
+	text-align: center;
+	line-height: 25px;
+	color: #42A5F5;
+	border-left: 1px solid #CCC;
+	margin: 5px 0 0 20px;
+	padding: 0 0 0 20px;
+	cursor: pointer;
+}
+.knowledgebase .new-speechcraft i,.knowledgebase .new-company-library i{
+	display: block;
+}
+.knowledgebase .new_panel .radio-select{
+	margin: 18px 0 25px 30px;
+}
+.knowledgebase .new_panel form span{
+	margin:0 10px;
+	vertical-align: top;
+}
+.knowledgebase .new_panel form>div{
+	margin-bottom: 20px;
+}
+.knowledgebase .new_panel form input[type="text"], .knowledgebase .new_panel form input[type="url"],.knowledgebase .new_panel form select{
+	width: 380px;
+	height: 25px;
+	padding: 5px 10px;
+	box-sizing: content-box;
+}
+.knowledgebase .new_panel form input[type="radio"]{
+	margin: 10px 10px 15px 10px;
+}
+.knowledgebase .new_panel form input[type="datetime-local"]{
+	width: 150px;
+}
+.knowledgebase .new_panel form textarea{
+	width: 780px;
+	height: 140px;
+	padding: 5px 10px;
+}
+/*工作圈*/
+.knowledgebase_company_library_index .library-list{
+	/*margin-top: 60px;*/
+}
+.knowledgebase_company_library_index .library-list .lib{
+	margin-right: 0;
+}
+.knowledgebase_company_library_index .library-list .lib-content{
+	padding:10px 0 0 85px;
+}
+.knowledgebase_company_library_index .library-list .lib-content .face{
+	width: 65px;
+	height: 65px;
+	border-radius: 50%;
+	overflow: hidden;
+	position: absolute;
+	left: 10px;
+}
+.knowledgebase_company_library_index .library-list .lib-content .face img{
+	width: 100%;
+	height: 100%;
+}
+.knowledgebase_company_library_index .library-list .lib-content .name{
+	font-size: 18px;
+	font-weight: normal;
+}
+.knowledgebase_company_library_index .library-list .lib-content .time{
+	font-size: 12px;
+	font-weight: normal;
+	color: #b2b2b2;
+}
+.knowledgebase_company_library_index .library-list .lib-content .description{
+	font-size: 16px;
+	font-weight: normal;
+}
+.knowledgebase_company_library_index .library-list .lib-content .voice span{
+	display: inline-block;
+}
+.knowledgebase_company_library_index .library-list .lib-operator {
+	float: right;
+}
+.knowledgebase_company_library_index .library-list .lib-operator li{
+	float: left;
+	width: 100px;
+	color: #b3b3b3;
+	border-right: 1px solid #f2f2f2;
+	cursor: pointer;
+	text-align: center;
+}
+.knowledgebase_company_library_index .library-list .lib-operator li.active i{
+	color: #fac50e;
+}
+.knowledgebase_company_library_index .library-list  i{
+	margin-right: 5px;
+}
+.knowledgebase_company_library_index .library-list .lib-reply{
+	padding: 15px 0 10px 5px;
+	background-color: #ededed;
+	border: 1px solid #ccc;
+}
+.knowledgebase_company_library_index .library-list .lib-reply li{
+	padding:0 45px;
+	position: relative;
+}
+.knowledgebase_company_library_index .library-list .lib-reply li .face{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 35px;
+	height: 35px;
+}
+.knowledgebase_company_library_index .library-list .lib-reply li .face img{
+	width: 100%;
+	height: 100%;
+}
+.knowledgebase_company_library_index .library-list .lib-reply input[type="text"]{
+	width: 100%;
+	height: 32px;
+	line-height: 32px;
+	padding: 0 10px;
+}
+.knowledgebase_company_library_index .library-list .lib-reply .reply-operator{
+	height: 40px;
+	line-height: 40px;
+}
+.knowledgebase_company_library_index .library-list .lib-reply .reply-operator button{
+	width: 80px;
+	height: 30px;
+	line-height: 30px;
+	margin-right: -20px;
+	margin-top: 5px;
+	background-color: #42A5F5;
+	color: white;
+	border-radius: 4px;
+	border-style: none;
+}
+.knowledgebase_company_library_index .library-list .lib-reply .reply-ago span{
+	line-height: 14px;
+	font-size: 12px;
+}
+.knowledgebase_company_library_index .library-list .lib-reply .reply-ago>li{
+	margin-top: 10px;
+	border-bottom: 1px solid #bcbcbc;
+}
+.knowledgebase_company_library_index .library-list .lib-reply .reply-ago .reply-ago-operator{
+	color: #B2B2B2;
+}
+.knowledgebase_company_library_index .library-list .lib-reply .reply-ago .reply-ago-operator li{
+	float: left;
+	padding: 0;
+	font-size: 12px;
+	line-height: 14px;
+	text-align: center;
+	width: 50px;
+		cursor: pointer;
+}
+.knowledgebase_company_library_index .library-list .lib-reply .reply-ago .reply-ago-operator li.active i{
+	color: #fac50e;
+}
+.knowledgebase_company_library_index .library-list .lib-content video{
+	width: 400px;
+	height: 240px;
+}
+.knowledgebase_company_library_index .library-list .lib-content .pic-grid{
+	width: 400px;
+}
+.knowledgebase_company_library_index .library-list .lib-content .pic-grid li{
+	width: 130px;
+	height: 130px;
+	float: left;
+	margin:3px 0 0 3px;
+}
+.knowledgebase_company_library_index .library-list .lib-content .pic-grid li img{
+	width: 100%;
+	height: 100%;
+	cursor: url(/static/cursor/big.cur),auto;
+}
+.knowledgebase_company_library_index .library-list .lib-content .pic-show{
+	height: 400px;
+	position: relative;
+}
+.knowledgebase_company_library_index .library-list .lib-content .pic-show .pack-up-btn{
+	width: 60px;
+    height: 25px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    z-index: 99;
+    border-radius: 12.5px;
+    line-height: 25px;
+    margin-left: 10px;
+    text-align: center;
+    color: white;
+    border: none;
+    background-color: #42a5f5;
+}
+.knowledgebase_company_library_index .library-list .lib-content .pic-show img{
+	height: 100%;
+	width: auto;
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+	cursor: url(/static/cursor/small.cur),auto;
+}
+.knowledgebase_company_library_index .library-list .lib-content .pic-list{
+	/*display: flex;*/
+	margin-top: 20px;
+	/*flex-flow: row;*/
+}
+.knowledgebase_company_library_index .library-list .lib-content .pic-list li{
+	width: 100px;
+	height: 100px;
+	float: left;
+	/*flex: 1;*/
+	margin-right: 20px;
+	opacity: 0.4;
+}
+.knowledgebase_company_library_index .library-list .lib-content .pic-list li.current{
+	opacity: 1;
+}
+.knowledgebase_company_library_index .library-list .lib-content .pic-list li img{
+	width: 100%;
+	height: 100%;
+	cursor: url(/static/cursor/big.cur),auto;
+}
+.reward-pop h2,.pay-pop h2,.pay-pop h3{
+	text-align: center;
+}
+.pay-pop h2{
+	font-size: 36px;
+}
+.pay-pop h3{
+	font-size: 14px;
+	color: #CCCCCC;
+}
+.pay-pop input[type="password"]{
+	box-sizing: content-box;
+	width: 234px;
+	height: 35px;
+	padding-left:16px ;
+	/*margin: 0 64px 12px 20px;*/
+	border: 1px solid #e5e5e5;
+}
+.reward-pop .reward-record{
+	width: 700px !important;
+	border: 1px solid #eee;
+	height: 200px;
+	margin: 20px auto;
+	overflow-y: scroll;
+}
+.reward-pop .reward-record li{
+	line-height: 35px;
+	font-size: 14px;
+	padding-left: 20px;
+}
+.reward-pop .reward-record .rewarding-person{
+	width: 100px;
+	margin-left: 30px;
+	display: inline-block;
+}
+
+.knowledgebase_speechcraft_detail{
+	height: 100%;
+	overflow: hidden;
+}
+.knowledgebase_speechcraft_detail .detail{
+	position: relative;
+	height: 100%;
+	overflow-y:auto; 
+}
+.knowledgebase_speechcraft_detail .u-btnBack{
+	width: 60px;
+    height: 25px;
+    position: absolute;
+    right: 40px;
+    top: 20px;
+    z-index: 99;
+    border-radius: 12.5px;
+    line-height: 25px;
+    margin-left: 10px;
+    text-align: center;
+    color: white;
+    border: none;
+    background-color: #42a5f5;
+}
+.knowledgebase_speechcraft_detail h1{
+	font-size: 24px;
+}
+.knowledgebase_speechcraft_detail h3{
+	color: #ccc;
+	font-weight: normal;
+	font-size: 14px;
+	margin-top: 10px;
+}
+.knowledgebase_speechcraft_detail .article_quote{
+	width: 100%;
+	height: 100%;
+	position: relative;
+	top: -110px;
+	padding-top: 110px;
+	padding-left: 10px;
+	box-sizing:border-box;
+	border: none;
+}
+.color-blue2{
+	color: #42A5F5;
+}
+@media screen and (max-width: 640px) {
+	.knowledgebase_speechcraft_detail .u-btnBack{
+		display: none !important;
+	}
+	.knowledgebase_speechcraft_detail{
+		overflow: auto;
+	}
+}
+.m-low-nav{
+	/*position: fixed !important;*/
+    width: 100%;
+    /*top: 112px;
+    z-index: 99;*/
+    padding:0;
+    border: 0;
+}
+.m-low-detail{
+	margin-top: 40px;
+}

@@ -1,0 +1,37 @@
+<div class="u-pop-header">
+	发票审核<i class="fa fa-close fa-2x pop-close-btn"></i>
+</div>
+<div class="u-pop-mid2-content approved-page-pop">
+	{eq name="input_bill_no" value="1"}
+	<div class="tc _top ">
+		<span>上一个发票编号：
+			{present name="bill_last"}
+				{$bill_last.bill_no}
+			{else/}
+				无
+			{/present}
+		</span>
+	</div>
+	<div class="tc">
+		<span class="cont">发票编号</span>
+		<input type="text" class="bill-num" placeholder="请输入发票号" />
+	</div>
+	{/eq}
+	<div class="tc">
+		<span class="cont" style="margin-left: 25px;">备注</span>
+		<input type="text" class="u-mark" />
+	</div>
+</div>
+<div class="approved-page-pop u-pop-footer">
+	<button class="pop-close-btn type1">取消</button>
+	<button class="pop-submit-btn type2">通过</button>
+</div>
+<style type="text/css">
+	.verification_bill_index .approved-page-pop ._top{
+		font-size: 14px;
+		margin-bottom: 20px;
+	}
+	.verification_bill_index .approved-page-pop ._top input{
+		margin: 0 5px 0 20px;
+	}
+</style>

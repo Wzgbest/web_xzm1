@@ -1,0 +1,29 @@
+<div class="systemsetting_bill block_list o-h">
+	<div id="top">
+		<ul class="firNav">
+			<li class="current">
+				<div>发票设置</div>
+			</li>
+		</ul>
+	</div>
+    <div class="m-3rd-container o-x-h">
+        <div class="content b-x ">
+        {volist name="listdata" id="vo"}
+        <a class="content_link" href="javascript:loadPage('{:url('edit_page',['id'=>$vo.id])}','bill-settingfr');">
+        <div class="content_item">
+            <h4 class="content_title center">{$vo.bill_type}</h4>
+            <!--<a class="content_link" href="javascript:loadPage('{:url('edit_page',['id'=>$vo.id])}','bill-settingfr');">查看编辑</a>-->
+        </div>
+        </a>
+        {/volist}        
+        <a href="javascript:loadPage('{:url('add_page')}','bill-settingfr');" class="content_link add">
+        <div class="content_item">
+            <h2 class="content_sub_title">+</h2>
+        </div>
+        </a>
+    </div>
+    </div>
+    
+</div>
+<link rel="stylesheet" href="/static/css/block_list.css" />
+<link rel="stylesheet" href="/systemsetting/css/bill_list.css" />

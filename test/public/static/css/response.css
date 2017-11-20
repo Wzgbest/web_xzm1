@@ -1,0 +1,54 @@
+	#side.mini{
+		width: 50px;
+		overflow: visible;
+		position: relative;
+	}
+	#side.mini aside{
+		width: 50px;
+		overflow: visible;
+	}
+	#logo.mini{
+		width: 39px;
+		height: 39px;
+	}
+	.header.mini{
+		left: 50px;
+	}
+	/*section*/
+	section#subt.mini{
+		left: 50px;
+	}
+	/*iframe*/
+	#frames.mini{
+		/*left: 50px;*/
+	}
+	#side.mini aside dl dt span{
+		display: none;
+	}
+	#side.mini .fa{
+		display: inline;
+	}
+	#side.mini aside dl dd{
+		text-indent: 20px;
+	}
+	#side.mini .fa-angle-right{
+		display: none ;
+	}
+	#side.mini .fa-angle-down{
+		display: none ;
+	}
+	#side.mini aside dl .ddcontent{
+		position: absolute;
+		width: 150px;
+		height: 100%;
+		left: 49px;
+		top: 39px;
+		z-index: 99;
+		background-color:#202a2f ;
+	}
+	#side.mini aside dl:hover{
+		background-color:#202a2f ;
+	}
+	#side.mini aside dl:hover .ddcontent{
+		display: block !important;
+	}
