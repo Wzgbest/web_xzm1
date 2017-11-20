@@ -463,7 +463,8 @@ class EmployeeTask extends Initialize{
                     'take_status'=>1,
                     'took_time'=>$time,
                     'remark' => '猜输赢任务终止退回',
-                    'status'=>1
+                    'status'=>1,
+                    "money_type"=>1
                 ];
                 $order_datas[] = $order_add_data;
                 if(isset($taskGuessAndTipMoneyEmployeeIdx[$taskTipInfo["tip_employee"]])){
@@ -485,7 +486,8 @@ class EmployeeTask extends Initialize{
                     'take_status'=>1,
                     'took_time'=>$time,
                     'remark' => '猜输赢任务终止退回',
-                    'status'=>1
+                    'status'=>1,
+                    "money_type"=>1
                 ];
                 $order_datas[] = $order_add_data;
                 $taskGuessAndTipMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] += $taskGuessInfo["guess_money"];
