@@ -1,0 +1,256 @@
+<header>
+	<h1>发票申请<i class="fa fa-close fa-2x pop-close-btn"></i></h1>
+</header>
+<div class="pop_content m-form">
+	<input type="hidden" class="contract_item_id" name="contract_item_id" value="{$contract_item_id}"/>
+	<div class="pop_bill_block">
+		<div class="line">
+			<span class="cont">打款方式:</span>
+			<span class="cont-x">
+				{eq name="contract.pay_type" value="1"}
+					现金已支付
+				{/eq}
+				{eq name="contract.pay_type" value="2"}
+					已转账到{$contract.pay_bank}
+				{/eq}
+			</span>
+		</div>
+		<div class="line">
+			<span class="cont">合同编号:</span>
+			<span class="cont-x">{$contract.contract_no}</span>
+		</div>
+		<div class="line">
+			<span class="cont">合同类型:</span>
+			<span class="cont-x">{$contract_info.contract_name}</span>
+		</div>
+		<div class="line">
+			<span class="cont-max">发票类型:</span>
+			<select class="bill-type">
+				<option value="0">请选择</option>
+				{volist name="bill_name" id="vo" key="key"}
+				<option value="{$key-1}">{$vo}</option>
+				{/volist}
+			</select>
+		</div>
+		<div class="line">
+			<span class="cont">开票名称:</span>
+			<input class="customer_name" type="text" value="{$contract.pay_name}"/>
+		</div>
+		<div class="line tax-number-line hide">
+			<span class="cont">公司税号:</span>
+			<input class="tax-number" type="text" value=""/>
+		</div>
+		<div class="line">
+			<span class="cont">开票金额:</span>
+			<input class="bill_money" type="text" value="{$contract.pay_money}"/>
+		</div>
+	</div>
+	<div class="pop_bill_block">
+		<h2 class="cont">产品类型</h2>
+		<ul class="product-type">
+			<!--<li><input type="checkbox"/><span class="cont">百度</span><input type="text"/>元</li>-->
+		</ul>
+		<h4>注：所填写的总金额需满足默认开票金额才可提交</h4>
+	</div>
+	<div class="pop_bill_block">
+		<span class="cont exam-man hide">一审人</span>
+			<select class="exam-man-s hide">
+				<option value="0">请选择</option>
+			</select >
+			<span class="cont exam-man hide">二审人</span>
+			<select class="exam-man-s hide">
+				<option value="0">请选择</option>
+			</select>
+		</div>
+	<div class="pop_bill_block">
+		<span class="cont exam-man hide">三审人</span>
+		<select class="exam-man-s hide">
+			<option value="0">请选择</option>
+		</select>
+		<span class="cont exam-man hide">四审人</span>
+		<select class="exam-man-s hide">
+			<option value="0">请选择</option>
+		</select>
+	</div>
+	<div class="pop_bill_block">
+		<span class="cont exam-man hide">五审人</span>
+		<select class="exam-man-s hide">
+			<option value="0">请选择</option>
+		</select>
+		<span class="cont exam-man hide">六审人</span>
+		<select class="exam-man-s hide">
+			<option value="0">请选择</option>
+		</select>
+	</div>
+	<div class="u-submitButton">
+		<button class="pop-submit-btn">申请</button>
+		<button class="pop-close-btn">取消</button>
+	</div>
+</div>
+<script>
+	var json_data= new Object();
+	$(".pop-submit-btn").click(function(){
+		json_data.contract_item_id = $(".pop_content .contract_item_id").val();
+		json_data.bill_type = $(".pop_bill_block .bill-type").val();
+		if(json_data.bill_type<=0){
+			layer.msg('发票类型必须选择!',{icon:2});
+			return false;
+		}
+		json_data.tax_num = $(".pop_bill_block .tax-number").val();
+		if(json_data.tax_num<=0 && !$(".tax-number-line").hasClass("hide")){
+			layer.msg('公司税号必须填写!',{icon:2});
+			return false;
+		}
+		var check = $(".pop_bill_block .product-type input[type='checkbox']");
+		var arr2 = new Array();
+		var j=0;
+		for(var i=0;i<check.length;i++){
+			if(check.eq(i).prop("checked")){
+//				console.log(3);
+/*				console.log(check.eq(i).siblings("span").text());
+				console.log(check.eq(i).siblings("input").val());*/
+				arr2[j] = new Object();
+				arr2[j].product_type = check.eq(i).siblings("span").text();
+				arr2[j].product_type_money = check.eq(i).siblings("input").val();
+				j++;
+			}
+		}
+		json_data.product_type = arr2;
+		json_data.pay_way = new Object();
+		var way = $(".pop_bill_block .pay-way");
+		if($(".pay-way-box .cash").prop("checked")){
+			json_data.pay_way.way = "现金";
+			json_data.pay_way.bank_type = null;
+		}else if($(".pay-way-box .bank").prop("checked")){
+			json_data.pay_way.way = "银行";
+			json_data.pay_way.bank_type = $(".pay-way-box .bank-type").val();
+		}
+		json_data.handle = new Object();
+		var exm = $(".pop_bill_block .exam-man-s").not(".hide");
+//		console.log(exm.length);
+		for(var i=1;i<=exm.length;i++){
+			json_data.handle["handle_"+i]=exm.eq(i-1).val();
+		}
+		$.ajax({
+	        url: '/crm/bill/apply',
+	        type: 'post',
+	        data: "bill_apply="+JSON.stringify(json_data),
+	        success: function(data) {
+	            layer.msg(data.info,{icon:data.status==1?1:2});
+				if(data.status==1) {
+					$("#create-bill").children().remove();
+				}
+	        },
+	        error: function() {
+                layer.msg('申请时发生错误!',{icon:2});
+	        }
+	   });
+		console.log(json_data);
+	});
+	//获取到的数据
+	var master;
+	//发票类型的值
+	var bill_type;
+	$(".pop_bill_block .bill-type").change(function(){
+		bill_type = $(this).val();
+		if(bill_type==0){
+			return;
+		}
+		var d = "id/"+bill_type;
+//			console.log(d);
+		$.ajax({
+	        url: '/crm/bill/get_bill_setting/'+d,
+	        type: 'get',
+	        dataType:"json",
+	        success: function(data) {
+	        	if(data.status!=1){
+	            	layer.msg(data.info,{icon:data.status==1?1:2});
+	        	}
+
+//	        	product_type = master.product_type;
+//	        	console.log(master);
+	        	dataHandler(data);
+	        	master = data.data;
+	        	productTypeHandler();
+	        	bankHandler();
+	        	examManHandler();
+	        },
+	        error: function() {
+                layer.msg('申请时发生错误!',{icon:2});
+	        }
+	   });
+
+//	   console.log(master);
+
+	});
+	function productTypeHandler(){
+		var product_type = master.product_type;
+//	   console.log(product_type);
+	   $(".pop_bill_block .product-type").empty();
+	   for(var i=0;i<product_type.length;i++){
+	   		$(".pop_bill_block .product-type").append('<li><input type="checkbox"/><span class="cont">'+product_type[i]+'</span><input type="text" readonly="readonly"/>元</li>');
+	   }
+	}
+	function bankHandler(){
+		var bank_type = master.bank_type;
+//		console.log($(".pop_bill_block .bank").prop("checked"));
+		$(".pop_bill_block .pay-way").click(function(){
+			if($(".pop_bill_block .bank").prop("checked")){
+			$(".pop_bill_block .bank-type").removeAttr("disabled");
+			$(".pop_bill_block .bank-type").html("<option value='0'>请选择</option>");
+			   for(var i=0;i<bank_type.length;i++){
+			   		$(".pop_bill_block .bank-type").append("<option value='"+bank_type[i]+"'>"+bank_type[i]+"</option>");
+			   }
+			}else{
+				$(".pop_bill_block .bank-type").attr("disabled","disabled");
+			}
+		});
+
+
+	}
+	function examManHandler(){
+		var exam = master.role_employee_index;
+//		console.log(exam);
+		$("#create-bill .exam-man").addClass("hide");
+		$("#create-bill .exam-man-s").addClass("hide");
+		for(var i=1;i<=6;i++){
+//			console.log(i);
+			if(master["handle_"+i]!=0){
+//				console.log(master["handle_"+i],i);
+				$("#create-bill .exam-man").eq(i-1).removeClass("hide");
+				$("#create-bill .exam-man-s").eq(i-1).removeClass("hide");
+				$("#create-bill .exam-man-s").eq(i-1).html("<option value='0'>请选择</option>")
+				var arr1 = exam[master["handle_"+i]];//数组
+				for(var j=0;j<arr1.length;j++){
+					$("#create-bill .exam-man-s").eq(i-1).append("<option value="+arr1[j].user_id+">"+arr1[j].truename+"</option>");
+				}
+
+			}
+		}
+	}
+	function dataHandler(e){
+		//console.log(e.data);
+//		master = e.data;
+
+		if(e.data.need_tax_id==1){
+			$(".tax-number-line").removeClass("hide");
+		}else{
+			$(".tax-number-line").addClass("hide");
+		}
+	}
+	//产品类型的checkbox
+	$(document).on("click",".pop_bill_block .product-type input[type='checkbox']",function(){
+		// console.log($(this).prop("checked"));
+		if($(this).prop("checked")){
+			/*$(this).removeProp("checked");
+			$(this).siblings("input[type='text']").attr("readonly","readonly");*/
+			$(this).siblings("input[type='text']").removeAttr("readonly");
+		}else{
+			/*$(this).prop("checked","checked");
+			$(this).siblings("input[type='text']").removeAttr("readonly");*/
+			$(this).siblings("input[type='text']").attr("readonly","readonly");
+		}
+	});
+
+	$(".pop_bill_block .bill-type").focus();
+</script>

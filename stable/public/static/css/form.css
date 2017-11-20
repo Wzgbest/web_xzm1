@@ -1,0 +1,212 @@
+.m-formBox{
+	height: 500px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+#form1,#form2,#form3{
+	margin-top: 30px;
+	color: #333;
+	font-size: 14px;
+}
+.m-form .cont{
+	display: inline-block;
+	width: 80px;
+	text-align: right;
+	font-size: 14px;
+	color: #333;
+}
+.m-form .cont-max{
+	display: inline-block;
+	width: 90px;
+	margin-left: -10px;
+	text-align: right;
+	font-size: 14px;
+	color: #333;
+}
+.m-form .cont-min1{
+	display: inline-block;
+	width: 60px;
+	/*margin-left: -10px;*/
+	text-align: right;
+	font-size: 14px;
+	color: #333;
+}
+.m-form .cont-min2{
+	display: inline-block;
+	width: 60px;
+	margin-left: -45px;
+	text-align: right;
+	font-size: 14px;
+	color: #333;
+}
+.m-form .cont-in{
+	margin-left: 40px;
+}
+.m-form .cont-in-x{
+	margin-left: 25px;
+}
+.m-form .cont-max-max{
+	display: inline-block;
+	width: 120px;
+	margin-left: -40px;
+	text-align: right;
+	font-size: 14px;
+	color: #333;
+}
+.m-form .cont-x{
+	display: inline-block;
+	padding-left: 25px;
+	width: 330px;
+}
+.m-form .cont-x-cunstomer-id{
+	display: inline-block;
+	padding-left: 25px;
+	width: 311px;
+}
+.m-form .u-required{
+	color: red;
+	line-height: 28px;
+}
+.m-form .u-area{
+	vertical-align: top;
+}
+.m-form .remark, .u-addRemark{
+	display: inline-block;
+	height: 20px;
+	margin-left: 20px;
+	margin-bottom: 10px;
+	padding: 0 10px;
+	line-height: 20px !important;
+	color: #b2b2b2;
+	border-radius: 3px;
+	box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+}
+.m-form .remark input{
+	border: none !important;
+    width: 80px !important;
+    text-align: center;
+    background-color: transparent;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #b2b2b2;
+    cursor: pointer;
+}
+.m-form .remark .fa{
+	margin-left: 10px;
+}
+.m-form .remark:hover .fa-pencil{
+	color: #ffa03a;
+}
+.m-form .remark:hover .fa-close{
+	color: #dc3014;
+}
+.m-form .remark:hover .fa-check{
+	color: #13ae6b;
+}
+
+.m-form .u-addRemark{
+	padding: 0 50px;
+	color: #42a5f5;
+}
+.m-form .sixWord{
+	width: 88px;
+	margin-left: -8px;
+}
+.m-form span#personCharge{
+	box-sizing: content-box;
+	text-align: left;
+	line-height: 37px;
+	width: 236px;
+	height: 37px;
+	padding-left:16px ;
+	margin: 0 64px 12px 20px;
+	/*border: 1px solid #e5e5e5;*/
+}
+.m-form input[type="text"],.m-form select,.m-form input[type="email"],.m-form input[type="date"],.m-form input[type="url"],.m-form input[type="datetime-local"]{
+	box-sizing: content-box;
+	width: 234px;
+	height: 35px;
+	padding-left:16px ;
+	margin: 0 64px 12px 20px;
+	border: 1px solid #e5e5e5;
+}
+.m-form input.focus{
+	border: 1px solid #42a5f5;
+}
+.m-form textarea.focus{
+	border: 1px solid #42a5f5;
+}
+.m-form .u-inlineRadio{
+	display: inline-block;
+	box-sizing: content-box;
+	width: 272px;
+	height: 37px;
+	/*padding-left:16px ;*/
+	margin: 0 64px 12px 0;
+	/*border: 1px solid #e5e5e5;*/
+}
+.m-form .u-3select{
+	width: 194px !important;
+	margin-right: -4px !important;
+}
+.m-form textarea{
+	width: 641px;
+	height: 50px;
+	margin-left: 20px;
+	margin-bottom: 12px;
+	padding:10px 16px ;
+	border: 1px solid #e5e5e5;
+}
+.m-form textarea#remark{
+	margin-top: 10px;
+	height: 100px;
+}
+.m-form input#location,input#website{
+	width: 656px !important;
+}
+.m-form input[type="radio"]{
+	margin-left: 20px;
+	margin-right: 8px;
+	width: 16px;
+	height: 16px;
+	vertical-align:middle;
+}
+.m-form input[type="radio"]:checked{
+	background-color: blue;
+}
+.u-submitButton{
+	margin: 60px auto;
+	padding-left: 100px;
+}
+button{
+	cursor: pointer;
+}
+.u-submitButton button{
+	padding:0 20px;
+	margin-right: 50px;
+	line-height: 40px;
+	border-radius: 10px;
+	color: #666666;
+	background-color: transparent;
+	border-style: none;
+	border: 1px solid #dcdcdc;
+}
+.u-submitButton button:hover{
+	transition: all 0.2s;
+	background-color: #42a5f5;
+	border: 1px solid #42A5F5;
+	color: white;
+}
+.m-form h1{
+	line-height: 40px;
+}
+.m-form h1 i{
+	margin-right: 5px;
+	color: #6c83ef;
+}
+.ver_top{
+	vertical-align: top;
+}
+/**/

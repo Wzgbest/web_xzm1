@@ -1,0 +1,194 @@
+<div class="select-window-container">
+	<div class="left-content">
+		<ul data-level="1" class="dep-stuct-ul active" data-selecting-department-id="1">
+			<li class="dep-name"><i class="fa fa-caret-right fa-myleft"></i><i class="fa fa-caret-down fa-myleft"></i><span>总公司</span><i class="fa fa-user fa-myright" title="添加全员"></i><i class="fa fa-sitemap fa-myright" title="添加部门"></i></li>
+		</ul>
+	</div>
+	<div class="right-content">
+		<div class="right-content-container">
+			<ul class="selected-department active selected-container">
+				<li class="selected-title"><i class="fa fa-caret-right fa-myleft"></i><i class="fa fa-caret-down fa-myleft"></i><span>已选择部门(<p>0</p>)</span></li>
+				
+			</ul>
+			<ul class="selected-staff active selected-container">
+				<li class="selected-title"><i class="fa fa-caret-right fa-myleft"></i><i class="fa fa-caret-down fa-myleft"></i><span>已选择员工(<p>0</p>)</span></li>
+			</ul>
+		</div>		
+		<button class="true">确定</button>
+		<button class="false">取消</button>
+	</div>
+</div>
+<script type="text/javascript" src="/static/js/struct.js"></script>
+<script type="text/javascript">
+console.log($(".select-window-container").parent().attr("data-num"));
+console.log($(".select-window-container").parents(".once").attr("id"));
+let data = new Structure('{$structure_employee}','{$structure_list}','{$employee_name}',$(".select-window-container").parent().attr("data-num"),$(".select-window-container").parent().attr("data-str"),$(".select-window-container").parent().attr("data-selector"));
+// console.log(data.d_s,data.d_d,data.s_n,data.all_dep,data.divide());
+// data.show();
+/*console.log(data.s_n);
+console.log(data.d_d);
+console.log(data.dep_struct);*/
+$("li.dep-name span").click(function(){
+	$(this).parent().parent().toggleClass("active");
+});
+$("li.selected-title span").click(function(){
+	$(this).parent().parent().toggleClass("active");
+});
+</script>
+<style type="text/css">
+.select-window-container{
+	font-size: 14px;
+}
+.select-window-container .left-content{
+	width: 250px;
+	height: 280px;
+	box-shadow: 0px 6px 24px 0px rgba(0, 0, 0, 0.14);
+	background-color:white;
+	float: left; 
+	margin-right: 5px;
+	overflow-y: auto;
+    overflow-x: hidden;
+}
+.select-window-container ul li{
+	cursor: pointer;
+}
+.select-window-container .left-content ul>li:not(.dep-name){
+	display: none;
+}
+.select-window-container .left-content ul.active>li{
+	display: block;
+}
+.select-window-container .right-content .selected-container li.selected-ds{
+	display: none;
+}
+.select-window-container .right-content .selected-container.active li.selected-ds{
+	display: block;
+}
+.select-window-container .left-content li.dep-name{
+	height: 40px;
+    line-height: 40px;
+    position: relative;
+    border-bottom: 1px solid #e6e7e9;
+}
+.selected-container.active .selected-title{
+	background-color: #e1ebfa;
+}
+.dep-stuct-ul.active>li.dep-name{
+	background-color: #e1ebfa;
+}
+.select-window-container .right-content li.selected-title{
+	height: 40px;
+    line-height: 40px;
+    position: relative;
+    border-bottom: 1px solid #e6e7e9;
+}
+.select-window-container .left-content li.stf-name{
+	height: 30px;
+	line-height: 30px;
+	padding-left: 25px;
+}
+.select-window-container .right-content li.selected-ds{
+	height: 30px;
+	line-height: 30px;
+	padding-left: 25px;
+	position: relative;
+}
+.select-window-container .left-content li.dep-struct-li{
+	padding-left: 20px;
+}
+.select-window-container .left-content li.dep-name span{
+	display: inline-block;
+    width: 100% !important;
+    text-indent: 25px;
+    position: relative;
+}
+.select-window-container .right-content li.selected-title span{
+	display: inline-block;
+    width: 100% !important;
+    color: #000 !important;
+    text-indent: 25px;
+    position: relative;
+} 
+.select-window-container  li:not(.dep-struct-li):hover{
+	background-color: #edf2fd;
+}
+
+.select-window-container i{
+	position: absolute;
+	font-size: 1.5em;
+	top: 10px;
+}
+.select-window-container i.fa-myleft{
+	left: 8px;
+	color: #b2b2b2;
+}
+.select-window-container i.fa-myright{
+	right: 20px;
+	color: #42a5f5;
+}
+.select-window-container i.fa-myright.fa-user{
+	right: 50px;
+}
+.select-window-container i.fa-caret-down{
+	display: none;
+}
+.select-window-container  .dep-stuct-ul.active>li.dep-name i.fa-caret-right{
+	display: none;
+}
+.select-window-container  .dep-stuct-ul.active>li.dep-name i.fa-caret-down{
+	display: inline-block;
+}
+.select-window-container .selected-container.active i.fa-caret-right{
+	display: none;
+}
+.select-window-container .selected-container.active i.fa-caret-down{
+	display: inline-block;
+}
+
+.select-window-container .right-content{
+	width: 250px;
+	height: 220px;
+	padding-bottom: 60px;
+	box-shadow: 0px 6px 24px 0px rgba(0, 0, 0, 0.14);
+	background-color:white; 
+	float: left;
+	position: relative;
+}
+.select-window-container .right-content span p{
+	display: inline;
+}
+.select-window-container .right-content .right-content-container{
+	height: 220px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.select-window-container .right-content i.fa-times-circle-o{
+	font-size: 1.5em;
+	color: #42a5f5;
+	right: 20px;
+	top: 4px;
+	position: absolute;
+	display: none;
+}
+.select-window-container .right-content li:hover i.fa-times-circle-o{
+	display: inline-block;
+}
+/*确定取消按钮*/
+.select-window-container .right-content button{
+	position: absolute;
+	bottom: 15px;
+	width: 90px;
+	/*left: 80px;*/
+	border-style: none;
+	height: 30px;
+	border-radius: 5px;
+	background-color: #42a5f5;
+	color: white;
+}
+.select-window-container .right-content button.true{
+	left: 30px;
+}
+.select-window-container .right-content button.false{
+	left: 130px;
+}
+</style>

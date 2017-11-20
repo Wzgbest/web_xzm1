@@ -1,0 +1,47 @@
+<!--员工列表-->
+<section>
+    <div class="m-filterNav">
+        <form class="search_form" onsubmit="return false;">
+            <span class="tip">请从以下员工中选择</span>
+            <select name="role">
+                <option value="">职位</option>
+                {volist name="roles" id="vo"}
+                    <option value="{$vo.id}" {present name='filter.role'}{eq name='filter.role' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.role_name}</option>
+                {/volist}
+            </select>
+            <input type="text" name="tel_email" placeholder="输入姓名/手机/邮箱" value="{present name='filter.tel_email'}{$filter.tel_email}{/present}"/>
+            <button class="u-btnSearch">查询</button>
+        </form>
+    </div>
+    <div class="m-tableBox">
+        <div class="m-table table3">
+            <ul class="u-tabTitle">
+                <li class="u-tabCheckbox"><input type="checkbox"/></li>
+                <li>工号<i class="fa fa-unsorted"></i></li>
+                <li>姓名</li>
+                <li>直属部门<i class="fa fa-unsorted"></i></li>
+                <li>联系方式</li>
+                <li>是否领导<i class="fa fa-unsorted"></i></li>
+                <li>创建时间<i class="fa fa-unsorted"></i></li>
+                <div class="clearfix"></div>
+            </ul>
+            {volist name="listdata" id="vo"}
+            <ul class="u-tabList">
+                <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+                <li>{$vo.worknum}</li>
+                <li>{$vo.truename}</li>
+                <li>{$vo.struct_name}</li>
+                <li>{$vo.telephone}</li>
+                <li>{eq name="vo.is_leader" value="1"}是{else/}否{/eq}</li>
+                <li>{$vo.create_time|time_format}</li>
+                <div class="clearfix"></div>
+            </ul>
+            {/volist}
+        </div>
+    </div>
+    {include file="common@common/page"/}
+</section>
+<script src="/static/js/list_manage.js"></script>
+<script language="javascript">
+    var employee_list_list_manage = new list_manage("structure_list","division-managementfr","/systemsetting/structure/not_struct_employee_list/id/{$id}",'{$p}','{$num}','{$max_page}','0'," .add_employee_list");
+</script>

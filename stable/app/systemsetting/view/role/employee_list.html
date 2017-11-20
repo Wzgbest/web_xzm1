@@ -1,0 +1,77 @@
+<div class="one m-filterNav">
+	<form class="search_form" onsubmit="return false;">
+        <p class="p1 role_manage ">权限管理</p>
+        <p class="p1 employee_manage activity">成员管理</p>
+       
+        <div class="box">
+        	<select name="structure">
+            <option value="">直属部门</option>
+            {volist name="structs" id="vo"}
+            <option value="{$vo.id}" {present name='filter.structure' }{eq name='filter.structure' value='$vo.id' } selected="selected" {/eq}{/present}>{$vo.struct_name}</option>
+            {/volist}
+        </select>
+        <input type="text" name="worknum" placeholder="输入工号" value="{present name='filter.worknum'}{$filter.worknum}{/present}" />
+        <input type="text" name="truename" placeholder="输入姓名" value="{present name='filter.truename'}{$filter.truename}{/present}" />
+        <button class="u-btnSearch">查询</button>
+        <button class="employee_add">新增</button>
+        </div>
+       
+    </form>
+</div>
+<div class="employee_list">
+    <div class="m-tableBox p-r">
+    	<div class="m-table m-table-nav ">
+			<ul class="u-tabTitle">
+				<li>操作</li>
+				<div class="clearfix"></div>
+			</ul>
+			{volist name="listdata" id="vo"}
+			<ul class="u-tabList">
+				<li class="u-tabOperation">
+                    <span onclick="role_list_employee_show('{$vo.id}');">详情</span>
+                    {if condition="strpos($vo.role_id,',')"}
+                        <span onclick="role_list_employee_del('{$id}','{$vo.id}');">移除</span>
+                    {/if}
+                </li>
+				<div class="clearfix"></div>
+			</ul>
+			{/volist}
+		</div>
+        <div class="m-table table3 m-table-detail">
+            <ul class="u-tabTitle">
+            	<li>操作</li>
+                <li>工号<i class="fa fa-sort-desc"></i></li>
+                <li>姓名</li>
+                <li>直属部门</li>
+                <li>联系方式</li>
+                <li>是否领导<i class="fa fa-unsorted"></i></li>
+                <li>创建时间<i class="fa fa-unsorted"></i></li>
+                
+                <div class="clearfix"></div>
+            </ul>
+            {volist name="listdata" id="vo"}
+            <ul class="u-tabList">
+            	<li class="u-tabOperation">
+                    <span onclick="role_list_employee_show('{$vo.id}');">详情</span>
+                    {if condition="strpos($vo.role_id,',')"}
+                        <span onclick="role_list_employee_del('{$id}','{$vo.id}');">移除</span>
+                    {/if}
+                </li>
+                <li>{$vo.worknum}</li>
+                <li>{$vo.truename}</li>
+                <li>{$vo.struct_name}</li>
+                <li>{$vo.telephone}</li>
+                <li>{eq name="vo.is_leader" value="1"}是{else/}否{/eq}</li>
+                <li>{$vo.create_time|time_format}</li>
+                
+                <div class="clearfix"></div>
+            </ul>
+            {/volist}
+        </div>
+    </div>
+    {include file="common@common/page"/}
+</div>
+<script src="/static/js/list_manage.js"></script>
+<script language="javascript">
+    var employee_list_list_manage = new list_manage("content","role-managementfr","/systemsetting/role/employee_list/id/{$id}",'{$p}','{$num}','{$max_page}','0'," .dv2");
+</script>

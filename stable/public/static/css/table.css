@@ -1,0 +1,184 @@
+/******************************/
+/*table*/
+.m-tableBox1{
+	clear: both;
+	width: 640px;
+	/*display: inline-block;*/
+	margin-top: 20px;
+	margin-left: 4px;
+	overflow-y: auto;
+	height: 300px;
+	/*background-color: yellow;*/
+}
+.m-tableBox2{
+	clear: both;
+	width: 1290px;
+	/*display: inline-block;*/
+	margin-top: 20px;
+	margin-left: 4px;
+	overflow-y: auto;
+	height: 300px;
+	/*background-color: yellow;*/
+}
+.m-tableBox3{
+	clear: both;
+	width: 1000px;
+	/*display: inline-block;*/
+	margin-top: 0px;
+	overflow-y: auto;
+	height: 300px;
+	/*background-color: yellow;*/
+	margin-left: 25px;
+}
+.m-tableBox{
+	width: 100%;
+	margin-top: 20px;
+	/*margin-left: 4px;*/
+	overflow-x: auto;
+	font-size: 12px;
+}
+.table1{
+	width: 2096px;
+}
+/*.table2{
+	width: 1685px;
+}*/
+.table3{
+	width: 1000px;
+}
+/*导入记录的表单*/
+.table4{
+	width: 959px;
+}
+/*销售机会表单-all*/
+.table5{
+	width: 1096px;
+}
+/*销售机会表单-已成单*/
+.table6{
+	width: 1233px;
+}
+/*公海池-导入记录*/
+.table7{
+	width: 1330px;
+}
+/*我的合同 列表*/
+.table-contract{
+	width: 1781px;
+} 
+/*我的发票列表*/
+.table-bill{
+	width: 1959px;
+}
+.m-table-nav{
+	position: absolute;
+	box-shadow: 3px 0px 0px 0px rgba(209, 209, 209, 0.2);
+}
+/*列表重构*/
+/*客户管理列表*/
+.crm_customer_manage .m-table-nav{
+	width: 178px;
+}
+.crm_customer_manage .m-table-detail{
+	width: 1548px;
+}
+/*我的客户列表*/
+.crm_my_customer .m-table-nav{
+	width: 315px;
+}
+.crm_my_customer .m-table-detail{
+	width: 2233px;
+}
+.crm_public_pool .m-table-nav{
+	width: 315px;
+}
+.crm_public_pool .m-table-detail{
+	width: 1000px;
+}
+/*审核*/
+.table-v-index{
+	width: 2507px;
+}
+.table-v-bill{
+	width: 1685px;
+}
+.table-v-contract{
+	width: 2233px;
+}
+.table-v-count{
+	width: 2238px;
+}
+.m-table ul{
+	border-bottom: 1px solid #eeeeee;
+	background-color: #fff;
+}
+.m-table ul:nth-child(2n+1){
+	background-color: #f8f9fa;
+}
+.tab-list li{
+	border-right: 1px solid #f2f2f2;
+}
+.m-table li{
+	float: left;
+	height: 40px;
+	width: 116px;
+	padding: 0 10px;
+	line-height: 40px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-align: left;
+}
+.m-table i{
+	margin-left: 10px;
+}
+.u-tabTitle{
+	border-bottom: 2px solid #eeeeee !important;
+}
+.u-tabTitle li{
+	color: #333333;
+	border-right: 1px solid white;
+	background-color: #f7f7f7;
+}
+.u-tabList li{
+	/*color: #666666;*/
+	border-right: 1px solid white;
+}
+/*.m-table .u-tabList:hover{
+	background-color: yellow;
+}*/
+.u-tabCheckbox{
+	text-align: center !important;
+	width: 40px !important;
+	padding: 0 !important;
+}
+.u-tabCilentName{
+	color: #77b8ff;
+	cursor: pointer;
+}
+.u-tabLinkWay{
+	color: #13ae6b;
+}
+.u-tabOperation span{
+	margin-right: 10px;
+	color: #77b8ff;
+	cursor: pointer;
+}
+.u-tabControlRow{
+	margin-left: 20px;
+	height: 30px;
+	margin-top: 20px;
+	font-size: 14px;
+}
+.u-tabControlRow select,.u-tabControlRow button{
+	width: 60px;
+	height: 25px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background-color: transparent;
+	cursor: pointer;
+}
+.u-tabControlRow input{
+	width: 40px;
+	border-radius: 4px;
+}

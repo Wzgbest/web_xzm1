@@ -1,0 +1,38 @@
+<header>
+	<h1>支付<i class="fa fa-close fa-2x pop-close-btn"></i></h1>
+</header>
+<div class="pop_content m-form pay-content">
+	<h2 class=" color-yellow"><i class="fa fa-cny"></i><span class="money-total">{$money}</span></h2>
+	<h3>账户余额：<span>{$user_money}</span>元{if condition="$user_money<$money"}，余额不足请<span class="color-blue">充值</span>{/if}</h3>
+	<h2><input type="password"/></h2>
+	<div class="u-submitButton">
+		<button class="pop-submit-btn">支付</button>
+		<button class="pop-close-btn">取消</button>
+	</div>
+</div>
+<link rel="stylesheet" href="/crm/css/popUp.css" />
+<script type="text/javascript">
+	// $(".knowledgebase_company_library_index .pay-pop ")
+	$(".knowledgebase_company_library_index .pay-pop .pop-submit-btn").click(function(){
+		var pw = $(".knowledgebase_company_library_index .pay-pop input[type='password']").val();
+		var id = $(".knowledgebase_company_library_index .reward-pop").attr("share_id");
+		var money = $(".knowledgebase_company_library_index .reward-pop").attr("money");
+		$.ajax({
+			url: '/knowledgebase/corporation_share/tip',
+			type: 'POST',
+			dataType: 'json',
+			data: {'share_id': id,'money': money,'paypassword': pw},
+			success:function(data){
+				if (data.status) {
+					layer.msg(data.info,{icon:data.status==1?1:2});
+					$(".knowledgebase_company_library_index .pay-pop").children().remove();
+				}else {
+					layer.msg(data.info,{icon:data.status==1?1:2});
+				}
+			},
+			error:function(){
+                layer.msg('打赏失败!',{icon:2});
+			},
+		});		
+	});	
+</script>

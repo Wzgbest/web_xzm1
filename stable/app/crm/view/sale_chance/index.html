@@ -1,0 +1,94 @@
+<div class="crm_sale_chance crm_customer crm_sale_chance_index h100 o-h">
+    <div class="index_panel index number_screening customer_from_panel h100">
+		<header>
+            <ul class="m-firNav">
+                <li in_column="1" class="in_column {eq name='in_column' value='1'}current{/eq}"><div>正常跟进（<span>{$listCount.1}</span>）</div></li>
+                <li in_column="2" class="in_column {eq name='in_column' value='2'}current{/eq}"><div>停滞（<span>{$listCount.2}</span>）</div></li>
+                <li in_column="3" class="in_column {eq name='in_column' value='3'}current{/eq}"><div>已成单（<span>{$listCount.3}</span>）</div></li>
+                <li in_column="4" class="in_column {eq name='in_column' value='4'}current{/eq}"><div>已输单（<span>{$listCount.4}</span>）</div></li>
+                <li in_column="5" class="in_column {eq name='in_column' value='5'}current{/eq}"><div>已作废（<span>{$listCount.5}</span>）</div></li>
+                <li in_column="0" class="in_column {eq name='in_column' value='0'}current{/eq}"><div>所有销售机会（<span>{$listCount.0}</span>）</div></li>
+            </ul>
+        </header>
+    
+    <!--销售机会列表-->
+    <div class="m-3rd-container myAllSaleChancePage">
+        <section class="b-w">
+        <div class="m-divBlock m-divBlock2">
+            <div class="m-filterNav">
+                <form class="search_form" onsubmit="return false;">
+                    <select name="business_id">
+                        <option value="">对应业务</option>
+                        {volist name="business_flows" id="vo"}
+                            <option value="{$vo.id}" {present name='filter.business_id'}{eq name='filter.business_id' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.business_flow_name}</option>
+                        {/volist}
+                    </select>
+                    <select name="sale_status">
+                        <option value="">业务状态</option>
+                        {volist name="business_flow_items" id="vo"}
+                            <option value="{$vo.id}" {present name='filter.sale_status'}{eq name='filter.sale_status' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.item_name}</option>
+                        {/volist}
+                    </select>
+                    <input type="text" name="sale_name" placeholder="输入商机名称" value="{present name='filter.sale_name'}{$filter.sale_name}{/present}"/>
+                    <input type="text" name="customer_name" placeholder="输入对应客户" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
+                    <button class="u-btnSearch">查询</button>
+                </form>
+            </div>
+            <div class="m-tableBox p-r">
+                <!--sale-chance-all为正常跟进、停滞、已输单、已作废、所有销售机会表格（表格结构相同） table5定义宽度-->
+                <div class="m-table table5 sale-chance-all">
+                    <ul class="u-tabTitle">
+                        <li>最后变更时间<i class="fa fa-caret-down"></i></li>
+                        <li>销售机会<i class="fa fa-unsorted"></i></li>
+                        <li>对应客户</li>
+                        <li>对应业务</li>
+                        <li>业务状态</li>
+                        <li>预计金额<i class="fa fa-unsorted"></i></li>
+                        <li>成单金额<i class="fa fa-unsorted"></i></li>
+                        <li>已交金额<i class="fa fa-unsorted"></i></li>
+                        <div class="clearfix"></div>
+                    </ul>
+                    {volist name="list_data" id="vo"}
+                    <ul class="u-tabList">
+                        <li>{$vo.update_time|time_format}</li>
+                        <li class="color-blue sale_chance_show" customer_id="{$vo.customer_id}" sale_chance_id="{$vo.id}">{$vo.sale_name}</li>
+                        <li class="color-blue customer_name" customer_id="{$vo.customer_id}">{$vo.customer_name}</li>
+                        <li>{$business_flow_names[$vo['business_id']]}</li>
+                        <li>{$vo.sale_status|getSaleStatusName}</li>
+                        <li>{$vo.guess_money}元</li>
+                        <li>{$vo.final_money}元</li>
+                        <li>{$vo.payed_money}元</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                    {/volist}
+                </div>
+            </div>
+            {include file="common@common/page"/}
+        </div>
+      </section>
+    </div>
+   	  
+    </div>
+    <div class="customer_info_panel customer_general hide">
+    </div>
+    <div class="customer_info_panel customer_info hide">
+    </div>
+    <div class="customer_info_panel customer_edit hide">
+    </div>
+    <div class="customer_info_panel customer_contact hide">
+    </div>
+    <div class="customer_info_panel customer_sale_chance hide">
+    </div>
+    <div class="customer_info_panel customer_trace hide">
+    </div>
+</div>
+<link rel="stylesheet" href="/crm/css/index.css"/>
+<script src="/static/js/list_manage.js"></script>
+<script language="javascript">
+    var my_sale_chance_list_manage = new list_manage("number_screening","number-screeningfr","/crm/sale_chance/index",'{$p}','{$num}','{$max_page}','{$in_column}',"");
+</script>
+<script src="/crm/js/customer_info_manage.js"></script>
+<script language="javascript">
+    var my_sale_chance_info_manage = new customer_info_manage("sale_chance_index","number-screeningfr",my_sale_chance_list_manage,"{$in_column}","{$in_column|getSaleChanceInColumnName}","{$count}");
+</script>
+<script src="/crm/js/sale_chance_index.js"></script>

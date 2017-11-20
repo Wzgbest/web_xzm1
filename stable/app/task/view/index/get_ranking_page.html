@@ -1,0 +1,89 @@
+{eq name="task_type" value="1"}
+{notempty name="rankingdata"}
+    {volist name="rankingdata" id="vo" key="key"}
+        <ul class="{egt name='self_idx' value='0'}{eq name='self_idx' value='$key-1'}backdrop{/eq}{/egt}">
+            <li>{$key}</li>
+            <li>{$vo["truename"]}</li>
+            <li style="white-space:nowrap;overflow:hidden; ">
+                <?php $struct_arr=explode(',',$vo["struct_name"]);
+                    echo $struct_arr[count($struct_arr)-1];
+                ?>
+            </li>
+            <li><span>{$vo["num"]}</span>
+                {eq name="target_type" value="3"}元{else/}个{/eq}
+
+            </li>
+            <li>
+                {if condition="is_array($vo['red_info'])"}
+                {eq name="$vo['untook']" value="1"}
+                <span class="turn">待领取</span><img src="/task/img/small.png"/>
+                {else/}
+                <span class="turn">已领取</span>
+                {/eq}
+                {else/}
+                <span class="turn">未获得</span>
+                {/if}
+            </li>
+        </ul>
+    {/volist}
+{/notempty}
+{/eq}
+{eq name="task_type" value="2"}
+{notempty name="rankingdata"}
+    {volist name="rankingdata" id="vo" key="key"}
+        <ul class="{egt name='self_idx' value='0'}{eq name='self_idx' value='$key-1'}backdrop{/eq}{/egt}">
+            <li>{$key}</li>
+            <li>{$vo["truename"]}</li>
+            <li style="white-space:nowrap;overflow:hidden; ">
+                <?php $struct_arr=explode(',',$vo["struct_name"]);
+                    echo $struct_arr[count($struct_arr)-1];
+                ?>
+            </li>
+            <li><span>{$vo["num"]}</span>
+                {eq name="target_type" value="3"}元{else/}个{/eq}
+            </li>
+            <li><span>{$vo["guess_num"]}</span>人支持<span>{$vo["guess_money"]}</span>元</li>
+        </ul>
+    {/volist}
+{/notempty}
+{/eq}
+{eq name="task_type" value="3"}
+{notempty name="rankingdata"}
+    {volist name="rankingdata" id="vo" key="key"}
+        <ul class="{egt name='self_idx' value='0'}{eq name='self_idx' value='$key-1'}backdrop{/eq}{/egt}">
+	        <li>{$key}</li>
+	        <li>{$vo["truename"]}</li>
+            <li style="white-space:nowrap;overflow:hidden; ">
+                <?php $struct_arr=explode(',',$vo["struct_name"]);
+                    echo $struct_arr[count($struct_arr)-1];
+                ?>
+            </li>
+	        <li>
+	            {if condition="is_array($vo['red_info'])"}
+	            {eq name="$vo['untook']" value="1"}
+	            <span class="turn">待领取</span><img src="/task/img/small.png"/>
+	            {else/}
+	            <span class="turn">已领取</span>
+	            {/eq}
+	            {else/}
+	            <span class="turn">未获得</span>
+	            {/if}
+	        </li>
+	        {if condition="$vo['whether_help'] eq 0 && $create_employee==$uid "}
+	        <li data-id="{$vo['employee_id']}"><a class="unhelp"><span>未帮</span></a>|<a class="help"><span>已帮</span></a></li>
+	        {else/}
+	        <li>
+                {eq name='task_end_flag' value='1'}
+                <span>{eq name="vo['whether_help']" value="0"}等待判定{/eq}</span>
+                {else/}
+	            <span>{eq name="vo['whether_help']" value="0"}正在参与任务{/eq}</span>
+                {/eq}
+	            <span>{eq name="vo['whether_help']" value="1"}判定已帮{/eq}</span>
+	            <span>{eq name="vo['whether_help']" value="-1"}判定未帮{/eq}</span>
+	        </li>
+	        {/if}
+	    </ul>
+    {/volist}
+{/notempty}
+{/eq}
+<input type="hidden" class="self_idx" value="{$self_idx}" />

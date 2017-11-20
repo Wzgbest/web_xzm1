@@ -1,0 +1,656 @@
+.crm_customer{
+	position: relative;
+	/*background-color: #f5f7fa;*/
+	overflow-x: hidden;
+	height: 100%;
+}
+.myAllSaleChancePage{
+	/*margin-top: 40px;*/
+}
+/*.hiddenY{
+	overflow-y: hidden;
+}*/
+/************************************************************************/
+/*header*/
+/* .crm_customer header{
+	height: 40px;
+	background-color: white;
+	box-shadow: -1px 2px #ebedf0;
+} */
+.crm_customer .m-firNav{
+	width: 960px;
+	height: 40px; 
+	margin-left: 1px;
+}
+.crm_customer .m-firNav li{
+	float: left;
+	color: #b2b2b2;
+	height: 20px;
+	padding: 10px 0;
+}
+.crm_customer .m-firNav li:hover{
+	cursor: pointer;
+}
+.crm_customer .m-firNav li div{
+	line-height: 20px;
+	padding: 0 5px;
+	font-size: 12px;
+	border-right:2px solid #e6e6e6 ;
+}
+.crm_customer .m-firNav li:last-child div{
+	border: none;
+}
+.crm_customer .m-firNav li.current{
+	color: #333333;
+	border-bottom: 1px solid #42a5f5;
+}
+
+/************************************************************************/
+/*客户列表*/
+.crm_customer .myAllClientsPage,.crm_customer .myAllSaleChancePage{
+	/*margin-top: 40px;*/
+}
+
+.crm_customer .m-secNav{
+	width: 960px;
+	padding: 20px 6px;
+}
+.crm_customer .m-secNav li:not(.vertical){
+	float: left;
+	/*width: 80px;*/
+	padding: 0 20px;
+	height: 25px;
+	line-height: 25px;
+	font-size: 12px;
+	text-align: center;
+	margin-right: 10px;
+	border-radius: 12.5px;
+	color: #cccccc;
+	background-color: #e6e6e6;
+	cursor: pointer;
+}
+.crm_customer .m-secNav li:not(.vertival).active{
+	color: white;
+	background-color: #42a5f5;
+}
+.crm_customer .m-secNav li.vertical{
+	float: left;
+	width: 1px;
+	height: 25px;
+	margin-right: 10px;
+	background-color: #ecf0f5;
+}
+.crm_customer .m-filterNav{
+	width: 1060px;
+	margin-left: 4px;
+}
+.crm_customer .m-filterNav select{
+	width: 110px;
+	height: 25px;
+	box-sizing: content-box;
+	margin-right: 8px;
+	border: 1px solid #dddddd;
+}
+.crm_customer .m-filterNav input[type="text"]{
+	width: 110px;
+	padding: 0 5px;
+	height: 25px;
+	box-sizing: content-box;
+	margin-right: 8px;
+	border: 1px solid #dddddd;
+	/*background-color: black;*/
+}
+.crm_customer .u-btnSearch{
+	width: 60px;
+	height: 25px;
+	border-radius: 12.5px;
+	line-height: 25px;
+	margin-left: 10px;
+	text-align: center;
+	color: white;
+	border: none;
+	background-color: #42a5f5;
+}
+
+
+/************************************************************************/
+/*客户信息弹出层*/
+.crm_customer .customer_info_panel{
+	width: 100%;
+	height: 100% !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #fff;
+}
+
+/************************************************************************/
+/*黑色遮罩*/
+.crm_customer .blackBg{
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	background-color: rgba(0,0,0,0.4);
+}
+
+/************************************************************************/
+/*新建客户*/
+.crm_customer .newClient{
+	width: 900px;
+	height: 450px;
+	position: absolute;
+	left: 66px;
+	top: 96px;
+	background-color: #fff;
+	/*overflow-y: auto;
+	overflow-x:hidden ;*/
+}
+.crm_customer .newClient .m-form{
+	height: 400px;
+}
+.crm_customer .newClient header{
+	width: 100% !important;
+    position: relative !important;
+    top: 0 !important;
+    height: 50px;
+    background-color: #6b7a99;
+}
+.crm_customer .newClient header h1{
+	position: relative;
+	color: white;
+	line-height: 50px;
+	text-align: center;
+}
+.crm_customer .newClient header .fa-close{
+	position: absolute;
+	color: #939aab;
+	right: 10px;
+	top: 10px;
+}
+.crm_customer .newClient .process{
+	padding: 20px 0;
+	width: 598px;
+	margin:0 auto;
+	/*margin-left:15px ;*/
+	/*transform: translateX(-15px);*/
+}
+.crm_customer .newClient .circle{
+	float: left;
+	position: relative;
+	width:18px;
+	height: 18px;
+	border-radius: 50%;
+	background-color: white;
+	border: 4px solid #7abd52;
+}
+.crm_customer .newClient .circle.current{
+	background-color: #42A5F5;
+}
+.crm_customer .newClient .rect{
+	float: left;
+	margin-top: 9px;
+	width: 260px;
+	height: 8px;
+	background-color: #e6e6e6;
+}
+.crm_customer .newClient .rect.current{
+	background-color: #7abd52;
+}
+.crm_customer .newClient .process span{
+	white-space: nowrap;
+	position: absolute;
+	top: 30px;
+	left: 50%;
+	/*margin-left: -50%;*/
+	transform: translateX(-50%);
+}
+/*表单*/
+.crm_customer .newClientForm{
+	/*margin-top: 100px;*/
+	/*padding-left: 30px;*/
+}
+.newClientInfoForm,.newClientContactForm,.newClientSaleChanceForm{
+	margin-top: 20px !important;
+	padding-left: 30px;
+}
+
+.newClient input[name='address'],.sale-chance input[name='visit_place']{
+	width: 657px;
+}
+/************************************************************************/
+/*客户详情*/
+.page-info .page-info-detail{
+	/*margin-top: 100px;*/
+}
+.crm_customer .page-info header i{
+	line-height: 40px;
+	margin-left: 5px;
+	/*margin-top: 5px;*/
+}
+.sale-chance-record{
+    /*background-color: #f5f8fd*/
+}
+.sale-chance-record hr{
+	color: #ccc;
+	opacity: 0.2;
+    width: 95%
+}
+.crm_customer .page-info header div{
+	border: none !important;
+}
+.crm_customer .u-spanInfo{
+	display: inline-block;
+    /* line-height: 40px; */
+    vertical-align: middle;
+    margin-top: -8px;
+    margin-left: 5px;
+}
+.crm_customer .m-pageInfoNav{
+	height: 54px;
+	margin-top: 1px;
+	/*border-top: 5px solid #f5f7fa;*/
+	border-bottom: 1px solid #e5e5e5;
+	background-color: #fff;
+	/*position: fixed;*/
+    /*top: 122px;*/
+    width: 100%;
+    z-index: 100;
+}
+.crm_customer .m-pageInfoNav li{
+	float: left;
+	width: 120px;
+	text-align: center;
+	margin-right: 40px;
+	line-height: 54px;
+	color: #333;
+	font-size: 16px;
+	cursor: pointer;
+}
+.crm_customer .m-pageInfoNav li.current{
+	color: #77b8ff;
+	font-weight: bold;
+	border-bottom: 2px solid #42a5f5;
+}
+/*************************************************/
+/*客户详情----概要*/
+
+/*some*/
+
+.customer_info_panel{
+	background-color: #f5f7fa;
+}
+
+.crm_customer .outlineCharge .set-remind{
+	background-color: #38a0f4;
+}
+.crm_customer .outlineCharge .order-visit{
+	/*margin-left: 20px;*/
+	background-color: #ffa31c;
+}
+.crm_customer .outlineCharge .fa-clock-o{
+	background-color: #3390dc;
+}
+.crm_customer .outlineCharge .fa-users{
+	background-color: #e69319;
+}
+
+.crm_customer .outlineCharge .detail{
+	height: 24px;
+	line-height: 24px;
+	font-size: 14px;
+	color: #afb9c3;
+	vertical-align: middle;
+}
+
+
+.crm_customer .outlineInfo div>span{
+	line-height: 32px;
+	/*vertical-align: top;*/
+}
+.crm_customer .outlineInfo .buttons{
+	background-color: #b3b3b3;
+}
+.crm_customer .outlineInfo .buttons i{
+	background-color: #999;
+}
+.crm_customer .outlineInfo .buttons.active{
+	background-color: #e60012;
+}
+.crm_customer .outlineInfo .buttons.active i{
+	background-color: #ff0b39;
+}
+.crm_customer .outlineInfo .buttons.active span{
+	background-color: white;
+	color: #333;
+}
+
+.crm_customer .outlineChance div>span {
+    line-height: 32px;
+    /* vertical-align: top; */
+}
+.crm_customer .keyman-link:nth-child(3n){
+	border: none !important;
+}
+.crm_customer .keyman-link{
+	width: 33%;
+	box-sizing: border-box;
+	float: left;
+	height: 150px;
+	padding-left: 27px;
+	border-right: 1px solid #eee;
+}
+.crm_customer .keyman-link>span{
+	font-size: 18px;
+	border-bottom: 1px solid #6da4a5;
+}
+.crm_customer .keyman-link>span>span{
+	font-size: 14px;
+}
+.crm_customer .keyman-link .telephone{
+	color: #13ae6b;
+	margin-left: 13px;
+	margin-top: 10px;
+}
+
+.crm_customer .outlineCreatPerson{
+	margin: 10px 0;
+	/*background-color: transparent !important;*/
+	border: none !important;
+	box-shadow: none !important;
+	color: #939aab;
+}
+.crm_customer .outlineCreatPerson div{
+	text-align: right;
+	padding-right: 10px;
+	line-height: 24px;
+}
+/*客户详情-联系人*/
+.crm_customer .clientInfoLinkman{
+	position: relative;
+}
+.crm_customer .new-linkman, .new-sale-chance, .new-trace{
+	position: fixed;
+	right: 0;
+	top: 50%;
+	width: 25px;
+	/*height: 124px;*/
+	padding: 5px 5px;
+	border-radius:5px 0 0 5px ;
+	background-color: #ffa03a;
+	z-index: 999;
+	text-align: center;
+	font-size: 14px;
+	color: white;
+	cursor: pointer;
+}
+
+
+.crm_customer .creat-info{
+	margin-left: 15px;
+	border-bottom: 1px solid #e5e5e5;
+}
+.crm_customer .creat-info div{
+	width: 200px;
+	/*height: 80px;*/
+	display: inline-block;
+}
+.crm_customer .creat-info div span:nth-child(1){
+	display: block;
+	border-left: 1px solid #ffb431;
+	line-height: 16px !important;
+	padding-left: 5px;
+	color: #999;
+}
+.crm_customer .creat-info div span:nth-child(2){
+	display: block;
+	padding-left: 6px;
+	margin: 5px 0;
+	color: #666;
+}
+.crm_customer .linkman-info{
+	position: relative;
+	padding-left: 20px;
+	padding-top: 10px;
+}
+.crm_customer .fa-qq,.fa-wechat{
+	color: #b3b3b3;
+}
+.crm_customer .fa-question-circle{
+	color: #ef5350;
+}
+.crm_customer .fa.active{
+	color: #77b8ff;
+}
+.crm_customer .fa.mar{
+	margin-left: 5px;
+}
+.crm_customer .z-recordState{
+	position: absolute;
+	right: 40px;
+	top: 20px;
+}
+/*跟踪记录*/
+.crm_customer .clientInfoTrace{
+	/*padding-top: 20px;*/
+}
+.crm_customer .clientInfoTrace .m-divBlock{
+	padding-top: 50px ;
+	padding-left: 50px ;
+}
+.crm_customer .u-traceRecord{
+	/*height: 120px;*/
+	/*padding-top: 20px;*/
+	position: relative;
+	border-left: 2px solid #42A5F5;
+	padding-bottom: 8px;
+}
+.crm_customer .creat-traceRecord{
+	height: 250px;
+}
+.crm_customer .u-traceRecord .circle{
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	left: -10px;
+	top: -10px;
+	background-color: #42A5F5;
+	border-radius: 50%;
+}
+.crm_customer .u-traceRecord .circle.first{
+	background-color: #f9a219;
+}
+.crm_customer .u-traceRecord .date{
+	padding-left: 50px;
+	color: #B2B2B2;
+}
+.crm_customer .u-traceRecord .detail{
+	padding-left: 50px;
+}
+.crm_customer .u-traceRecord .underline{
+	color: #f9a219;
+}
+.crm_customer .u-traceRecord textarea{
+	margin-left: 50px !important;
+	width: 800px !important;
+	height: 130px !important;
+}
+.crm_customer .u-traceRecord .u-submitButton{
+	margin-top:20px !important ;
+	margin-left: 200px !important;
+}
+
+/*弹窗*/
+.crm_customer .m-popup{
+	width: 600px;
+	height: 360px;
+	position: absolute;
+	left: 66px;
+	top: 96px;
+	background-color: #fff;
+}
+.crm_customer .m-popup header {
+	width: 100%;
+	height: 50px;
+	background-color: #6b7a99;
+}
+.crm_customer .m-popup header h1{
+	position: relative;
+	color: white;
+	line-height: 50px;
+	text-align: center;
+}
+.crm_customer .m-popup header .fa-close {
+	position: absolute;
+	color: #939aab;
+	right: 10px;
+	top: 10px;
+}
+.crm_customer .m-popup h2{
+	text-align: center;
+	font-weight: normal;
+	font-size: 20px;
+	margin-top: 50px;
+	margin-bottom: 30px;
+	color: #666;
+}
+.crm_customer .m-popup input[type="text"]{
+	display: block;
+	margin: 0 auto !important;
+}
+.crm_customer .m-popup h3{
+	text-align: center;
+	font-weight: normal;
+	font-size: 16px;
+	margin-top: 10px;
+	margin-bottom: 30px;
+	color: #666;
+}
+.crm_customer .m-form .u-submitButton {
+	/*margin: 60px auto;*/
+	padding-left: 100px !important;
+}
+/*弹出框*/
+
+.crm_customer .reveal-modal-bg {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	z-index: 100;
+	display: none;
+	top: 0;
+	left: 0;
+	background: rgba(00, 00, 00, 0.4)
+}
+
+.crm_customer .reveal-modal {
+	width: 590px;
+	height: 280px;
+	visibility: hidden;
+	top: 150px;
+	left: 50%;
+	margin-left: -300px;
+	position: absolute;
+	z-index: 101;
+	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+	-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+	background-color: #fff;
+}
+
+.crm_customer .reveal-modal .p1 {
+	width: 590px !important;
+	height: 50px !important;
+	background-color: #6b7a99;
+	font-size: 18px !important;
+	text-align: center;
+	line-height: 50px !important;
+	color: #fff;
+}
+.crm_customer .reveal-modal .p2 {
+	width: 590px;
+	font-size: 18px;
+	text-align: center;
+	line-height: 140px;
+	color: #666666;
+	display: inline-block;
+}
+
+.crm_customer .reveal-modal select {
+	width: 200px;
+	height: 30px;
+	margin-left: 10px;
+}
+
+.crm_customer #myModal .p5 input {
+	/*clear: both;*/
+	width: 50px;
+	height: 42px;
+}
+.crm_customer .reveal-modal .close-reveal-modal {
+	font-size: 32px;
+	line-height: 0.5;
+	position: absolute;
+	top: 15px;
+	right: 18px;
+	color: #fff;
+	text-shadow: 0 -1px 1px rbga(0, 0, 0, .6);
+	font-weight: bold;
+	cursor: pointer;
+}
+.crm_customer .reveal-modal .p5 {
+	width: 256px;
+	margin-top: 39px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.crm_customer .reveal-modal .p5 input {
+	width: 100px;
+	height: 41px;
+	border-radius: 10px;
+	background-color: #42a5f5;
+	color: #fff;
+	border: 1px solid #dcdcdc;
+}
+
+.crm_customer .reveal-modal .p5 button {
+	width: 100px;
+	height: 41px;
+	border-radius: 10px;
+	/*margin-right: 100px;*/
+	background-color: #fff;
+	border: 1px solid #dcdcdc;
+	margin-left: 50px;
+}
+/*客户详情-编辑销售机会*/
+.edit-sale-chance{
+
+}
+.edit-sale-chance .sale-chance-apply-contract{
+	position: relative;
+	background-color: #f5f8fd;
+    padding: 10px 40px;
+    margin: 0 0 20px -40px;
+}
+.edit-sale-chance .sale-chance-apply-contract .controler{
+	position: absolute;
+	right: 40px;
+	top: 20px;
+}
+.edit-sale-chance .sale-chance-apply-contract .controler .fa{
+	color: #999;
+}
+.edit-sale-chance .sale-chance-apply-contract .add{
+	display: inline-block;
+}
+.edit-sale-chance .sale-chance-apply-contract .add .fa:hover{
+	color: #42A5F5;
+}
+.edit-sale-chance .sale-chance-apply-contract .delete .fa:hover{
+	color: #ef5350;
+}
+.edit-sale-chance .sale-chance-apply-contract .delete{
+	display: inline-block;
+	margin-left: 10px;
+}

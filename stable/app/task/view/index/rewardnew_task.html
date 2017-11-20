@@ -1,0 +1,126 @@
+<link rel="stylesheet" href="/task/css/task.css" />
+<link rel="stylesheet" href="/task/css/hsCheckData.css" />
+<div class="task">
+	<form class="new_task_form" onsubmit="return false;">
+		<article>
+			<div class="dv4">
+				<div class="parcel">
+					<div class="left hezi">
+						<img src="/task/img/star.png" />
+						<span>任务类型</span>
+						<select name="task_type">
+							<option value="3">悬赏任务</option>
+							<option value="2">PK任务</option>
+							<option value="1">激励任务</option>
+						</select>
+					</div>
+					<div class="right hezi">
+						<img src="/task/img/star.png" />
+						<span>任务名称</span>
+						<input type="text" name="task_name" placeholder="生鲜类客户沟通求助" />
+					</div>
+
+				</div>
+				<div class="parcel">
+					<div class="left hezi">
+						<img src="/task/img/star.png" style="margin-top: -20px;" />
+						<span style="vertical-align: top;">面向群体</span>
+						<!--<div id="rewardnew_take" class="public_to_take" style="width:225px;padding-right:10px;overflow: hidden;padding-left: 20px;" >
+						</div>-->
+						<input type="text" class="public_to_take rewardnew-task-select-window-choosen-staff" data-dep="" data-stf=""  placeholder="请选择" />
+						<div class="main-content select-window" style="margin:0 auto;" data-num="1" data-str='departments[]=,&,&,employees[]=,&' data-selector=".rewardnew-task-select-window-choosen-staff"></div>
+					</div>
+
+					<div class="right hezi">
+
+						<img src="/task/img/star.png" />
+						<span>悬赏人数</span>
+						<input type="text" name="reward_num" placeholder="2" />
+						<span>人</span>
+					</div>
+				</div>
+				<div class="parcel">
+
+					<div class="left hezi">
+						<img src="/task/img/star.png" />
+						<span>悬赏金额</span>
+						<input type="text" name="reward_amount" placeholder="20" />
+						<span>元/人</span>
+					</div>
+				</div>
+				<div class='xuanze'>
+					<div class="choice">
+						<span>悬赏类型</span>
+						<input type="radio" checked="checked" index="0" name="target_method" value="2" /><span>帮忙跟进客户</span>
+						<input type="radio" index="1" name="target_method" value="1" /><span>其他需求</span>
+					</div>
+				</div>
+				
+				<div class="switch1" style="display: block">
+					<div class="parcel left_margin">
+						<div class="hezi">
+							<select name="target_customer">
+								<!--<option value="0">选择要帮跟的客户</option>-->
+								{volist name="customer_helpList" id="vo"}
+								<option value="{$vo.id}">{$vo.customer_name}</option>
+								{/volist}
+							</select>
+						</div>
+					</div>
+				</div>
+				
+				<div class="switch2">
+					<div class="last space">
+					<textarea placeholder="请输入需要帮助的任务描述" name="target_description"></textarea>
+				</div>
+				</div>
+				
+				<div class="parcel">
+					<div class="normal">
+						<img src="/task/img/star.png" />
+						<span>领取周期</span>
+						<input type="datetime-local" name="task_take_start_time" value="{$now_time}"/>
+						<!--<input type="text" value="" maxlength="100" name="task_take_start_time" value="{$now_time}" onclick="SelectDate(this,'yyyy-MM-dd hh:mm:ss')" placeholder="请填写日期" />-->
+						<span class="set">到</span>
+						<input type="datetime-local" name="task_take_end_time" value="{$now_time}"/>
+						<!--<input type="text" value="" maxlength="100" name="task_take_end_time" value="{$now_time}" onclick="SelectDate(this,'yyyy-MM-dd hh:mm:ss')" placeholder="请填写日期" />-->
+					</div>
+				</div>
+				<div class="parcel">
+					<div class="normal">
+						<img src="/task/img/star.png" />
+						<span>任务周期</span>
+						<input type="datetime-local" name="task_start_time" value="{$now_time}"/>
+						<!--<input type="text" value="" maxlength="100" name="task_start_time" value="{$now_time}" onclick="SelectDate(this,'yyyy-MM-dd hh:mm:ss')" placeholder="请填写日期" />-->
+						<span class="set">到</span>
+						<input type="datetime-local" name="task_end_time" value="{$now_time}"/>
+						<!--<input type="text" value="" maxlength="100" name="task_end_time" value="{$now_time}" onclick="SelectDate(this,'yyyy-MM-dd hh:mm:ss')" placeholder="请填写日期" />-->
+					</div>
+				</div>
+				<div class="last">
+					<span>任务说明</span>
+					<textarea placeholder="请输入任务说明内容" name="content"></textarea>
+				</div>
+				<div class="issue">
+					<p class="new_task_submit">发布</p>
+					<p class="new_task_cancel">取消</p>
+				</div>
+			</div>
+		</article>
+	</form>
+
+	<div class="reveal-modal reveal_eight pay_ui pay-pop">
+	</div>
+
+	<script src="/static/js/PopUp.js"></script>
+	<script type="text/javascript" src="/task/js/task.js"></script>
+	<script src="/task/index/employee_data"></script>
+	<script src="/task/js/hsCheckData.js"></script>
+	<script src="/task/js/adddate.js"></script>
+	<script>
+		$('#rewardnew_take').hsCheckData({
+			isShowCheckBox: true,
+			data: cityData
+		});
+		new new_task_form("{$fr}");
+	</script>

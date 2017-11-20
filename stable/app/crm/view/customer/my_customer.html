@@ -1,0 +1,202 @@
+<div class="crm_customer crm_my_customer h100 o-h">
+    <div class="my_customer_panel my_customer h100" >
+        <!--header-->
+        <header>
+            <ul class="m-firNav">
+                <li in_column="0" class="in_column {eq name='in_column' value='0'}current{/eq}"><div>我的所有客户（<span>{$listCount.0}</span>）</div></li>
+                <li in_column="1" class="in_column {eq name='in_column' value='1'}current{/eq}"><div>待沟通客户（<span>{$listCount.1}</span>）</div></li>
+                <li in_column="2" class="in_column {eq name='in_column' value='2'}current{/eq}"><div>未跟进客户（<span>{$listCount.2}</span>）</div></li>
+                <li in_column="3" class="in_column {eq name='in_column' value='3'}current{/eq}"><div>正常跟进客户（<span>{$listCount.3}</span>）</div></li>
+                <li in_column="4" class="in_column {eq name='in_column' value='4'}current{/eq}"><div>停滞客户（<span>{$listCount.4}</span>）</div></li>
+                <li in_column="5" class="in_column {eq name='in_column' value='5'}current{/eq}"><div>待定客户（<span>{$listCount.5}</span>）</div></li>
+                <li in_column="6" class="in_column {eq name='in_column' value='6'}current{/eq}"><div>无意向客户（<span>{$listCount.6}</span>）</div></li>
+                <li in_column="7" class="in_column {eq name='in_column' value='7'}current{/eq}"><div>已成单客户（<span>{$listCount.7}</span>）</div></li>
+                <li in_column="8" class="in_column {eq name='in_column' value='8'}current{/eq}"><div>无效客户（<span>{$listCount.8}</span>）</div></li>
+            </ul>
+        </header>
+
+        <!--客户列表-->
+        <div class="m-3rd-container">
+            <section class="myAllClientsPage b-w" >
+            <ul class="m-secNav">
+                <li class="active showNewClient">新建客户</li>
+                <li class="active"><span class="big-link" data-reveal-id="my_customer_import" data-animation="fade">导入客户</span></li>
+                <li class="active customer_import">导入记录</li>
+                <li class="vertical"></li>
+                <li class="exportCustomer">导出</li>
+                <li class="send_customer_group_message">群发短信</li>
+                <li class="release_customers">批量释放</li>
+                <div class="clearfix"></div>
+            </ul>
+            <div class="m-filterNav">
+                <form class="search_form" onsubmit="return false;">
+                    <select name="take_type">
+                        <option value="">获取途径</option>
+                        <option value="1" {present name='filter.take_type'}{eq name='filter.take_type' value='1'} selected="selected"{/eq}{/present}>转介绍</option>
+                        <option value="2" {present name='filter.take_type'}{eq name='filter.take_type' value='2'} selected="selected"{/eq}{/present}>搜索</option>
+                        <option value="3" {present name='filter.take_type'}{eq name='filter.take_type' value='3'} selected="selected"{/eq}{/present}>购买</option>
+                    </select>
+                    <select name="grade">
+                        <option value="">客户级别</option>
+                        <option value="A" {present name='filter.grade'}{eq name='filter.grade' value='A'} selected="selected"{/eq}{/present}>A</option>
+                        <option value="B" {present name='filter.grade'}{eq name='filter.grade' value='B'} selected="selected"{/eq}{/present}>B</option>
+                        <option value="C" {present name='filter.grade'}{eq name='filter.grade' value='C'} selected="selected"{/eq}{/present}>C</option>
+                        <option value="D" {present name='filter.grade'}{eq name='filter.grade' value='D'} selected="selected"{/eq}{/present}>D</option>
+                    </select>
+                    <select name="sale_chance">
+                        <option value="">销售机会</option>
+                        {volist name="business_flows" id="vo"}
+                        <option value="{$vo.id}" {present name='filter.sale_chance'}{eq name='filter.sale_chance' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.business_flow_name}</option>
+                        {/volist}
+                    </select>
+                    <select name="comm_status">
+                        <option value="">沟通结果</option>
+                        <option value="1" {present name='filter.comm_status'}{eq name='filter.comm_status' value='1'} selected="selected"{/eq}{/present}>无意向</option>
+                        <option value="2" {present name='filter.comm_status'}{eq name='filter.comm_status' value='2'} selected="selected"{/eq}{/present}>号码无效</option>
+                        <option value="3" {present name='filter.comm_status'}{eq name='filter.comm_status' value='3'} selected="selected"{/eq}{/present}>资料有误</option>
+                        <option value="4" {present name='filter.comm_status'}{eq name='filter.comm_status' value='4'} selected="selected"{/eq}{/present}>未接通</option>
+                        <option value="5" {present name='filter.comm_status'}{eq name='filter.comm_status' value='5'} selected="selected"{/eq}{/present}>待定</option>
+                        <option value="6" {present name='filter.comm_status'}{eq name='filter.comm_status' value='6'} selected="selected"{/eq}{/present}>有意向</option>
+                    </select>
+                    <input type="text" name="customer_name" placeholder="输入客户名称" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
+                    <input type="text" name="contact_name" placeholder="输入联系人名称" value="{present name='filter.contact_name'}{$filter.contact_name}{/present}"/>
+                    <button class="u-btnSearch">查询</button>
+                </form>
+            </div>
+            <div class="m-tableBox p-r o-h">
+                <div class="m-table m-table-nav">
+                    <ul class="u-tabTitle">
+                        <li class="u-tabCheckbox"><input type="checkbox" class="check_all"/></li>
+                        <li>客户名称<i class="fa fa-caret-down"></i></li>
+                        <li>操作</li>
+                        <div class="clearfix"></div>
+                    </ul>
+                    {volist name="listdata" id="vo"}
+                    <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+                        <li class="u-tabCilentName customer_info_name_show" title="{$vo.customer_name}">{$vo.customer_name}</li>
+                        <li class="u-tabOperation">
+                            <span class="customer_info_show">详情</span>
+                            <span class="customer_info_edit">编辑</span>
+                            <span class="release_customers">释放</span>
+                        </li>                        
+                        <div class="clearfix"></div>
+                    </ul>
+                    {/volist}
+                </div>
+                <div class="o-a w100">
+                   <div class="m-table m-table-detail">
+                    <ul class="u-tabTitle">
+                        <li class="u-tabCheckbox"><input type="checkbox"/></li>
+                        <li>客户名称<i class="fa fa-caret-down"></i></li>
+                        <li>操作</li>
+                        <li>获取途径</li>
+                        <li>客户级别<i class="fa fa-unsorted"></i></li>
+                        <li>沟通结果<i class="fa fa-unsorted"></i></li>
+                        <li>销售机会</li>
+                        <li>预计成单金额<i class="fa fa-unsorted"></i></li>
+                        <li>成单金额</li>
+                        <li>已交金额</li>
+                        <li>联系人<i class="fa fa-unsorted"></i></li>
+                        <li>联系方式</li>
+                        <li>上次跟进时间<i class="fa fa-unsorted"></i></li>
+                        <li>剩余保有时间<i class="fa fa-unsorted"></i></li>
+                        <li>预计合同到期时间<i class="fa fa-unsorted"></i></li>
+                        <li>提醒时间<i class="fa fa-unsorted"></i></li>
+                        <li>所在列</li>                       
+                        <div class="clearfix"></div>
+                    </ul>
+                    {volist name="listdata" id="vo"}
+                    <ul class="u-tabList">
+                        <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
+                        <li class="u-tabCilentName customer_info_name_show">{$vo.customer_name}</li>
+                        <li class="u-tabOperation">
+                            <span class="customer_info_show">详情</span>
+                            <span class="customer_info_edit">编辑</span>
+                            <span class="release_customers">释放</span>
+                        </li>
+                        <li>{$vo.take_type|getTakeTypeFromName}</li>
+                        <li>{$vo.grade}</li>
+                        <li>{$vo.comm_status|getCommStatusName}</li>
+                        <li>{$vo.sale_names}</li>
+                        <li>{$vo.all_guess_money|number_format=2,".",""}元</li>
+                        <li>{$vo.all_final_money|number_format=2,".",""}元</li>
+                        <li>{$vo.all_payed_money|number_format=2,".",""}元</li>
+                        <li>{$vo.contact_name}</li>
+                        <li class="u-tabLinkWay">{$vo.phone_first}<i class="fa fa-phone"></i></li>
+                        <li>{$vo.last_trace_time|day_format}</li>
+                        <li>{$vo.save_time_str}</li>
+                        <li>{$vo.contract_due_time_str}</li>
+                        <li>{$vo.remind_time_str}</li>
+                        <li>{$vo.in_column|getInColumnName}</li>                        
+                        <div class="clearfix"></div>
+                    </ul>
+                    {/volist}
+                </div> 
+                </div>
+                
+            </div>
+            {include file="common@common/page"/}
+        </section>
+        </div>
+        
+        <script src="/static/js/list_manage.1.1.js"></script>
+        <script language="javascript">
+            var arr = [[0,1,2,3,4,5,6,7,9,10,11,12,13,14,15,16],[0,1,2,3,4,5,6,9,10,11,12,14,16],[0,1,2,3,4,5,6,9,10,11,12,14,16],[0,1,2,3,4,5,6,9,10,11,12,14,16],[0,1,2,3,4,5,6,9,10,11,12,14,16],[0,1,2,3,4,5,6,9,10,11,12,14,16],[0,1,2,3,4,5,6,9,10,11,12,14,16],[0,1,2,3,4,5,7,8,9,10,11,13,14,16],[0,1,2,3,4,5,6,9,10,11,12,14,16]];
+            var my_customer_list_manage = new list_manage("my_customer","myclietsfr","/crm/customer/my_customer",'{$p}','{$num}','{$max_page}','{$in_column}',"",arr);
+        </script>
+        <script src="/crm/js/customer_info_manage.js"></script>
+        <script language="javascript">
+            var my_customer_info_manage = new customer_info_manage("my_customer","myclietsfr",my_customer_list_manage,"{$in_column}","{$in_column|getInColumnName}","{$count}");
+        </script>
+        <script src="/crm/js/customer_add.js"></script>
+        <script language="javascript">
+            var my_customer_add = new customer_add("my_customer","myclietsfr",my_customer_list_manage);
+        </script>
+        <script src="/crm/js/customer_import.js"></script>
+        <script language="javascript">
+            var my_customer_import = new customer_import("#frames #myclietsfr .crm_my_customer .customer_import_record",3);
+        </script>
+        <script src="/crm/js/my_customer.js"></script>
+    </div>
+    <div class="my_customer_panel customer_info_panel customer_general hide">
+    </div>
+    <div class="my_customer_panel customer_info_panel customer_info hide">
+    </div>
+    <div class="my_customer_panel customer_info_panel customer_edit hide">
+    </div>
+    <div class="my_customer_panel customer_info_panel customer_contact hide">
+    </div>
+    <div class="my_customer_panel customer_info_panel customer_sale_chance hide">
+    </div>
+    <div class="my_customer_panel customer_info_panel customer_trace hide">
+    </div>
+    <div class="my_customer_panel customer_info_panel customer_import_record hide">
+        <header>
+            <ul class="m-firNav">
+                <li class="current"><div style="border: none;">我的客户</div></li>
+                <i class="fa fa-angle-right fa-2x" style="line-height: 40px;margin-left: 5px;"></i><span class="u-spanInfo">导入记录</span>
+            </ul>
+        </header>
+        <div class="customer_import_record_list">
+
+        </div>
+    </div>
+    <div id="my_customer_import" class="reveal-modal my_customer_import_ui">
+        <form class="my_customer_import_from" onsubmit="return false;" method="post" enctype="multipart/form-data">
+            <p class="p1">批量导入</p>
+            <p class="p2">
+                <img class="my_customer_import_templet_download" src="/static/images/file.jpg" />
+                <span class="my_customer_import_templet_download" style="font-size: 12px;">导入模板下载</span>
+                <input type="file" name="files" required="required" placeholder="请选择文件" style="width: 256px;height: 26px;border-radius: 6px;background-color: #efefef;" title="选择文件"/>
+            </p>
+            <input type="hidden" name="type" value="2"/>
+            <p class="p5">
+                <input type="submit" class="my_customer_import_submit_btn" value="确定" />
+                <button class="my_customer_import_cancel_btn">取消</button>
+            </p>
+            <a class="close-reveal-modal">&#215;</a>
+        </form>
+    </div>
+</div>
+<link rel="stylesheet" href="/crm/css/index.css"/>

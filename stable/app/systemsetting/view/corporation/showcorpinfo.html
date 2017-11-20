@@ -1,0 +1,78 @@
+<div class="show_corp_info h100 o-h">
+    <div id="top">
+        <ul class="firNav">
+            <li class="current">
+                <div>公司信息</div>
+            </li>
+            <!--<i class="fa fa-angle-right fa-2x"></i>-->
+        </ul>
+    </div>
+    <div class="m-3rd-container o-x-h">
+      <div id="content">
+        <p>
+            <span class="left">公司名称</span>
+            <span class="colon">:</span>
+            <span class="right">{$data.corp_name}</span>
+        </p>
+        <p>
+            <span class="left">公司地址</span>
+            <span class="colon">:</span>
+            <span class="right">{$data.corp_website}</span>
+        </p>
+        <p>
+            <span class="left">公司电话</span>
+            <span class="colon">:</span>
+            <span class="right">{$data.corp_tel}</span>
+        </p>
+        <p>
+            <span class="left">公司所在地</span>
+            <span class="colon">:</span>
+            <span class="right">{$data.corp_address}</span>
+        </p>
+        <p>
+            <span class="left">详细地址</span>
+            <span class="colon">:</span>
+            <span class="right">{$data.corp_dist}</span>
+        </p>
+        <p>
+            <span class="left" style="vertical-align: top;">详细定位</span>
+            <!--<span class="colon">:</span>-->
+            <!-- <span class="right">{$data.corp_lat},{$data.corp_lng}</span> -->
+            <iframe class="mapFrame showcorpinfo_map" name="showcorpinfo_map" data-lng="{$data.corp_lng}" data-lat="{$data.corp_lat}" src="/index/index/map.html" onload="mapLoad('showcorpinfo_map')"></iframe>        </p>
+        <!-- <div>
+                    <span class="cont u-area">详细定位</span>
+                    
+                </div>
+        <p>
+            <img src="/systemsetting/images/map.jpg" class="right" />
+        </p> -->
+        <p>
+            <span class="left">所属行业</span>
+            <span class="colon">:</span>
+            <span class="right">
+                {volist name="business_list" id="vo"}
+                    {eq name="vo.id" value="$data.corp_field"}
+                        {$vo.business_name}
+                    {/eq}
+                {/volist}
+            </span>
+        </p>
+        <p>
+            <span class="left">产品关键字</span>
+            <span class="colon">:</span>
+            <span class="right">{$data.corp_product_keys}</span>
+        </p>
+        <div id="compile">
+            <i class="fa fa-file-text"></i>
+            <p>编辑</p>
+        </div>
+    </div>  
+    </div>
+    
+    <script>
+        $('#compile').click(function() {
+            loadPage("{:url('/systemsetting/corporation/editcorpinfo')}","company-informationfr");
+        });
+    </script>
+</div>
+<link rel="stylesheet" href="/systemsetting/css/corpinfoshow.css" />

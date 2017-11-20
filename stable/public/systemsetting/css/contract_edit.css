@@ -1,0 +1,385 @@
+.systemsetting_contract_edit {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    font-family: "微软雅黑";
+    width: 100%;
+    height: 770px;
+    background-color: #ecf0f5;
+}
+.systemsetting_contract_edit
+ul,
+li,
+ol {
+    list-style: none
+}
+
+.systemsetting_contract_edit a {
+    color: #333;
+    text-decoration: none;
+}
+
+.systemsetting_contract_edit .top {
+    /*width: 1120px;*/
+    width: 100%;
+    height: 40px;
+    background-color: #fff;
+    margin: 0 2px;
+}
+
+
+.systemsetting_contract_edit ul.firNav {
+    height: 40px;
+    margin-left: 1px;
+    /*padding: 10px 0;*/
+    box-shadow: -1px 2px #ebedf0;
+}
+
+.systemsetting_contract_edit ul.firNav li {
+    float: left;
+    color: #b2b2b2;
+    height: 20px;
+    /*width: 130px;*/
+    padding: 10px 0;
+    /*line-height: 20px;*/
+    /*padding: 0 10px;*/
+    /*border-right:2px solid #b2b2b2 ;*/
+}
+
+.systemsetting_contract_edit ul.firNav li:hover {
+    cursor: pointer;
+}
+
+.systemsetting_contract_edit ul.firNav li div {
+    line-height: 20px;
+    padding: 0 5px;
+    font-size: 12px;
+    /*border-right:2px solid #b2b2b2 ;*/
+}
+
+.systemsetting_contract_edit ul.firNav li:last-child div {
+    border: none;
+}
+
+.systemsetting_contract_edit ul.firNav li.current {
+    color: #333333;
+    border-bottom: 1px solid #42a5f5;
+}
+
+.systemsetting_contract_edit .top ul i {
+    height: 20px;
+    display: inline-block;
+    padding-left: 3px;
+    font-size: 16px;
+    line-height: 40px;
+    color: #999999;
+    vertical-align: middle;
+}
+
+.systemsetting_contract_edit .top ul span {
+    display: inline-block;
+    height: 20px;
+    vertical-align: middle;
+    padding-left: 5px;
+    font-size: 12px;
+    line-height: 40px;
+    color: #999999;
+}
+
+.systemsetting_contract_edit .content {
+    /*width: 1090px;*/
+    width: 100%;
+    /*height: 812px;*/
+    /*height: 100%;*/
+    background-color: #fff;
+    /*margin: auto 10px;*/
+   margin-left: 2px;
+    margin-top: 6px;
+    margin-bottom: 12px;
+    padding-top: 30px;
+    padding-left: 30px;
+}
+
+.systemsetting_contract_edit .content div {
+    width: 496px;
+    height: 54px;
+    /*float: left;*/
+}
+
+.systemsetting_contract_edit .content div span{
+    width: 126px;
+    height: 36px;
+    display: inline-block;
+    text-align: right;
+    line-height: 36px;
+    font-size: 14px;
+}
+
+.systemsetting_contract_edit .content div .img1 {
+    width: 2px;
+    height: 20px;
+    vertical-align: middle;
+    margin-left: 70px;
+}
+
+.systemsetting_contract_edit .content .sp1 {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    vertical-align: middle;
+    width: 97px;
+    margin: 0px;
+}
+
+.systemsetting_contract_edit .content select {
+    vertical-align: middle;
+    width: 200px;
+    padding-left: 15px;
+    height: 35px;
+    margin-left: 18px;
+}
+
+.systemsetting_contract_edit .content div input {
+    width: 221px;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 36px;
+    margin-left: 18px;
+}
+
+.systemsetting_contract_edit .content p {
+    margin-bottom: 14px;
+}
+
+.systemsetting_contract_edit .content .ipt1 {
+    width: 82px;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 36px;
+}
+
+.systemsetting_contract_edit .content .ipt2 {
+    width: 82px;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 36px;
+    margin-left: 5px;
+}
+
+.systemsetting_contract_edit .content p .img2 {
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+.systemsetting_contract_edit .content .p1 {
+    font-size: 12px;
+    color: #b3b3b3;
+    margin-left: 146px;
+    margin-bottom: 25px;
+}
+
+.systemsetting_contract_edit .content .sp2 {
+    font-size: 12px;
+    color: #b3b3b3;
+    width: 240px;
+    margin: 0px;
+    text-align: left;
+    vertical-align: bottom;
+}
+.systemsetting_contract_edit .content .ps1 {
+    margin-top: 64px;
+}
+
+.systemsetting_contract_edit .content .ps2 {
+    margin-top: 157px;
+}
+
+.systemsetting_contract_edit .content .p5 {
+    clear: both;
+    width: 500px;
+    height: 42px;
+    padding-top: 32px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 60px;
+}
+
+.systemsetting_contract_edit .content .p5 input {
+    width: 100px;
+    height: 41px;
+    border-radius: 10px;
+    margin-right: 100px;
+    background-color: #42a5f5;
+    color: #fff;
+    border: 1px solid #dcdcdc;
+    font-size: 16px;
+}
+
+.systemsetting_contract_edit .content .p5 button {
+    width: 100px;
+    height: 41px;
+    border-radius: 10px;
+    background-color: #fff;
+    border: 1px solid #dcdcdc;
+    font-size: 16px;
+}
+
+.systemsetting_contract_edit .content .p input {
+    width: 18px;
+    height: 18px;
+    margin-left: 36px;
+    vertical-align: middle;
+    margin-right: 25px;
+}
+.systemsetting_contract_edit .content .later{
+	height: 100%;
+}
+.systemsetting_contract_edit .content .later>span:nth-of-type(5){
+	margin-left: 148px;
+}
+.systemsetting_contract_edit .content .later .add {
+    margin-left: 10px;
+    font-size: 12px;
+    color: #77b8ff;
+    text-align: left
+}
+
+.systemsetting_contract_edit .content .later .redact {
+    display: inline-block;
+    width: 221px;
+    padding-left: 15px;
+    height: 36px;
+    background-color: #f2f2f2;
+    margin-top: 10px;
+    margin-left: 18px;
+    padding-right: 15px;
+    text-align: left;
+}
+
+.systemsetting_contract_edit .content .redact {
+    position: relative;
+}
+
+.systemsetting_contract_edit .content .redact .item_name {
+    width: 132px;
+    height: 36px;
+    display: inline-block;
+    text-align: left;
+    line-height: 36px;
+    font-size: 14px;
+}
+
+.systemsetting_contract_edit .content .later .redact .compile {
+    position: absolute;
+    left: 190px;
+    top: 10px
+}
+
+.systemsetting_contract_edit .content .later .redact .del {
+    position: absolute;
+    left: 215px;
+    top: 10px
+}
+
+.systemsetting_contract_edit .content .later .redact .item_text{
+    display: inline-block;
+    width: 128px;
+    height: 20px;
+    line-height: 20px;
+    margin:0;
+}
+.systemsetting_contract_edit .content .later .redact .item_btn{
+    vertical-align: middle;
+    margin-left: 10px;
+    font-size: 14px;
+    color: #77b8ff;
+}
+
+.systemsetting_contract_edit .content .later .redact img {
+    display: none;
+}
+
+.systemsetting_contract_edit .content .later .redact:hover img {
+    display: inline-block;
+}
+
+.systemsetting_contract_edit .content .later .redact:hover {
+    background-color: #f2f6fd;
+}
+
+.systemsetting_contract_edit .content .full {
+    width: 100%;
+    height: 5px;
+}
+.systemsetting_contract_edit .content .apply_role .create_contract_num {
+    display: inline-block;
+    width: 16px;
+    padding:0;
+    height: 16px;
+    margin: 0;
+}
+.systemsetting_contract_edit .content .apply_role .contract_num_tip {
+    width: 70px;
+}
+.systemsetting_contract_edit .content .apply_role .add{
+    display: none;
+    position: relative;
+    left: 320px;
+    top:-60px
+}
+.systemsetting_contract_edit .content .apply_role:nth-last-child(3) .add{
+    display: inline-block;
+}
+.systemsetting_contract_edit .content .apply_role .del{
+    display: none;
+    position: relative;
+    left: 330px;
+    top:-60px
+}
+.systemsetting_contract_edit .content .apply_role:hover .del{
+    display: inline-block;
+}
+.systemsetting_contract_edit .content .apply_role:nth-child(2) .del{
+    display: inline-block;
+}
+
+.systemsetting_contract_edit .content .apply_role .switch_panel {
+    display:inline-block;
+    width: 40px;
+    height: 20px;
+    border-radius: 50px;
+    position: relative;
+    left: 370px;
+    top:-50px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.systemsetting_contract_edit .content .apply_role .switch_panel .switch_btn {
+    width: 15px;
+    height: 15px;
+    border-radius: 48px;
+    position: absolute;
+    background: white;
+    top: 2px;
+    right: 1px;
+}
+
+.systemsetting_contract_edit .content .apply_role .close {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.systemsetting_contract_edit .content .apply_role .close .switch_btn {
+    top: 0px;
+    left: 0px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+}
+.systemsetting_contract_edit .content .apply_role .num_tip{
+    font-size: 12px;
+    position: relative;
+    left: 320px;
+    top:-24px;
+    width:60px;
+    height:16px;
+    line-height:16px;
+}

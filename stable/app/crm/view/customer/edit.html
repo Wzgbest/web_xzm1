@@ -1,0 +1,137 @@
+<!--客户详情-->
+<section class="page-info h100 o-h">
+    <header>
+        <ul class="m-firNav">
+            <li class="current back"><div>我的所有客户（<span>160</span>）</div></li>
+            <i class="fa fa-angle-right fa-2x"></i>
+            <span class="u-spanInfo">详情</span>
+        </ul>
+    </header>
+    <ul class="m-pageInfoNav">
+        <div class="clearfix"></div>
+        <li class="customer_general_show">概要</li>
+        <li class="current">客户信息</li>
+        <li class="customer_contact_show">联系人（{$customer_contact_num}）</li>
+        <li class="customer_sale_chance_show">销售机会（{$sale_chance_num}）</li>
+        <li class="customer_trace_show">跟踪记录（{$customer_trace_num}）</li>
+        <div class="clearfix"></div>
+    </ul>
+    <div class="m-4th-container">
+        <form class="newClientForm {$fr}_edit" onsubmit="return false;">
+            <section class="m-form m-divBlock clientInformationEdit">
+                <div class="clearfix"></div>
+                <div >
+                    <span class="cont"><span class="u-required">＊</span>客户名称</span>
+                    <input type="text" name="customer_name" required="required" placeholder="请输入客户名称" pattern="[\S]{1,40}" title="请输入1-40个字符" value="{$customer.customer_name}"/>
+
+                    <span class="cont">沟通状态</span>
+                    <select name="comm_status">
+                        <option value="6" {eq name='customer.comm_status' value='6'} selected="selected"{/eq}>有意向</option>
+                        <option value="1" {eq name='customer.comm_status' value='1'} selected="selected"{/eq}>无意向</option>
+                        <option value="2" {eq name='customer.comm_status' value='2'} selected="selected"{/eq}>号码无效</option>
+                        <option value="3" {eq name='customer.comm_status' value='3'} selected="selected"{/eq}>资料有误</option>
+                        <option value="4" {eq name='customer.comm_status' value='4'} selected="selected"{/eq}>未接通</option>
+                        <option value="5" {eq name='customer.comm_status' value='5'} selected="selected"{/eq}>待定</option>
+                    </select>
+                </div>
+                <div>
+                    <span class="cont">客户编码</span>
+                    <span class="cont-x-cunstomer-id">{$customer.id}</span>
+
+                    <span class="cont">客户级别</span>
+                    <select name="grade">
+                        <option value="A" {eq name='customer.grade' value='A'} selected="selected"{/eq}>A</option>
+                        <option value="B" {eq name='customer.grade' value='B'} selected="selected"{/eq}>B</option>
+                        <option value="C" {eq name='customer.grade' value='C'} selected="selected"{/eq}>C</option>
+                        <option value="D" {eq name='customer.grade' value='D'} selected="selected"{/eq}>D</option>
+                    </select>
+                </div>
+                <div>
+                    <span class="cont"><span class="u-required">＊</span>联系电话</span>
+                    <input type="text" name="telephone" required="required" pattern="^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}|17[0-9]{9}$|18[0-9]{9}$|^((0(10|2[0-9]|[3-9]\d{2}))[- ]?[1-9]\d{6,7})$|^400[0-9]{7}$" placeholder="请输入电话号码" title="请输入正确的联系方式" value="{$customer.telephone}"/>
+
+                    <span class="cont">获取途径</span>
+                    <select name="take_type">
+                        <option value="1" {eq name='customer.take_type' value='1'} selected="selected"{/eq}>转介绍</option>
+                        <option value="2" {eq name='customer.take_type' value='2'} selected="selected"{/eq}>搜索</option>
+                        <option value="3" {eq name='customer.take_type' value='3'} selected="selected"{/eq}>购买</option>
+                    </select>
+                </div>
+                <div>
+                    <span class="cont">客户行业</span>
+                    <select name="field1" class="u-3select">
+                        <option value="0">请选择</option>
+                        {volist name="business_array" id="vo" key="key"}
+                        <option value="{$key-1}" {eq name='customer.field1' value='$key-1'} selected="selected"{/eq}>{$vo}</option>
+                        {/volist}
+                    </select>
+                    <select name="field2" class="u-3select">
+                        <option value="0">请选择</option>
+                        {volist name="business_array" id="vo" key="key"}
+                        <option value="{$key-1}" {eq name='customer.field2' value='$key-1'} selected="selected"{/eq}>{$vo}</option>
+                        {/volist}
+                    </select>
+                    <select name="field" class="u-3select">
+                        <option value="0">请选择</option>
+                        {volist name="business_array" id="vo" key="key"}
+                        <option value="{$key-1}" {eq name='customer.field' value='$key-1'} selected="selected"{/eq}>{$vo}</option>
+                        {/volist}
+                    </select>
+                </div>
+                <div>
+                    <span class="cont">公司地址</span>
+                    <select id="s_province" name="prov" class="u-3select"></select>
+                        <select id="s_city" name="city" class="u-3select" ></select>
+                        <select id="s_county" name="dist" class="u-3select"></select>
+                </div>
+                <div>
+                    <span class="cont u-area">详细地址</span>
+                    <textarea name="address" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入详细地址">{$customer.address}</textarea>
+                </div>
+                <div>
+                    <span class="cont u-area">详细定位</span>
+                    <!--<input type="text" name="location" placeholder="请点击地图进行坐标定位"/>-->
+                    <input type="hidden" name="lng" class="lng" value="{$customer.lng}"/>
+                    <input type="hidden" name="lat" class="lat" value="{$customer.lat}"/>
+                    <iframe class="mapFrame info_edit_map" name="info_edit_map" data-lng="{$customer.lng}" data-lat="{$customer.lat}" data-edit="true" src="/index/index/map.html" onload="mapLoad('info_edit_map')"></iframe>            </div>
+                <!-- <div>
+                    <span class="cont">详细定位</span>
+                    <input type="text" name="location" placeholder="请输入写字楼、街道、公司名称" value="{$customer.location}"/>
+                </div> -->
+                <div>
+                    <span class="cont">公司官网</span>
+                    <input type="text" name="website" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请输入公司官网" value="{$customer.website}"/>
+                </div>
+                <div>
+                    <span class="cont ver_top">备注</span>
+                    <!-- {foreach name="param_array" item="v" key="k"}
+                    <span class="remark"><input type="text" class="remarker" value="{$v}" data-id="{$k}" readonly="readonly"/><i class="fa fa-pencil"></i><i class="fa fa-check hide"></i><i class="fa fa-close"></i></span>
+                    {/foreach}
+                    <span class="u-addRemark"><i class="fa fa-plus"></i></span>
+                    <div class="clearfix"></div>
+                    <span class="cont"></span> -->
+                    <textarea name="remark" style="resize:both;" pattern="[\d\D]{0,80}" title="最多可填写80个字符" placeholder="请填写备注">{$customer.remark}</textarea>
+                </div>
+                <div class="u-submitButton">
+                    <button class="save customer_edit_save">保存</button>
+                    <button class="cancel customer_edit_cancel">取消</button>
+                    <!--<input type="submit" />-->
+                </div>
+            </section>
+        </form>
+    </div>
+</section>
+<script class="resources library" src="/static/js/area.js" type="text/javascript"></script>
+<script type="text/javascript">
+var opt0 = ["{$customer.prov}","{$customer.city}","{$customer.dist}"];//初始值
+_init_area();
+</script>
+<script>
+    let interal;
+    $("#s_county").change(function(){
+        $("#mapFrame")[0].contentWindow.searchKey($("#s_province").val()+$("#s_city").val()+$(this).val());
+    })
+    $(".newClient input[name='address']").change(function(){
+        $("#mapFrame")[0].contentWindow.searchKey($("#s_province").val()+$("#s_city").val()+$("#s_county").val()+$(this).val());
+    });
+</script>
