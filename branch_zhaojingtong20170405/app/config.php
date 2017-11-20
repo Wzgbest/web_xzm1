@@ -293,6 +293,8 @@ return [
     'tq'=>[
         'appid'=>'4b08a3d3-8bde-4d96-b467-c41bcd08c552',
         'appkey'=>'key',
+        'admin_uin'=>'9796221',
+        'admin_password'=>'123456',
         'expire' => 60*60*2-60,
     ],
 ];
