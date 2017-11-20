@@ -204,17 +204,20 @@ class SystemMessage extends Initialize{
      * @param [type] $msg_id      [description]
      * @param [type] $receive_uid [description]
      */
-    public function set_read_msg($msg_id,$receive_uid){
+    public function set_read_msg($msg_ids=[],$receive_uid){
         $info = ['status'=>0,'message'=>"消息已读失败"];
 
-        if (!$msg_id || !$receive_uid) {
+        if ($this->device_type != 1) {
+            $receive_uid = 1;
+        }
+        if (empty($msg_ids) || !$receive_uid) {
             $info['message'] = "消息id或发送人id为空";
             return json($info);
         }
 
         $data['status'] = 1;
         $data['create_time'] = time();
-        $map['msg_id'] = $msg_id;
+        $map['msg_id'] = ['in',$msg_ids];
         $map['receive_uid'] = $receive_uid;
         
         $systemM = new SystemMessageModel($this->corp_id);
@@ -228,7 +231,7 @@ class SystemMessage extends Initialize{
 
             if ($this->device_type == 1) {
                 $target[] = $this->corp_id."_".$receive_uid;
-                $flg = $this->send_read_msg($msg_id,$target);
+                $flg = $this->send_read_msg($msg_ids,$target);
                 if ($flg['status'] == 0) {
                     $info['error'] = "发送消息失败";
                     exception("发送消息失败");
