@@ -145,7 +145,7 @@
                             </li>
                             <li>{$vo.update_time|time_format}</li>
                             <li>{$vo.contract_type_name}</li>
-                            <li>{$vo.contract_num}</li>
+                            <li>{eq name="vo.status" value="1"}1{else/}{$vo.contract_num}{/eq}</li>
                             <li>{present name="vo.contract_no"}{$vo.contract_no}{/present}</li>
                             <li>{$vo.business_flow_name}</li>
                             <li>{$vo.sale_name}</li>
