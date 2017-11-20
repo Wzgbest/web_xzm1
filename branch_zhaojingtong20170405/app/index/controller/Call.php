@@ -29,7 +29,7 @@ class Call extends Initialize{
             $call_config["appid"] = $tq_config["appid"];
             $call_config["appkey"] = $tq_config["appkey"];
             $call_config["secretkey"] = strtoupper(md5($tq_config["appid"]."*(**)*".$tq_config["appkey"]));
-            $call_config["admin_uin"] = "9796221";
+            $call_config["admin_uin"] = $tq_config["admin_uin"];// "9796221";
             $call_config["uin"] = "9796249";
             $call_config["strid"] = "sdzhcs2";
             $call_config["time"] = time();
@@ -71,6 +71,25 @@ class Call extends Initialize{
         }
         //$params = ["sdzhcs1","9796221",md5("123456")];//e10adc3949ba59abbe56e057f20f883e
         //var_exp($func_name,'$func_name');
+//        var_exp($params,'$params');
+
+        $call_config = false;//get_cache_by_tel($this->telephone,"call_config");
+        if(!$call_config) {
+            $tq_config = config('tq');
+            $call_config["admin_uin"] = $tq_config["admin_uin"];
+            $call_config["admin_password"] = $tq_config["admin_password"];
+            set_cache_by_tel($this->telephone,"call_config",$call_config,$tq_config["expire"]?:null);
+        }
+        foreach ($params as &$param){
+            switch ($param){
+                case '[adminuin]':
+                    $param = $call_config["admin_uin"];
+                    break;
+                case '[adminpassword]':
+                    $param = md5($call_config["admin_password"]);
+                    break;
+            }
+        }
         //var_exp($params,'$params',1);
         $url="http://webservice.agent.tq.cn/Servers/services/ServerNew?wsdl";
         $client = new \SoapClient($url);
