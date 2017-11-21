@@ -5,20 +5,20 @@
             <span>￥</span>
             <input type="text" class="pay_money" placeholder="00.00" />
         </div>
-        <p class="bar">账户余额：<span>{$user_money}</span>元{if condition="$user_money<$money"}，余额不足请<span class="color-blue">充值</span>{/if}</p>
+        <p class="bar">账户余额：<span>{$user_money}</span>元</p>
     {/case}
     {case value="2"}
-        <div class="money"> </div>
+        <!--<div class="money"> </div>-->
         <h2 class=" color-yellow"><i class="fa fa-cny"></i><span class="money-total">{$money}</span></h2>
         <h3 class="selfmoney hide">个人账户余额：<span>{$user_money}</span>元{if condition="$user_money<$money"}，余额不足请<span class="color-blue">充值</span>{/if}</h3>
         <h3 class="compneymoney">企业账户余额：<span>{$company_money}</span>元{if condition="$company_money<$money"}，余额不足请<span class="color-blue">充值</span>{/if}</h3>
-        <div style="margin: 10px auto;width: 80px;height: 20px;">
-        	<input type="radio" name="pay_type" value="0">个人
-        	<input type="radio" name="pay_type" value="1" checked="checked">企业
+        <div style="margin: 10px auto;width: 130px;height: 20px;">
+        	<input type="radio" name="pay_type" value="0">个人账户
+        	<input type="radio" name="pay_type" value="1" checked="checked">对公账户
         </div>
     {/case}
     {default /}
-        <div class="money"> </div>
+        <!--<div class="money"> </div>-->
         <h2 class=" color-yellow"><i class="fa fa-cny"></i><span class="money-total">{$money}</span></h2>
         <h3>账户余额：<span>{$user_money}</span>元{if condition="$user_money<$money"}，余额不足请<span class="color-blue">充值</span>{/if}</h3>
 {/switch}
@@ -43,12 +43,12 @@
 </div>
 
 <div class="import">
-    <div class="import">
+    <!--<div class="import">-->
         <div class="decide">
             <p class="pop-submit-btn">支付</p>
             <p class="pop-close-btn">取消</p>
         </div>
-    </div>
+    <!--</div>-->
 </div>
 <a class="close-reveal-modal">&#215;</a>
 <script src="/task/js/payPwd.js"></script>
