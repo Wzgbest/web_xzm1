@@ -153,7 +153,7 @@ class Customer extends Initialize{
             $customers_data = $customerM->getSelfCustomer($uid,$num,$p,$filter,$field,$order,$direction);
             $customer_ids = array_column($customers_data,"id");
             $saleChanceM = new SaleChanceModel($this->corp_id);
-            $saleChanceInfos = $saleChanceM->getNAmeAndMoneyByCustomerIds($customer_ids);
+            $saleChanceInfos = $saleChanceM->getNameAndMoneyByCustomerIds($customer_ids);
             //var_exp($saleChanceInfos,'$saleChanceInfos');
             //var_exp($customers_data,'$customers_data');
             foreach ($customers_data as &$customers){
