@@ -2,6 +2,7 @@ fs_state = function(){
 		var phoneMsg = function(args){
 		    var seat_dbid = args.seat_dbid;
 			var phone = global.extensionInfo[seat_dbid];
+			console.log(phone);
 			/*if(args.call_id&&phone){
 			    //绑定
     			  phone.callUI.pos.HangBt.setAttribute("call_id", args.call_id);
@@ -13,17 +14,23 @@ fs_state = function(){
 			
 			if(args.seat_dbid&&phone){
                 //绑定
+                console.log("A");
                   phone.callUI.pos.phoneReset.setAttribute("seat_dbid", args.seat_dbid);
             }
 			if (!phone){
+				console.log("B");
 			    return;
 			}
 			
 			if(phone["timestamp"]&&args.timestamp<phone["timestamp"]){// 过期消息不处理
-			    return;
+				console.log("C");
+			    // return;
+			    // phone["timestamp"]
 			}else{
 			    phone["timestamp"] = args.timestamp;
+			    console.log("D");
 			}
+			console.log(phone);
 			return phone ;
 	  };
 
@@ -32,20 +39,21 @@ fs_state = function(){
 	  			console.log("电话空闲中");
 	  			ui.setTip("<b style='color:#275A33'>电话空闲中</b>");
 				ui.pos.CallBt.className = "bkg on";
-				ui.pos.HangBt.className = "hangupdsbt bkg off hide";
+				ui.pos.HangBt.className = "bkg off hide";
 				ui.pos.CallBt.title = "点击拨打";
 				ui.noCallMode();
 				ui.setDevolveStatus(0);
 				ui.setAskStatus(0);
 				ui.setKeepStatus(0);
 				ui.setMultiStatus(0);
+				$(".phone-box h1.call-number").text("请拨号");
 				// ui.clearPhoneArea();// 去掉归属地显示
 	  		},
 	  		busy : function(ui){
 	  			console.log("通话中");
 				ui.setTip("<b style='color:#275A33'>通话中</b>");
-				ui.pos.CallBt.className = "calloutbt bkg";
-				ui.pos.HangBt.className = "hangupdsbt bkg";
+				ui.pos.CallBt.className = "on bkg";
+				ui.pos.HangBt.className = "off bkg";
 				ui.pos.CallBt.title = "点击拨打";
 				ui.callingMode();
 				ui.setDevolveStatus(1);
@@ -57,8 +65,8 @@ fs_state = function(){
 	  		refuse : function(ui){
 	  			console.log("电话已拒接,可点击外呼");
 	  		  ui.setTip("<b style='color:#275A33'>电话已拒接,可点击外呼</b>");
-              ui.pos.CallBt.className = "calloutbt bkg";
-              ui.pos.HangBt.className = "hangupdsbt bkg";
+              ui.pos.CallBt.className = "on bkg";
+              ui.pos.HangBt.className = "off bkg";
               ui.pos.CallBt.title = "点击拨打";
               ui.noCallMode();
               ui.setDevolveStatus(0);
@@ -68,9 +76,9 @@ fs_state = function(){
             },
 	  		offline : function(ui){
 	  			console.log("电话已离线,不可接打电话");
-	  			ui.setTip("<b>电话已离线,不可接打电话</b>");
-				ui.pos.CallBt.className = "calldsbt bkg";
-				ui.pos.HangBt.className = "hangupdsbt bkg";
+	  			ui.setTip("<b style='color:#275A33'>电话已离线,不可接打电话</b>");
+				ui.pos.CallBt.className = "on bkg";
+				ui.pos.HangBt.className = "off bkg";
 				ui.pos.CallBt.title = "电话不可用,此按钮无效";
 				ui.noCallMode();
 				ui.setDevolveStatus(0);
@@ -81,9 +89,9 @@ fs_state = function(){
 	  		},
 	  		agent_create : function(ui){
 	  			console.log(ui,"agent_create");
-	  			ui.pos.CallBt.className = ui.phone.phoneType == 3?"answerbt bkg":"calldsbt bkg";
+	  			ui.pos.CallBt.className = ui.phone.phoneType == 3?"answerbt bkg":"on bkg hide";
 	  			console.log("A");
-				ui.pos.HangBt.className = "hangupbt bkg";
+				ui.pos.HangBt.className = "off bkg";
 				console.log("A");
 				ui.pos.CallBt.title = ui.phone.phoneType == 3?"点击接听":"请拿起话机接听,当前电话类型不支持点击接听";
 				console.log("A");
@@ -102,9 +110,9 @@ fs_state = function(){
 	  		},
 	  		agent_ring : function(ui){
 	  			console.log("agent_ring");
-	  			ui.setTip("(&nbsp;<b>请接听</b>)");
-				ui.pos.CallBt.className = ui.phone.phoneType == 3?"answerbt bkg":"calldsbt bkg";
-				ui.pos.HangBt.className = "hangupbt bkg";
+	  			ui.setTip("(&nbsp;<b style='color:#275A33'>请接听</b>)");
+				ui.pos.CallBt.className = ui.phone.phoneType == 3?"answerbt bkg":"on hide bkg";
+				ui.pos.HangBt.className = "off bkg";
 				ui.pos.CallBt.title = ui.phone.phoneType == 3?"点击接听":"请拿起话机接听,当前电话类型不支持点击接听";
 				ui.callingMode();
 				ui.setDevolveStatus(0);
@@ -115,8 +123,8 @@ fs_state = function(){
 	  		},
 	  		agent_answer : function(ui){
 	  			console.log("agent_answer");
-	  			ui.pos.CallBt.className = "answerdsbt bkg";
-				ui.pos.HangBt.className = "hangupbt bkg";
+	  			ui.pos.CallBt.className = "on hide bkg";
+				ui.pos.HangBt.className = "off bkg";
 				ui.pos.CallBt.title = "通话中,此按钮无效";
 				ui.callingMode();
 				ui.setDevolveStatus(1);
@@ -132,9 +140,9 @@ fs_state = function(){
 	  		caller_create :function(ui){
 	  			console.log("caller_create");
 	  			if(ui.phone.callType == "caller_trunk"||(ui.phone.callType=="fs_agent"&&ui.phone.preState == "agent_create"))return; // 点击外呼(直线上线)特殊处理
-	  			ui.setTip("(&nbsp;<b>等待对方接听</b>)");
-				ui.pos.CallBt.className = "calldsbt bkg";
-				ui.pos.HangBt.className = "hangupbt bkg";
+	  			ui.setTip("(&nbsp;<b style='color:#275A33'>等待对方接听</b>)");
+				ui.pos.CallBt.className = "on hide bkg";
+				ui.pos.HangBt.className = "off bkg";
 				ui.pos.CallBt.title = "等待对方接听,此按钮无效";
 				ui.callingMode();
 				ui.setDevolveStatus(0);
@@ -145,9 +153,9 @@ fs_state = function(){
 	  		},
 	  		caller_answer : function(ui){
 	  			console.log("caller_answer");
-				ui.setTip("(&nbsp;<b>通话中</b>)");
-				ui.pos.CallBt.className = "calldsbt bkg";
-				ui.pos.HangBt.className = "hangupbt bkg";
+				ui.setTip("(&nbsp;<b style='color:#275A33'>通话中</b>)");
+				ui.pos.CallBt.className = "on hide bkg";
+				ui.pos.HangBt.className = "off bkg";
 				ui.pos.CallBt.title = "通话中,此按钮无效";
 				ui.callingMode();
 				ui.setDevolveStatus(1);
@@ -165,9 +173,9 @@ fs_state = function(){
 	  		},
 	  		caller_ring : function(ui){
 	  			console.log("caller_ring");
-	  			ui.setTip("(&nbsp;<b>等待对方接听</b>)");
-				ui.pos.CallBt.className = "calldsbt bkg";
-				ui.pos.HangBt.className = "hangupbt bkg";
+	  			ui.setTip("(&nbsp;<b style='color:#275A33'>等待对方接听</b>)");
+				ui.pos.CallBt.className = "on bkg";
+				ui.pos.HangBt.className = "off hide bkg";
 				ui.pos.CallBt.title = "等待对方接听,此按钮无效";
 				ui.callingMode();
 				ui.setDevolveStatus(0);
@@ -257,61 +265,73 @@ fs_state = function(){
 			   ],
 		callbacks: {
 				onagent_create : function(event, from, to,	args) {
-					console.log("客户呼入/点击外呼,座席响铃");
-					var phone =  phoneMsg(JSON.parse(args));
-					console.log(phone);
+					console.log("客户呼入/点击外呼,座席响铃",event, from, to,args);
+					var mess = JSON.parse(args);
+				    var phone =  phoneMsg(mess);
+					console.log(mess,phone);
 					if(!phone)
 						return;
 					operationUI.agent_create(phone.callUI);
 				},
 				onagent_ring : function(event, from, to,args) {
-					console.log("座席响铃");
-					var phone =  phoneMsg(JSON.parse(args));
-					console.log(phone);
+					console.log("座席响铃",event, from, to,args);
+					var mess = JSON.parse(args);
+				    var phone =  phoneMsg(mess);
+					console.log(mess,phone);
 					if(!phone)
 						return;
 					operationUI.agent_ring(phone.callUI);
 				},
 				onagent_answer : function(event, from, to,args) {
-					console.log("座席应答");
-					var phone =  phoneMsg(JSON.parse(args));
-					console.log(phone);
+					console.log("座席应答",event, from, to,args);
+					var mess = JSON.parse(args);
+				    var phone =  phoneMsg(mess);
+					console.log(mess,phone);
 					if(!phone)
 						return;
 					operationUI.agent_answer(phone.callUI);
 				},
 				onagent_hangup : function(event, from, to,args) {
-					console.log("座席挂机");
-					var phone =  phoneMsg(JSON.parse(args));
-					console.log(phone);
+					console.log("座席挂机",event, from, to,args);
+					var mess = JSON.parse(args);
+				    var phone =  phoneMsg(mess);
+					console.log(mess,phone);
 					if(!phone)
 						return;
 					operationUI.agent_hangup(phone.callUI);
 				},
 				oncaller_create : function(event, from, to,args) {
-					console.log("座席呼出,客户响铃");
-					var phone =  phoneMsg(JSON.parse(args));
+					console.log("座席呼出,客户响铃",event, from, to,args);
+					var mess = JSON.parse(args);
+				    var phone =  phoneMsg(mess);
+					console.log(mess,phone);
 					if(!phone)
 						return;
 					operationUI.caller_create(phone.callUI);
 				},
 				oncaller_ring : function(event, from, to,args) {
-					console.log("客户响铃");
-					var phone =  phoneMsg(JSON.parse(args));
+					console.log("客户响铃",event, from, to,args);
+					var mess = JSON.parse(args);
+				    var phone =  phoneMsg(mess);
+					console.log(mess,phone);
 					if(!phone)
 						return;
 					operationUI.caller_ring(phone.callUI);
 				},
 				oncaller_answer : function(event, from, to,args) {
-					console.log("客户应答");
-					var phone =  phoneMsg(JSON.parse(args));
+					console.log("客户应答",event, from, to,args);
+					var mess = JSON.parse(args);
+				    var phone =  phoneMsg(mess);
+					console.log(mess,phone);
 					if(!phone)
 						return;
 					operationUI.caller_answer(phone.callUI);
 				},
 			 	oncaller_hangup : function(event, from, to,args) {
-			 		console.log("客户挂机");
-			 		var phone =  phoneMsg(JSON.parse(args));
+			 		console.log("客户挂机",event, from, to,args);
+			 		var mess = JSON.parse(args);
+				    var phone =  phoneMsg(mess);
+			 		cconsole.log(mess,phone);
 			 		if(!phone)
 						return;
 					operationUI.caller_hangup(phone.callUI);
@@ -320,9 +340,10 @@ fs_state = function(){
 
 			 	},          
 				onhand_idle : function(event, from, to, args) {
-					console.log("空闲中");
+					console.log("空闲中",event, from, to,args);
 				    var mess = JSON.parse(args);
 				    var phone =  phoneMsg(mess);
+				    console.log(mess,phone);
 				    if(!phone)
                         return;
 				    if(phone["currentState"]&&phone["currentState"]==mess.status){
@@ -335,9 +356,10 @@ fs_state = function(){
                     operationUI.idle(phone.callUI);
 				},
 				onhand_busy : function(event, from, to, args) {
-					console.log("坐席繁忙");
+					console.log("坐席繁忙",event, from, to,args);
 				    var mess = JSON.parse(args);
-					var phone =  phoneMsg(mess);    
+					var phone =  phoneMsg(mess);   
+					console.log(mess,phone); 
 					if(!phone)
 						return;
                     if(phone["currentState"]&&phone["currentState"]==mess.status){
@@ -348,17 +370,21 @@ fs_state = function(){
 					operationUI.busy(phone.callUI);
 				},
 				onhand_offline : function(event, from, to, args) {
-					console.log("座席离线");
-				    var phone =  phoneMsg(JSON.parse(args));    
+					console.log("座席离线",event, from, to,args);
+				    var mess = JSON.parse(args);
+				    var phone =  phoneMsg(mess);
+				    console.log(phone);    
                     if(!phone)
                         return;
                     phone["currentState"] = "offline";
                     operationUI.offline(phone.callUI);
 				},
 				onhand_refuse : function(event, from, to, args) {
-					console.log("座席拒接");
+					console.log("座席拒接",event, from, to,args);
 				    
-                    var phone =  phoneMsg(JSON.parse(args));    
+                    var mess = JSON.parse(args);
+				    var phone =  phoneMsg(mess);  
+                    console.log(phone);  
                     if(!phone)
                         return;
                     phone["currentState"] = "refuse";
