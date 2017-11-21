@@ -24,7 +24,8 @@ class Call extends Initialize{
     }
     public function index(){
         $userinfo = get_userinfo();
-        if(!$userinfo["userinfo"]["tq_uin"]||$userinfo["userinfo"]["tq_strid"]){
+//        var_exp($userinfo["userinfo"],'$userinfo["userinfo"]',1);
+        if(!$userinfo["userinfo"]["tq_uin"]||!$userinfo["userinfo"]["tq_strid"]){
             /*$this->error*/ return response('你不能打电话');
         }
         $call_config = false;//get_cache_by_tel($this->telephone,"call_config");
