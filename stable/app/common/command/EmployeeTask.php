@@ -23,6 +23,7 @@ use app\task\model\TaskGuess as TaskGuessModel;
 use app\task\model\TaskTip as TaskTipModel;
 use app\task\service\EmployeeTask as EmployeeTaskService;
 use app\huanxin\model\RedEnvelope as RedEnvelopeM;
+use app \index\controller\SystemMessage;
 
 class EmployeeTask extends Command{
     protected function configure(){
@@ -163,6 +164,9 @@ class EmployeeTask extends Command{
                     }
                     $employeeTaskM->link->commit();
                     $success_task_ids[] = $corp_id."_".$id;
+                    $receive_uids[] = $uids;
+                    $sysMsg = new SystemMessage();
+                    $flg = $sysMsg->save_msg("“".$taskInfo['task_name']."”任务完成，奖励已经发放！","",$receive_uids,3);
                 }catch(\Exception $ex){
                     $employeeTaskM->link->rollback();
                     $error_task_ids[] = $corp_id."_".$id;
@@ -186,8 +190,9 @@ class EmployeeTask extends Command{
             $cashM = new TakeCash($corp_id);
             $taskGuessM = new TaskGuessModel($corp_id);
             $taskTipM = new TaskTipModel($corp_id);
+            $sysMsg = new SystemMessage();
             //$overTimeTaskIds = array_column($over_time_task_list,"id");
-
+            
             foreach ($over_time_task_list as $taskInfo){
                 var_exp($taskInfo,'$taskInfo_over_time');
                 $id = $taskInfo["id"];
@@ -210,6 +215,7 @@ class EmployeeTask extends Command{
                         $updateTaskResult = $employeeTaskM->setTaskStatus([$id],2,0);
                         $returnMoney = [];
                         $order_datas = [];
+                        $receive_uids = [];
                         if($task_type==2){
                             $taskReward = $taskRewardM->findTaskRewardByTaskId($id);
                             foreach ($takeList as $taskTakeEmployee){
@@ -227,6 +233,7 @@ class EmployeeTask extends Command{
                                     "money_type"=>1
                                 ];
                                 $order_datas[] = $order_add_data;
+                                $receive_uids[] = $taskTakeEmployee["take_employee"];
                             }
                         }elseif($task_type==3){
                             $returnMoney[$taskInfo["create_employee"]] = $taskInfo["reward_count"];
@@ -243,6 +250,7 @@ class EmployeeTask extends Command{
                                 "money_type"=>1
                             ];
                             $order_datas[] = $order_add_data;
+                            $receive_uids[] = $taskInfo["create_employee"];
                         }
                         $taskGuessAndTipMoneyEmployeeIdx = [];
 
@@ -262,6 +270,7 @@ class EmployeeTask extends Command{
                                 "money_type"=>1
                             ];
                             $order_datas[] = $order_add_data;
+                            $receive_uids[] = $taskTipInfo["tip_employee"];
                             if(isset($taskGuessAndTipMoneyEmployeeIdx[$taskTipInfo["tip_employee"]])){
                                 $taskGuessAndTipMoneyEmployeeIdx[$taskTipInfo["tip_employee"]] += $taskTipInfo["tip_money"];
                             }else{
@@ -285,6 +294,7 @@ class EmployeeTask extends Command{
                                 "money_type"=>1
                             ];
                             $order_datas[] = $order_add_data;
+                            $receive_uids[] = $taskGuessInfo["guess_employee"];
                             $taskGuessAndTipMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] += $taskGuessInfo["guess_money"];
                         }
 
@@ -313,12 +323,13 @@ class EmployeeTask extends Command{
                         foreach($taskGuessAndTipMoneyEmployeeIdx as $employee_id=>$money){
                             $employeeInfo=[];
                             $employeeInfo["left_money"] = ['exp',"left_money + ".bcmul($money,100,0)];
-                            $update_user = $employeeM->setEmployeeSingleInfoById($employee_id,$employeeInfo,$employeeInfoMap);
+                            $update_user = $employeeM->setEmployeeSingleInfoById($employee_id,$employeeInfo);
                             if (!$update_user) {
                                 exception("返还打赏猜输赢金额发生错误!");
                             }
                         }
                         $employeeTaskM->link->commit();
+                        $sysMsg->save_msg("“".$taskInfo['task_name']."”任务失败，资金已经返还！","",$receive_uids,3);
                         continue;
                     }
 
@@ -332,6 +343,7 @@ class EmployeeTask extends Command{
                     $needRedEnvelopeEmployeeId = [];
                     $haveRedEnvelopeNum = 0;
                     $sentRedEnvelopeMoney = 0;
+                    $redReceive_uids = [];
 
                     if($task_type<3) {
                         $employeeTaskService = new EmployeeTaskService($corp_id);
@@ -472,6 +484,9 @@ class EmployeeTask extends Command{
                             }
                         }
                         $needRedEnvelopeEmployeeNum = count($redEnvelopeInfos);
+                        $redReceive_uids = array_merge($redReceive_uids,$needRedEnvelopeEmployeeId);
+                        // $sysMsg->save_msg("“".$taskInfo['task_name']."”任务完成，请前往领取红包！","",$needRedEnvelopeEmployeeId,3);
+
                         var_exp($needRedEnvelopeEmployeeNum,'$needRedEnvelopeEmployeeNum');
                         var_exp($redEnvelopeInfos,'$redEnvelopeInfos_task');
                     }
@@ -521,6 +536,8 @@ class EmployeeTask extends Command{
                                 ];
                                 $order_datas[] = $order_add_data;
 
+                                $tipMsg[] = $have_employee;
+
                                 $employeeInfo=[];
                                 $employeeInfo["left_money"] = ['exp',"left_money + ".bcmul($reward_amount,100,0)];
                                 $update_user = $employeeM->setEmployeeSingleInfoById($have_employee,$employeeInfo);
@@ -549,6 +566,8 @@ class EmployeeTask extends Command{
                                 ];
                                 $order_datas[] = $order_add_data;
 
+                                $tipMsg[] = $tipInfo["tip_employee"];
+
                                 if (isset($taskTipMoneyEmployeeIdx[$tipInfo["tip_employee"]])) {
                                     $taskTipMoneyEmployeeIdx[$tipInfo["tip_employee"]] += $tipInfo["tip_money"];
                                 } else {
@@ -567,6 +586,8 @@ class EmployeeTask extends Command{
                             }
                         }
                     }
+
+                    $redReceive_uids = array_merge($redReceive_uids,$tipMsg);
 
                     //猜输赢红包
                     if($task_type==2) {
@@ -633,11 +654,13 @@ class EmployeeTask extends Command{
                                         $redEnvelopeInfo["create_time"] = $time;
                                         $redEnvelopeInfo["total_money"] = $reward_amount;
                                         $redEnvelopeInfo["is_token"] = 0;
-                                        $redEnvelopeInfo["took_user"] = $haveGuessRedEnvelope["employee_id"];;
+                                        $redEnvelopeInfo["took_user"] = $haveGuessRedEnvelope["employee_id"];
                                         $redEnvelopeInfos[] = $redEnvelopeInfo;
+                                        $guessMsg[] = $haveGuessRedEnvelope["employee_id"];
                                     }
                                 }
                                 var_exp($redEnvelopeInfos, '$redEnvelopeInfos_task_tip_guess');
+                                
                             }
                             if(!$guess_success){
                                 //这帮人运气太差,一个也没猜中,退钱
@@ -658,12 +681,14 @@ class EmployeeTask extends Command{
                                         'money_type' => 1
                                     ];
                                     $order_datas[] = $order_add_data;
+                                    $guessMsg[] = $taskGuessInfo["guess_employee"];
                                     if (isset($taskGuessMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]])) {
                                         $taskGuessMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] += $taskGuessInfo["guess_money"];
                                     } else {
                                         $taskGuessMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] = $taskGuessInfo["guess_money"];
                                     }
                                 }
+                                 // $sysMsg->save_msg("“".$taskInfo['task_name']."”任务猜输赢金额已经返还！","",$guessMsg,3);
                                 //var_exp($taskGuessMoneyEmployeeIdx,'$taskGuessMoneyEmployeeIdx',1);
                                 //返还猜输赢等用户额度
                                 foreach ($taskGuessMoneyEmployeeIdx as $employee_id => $money) {
@@ -678,6 +703,8 @@ class EmployeeTask extends Command{
                         }
                     }
 
+                    // $redReceive_uids = array_merge($redReceive_uids,$guessMsg);
+                    $sysMsg->save_msg("“".$taskInfo['task_name']."”任务已经结束，猜输赢红包已经发放请领取！","",$guessMsg,3);
                     var_exp($redEnvelopeInfos,'$redEnvelopeInfos_task_save');
                     if(!empty($redEnvelopeInfos)){
                         $redEnvelopeM = new RedEnvelopeM($corp_id);
@@ -783,6 +810,7 @@ class EmployeeTask extends Command{
                             }
 
                             echo '退回PK任务金额';
+                            $redReceive_uids = array_merge($redReceive_uids,$taskTakeEmployeeIds);
                         }else{
                             //增加非冻结
                             $order_data = [
@@ -848,6 +876,7 @@ class EmployeeTask extends Command{
                     }
 
                     $employeeTaskM->link->commit();
+                    $sysMsg->save_msg("“".$taskInfo['task_name']."”任务已经结束，奖励已经发放！","",$redReceive_uids,3);
                     $success_task_ids[] = $corp_id."_".$id;
                 }catch(\Exception $ex){
                     $employeeTaskM->link->rollback();

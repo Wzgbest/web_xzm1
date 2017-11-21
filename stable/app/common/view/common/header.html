@@ -31,12 +31,7 @@
                     
                     <ul class="message-content-container">
                         {volist name="msg_list" id="vo"}
-                        {$vo.msg}
-                        {$vo.create_time|time_format}
-                        <li class="current"><p><span> * </span>你报名的在线直播课程《销售技巧》还有15分 钟开课啦，快快去学习</p><div class="message-content-container-time">今天16:20</div></li>
-                        <li><p><span> * </span>你报名的在线直播课程《销售技巧》还有15分 钟开课啦，快快去学习</p><div class="message-content-container-time">今天09:20</div></li>
-                        <li><p><span> * </span>你报名的在线直播课程《销售技巧》还有15分 钟开课啦，快快去学习</p><div class="message-content-container-time">9月12日 16:20</div></li>
-                        <li><p><span> * </span>你报名的在线直播课程《销售技巧》还有15分 钟开课啦，快快去学习</p><div class="message-content-container-time">9月12日 10:20</div></li>
+                        <li class="current"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>
                         {/volist}
                     </ul>
                     

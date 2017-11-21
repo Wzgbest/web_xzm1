@@ -25,6 +25,7 @@ use app\common\model\Structure;
 use app\huanxin\service\RedEnvelope as RedEnvelopeService;
 use app\huanxin\model\RedEnvelope as RedEnvelopeModel;
 use app\crm\model\Customer as CustomerModel;
+use app \index\controller\SystemMessage;
 
 class Index extends Initialize{
     var $paginate_list_rows = 10;
@@ -605,6 +606,7 @@ class Index extends Initialize{
         $task_target_info['target_method']=input("target_method",0,"int");
 
         if($task_method==5){
+            $task_target_info['target_type'] = 7;
             if($task_target_info['target_method']==1) {
                 $task_target_info['target_description']=input("target_description","","string");
                 if(empty($task_target_info['target_description'])){
@@ -911,6 +913,17 @@ class Index extends Initialize{
         $userinfo = $employeeM->getEmployeeByTel($telphone);
         set_userinfo($this->corp_id,$telphone,$userinfo);
         
+        $sysMsg = new SystemMessage();
+        $receive_uids = explode(',',$taskInfo['public_to_take']);
+        if ($taskInfo['task_type'] == 1) {
+            $str = "激励任务";
+        }else if($taskInfo['task_type'] == 2){
+            $str = "PK任务";
+        }else{
+            $str = "悬赏任务";
+        }
+        $flg = $sysMsg->save_msg("新建了".$str."“".$taskInfo['task_name']."”的任务","/task/index/show/id/".$taskId,$receive_uids,3);
+
         $result['status'] = 1;
         $result['info'] = "新建任务成功！";
         return json($result);
