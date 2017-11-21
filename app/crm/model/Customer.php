@@ -1444,6 +1444,13 @@ class Customer extends Base
             ->where($map)
             ->update($data);
     }
+    //查询所有的客户的所有人
+    public function employeesIdsByCustomers($customer_ids){
+        $map['belongs_to'] = ["in",[3,4]];
+        $map['id'] = ["in",$customer_ids];
+        return $this->model->table($this->table)->where($map)->column('handle_man');
+    }
+
 
     /**
      * 更改客户可见范围
