@@ -606,6 +606,7 @@ class Index extends Initialize{
         $task_target_info['target_method']=input("target_method",0,"int");
 
         if($task_method==5){
+            $task_target_info['target_type'] = 7;
             if($task_target_info['target_method']==1) {
                 $task_target_info['target_description']=input("target_description","","string");
                 if(empty($task_target_info['target_description'])){
