@@ -325,4 +325,16 @@ class EmployeeTask extends Base{
         }
         return $result;
     }
+    //参与任务的人
+    public function getTakeTaskById($task_id){
+        return $this->model->table($this->dbprefix.'employee_task_take')->where('task_id',$task_id)->column('take_employee');
+    }
+    //猜输赢的人
+    public function getGuessTaskById($task_id){
+        return $this->model->table($this->dbprefix.'employee_task_guess')->where('task_id',$task_id)->column('guess_employee');
+    }
+    //打赏
+    public function getTipTaskById($task_id){
+        return $this->model->table($this->dbprefix.'employee_task_tip')->where('task_id',$task_id)->column('tip_employee');
+    }
 }
