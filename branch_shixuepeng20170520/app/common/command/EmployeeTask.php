@@ -313,7 +313,7 @@ class EmployeeTask extends Command{
                         foreach($taskGuessAndTipMoneyEmployeeIdx as $employee_id=>$money){
                             $employeeInfo=[];
                             $employeeInfo["left_money"] = ['exp',"left_money + ".bcmul($money,100,0)];
-                            $update_user = $employeeM->setEmployeeSingleInfoById($employee_id,$employeeInfo,$employeeInfoMap);
+                            $update_user = $employeeM->setEmployeeSingleInfoById($employee_id,$employeeInfo);
                             if (!$update_user) {
                                 exception("返还打赏猜输赢金额发生错误!");
                             }

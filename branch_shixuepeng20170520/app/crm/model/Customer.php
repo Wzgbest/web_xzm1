@@ -815,7 +815,6 @@ class Customer extends Base
         //固定显示字段
         $subField = [
             "c.id",
-            "c.customer_name",
             "c.take_type",
             "c.grade",
             "cn.tend_to",
@@ -825,9 +824,6 @@ class Customer extends Base
             "cn.is_wait",
             //"'沟通状态' as comm_status",
             "sc.sale_name",
-            "(case when sc.sale_status<1 then 0 when sc.sale_status>4 then 0 else sc.guess_money end) as in_progress_guess_money",//all_guess_money
-            "(case when sc.sale_status=5 then sc.final_money else 0 end) as win_final_money",//all_final_money
-            "cc.contact_name",
             "cc.phone_first",
             "ct.create_time as last_trace_time",
             "c.take_time",//领取时间
@@ -840,7 +836,6 @@ class Customer extends Base
         ];
         $listField = [
             "id",
-            "customer_name",
             "take_type",
             "grade",
             "tend_to",
@@ -849,10 +844,6 @@ class Customer extends Base
             "call_through",
             "is_wait",
             //"comm_status",
-            "group_concat(sale_name ORDER BY l.sale_id DESC) as sale_names",
-            "SUM(in_progress_guess_money) as all_guess_money",
-            "SUM(win_final_money) as all_final_money",
-            "contact_name",
             "phone_first",
             "last_trace_time",
             "take_time",
@@ -881,6 +872,7 @@ class Customer extends Base
             ->having($having)
             ->field($listField)
             ->count();
+//        var_exp($this->model->getLastSql(),'$customerListSql');
         return $customerCount;
     }
 
