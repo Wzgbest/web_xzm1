@@ -22,16 +22,20 @@ class Call extends Initialize{
     public function _initialize(){
         parent::_initialize();
     }
-    public function call(){
-        $call_config = get_cache_by_tel($this->telephone,"call_config");
+    public function index(){
+        $userinfo = get_userinfo();
+        if(!$userinfo["userinfo"]["tq_uin"]||$userinfo["userinfo"]["tq_strid"]){
+            /*$this->error*/ return response('你不能打电话');
+        }
+        $call_config = false;//get_cache_by_tel($this->telephone,"call_config");
         if(!$call_config){
             $tq_config = config('tq');
             $call_config["appid"] = $tq_config["appid"];
             $call_config["appkey"] = $tq_config["appkey"];
             $call_config["secretkey"] = strtoupper(md5($tq_config["appid"]."*(**)*".$tq_config["appkey"]));
             $call_config["admin_uin"] = $tq_config["admin_uin"];// "9796221";
-            $call_config["uin"] = "9796249";
-            $call_config["strid"] = "sdzhcs2";
+            $call_config["uin"] = $userinfo["userinfo"]["tq_uin"];// "9796249";
+            $call_config["strid"] = $userinfo["userinfo"]["tq_strid"];// "sdzhcs2";
             $call_config["time"] = time();
             $tqCallApi = new TQCallApi();
             $access_token_data = $tqCallApi->get_access_token($call_config["admin_uin"],$call_config["uin"],$call_config["strid"],$call_config["time"]);
@@ -44,17 +48,9 @@ class Call extends Initialize{
         if(!$call_config){
             $this->error("电话参数获取失败!");
         }
+//        var_exp($call_config,'$call_config',1);
         $this->assign("call_config",$call_config);
         return view();
-    }
-
-    public function webservice_test(){
-        $url="http://webservice.agent.tq.cn/Servers/services/ServerNew?wsdl";
-        $client = new \SoapClient($url);
-        $aryResult = $client->__getFunctions();
-        var_dump($aryResult);//打印结果
-//        $aryResult = $client->getUserUinByStrid("sdzhcs1","9796221",md5("123456"));
-//        var_dump($aryResult);//打印结果
     }
 
     public function tq_webservice(){
