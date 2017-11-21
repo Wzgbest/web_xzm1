@@ -50,7 +50,7 @@ class SystemMessage extends Base{
     	->join($this->dbprefix.'system_message_link sml','sml.msg_id = sm.id',"LEFT")
     	->where($map)
     	->order('sm.create_time desc')
-    	->field("sm.*,sml.receive_uid,sml.create_time as read_time,sml.status as is_read")
+    	->field("sm.id,sm.type,sm.send_uid,sm.msg,sm.url,sm.create_time,sml.receive_uid,sml.create_time as read_time,sml.status as is_read")
     	->select();
 
     	return $msg_list;
