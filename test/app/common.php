@@ -1148,6 +1148,11 @@ function createCustomersTraceItem(
     return $customersTrace;
 }
 
+function get_microtime(){
+    list($usec, $sec) = explode(' ', microtime());
+    return round(((float)$usec + (float)$sec)*1000);
+}
+
 /**
  * 时间戳格式化
  *

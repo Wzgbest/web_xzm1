@@ -18,6 +18,7 @@ use app\task\model\TaskReward as TaskRewardModel;
 use app\huanxin\model\TakeCash;
 use app\task\model\TaskGuess as TaskGuessModel;
 use app\task\model\TaskTip as TaskTipModel;
+use app \index\controller\SystemMessage;
 
 class EmployeeTask extends Initialize{
 
@@ -463,7 +464,8 @@ class EmployeeTask extends Initialize{
                     'take_status'=>1,
                     'took_time'=>$time,
                     'remark' => '猜输赢任务终止退回',
-                    'status'=>1
+                    'status'=>1,
+                    "money_type"=>1
                 ];
                 $order_datas[] = $order_add_data;
                 if(isset($taskGuessAndTipMoneyEmployeeIdx[$taskTipInfo["tip_employee"]])){
@@ -485,7 +487,8 @@ class EmployeeTask extends Initialize{
                     'take_status'=>1,
                     'took_time'=>$time,
                     'remark' => '猜输赢任务终止退回',
-                    'status'=>1
+                    'status'=>1,
+                    "money_type"=>1
                 ];
                 $order_datas[] = $order_add_data;
                 $taskGuessAndTipMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] += $taskGuessInfo["guess_money"];
@@ -519,9 +522,11 @@ class EmployeeTask extends Initialize{
             }
 
             //返还打赏猜输赢等用户额度
+            // var_exp($taskGuessAndTipMoneyEmployeeIdx,'$taskGuessAndTipMoneyEmployeeIdx');
             foreach($taskGuessAndTipMoneyEmployeeIdx as $employee_id=>$money){
                 $employeeInfo["left_money"] = ['exp',"left_money + ".bcmul($money,100,0)];
-                $update_user = $employeeM->setEmployeeSingleInfoById($employee_id,$employeeInfo,$employeeInfoMap);
+                $update_user = $employeeM->setEmployeeSingleInfoById($employee_id,$employeeInfo);
+                // var_exp($update_user,'$update_user',1);
                 if (!$update_user) {
                     exception("返还打赏猜输赢金额发生错误!");
                 }
@@ -532,6 +537,14 @@ class EmployeeTask extends Initialize{
 //            return json($redata);
             return $ex->getTrace();
         }
+
+        $sysMsg = new SystemMessage();
+        $take_arr = $employeeTaskM->getTakeTaskById($task_id);
+        $guess_arr = $employeeTaskM->getGuessTaskById($task_id);
+        $tip_arr = $employeeTaskM->getTipTaskById($task_id);
+        $receive_uids = array_merge($take_arr,$guess_arr,$tip_arr);
+        $receive_uids = array_unique($receive_uids);
+        $flg = $sysMsg->save_msg($taskInfo['task_name']."任务已经终止,相应金额已经返还，请在余额中查看。","",$receive_uids,3);
         $redata['status']=1;
         $redata['info']='操作成功';
         return json($redata);
