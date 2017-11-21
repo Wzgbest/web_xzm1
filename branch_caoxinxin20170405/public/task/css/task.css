@@ -4,8 +4,8 @@
 }
 
 header {
-	
-	height: 40px;
+	width: 100%;
+	height: 41px;
 	background-color: white;
 	margin-right: 5px;
 	border-right: 1px solid #ebedf0;
@@ -13,13 +13,16 @@ header {
 	position: fixed;
 	top:80px;
 	z-index: 999;*/
+	
 }
 
 .nav {
 	height: 40px;
 	margin-left: 1px;
-	box-shadow: -1px 2px #ebedf0;
-	
+	/*box-shadow: -1px 2px #ebedf0;*/
+	background-color: #ecf0f5;
+	border-bottom: 1px solid #e6e6e6;
+	z-index: 999;
 }
 
 .nav li {
@@ -27,6 +30,7 @@ header {
 	color: #b2b2b2;
 	height: 18px;
 	padding: 10px 0;
+	z-index: 999;
 }
 
 .nav li:hover {
@@ -59,7 +63,10 @@ header {
 ul.firNav {
 	height: 40px;
 	margin-left: 1px;
-	box-shadow: -1px 2px #ebedf0;
+	/*box-shadow: -1px 2px #ebedf0;*/
+	background-color: #ecf0f5;
+    border-bottom: 1px solid #e6e6e6;
+	z-index: 999;
 }
 
 ul.firNav li {
@@ -127,6 +134,9 @@ header .sort {
 	top: 0;
 	padding-top: 2px;
 	cursor: pointer;
+}
+header .sort img{
+	margin-top: 12px;
 }
 header .sort:hover img{
 	opacity: 0.8;
@@ -205,8 +215,9 @@ header .xinjian p {
 
 header .xinjian i {
 	display: block;
-	color: #1f7ed0;
-	text-align: center;
+	color: #91b4d3;
+	text-align: left;
+	line-height: 40px;
 	
 }
 header .xinjian:hover i{
@@ -221,19 +232,42 @@ article {
 	margin-left: 10px;
 	/*margin-top: 40px;*/
 	overflow: hidden;
-	
+
 }
 
+.task article .content-scroll{
+	top:0;
+	padding-top: 20px;
+	/*overflow: auto;*/
+	overflow-x: hidden;
+	overflow-y: scroll;
+	position: relative;
+	bottom: 60px;
+	left: 0;
+	padding-bottom: 10px;
+}
+.footer{
+  width: 100%;
+  height: 60px;
+  position: relative;
+  left: 0;
+  bottom: 0;
+  border-top: 1px solid #eee;
+  padding-right: 20px;
+  /*padding-top: 10px;*/
+  box-sizing:border-box;
+  /*background-color: red;*/
+}
 article .dv1 {
 	width: 99%;
 	/*height: 660px;*/
 	height: 220px;
 	background-color: #fff;
-	margin-bottom: 10px;
+	margin-bottom: 15px;
 	border-bottom: 1px solid #d4d4d4;
 	/*padding-bottom: 30px;*/
 	display: block;
-	margin-left: 6px;
+	margin-left: 8px;
 	/*transition:all 1s;*/
 }
 
@@ -511,7 +545,7 @@ article .dv1 .right .give {
 	margin:0 auto;
 	width: 92px;
 	height: 180px;
-	margin-top: 10px;
+	padding-top: 10px;
 	text-align: right;
 	display: flex;
 	flex-direction:column;
@@ -529,15 +563,15 @@ article .dv1 .right .p2 {
 	border: 1px solid #42a5f5;
 	text-align: center;
 	line-height: 30px;
-	border-radius: 5px;
+	border-radius: 3px;
 	color: #42a5f5;
 	cursor: pointer;
 	margin: 0 auto;
 	
 }
 article .dv1 .right .p2:hover{
-	border:1px solid #0c80df;
-	color: #0c80df;
+	background-color: #42a5f5;
+	color: #fff;
 }
 article .dv1 .right .p4 {
 	font-size: 16px;
@@ -545,7 +579,7 @@ article .dv1 .right .p4 {
 	height: 30px;
 	text-align: center;
 	line-height: 30px;
-	border-radius: 5px;
+	border-radius: 3px;
 	color: #999999;
 	margin: 0 auto;
 }
@@ -556,7 +590,7 @@ article .dv1 .right .p6{
 	height: 30px;
 	text-align: center;
 	line-height: 30px;
-	border-radius: 5px;
+	border-radius: 3px;
 	margin: 0 auto;
 }
 article .dv1 .right .p1{
@@ -566,7 +600,7 @@ article .dv1 .right .p1{
 	height: 30px;
 	text-align: center;
 	line-height: 30px;
-	border-radius: 5px;
+	border-radius: 3px;
 	margin: 0 auto;
 }
 article .dv1 .comment {
@@ -690,7 +724,7 @@ article .dv1 .center .details .ouside .inside {
 .task .reveal-modal .p1 {
 	width: 885px !important;
 	height: 50px !important;
-	background-color: #6b7a99;
+	/*background-color: #6b7a99;*/
 	font-size: 18px !important;
 	text-align: center;
 	line-height: 50px !important;
@@ -713,14 +747,14 @@ article .dv1 .center .details .ouside .inside {
 }
 
 .task .reveal-modal .close-reveal-modal {
-	font-size: 32px;
+	font-size: 22px;
 	line-height: 0.5;
 	position: absolute;
 	top: 15px;
 	right: 18px;
-	color: #fff;
+	color: #cccccc;
 	text-shadow: 0 -1px 1px rbga(0, 0, 0, .6);
-	font-weight: bold;
+	/*font-weight: bold;*/
 	cursor: pointer;
 }
 
@@ -921,8 +955,8 @@ article .dv1 .center .details .ouside .inside {
 }
 
 .task .reveal_six {
-	width: 825px;
-	height: 760px;
+	width: 580px;
+	height: 360px;
 	visibility: hidden;
 	top: 150px;
 	left: 40%;
@@ -936,18 +970,20 @@ article .dv1 .center .details .ouside .inside {
 }
 
 .task .reveal_six .p1 {
-	width: 825px !important;
-	height: 50px !important;
-	background-color: #6b7a99;
+	width: 560px !important;
+	height: 46px !important;
+	/*background-color: #6b7a99;*/
+	border-bottom: 1px solid #e6e6e6;
 	font-size: 18px !important;
-	text-align: center;
-	line-height: 50px !important;
-	color: #fff;
+	text-align: left;
+	padding-left: 20px;
+	line-height: 46px !important;
+	color: #4d4d4d;
 }
 
 .task .reveal_six .list {
-	width: 760px;
-	height: 290px;
+	width: 500px;
+	height: 202px;
 	border: 1px solid #eeeeee;
 	margin: 0 auto;
 	overflow: auto;
@@ -955,14 +991,14 @@ article .dv1 .center .details .ouside .inside {
 	border-top: none;
 }
 .task .reveal_six  ul.number1 {
-	width: 760px;
-	height: 42px;
+	width: 500px;
+	height: 32px;
 	background-color: #F7F7F7;
 	border-bottom: 1px solid #eeeeee;
-	margin-top: 20px;
+	margin-top: 30px;
 }
 .task .reveal_six .list ul.number2 {
-	width: 760px;
+	width: 500px;
 	height: 42px;
 	border-bottom: 1px solid #eeeeee;
 }
@@ -970,11 +1006,11 @@ article .dv1 .center .details .ouside .inside {
 
 .task .reveal_six  .number1 li {
 	width: 131px;
-	padding-left: 20px;
-	height: 42px;
+	/*padding-left: 20px;*/
+	height: 32px;
 	float: left;
 	font-size: 16px;
-	line-height: 42px;
+	line-height: 32px;
 	border-right: 1px solid #eeeeee;
 }
 
@@ -983,8 +1019,7 @@ article .dv1 .center .details .ouside .inside {
 }
 
 .task .reveal_six .list .number2 li {
-
-	padding-left: 20px;
+	/*padding-left: 20px;*/
 	height: 42px;
 	float: left;
 	font-size: 16px;
@@ -1009,13 +1044,16 @@ article .dv1 .center .details .ouside .inside {
 
 .task .reveal-modal .list ul.number2 {
 	border-style: none;
+	border-bottom: 1px solid #ededed;
 }
-
+/*.task .reveal-modal .list ul.number2:nth-last-of-type(1) {
+	border-style: none;
+}*/
 .task .reveal-modal .list .number2 li .fill {
 	display: inline-block;
 	width: 70px;
 	height: 30px;
-	border-radius: 10px;
+	border-radius: 3px;
 	border: 1px solid #ffa928;
 	line-height: 30px;
 	color: #ffa928;
@@ -1122,8 +1160,10 @@ article .dv1 .center .details .ouside .inside {
 }
 
 .task .reveal_seven {
-	width: 820px;
-	height: 495px;
+	/*width: 820px;
+	height: 495px;*/
+	width: 580px;
+	height: 310px;
 	visibility: hidden;
 	top: 150px;
 	left: 40%;
@@ -1137,18 +1177,21 @@ article .dv1 .center .details .ouside .inside {
 }
 
 .task .reveal_seven .p1 {
-	width: 820px !important;
-	height: 50px !important;
-	background-color: #6b7a99;
+	width: 560px !important;
+	height: 46px !important;
+	/*background-color: #6b7a99;*/
+	border-bottom: 1px solid #e6e6e6;
 	font-size: 18px !important;
-	text-align: center;
-	line-height: 50px !important;
-	color: #fff;
+	text-align: left;
+	line-height: 46px !important;
+	padding-left: 20px;
+	color: #4d4d4d;
 }
 .task .reveal_seven .money{
 	width: 150px;
 	height: 42px;
 	margin:30px auto 0px;
+	border: 1px solid #cccccc;
 }
 .task .reveal_seven .money span{
 	color: #ff850d;
@@ -1163,7 +1206,7 @@ article .dv1 .center .details .ouside .inside {
 	font-size: 36px;
 	text-align: center;
 	border-style: none;
-	border-bottom: 1px solid #CCCCCC;
+	/*border-bottom: 1px solid #CCCCCC;*/
 	outline: none;
 }
 .task .reveal_seven .bar {
@@ -1391,13 +1434,14 @@ article .dv2 .right .rate{
 	margin-right: 40px;
 	text-align: center;
 	line-height: 32px;
-	border-radius: 5px;
+	border-radius: 3px;
 	color: #42a5f5;
 }
 article .dv2 .right .rate:hover{
-	border: 1px solid #0c80df;
-	color: #0c80df;
+	background-color: #42a5f5;
+	color: #fff;
 }
+
 article .dv2 .right .explain .orange{
 	color: #ffb656;
 }
@@ -1503,7 +1547,7 @@ article .dv3 .up .like .right p{
 	width: 80px;
 	height: 30px;
 	background-color: #42a5f5;
-	border-radius: 5px;
+	border-radius: 3px;
 	color: #fff;
 	text-align: center;
 	line-height: 30px;
@@ -1629,14 +1673,14 @@ article .dv1 .right .stimulate .cute{
 }
 .backdrop{
 	/*background-color: #fad967;*/
-	background-color: #e1ebf9;;
+	background-color: #e1ebf9;
 }
 article .dv4{
 	width: 98%;
-	height: 870px;
+	/*height: 870px;*/
 	background-color: #fff;
 	padding-left: 30px;
-	padding-top: 30px;
+	/*padding-top: 30px;*/
 }
 article .dv4 .parcel{
 	width: 100%;
@@ -1708,7 +1752,7 @@ article .dv4 .choice input{
 	vertical-align: middle;
 }
 article .dv4 .choice .small{
-	color: #999;
+	color: #758da0;
 	font-size: 12px;
 }
 article .dv4 .retract{
@@ -1812,7 +1856,7 @@ article .dv4 .tab1 ul li i:nth-last-of-type(2){
 	right: 120px;
 }
 article .dv4 .tab1 ul li:nth-last-of-type(1){
-	color: #999999;
+	color: #758da0;
 }
 article .dv4 ul li:nth-last-of-type(1) span{
 	color: #fdc075;
@@ -1834,10 +1878,17 @@ article .dv4 .parcel .normal .set{
 	margin-left: 20px;
 	margin-right: 20px;
 }
+article .dv4 input{
+	border:1px solid #d1d9de;
+}
+article .dv4 select{
+	border:1px solid #d1d9de;
+}
 article .dv4 .parcel .normal input{
-	width: 332px;
+	/*width: 332px;*/
+	width: 235px;
+	height: 32px;
 	padding-left: 15px;
-	height: 26px;
 	padding-top: 3px;
 
 }
@@ -1857,6 +1908,7 @@ article .dv4 .last textarea{
 	margin-left: 25px;
 	padding-left: 15px;
 	padding-top: 10px;
+	border: 1px solid #d1d9de;
 }
 article .dv4 .last p{
 	margin-top: 5px;
@@ -1866,27 +1918,30 @@ article .dv4 .last p{
 
 }
 article .dv4 .issue{
-	width: 300px;
-	height: 42px;
-	margin-top: 80px;
-	margin-left: 25%
+	width: 212px;
+    height: 42px;
+    margin-left: 25%;
+    position: absolute;
+    right: 20px;
+    top: 10px;
 }
 article .dv4 .issue p{
 	width: 100px;
-	height: 40px;
-	border-radius: 10px;
+	height: 38px;
+	border-radius: 3px;
 	text-align: center;
 	line-height: 40px;
-	font-size: 18px;
+	font-size: 16px;
 }
 article .dv4 .issue p:nth-of-type(1){
-	background-color: #42a5f5;
+	background-color: #78beff;
 	color: #ffffff;
 	float: left;
 	cursor: pointer;
 }
 article .dv4 .issue p:nth-of-type(2){
-	border: 1px solid #999999;
+	border: 1px solid #dcdcdc;
+	height: 36px;
 	float: right;
 	cursor: pointer;
 }
@@ -1900,8 +1955,8 @@ article .dv4 .switch2{
 
 
 .task .reveal_eight {
-	width: 820px;
-	height: 425px;
+	width: 580px;
+	height: 315px;
 	visibility: hidden;
 	top: 150px;
 	left: 40%;
@@ -1915,18 +1970,21 @@ article .dv4 .switch2{
 }
 
 .task .reveal_eight .p1 {
-	width: 820px !important;
-	height: 50px !important;
-	background-color: #6b7a99;
-	font-size: 18px !important;
-	text-align: center;
-	line-height: 50px !important;
-	color: #fff;
+	width: 560px !important;
+    height: 46px !important;
+    /* background-color: #6b7a99; */
+    font-size: 18px !important;
+    text-align: left;
+    line-height: 46px !important;
+    padding-left: 20px;
+    color: #4d4d4d;
+    border-bottom: 1px #ccc solid;
 }
 .task .reveal_eight .money{
 	width: 150px;
-	height: 42px;
-	margin:30px auto 0px;
+    height: 42px;
+    margin: 30px auto 0px;
+    border: 1px #d4d4d4 solid;
 }
 .task .reveal_eight .money span{
 	color: #ff850d;
@@ -1941,7 +1999,7 @@ article .dv4 .switch2{
 	font-size: 36px;
 	text-align: center;
 	border-style: none;
-	border-bottom: 1px solid #CCCCCC;
+	/*border-bottom: 1px solid #CCCCCC;*/
 	outline: none;
 }
 .task .reveal_eight .bar {
@@ -1959,35 +2017,44 @@ article .dv4 .switch2{
 	color: #b8b8b8;
 }
 .task .reveal_eight .import {
-	width: 550px;
-	height: 135px;
-	margin: 0 auto;
+	padding-top: 10px;
+    width: 100%;
+    height: 40px;
+    margin: 0 auto;
+    margin-top: 30px;
+    border-top: 1px solid #e6e6e6;
+    background-color: #f4f6f9;
 }
 
 
 .task .reveal_eight .import .decide {
-	width: 300px;
-	height: 42px;
-	margin: 36px auto 30px;
-	display: flex;
-	justify-content: space-between;
+	width: 193px;
+    height: 36px;
+    /* margin: 36px auto 30px; */
+    display: flex;
+    margin-left: 340px;
+    justify-content: space-between;
+
+    
 }
 
 .task .reveal_eight .import .decide p {
 	float: left;
-	width: 100px;
-	height: 40px;
+	width: 90px;
+	height: 34px;
 	text-align: center;
-	line-height: 40px;
+	line-height: 34px;
 	border: 1px solid #e5e5e5;
-	border-radius: 10px;
+	border-radius: 3px;
 	margin-top: 0px;
 	font-size: 18px;
 }
 
 .task .reveal_eight .import .decide p:nth-child(1) {
+	height: 36px;
+	line-height: 36px;
 	margin-left: 0;
-	background-color: #42a5f5;
+	background-color: #78beff;
 	color: #fff;
 	cursor: pointer;
 }
@@ -2216,6 +2283,7 @@ article .dv4 .switch2{
 	text-align: center;
 }
 .pay-pop h2{
+	margin-top: 20px;
 	font-size: 36px;
 }
 .pay-pop h3{
@@ -2266,6 +2334,7 @@ article .dv4 .switch2{
 	margin:0 auto;
 	margin-right: 5px;
 	vertical-align: middle;
+	
 }
 #infscr-loading div{
 	display: inline-block;
