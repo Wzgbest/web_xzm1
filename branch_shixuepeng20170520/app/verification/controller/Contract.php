@@ -8,6 +8,7 @@ use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
 use app\common\model\Employee as EmployeeModel;
 use app\common\model\Structure as StructureModel;
 use app\verification\model\VerificatioLog;
+use app\index\controller\SystemMessage;
 
 class Contract extends Initialize{
     var $paginate_list_rows = 10;
@@ -325,6 +326,10 @@ class Contract extends Initialize{
             $result['info'] = $ex->getMessage();
             return json($result);
         }
+        $user_infomation = $userinfo["userinfo"];
+        $systemMsg = new SystemMessage();
+        $received_uids[] = $contractApplied['employee_id'];
+        $flg = $systemMsg->save_msg($verificatioLogRemark."[审核人：".$user_infomation["truename"]."]","/crm/contract/index",$received_uids,4);
         $result['status']=1;
         $result['info']='通过合同申请成功!';
         return $result;
@@ -340,6 +345,7 @@ class Contract extends Initialize{
         $uid = $userinfo["userid"];
         $time = time();
         $contractAppliedM = new ContractAppliedModel($this->corp_id);
+        $contractApplied = $contractAppliedM->getContract($id);
         try{
             $contractAppliedM->link->startTrans();
             $update_flg = $contractAppliedM->rejected($id);
@@ -365,6 +371,10 @@ class Contract extends Initialize{
             $result['info'] = $ex->getMessage();
             return json($result);
         }
+        $user_infomation = $userinfo["userinfo"];
+        $received_uids[] = $contractApplied['employee_id'];
+        $systemMsg = new SystemMessage();
+        $systemMsg->save_msg("你申请的合同被驳回！[驳回人：".$user_infomation["truename"]."]","/crm/contract/index",$received_uids,4);
         $result['status']=1;
         $result['info']='驳回合同申请成功!';
         return $result;

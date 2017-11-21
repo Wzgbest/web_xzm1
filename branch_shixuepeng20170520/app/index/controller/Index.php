@@ -23,7 +23,7 @@ class Index extends Initialize{
         $userinfo = get_userinfo();
         $this->assign("userinfo",$userinfo);
         $systemM = new SystemMessageModel($this->corp_id);
-        $msg_list = $systemM->getMsgList($this->uid);
+        $msg_list = $systemM->getMsgList($this->uid,0,0);
         $system_msg_count = $systemM->getNotReadMsgCount($this->uid,1);
         $tast_msg_count = $systemM->getNotReadMsgCount($this->uid,3);
         $crm_msg_count = $systemM->getNotReadMsgCount($this->uid,4);
