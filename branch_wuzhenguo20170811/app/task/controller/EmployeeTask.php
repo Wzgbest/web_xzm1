@@ -521,9 +521,11 @@ class EmployeeTask extends Initialize{
             }
 
             //返还打赏猜输赢等用户额度
+            var_exp($taskGuessAndTipMoneyEmployeeIdx,'$taskGuessAndTipMoneyEmployeeIdx');
             foreach($taskGuessAndTipMoneyEmployeeIdx as $employee_id=>$money){
                 $employeeInfo["left_money"] = ['exp',"left_money + ".bcmul($money,100,0)];
-                $update_user = $employeeM->setEmployeeSingleInfoById($employee_id,$employeeInfo,$employeeInfoMap);
+                $update_user = $employeeM->setEmployeeSingleInfoById($employee_id,$employeeInfo);
+                var_exp($update_user,'$update_user',1);
                 if (!$update_user) {
                     exception("返还打赏猜输赢金额发生错误!");
                 }
