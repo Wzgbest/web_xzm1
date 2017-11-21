@@ -109,12 +109,14 @@ class Index extends Initialize{
                 $this->error("输入的金额有误!");
             }
         }
+        $pay_title = input('pay_title',"支付",'string');
         $this->assign("fr",input('fr','','string'));
         $userinfo = get_userinfo();
         $this->assign('user_money',$userinfo["userinfo"]['left_money']/100);
         $this->assign('company_money',$userinfo["userinfo"]['corp_left_money']/100);
         $this->assign('type',$type);
         $this->assign('money',$money);
+        $this->assign('pay_title',$pay_title);
         return view();
     }
     public function get_ranking_page(){

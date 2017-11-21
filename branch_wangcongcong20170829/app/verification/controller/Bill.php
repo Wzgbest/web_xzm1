@@ -6,6 +6,7 @@ use app\crm\model\Bill as BillModel;
 use app\common\model\Employee as EmployeeModel;
 use app\systemsetting\model\BillSetting as BillSettingModel;
 use app\verification\model\VerificatioLog;
+use app\index\controller\SystemMessage;
 
 class Bill extends Initialize{
     var $paginate_list_rows = 10;
@@ -249,6 +250,11 @@ class Bill extends Initialize{
             return json($result);
         }
 
+        $user_infomation = $userinfo["userinfo"];
+        $systemMsg = new SystemMessage();
+        $received_uids[] = $bill_info['operator'];
+        $flg = $systemMsg->save_msg($verificatioLogRemark."[审核人：".$user_infomation["truename"]."]","/crm/bill/index",$received_uids,4);
+
         $result['status']=1;
         $result['info']='通过发票申请成功!';
         return $result;
@@ -264,6 +270,7 @@ class Bill extends Initialize{
         $uid = $userinfo["userid"];
         $time = time();
         $billM = new BillModel($this->corp_id);
+        $bill_info = $billM->getBillById($id);
         try{
             $billM->link->startTrans();
             $update_flg = $billM->rejected($id);
@@ -288,6 +295,12 @@ class Bill extends Initialize{
             $result['info'] = $ex->getMessage();
             return json($result);
         }
+
+        $user_infomation = $userinfo["userinfo"];
+        $received_uids[] = $bill_info['operator'];
+        $systemMsg = new SystemMessage();
+        $systemMsg->save_msg("你申请的发票被驳回！[驳回人：".$user_infomation["truename"]."]","/crm/bill/index",$received_uids,4);
+
         $result['status']=1;
         $result['info']='驳回发票申请成功!';
     }

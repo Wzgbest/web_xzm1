@@ -28,6 +28,7 @@ use app\crm\model\CallRecord;
 use app\task\model\TaskTarget;
 use app\common\model\StructureEmployee;
 use app\common\model\Structure;
+use app\index\controller\SystemMessage;
 
 class Customer extends Initialize{
     var $paginate_list_rows = 10;
@@ -875,6 +876,9 @@ class Customer extends Initialize{
             $result['info'] = $ex->getMessage();
             return json($result);
         }
+        $recevies_uids = $customerM->employeesIdsByCustomers($ids);
+        $systemMsg = new SystemMessage();
+        $systemMsg->save_msg("你有客户被强制释放了，请到公海池查看！","/crm/customer/public_customer_pool",$recevies_uids,4);
         $result['status'] = 1;
         $result['info'] = "强制释放客户成功！";
         return json($result);
