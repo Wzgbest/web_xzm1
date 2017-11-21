@@ -527,7 +527,7 @@ class SaleChance extends Base
      * @return false|\PDOStatement|string|\think\Collection
      * created by blu10ph
      */
-    public function getNAmeAndMoneyByCustomerIds($customer_ids){
+    public function getNameAndMoneyByCustomerIds($customer_ids){
         if(empty($customer_ids)){
             return [];
         }
