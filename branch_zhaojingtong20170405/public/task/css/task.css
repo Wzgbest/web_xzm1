@@ -724,7 +724,7 @@ article .dv1 .center .details .ouside .inside {
 .task .reveal-modal .p1 {
 	width: 885px !important;
 	height: 50px !important;
-	background-color: #6b7a99;
+	/*background-color: #6b7a99;*/
 	font-size: 18px !important;
 	text-align: center;
 	line-height: 50px !important;
@@ -747,14 +747,14 @@ article .dv1 .center .details .ouside .inside {
 }
 
 .task .reveal-modal .close-reveal-modal {
-	font-size: 32px;
+	font-size: 22px;
 	line-height: 0.5;
 	position: absolute;
 	top: 15px;
 	right: 18px;
-	color: #fff;
+	color: #cccccc;
 	text-shadow: 0 -1px 1px rbga(0, 0, 0, .6);
-	font-weight: bold;
+	/*font-weight: bold;*/
 	cursor: pointer;
 }
 
@@ -955,8 +955,8 @@ article .dv1 .center .details .ouside .inside {
 }
 
 .task .reveal_six {
-	width: 825px;
-	height: 760px;
+	width: 580px;
+	height: 360px;
 	visibility: hidden;
 	top: 150px;
 	left: 40%;
@@ -970,18 +970,20 @@ article .dv1 .center .details .ouside .inside {
 }
 
 .task .reveal_six .p1 {
-	width: 825px !important;
-	height: 50px !important;
-	background-color: #6b7a99;
+	width: 560px !important;
+	height: 46px !important;
+	/*background-color: #6b7a99;*/
+	border-bottom: 1px solid #e6e6e6;
 	font-size: 18px !important;
-	text-align: center;
-	line-height: 50px !important;
-	color: #fff;
+	text-align: left;
+	padding-left: 20px;
+	line-height: 46px !important;
+	color: #4d4d4d;
 }
 
 .task .reveal_six .list {
-	width: 760px;
-	height: 290px;
+	width: 500px;
+	height: 202px;
 	border: 1px solid #eeeeee;
 	margin: 0 auto;
 	overflow: auto;
@@ -989,14 +991,14 @@ article .dv1 .center .details .ouside .inside {
 	border-top: none;
 }
 .task .reveal_six  ul.number1 {
-	width: 760px;
-	height: 42px;
+	width: 500px;
+	height: 32px;
 	background-color: #F7F7F7;
 	border-bottom: 1px solid #eeeeee;
-	margin-top: 20px;
+	margin-top: 30px;
 }
 .task .reveal_six .list ul.number2 {
-	width: 760px;
+	width: 500px;
 	height: 42px;
 	border-bottom: 1px solid #eeeeee;
 }
@@ -1004,11 +1006,11 @@ article .dv1 .center .details .ouside .inside {
 
 .task .reveal_six  .number1 li {
 	width: 131px;
-	padding-left: 20px;
-	height: 42px;
+	/*padding-left: 20px;*/
+	height: 32px;
 	float: left;
 	font-size: 16px;
-	line-height: 42px;
+	line-height: 32px;
 	border-right: 1px solid #eeeeee;
 }
 
@@ -1017,8 +1019,7 @@ article .dv1 .center .details .ouside .inside {
 }
 
 .task .reveal_six .list .number2 li {
-
-	padding-left: 20px;
+	/*padding-left: 20px;*/
 	height: 42px;
 	float: left;
 	font-size: 16px;
@@ -1043,13 +1044,16 @@ article .dv1 .center .details .ouside .inside {
 
 .task .reveal-modal .list ul.number2 {
 	border-style: none;
+	border-bottom: 1px solid #ededed;
 }
-
+/*.task .reveal-modal .list ul.number2:nth-last-of-type(1) {
+	border-style: none;
+}*/
 .task .reveal-modal .list .number2 li .fill {
 	display: inline-block;
 	width: 70px;
 	height: 30px;
-	border-radius: 10px;
+	border-radius: 3px;
 	border: 1px solid #ffa928;
 	line-height: 30px;
 	color: #ffa928;
@@ -1156,8 +1160,10 @@ article .dv1 .center .details .ouside .inside {
 }
 
 .task .reveal_seven {
-	width: 820px;
-	height: 495px;
+	/*width: 820px;
+	height: 495px;*/
+	width: 580px;
+	height: 310px;
 	visibility: hidden;
 	top: 150px;
 	left: 40%;
@@ -1171,18 +1177,21 @@ article .dv1 .center .details .ouside .inside {
 }
 
 .task .reveal_seven .p1 {
-	width: 820px !important;
-	height: 50px !important;
-	background-color: #6b7a99;
+	width: 560px !important;
+	height: 46px !important;
+	/*background-color: #6b7a99;*/
+	border-bottom: 1px solid #e6e6e6;
 	font-size: 18px !important;
-	text-align: center;
-	line-height: 50px !important;
-	color: #fff;
+	text-align: left;
+	line-height: 46px !important;
+	padding-left: 20px;
+	color: #4d4d4d;
 }
 .task .reveal_seven .money{
 	width: 150px;
 	height: 42px;
 	margin:30px auto 0px;
+	border: 1px solid #cccccc;
 }
 .task .reveal_seven .money span{
 	color: #ff850d;
@@ -1197,7 +1206,7 @@ article .dv1 .center .details .ouside .inside {
 	font-size: 36px;
 	text-align: center;
 	border-style: none;
-	border-bottom: 1px solid #CCCCCC;
+	/*border-bottom: 1px solid #CCCCCC;*/
 	outline: none;
 }
 .task .reveal_seven .bar {
@@ -1429,9 +1438,10 @@ article .dv2 .right .rate{
 	color: #42a5f5;
 }
 article .dv2 .right .rate:hover{
-	border: 1px solid #0c80df;
-	color: #0c80df;
+	background-color: #42a5f5;
+	color: #fff;
 }
+
 article .dv2 .right .explain .orange{
 	color: #ffb656;
 }
@@ -1945,8 +1955,8 @@ article .dv4 .switch2{
 
 
 .task .reveal_eight {
-	width: 820px;
-	height: 425px;
+	width: 580px;
+	height: 315px;
 	visibility: hidden;
 	top: 150px;
 	left: 40%;
@@ -1960,18 +1970,21 @@ article .dv4 .switch2{
 }
 
 .task .reveal_eight .p1 {
-	width: 820px !important;
-	height: 50px !important;
-	background-color: #6b7a99;
-	font-size: 18px !important;
-	text-align: center;
-	line-height: 50px !important;
-	color: #fff;
+	width: 560px !important;
+    height: 46px !important;
+    /* background-color: #6b7a99; */
+    font-size: 18px !important;
+    text-align: left;
+    line-height: 46px !important;
+    padding-left: 20px;
+    color: #4d4d4d;
+    border-bottom: 1px #ccc solid;
 }
 .task .reveal_eight .money{
 	width: 150px;
-	height: 42px;
-	margin:30px auto 0px;
+    height: 42px;
+    margin: 30px auto 0px;
+    border: 1px #d4d4d4 solid;
 }
 .task .reveal_eight .money span{
 	color: #ff850d;
@@ -1986,7 +1999,7 @@ article .dv4 .switch2{
 	font-size: 36px;
 	text-align: center;
 	border-style: none;
-	border-bottom: 1px solid #CCCCCC;
+	/*border-bottom: 1px solid #CCCCCC;*/
 	outline: none;
 }
 .task .reveal_eight .bar {
@@ -2004,35 +2017,44 @@ article .dv4 .switch2{
 	color: #b8b8b8;
 }
 .task .reveal_eight .import {
-	width: 550px;
-	height: 135px;
-	margin: 0 auto;
+	padding-top: 10px;
+    width: 100%;
+    height: 40px;
+    margin: 0 auto;
+    margin-top: 30px;
+    border-top: 1px solid #e6e6e6;
+    background-color: #f4f6f9;
 }
 
 
 .task .reveal_eight .import .decide {
-	width: 300px;
-	height: 42px;
-	margin: 36px auto 30px;
-	display: flex;
-	justify-content: space-between;
+	width: 193px;
+    height: 36px;
+    /* margin: 36px auto 30px; */
+    display: flex;
+    margin-left: 340px;
+    justify-content: space-between;
+
+    
 }
 
 .task .reveal_eight .import .decide p {
 	float: left;
-	width: 100px;
-	height: 40px;
+	width: 90px;
+	height: 34px;
 	text-align: center;
-	line-height: 40px;
+	line-height: 34px;
 	border: 1px solid #e5e5e5;
-	border-radius: 10px;
+	border-radius: 3px;
 	margin-top: 0px;
 	font-size: 18px;
 }
 
 .task .reveal_eight .import .decide p:nth-child(1) {
+	height: 36px;
+	line-height: 36px;
 	margin-left: 0;
-	background-color: #42a5f5;
+	background-color: #78beff;
 	color: #fff;
 	cursor: pointer;
 }
@@ -2261,6 +2283,7 @@ article .dv4 .switch2{
 	text-align: center;
 }
 .pay-pop h2{
+	margin-top: 20px;
 	font-size: 36px;
 }
 .pay-pop h3{
