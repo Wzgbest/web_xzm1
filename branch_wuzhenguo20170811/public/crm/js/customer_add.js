@@ -67,6 +67,265 @@ function customer_add(from,target,list_manage){
             //取消
 			self.removeNewClient();
 		});
+
+        $(this.panel_base).on("focus",".create-sale-chance-select-window",function(){
+            console.log("create-sale-chance-select-window");
+            $(self.panel_base+" .select-window-container").remove();
+            console.log($(this).siblings(".select-window"));
+            $(this).siblings(".select-window").load("/index/index/select_window.html");
+            // $(sale_chance_panel+" .select-window").load("/index/index/select_window.html");
+        });
+        var new_sale_chance_panel = this.panel_base+" .newClientSaleChanceForm";
+        $(new_sale_chance_panel+" .sale-chance-status_selecter").change(function(){
+            var status = $(new_sale_chance_panel+" .sale-chance-status_selecter").val();
+            // console.log("status",status);
+            $(new_sale_chance_panel+" .sale-chance").addClass("hide");
+            if(status==2){
+                $(new_sale_chance_panel+" .sale-chance-visit").removeClass("hide");
+            }else if(status==4){
+                $(new_sale_chance_panel+" .sale-chance-finish").removeClass("hide");
+            }
+        });
+
+        //业务类型
+        var business_flow_item_index_json = $(new_sale_chance_panel+" .business_flow_selecter").siblings(".business_flow_item_index").val();
+        //console.log(contract_type_name_json);
+        if(business_flow_item_index_json){
+            var business_flow_item_index = null;
+            try{
+                business_flow_item_index = JSON.parse(business_flow_item_index_json);
+            }catch (ex){
+                console.log(ex);
+            }
+            if(business_flow_item_index==null){
+                console.log("business_flow_item_index data not found");
+                business_flow_item_index = [];
+            }
+            // console.log("business_flow_item_index",business_flow_item_index);
+            var get_business_flow_item_by_id = function(id){
+                var business_flow_item_string = "";
+                if(id in business_flow_item_index){
+                    console.log("business_flow_item_index[id]",business_flow_item_index[id]);
+                    for(idx in business_flow_item_index[id]){
+                        // console.log("business_flow_item",business_flow_item_index[id][idx]);
+                        business_flow_item_string += '<option value="'+business_flow_item_index[id][idx]["item_id"]+'">'+business_flow_item_index[id][idx]["item_name"]+'</option>';
+                    }
+                }
+                return business_flow_item_string;
+            };
+            var set_business_flow_item_by_id = function(target){
+                var business_flow_id = $(target).val();
+                if(!business_flow_id>0){
+                    return;
+                }
+                var business_flow_item_string = get_business_flow_item_by_id(business_flow_id);
+                // console.log("business_flow_item_string",business_flow_item_string);
+                // console.log("sale-chance-status_selecter",$(new_sale_chance_panel+" .sale-chance-status_selecter"));
+                $(new_sale_chance_panel+" .sale-chance-status_selecter").html(business_flow_item_string);
+                $(new_sale_chance_panel+" .sale-chance").addClass("hide");
+                $(new_sale_chance_panel+" .sale-chance-status_panel").removeClass("hide");
+            };
+            $(new_sale_chance_panel).on("change",".business_flow_selecter",function(){
+                //console.log("contract_no_selecter");
+                set_business_flow_item_by_id(this);
+            });
+        }
+        var business_flow_role_index_json = $(new_sale_chance_panel+" .business_flow_selecter").siblings(".business_flow_role_index").val();
+        var role_employee_index_json = $(new_sale_chance_panel+" .business_flow_selecter").siblings(".role_employee_index").val();
+        //console.log(contract_type_name_json);
+        if(business_flow_role_index_json&&role_employee_index_json){
+            var business_flow_role_index = null;
+            var role_employee_index = null;
+            try{
+                business_flow_role_index = JSON.parse(business_flow_role_index_json);
+                role_employee_index = JSON.parse(role_employee_index_json);
+            }catch (ex){
+                console.log(ex);
+            }
+            if(business_flow_role_index==null){
+                console.log("business_flow_role_index data not found");
+                business_flow_role_index = [];
+            }
+            if(role_employee_index==null){
+                console.log("role_employee_index data not found");
+                role_employee_index = [];
+            }
+            // console.log("business_flow_role_index",business_flow_role_index);
+            // console.log("role_employee_index",role_employee_index);
+            var get_handle_by_id = function(id){
+                var role_employee_string = "";
+                if(id in role_employee_index){
+                    // console.log("role_employee_index[id]",role_employee_index[id]);
+                    for(idx in role_employee_index[id]){
+                        // console.log("business_flow_item",role_employee_index[id][idx]);
+                        role_employee_string += '<option value="'+role_employee_index[id][idx]["user_id"]+'">'+role_employee_index[id][idx]["truename"]+'</option>';
+                    }
+                }
+                return role_employee_string;
+            };
+            var set_handle_by_id = function(target){
+                var status = $(target).val();
+                if(!status>3){
+                    return;
+                }
+                var business_flow_id = $(new_sale_chance_panel+" .business_flow_selecter").val();
+                if(!business_flow_id>0){
+                    return;
+                }
+                $(new_sale_chance_panel+" .avtiv_handle").addClass("hide");
+                if(!business_flow_id in business_flow_role_index){
+                    return;
+                }
+                if(!status in business_flow_role_index[business_flow_id]){
+                    return;
+                }
+                var business_flow_role_list = business_flow_role_index[business_flow_id][status];
+                // console.log("business_flow_role_index[business_flow_id][status]",business_flow_role_index[business_flow_id][status]);
+                for(var num=1;num<7;num++){
+                    console.log("business_flow_role_list[handle_"+num+"]",business_flow_role_list["handle_"+num]);
+                    var role_id = business_flow_role_list["handle_"+num];
+                    if(role_id<=0){
+                        return;
+                    }
+                    var handle_string = get_handle_by_id(role_id);
+                    // console.log("handle_string_"+num,handle_string);
+                    // console.log("sale-chance-status_selecter",$(new_sale_chance_panel+" .sale-chance-status_selecter"));
+                    $(new_sale_chance_panel+" .handle_"+num).html(handle_string);
+                    $(new_sale_chance_panel+" .cont-min"+num).removeClass("hide");
+                    $(new_sale_chance_panel+" .handle_"+num).removeClass("hide");
+                }
+            };
+            $(new_sale_chance_panel).on("change",".sale-chance-status_selecter",function(){
+                //console.log("contract_no_selecter");
+                set_handle_by_id(this);
+            });
+        }
+
+        //合同类型
+        var contract_type_name_json = $(new_sale_chance_panel+" .contract_no_selecter").siblings(".contract_type_name").val();
+        //console.log(contract_type_name_json);
+        if(contract_type_name_json){
+            var contract_type_name_index = null;
+            try{
+                contract_type_name_index = JSON.parse(contract_type_name_json);
+            }catch (ex){
+                console.log(ex);
+            }
+            if(contract_type_name_index==null){
+                console.log("contract type name data not found");
+                contract_type_name_index = [];
+            }
+            //console.log(contract_type_name_index);
+            var get_contract_type_name_by_id = function(id){
+                var contract_type_name = "------";
+                if(id in contract_type_name_index){
+                    contract_type_name = contract_type_name_index[id];
+                }
+                return contract_type_name;
+            };
+            var set_contract_type_name_by_id = function(target){
+                var contract_id = $(target).val();
+                if(!contract_id>0){
+                    return;
+                }
+                var contract_type_name = get_contract_type_name_by_id(contract_id);
+                //console.log("contract_type_name",contract_type_name);
+                //console.log("contract_type",$(target).parent().children(".contract_type"));
+                $(target).parent().children(".contract_type").text(contract_type_name);
+            };
+            $(new_sale_chance_panel).on("change",".contract_no_selecter",function(){
+                //console.log("contract_no_selecter");
+                set_contract_type_name_by_id(this);
+            });
+            try{
+                var contracts = $(new_sale_chance_panel+" .sale-chance-apply-contract");
+                var contract_index = 0;
+                $(contracts).each(function(){
+                    var contract_id_selecter = $(this).find("select[name='contract_id']");
+                    set_contract_type_name_by_id(contract_id_selecter);
+                    contract_index++;
+                });
+                self.contract_index = contract_index;
+                self.contract_count = contract_index;
+            }catch (ex){
+                console.log(ex);
+            }
+        }
+
+        //合同对应银行
+        var contract_bank_name_json = $(new_sale_chance_panel+" .contract_no_selecter").siblings(".contract_bank_name").val();
+        //console.log(contract_bank_name_json);
+        if(contract_bank_name_json){
+            var contract_bank_name_index = null;
+            try{
+                contract_bank_name_index = JSON.parse(contract_bank_name_json);
+            }catch (ex){
+                console.log(ex);
+            }
+            if(contract_bank_name_index==null){
+                console.log("contract bank name data not found");
+                contract_bank_name_index = [];
+            }
+            //console.log(contract_bank_name_index);
+            var get_contract_bank_name_by_id = function(id){
+                var contract_bank_name = "";
+                if(id in contract_bank_name_index){
+                    contract_bank_name = contract_bank_name_index[id];
+                }
+                return contract_bank_name;
+            };
+            var set_contract_bank_name_by_id = function(target){
+                var contract_id = $(target).val();
+                if(!contract_id>0){
+                    return;
+                }
+                var contract_bank_name = get_contract_bank_name_by_id(contract_id);
+                //console.log("contract_bank_name",contract_bank_name);
+                var contract_bank_name_arr = contract_bank_name.split(",");
+                //console.log("contract_bank_name_arr",contract_bank_name_arr);
+                var pay_bank_default = $(target).parent().parent().find(".pay_bank_default").val();
+                // console.log("pay_bank_default",pay_bank_default);
+                var contract_bank_name_html = '';
+                for(var i in contract_bank_name_arr){
+                    var contract_bank_name_item = contract_bank_name_arr[i];
+                    // console.log("contract_bank_name_item",contract_bank_name_item);
+                    contract_bank_name_html += "<option value='"+contract_bank_name_item+"'";
+                    if(pay_bank_default == contract_bank_name_item){
+                        contract_bank_name_html += ' selected="selected"';
+                    }
+                    contract_bank_name_html += ">"+contract_bank_name_item+"</option>";
+                }
+                //console.log("contract_bank_name_html",contract_bank_name_html);
+                //console.log("contract_bank",$(target).parent().parent().find(".pay_bank"));
+                $(target).parent().parent().find(".pay_bank").html(contract_bank_name_html);
+            };
+            $(new_sale_chance_panel).on("change",".contract_no_selecter",function(){
+                //console.log("contract_no_selecter");
+                set_contract_bank_name_by_id(this);
+            });
+            try{
+                var contracts = $(new_sale_chance_panel+" .sale-chance-apply-contract");
+                var contract_index = 0;
+                $(contracts).each(function(){
+                    var contract_id_selecter = $(this).find("select[name='contract_id']");
+                    set_contract_bank_name_by_id(contract_id_selecter);
+                    contract_index++;
+                });
+                self.contract_index = contract_index;
+                self.contract_count = contract_index;
+            }catch (ex){
+                console.log(ex);
+            }
+        }
+
+        $(new_sale_chance_panel+" input[type='radio']").click(function(){
+            var radio_name = $(this).attr("name");
+            $(new_sale_chance_panel+" input[name='"+radio_name+"']").attr("checked",false);
+            $(new_sale_chance_panel+" input[name='"+radio_name+"']").prop("checked",false);
+            $(this).attr("checked","checked");
+            $(this).prop("checked","checked");
+        });
+
 		//表单3按钮
 		$(panel+" .add_customer .customer-add-page-footer3 .add_sale_chance_new_customer").click(function(){
             //保存并添加下一位
@@ -218,6 +477,55 @@ function customer_add(from,target,list_manage){
             var add_customer_sale_chance_from_data = $(this.panel_base+" .m-form .newClientSaleChanceForm").serialize();
             console.log(add_customer_sale_chance_from_data);
             add_customer_sale_chance_from_data += "&customer_id="+this.new_customer_id;
+            var new_sale_chance_panel = this.panel_base+" .newClientSaleChanceForm";
+            var sale_chance_add_select_associator = $(new_sale_chance_panel+" .create-sale-chance-select-window").attr("data-stf");
+            add_customer_sale_chance_from_data+="&associator_id="+sale_chance_add_select_associator;
+            var status = $(new_sale_chance_panel+" .sale-chance-status_selecter").val();
+            if(status==4){
+                if(confirm("你确定要提交该成单申请吗?")!=true){
+                    return;
+                }
+                var contracts = $(new_sale_chance_panel+" .sale-chance-apply-contract");
+                var contract_num = contracts.length;
+                if(contract_num<=0){
+                    layer.msg('没有合同信息!',{icon:2});
+                    return false;
+                }
+                var contract_arr = [];
+                $(contracts).each(function(){
+                    //console.log('this',$(this));
+                    var index = $(this).attr("index");
+                    //console.log('contract_id',$(this).find("select[name='contract_id']"));
+                    //console.log('need_bill_'+index,$(this).find("input[name='need_bill_"+index+"'][checked='checked']"));
+                    //console.log('contract_money',$(this).find("input[name='contract_money']"));
+                    var contract_id = $(this).find("select[name='contract_id']").val();
+                    var contract_money = $(this).find("input[name='contract_money']").val();
+                    var pay_money = $(this).find("input[name='pay_money']").val();
+                    var pay_name = $(this).find("input[name='pay_name']").val();
+                    var pay_type = $(this).find("input[name='pay_type_"+index+"'][checked='checked']").val();
+                    // console.log("pay_type",pay_type);
+                    var due_time = $(this).find("input[name='due_time']").val();
+                    var need_bill = $(this).find("input[name='need_bill_"+index+"'][checked='checked']").val();
+                    // console.log("need_bill",need_bill);
+                    //console.log('pay_bank',$(this).find("select[name='pay_bank_"+index+"']"));
+                    var pay_bank = $(this).find("select[name='pay_bank_"+index+"']").val();
+                    var contract_obj = {
+                        contract_id:contract_id,
+                        contract_money:contract_money,
+                        pay_money:pay_money,
+                        pay_name:pay_name,
+                        pay_type:pay_type,
+                        due_time:due_time,
+                        need_bill:need_bill,
+                        pay_bank:pay_bank
+                    };
+                    contract_arr.push(contract_obj);
+                });
+                //console.log('contract_arr',contract_arr);
+                var contract_str = JSON.stringify(contract_arr);
+                //console.log('contract_str',contract_str);
+                add_customer_sale_chance_from_data += "&contracts="+contract_str;
+            }
             var url = '/crm/sale_chance/add';
             if(this.new_customer_sale_chance_id>0){
                 url = '/crm/sale_chance/update';

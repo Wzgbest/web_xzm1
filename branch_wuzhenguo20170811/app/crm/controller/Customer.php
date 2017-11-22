@@ -29,8 +29,12 @@ use app\task\model\TaskTarget;
 use app\common\model\StructureEmployee;
 use app\common\model\Structure;
 use app\index\controller\SystemMessage;
+use app\systemsetting\model\BusinessFlowItemLink;
+use app\common\model\RoleEmployee as RoleEmployeeModel;
+use app\crm\model\Contract as ContractAppliedModel;
 
 class Customer extends Initialize{
+    protected $_activityBusinessFlowItem = [1,2,4];
     var $paginate_list_rows = 10;
     public function _initialize(){
         parent::_initialize();
@@ -297,12 +301,125 @@ class Customer extends Initialize{
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
         $this->assign("fr",input('fr'));
+        $customerData["customer_name"] = "";
+        $this->assign("customer",$customerData);
+        $sale_chance["prepay_time"]=time();
+        $sale_chance["guess_money"]=0;
+        $this->assign('sale_chance',$sale_chance);
         $business = new Business($this->corp_id);
         $business_list = $business->getAllBusiness();
         $this->assign("business_list",$business_list);
         $businessFlowModel = new BusinessFlowModel($this->corp_id);
         $business_flows = $businessFlowModel->getAllBusinessFlowByUserId($uid);
         $this->assign('business_flows',$business_flows);
+        $businessFlowItemLinkM = new BusinessFlowItemLink($this->corp_id);
+        $businessFlowItemLinks = $businessFlowItemLinkM->getAllBusinessFlowItemLink();
+//        var_exp($businessFlowItemLinks,'$businessFlowItemLinks');
+//        $this->assign('business_flow_item_links',$businessFlowItemLinks);
+        $businessFlowItemIdx = [];
+        $businessFlowRoleIdx = [];
+        $role_ids = [];
+        foreach ($businessFlowItemLinks as $businessFlowItemLink){
+            if(in_array($businessFlowItemLink["item_id"],$this->_activityBusinessFlowItem)){
+                $businessFlowItemIdx[$businessFlowItemLink["setting_id"]][]=[
+                    "item_id"=>$businessFlowItemLink["item_id"],
+                    "item_name"=>$businessFlowItemLink["item_name"]
+                ];
+                $businessFlowRoleIdx[$businessFlowItemLink["setting_id"]][$businessFlowItemLink["item_id"]]=[
+                    'handle_1' => $businessFlowItemLink["handle_1"],
+                    'handle_2' => $businessFlowItemLink["handle_2"],
+                    'handle_3' => $businessFlowItemLink["handle_3"],
+                    'handle_4' => $businessFlowItemLink["handle_4"],
+                    'handle_5' => $businessFlowItemLink["handle_5"],
+                    'handle_6' => $businessFlowItemLink["handle_6"]
+                ];
+                $role_ids[] = $businessFlowItemLink["handle_1"];
+                $role_ids[] = $businessFlowItemLink["handle_2"];
+                $role_ids[] = $businessFlowItemLink["handle_3"];
+                $role_ids[] = $businessFlowItemLink["handle_4"];
+                $role_ids[] = $businessFlowItemLink["handle_5"];
+                $role_ids[] = $businessFlowItemLink["handle_6"];
+            }
+        }
+//        var_exp($businessFlowItemIdx,'$businessFlowItemIdx');
+//        var_exp($businessFlowRoleIdx,'$businessFlowRoleIdx');
+        $role_ids = array_filter($role_ids);
+        $role_ids = array_unique($role_ids);
+//        $role_ids = array_merge($role_ids);
+        $role_empM = new RoleEmployeeModel($this->corp_id);
+        $employeeNameList = $role_empM->getEmployeeNameListbyRole($role_ids);
+        //var_exp($employeeNameList,'$employeeNameList',1);
+        $role_employee_index = [];
+        foreach($employeeNameList as $employee_info){
+            $role_id = $employee_info["role_id"];
+            unset($employee_info["role_id"]);
+            $role_employee_index[$role_id][] = $employee_info;
+        }
+        foreach($role_ids as $role_id){
+            if(!isset($role_employee_index[$role_id])){
+                $role_employee_index[$role_id] = [];
+            }
+        }
+//        var_exp($role_employee_index,'$role_employee_index',1);
+        $this->assign('business_flow_item_index',json_encode($businessFlowItemIdx,true));
+        $this->assign('business_flow_role_index',json_encode($businessFlowRoleIdx,true));
+        $this->assign('role_employee_index',json_encode($role_employee_index,true));
+
+        $SaleChancesVisitData["visit_time"] = time();
+        $SaleChancesVisitData["visit_place"] = "";
+        $SaleChancesVisitData["partner_notice"] = 0;
+        $SaleChancesVisitData["add_note"] = 0;
+        $SaleChancesVisitData["location"] = "";
+        $location = explode(",",$SaleChancesVisitData["location"]);
+        $SaleChancesVisitData["lat"] = isset($location[0])&&!empty($location[0])?$location[0]:"36.7075";
+        $SaleChancesVisitData["lng"] = isset($location[1])&&!empty($location[1])?$location[1]:"119.1324";
+        $this->assign('saleChancesVisitData',$SaleChancesVisitData);
+
+        $saleOrderContractData = [];
+        $saleOrderContractItem = [];
+        $inContractId = [];
+        $saleOrderContractData["prod_desc"] = '';
+        $saleOrderContractData["handle_1"] = '';
+        $saleOrderContractData["handle_2"] = '';
+        $saleOrderContractData["handle_3"] = '';
+        $saleOrderContractData["handle_4"] = '';
+        $saleOrderContractData["handle_5"] = '';
+        $saleOrderContractData["handle_6"] = '';
+        $saleOrderContractData["contract_handle_1"] = '';
+        $saleOrderContractData["contract_handle_2"] = '';
+        $saleOrderContractData["contract_handle_3"] = '';
+        $saleOrderContractData["contract_handle_4"] = '';
+        $saleOrderContractData["contract_handle_5"] = '';
+        $saleOrderContractData["contract_handle_6"] = '';
+
+        $saleOrderContractItem[] = [
+            "contract_id"=>0,
+            "order_money"=>0.00,
+            "pay_money"=>0.00,
+            "pay_type"=>0,
+            "pay_name"=>'',
+            "due_time"=>time(),
+            "need_bill"=>0,
+            "pay_bank"=>''
+        ];
+        //var_exp($saleOrderContractItem,'$saleOrderContractItem',1);
+        $this->assign('saleOrderContractData',$saleOrderContractData);
+        $this->assign('saleOrderContractItem',$saleOrderContractItem);
+        $contract_status = 5;
+        $contractAppliedModel = new ContractAppliedModel($this->corp_id);
+        $contracts = $contractAppliedModel->getAllContractNoAndType($uid,null,[],$contract_status,null,$inContractId);
+        //var_exp($contracts,'$contracts',1);
+        $this->assign('contract_list',$contracts);
+        $this->assign('empty','<option value="" class="empty">无</option>');
+        $contract_type_index = [];
+        $contract_bank_index = [];
+        foreach($contracts as $contract){
+            $contract_type_index[$contract["id"]] = $contract["contract_type_name"];
+            $contract_bank_index[$contract["id"]] = $contract["bank_type"];
+        }
+        $this->assign('contract_type_name_json',json_encode($contract_type_index,true));
+        $this->assign('contract_bank_name_json',json_encode($contract_bank_index,true));
+
         $con['add_man']=array('in',array('0',$uid));
         $paramModel=new ParamRemark($this->corp_id);
         $param_list = $paramModel->getAllParam($con);
