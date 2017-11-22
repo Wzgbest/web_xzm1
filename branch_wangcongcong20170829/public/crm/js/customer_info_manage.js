@@ -497,6 +497,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
                         // console.log("sale-chance-status_selecter",$(new_sale_chance_panel+" .sale-chance-status_selecter"));
                         $(new_sale_chance_panel+" .sale-chance-status_selecter").html(business_flow_item_string);
                         $(new_sale_chance_panel+" .sale-chance-status_panel").removeClass("hide");
+                        $(new_sale_chance_panel+" .sale-chance").addClass("hide");
                     };
                     $(new_sale_chance_panel).on("change",".business_flow_selecter",function(){
                         //console.log("contract_no_selecter");
@@ -611,7 +612,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
                         set_contract_type_name_by_id(this);
                     });
                     try{
-                        var contracts = $(new_sale_chance_panel+" .newSaleChanceForm .sale-chance-apply-contract");
+                        var contracts = $(new_sale_chance_panel+" .sale-chance-apply-contract");
                         var contract_index = 0;
                         $(contracts).each(function(){
                             var contract_id_selecter = $(this).find("select[name='contract_id']");
@@ -677,7 +678,7 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
                         set_contract_bank_name_by_id(this);
                     });
                     try{
-                        var contracts = $(new_sale_chance_panel+" .newSaleChanceForm .sale-chance-apply-contract");
+                        var contracts = $(new_sale_chance_panel+" .sale-chance-apply-contract");
                         var contract_index = 0;
                         $(contracts).each(function(){
                             var contract_id_selecter = $(this).find("select[name='contract_id']");
@@ -720,14 +721,14 @@ function customer_info_manage(from,target,list_manage,in_column,in_column_name,l
 		var new_sale_chance_panel = sale_chance_panel+" .create-sale-chance";
 		var sale_chance_add_from = $(new_sale_chance_panel+" .newSaleChanceForm").serialize();
 		sale_chance_add_from += "&customer_id="+customer_id+"&fr="+this.from;
-        var sale_chance_add_select_associator = $(new_sale_chance_panel+" .newSaleChanceForm .create-sale-chance-select-window").attr("data-stf");
+        var sale_chance_add_select_associator = $(new_sale_chance_panel+" .create-sale-chance-select-window").attr("data-stf");
         sale_chance_add_from+="&associator_id="+sale_chance_add_select_associator;
-        var status = $(new_sale_chance_panel+" .newSaleChanceForm .sale-chance-status_selecter").val();
+        var status = $(new_sale_chance_panel+" .sale-chance-status_selecter").val();
         if(status==4){
             if(confirm("你确定要提交该成单申请吗?")!=true){
                 return;
             }
-            var contracts = $(new_sale_chance_panel+" .newSaleChanceForm .sale-chance-apply-contract");
+            var contracts = $(new_sale_chance_panel+" .sale-chance-apply-contract");
             var contract_num = contracts.length;
             if(contract_num<=0){
                 layer.msg('没有合同信息!',{icon:2});
