@@ -10,7 +10,6 @@ namespace app\crm\controller;
 
 use app\common\controller\Initialize;
 use app\crm\model\Customer as CustomerModel;
-use app\crm\model\CustomerContact;
 use app\crm\model\SaleChance;
 use app\crm\model\CustomerTrace;
 use app\crm\model\CustomerDelete as CustomerDelete;
@@ -279,7 +278,7 @@ class Customer extends Initialize{
         $customerData = $customerM->getCustomer($id);
         $customerData["website_arr"] = explode(",",$customerData["website"]);
         $info_array["customer"] = $customerData;
-        $customerM = new CustomerContact($this->corp_id);
+        $customerM = new CustomerContactModel($this->corp_id);
         $customer_contact_num = $customerM->getCustomerContactCount($id);
         $info_array["customer_contact_num"] = $customer_contact_num;
         $customerM = new SaleChance($this->corp_id);
@@ -692,7 +691,7 @@ class Customer extends Initialize{
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        $filter = $this->_getCustomerFilter(["take_type","grade","sale_chance","comm_status","customer_name","tracer","contact_name","in_column"]);
+        $filter = $this->_getCustomerFilter(["phone","take_type","grade","sale_chance","comm_status","customer_name","tracer","contact_name","in_column"]);
         $field = $this->_getCustomerField(["take_type","grade"]);
         try{
             $customerM = new CustomerModel($this->corp_id);
@@ -770,7 +769,7 @@ class Customer extends Initialize{
             }
         }
         if(in_array("add_man", $filter_column)){//添加人
-            $add_man = input("add_man");
+            $add_man = input("add_man","","string");
             if($add_man){
                 $filter["add_man"] = $add_man;
             }
@@ -803,6 +802,12 @@ class Customer extends Initialize{
             $contact_name = input("contact_name","","string");
             if($contact_name){
                 $filter["contact_name"] = $contact_name;
+            }
+        }
+        if(in_array("phone", $filter_column)){//电话
+            $phone = input("phone","","string");
+            if($phone){
+                $filter["phone"] = $phone;
             }
         }
         if(in_array("comm_status", $filter_column)){//沟通状态
@@ -1182,6 +1187,92 @@ class Customer extends Initialize{
         $result['data'] = $customerData;
         $result['status'] = 1;
         $result['info'] = "获取客户信息成功！";
+        return json($result);
+    }
+
+    public function get_customer_phone(){
+        $result = ['status'=>0 ,'info'=>"获取客户电话信息时发生错误！"];
+        $id = input('id',0,'int');
+        if(!$id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $now_time = time();
+
+        $customerM = new CustomerModel($this->corp_id);
+        $customerHandleMan = $customerM->getCustomerHandleMan($id);
+
+        $show_flg = false;
+        //客户跟踪人验证
+        if($customerHandleMan == $uid){
+            $show_flg = true;
+        }
+
+        //TODO 管理员权限验证
+        if(!$show_flg) {
+            $show_flg = true;
+        }
+
+        //帮跟权限
+        if(!$show_flg){
+            $taskTargetM = new TaskTarget($this->corp_id);
+            $taskTargetInfo = $taskTargetM->findTaskTargetByCustomerId($uid,$id,$now_time);
+            //var_exp($taskTargetInfo,'$taskTargetInfo',1);
+            if(!empty($taskTargetInfo)){
+                $show_flg = true;
+            }
+        }
+
+        if(!$show_flg){
+            $result['info'] = "没有权限查看该客户的电话信息";
+            return json($result);
+        }
+
+        try{
+            $customer_phone = [];
+            $customerM = new CustomerModel($this->corp_id);
+            $customerData = $customerM->getCustomer($id);
+            if(empty($customerData)){
+                exception("未找到客户!");
+                $result['info'] = "未找到客户！";
+            }
+            $phone_item = [
+                "id"=>$customerData["id"],
+                "name"=>$customerData["customer_name"],
+                "phone"=>$customerData["telephone"],
+                "type"=>"customer",
+                "num"=>1,
+            ];
+            $customer_phone[] = $phone_item;
+            $customerM = new CustomerContactModel($this->corp_id);
+            $customer_contact_list = $customerM->getCustomerPhone($id);
+            foreach ($customer_contact_list as $customer_contact){
+                $suffixs = ["first","second","third"];
+                $idx = 1;
+                foreach ($suffixs as $suffix){
+                    if(empty($customer_contact["phone_".$suffix])){
+                        continue;
+                    }
+                    $phone_item = [
+                        "id"=>$customer_contact["id"],
+                        "name"=>$customer_contact["contact_name"],
+                        "phone"=>$customer_contact["phone_".$suffix],
+                        "type"=>"contact",
+                        "num"=>$idx,
+                    ];
+                    $customer_phone[] = $phone_item;
+                    $idx++;
+                }
+            }
+            $result['data'] = $customer_phone;
+        }catch (\Exception $ex){
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "获取客户电话信息成功！";
         return json($result);
     }
     
