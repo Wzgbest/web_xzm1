@@ -509,7 +509,7 @@ class Customer extends Base
         }
 
         //筛选
-        $map = $this->_getMapByFilter($filter,["take_type","grade","customer_name","contact_name","comm_status","sale_chance"]);
+        $map = $this->_getMapByFilter($filter,["phone","take_type","grade","customer_name","contact_name","comm_status","sale_chance"]);
         $map['c.belongs_to'] = 3;
         $map['c.handle_man'] = $uid;
         $having = "";
@@ -686,7 +686,7 @@ class Customer extends Base
             ->field($listField)
             ->select();
         //var_exp($customerList,'$customerList',1);
-        //var_exp($this->model->getLastSql(),'$customerListSql');
+//        var_exp($this->model->getLastSql(),'$customerListSql');
         //具体的值处理
         foreach ($customerList as &$customer){
             $customer['comm_status'] = getCommStatusByArr([
@@ -1178,6 +1178,10 @@ class Customer extends Base
         //联系人名称
         if(in_array("contact_name",$filter_column) && array_key_exists("contact_name", $filter)){
             $map["cc.contact_name"] = ["like","%".$filter["contact_name"]."%"];
+        }
+        //电话
+        if(in_array("phone",$filter_column) && array_key_exists("phone", $filter)){
+            $map["c.telephone|cc.phone_first|cc.phone_second|cc.phone_third"] = $filter["phone"];
         }
         //沟通状态
         if(in_array("comm_status",$filter_column) && array_key_exists("comm_status", $filter)){

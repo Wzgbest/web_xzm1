@@ -692,7 +692,7 @@ class Customer extends Initialize{
         $direction = input("direction","desc","string");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        $filter = $this->_getCustomerFilter(["take_type","grade","sale_chance","comm_status","customer_name","tracer","contact_name","in_column"]);
+        $filter = $this->_getCustomerFilter(["phone","take_type","grade","sale_chance","comm_status","customer_name","tracer","contact_name","in_column"]);
         $field = $this->_getCustomerField(["take_type","grade"]);
         try{
             $customerM = new CustomerModel($this->corp_id);
@@ -770,7 +770,7 @@ class Customer extends Initialize{
             }
         }
         if(in_array("add_man", $filter_column)){//添加人
-            $add_man = input("add_man");
+            $add_man = input("add_man","","string");
             if($add_man){
                 $filter["add_man"] = $add_man;
             }
@@ -803,6 +803,12 @@ class Customer extends Initialize{
             $contact_name = input("contact_name","","string");
             if($contact_name){
                 $filter["contact_name"] = $contact_name;
+            }
+        }
+        if(in_array("phone", $filter_column)){//电话
+            $phone = input("phone","","string");
+            if($phone){
+                $filter["phone"] = $phone;
             }
         }
         if(in_array("comm_status", $filter_column)){//沟通状态
