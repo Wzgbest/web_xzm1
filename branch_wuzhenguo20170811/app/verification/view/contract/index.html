@@ -108,11 +108,13 @@
                             
                             <li>部门<i class="fa fa-unsorted"></i></li>
                             <li>客户</li>
-                            <li>签单时间<i class="fa fa-unsorted"></i></li>
+
+                            <li>预计合同到期时间<i class="fa fa-unsorted"></i></li>
                             <li>到账金额<i class="fa fa-unsorted"></i></li>
                             <li>合同状态</li>
                             <li>银行</li>
                             <li>是否开票</li>
+
                             <li>对应状态</li>
                             
                             <div class="clearfix"></div>
@@ -147,22 +149,35 @@
                             <li>{$vo.contract_type_name}</li>
                             <li>{eq name="vo.status" value="1"}1{else/}{$vo.contract_num}{/eq}</li>
                             <li>{present name="vo.contract_no"}{$vo.contract_no}{/present}</li>
+
                             <li>{$vo.business_flow_name}</li>
                             <li>{$vo.sale_name}</li>
                             
                             <li>{$vo.struct_name}</li>
                             <li class="u-tabCilentName">{$vo.customer_name}</li>
-                            <li>2017/03/02</li>
-                            <li>3,000.00元</li>
-                            <li class="u-tabCilentName">全款合同</li>
-                            <li>招商银行</li>
-                            <li>是</li>
-                            <li class="status">
+
+                            <li>{gt name="vo.soci_id" value="0"}{$vo.due_time|day_format}{/gt}</li>
+                            <li>{gt name="vo.soci_id" value="0"}{$vo.final_money}元{/gt}</li>
+                            <li class="u-tabCilentName">
                                 {eq name="vo.status" value="1"}
-                                {$vo.contract_status|getContractAppliedStatusName}
+                                    {$vo.contract_status|getContractAppliedStatusName}
                                 {else/}
-                                {$vo.status|getContractAppliedStatusName}
+                                    {$vo.status|getContractAppliedStatusName}
                                 {/eq}
+                            </li>
+                            <li>
+                                {eq name="vo.pay_type" value="1"}
+                                    现金
+                                {else/}
+                                    {eq name="vo.pay_type" value="2"}
+                                        {$vo.pay_bank}
+                                    {/eq}
+                                {/eq}
+                            </li>
+                            <li>{gt name="vo.soci_id" value="0"}{$vo.need_bill|getYesNoName}{/gt}</li>
+
+                            <li class="status">
+                                {$vo.in_column|getContractAppliedInColumnName}
                             </li>
                             
                             <div class="clearfix"></div>
