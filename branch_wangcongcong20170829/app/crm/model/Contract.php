@@ -359,6 +359,7 @@ class Contract extends Base{
         //$map["ca.contract_apply_now"] = $uid;
         $mapStr = "find_in_set('".$uid."',ca.contract_apply_now)";
         $having = null;
+        $having = null;
         if(array_key_exists("in_column", $filter)){
             $in_column = $filter["in_column"];
             if($in_column>0){
@@ -379,7 +380,13 @@ class Contract extends Base{
             'co.status as contract_status',
             'cs.contract_name as contract_type_name',
             "sc.sale_name",
+            "sc.final_money",
             "sc.sale_status",
+            "soci.id soci_id",
+            "soci.pay_bank",
+            "soci.pay_type",
+            "soci.due_time",
+            "soci.need_bill",
             'soc.status as order_status',
             "c.customer_name",
             "bfs.business_flow_name",
