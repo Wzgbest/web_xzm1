@@ -39,6 +39,27 @@ class CustomerContact extends Base
             ->select();
     }
 
+    /**
+     * 查询单个客户电话信息
+     * @param $customer_id int 客户id
+     * @return array|false
+     * created by blu10ph
+     */
+    public function getCustomerPhone($customer_id){
+        $field = [
+            "cc.id",
+            "cc.contact_name",
+            "cc.phone_first",
+            "cc.phone_second",
+            "cc.phone_third",
+        ];
+        $customerPhoneList = $this->model->table($this->table)->alias('cc')
+            ->where('customer_id',$customer_id)
+            ->field($field)
+            ->select();
+        return $customerPhoneList;
+    }
+
     public function getCustomerContactCount($customer_id)
     {
         return $this->model->table($this->table)->where('customer_id',$customer_id)->count();
