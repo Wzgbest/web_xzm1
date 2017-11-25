@@ -23,10 +23,22 @@ class Call extends Initialize{
         parent::_initialize();
     }
     public function index(){
+        $call_config_result = $this->_get_tq_config();
+//        var_exp($call_config_result,'$call_config_result',1);
+        $this->assign("call_config",$call_config_result["data"]);
+        return view();
+    }
+    public function getTqConfig(){
+        $call_config_result = $this->_get_tq_config();
+        return json($call_config_result);
+    }
+    protected function _get_tq_config(){
+        $result = ['status'=>0 ,'info'=>"获取配置时发生错误！"];
         $userinfo = get_userinfo();
 //        var_exp($userinfo["userinfo"],'$userinfo["userinfo"]',1);
         if(!$userinfo["userinfo"]["tq_uin"]||!$userinfo["userinfo"]["tq_strid"]){
-            /*$this->error*/ return response('你不能打电话');
+            $result["info"] = "你不能打电话!";
+            return $result;
         }
         $call_config = false;//get_cache_by_tel($this->telephone,"call_config");
         if(!$call_config){
@@ -44,26 +56,31 @@ class Call extends Initialize{
             if(isset($access_token_data["errcode"])&&$access_token_data["errcode"]==0){
                 $call_config["access_token"] = $access_token_data["access_token"];
                 set_cache_by_tel($this->telephone,"call_config",$call_config,$tq_config["expire"]?:null);
+            }else{
+                $result["info"] = "电话TOKEN获取失败!";
+                return $result;
             }
         }
         if(!$call_config){
-            $this->error("电话参数获取失败!");
+            $result["info"] = "电话参数获取失败!";
+            return $result;
         }
-//        var_exp($call_config,'$call_config',1);
-        $this->assign("call_config",$call_config);
-        return view();
+        $result["status"] = 1;
+        $result["info"] = "电话参数获取成功!";
+        $result["data"] = $call_config;
+        return $result;
     }
 
     public function tq_webservice(){
-        $result = ['status'=>0 ,'info'=>"查询客户信息时发生错误！"];
+        $result = ['status'=>0 ,'info'=>"调用远程方法时发生错误！"];
         $func_name = input("func_name","","string");
         $params = input("params/a","","string");
         if(!$func_name){
-            $result["info"] = "参数错误!";
+            $result["info"] = "方法参数错误!";
             return json($result);
         }
         if(empty($params)){
-            $result["info"] = "参数错误!";
+            $result["info"] = "参数列表错误!";
             return json($result);
         }
         //$params = ["sdzhcs1","9796221",md5("123456")];//e10adc3949ba59abbe56e057f20f883e

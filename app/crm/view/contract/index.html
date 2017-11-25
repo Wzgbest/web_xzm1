@@ -85,15 +85,7 @@
                                 {/gt}
                             </li>
                             <li class="status">
-                                {gt name="vo.sale_status" value="3"}
-                                    {$vo.sale_status|getSaleStatusName}
-                                {else/}
-                                    {eq name="vo.status" value="1"}
-                                        {$vo.contract_status|getContractAppliedStatusName}
-                                    {else/}
-                                        {$vo.status|getContractAppliedStatusName}
-                                    {/eq}
-                                {/gt}
+                                {$vo.in_column|getContractInColumnName}
                             </li>
                             <li class="reject-reson">{$vo.remark}</li>
                             <li class="u-tabOperation">
