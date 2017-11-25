@@ -1060,6 +1060,42 @@ function getContractAppliedStatusName($applied_status){
     return $applied_status_name;
 }
 
+function getContractAppliedInColumnName($applied_status){
+    $applied_status_name = null;
+    switch ($applied_status){
+        case 1:
+            $applied_status_name = "待审核";
+            break;
+        case 2:
+            $applied_status_name = "待领取";
+            break;
+        case 3:
+            $applied_status_name = "已领取";
+            break;
+        case 4:
+            $applied_status_name = "成单合同申请";
+            break;
+        case 5:
+            $applied_status_name = "已成单合同";
+            break;
+        case 6:
+            $applied_status_name = "已驳回";
+            break;
+        case 7:
+            $applied_status_name = "已作废";
+            break;
+        case 8:
+            $applied_status_name = "已退款";
+            break;
+        case 0:
+            $applied_status_name = "所有合同";
+            break;
+        default:
+            $applied_status_name = "无";
+    }
+    return $applied_status_name;
+}
+
 function getBillStatusName($status){
     $status_name = null;
     switch ($status){
@@ -2050,4 +2086,22 @@ function get_rule_type_name($type){
             $type_name = "无";
     }
     return $type_name;
+}
+
+/**
+ * 转为后台处理
+ * @param $outtime int 超时时间
+ *
+ * */
+function closeHttp($outtime=0){
+    //设置不中断和超时时间
+    ignore_user_abort(true);
+    set_time_limit($outtime);
+    //输出关闭报文,刷新缓存
+    $size = ob_get_length();
+    header("Content-Length: $size");
+    header('Connection: close');
+    ob_end_flush();
+    ob_flush();
+    flush();
 }
