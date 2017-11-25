@@ -1514,6 +1514,24 @@ class Customer extends Base
     }
 
     /**
+     * 查询单个客户跟踪人信息
+     * @param $cid int 客户id
+     * @return array
+     * created by blu10ph
+     */
+    public function getCustomerHandleMan($cid){
+        $customerHandleMan = "";
+        $customerHandleManList = $this->model->table($this->table)->alias('c')
+            ->where('c.id',$cid)
+            ->limit(1)
+            ->column("c.handle_man");
+        if(isset($customerHandleManList[0]["handle_man"])){
+            $customerHandleMan = $customerHandleManList[0]["handle_man"];
+        }
+        return $customerHandleMan;
+    }
+
+    /**
      * 查询单个客户信息包含是否需要签到
      * @param $cid int 客户id
      * @param $sale_id int 商机id
