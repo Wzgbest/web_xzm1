@@ -2017,11 +2017,12 @@ article .dv4 .switch2{
 	color: #b8b8b8;
 }
 .task .reveal_eight .import {
-	padding-top: 10px;
+	padding-top: 5px;
+	padding-bottom: 2px;
     width: 100%;
     height: 40px;
     margin: 0 auto;
-    margin-top: 30px;
+    margin-top: 44px;
     border-top: 1px solid #e6e6e6;
     background-color: #f4f6f9;
 }
@@ -2032,10 +2033,9 @@ article .dv4 .switch2{
     height: 36px;
     /* margin: 36px auto 30px; */
     display: flex;
-    margin-left: 340px;
+    margin-left: 360px;
     justify-content: space-between;
-
-    
+  
 }
 
 .task .reveal_eight .import .decide p {
@@ -2069,8 +2069,8 @@ article .dv4 .switch2{
 	margin: 40px auto 0px;
 }
 
-.task .reveal_eight .mima{width: 460px;height: 42px;margin: 25px auto 0px;}
-.task .reveal_eight .box{float:left;width: 372px;height:40px;display: -webkit-box;display:flex;display: -ms-flexbox;display: flex;-webkit-flex-wrap: wrap;-ms-flex-wrap: wrap;flex-wrap: wrap;}
+.task .reveal_eight .mima{width: 372px;height: 42px;margin: 25px auto 0px;}
+.task .reveal_eight .box{width: 372px;height:40px;display: -webkit-box;display:flex;display: -ms-flexbox;display: flex;-webkit-flex-wrap: wrap;-ms-flex-wrap: wrap;flex-wrap: wrap;}
 .task .reveal_eight .box-items {-ms-flex-align: center;-webkit-align-items: center;-webkit-box-align: center;align-items: center;}
 .task .reveal_eight .flex-1{display: block;-webkit-box-flex: 1;-webkit-flex: 1;-ms-flex: 1;flex: 1;width: 0;-webkit-flex-basis: 0;-ms-flex-preferred-size: 0;flex-basis: 0;}
 .task .reveal_eight .mima .item {position: relative;}
@@ -2078,24 +2078,31 @@ article .dv4 .switch2{
 .task .reveal_eight .mima .normal input {color: #000;}
 .task .reveal_eight .mima input {vertical-align:middle;display: block;width: inherit;text-align: center;border: 1px solid #d2d2d2;width: 100%;color: #fff;line-height: 40px}
 
-
-.task .reveal_eight .mima .moon{
-	width: 86px;
-	height: 40px;
-	float: right;
-	text-align: center;
+.task .reveal_eight .pay_float{
+	width: 372px;
+	height: 20px;
+	margin: 0px auto;
 }
-.task .reveal_eight .mima .moon a{
+.task .reveal_eight  .moon{
+	width: 86px;
+	height: 20px;
+	float: left;
+	text-align: left;
+}
+.task .reveal_eight .moon a{
 	font-size: 12px;
-	line-height: 40px;
-	color: #42a5f5;
+    line-height: 20px;
+    margin-top: 5px;
+    color: #42a5f5;
+    display: inline-block;
 }
 .task .reveal_eight .mianmi{
 	width: 110px;
 	height: 20px;
-	margin-left: 445px;
-	margin-top: 10px;
+	/*margin-left: 445px;*/
+	margin-top: 5px;
 	position: relative;
+	float: right;
 }
 .task .reveal_eight .mianmi input{
 	vertical-align: middle;
