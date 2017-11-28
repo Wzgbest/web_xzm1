@@ -342,7 +342,7 @@ class Index extends Initialize{
         $user_infomation = $userinfo["userinfo"];
         $systemMsg = new SystemMessage();
         $received_uids[] = $sale_info['employee_id'];
-        $systemMsg->save_msg("你的承担申请被驳回![驳回人:".$user_infomation["truename"]."]","/crm/order/index",$received_uids,4);
+        $systemMsg->save_msg("你的成单申请被驳回![驳回人:".$user_infomation["truename"]."]","/crm/order/index",$received_uids,4);
 
 
         $result['status']=1;
