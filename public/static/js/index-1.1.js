@@ -295,3 +295,53 @@ function delData(options,callback){
         }
     });
 }
+//解析XML文档
+function loadXML(xmlString){
+    var xmlDoc=null;
+    //判断浏览器的类型
+    //支持IE浏览器 
+    if(!window.DOMParser && window.ActiveXObject){   //window.DOMParser 判断是否是非ie浏览器
+        var xmlDomVersions = ['MSXML.2.DOMDocument.6.0','MSXML.2.DOMDocument.3.0','Microsoft.XMLDOM'];
+        for(var i=0;i<xmlDomVersions.length;i++){
+            try{
+                xmlDoc = new ActiveXObject(xmlDomVersions[i]);
+                xmlDoc.async = false;
+                xmlDoc.loadXML(xmlString); //loadXML方法载入xml字符串
+                break;
+            }catch(e){
+            }
+        }
+    }
+    //支持Mozilla浏览器
+    else if(window.DOMParser && document.implementation && document.implementation.createDocument){
+        try{
+            /* DOMParser 对象解析 XML 文本并返回一个 XML Document 对象。
+             * 要使用 DOMParser，使用不带参数的构造函数来实例化它，然后调用其 parseFromString() 方法
+             * parseFromString(text, contentType) 参数text:要解析的 XML 标记 参数contentType文本的内容类型
+             * 可能是 "text/xml" 、"application/xml" 或 "application/xhtml+xml" 中的一个。注意，不支持 "text/html"。
+             */
+            domParser = new  DOMParser();
+            xmlDoc = domParser.parseFromString(xmlString, 'text/xml');
+        }catch(e){
+        }
+    }
+    else{
+        return null;
+    }
+
+    return xmlDoc;
+}
+//时间戳转换时间
+function transformDate(tm){ 
+    // var date = new Date(); //时间对象
+    // var str = date.getTime(); //转换成时间戳
+    // console.log(str,typeof str);
+    // console.log(typeof tm);
+    // console.log();
+    let date = new Date(parseInt(tm)*1000);
+    // console.log(date);
+    var tt = date.toLocaleString(); 
+    // console.log(tt);
+    return tt; 
+} 
+// transformDate();
