@@ -365,7 +365,7 @@ var phoneStatusNoList = function() {
         "key": "Available",
         "value": "hand_idle"
     }, {
-        "key": "On Break",
+        "key": "On-Break",
         "value": "hand_busy"
     }, {
         "key": "Break",
@@ -388,10 +388,12 @@ var allNoList = {
  * getvaluebykey("hangUpCaseNoList","USER_BUSY")
  */
 var getValueByKey = function(property, key) {
+	console.log(key);
     var noList = allNoList[property];
+    console.log(noList);
     for ( var i in noList) {
         if (noList[i].key == key) {
-            console.log(noList[i].value);
+            console.log("当前状态:"+noList[i].value);
             return noList[i].value;
         }
     }
@@ -457,7 +459,7 @@ var operation = {
                 callInput.value = callNumber;
             };
             if(!callNumber){alert("请输入电话号码");callInput.focus();return};
-             console.log(callNumber);
+             console.log("您拨打的电话号码是"+callNumber+"*****************************************************************");
         }
         var makeCallOption = {
               phone: callNumber, // 电话号码
@@ -467,7 +469,7 @@ var operation = {
               },
               success: function(ret) {
                   cells.FcItem.CallTip.innerHTML = "<b style='color:#275A33'>正在拨打,请稍后...</b>";
-                  console.log(cells);
+                  console.log(cells,"正在拨打,请稍后...");
                   
                   // console.log($(obj));
                   // console.log($(obj).next());
@@ -489,6 +491,7 @@ var operation = {
      * hangBt 电话挂断按钮点击函数
      */
     hangBt:function(obj){// obj:拨打按钮对象
+    	console.log("挂断的电话：",obj);
         if(common.hasCls(obj,"hangupdsbt")){
             return
         }else{
@@ -499,6 +502,7 @@ var operation = {
         }
     },
     hangup:function(obj){
+    	console.log("挂断的电话：",obj);
         console.log("hangup");
         var hangupOption = {
             error: function(ret) {
@@ -507,6 +511,7 @@ var operation = {
             },
             success: function(ret) {
                 console.log(ret);
+                console.log("挂断的电话",tq_hangup_id);
                 common.print(ret,"ws");
             }
         };
@@ -643,13 +648,14 @@ var operation = {
  * @param {Function} 监听成功的回调函数
  */
 demo.monitorEvent("seatState", function(message, jsonObject) {
-    console.log(message,jsonObject);
+	console.log("监听坐席状态***************************************");
+    console.log("call.js:电话状态：",message,"用户信息：",jsonObject);
     common.print(message,"ws");
     var seat_dbid = message.phoneseat.seat_dbid;
     var phoneSeatMessage = message.phoneseat;
     var timestamp = phoneSeatMessage.timestamp;
     var status = phoneSeatMessage.status;
-    console.log(seat_dbid,phoneSeatMessage,timestamp,status);
+    console.log("call.js:电话状态",seat_dbid,phoneSeatMessage,timestamp,status);
     // 初始化一次
     if(!global.extensionInfo[seat_dbid]){
         console.log("初始化一次");
@@ -657,11 +663,11 @@ demo.monitorEvent("seatState", function(message, jsonObject) {
            "seat_dbid": seat_dbid
        };
        global.extensionInfo[seat_dbid].callUI = new TQPhone(phoneSeatMessage); 
-       console.log("初始化一次");
+       console.log("初始化另一次");
     }
     var seat_status_value = getValueByKey("phoneStatusNoList", status);
-    console.log(seat_status_value);
-    console.log("eventState." + seat_status_value + "('" + JSON.stringify(phoneSeatMessage) + "')");
+    console.log("当前状态："+seat_status_value);
+    console.log("执行一下这个函数：eventState." + seat_status_value + "('" + JSON.stringify(phoneSeatMessage) + "')");
     eval("eventState." + seat_status_value + "('" + JSON.stringify(phoneSeatMessage) + "')");
     
     /*
@@ -679,6 +685,7 @@ demo.monitorEvent("seatState", function(message, jsonObject) {
  * @param {Function} 监听成功的回调函数
  */
 demo.monitorEvent("callEvent", function(message, jsonObject) {
+	console.log("监听电话事件***************************************");
     console.log("callEvent",message,jsonObject);
     common.print(message,"ws");
     var call_state = message.call_event.call_state;
@@ -692,7 +699,11 @@ demo.monitorEvent("callEvent", function(message, jsonObject) {
  * @param {Function} 监听成功的回调函数
  */
 demo.monitorEvent("callTip", function(message, jsonObject) {
+	console.log("监听弹屏事件***************************************");
     console.log("该事件在座席响铃事件（call_state：agent_ring）时推送callTip",message,jsonObject);
+    console.log("通话唯一ID"+message.call_tip.rec_id);
+    tq_hangup_id = message.call_tip.rec_id;
+    console.log(tq_hangup_id);
     common.print(message,"ws");
 })
 
