@@ -159,6 +159,9 @@
 	color: #77b8ff;
 	cursor: pointer;
 }
+.u-tq-time{
+	width: 150px !important;
+}
 .u-tabLinkWay{
 	color: #13ae6b;
 }
