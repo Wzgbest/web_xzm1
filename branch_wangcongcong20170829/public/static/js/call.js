@@ -93,28 +93,6 @@ $(document).on('click', '.nodes .fa-pencil', function() {
 $(document).on('click', '.nodes .fa-times-circle-o', function() {
 	$(this).parent().remove();
 });
-//test
-$(".phone-box").on("click",".btn-test",function(){
-    console.log(1);
-    let url = "http://webservice.agent.tq.cn/Servers/services/ServerNew?wsdl";
-    if (!window.XMLHttpRequest)
-        return;
-    var xmlhttp=new XMLHttpRequest();
-    xmlhttp.onreadystatechange=state_Change;
-    xmlhttp.open("GET",url,true);
-    xmlhttp.send(null);
-    function state_Change()
-    {
-    if (xmlhttp.readyState==4)
-      {// 4 = "loaded"
-      if (xmlhttp.status==200)
-        {// 200 = "OK"
-        console.log(xmlhttp.responseText);
-        }
-      else
-        {
-        alert("Problem retrieving data:" + xmlhttp.statusText);
-        }
-      }
-    }
-});
+
+
+
