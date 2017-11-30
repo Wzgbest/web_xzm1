@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>work_flow_create_page</title>
+</head>
+<body>
+<form action="/crm/workflow/work_flow_create" method="post">
+  <input type="hidden" name="flow_id" value="{$flow_id}">
+  <input type="text" name="process_title" value="">
+  {volist name="form_item" id="vo"}
+    {switch name="vo.form_item_type"}
+      {case value="int|string"}
+        <input name="{$vo.form_item_name}" type="text" value="{$vo.form_item_default}">
+      {/case}
+      {case value="select"}
+        <select name="{$vo.form_item_name}">
+            {empty name="vo.form_item_default"}<option value="">请选择</option>{/empty}
+            {volist name="vo.form_item_enum_arr" id="voe"}
+              {eq name="voe" value="vo.form_item_default"}
+                <option value="{$voe}" selected>{$voe}</option>
+              {else/}
+                <option value="{$voe}">{$voe}</option>
+              {/eq}
+            {/volist}
+        </select>
+      {/case}
+    {/switch}
+  {/volist}
+  <textarea name="remark"></textarea>
+  <button type="submit" name="submit" value="save">保存</button>
+  <button type="submit" name="submit" value="application">提交</button>
+</form>
+</body>
+</html>
