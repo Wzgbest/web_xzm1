@@ -315,11 +315,21 @@ class EmployeeTask extends Initialize{
             else{
                 //赞
                 $result=$employeeTaskModel->addLike($con);
+
             }
             if($result)
             {
                 $redata['success']=true;
                 $redata['msg']='操作成功';
+                if (!$unlike) {
+                    //发送点赞消息
+                    $task_data = $employeeTaskModel->getEmployeeById($task_id);
+                    $userinfos = $user_info['userinfo'];
+                    $sysMsg = new SystemMessage();
+                    $str = $userinfos['truename']."点赞了你发布的".$task_data['task_name']."任务";
+                    $receive_uids[] = $task_data['create_employee'];
+                    $sysMsg->save_msg($str,"/task/index/show/id/".$task_id,$receive_uids,3,1);
+                }
             }
         }
         return json($redata);
@@ -538,13 +548,17 @@ class EmployeeTask extends Initialize{
             return $ex->getTrace();
         }
 
+        //发送消息
         $sysMsg = new SystemMessage();
         $take_arr = $employeeTaskM->getTakeTaskById($task_id);
         $guess_arr = $employeeTaskM->getGuessTaskById($task_id);
         $tip_arr = $employeeTaskM->getTipTaskById($task_id);
         $receive_uids = array_merge($take_arr,$guess_arr,$tip_arr);
         $receive_uids = array_unique($receive_uids);
-        $flg = $sysMsg->save_msg($taskInfo['task_name']."任务已经终止,相应金额已经返还，请在余额中查看。","",$receive_uids,3);
+        if (!empty($receive_uids)) {
+            $sysMsg->save_msg("你参与的".$taskInfo['task_name']."任务已被强制终止","/task/index/show/id/".$task_id,$receive_uids,3,1);
+        }
+        
         $redata['status']=1;
         $redata['info']='操作成功';
         return json($redata);

@@ -314,7 +314,9 @@ class Contract extends Initialize{
         }
         $systemMsg = new SystemMessage();
         $recieve_uids = array_unique($recieve_uids);
-        $systemMsg->save_msg("有需要审核的合同,请查看！申请人：".$user_infomation["truename"],"/verification/contract/index",$recieve_uids,4);
+        if (!empty($recieve_uids)) {
+            $systemMsg->save_msg("有一份".$user_infomation["truename"]."合同待你审核","/verification/contract/index",$recieve_uids,4,2);
+        }
         $result['status']=1;
         $result['info']='申请合同成功!';
         return $result;
