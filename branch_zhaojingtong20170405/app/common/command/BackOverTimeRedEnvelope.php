@@ -46,6 +46,9 @@ class BackOverTimeRedEnvelope extends Command{
                 $employee_data = ['left_money'=>['exp', "left_money + $money"]];
                 $cash_data = [
                     'userid'=> $from_user,
+                    "take_type"=>4,
+                    "take_type_sub"=>0,
+                    "take_id"=>$red_id,
                     'take_money'=>$money,
                     'take_status'=>2,
                     'took_time'=>$time,
@@ -72,7 +75,7 @@ class BackOverTimeRedEnvelope extends Command{
                 }catch(\Exception $ex){
                     $redM->link->rollback();
                     $error_red_ids[] = $red_id;
-                    write_log($from_user,2,'返还超时红包失败，id为'.$red_id.',返还金额'.$money.'分,enum:'.$ex->getMessage(),$corp_id);
+                    write_log($from_user,2,'返还超时红包失败，id为'.$red_id.',返还金额'.$money.'分,exc:'.$ex->getMessage(),$corp_id);
                 }
             }
         }
