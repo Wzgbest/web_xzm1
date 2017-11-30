@@ -40,20 +40,21 @@ class Call extends Initialize{
             $result["info"] = "你不能打电话!";
             return $result;
         }
-        $call_config = false;//get_cache_by_tel($this->telephone,"call_config");
+        $call_config = get_cache_by_tel($this->telephone,"call_config");
         if(!$call_config){
             $tq_config = config('tq');
-            $call_config["appid"] = $tq_config["appid"];
-            $call_config["appkey"] = $tq_config["appkey"];
-            $call_config["secretkey"] = strtoupper(md5($tq_config["appid"]."*(**)*".$tq_config["appkey"]));
-            $call_config["admin_uin"] = $tq_config["admin_uin"];// "9796221";
-            $call_config["uin"] = $userinfo["userinfo"]["tq_uin"];// "9796249";
-            $call_config["strid"] = $userinfo["userinfo"]["tq_strid"];// "sdzhcs2";
-            $call_config["time"] = time();
+            $call_config_tmp["appid"] = $tq_config["appid"];
+            $call_config_tmp["appkey"] = $tq_config["appkey"];
+            $call_config_tmp["secretkey"] = strtoupper(md5($tq_config["appid"]."*(**)*".$tq_config["appkey"]));
+            $call_config_tmp["admin_uin"] = $tq_config["admin_uin"];// "9796221";
+            $call_config_tmp["uin"] = $userinfo["userinfo"]["tq_uin"];// "9796249";
+            $call_config_tmp["strid"] = $userinfo["userinfo"]["tq_strid"];// "sdzhcs2";
+            $call_config_tmp["time"] = time();
             $tqCallApi = new TQCallApi();
-            $access_token_data = $tqCallApi->get_access_token($call_config["admin_uin"],$call_config["uin"],$call_config["strid"],$call_config["time"]);
+            $access_token_data = $tqCallApi->get_access_token($call_config_tmp["admin_uin"],$call_config_tmp["uin"],$call_config_tmp["strid"],$call_config_tmp["time"]);
 //            var_exp($access_token_data,'$access_token_data',1);
             if(isset($access_token_data["errcode"])&&$access_token_data["errcode"]==0){
+                $call_config = $call_config_tmp;
                 $call_config["access_token"] = $access_token_data["access_token"];
                 set_cache_by_tel($this->telephone,"call_config",$call_config,$tq_config["expire"]?:null);
             }else{
