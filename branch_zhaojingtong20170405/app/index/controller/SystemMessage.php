@@ -207,9 +207,9 @@ class SystemMessage extends Initialize{
     public function set_read_msg($msg_ids=[],$receive_uid){
         $info = ['status'=>0,'message'=>"消息已读失败"];
 
-        if ($this->device_type != 1) {
-            $receive_uid = 1;
-        }
+        // if ($this->device_type != 1) {
+        //     $receive_uid = 1;
+        // }
         if (empty($msg_ids) || !$receive_uid) {
             $info['message'] = "消息id或发送人id为空";
             return json($info);
