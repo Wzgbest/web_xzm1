@@ -292,7 +292,7 @@ class Index extends Initialize{
         $user_infomation = $userinfo["userinfo"];
         $systemMsg = new SystemMessage();
         $received_uids[] = $sale_info['employee_id'];
-        $systemMsg->save_msg($verificatioLogRemark."[审核人：".$user_infomation["truename"]."]","/crm/order/index",$received_uids,4);
+        $systemMsg->save_msg("你的成单".$verificatioLogRemark."  [审核人：".$user_infomation["truename"]."]","/crm/sale_chance/index",$received_uids,4,2);
 
         $result['status']=1;
         $result['info']='通过成单申请成功!';
@@ -301,6 +301,7 @@ class Index extends Initialize{
     public function rejected(){
         $result = ['status'=>0 ,'info'=>"驳回成单申请时发生错误！"];
         $id = input("id",0,"int");
+        $remark = input("remark",'',"string");
         if(!$id){
             $result['info'] = "参数错误！";
             return json($result);
@@ -342,7 +343,7 @@ class Index extends Initialize{
         $user_infomation = $userinfo["userinfo"];
         $systemMsg = new SystemMessage();
         $received_uids[] = $sale_info['employee_id'];
-        $systemMsg->save_msg("你的成单申请被驳回![驳回人:".$user_infomation["truename"]."]","/crm/order/index",$received_uids,4);
+        $systemMsg->save_msg("你的成单申请由于[".$remark."]原因被驳回，请重提交申请!  [审核人:".$user_infomation["truename"]."]","/crm/sale_chance/index",$received_uids,4,2);
 
 
         $result['status']=1;
