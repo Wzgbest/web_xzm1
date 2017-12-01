@@ -165,7 +165,7 @@ class Call extends Initialize{
             $tag = "ID".$i;
             //var_exp($tag,'$tag');
             $item = $json_obj[$tag];
-            var_exp($item,'$item');
+//            var_exp($item,'$item');
             $mapped = [
                 "start_time"=>"begin_time"
             ];
@@ -194,7 +194,7 @@ class Call extends Initialize{
                 $item_temp[$field_name] = $item_value;
             }
             $item_temp["main_phone"] = $item_temp["caller_id"];
-            var_exp($item_temp,'$item_temp');
+//            var_exp($item_temp,'$item_temp');
             $call_record_list[] = $item_temp;
         }
 
