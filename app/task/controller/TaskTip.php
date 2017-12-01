@@ -17,6 +17,7 @@ use app\task\model\TaskTip as TaskTipModel;
 use app\common\model\Employee;
 use app\huanxin\model\TakeCash;
 use app\common\model\Corporation;
+use app \index\controller\SystemMessage;
 
 class TaskTip extends Initialize{
     var $paginate_list_rows = 10;
@@ -130,6 +131,13 @@ class TaskTip extends Initialize{
             return json($result);
         }
 
+        //发送打赏消息
+        $userinfos = $userinfo["userinfo"];
+        $sysMsg = new SystemMessage();
+        $str = $userinfos['truename']."打赏了你发布的".$task_data['task_name']."任务，赏金".$money."元";
+        $receive_uids[] = $task_data['create_employee'];
+        $sysMsg->save_msg($str,"/task/index/show/id/".$task_id,$receive_uids,3,1);
+
         $telphone = $userinfo["telephone"];
         $userinfo = $employM->getEmployeeByTel($telphone);
         set_userinfo($this->corp_id,$telphone,$userinfo);
@@ -143,6 +151,8 @@ class TaskTip extends Initialize{
         $result['data']["tip_list"] = $tipEmployeeList;
         $result['info'] = '打赏成功';
         $result['status'] = 1;
+        
+
         return json($result);
     }
     public function get_list(){
