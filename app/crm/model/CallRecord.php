@@ -162,4 +162,27 @@ class CallRecord extends Base{
             //->fetchSql(true)
             ->find();
     }
+    /**
+     * 查询通话记录
+     * @param $phoneRecId string TQ通话唯一id
+     * @return array|false
+     * @throws \think\Exception
+     */
+    public function getCallRecordByPhoneRecId($phoneRecId){
+        $map["phonerecid"] = $phoneRecId;
+        $callRecordList = $this->model->table($this->table)->alias('cr')
+            ->where($map)
+            ->field("cr.*")//TODO field list
+            ->select();
+        //var_exp($callRecordList,'$callRecordList',1);
+        return $callRecordList;
+    }
+
+    public function addCallRecord($data){
+        return $this->model->table($this->table)->insertGetId($data);
+    }
+
+    public function addCallRecordList($data_list){
+        return $this->model->table($this->table)->insertAll($data_list);
+    }
 }
