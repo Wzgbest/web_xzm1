@@ -170,11 +170,21 @@ class Call extends Initialize{
                 "start_time"=>"begin_time"
             ];
             $default = [
+                "insert_time"=>0,
+                "call_style"=>0,
                 "call_type"=>0,
                 "client_uin"=>0,
                 "client_id"=>0,
-                "client_id"=>0,
+                "is_called_phone"=>0,
+                "serialno"=>0,
+                "area_id"=>0,
+                "seatid"=>0,
+                "pathway"=>0,
                 "caller_queue_time"=>0,
+                "caller_stime"=>0,
+                "hangup_side"=>0,
+                "phone_create_time"=>0,
+                "phone_hangup_time"=>0,
             ];
             $item_temp["userid"] = $this->uid;
             $item_temp["customer_id"] = 0;
