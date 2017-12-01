@@ -146,19 +146,19 @@ class Call extends Initialize{
         }
 
         $aryResult = str_replace('encoding="gb2312"', 'encoding="utf-8"', $aryResult);//preg_replace('encoding="gb2312"', 'encoding="utf-8"', $aryResult);
-        //var_exp($aryResult,'$aryResult');
+//        var_exp($aryResult,'$aryResult');
         $xml_obj = simplexml_load_string($aryResult,null,LIBXML_NOCDATA);
         //var_exp($xml_obj,'$xml_obj');
         $json_str = json_encode($xml_obj,true);
         //var_exp($json_str,'$json_str');
         $json_obj = json_decode($json_str,true);
-        //var_exp($json_obj,'$json_obj');
+//        var_exp($json_obj,'$json_obj');
         $size = $json_obj["Size"];
         if(!$size>0){
             $result["info"] = "获取TQ通话记录发生错误,未能获取大小!";
             return json($result);
         }
-        //var_exp($size,'$size');
+//        var_exp($size,'$size');
 
         $call_record_list = [];
         for ($i=1;$i<=$size;$i++){
@@ -170,9 +170,21 @@ class Call extends Initialize{
                 "start_time"=>"begin_time"
             ];
             $default = [
+                "insert_time"=>0,
+                "call_style"=>0,
                 "call_type"=>0,
                 "client_uin"=>0,
                 "client_id"=>0,
+                "is_called_phone"=>0,
+                "serialno"=>0,
+                "area_id"=>0,
+                "seatid"=>0,
+                "pathway"=>0,
+                "caller_queue_time"=>0,
+                "caller_stime"=>0,
+                "hangup_side"=>0,
+                "phone_create_time"=>0,
+                "phone_hangup_time"=>0,
             ];
             $item_temp["userid"] = $this->uid;
             $item_temp["customer_id"] = 0;
@@ -198,6 +210,7 @@ class Call extends Initialize{
             $call_record_list[] = $item_temp;
         }
 
+//        var_exp($call_record_list,'$call_record_list');
         $add_flg = $callRecord->addCallRecordList($call_record_list);
         //            var_exp($add_flg,'$add_flg');
         if(!$add_flg) {
