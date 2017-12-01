@@ -38,6 +38,7 @@ function tqWebservice(data,callback){
         }
     });
 }
+//通话记录格式转换
 function phoneRecordHandler(e){
     let record = e.getElementsByTagName("RECORD")[0];
     let size = record.getElementsByTagName("Size")[0].firstChild.nodeValue;
@@ -148,7 +149,7 @@ function callGetPhoneRecordById(){
 	//清空列表
 	$(".phone_call_assistant .tq-result .u-tabList").remove();
 	
-    let id = 146658993;
+    let id = 146659330;
     let data = "func_name=getPhoneRecordById&params[]=[adminuin]&params[]=[adminpassword]&params[]="+id+"&params[]=";
     tqWebservice(data,callBackGetPhoneRecordById)
 }
