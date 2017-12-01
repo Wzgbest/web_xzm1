@@ -253,7 +253,7 @@ class Bill extends Initialize{
         $user_infomation = $userinfo["userinfo"];
         $systemMsg = new SystemMessage();
         $received_uids[] = $bill_info['operator'];
-        $flg = $systemMsg->save_msg($verificatioLogRemark."[审核人：".$user_infomation["truename"]."]","/crm/bill/index",$received_uids,4);
+        $flg = $systemMsg->save_msg("你的发票".$verificatioLogRemark."  [审核人：".$user_infomation["truename"]."]","/crm/bill/index",$received_uids,4,2);
 
         $result['status']=1;
         $result['info']='通过发票申请成功!';
@@ -262,6 +262,7 @@ class Bill extends Initialize{
     public function rejected(){
         $result = ['status'=>0 ,'info'=>"驳回发票申请时发生错误！"];
         $id = input("id",0,"int");
+        $remark = input("remark","","string");
         if(!$id){
             $result['info'] = "参数错误！";
             return json($result);
@@ -299,7 +300,7 @@ class Bill extends Initialize{
         $user_infomation = $userinfo["userinfo"];
         $received_uids[] = $bill_info['operator'];
         $systemMsg = new SystemMessage();
-        $systemMsg->save_msg("你申请的发票被驳回！[驳回人：".$user_infomation["truename"]."]","/crm/bill/index",$received_uids,4);
+        $systemMsg->save_msg("你的发票审核由于[".$remark."]原因被驳回，请重提交申请!  [审核人:".$user_infomation["truename"]."]","/crm/bill/index",$received_uids,4,2);
 
         $result['status']=1;
         $result['info']='驳回发票申请成功!';
