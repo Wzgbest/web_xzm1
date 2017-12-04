@@ -345,3 +345,17 @@ function transformDate(tm){
     return tt; 
 } 
 // transformDate();
+//下拉选择框的事件
+$(document).on("change",".u-select-container select",function(){
+    $(this).parent().addClass("selected");
+    $(this).siblings("span").html($(this).children("option:selected").text()+"<i class='fa fa-caret-down'></i>");
+});
+//table hover事件
+$(document).on("mouseenter",".m-tableBox .u-tabList",function(){
+    $(this).parents(".m-tableBox").find(".m-table-nav").find(".u-tabList").eq($(this).index()-1).addClass("current");
+    $(this).parents(".m-tableBox").find(".m-table-detail").find(".u-tabList").eq($(this).index()-1).addClass("current");
+});
+$(document).on("mouseleave",".m-tableBox .u-tabList",function(){
+    $(this).parents(".m-tableBox").find(".m-table-nav").find(".u-tabList").eq($(this).index()-1).removeClass("current");
+    $(this).parents(".m-tableBox").find(".m-table-detail").find(".u-tabList").eq($(this).index()-1).removeClass("current");
+});
