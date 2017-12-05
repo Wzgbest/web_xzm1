@@ -20,21 +20,28 @@
         <!--我的合同  列表-->
         <div class="m-3rd-container">
           <section class="b-w">
-            <div class="m-divBlock m-divBlock2">
-                <div class="m-filterNav">
+            <div>
+                <div class="clearfix"></div>
+                <div class="m-filterNav" style="margin-top: 10px">
                     <form class="search_form" onsubmit="return false;">
-                        <select name="contract_type">
-                            <option value="">合同类型</option>
-                            {volist name="contract_type_list" id="vo"}
-                                <option value="{$vo.id}" {present name='filter.contract_type'}{eq name='filter.contract_type' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.contract_name}</option>
-                            {/volist}
-                        </select>
-                        <select name="business_id">
-                            <option value="">对应业务</option>
-                            {volist name="business_flow_list" id="vo"}
-                                <option value="{$vo.id}" {present name='filter.business_id'}{eq name='filter.business_id' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.business_flow_name}</option>
-                            {/volist}
-                        </select>
+                        <div class="u-select-container">
+                            <span>合同类型<i class="fa fa-caret-down"></i></span>
+                            <select name="contract_type">
+                                <option value="">合同类型</option>
+                                {volist name="contract_type_list" id="vo"}
+                                    <option value="{$vo.id}" {present name='filter.contract_type'}{eq name='filter.contract_type' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.contract_name}</option>
+                                {/volist}
+                            </select>
+                        </div>
+                        <div class="u-select-container">
+                            <span>对应业务<i class="fa fa-caret-down"></i></span>
+                            <select name="business_id">
+                                <option value="">对应业务</option>
+                                {volist name="business_flow_list" id="vo"}
+                                    <option value="{$vo.id}" {present name='filter.business_id'}{eq name='filter.business_id' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.business_flow_name}</option>
+                                {/volist}
+                            </select>
+                        </div>
                         <input type="text" name="contract_no" placeholder="输入合同编码" value="{present name='filter.contract_no'}{$filter.contract_no}{/present}"/>
                         <input type="text" name="customer_name" placeholder="输入客户名称" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
                         <button class="u-btnSearch">查询</button>
