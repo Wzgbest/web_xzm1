@@ -46,6 +46,9 @@ class BackOverTimeRedEnvelope extends Command{
                 $employee_data = ['left_money'=>['exp', "left_money + $money"]];
                 $cash_data = [
                     'userid'=> $from_user,
+                    "take_type"=>4,
+                    "take_type_sub"=>0,
+                    "take_id"=>$red_id,
                     'take_money'=>$money,
                     'take_status'=>2,
                     'took_time'=>$time,
@@ -56,23 +59,23 @@ class BackOverTimeRedEnvelope extends Command{
                 try{
                     $change_took_state = $redM->setOverTimeRed($red_id,$time);
                     if(!$change_took_state){
-                        exception("");
+                        exception("1");
                     }
                     $send_back_money = $employM->setSingleEmployeeInfobyId($from_user,$employee_data);
                     if(!$send_back_money){
-                        exception("");
+                        exception("2");
                     }
                     $cash_rec = $cashM->addOrderNumber($cash_data);
                     if(!$cash_rec){
-                        exception("");
+                        exception("3");
                     }
                     $redM->link->commit();
                     $success_red_ids[] = $red_id;
-                    write_log($from_user,2,'收到返还的超时红包，id为'.$red_id.'返还金额'.$money.'分',$corp_id);
+                    write_log($from_user,2,'收到返还的超时红包，id为'.$red_id.',返还金额'.$money.'分',$corp_id);
                 }catch(\Exception $ex){
                     $redM->link->rollback();
                     $error_red_ids[] = $red_id;
-                    write_log($from_user,2,'返还超时红包失败，id为'.$red_id.'返还金额'.$money.'分',$corp_id);
+                    write_log($from_user,2,'返还超时红包失败，id为'.$red_id.',返还金额'.$money.'分,exc:'.$ex->getMessage(),$corp_id);
                 }
             }
         }

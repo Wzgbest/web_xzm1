@@ -33,7 +33,7 @@ class SystemMessage extends Base{
     	return $this->model->table($this->dbprefix."system_message_link")->where($map)->update($data);
     }
     //获取消息列表
-    public function getMsgList($uid,$type=0,$status=null){
+    public function getMsgList($uid,$type=0,$status=2){
     	if (!$uid) {
     		return [];
     	}
@@ -42,7 +42,7 @@ class SystemMessage extends Base{
     	if ($type) {
     		$map['sm.type'] = $type;
     	}
-    	if ($status != null) {
+    	if ($status == 0 || $status == 1) {
     		$map['sml.status'] = $status;
     	}
     	

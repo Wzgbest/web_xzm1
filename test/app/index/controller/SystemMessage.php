@@ -22,7 +22,7 @@ class SystemMessage extends Initialize{
      * @param  string  $msg          消息
      * @param  string  $url          链接
      * @param  integer $type         消息类型1系统消息 2用户消息 3任务消息 4CRM 5知识库
-     * @param  integer $send_uid     发送人id
+     * @param  integer $send_uid     发送人id  0系统消息  1任务消息  2CRM消息  3知识库消息 4与我相关
      * @param  array   $receive_uids 接收人id 数组
      * @param  integer $to_instation 是否发送站内信
      * @param  integer $to_app       是否发送app
@@ -38,6 +38,8 @@ class SystemMessage extends Initialize{
             $info['message'] = "不能没有接受人或者发送信息为空";
             return json($info);
         }
+        
+        $receive_uids = array_unique($receive_uids);
 
         $msg_data['type'] = $type;
         $msg_data['send_uid'] = $send_uid;
@@ -53,8 +55,14 @@ class SystemMessage extends Initialize{
 
         if ($send_uid == 0) {
             $from = "系统消息";
-        }else{
-            $from = "admin";
+        }else if($send_uid == 1){
+            $from = "任务消息";
+        }else if($send_uid == 2){
+            $from = "CRM消息";
+        }else if($send_uid == 3){
+            $from = "知识库消息";
+        }else if($send_uid == 4){
+            $from = "与我相关";
         }
 
         $systemM = new SystemMessageModel($this->corp_id);
@@ -207,9 +215,9 @@ class SystemMessage extends Initialize{
     public function set_read_msg($msg_ids=[],$receive_uid){
         $info = ['status'=>0,'message'=>"消息已读失败"];
 
-        if ($this->device_type != 1) {
-            $receive_uid = 1;
-        }
+        // if ($this->device_type != 1) {
+        //     $receive_uid = 1;
+        // }
         if (empty($msg_ids) || !$receive_uid) {
             $info['message'] = "消息id或发送人id为空";
             return json($info);

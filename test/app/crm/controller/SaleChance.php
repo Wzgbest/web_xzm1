@@ -25,6 +25,7 @@ use app\common\model\ParamRemark;
 use app\crm\model\SaleOrderContractItem;
 use app\task\model\TaskTarget;
 use app\crm\model\SaleChanceSignIn as SaleChanceSignInModel;
+use app\index\controller\SystemMessage;
 
 class SaleChance extends Initialize{
     protected $_activityBusinessFlowItem = [1,2,4];
@@ -1185,6 +1186,29 @@ class SaleChance extends Initialize{
             return $result;
         }
 
+
+        $recieve_uids[] = $saleOrderContractData["handle_1"];
+        if (!empty($saleOrderContractData["handle_2"])) {
+            $recieve_uids[] = $saleOrderContractData["handle_2"];
+        }
+        if (!empty($saleOrderContractData["handle_1"])) {
+            $recieve_uids[] = $saleOrderContractData["handle_3"];
+        }
+        if (!empty($saleOrderContractData["handle_1"])) {
+            $recieve_uids[] = $saleOrderContractData["handle_4"];
+        }
+
+        if (!empty($saleOrderContractData["handle_1"])) {
+            $recieve_uids[] = $saleOrderContractData["handle_5"];
+        }
+        if (!empty($saleOrderContractData["handle_1"])) {
+            $recieve_uids[] = $saleOrderContractData["handle_6"];
+        }
+        $user_infomation = $userinfo["userinfo"];
+        $systemMsg = new SystemMessage();
+        $recieve_uids = array_unique($recieve_uids);
+        $systemMsg->save_msg("有一份成单申请待你审核！[申请人：".$user_infomation["truename"]."]","/verification/index/index",$recieve_uids,4,2);
+
         $result["status"] = 1;
         $result["info"] = "成单申请保存成功!";
         $result["data"] = $result_data;
@@ -1381,6 +1405,29 @@ class SaleChance extends Initialize{
                 exception('提交客户跟踪数据失败!');
             }
         }
+
+        $recieve_uids[] = $saleOrderContractData["handle_1"];
+        if (!empty($saleOrderContractData["handle_2"])) {
+            $recieve_uids[] = $saleOrderContractData["handle_2"];
+        }
+        if (!empty($saleOrderContractData["handle_1"])) {
+            $recieve_uids[] = $saleOrderContractData["handle_3"];
+        }
+        if (!empty($saleOrderContractData["handle_1"])) {
+            $recieve_uids[] = $saleOrderContractData["handle_4"];
+        }
+
+        if (!empty($saleOrderContractData["handle_1"])) {
+            $recieve_uids[] = $saleOrderContractData["handle_5"];
+        }
+        if (!empty($saleOrderContractData["handle_1"])) {
+            $recieve_uids[] = $saleOrderContractData["handle_6"];
+        }
+        $user_infomation = $userinfo["userinfo"];
+        $systemMsg = new SystemMessage();
+        $recieve_uids = array_unique($recieve_uids);
+        $systemMsg->save_msg("有一份成单申请待你审核！[申请人：".$user_infomation["truename"]."]","/verification/index/index",$recieve_uids,4,2);
+        
         //var_exp($sale_order_id,'$sale_order_id');
         $result["status"] = 1;
         $result["info"] = "成单申请保存成功!";

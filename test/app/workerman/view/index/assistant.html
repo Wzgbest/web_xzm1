@@ -1,6 +1,51 @@
-<div class="crm_phone_call phone_call_assistant">
+<div class="crm_phone_call phone_call_assistant h100 o-a">
     <div class="assistant_panel assistant">
-        <h1>想不到吧！</h1>
+        <!-- <h1>想不到吧！</h1> -->
+        <span>姓名</span>
+        <select class="tq-uin">
+        	<option value="9797871" data-tq-name="guguo001">潘三龙</option>
+        	<option value="9796248" data-tq-name="sdzhcs1">马一荣</option>
+        	<option value="9796249" data-tq-name="sdzhcs2">鞠培丽</option>
+        	<option value="9797569" data-tq-name="sdzhcs3">李丽</option>
+        </select>
+        开始时间<input type="datetime-local" class="tq-start-time">
+        结束时间<input type="datetime-local" class="tq-end-time">
+        <button class="tq-search">查询</button>
+        <!-- <button onclick="callGetPhoneRecordById()">查询通话唯一id</button> -->
+        <div class="tq-result">
+    		<div class="m-table m-table-detail">
+                <ul class="u-tabTitle">
+                    <li class="u-tabCheckbox">序号</li>
+                    <li>客户名称</li>
+                    <li>坐席工号</li>
+                    <li>客户电话</li>
+                    <li>呼叫方式</li>
+                    <li class="u-tq-time">接通时间</li>
+                    <li class="u-tq-time">结束时间</li>
+                    <li>通话时长</li>
+                    <li>录音</li>
+                    <div class="clearfix"></div>
+                </ul>
+                <ul class="u-tabList">
+                    <li class="u-tabCheckbox">1</li>
+                    <li class="u-tabCilentName">中迅网媒</li>
+                    <li>600</li>
+                    <li>17186761671</li>
+                    <li>外呼电话</li>
+                    <li class="u-tq-time">2017-11-24 10:49</li>
+                    <li class="u-tq-time">2017-11-24 10:49</li>
+                    <li>00:00:07</li>
+                    <li>录音</li>
+                    <div class="clearfix"></div>
+                </ul>
+            </div>
+    	</div>
     </div>
+    
 </div>
 <link rel="stylesheet" href="/crm/css/phonecall.css" />
+<script type="text/javascript" src="/crm/js/tq_assistant.js"></script>
+<script type="text/javascript">
+
+
+</script>

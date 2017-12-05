@@ -5,7 +5,7 @@
     </div>
     <div id="r-nav">
         <div id="nav-user">
-            <i class="fa fa-2x fa-user"></i><span>{$userinfo.truename}</span>
+            <i class="fa fa-2x fa-user" uid="{$userinfo.userid}"></i><span>{$userinfo.truename}</span>
             <!-- 个人：退出登录 -->
             <div class="user-box">
                 <dl class="user-box-content">
@@ -31,7 +31,7 @@
                     
                     <ul class="message-content-container">
                         {volist name="msg_list" id="vo"}
-                        <li class="current"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>
+                        <li class="current" data-id="{$vo.id}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>
                         {/volist}
                     </ul>
                     
@@ -46,3 +46,30 @@
         <!--<div class="clearfix"></div>-->
     </div>
 </header>
+<script type="text/javascript">
+    $(".header .message-content .message-content-footer.color-blue").click(function(){
+        var ids = new Array(); 
+        $(".header .message-content .current").each(function(index, el) {
+          ids[index] = $(this).attr("data-id");  
+        });
+        let receive_uid = $(".header .fa-user").attr("uid");
+        if (ids.length == 0) {
+            layer.msg("没有未读消息");
+            return;
+        }
+        console.log(ids);
+        $.ajax({
+            url: '/index/system_message/set_read_msg',
+            type: 'POST',
+            dataType: 'json',
+            data: {'msg_ids': ids,'receive_uid':receive_uid},
+            success:function(data){
+                layer.msg(data.message,{icon:data.status==1?1:2});
+            },
+            error:function(){
+                layer.msg('修改失败!',{icon:2});
+            },
+        });
+        
+    });
+</script>

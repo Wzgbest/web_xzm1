@@ -509,7 +509,7 @@ class Customer extends Base
         }
 
         //筛选
-        $map = $this->_getMapByFilter($filter,["take_type","grade","customer_name","contact_name","comm_status","sale_chance"]);
+        $map = $this->_getMapByFilter($filter,["phone","take_type","grade","customer_name","contact_name","comm_status","sale_chance"]);
         $map['c.belongs_to'] = 3;
         $map['c.handle_man'] = $uid;
         $having = "";
@@ -686,7 +686,7 @@ class Customer extends Base
             ->field($listField)
             ->select();
         //var_exp($customerList,'$customerList',1);
-        //var_exp($this->model->getLastSql(),'$customerListSql');
+//        var_exp($this->model->getLastSql(),'$customerListSql');
         //具体的值处理
         foreach ($customerList as &$customer){
             $customer['comm_status'] = getCommStatusByArr([
@@ -1179,6 +1179,10 @@ class Customer extends Base
         if(in_array("contact_name",$filter_column) && array_key_exists("contact_name", $filter)){
             $map["cc.contact_name"] = ["like","%".$filter["contact_name"]."%"];
         }
+        //电话
+        if(in_array("phone",$filter_column) && array_key_exists("phone", $filter)){
+            $map["c.telephone|cc.phone_first|cc.phone_second|cc.phone_third"] = $filter["phone"];
+        }
         //沟通状态
         if(in_array("comm_status",$filter_column) && array_key_exists("comm_status", $filter)){
             $comm_status_arr = getCommStatusArr($filter["comm_status"]);
@@ -1444,6 +1448,13 @@ class Customer extends Base
             ->where($map)
             ->update($data);
     }
+    //查询所有的客户的所有人
+    public function employeesIdsByCustomers($customer_ids){
+        $map['belongs_to'] = ["in",[3,4]];
+        $map['id'] = ["in",$customer_ids];
+        return $this->model->table($this->table)->where($map)->column('handle_man');
+    }
+
 
     /**
      * 更改客户可见范围
@@ -1500,6 +1511,24 @@ class Customer extends Base
         $customer['lat'] = "".number_format($customer['lat'],6,".","");
         $customer['lng'] = "".number_format($customer['lng'],6,".","");
         return $customer;
+    }
+
+    /**
+     * 查询单个客户跟踪人信息
+     * @param $cid int 客户id
+     * @return array
+     * created by blu10ph
+     */
+    public function getCustomerHandleMan($cid){
+        $customerHandleMan = "";
+        $customerHandleManList = $this->model->table($this->table)->alias('c')
+            ->where('c.id',$cid)
+            ->limit(1)
+            ->column("c.handle_man");
+        if(isset($customerHandleManList[0]["handle_man"])){
+            $customerHandleMan = $customerHandleManList[0]["handle_man"];
+        }
+        return $customerHandleMan;
     }
 
     /**
