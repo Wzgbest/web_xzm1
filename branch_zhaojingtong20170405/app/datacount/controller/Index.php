@@ -18,6 +18,9 @@ class Index extends Initialize{
     public function index(){
         return 'Index/index';
     }
+    public function test(){
+        return view();
+    }
     public function summary(){
         $userinfo = get_userinfo();
         if (empty($userinfo)) {

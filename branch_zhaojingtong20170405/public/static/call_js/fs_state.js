@@ -136,6 +136,7 @@ fs_state = function(){
 	  		agent_hangup : function(ui){
 	  			console.log("agent_hangup");
 	  			console.log(tq_hangup_id);
+	  			tqRecordSave("tq_hangup_id="+tq_hangup_id);
 	  			ui.hangMode();
 	  		},
 	  		caller_create :function(ui){
@@ -418,3 +419,19 @@ fs_state = function(){
 	// eventState.startup();
 	return eventState;
 }();
+//单次通话记录存储到本地数据库
+function tqRecordSave(data){
+    $.ajax({
+        url: "/index/call/tq_call_record_save",
+        //"func_name="+fun+"&params[]=9797871&params[]=[adminuin]&params[]=[adminpassword]"
+     　 data:data,
+     　 type: "POST",
+     　 dataType:'json',
+     　 success: function(data) {           
+            console.log("存储成功");
+            },
+            error: function(data,status){
+            console.log(status);
+        }
+    });
+};
