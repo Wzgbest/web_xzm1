@@ -30,34 +30,46 @@
             </ul>
             <div class="m-filterNav">
                 <form class="search_form" onsubmit="return false;">
-                    <select name="take_type">
-                        <option value="">获取途径</option>
-                        <option value="1" {present name='filter.take_type'}{eq name='filter.take_type' value='1'} selected="selected"{/eq}{/present}>转介绍</option>
-                        <option value="2" {present name='filter.take_type'}{eq name='filter.take_type' value='2'} selected="selected"{/eq}{/present}>搜索</option>
-                        <option value="3" {present name='filter.take_type'}{eq name='filter.take_type' value='3'} selected="selected"{/eq}{/present}>购买</option>
-                    </select>
-                    <select name="grade">
-                        <option value="">客户级别</option>
-                        <option value="A" {present name='filter.grade'}{eq name='filter.grade' value='A'} selected="selected"{/eq}{/present}>A</option>
-                        <option value="B" {present name='filter.grade'}{eq name='filter.grade' value='B'} selected="selected"{/eq}{/present}>B</option>
-                        <option value="C" {present name='filter.grade'}{eq name='filter.grade' value='C'} selected="selected"{/eq}{/present}>C</option>
-                        <option value="D" {present name='filter.grade'}{eq name='filter.grade' value='D'} selected="selected"{/eq}{/present}>D</option>
-                    </select>
-                    <select name="sale_chance">
-                        <option value="">销售机会</option>
-                        {volist name="business_flows" id="vo"}
-                        <option value="{$vo.id}" {present name='filter.sale_chance'}{eq name='filter.sale_chance' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.business_flow_name}</option>
-                        {/volist}
-                    </select>
-                    <select name="comm_status">
-                        <option value="">沟通结果</option>
-                        <option value="1" {present name='filter.comm_status'}{eq name='filter.comm_status' value='1'} selected="selected"{/eq}{/present}>无意向</option>
-                        <option value="2" {present name='filter.comm_status'}{eq name='filter.comm_status' value='2'} selected="selected"{/eq}{/present}>号码无效</option>
-                        <option value="3" {present name='filter.comm_status'}{eq name='filter.comm_status' value='3'} selected="selected"{/eq}{/present}>资料有误</option>
-                        <option value="4" {present name='filter.comm_status'}{eq name='filter.comm_status' value='4'} selected="selected"{/eq}{/present}>未接通</option>
-                        <option value="5" {present name='filter.comm_status'}{eq name='filter.comm_status' value='5'} selected="selected"{/eq}{/present}>待定</option>
-                        <option value="6" {present name='filter.comm_status'}{eq name='filter.comm_status' value='6'} selected="selected"{/eq}{/present}>有意向</option>
-                    </select>
+                    <div class="u-select-container">
+                        <span>获取途径<i class="fa fa-caret-down"></i></span>
+                        <select name="take_type">
+                            <option></option>
+                            <option value="1" {present name='filter.take_type'}{eq name='filter.take_type' value='1'} selected="selected"{/eq}{/present}>转介绍</option>
+                            <option value="2" {present name='filter.take_type'}{eq name='filter.take_type' value='2'} selected="selected"{/eq}{/present}>搜索</option>
+                            <option value="3" {present name='filter.take_type'}{eq name='filter.take_type' value='3'} selected="selected"{/eq}{/present}>购买</option>
+                        </select>
+                    </div>
+                    <div class="u-select-container">
+                        <span>客户级别<i class="fa fa-caret-down"></i></span>
+                        <select name="grade">
+                            <option value=""></option>
+                            <option value="A" {present name='filter.grade'}{eq name='filter.grade' value='A'} selected="selected"{/eq}{/present}>A</option>
+                            <option value="B" {present name='filter.grade'}{eq name='filter.grade' value='B'} selected="selected"{/eq}{/present}>B</option>
+                            <option value="C" {present name='filter.grade'}{eq name='filter.grade' value='C'} selected="selected"{/eq}{/present}>C</option>
+                            <option value="D" {present name='filter.grade'}{eq name='filter.grade' value='D'} selected="selected"{/eq}{/present}>D</option>
+                        </select>
+                    </div>
+                    <div class="u-select-container">
+                        <span>销售机会<i class="fa fa-caret-down"></i></span>
+                        <select name="sale_chance">
+                            <option value=""></option>
+                            {volist name="business_flows" id="vo"}
+                            <option value="{$vo.id}" {present name='filter.sale_chance'}{eq name='filter.sale_chance' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.business_flow_name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                    <div class="u-select-container">
+                        <span>沟通结果<i class="fa fa-caret-down"></i></span>
+                        <select name="comm_status">
+                            <option value=""></option>
+                            <option value="1" {present name='filter.comm_status'}{eq name='filter.comm_status' value='1'} selected="selected"{/eq}{/present}>无意向</option>
+                            <option value="2" {present name='filter.comm_status'}{eq name='filter.comm_status' value='2'} selected="selected"{/eq}{/present}>号码无效</option>
+                            <option value="3" {present name='filter.comm_status'}{eq name='filter.comm_status' value='3'} selected="selected"{/eq}{/present}>资料有误</option>
+                            <option value="4" {present name='filter.comm_status'}{eq name='filter.comm_status' value='4'} selected="selected"{/eq}{/present}>未接通</option>
+                            <option value="5" {present name='filter.comm_status'}{eq name='filter.comm_status' value='5'} selected="selected"{/eq}{/present}>待定</option>
+                            <option value="6" {present name='filter.comm_status'}{eq name='filter.comm_status' value='6'} selected="selected"{/eq}{/present}>有意向</option>
+                        </select>
+                    </div>
                     <input type="text" name="customer_name" placeholder="输入客户名称" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
                     <input type="text" name="contact_name" placeholder="输入联系人名称" value="{present name='filter.contact_name'}{$filter.contact_name}{/present}"/>
                     <button class="u-btnSearch">查询</button>

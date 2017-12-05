@@ -99,6 +99,8 @@ class EmployeeTask extends Command{
                         $taskReward = $taskRewardM->getTaskRewardListByTaskId($id);
                         //var_exp($taskReward,'$taskReward');
                         $redEnvelopeInfos = [];
+                        //保存发送红包的id
+                        $receive_uids = [];
                         $redEnvelopeMoneys = 0;
                         foreach ($taskReward as $reward_item){
                             foreach ($needRedEnvelopeEmployeeId as $key=>$value){
@@ -118,6 +120,10 @@ class EmployeeTask extends Command{
                                     $redEnvelopeInfo["took_user"] = $value;
                                     $redEnvelopeInfos[$value] = $redEnvelopeInfo;
                                     $redEnvelopeMoneys += $reward_item["reward_amount"];
+                                    $receive_uids[] = $value;
+                                }else{
+                                    //未获得红包的
+                                    $not_receive_uids[] = $value;
                                 }
                             }
                         }
@@ -164,9 +170,25 @@ class EmployeeTask extends Command{
                     }
                     $employeeTaskM->link->commit();
                     $success_task_ids[] = $corp_id."_".$id;
-                    $receive_uids[] = $uids;
+
+                    //任务进行中红包发送消息
                     $sysMsg = new SystemMessage();
-                    $flg = $sysMsg->save_msg("“".$taskInfo['task_name']."”任务完成，奖励已经发放！","",$receive_uids,3);
+                    if ($task_type == 1) {
+                        $str = "激励任务";
+                    }else if($task_type == 2){
+                        $str = "pk任务";
+                    }else if ($task_type == 3) {
+                        $str = "悬赏任务";
+                    }else{
+                        $str = "日常任务";
+                    }
+                    if (!empty($receive_uids)) {
+                        $sysMsg->save_msg("你已获得".$str."的红包，快去领取吧","/task/index/show/id/".$id,$receive_uids,3,1);
+                    }
+                    // if (!empty($not_receive_uids)) {
+                    //     $sysMsg->save_msg("你参与的".$str."未获得了胜利，下次加油","/task/index/show/id/".$id,$not_receive_uids,3,1);
+                    // }
+                    
                 }catch(\Exception $ex){
                     $employeeTaskM->link->rollback();
                     $error_task_ids[] = $corp_id."_".$id;
@@ -201,6 +223,15 @@ class EmployeeTask extends Command{
                 $task_type = $taskInfo["task_type"];
                 $pay_type = $taskInfo["pay_type"];
                 $task_method = $taskInfo["task_method"];
+                //任务失败退回
+                $no_take_uids = [];
+                //需要发放的红包
+                $redReceive_uids = [];
+                //任务完成打赏发放
+                $tipReceive_uids = [];
+                //猜输赢
+                $guessReceive_uids = [];
+                $guessFailsUids = [];
                 try{
                     $employeeTaskM->link->startTrans();
                     $updateTaskResult = $employeeTaskM->setTaskStatus([$id],2,3);
@@ -215,7 +246,6 @@ class EmployeeTask extends Command{
                         $updateTaskResult = $employeeTaskM->setTaskStatus([$id],2,0);
                         $returnMoney = [];
                         $order_datas = [];
-                        $receive_uids = [];
                         if($task_type==2){
                             $taskReward = $taskRewardM->findTaskRewardByTaskId($id);
                             foreach ($takeList as $taskTakeEmployee){
@@ -233,7 +263,8 @@ class EmployeeTask extends Command{
                                     "money_type"=>1
                                 ];
                                 $order_datas[] = $order_add_data;
-                                $receive_uids[] = $taskTakeEmployee["take_employee"];
+
+                                $no_take_uids[] = $taskTakeEmployee["take_employee"];
                             }
                         }elseif($task_type==3){
                             $returnMoney[$taskInfo["create_employee"]] = $taskInfo["reward_count"];
@@ -250,7 +281,8 @@ class EmployeeTask extends Command{
                                 "money_type"=>1
                             ];
                             $order_datas[] = $order_add_data;
-                            $receive_uids[] = $taskInfo["create_employee"];
+
+                            $no_take_uids[] = $taskInfo["create_employee"];
                         }
                         $taskGuessAndTipMoneyEmployeeIdx = [];
 
@@ -270,7 +302,8 @@ class EmployeeTask extends Command{
                                 "money_type"=>1
                             ];
                             $order_datas[] = $order_add_data;
-                            $receive_uids[] = $taskTipInfo["tip_employee"];
+
+                            $no_take_uids[] = $taskTipInfo["tip_employee"];
                             if(isset($taskGuessAndTipMoneyEmployeeIdx[$taskTipInfo["tip_employee"]])){
                                 $taskGuessAndTipMoneyEmployeeIdx[$taskTipInfo["tip_employee"]] += $taskTipInfo["tip_money"];
                             }else{
@@ -294,7 +327,8 @@ class EmployeeTask extends Command{
                                 "money_type"=>1
                             ];
                             $order_datas[] = $order_add_data;
-                            $receive_uids[] = $taskGuessInfo["guess_employee"];
+                            
+                            $no_take_uids[] = $taskGuessInfo["guess_employee"];
                             $taskGuessAndTipMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] += $taskGuessInfo["guess_money"];
                         }
 
@@ -329,7 +363,11 @@ class EmployeeTask extends Command{
                             }
                         }
                         $employeeTaskM->link->commit();
-                        $sysMsg->save_msg("“".$taskInfo['task_name']."”任务失败，资金已经返还！","",$receive_uids,3);
+
+                        //任务失败发送消息
+                        if (!empty($no_take_uids)) {
+                            $sysMsg->save_msg("“".$taskInfo['task_name']."”任务失败，资金已经返还！","/task/index/show/id/".$id,$no_take_uids,3,1);
+                        }
                         continue;
                     }
 
@@ -342,8 +380,6 @@ class EmployeeTask extends Command{
                     $rankingdata = [];
                     $needRedEnvelopeEmployeeId = [];
                     $haveRedEnvelopeNum = 0;
-                    $sentRedEnvelopeMoney = 0;
-                    $redReceive_uids = [];
 
                     if($task_type<3) {
                         $employeeTaskService = new EmployeeTaskService($corp_id);
@@ -432,6 +468,8 @@ class EmployeeTask extends Command{
                             $redEnvelopeInfo["took_user"] = $needRedEnvelopeEmployeeId[0];
                             $redEnvelopeInfos[] = $redEnvelopeInfo;
                             $redEnvelopeMoneys += $taskInfo["reward_count"];
+
+                            $redReceive_uids[] = $needRedEnvelopeEmployeeId[0];
                         }else{
                             foreach ($taskReward as $reward_item){
                                 $reward_amount = $reward_item["reward_amount"];
@@ -479,13 +517,13 @@ class EmployeeTask extends Command{
                                         $redEnvelopeInfo["took_user"] = $value;
                                         $redEnvelopeInfos[] = $redEnvelopeInfo;
                                         $redEnvelopeMoneys += $tmp_reward_amount;
+
+                                        $redReceive_uids[] = $value;
                                     }
                                 }
                             }
                         }
-                        $needRedEnvelopeEmployeeNum = count($redEnvelopeInfos);
-                        $redReceive_uids = array_merge($redReceive_uids,$needRedEnvelopeEmployeeId);
-                        // $sysMsg->save_msg("“".$taskInfo['task_name']."”任务完成，请前往领取红包！","",$needRedEnvelopeEmployeeId,3);
+                        $needRedEnvelopeEmployeeNum = count($redEnvelopeInfos);;
 
                         var_exp($needRedEnvelopeEmployeeNum,'$needRedEnvelopeEmployeeNum');
                         var_exp($redEnvelopeInfos,'$redEnvelopeInfos_task');
@@ -586,9 +624,6 @@ class EmployeeTask extends Command{
                             }
                         }
                     }
-
-                    $redReceive_uids = array_merge($redReceive_uids,$tipMsg);
-
                     //猜输赢红包
                     if($task_type==2) {
                         $taskGuessInfoList = $taskGuessM->getGuessInfoList($id);
@@ -610,6 +645,9 @@ class EmployeeTask extends Command{
                                             $guessWinFirstId = $taskGuessInfo["id"];
                                             $guessWinFirstEmployeeId = $taskGuessInfo["guess_employee"];
                                         }
+                                    }else{
+                                        //猜输赢输的人
+                                        $guessFailsUids[] = $taskGuessInfo["guess_take_employee"];
                                     }
                                 }
                                 if (bccomp($allGuessMoney, 0) > 0 && bccomp($guessWinMoney, 0) > 0) {
@@ -656,7 +694,8 @@ class EmployeeTask extends Command{
                                         $redEnvelopeInfo["is_token"] = 0;
                                         $redEnvelopeInfo["took_user"] = $haveGuessRedEnvelope["employee_id"];
                                         $redEnvelopeInfos[] = $redEnvelopeInfo;
-                                        $guessMsg[] = $haveGuessRedEnvelope["employee_id"];
+
+                                        $guessReceive_uids[] = $haveGuessRedEnvelope["employee_id"];
                                     }
                                 }
                                 var_exp($redEnvelopeInfos, '$redEnvelopeInfos_task_tip_guess');
@@ -681,14 +720,12 @@ class EmployeeTask extends Command{
                                         'money_type' => 1
                                     ];
                                     $order_datas[] = $order_add_data;
-                                    $guessMsg[] = $taskGuessInfo["guess_employee"];
                                     if (isset($taskGuessMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]])) {
                                         $taskGuessMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] += $taskGuessInfo["guess_money"];
                                     } else {
                                         $taskGuessMoneyEmployeeIdx[$taskGuessInfo["guess_employee"]] = $taskGuessInfo["guess_money"];
                                     }
                                 }
-                                 // $sysMsg->save_msg("“".$taskInfo['task_name']."”任务猜输赢金额已经返还！","",$guessMsg,3);
                                 //var_exp($taskGuessMoneyEmployeeIdx,'$taskGuessMoneyEmployeeIdx',1);
                                 //返还猜输赢等用户额度
                                 foreach ($taskGuessMoneyEmployeeIdx as $employee_id => $money) {
@@ -703,8 +740,6 @@ class EmployeeTask extends Command{
                         }
                     }
 
-                    // $redReceive_uids = array_merge($redReceive_uids,$guessMsg);
-                    $sysMsg->save_msg("“".$taskInfo['task_name']."”任务已经结束，猜输赢红包已经发放请领取！","",$guessMsg,3);
                     var_exp($redEnvelopeInfos,'$redEnvelopeInfos_task_save');
                     if(!empty($redEnvelopeInfos)){
                         $redEnvelopeM = new RedEnvelopeM($corp_id);
@@ -810,7 +845,6 @@ class EmployeeTask extends Command{
                             }
 
                             echo '退回PK任务金额';
-                            $redReceive_uids = array_merge($redReceive_uids,$taskTakeEmployeeIds);
                         }else{
                             //增加非冻结
                             $order_data = [
@@ -876,7 +910,36 @@ class EmployeeTask extends Command{
                     }
 
                     $employeeTaskM->link->commit();
-                    $sysMsg->save_msg("“".$taskInfo['task_name']."”任务已经结束，奖励已经发放！","",$redReceive_uids,3);
+
+                    //任务结束发送消息
+                    $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($id);
+                    if (!empty(taskTakeEmployeeIds)) {
+                        foreach ($taskTakeEmployeeIds as $key => $value) {
+                            $tastTakeIds[] = $value['take_employee'];
+                        }
+                    }
+                    $noRedReceive_uids = array_diff($tastTakeIds,$redReceive_uids);
+                    if ($task_type == 1) {
+                        $str = "激励任务";
+                    }else if($task_type == 2){
+                        $str = "pk任务";
+                    }else if ($task_type == 3) {
+                        $str = "悬赏任务";
+                    }else{
+                        $str = "日常任务";
+                    }
+                    if (!empty($redReceive_uids)) {
+                        $sysMsg->save_msg("你已获得".$str."的红包，快去领取吧","/task/index/show/id/".$id,$receive_uids,3,1);
+                    }
+                    if (!empty($noRedReceive_uids)) {
+                        $sysMsg->save_msg("你参与的".$str."未获得胜利，下次加油","/task/index/show/id/".$id,$receive_uids,3,1);
+                    }
+                    if (!empty($guessReceive_uids)) {
+                        $sysMsg->save_msg("你参与的".$str."猜冠军活动本次猜中了冠军，快去领取红包吧","/task/index/show/id/".$id,$receive_uids,3,1);
+                    }
+                    if (!empty($guessFailsUids)) {
+                        $sysMsg->save_msg("你参与的".$str."的猜冠军活动本次未猜中，下次再试","/task/index/show/id/".$id,$receive_uids,3,1);
+                    }
                     $success_task_ids[] = $corp_id."_".$id;
                 }catch(\Exception $ex){
                     $employeeTaskM->link->rollback();

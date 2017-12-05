@@ -6,6 +6,7 @@ use app\crm\model\Bill as BillModel;
 use app\common\model\Employee as EmployeeModel;
 use app\systemsetting\model\BillSetting as BillSettingModel;
 use app\verification\model\VerificatioLog;
+use app\index\controller\SystemMessage;
 
 class Bill extends Initialize{
     var $paginate_list_rows = 10;
@@ -249,6 +250,11 @@ class Bill extends Initialize{
             return json($result);
         }
 
+        $user_infomation = $userinfo["userinfo"];
+        $systemMsg = new SystemMessage();
+        $received_uids[] = $bill_info['operator'];
+        $flg = $systemMsg->save_msg("你的发票".$verificatioLogRemark."  [审核人：".$user_infomation["truename"]."]","/crm/bill/index",$received_uids,4,2);
+
         $result['status']=1;
         $result['info']='通过发票申请成功!';
         return $result;
@@ -256,6 +262,7 @@ class Bill extends Initialize{
     public function rejected(){
         $result = ['status'=>0 ,'info'=>"驳回发票申请时发生错误！"];
         $id = input("id",0,"int");
+        $remark = input("remark","","string");
         if(!$id){
             $result['info'] = "参数错误！";
             return json($result);
@@ -264,6 +271,7 @@ class Bill extends Initialize{
         $uid = $userinfo["userid"];
         $time = time();
         $billM = new BillModel($this->corp_id);
+        $bill_info = $billM->getBillById($id);
         try{
             $billM->link->startTrans();
             $update_flg = $billM->rejected($id);
@@ -288,6 +296,12 @@ class Bill extends Initialize{
             $result['info'] = $ex->getMessage();
             return json($result);
         }
+
+        $user_infomation = $userinfo["userinfo"];
+        $received_uids[] = $bill_info['operator'];
+        $systemMsg = new SystemMessage();
+        $systemMsg->save_msg("你的发票审核由于[".$remark."]原因被驳回，请重提交申请!  [审核人:".$user_infomation["truename"]."]","/crm/bill/index",$received_uids,4,2);
+
         $result['status']=1;
         $result['info']='驳回发票申请成功!';
     }

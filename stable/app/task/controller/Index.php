@@ -109,12 +109,14 @@ class Index extends Initialize{
                 $this->error("输入的金额有误!");
             }
         }
+        $pay_title = input('pay_title',"支付",'string');
         $this->assign("fr",input('fr','','string'));
         $userinfo = get_userinfo();
         $this->assign('user_money',$userinfo["userinfo"]['left_money']/100);
         $this->assign('company_money',$userinfo["userinfo"]['corp_left_money']/100);
         $this->assign('type',$type);
         $this->assign('money',$money);
+        $this->assign('pay_title',$pay_title);
         return view();
     }
     public function get_ranking_page(){
@@ -909,21 +911,22 @@ class Index extends Initialize{
             return json($result);
         }
 
-        $telphone = $userinfo["telephone"];
-        $userinfo = $employeeM->getEmployeeByTel($telphone);
-        set_userinfo($this->corp_id,$telphone,$userinfo);
-        
+        $user_infomation = $userinfo["userinfo"];
         $sysMsg = new SystemMessage();
         $receive_uids = explode(',',$taskInfo['public_to_take']);
         if ($taskInfo['task_type'] == 1) {
-            $str = "激励任务";
+            $str = "你已参与由".$user_infomation["truename"]."发的的激励任务，查看详情";
         }else if($taskInfo['task_type'] == 2){
-            $str = "PK任务";
+            $str = $user_infomation["truename"]."向你发起了通话个数的pk任务挑战，快去领取任务，接受挑战吧";
         }else{
-            $str = "悬赏任务";
+            $str = $user_infomation["truename"]."向你发起了悬赏任务求助，看看能不能帮到他";
         }
-        $flg = $sysMsg->save_msg("新建了".$str."“".$taskInfo['task_name']."”的任务","/task/index/show/id/".$taskId,$receive_uids,3);
+        $flg = $sysMsg->save_msg($str,"/task/index/show/id/".$taskId,$receive_uids,3,1);
 
+        $telphone = $userinfo["telephone"];
+        $userinfo = $employeeM->getEmployeeByTel($telphone);
+        set_userinfo($this->corp_id,$telphone,$userinfo);
+       
         $result['status'] = 1;
         $result['info'] = "新建任务成功！";
         return json($result);
@@ -932,7 +935,7 @@ class Index extends Initialize{
         $result = ['status'=>0 ,'info'=>"参与任务失败!"];
         $task_id = input('task_id',0,"int");
         if(!$task_id){
-            $result['info'] = "参数错误！";
+            $result['info'] = "参数错误！";  
             return json($result);
         }
         $userinfo = get_userinfo();

@@ -14,6 +14,8 @@ use app\systemsetting\model\ContractSetting as ContractModel;
 use app\common\model\Structure as StructureModel;
 use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
 use app\verification\model\VerificatioLog;
+use app\index\controller\SystemMessage;
+use app\crm\model\SaleChance as SaleChanceModel;
 
 class Index extends Initialize{
     protected $_activityBusinessFlowItem = [1,2,4];
@@ -284,6 +286,14 @@ class Index extends Initialize{
             return json($result);
         }
 
+        //销售机会创建人发送消息
+        $saleM = new SaleChanceModel($this->corp_id);
+        $sale_info = $saleM->getSaleChance($saleOrderContract['sale_id']);
+        $user_infomation = $userinfo["userinfo"];
+        $systemMsg = new SystemMessage();
+        $received_uids[] = $sale_info['employee_id'];
+        $systemMsg->save_msg("你的成单".$verificatioLogRemark."  [审核人：".$user_infomation["truename"]."]","/crm/sale_chance/index",$received_uids,4,2);
+
         $result['status']=1;
         $result['info']='通过成单申请成功!';
         return $result;
@@ -291,6 +301,7 @@ class Index extends Initialize{
     public function rejected(){
         $result = ['status'=>0 ,'info'=>"驳回成单申请时发生错误！"];
         $id = input("id",0,"int");
+        $remark = input("remark",'',"string");
         if(!$id){
             $result['info'] = "参数错误！";
             return json($result);
@@ -299,6 +310,7 @@ class Index extends Initialize{
         $uid = $userinfo["userid"];
         $time = time();
         $saleOrderContractM = new SaleOrderContractModel($this->corp_id);
+        $saleOrderContract = $saleOrderContractM->getSaleOrderContract($id);
         try{
             $saleOrderContractM->link->startTrans();
             $update_flg = $saleOrderContractM->rejectedSaleOrderContract($id);
@@ -324,6 +336,16 @@ class Index extends Initialize{
             $result['info'] = $ex->getMessage();
             return json($result);
         }
+
+         //销售机会创建人发送消息
+        $saleM = new SaleChanceModel($this->corp_id);
+        $sale_info = $saleM->getSaleChance($saleOrderContract['sale_id']);
+        $user_infomation = $userinfo["userinfo"];
+        $systemMsg = new SystemMessage();
+        $received_uids[] = $sale_info['employee_id'];
+        $systemMsg->save_msg("你的成单申请由于[".$remark."]原因被驳回，请重提交申请!  [审核人:".$user_infomation["truename"]."]","/crm/sale_chance/index",$received_uids,4,2);
+
+
         $result['status']=1;
         $result['info']='驳回成单申请成功!';
         return $result;

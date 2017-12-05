@@ -18,24 +18,24 @@
 	box-shadow: -1px 2px #ebedf0;
 } */
 .crm_customer .m-firNav{
-	width: 960px;
+	/* width: 960px;
 	height: 40px; 
-	margin-left: 1px;
+	margin-left: 1px; */
 }
 .crm_customer .m-firNav li{
-	float: left;
+	/* float: left;
 	color: #b2b2b2;
 	height: 20px;
-	padding: 10px 0;
+	padding: 10px 0; */
 }
 .crm_customer .m-firNav li:hover{
 	cursor: pointer;
 }
 .crm_customer .m-firNav li div{
-	line-height: 20px;
+	/* line-height: 20px;
 	padding: 0 5px;
 	font-size: 12px;
-	border-right:2px solid #e6e6e6 ;
+	border-right:2px solid #e6e6e6 ; */
 }
 .crm_customer .m-firNav li:last-child div{
 	border: none;
@@ -52,12 +52,11 @@
 }
 
 .crm_customer .m-secNav{
-	width: 960px;
-	padding: 20px 6px;
+	/* width: 960px;
+	padding: 20px 6px; */
 }
 .crm_customer .m-secNav li:not(.vertical){
-	float: left;
-	/*width: 80px;*/
+	/* float: left;
 	padding: 0 20px;
 	height: 25px;
 	line-height: 25px;
@@ -67,11 +66,11 @@
 	border-radius: 12.5px;
 	color: #cccccc;
 	background-color: #e6e6e6;
-	cursor: pointer;
+	cursor: pointer; */
 }
 .crm_customer .m-secNav li:not(.vertival).active{
-	color: white;
-	background-color: #42a5f5;
+	/* color: white;
+	background-color: #42a5f5; */
 }
 .crm_customer .m-secNav li.vertical{
 	float: left;
@@ -81,27 +80,27 @@
 	background-color: #ecf0f5;
 }
 .crm_customer .m-filterNav{
-	width: 1060px;
-	margin-left: 4px;
+	/* width: 1060px;
+	margin-left: 4px; */
 }
 .crm_customer .m-filterNav select{
-	width: 110px;
+	/* width: 110px;
 	height: 25px;
 	box-sizing: content-box;
 	margin-right: 8px;
-	border: 1px solid #dddddd;
+	border: 1px solid #dddddd; */
 }
 .crm_customer .m-filterNav input[type="text"]{
-	width: 110px;
+	/* width: 110px;
 	padding: 0 5px;
 	height: 25px;
 	box-sizing: content-box;
 	margin-right: 8px;
 	border: 1px solid #dddddd;
-	/*background-color: black;*/
+	background-color: black; */
 }
 .crm_customer .u-btnSearch{
-	width: 60px;
+	/* width: 60px;
 	height: 25px;
 	border-radius: 12.5px;
 	line-height: 25px;
@@ -109,7 +108,7 @@
 	text-align: center;
 	color: white;
 	border: none;
-	background-color: #42a5f5;
+	background-color: #42a5f5; */
 }
 
 

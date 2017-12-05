@@ -18,17 +18,17 @@ fs_state = function(){
                   phone.callUI.pos.phoneReset.setAttribute("seat_dbid", args.seat_dbid);
             }
 			if (!phone){
-				console.log("B");
+				console.log("不存在可打电话：B");
 			    return;
 			}
 			
 			if(phone["timestamp"]&&args.timestamp<phone["timestamp"]){// 过期消息不处理
-				console.log("C");
+				console.log("过期消息，勉强处理一下：C");
 			    // return;
 			    // phone["timestamp"]
 			}else{
 			    phone["timestamp"] = args.timestamp;
-			    console.log("D");
+			    console.log("没有过期的消息：D");
 			}
 			console.log(phone);
 			return phone ;
@@ -135,6 +135,8 @@ fs_state = function(){
 	  		},
 	  		agent_hangup : function(ui){
 	  			console.log("agent_hangup");
+	  			console.log(tq_hangup_id);
+	  			tqRecordSave("tq_hangup_id="+tq_hangup_id);
 	  			ui.hangMode();
 	  		},
 	  		caller_create :function(ui){
@@ -265,7 +267,7 @@ fs_state = function(){
 			   ],
 		callbacks: {
 				onagent_create : function(event, from, to,	args) {
-					console.log("客户呼入/点击外呼,座席响铃",event, from, to,args);
+					console.log("状态处理：客户呼入/点击外呼,座席响铃",event, from, to,args);
 					var mess = JSON.parse(args);
 				    var phone =  phoneMsg(mess);
 					console.log(mess,phone);
@@ -274,7 +276,7 @@ fs_state = function(){
 					operationUI.agent_create(phone.callUI);
 				},
 				onagent_ring : function(event, from, to,args) {
-					console.log("座席响铃",event, from, to,args);
+					console.log("状态处理：座席响铃",event, from, to,args);
 					var mess = JSON.parse(args);
 				    var phone =  phoneMsg(mess);
 					console.log(mess,phone);
@@ -283,7 +285,7 @@ fs_state = function(){
 					operationUI.agent_ring(phone.callUI);
 				},
 				onagent_answer : function(event, from, to,args) {
-					console.log("座席应答",event, from, to,args);
+					console.log("状态处理：座席应答",event, from, to,args);
 					var mess = JSON.parse(args);
 				    var phone =  phoneMsg(mess);
 					console.log(mess,phone);
@@ -292,7 +294,7 @@ fs_state = function(){
 					operationUI.agent_answer(phone.callUI);
 				},
 				onagent_hangup : function(event, from, to,args) {
-					console.log("座席挂机",event, from, to,args);
+					console.log("状态处理：座席挂机",event, from, to,args);
 					var mess = JSON.parse(args);
 				    var phone =  phoneMsg(mess);
 					console.log(mess,phone);
@@ -301,7 +303,7 @@ fs_state = function(){
 					operationUI.agent_hangup(phone.callUI);
 				},
 				oncaller_create : function(event, from, to,args) {
-					console.log("座席呼出,客户响铃",event, from, to,args);
+					console.log("状态处理：座席呼出,客户响铃",event, from, to,args);
 					var mess = JSON.parse(args);
 				    var phone =  phoneMsg(mess);
 					console.log(mess,phone);
@@ -310,7 +312,7 @@ fs_state = function(){
 					operationUI.caller_create(phone.callUI);
 				},
 				oncaller_ring : function(event, from, to,args) {
-					console.log("客户响铃",event, from, to,args);
+					console.log("状态处理：客户响铃",event, from, to,args);
 					var mess = JSON.parse(args);
 				    var phone =  phoneMsg(mess);
 					console.log(mess,phone);
@@ -319,7 +321,7 @@ fs_state = function(){
 					operationUI.caller_ring(phone.callUI);
 				},
 				oncaller_answer : function(event, from, to,args) {
-					console.log("客户应答",event, from, to,args);
+					console.log("状态处理：客户应答",event, from, to,args);
 					var mess = JSON.parse(args);
 				    var phone =  phoneMsg(mess);
 					console.log(mess,phone);
@@ -328,7 +330,7 @@ fs_state = function(){
 					operationUI.caller_answer(phone.callUI);
 				},
 			 	oncaller_hangup : function(event, from, to,args) {
-			 		console.log("客户挂机",event, from, to,args);
+			 		console.log("状态处理：客户挂机",event, from, to,args);
 			 		var mess = JSON.parse(args);
 				    var phone =  phoneMsg(mess);
 			 		cconsole.log(mess,phone);
@@ -340,37 +342,47 @@ fs_state = function(){
 
 			 	},          
 				onhand_idle : function(event, from, to, args) {
-					console.log("空闲中",event, from, to,args);
+					console.log("状态处理：空闲中",event, from, to,args);
 				    var mess = JSON.parse(args);
 				    var phone =  phoneMsg(mess);
 				    console.log(mess,phone);
 				    if(!phone)
                         return;
 				    if(phone["currentState"]&&phone["currentState"]==mess.status){
+				    	console.log("phone：",phone);
+				    	console.log("状态相同");
+				    	console.log("phone当前状态：",phone["currentState"],"mess的状态：",mess.status);
                         console.log("空闲中1");
                         return;
 				    }else{
+				    	console.log("phone：",phone);
+				    	console.log("状态不同");
+				    	console.log("phone当前状态：",phone["currentState"],"mess的状态：",mess.status);
                         phone["currentState"] = mess.status;
                         console.log("空闲中2");
+                        console.log("phone当前状态：",phone["currentState"]);
+                        console.log("phone：",phone);
 				    }
                     operationUI.idle(phone.callUI);
 				},
 				onhand_busy : function(event, from, to, args) {
-					console.log("坐席繁忙",event, from, to,args);
+					console.log("状态处理：坐席繁忙",event, from, to,args);
 				    var mess = JSON.parse(args);
 					var phone =  phoneMsg(mess);   
 					console.log(mess,phone); 
 					if(!phone)
 						return;
                     if(phone["currentState"]&&phone["currentState"]==mess.status){
+                    	console.log("状态相同");
                         return;
                     }else{
                         phone["currentState"] = mess.status;
+                        console.log("状态不同");
                     }
 					operationUI.busy(phone.callUI);
 				},
 				onhand_offline : function(event, from, to, args) {
-					console.log("座席离线",event, from, to,args);
+					console.log("状态处理：座席离线",event, from, to,args);
 				    var mess = JSON.parse(args);
 				    var phone =  phoneMsg(mess);
 				    console.log(phone);    
@@ -380,7 +392,7 @@ fs_state = function(){
                     operationUI.offline(phone.callUI);
 				},
 				onhand_refuse : function(event, from, to, args) {
-					console.log("座席拒接",event, from, to,args);
+					console.log("状态处理：座席拒接",event, from, to,args);
 				    
                     var mess = JSON.parse(args);
 				    var phone =  phoneMsg(mess);  
@@ -407,3 +419,19 @@ fs_state = function(){
 	// eventState.startup();
 	return eventState;
 }();
+//单次通话记录存储到本地数据库
+function tqRecordSave(data){
+    $.ajax({
+        url: "/index/call/tq_call_record_save",
+        //"func_name="+fun+"&params[]=9797871&params[]=[adminuin]&params[]=[adminpassword]"
+     　 data:data,
+     　 type: "POST",
+     　 dataType:'json',
+     　 success: function(data) {           
+            console.log("存储成功");
+            },
+            error: function(data,status){
+            console.log(status);
+        }
+    });
+};

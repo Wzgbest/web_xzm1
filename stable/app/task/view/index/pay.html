@@ -1,4 +1,4 @@
-<p class="p1">支付</p>
+<p class="p1">{$pay_title}</p>
 {switch	name="type"}
     {case value="1"}
         <div class="money">
@@ -31,15 +31,18 @@
         <div class="flex-1 item"><input maxlength="1" type="tel"></div>
         <div class="flex-1 item"><input maxlength="1" type="tel"></div>
     </div>
-    <div class="moon">
-        <a href="#">忘记密码？</a>
-    </div>
+    
 </div>
-
-<div class="mianmi">
-    <input type="checkbox" />
-    <span>小额免密支付?</span>
-    <p class="tishi">金额小于100元，无需输入密码</p>
+<div class="pay_float">
+	<div class="moon">
+        <a href="#">忘记密码？</a>
+	</div>
+	
+	<div class="mianmi">
+	    <input type="checkbox" />
+	    <span>小额免密支付?</span>
+	    <p class="tishi">金额小于100元，无需输入密码</p>
+	</div>
 </div>
 
 <div class="import">
