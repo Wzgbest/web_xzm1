@@ -7,7 +7,7 @@
 		</header>
 		<div class="m-3rd-container">
 			<div class="clearfix"></div>
-			<div class="m-divBlock m-divBlock2 self-info">
+			<div class="m-divBlock m-divBlock2 self-info" style="margin-right: 0">
 				<div class="u-faceContent fl">
 					<img  src="{$userinfo.userpic}"/>
 					<div class="fl" style="width: 100px;height: 100px">
@@ -40,13 +40,7 @@
 				</div>
 				<div class="clearfix"></div>
 			</div>
-			<div class="m-divBlock m-divBlock2 search-fun">
-				<button data-fun="callGetVisitorInfo">一般查询</button>
-				<button data-fun="callGetVisitorInfoByPhone">根据客户电话号码查询</button>
-				<button data-fun="callGetPhoneRecordByUin">查询电话记录:按座席TQ号查询</button>
-				<button>6</button>
-			</div>
-			<div class="m-divBlock m-divBlock2 key-target">
+			<div class="m-divBlock m-divBlock2 key-target" style="margin-right: 0">
 				<div class="line1">
 					<span class="title">关键指标</span>
 					<span class="filter">昨日</span>
@@ -67,7 +61,7 @@
 					<li><h3 class="tc">12371</h3><h4 class="tc">新增成单金额</h4></li>
 				</ul>
 			</div>
-			<div class="task">
+			<div class="task m-divBlock m-divBlock2" style="margin-right: 0">
 				<div class="m-divBlock m-divBlock3 fl">
 					<div class="line1">
 						<span class="title">每日任务</span>
@@ -155,7 +149,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="m-divBlock m-divBlock2 data-outline">
+			<div class="m-divBlock m-divBlock2 data-outline" style="margin-right: 0">
 				<div class="line1">
 					<span class="title">数据概览</span>
 					<span class="filter">本月</span>
@@ -213,7 +207,7 @@
 <link rel="stylesheet" href="/datacount/css/index.css"/>
 <script src="/static/js/echarts.min.js"></script>
 <script language="javascript">
-	var echart = document.getElementById('echart');
+	// var echart = document.getElementById('echart');
 	var myChart = echarts.init(document.getElementById('echart'));
 	var option = {
 		title:{text:"销量预估"},

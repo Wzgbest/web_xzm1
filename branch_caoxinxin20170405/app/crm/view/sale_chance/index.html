@@ -14,21 +14,28 @@
     <!--销售机会列表-->
     <div class="m-3rd-container myAllSaleChancePage">
         <section class="b-w">
-        <div class="m-divBlock m-divBlock2">
-            <div class="m-filterNav">
+        <div>
+            <div class="clearfix"></div>
+            <div class="m-filterNav" style="margin-top: 10px;">
                 <form class="search_form" onsubmit="return false;">
-                    <select name="business_id">
-                        <option value="">对应业务</option>
-                        {volist name="business_flows" id="vo"}
-                            <option value="{$vo.id}" {present name='filter.business_id'}{eq name='filter.business_id' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.business_flow_name}</option>
-                        {/volist}
-                    </select>
-                    <select name="sale_status">
-                        <option value="">业务状态</option>
-                        {volist name="business_flow_items" id="vo"}
-                            <option value="{$vo.id}" {present name='filter.sale_status'}{eq name='filter.sale_status' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.item_name}</option>
-                        {/volist}
-                    </select>
+                    <div class="u-select-container">
+                        <span>对应业务<i class="fa fa-caret-down"></i></span>
+                        <select name="business_id">
+                            <option value="">对应业务</option>
+                            {volist name="business_flows" id="vo"}
+                                <option value="{$vo.id}" {present name='filter.business_id'}{eq name='filter.business_id' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.business_flow_name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                    <div class="u-select-container">
+                        <span>业务状态<i class="fa fa-caret-down"></i></span>
+                        <select name="sale_status">
+                            <option value="">业务状态</option>
+                            {volist name="business_flow_items" id="vo"}
+                                <option value="{$vo.id}" {present name='filter.sale_status'}{eq name='filter.sale_status' value='$vo.id'} selected="selected"{/eq}{/present}>{$vo.item_name}</option>
+                            {/volist}
+                        </select>
+                    </div>
                     <input type="text" name="sale_name" placeholder="输入商机名称" value="{present name='filter.sale_name'}{$filter.sale_name}{/present}"/>
                     <input type="text" name="customer_name" placeholder="输入对应客户" value="{present name='filter.customer_name'}{$filter.customer_name}{/present}"/>
                     <button class="u-btnSearch">查询</button>
