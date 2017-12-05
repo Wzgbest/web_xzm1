@@ -112,12 +112,12 @@
 	width: 2238px;
 }
 .m-table ul{
-	border-bottom: 1px solid #eeeeee;
+	border-bottom: 1px solid #d6e2ed;
 	background-color: #fff;
 }
-.m-table ul:nth-child(2n+1){
-	background-color: #f8f9fa;
-}
+/* .m-table ul:nth-child(2n+1){
+	background-color: #f9fafb;
+} */
 .tab-list li{
 	border-right: 1px solid #f2f2f2;
 }
@@ -136,16 +136,20 @@
 	margin-left: 10px;
 }
 .u-tabTitle{
-	border-bottom: 2px solid #eeeeee !important;
+	border-top: 1px solid #d6e2ed;
+	border-bottom: 1px solid #d6e2ed !important;
 }
 .u-tabTitle li{
-	color: #333333;
-	border-right: 1px solid white;
-	background-color: #f7f7f7;
+	color: #999;
+	border-right: 1px solid #d6e2ed;
+	background-color: #f9fafb;
+}
+.u-tabList.current{
+	background-color: #f4f8fe;
 }
 .u-tabList li{
-	/*color: #666666;*/
-	border-right: 1px solid white;
+	color: #4d4d4d;
+	border-right: 1px solid #d6e2ed;
 }
 /*.m-table .u-tabList:hover{
 	background-color: yellow;
@@ -156,14 +160,14 @@
 	padding: 0 !important;
 }
 .u-tabCilentName{
-	color: #77b8ff;
+	color: #77b8ff !important;
 	cursor: pointer;
 }
 .u-tq-time{
 	width: 150px !important;
 }
 .u-tabLinkWay{
-	color: #13ae6b;
+	color: #13ae6b !important;
 }
 .u-tabOperation span{
 	margin-right: 10px;
