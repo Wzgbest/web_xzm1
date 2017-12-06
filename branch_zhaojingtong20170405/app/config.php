@@ -297,4 +297,8 @@ return [
         'admin_password'=>'123456',
         'expire' => 60*60*2-60,
     ],
+    "experience"=>[
+        "start"=>500,
+        "sub"=>800,
+    ],
 ];

@@ -471,6 +471,37 @@ function getStructureIds($user_id = null){
     return false;
 }
 
+function getExperienceLevel($experience){
+    $start = config('experience.start');
+    $sub = config('experience.sub');
+    $level=floor(($sub/2-$start+sqrt($start*$start-$start*$sub+$sub*$sub/4+2*$sub*$experience))/$sub);
+    if($level<1){
+        $level = 1;
+    }
+    if($level>25){
+        $level = 25;
+    }
+    return $level;
+}
+
+function getLevelExperience($level){
+    $start = config('experience.start');
+    $sub = config('experience.sub');
+    $experience=$sub*$level*($level-1)/2+$start*$level;
+    return $experience;
+}
+
+function getExperienceLevelConfig($experience,$experienceConfig,$level=-1){
+    if($level<0){
+        $level = getExperienceLevel($experience);
+    }
+    if(!isset($experienceConfig[$level])){
+        return null;
+    }
+    $level_config = $experienceConfig[$level];
+    return $level_config;
+}
+
 // 处理带Emoji的数据，type=0表示写入数据库前的emoji转为HTML，为1时表示HTML转为emoji码
 function deal_emoji($msg, $type = 1) {
     if ($type == 0) {

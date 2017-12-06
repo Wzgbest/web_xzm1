@@ -17,7 +17,7 @@ class WorkflowEngine{
     protected $process = [];
     protected $processAction = [];
     protected $processData = [];
-    protected $condition_pattern = "/(\\$)([a-zA-Z\\.]+)(==|<=|>=|<|>|!=)(\\'(\\S+)\\'|(\\d+))/";
+    protected $condition_pattern = "/(\\$)([a-zA-Z\\._]+)(==|<=|>=|<|>|!=)(\\'(\\S+)\\'|(\\d+))/";
     public function __construct(WorkflowDB $DBModel=null,WorkflowFile $file=null){
         $this->DBModel = $DBModel;
         $this->file = $file;
@@ -35,11 +35,11 @@ class WorkflowEngine{
             return $result;
         }
         $this->workflow_default = $this->DBModel->getWorkFlowDefault($flow_id);
+//        var_exp($this->workflow_default,'$this->workflow_default');
         if(!$this->workflow_default){
             $result['info'] = "未找到流程定义！";
             return $result;
         }
-        //var_exp($this->workflow_default,'$this->workflow_default');
 
         $this->file->loadFile($this->workflow_default["workflow_file"]);
 
@@ -230,7 +230,10 @@ class WorkflowEngine{
             //var_exp($sequence_flow_id, '$sequence_flow_id');
             $sequenceFlow = $this->getSequenceFlow($sequence_flow_id);
             //var_exp($sequenceFlow, 'getNextItem:$sequenceFlow');
-            $item_arr[] = ["title"=>$sequenceFlow["flow_item_title"],"name"=>$sequenceFlow["id"],"value"=>$sequenceFlow["flow_item_title"]];
+            $nextNodeId = $this->getNextNodeId($sequenceFlow["id"]);
+            $nextNode = $this->getNode($nextNodeId);
+            $title = $sequenceFlow["flow_item_title"]?:$nextNode["flow_item_title"];
+            $item_arr[] = ["title"=>$title,"name"=>$sequenceFlow["id"],"value"=>$title];
         }else{
             foreach ($nextNodeSequenceFlowArr as $sequence_flow_id) {
                 $sequenceFlow = $this->getSequenceFlow($sequence_flow_id);
@@ -262,7 +265,7 @@ class WorkflowEngine{
             $lastAction = $this->getLastAction();
             //var_exp($lastAction,'$lastAction');
             $nowNode = $this->getNode($lastAction['action_flow_item_id']);
-            //var_exp($nowNode,'$nowNode');
+//            var_exp($nowNode,'$nowNode');
             $nextNodeSequenceFlowId = 0;
             $nextNodeId = 0;
             Switch($nowNode['flow_item_type']){
@@ -276,7 +279,7 @@ class WorkflowEngine{
                 Case 5: // exclusiveGateway 排他网关
                 Case 0: // startEvent 开始
                     $nextNodeSequenceFlowArr = $this->getNextNodeSequenceFlows($nowNode["id"]);
-                    //var_exp($nextNodeSequenceFlowArr, '$nextNodeSequenceFlowArr');
+//                    var_exp($nextNodeSequenceFlowArr, '$nextNodeSequenceFlowArr');
 
                     $nextSequenceFlow = [];
                     if(count($nextNodeSequenceFlowArr)==1){
@@ -285,6 +288,7 @@ class WorkflowEngine{
                     }else{
                         foreach ($nextNodeSequenceFlowArr as $sequence_flow_id) {
                             $nextSequenceFlow = $this->getSequenceFlow($sequence_flow_id);
+//                            var_exp($nextSequenceFlow,'$nextSequenceFlow');
                             if ($this->checkRule($nextSequenceFlow["flow_item_next_condition"], $input)) {
                                 $nextNodeSequenceFlowId = $sequence_flow_id;
                                 break;
@@ -326,14 +330,14 @@ class WorkflowEngine{
     function run2Node($node_id,$input=[],$sequenceFlow,$circle=0,$status=0){
         $result = ['status'=>0 ,'info'=>"执行流程进程到节点时发生错误！"];
 
-        //var_exp($sequenceFlow,'$sequenceFlow');
+//        var_exp($sequenceFlow,'$sequenceFlow');
         $lastAction = $this->getLastAction();
         $now_action_id = $lastAction["id"];
-        //var_exp($now_action_id,'$now_action_id');
+//        var_exp($now_action_id,'$now_action_id');
         $nowNode = $this->getNode($lastAction["action_flow_item_id"]);
-        //var_exp($nowNode,'$nowNode');
+//        var_exp($nowNode,'$nowNode');
         $nextNode = $this->getNode($node_id);
-        //var_exp($nextNode,'$nextNode');
+//        var_exp($nextNode,'$nextNode');
         $time = time();
 
         $content = false;
@@ -351,10 +355,10 @@ class WorkflowEngine{
                 $content = $nowNode["flow_item_title"];
             }
         }elseif($nowNode["flow_item_type"]==3){
-            $content = "系统自动处理";
+            $content = "系统自动流转";
             $remark = $nowNode["flow_item_title"];
         }elseif($nowNode["flow_item_type"]==5){
-            $content = "系统自动流转";
+            $content = "系统自动处理";
 //            $remark = $match[2].$match[3].$match[4];
             if(empty($sequenceFlow["flow_item_next_condition"])){
                 $remark = $sequenceFlow["flow_item_title"];
@@ -374,12 +378,12 @@ class WorkflowEngine{
         $tmp_action["action_content"] = '';
         $tmp_action["action_remark"] = '';
         $tmp_action["action_circle"] = $circle?:$this->process["process_circle"];
-        $tmp_action["action_auditor_type"] = $nextNode['flow_item_auditor_type'];
+        $tmp_action["action_auditor_type"] = $nextNode['flow_item_auditor_type']?:0;
         $tmp_action["action_auditor"] = $nextNode['flow_item_auditor'];
         $tmp_action["action_user"] = 0;
         $tmp_action["create_time"] = $time;
         $tmp_action["update_time"] = $time;
-        //var_exp($tmp_action,'$tmp_action');
+//        var_exp($tmp_action,'$tmp_action');
 
         $tmp_process["process_flow_item_now"] = $node_id;
         $tmp_process["update_time"] = $time;
@@ -389,27 +393,29 @@ class WorkflowEngine{
         if($status){
             $tmp_process["process_status"] = $status;
         }
-        //var_exp($tmp_process,'$tmp_process');
+//        var_exp($tmp_process,'$tmp_process');
 
         try{
             $this->DBModel->startTrans();
+//            var_exp($this->process,'$this->process');
             $process_flg = $this->DBModel->setProcess($this->process["id"],$tmp_process);
+//            var_exp($process_flg,'$process_flg');
             if(!$process_flg){
                 $result['info'] = "更新进程出现错误！";
                 exception('更新进程出现错误!');
             }
 
-            //var_exp($update_action,'$update_action');
+//            var_exp($update_action,'$update_action');
             $process_action_update_num = $this->DBModel->setProcessAction($now_action_id,$update_action);
-            //var_exp($process_action_update_num,'$process_action_update_num');
+//            var_exp($process_action_update_num,'$process_action_update_num');
             if(!$process_action_update_num){
                 $result['info'] = "更新进程过程出现错误！";
                 exception('更新进程过程出现错误!');
             }
 
-            //var_exp($tmp_action,'$tmp_action');
+//            var_exp($tmp_action,'$tmp_action');
             $process_action_add_flg = $this->DBModel->addProcessAction($tmp_action);
-            //var_exp($process_action_add_flg,'$process_action_add_flg');
+//            var_exp($process_action_add_flg,'$process_action_add_flg');
             if(!$process_action_add_flg){
                 $result['info'] = "添加进程过程出现错误！";
                 exception('添加进程过程出现错误!');
@@ -427,7 +433,8 @@ class WorkflowEngine{
                 }
                 if($callback){
                     $delegate_result = call_user_func_array($callback,$param_arr);
-                    if(!$delegate_result||$delegate_result["status"]!=1){
+//                    var_exp($delegate_result,'$delegate_result');
+                    if(!($delegate_result||$delegate_result["status"]==1)){
                         if(isset($delegate_result["status"])){
                             $result['status'] = $delegate_result["status"];
                             $result['info'] = $delegate_result["info"];
@@ -441,6 +448,7 @@ class WorkflowEngine{
             $this->DBModel->commit();
         }catch (\Exception $ex){
             $this->DBModel->rollback();
+//            $result["info"] = $ex->getMessage();
             return $result;
         }
         foreach ($tmp_process as $k=>$v){
@@ -490,9 +498,10 @@ class WorkflowEngine{
 //        $rule = '$transition==6';
         $match = [];
         $match_tmp = [];
-//        //var_exp($rule,'$rule');
+//        var_exp($rule,'$rule');
         preg_match($this->condition_pattern, $rule, $match_tmp);
         $count = count($match_tmp);
+//        var_exp($count,'$count');
         if($count<5){
             return $match;
         }
@@ -505,9 +514,9 @@ class WorkflowEngine{
     }
     function checkRule($rule,$input){
         $flg = false;
-        //var_exp($input,'$input');
+//        var_exp($input,'$input');
         $match = $this->getRule($rule);
-        //var_exp($match,'$match');
+//        var_exp($match,'$match');
         if(empty($match)){
             return false;
         }
@@ -537,7 +546,7 @@ class WorkflowEngine{
                 $flg = $input[$match[2]] != $match[4];
                 break;
         }
-//        //var_exp($flg,'$flg');
+//        var_exp($flg,'$flg');
         return $flg;
     }
     function getNextNodeSequenceFlows($node_id=0){
