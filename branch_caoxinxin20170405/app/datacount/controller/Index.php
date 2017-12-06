@@ -10,6 +10,7 @@ namespace app\datacount\controller;
 
 use app\common\controller\Initialize;
 use app\common\model\StructureEmployee;
+use app\common\model\EmployeeScore;
 
 class Index extends Initialize{
     public function __construct(){
@@ -37,6 +38,30 @@ class Index extends Initialize{
         $structure = $structureEmployeeModel->findEmployeeStructure($this->uid);
 //        var_exp($structure,'$structure');
         $this->assign("structure",$structure);
+        //获取用户积分
+        $scoreM = new EmployeeScore($this->corp_id);
+        $score=$scoreM->getEmployeeScore($this->uid);
+//        var_exp($score,'$score');
+        if(!$score){
+            $start = config('experience.start');
+            $score = [
+                "score"=>0,
+                "experience"=>0,
+                "title"=>"",
+                "level"=>"1",
+                "experience_min"=>"0",
+                "experience_max"=>$start,
+                "phone_time"=>0
+            ];
+        }
+        //积分占比
+        $per = round(($score["experience"]-$score["experience_min"])/($score["experience_max"]-$score["experience_min"])*100);
+        if($per>100){
+            $per = 100;
+        }
+//        var_exp($per,'$per');
+        $this->assign("score",$score);
+        $this->assign("score_per",$per);
 //        $role_flg = check_auth("datacount/index/summary");
 //        var_exp($role_flg,'$role_flg',1);
 //        if(!$role_flg){
