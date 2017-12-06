@@ -328,7 +328,7 @@ class EmployeeTask extends Initialize{
                     $sysMsg = new SystemMessage();
                     $str = $userinfos['truename']."点赞了你发布的".$task_data['task_name']."任务";
                     $receive_uids[] = $task_data['create_employee'];
-                    $sysMsg->save_msg($str,"/task/index/show/id/".$task_id,$receive_uids,3,1);
+                    $sysMsg->save_msg($str,"/task/index/show/id/".$task_id,$receive_uids,3,1,$task_id);
                 }
             }
         }
@@ -556,7 +556,7 @@ class EmployeeTask extends Initialize{
         $receive_uids = array_merge($take_arr,$guess_arr,$tip_arr);
         $receive_uids = array_unique($receive_uids);
         if (!empty($receive_uids)) {
-            $sysMsg->save_msg("你参与的".$taskInfo['task_name']."任务已被强制终止","/task/index/show/id/".$task_id,$receive_uids,3,1);
+            $sysMsg->save_msg("你参与的".$taskInfo['task_name']."任务已被强制终止","/task/index/show/id/".$task_id,$receive_uids,3,1,$task_id);
         }
         
         $redata['status']=1;
