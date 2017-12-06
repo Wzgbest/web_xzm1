@@ -24,6 +24,7 @@ class SystemMessage extends Initialize{
      * @param  integer $type         消息类型1系统消息 2用户消息 3任务消息 4CRM 5知识库
      * @param  integer $send_uid     发送人id  0系统消息  1任务消息  2CRM消息  3知识库消息 4与我相关
      * @param  array   $receive_uids 接收人id 数组
+     * @param  integer   $info_id     跳转内容id
      * @param  integer $to_instation 是否发送站内信
      * @param  integer $to_app       是否发送app
      * @param  integer $to_pc        是否发送pc
@@ -31,7 +32,7 @@ class SystemMessage extends Initialize{
      * @param  integer $to_sms       是否发送短信
      * @return [type]                [description]
      */
-    public function save_msg($msg='',$url='',$receive_uids=[],$type=1,$send_uid=0,$to_instation=1,$to_app=1,$to_pc=1,$to_email=0,$to_sms=0){
+    public function save_msg($msg='',$url='',$receive_uids=[],$type=1,$send_uid=0,$info_id=0,$to_instation=1,$to_app=1,$to_pc=1,$to_email=0,$to_sms=0){
         $info = ['status'=>0,'message'=>"消息发送失败"];
 
         if (empty($receive_uids) || !$msg) {
@@ -87,7 +88,7 @@ class SystemMessage extends Initialize{
             }
 
             if ($to_app == 1 || $to_pc == 1) {
-                $flg = $this->add_msg($from,$target,$msg_id,$msg,$url,$type,$to_app,$to_pc);
+                $flg = $this->add_msg($from,$target,$msg_id,$msg,$info_id,$type,$to_app,$to_pc);
                 if ($flg['status'] == 0) {
                     $info['error'] = "发送信息出现错误";
                     exception("发送信息出现错误");
@@ -163,7 +164,7 @@ class SystemMessage extends Initialize{
      * @param int $to_app 是否发送app
      * @param int $to_pc  是否发送pc
      */
-    public function add_msg($from,$target,$msg_id,$msg,$url,$type,$to_app,$to_pc){
+    public function add_msg($from,$target,$msg_id,$msg,$info_id,$type,$to_app,$to_pc){
         $huanxin = new HuanxinApi();
         $huanxin_flg = $huanxin->sendMessage(
             "users",
@@ -175,7 +176,7 @@ class SystemMessage extends Initialize{
                 "message_id"=>$msg_id,
                 "message_is_read"=>0,
                 "message_type"=>$type,
-                "url"=>$url,
+                "info_id"=>$info_id,
                 "to_pc"=>$to_pc,
                 "to_app"=>$to_app,
             ]

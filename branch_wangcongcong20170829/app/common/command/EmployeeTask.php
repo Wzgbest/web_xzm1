@@ -183,7 +183,7 @@ class EmployeeTask extends Command{
                         $str = "日常任务";
                     }
                     if (!empty($receive_uids)) {
-                        $sysMsg->save_msg("你已获得".$str."的红包，快去领取吧","/task/index/show/id/".$id,$receive_uids,3,1);
+                        $sysMsg->save_msg("你已获得".$str."的红包，快去领取吧","/task/index/show/id/".$id,$receive_uids,3,1,$id);
                     }
                     // if (!empty($not_receive_uids)) {
                     //     $sysMsg->save_msg("你参与的".$str."未获得了胜利，下次加油","/task/index/show/id/".$id,$not_receive_uids,3,1);
@@ -366,7 +366,7 @@ class EmployeeTask extends Command{
 
                         //任务失败发送消息
                         if (!empty($no_take_uids)) {
-                            $sysMsg->save_msg("“".$taskInfo['task_name']."”任务失败，资金已经返还！","/task/index/show/id/".$id,$no_take_uids,3,1);
+                            $sysMsg->save_msg("“".$taskInfo['task_name']."”任务失败，资金已经返还！","/task/index/show/id/".$id,$no_take_uids,3,1,$id);
                         }
                         continue;
                     }
@@ -929,16 +929,16 @@ class EmployeeTask extends Command{
                         $str = "日常任务";
                     }
                     if (!empty($redReceive_uids)) {
-                        $sysMsg->save_msg("你已获得".$str."的红包，快去领取吧","/task/index/show/id/".$id,$receive_uids,3,1);
+                        $sysMsg->save_msg("你已获得".$str."的红包，快去领取吧","/task/index/show/id/".$id,$receive_uids,3,1,$id);
                     }
                     if (!empty($noRedReceive_uids)) {
-                        $sysMsg->save_msg("你参与的".$str."未获得胜利，下次加油","/task/index/show/id/".$id,$receive_uids,3,1);
+                        $sysMsg->save_msg("你参与的".$str."未获得胜利，下次加油","/task/index/show/id/".$id,$receive_uids,3,1,$id);
                     }
                     if (!empty($guessReceive_uids)) {
-                        $sysMsg->save_msg("你参与的".$str."猜冠军活动本次猜中了冠军，快去领取红包吧","/task/index/show/id/".$id,$receive_uids,3,1);
+                        $sysMsg->save_msg("你参与的".$str."猜冠军活动本次猜中了冠军，快去领取红包吧","/task/index/show/id/".$id,$receive_uids,3,1,$id);
                     }
                     if (!empty($guessFailsUids)) {
-                        $sysMsg->save_msg("你参与的".$str."的猜冠军活动本次未猜中，下次再试","/task/index/show/id/".$id,$receive_uids,3,1);
+                        $sysMsg->save_msg("你参与的".$str."的猜冠军活动本次未猜中，下次再试","/task/index/show/id/".$id,$receive_uids,3,1,$id);
                     }
                     $success_task_ids[] = $corp_id."_".$id;
                 }catch(\Exception $ex){
