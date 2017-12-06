@@ -40,25 +40,25 @@
                     
                     <ul class="message-content-container" style="display: block;">
                         {volist name="msg_list" id="vo" }
-                        {if condition="$vo.type eq 1"}<li class="current"  data-id="{$vo.id}" data-subid="day-count"  data-title = "系统消息" _src="{$vo.url}" data-url="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
+                        {if condition="$vo.type eq 1"}<li class="current"  data-id="{$vo.id}" data-subid="day-count"  data-title = "系统消息" _src="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
                         {/volist}
                        
                     </ul>
                     <ul class="message-content-container" >
                         {volist name="msg_list" id="vo"}
-                        {if condition="$vo.type eq 3"}<li class="current" data-id="{$vo.id}" data-subid="task-hall" data-title = "任务大厅" _src="{$vo.url}" data-url="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
+                        {if condition="$vo.type eq 3"}<li class="current" data-id="{$vo.id}" data-subid="task-info" data-title = "任务详情" _src="{$vo.url}/fr/task-infofr"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
                         {/volist}
                        
                     </ul>
                     <ul class="message-content-container">
                         {volist name="msg_list" id="vo"}
-                        {if condition="$vo.type eq 4"}<li class="current" data-id="{$vo.id}" data-subid="verification-contract"  data-title = "合同审核" _src="{$vo.url}" data-url="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
+                        {if condition="$vo.type eq 4"}<li class="current" data-id="{$vo.id}" data-subid="verification-contract"  data-title = "合同审核" _src="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
                         {/volist}
                       
                     </ul>
                     <ul class="message-content-container">
                         {volist name="msg_list" id="vo"}
-                        {if condition="$vo.type eq 5"}<li class="current" data-id="{$vo.id}" data-subid="speech-database"  data-title = "话术库" _src="{$vo.url}" data-url="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
+                        {if condition="$vo.type eq 5"}<li class="current" data-id="{$vo.id}" data-subid="speech-database"  data-title = "话术库" _src="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
                         {/volist}
                         
                     </ul>
@@ -112,16 +112,13 @@
     
     
     $(".message-content ul li").click(function(){
-    	clicker($(this));
-    	asideChange();
-    	changeFramesSize();
-    	article_info_show($(this).attr("data-url"),this);
-});
-	function article_info_show(url,t){  
-	        var url = url;
-	        var panel = 'task-hallfr';
-	        loadPage(url,panel);
-	    
-}
+        if(checkSubPage($(this))){
+            loadPage($(this).attr("_src"),$(this).attr("data-subid")+"fr");
+        }else{
+            clicker($(this));
+            asideChange();
+            changeFramesSize();
+        }
+    });
     
 </script>
