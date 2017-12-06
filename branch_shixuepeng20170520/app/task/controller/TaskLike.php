@@ -29,6 +29,7 @@ class TaskLike extends Initialize{
 		$userinfo = get_userinfo();
 		$uid = $userinfo['userid'];
 		$taskLikeModel = new TaskLikeModel($this->corp_id);
+		$taskModel = new EmployeeTaskModel($this->corp_id);
 		$task_likeinfo = $taskLikeModel->getTaskLike($uid,$task_id);
 		if ($not_like == 0) {	
 			if ($task_likeinfo) {
@@ -41,13 +42,12 @@ class TaskLike extends Initialize{
 					$result['info'] = "喜欢动态成功!";
 
 					//发送点赞消息
-					$employeeTaskModel = new EmployeeTaskModel($this->corp_id);
-					$task_data = $employeeTaskModel->getEmployeeById($task_id);
+					$task_data = $taskModel->getEmployeeById($task_id);
 			        $userinfos = $userinfo['userinfo'];
 			        $sysMsg = new SystemMessage();
 			        $str = $userinfos['truename']."点赞了你发布的".$task_data['task_name']."任务";
 			        $receive_uids[] = $task_data['create_employee'];
-			        $sysMsg->save_msg($str,"/task/index/show/id/".$task_id,$receive_uids,3,1);
+			        $sysMsg->save_msg($str,"/task/index/show/id/".$task_id,$receive_uids,3,1,$task_id);
 				}
 			}
 		}
@@ -64,7 +64,6 @@ class TaskLike extends Initialize{
 			}	
 		}
 		//取得当前喜欢数量返回
-		$taskModel = new EmployeeTaskModel($this->corp_id);
 		$employee_info = $taskModel->getEmployeeById($task_id);
 		$result['data'] = $employee_info['like_count'];
 
