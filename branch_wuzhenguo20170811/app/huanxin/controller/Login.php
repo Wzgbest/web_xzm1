@@ -53,8 +53,19 @@ class Login extends Controller{
         //获取用户积分
         $scoreM = new EmployeeScore($corp_id);
         $score=$scoreM->getEmployeeScore($user_arr['id']);
-        //积分占比
-        $per=$scoreM->getScoreListPer($score['score']);
+        if(!$score){
+            $start = config('experience.start');
+            $score = [
+                "score"=>0,
+                "experience"=>0,
+                "title"=>"初步江湖",
+                "level"=>"1",
+                "experience_min"=>"0",
+                "experience_max"=>$start,
+                "phone_time"=>0
+            ];
+        }
+        $phone_level=$scoreM->getPhoneLevel();
 
         //获取用户在公司职位
         $roleEM = new RoleEmployee($corp_id);
@@ -73,9 +84,13 @@ class Login extends Controller{
         $req_reg['nickname'] = $user_arr['truename'];
         $req_reg['userpic'] = $user_arr['userpic'];
         $req_reg['userscore'] = $score['score'];
+        $req_reg['userexperience'] = $score['experience'];
+        $req_reg['experience_min'] = $score['experience_min'];
+        $req_reg['experience_max'] = $score['experience_max'];
         $req_reg['title'] = $score['title'];
+        $req_reg['phone_time'] = $score['phone_time'];
+        $req_reg['phone_level'] = $phone_level;
         $req_reg['occupation'] = $roleList;
-        $req_reg['percentage'] = $per;
         //$req_reg['totaluser'] = $data_all;
         $req_reg['structure'] = $structure;
         $req_reg['loginname'] = $corp_id."_".$user_arr['id'];

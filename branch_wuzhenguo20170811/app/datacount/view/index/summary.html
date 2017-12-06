@@ -18,16 +18,22 @@
 				</div>
 				<div class="u-faceContent2 fl">
 					<span class="color-blue">本人<i class="fa fa-angle-down"></i></span>
+					<ul class="hav_power hide">
+						<li class="color-blue">本人</li>
+						<li class="color-blue">本部门</li>
+						<li class="color-blue">下级部门</li>
+						<li class="color-blue">本部门及下级部门</li>
+					</ul>
 				</div>
 				<div class="u-faceContent3 fr">
 					<div class="block1">
-						<h4 class="tc"><span>将军</span></h4>
-						<div class="bar"><div class="in-bar"></div></div>
-						<h4 class="tc"><span>2500</span>/<span>3000</span></h4>
+						<h4 class="tc"><span>{$score.title}</span></h4>
+						<div class="bar" title="{$score_per}%"><div class="in-bar" style="width:{$score_per}px;"></div></div>
+						<h4 class="tc"><span>{$score.experience}</span>/<span>{$score.experience_max}</span></h4>
 					</div>
 					<div class="block2">
 						<div class="tc"><img src="/datacount/img/integral.png" /></div>
-						<h3 class="tc">积分<span>2500</span></h3>
+						<h3 class="tc">积分<span>{$score.score}</span></h3>
 					</div>
 					<div class="block2">
 						<div class="tc"><img src="/datacount/img/lesson.png" /></div>
