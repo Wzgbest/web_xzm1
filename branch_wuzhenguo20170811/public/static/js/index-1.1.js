@@ -123,7 +123,13 @@ $("aside dl dd").click(function() {
 
 function clicker(e){
 	//在子标题栏增加新窗口,判断是否已经存在
-    var t = e.text();//获取到文字内容
+	var t;
+	if(e.attr("data-title")){
+		t = e.attr("data-title");
+	}else{
+		t = e.text();//获取到文字内容
+	}
+    
     var v = e.data().subid;//获取到data-subid
     var f = v + "fr";//创建对应frame的id
     var x = subtitleGroup.indexOf(v);//判断data-subid是否已经存在，即是否已经打开
