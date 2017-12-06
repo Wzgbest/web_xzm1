@@ -66,8 +66,7 @@ $("#x-layout").click(function(){
 		}		
 	}
 });
-function miniWindow(){
-	
+function miniWindow(){	
 	$("#side").addClass("mini");
 	$(".header").addClass("mini");
 	$("section#subt").addClass("mini");
@@ -190,6 +189,7 @@ function loadPage(url, panel) {
         }
     });
 }
+
 function loadPagebypost(url, data, panel) {
     $.ajax({
         url: url,
