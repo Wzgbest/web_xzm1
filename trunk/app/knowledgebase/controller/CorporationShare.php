@@ -17,6 +17,7 @@ use app\knowledgebase\model\CorporationShareLike;
 use app\knowledgebase\model\CorporationShareTip;
 use app\common\model\Employee;
 use app\huanxin\model\TakeCash;
+use app\index\controller\SystemMessage;
 
 class CorporationShare extends Initialize{
     var $paginate_list_rows = 10;
@@ -134,10 +135,19 @@ class CorporationShare extends Initialize{
         $result = ['status'=>0 ,'info'=>"获取动态时发生错误！"];
         $share_id = input('share_id',10,'int');
         $corporationShareModel = new CorporationShareModel($this->corp_id);
-        $share_data = $corporationShareModel->relayCorporationShare($share_id,$uid);
-        $result['data'] = $share_data;
+        $share_data = $corporationShareModel->getCorporationShareById($share_id);
+        $new_share_id = $corporationShareModel->relayCorporationShare($share_id,$uid);
+        $result['data'] = $new_share_id;
         $result['status'] = 1;
         $result['info'] = "获取成功！";
+
+         //发送评论消息
+        $userinfos = $userinfo['userinfo'];
+        $sysMsg = new SystemMessage();
+        $str = $userinfos['truename']."转发了你发表的内容";
+        $receive_uids[] = $share_data['userid'];
+        $sysMsg->save_msg($str,"/knowledgebase/speech_craft/show/id/".$share_id,$receive_uids,5,3,$share_id);
+
         return json($result);
     }
     public function addComment(){
@@ -169,6 +179,19 @@ class CorporationShare extends Initialize{
         $result['data'] = $add_comment_flg;
         $result['status'] = 1;
         $result['info'] = "评论成功！";
+
+        $corporationShareModel = new CorporationShareModel($this->corp_id);
+        $share_data = $corporationShareModel->getCorporationShareById($share_id);
+        //发送评论消息
+        $userinfos = $userinfo['userinfo'];
+        $sysMsg = new SystemMessage();
+        $str = $userinfos['truename']."评论了你发表的动态";
+        $receive_uids[] = $share_data['userid'];
+        $sysMsg->save_msg($str,"/knowledgebase/corporation_share/index",$receive_uids,5,3);
+        if ($comment_id) {
+            $sysMsg->save_msg($userinfos['truename']."回复了你的评论","/knowledgebase/corporation_share/index",[$reviewer_id],5,3);
+        }
+
         return json($result);
     }
     public function like(){
@@ -182,6 +205,7 @@ class CorporationShare extends Initialize{
         $uid = $userinfo["userid"];
 
         $LikeModel = new CorporationShareLike($this->corp_id);
+        $corporationShareModel = new CorporationShareModel($this->corp_id);
         $old_flg = false;
         $flg = false;
         $like_info = $LikeModel->getlike($uid,$share_id);
@@ -190,6 +214,14 @@ class CorporationShare extends Initialize{
                 $old_flg = true;
             }else{
                 $flg = $LikeModel->like($uid,$share_id);
+
+                //发送点赞消息
+                $share_data = $corporationShareModel->getCorporationShareById($share_id);
+                $userinfos = $userinfo['userinfo'];
+                $sysMsg = new SystemMessage();
+                $str = $userinfos['truename']."点赞了你发布的动态";
+                $receive_uids[] = $share_data['userid'];
+                $sysMsg->save_msg($str,"/task/index/show/id/",$receive_uids,5,3);
             }
         }else{
             if(empty($like_info)){
@@ -208,7 +240,7 @@ class CorporationShare extends Initialize{
             $result['info'] = "喜欢动态成功！";
             $result['info'] = ($not_like?"不":"").$result['info'];
         }
-        $corporationShareModel = new CorporationShareModel($this->corp_id);
+        
         $share_data = $corporationShareModel->getCorporationShareById($share_id);
         $result['data'] = $share_data["good_count"];
         return json($result);
@@ -298,6 +330,13 @@ class CorporationShare extends Initialize{
             $result['info'] = '打赏失败';
             return json($result);
         }
+
+        //发送打赏消息
+        $userinfos = $userinfo["userinfo"];
+        $sysMsg = new SystemMessage();
+        $str = $userinfos['truename']."打赏了你的动态，赏金".$money."元";
+        $receive_uids[] = $share_data['userid'];
+        $sysMsg->save_msg($str,"/knowledgebase/corporation_share/index",$receive_uids,5,3);
 
         $telphone = $userinfo["telephone"];
         $userinfo = $employM->getEmployeeByTel($telphone);
