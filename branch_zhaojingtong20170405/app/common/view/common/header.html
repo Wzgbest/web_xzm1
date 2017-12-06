@@ -25,14 +25,42 @@
                     <h4 class="current">知识库消息{if condition="$knowledge_msg_count neq 0"}（<span class="color-red">{$knowledge_msg_count}</span>）{else/}（无）{/if}</h4>
                 </div>
                 <div class="message-content">
+                    <div class="message-content-header" style="display: block;">
+                       	系统消息
+                    </div>
                     <div class="message-content-header">
-                        知识库消息
+                    	任务消息
+                    </div>
+                    <div class="message-content-header">
+                        CRM消息
+                    </div>
+                    <div class="message-content-header">
+                    	知识库消息 
                     </div>
                     
+                    <ul class="message-content-container" style="display: block;">
+                        {volist name="msg_list" id="vo" }
+                        {if condition="$vo.type eq 1"}<li class="current"  data-id="{$vo.id}" data-subid="day-count"  data-title = "系统消息" _src="{$vo.url}" data-url="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
+                        {/volist}
+                       
+                    </ul>
+                    <ul class="message-content-container" >
+                        {volist name="msg_list" id="vo"}
+                        {if condition="$vo.type eq 3"}<li class="current" data-id="{$vo.id}" data-subid="task-hall" data-title = "任务大厅" _src="{$vo.url}" data-url="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
+                        {/volist}
+                       
+                    </ul>
                     <ul class="message-content-container">
                         {volist name="msg_list" id="vo"}
-                        <li class="current" data-id="{$vo.id}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>
+                        {if condition="$vo.type eq 4"}<li class="current" data-id="{$vo.id}" data-subid="verification-contract"  data-title = "合同审核" _src="{$vo.url}" data-url="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
                         {/volist}
+                      
+                    </ul>
+                    <ul class="message-content-container">
+                        {volist name="msg_list" id="vo"}
+                        {if condition="$vo.type eq 5"}<li class="current" data-id="{$vo.id}" data-subid="speech-database"  data-title = "话术库" _src="{$vo.url}" data-url="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
+                        {/volist}
+                        
                     </ul>
                     
                     <div class="message-content-footer color-blue">
@@ -72,4 +100,28 @@
         });
         
     });
+    
+    $(".message-box .message-class h4").click(function(){
+    	$(".message-content-header").css("display","none");
+    	$(".message-content ul").css("display","none");
+    	var index_tab=$(this).index();
+    	$(".message-content-header").eq(index_tab).css("display","block");
+  		$(".message-content ul").eq(index_tab).css("display","block");
+    })
+    
+    
+    
+    $(".message-content ul li").click(function(){
+    	clicker($(this));
+    	asideChange();
+    	changeFramesSize();
+    	article_info_show($(this).attr("data-url"),this);
+});
+	function article_info_show(url,t){  
+	        var url = url;
+	        var panel = 'task-hallfr';
+	        loadPage(url,panel);
+	    
+}
+    
 </script>

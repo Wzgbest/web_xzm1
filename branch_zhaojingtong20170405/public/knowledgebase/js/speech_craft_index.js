@@ -24,6 +24,7 @@ function article_info_show(id,t){
 
     }
 }
+
 function search_article(){
     var key_word = $("input[name='key_word']").val();
     var url = "/knowledgebase/speech_craft/index/key_word/"+key_word;
