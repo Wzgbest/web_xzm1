@@ -871,7 +871,7 @@ function task_list(target, now_uid, base_url) {
 	};
 
 	this.reset_scroll = function() {
-		$("#" + self.target).scrollTop(0);
+		$("#" + self.target+" .m-3rd-container").scrollTop(0);
 	};
 
 	var dv1_count = $(task_list_sel + " ." + self.base_url + "_load").children('.dv1').length;
