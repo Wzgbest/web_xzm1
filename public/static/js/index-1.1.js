@@ -158,6 +158,12 @@ function clicker(e){
     }
 }
 //侧边栏在当前被删除后的切换
+function checkSubPage(e) {
+    var v = e.data().subid;//获取到data-subid
+    var x = subtitleGroup.indexOf(v);//判断data-subid是否已经存在，即是否已经打开
+    return (x > -1);
+}
+//侧边栏在当前被删除后的切换
 function loadPage(url, panel) {
     $.ajax({
         url: url,
