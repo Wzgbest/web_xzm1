@@ -309,6 +309,7 @@ left: 220px; */
 	height: 100%;
 }
 .message-box .message-content-header{
+	display: none;
 	height: 40px;
 	line-height: 40px;
 	text-align: center;
@@ -316,6 +317,7 @@ left: 220px; */
 	font-size: 14px;
 }
 .message-box .message-content-container{
+	display: none;
 	height: 425px;
 	box-sizing:border-box;
 	padding: 0 12px;
@@ -323,7 +325,7 @@ left: 220px; */
 }
 .message-box .message-content-container li{
 	height: 64px;
-	padding-right: 70px;
+	/*padding-right: 70px;*/
 	border-bottom: 1px solid #eee;
 	padding-top: 20px;
 	cursor: pointer;
