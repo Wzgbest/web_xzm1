@@ -178,6 +178,7 @@
 }
 .u-tabLinkWay{
 	color: #13ae6b !important;
+	cursor: pointer;
 }
 .u-tabOperation span{
 	margin-right: 10px;
