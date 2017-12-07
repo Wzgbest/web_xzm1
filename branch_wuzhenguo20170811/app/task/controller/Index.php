@@ -25,7 +25,6 @@ use app\common\model\Structure;
 use app\huanxin\service\RedEnvelope as RedEnvelopeService;
 use app\huanxin\model\RedEnvelope as RedEnvelopeModel;
 use app\crm\model\Customer as CustomerModel;
-use app \index\controller\SystemMessage;
 
 class Index extends Initialize{
     var $paginate_list_rows = 10;
@@ -912,7 +911,6 @@ class Index extends Initialize{
         }
 
         $user_infomation = $userinfo["userinfo"];
-        $sysMsg = new SystemMessage();
         $receive_uids = explode(',',$taskInfo['public_to_take']);
         if ($taskInfo['task_type'] == 1) {
             $str = "你已参与由".$user_infomation["truename"]."发的的激励任务，查看详情";
@@ -921,7 +919,7 @@ class Index extends Initialize{
         }else{
             $str = $user_infomation["truename"]."向你发起了悬赏任务求助，看看能不能帮到他";
         }
-        $flg = $sysMsg->save_msg($str,"/task/index/show/id/".$taskId,$receive_uids,3,$taskInfo['task_type'],$uid,$taskId);
+        $flg = save_msg($str,"/task/index/show/id/".$taskId,$receive_uids,3,$taskInfo['task_type'],$uid,$taskId);
 
         $telphone = $userinfo["telephone"];
         $userinfo = $employeeM->getEmployeeByTel($telphone);

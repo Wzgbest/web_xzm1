@@ -33,86 +33,86 @@ class SystemMessage extends Initialize{
      * @param  integer $to_sms       是否发送短信
      * @return [type]                [description]
      */
-    public function save_msg($msg='',$url='',$receive_uids=[],$type=1,$sub_type=0,$send_uid=0,$info_id=0,$to_instation=1,$to_app=1,$to_pc=1,$to_email=0,$to_sms=0){
-        $info = ['status'=>0,'message'=>"消息发送失败"];
+    // public function save_msg($msg='',$url='',$receive_uids=[],$type=1,$sub_type=0,$send_uid=0,$info_id=0,$to_instation=1,$to_app=1,$to_pc=1,$to_email=0,$to_sms=0){
+    //     $info = ['status'=>0,'message'=>"消息发送失败"];
 
-        if (empty($receive_uids) || !$msg) {
-            $info['message'] = "不能没有接受人或者发送信息为空";
-            return json($info);
-        }
+    //     if (empty($receive_uids) || !$msg) {
+    //         $info['message'] = "不能没有接受人或者发送信息为空";
+    //         return json($info);
+    //     }
         
-        $receive_uids = array_unique($receive_uids);
+    //     $receive_uids = array_unique($receive_uids);
 
-        $msg_data['type'] = $type;
-        $msg_data['sub_type'] = $sub_type;
-        $msg_data['send_uid'] = $send_uid;
-        $msg_data['to_instation'] = $to_instation;
-        $msg_data['to_app'] = $to_app;
-        $msg_data['to_pc'] = $to_pc;
-        $msg_data['to_email'] = $to_email;
-        $msg_data['to_sms'] = $to_sms;
-        $msg_data['msg'] = $msg;
-        $msg_data['url'] = $url;
-        $msg_data['create_time'] = time();
-        $msg_data['status'] = 1;
+    //     $msg_data['type'] = $type;
+    //     $msg_data['sub_type'] = $sub_type;
+    //     $msg_data['send_uid'] = $send_uid;
+    //     $msg_data['to_instation'] = $to_instation;
+    //     $msg_data['to_app'] = $to_app;
+    //     $msg_data['to_pc'] = $to_pc;
+    //     $msg_data['to_email'] = $to_email;
+    //     $msg_data['to_sms'] = $to_sms;
+    //     $msg_data['msg'] = $msg;
+    //     $msg_data['url'] = $url;
+    //     $msg_data['create_time'] = time();
+    //     $msg_data['status'] = 1;
 
-        if ($type == 1) {
-            $from = "系统消息";
-        }else if($type == 3){
-            $from = "任务消息";
-        }else if($type == 4){
-            $from = "CRM消息";
-        }else if($type == 5){
-            $from = "知识库消息";
-        }else if($type == 2){
-            $from = "与我相关";
-        }
+    //     if ($type == 1) {
+    //         $from = "系统消息";
+    //     }else if($type == 3){
+    //         $from = "任务消息";
+    //     }else if($type == 4){
+    //         $from = "CRM消息";
+    //     }else if($type == 5){
+    //         $from = "知识库消息";
+    //     }else if($type == 2){
+    //         $from = "与我相关";
+    //     }
 
-        $systemM = new SystemMessageModel($this->corp_id);
-        $systemM->link->startTrans();
-        try {
-            $msg_id = $systemM->addMsg($msg_data);
-            if (!$msg_id) {
-                $info['error'] = "插入消息数据表失败";
-                exception("插入消息数据表失败");
-            }
-            foreach ($receive_uids as $key => $value) {
-                $msg_link_data[$key]['msg_id'] = $msg_id;
-                $msg_link_data[$key]['receive_uid'] = $value;
-                $msg_link_data[$key]['create_time'] = 0;
-                $msg_link_data[$key]['status'] = 0;
-                $target[] = $this->corp_id."_".$value;
-            }
-            $flg = $systemM->addMsgLink($msg_link_data);
-            if (!$flg) {
-                $info['error'] = "插入消息连接表失败";
-                exception("插入消息连接表失败");
-            }
+    //     $systemM = new SystemMessageModel($this->corp_id);
+    //     $systemM->link->startTrans();
+    //     try {
+    //         $msg_id = $systemM->addMsg($msg_data);
+    //         if (!$msg_id) {
+    //             $info['error'] = "插入消息数据表失败";
+    //             exception("插入消息数据表失败");
+    //         }
+    //         foreach ($receive_uids as $key => $value) {
+    //             $msg_link_data[$key]['msg_id'] = $msg_id;
+    //             $msg_link_data[$key]['receive_uid'] = $value;
+    //             $msg_link_data[$key]['create_time'] = 0;
+    //             $msg_link_data[$key]['status'] = 0;
+    //             $target[] = $this->corp_id."_".$value;
+    //         }
+    //         $flg = $systemM->addMsgLink($msg_link_data);
+    //         if (!$flg) {
+    //             $info['error'] = "插入消息连接表失败";
+    //             exception("插入消息连接表失败");
+    //         }
 
-            if ($to_app == 1 || $to_pc == 1) {
-                $flg = $this->add_msg($from,$target,$msg_id,$msg,$info_id,$type,$to_app,$to_pc,$sub_type);
-                if ($flg['status'] == 0) {
-                    $info['error'] = "发送信息出现错误";
-                    exception("发送信息出现错误");
-                }
-            }
-            if ($to_email == 1) {
-                //发送邮件
-            }
-            if ($to_sms == 1) {
-                //发送短信
-            }
+    //         if ($to_app == 1 || $to_pc == 1) {
+    //             $flg = $this->add_msg($from,$target,$msg_id,$msg,$info_id,$type,$to_app,$to_pc,$sub_type);
+    //             if ($flg['status'] == 0) {
+    //                 $info['error'] = "发送信息出现错误";
+    //                 exception("发送信息出现错误");
+    //             }
+    //         }
+    //         if ($to_email == 1) {
+    //             //发送邮件
+    //         }
+    //         if ($to_sms == 1) {
+    //             //发送短信
+    //         }
 
-            $systemM->link->commit();
-        } catch (\Exception $ex) {
-            $systemM->link->rollback();
-            return json($info);
-        }
+    //         $systemM->link->commit();
+    //     } catch (\Exception $ex) {
+    //         $systemM->link->rollback();
+    //         return json($info);
+    //     }
 
-        $info['status'] = 1;
-        $info['message'] = "消息发送成功";
-        return json($info);
-    }
+    //     $info['status'] = 1;
+    //     $info['message'] = "消息发送成功";
+    //     return $info;
+    // }
 
     //获取消息列表
     public function get_msg_list(){
@@ -166,27 +166,27 @@ class SystemMessage extends Initialize{
      * @param int $to_app 是否发送app
      * @param int $to_pc  是否发送pc
      */
-    public function add_msg($from,$target,$msg_id,$msg,$info_id,$type,$to_app,$to_pc,$sub_type){
-        $huanxin = new HuanxinApi();
-        $huanxin_flg = $huanxin->sendMessage(
-            "users",
-            $target,
-            $msg,
-            "txt",
-            $from,
-            [
-                "message_id"=>$msg_id,
-                "message_is_read"=>0,
-                "message_type"=>$type,
-                "info_id"=>$info_id,
-                "to_pc"=>$to_pc,
-                "to_app"=>$to_app,
-                "sub_type"=>$sub_type,
-            ]
-        );
+    // public function add_msg($from,$target,$msg_id,$msg,$info_id,$type,$to_app,$to_pc,$sub_type){
+    //     $huanxin = new HuanxinApi();
+    //     $huanxin_flg = $huanxin->sendMessage(
+    //         "users",
+    //         $target,
+    //         $msg,
+    //         "txt",
+    //         $from,
+    //         [
+    //             "message_id"=>$msg_id,
+    //             "message_is_read"=>0,
+    //             "message_type"=>$type,
+    //             "info_id"=>$info_id,
+    //             "to_pc"=>$to_pc,
+    //             "to_app"=>$to_app,
+    //             "sub_type"=>$sub_type,
+    //         ]
+    //     );
 
-        return $huanxin_flg;
-    }
+    //     return $huanxin_flg;
+    // }
     //删除消息
     public function del_msg(){
         $info = ['status'=>0,'message'=>"删除消息失败"];

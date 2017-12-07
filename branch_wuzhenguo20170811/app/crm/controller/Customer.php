@@ -27,7 +27,6 @@ use app\crm\model\CallRecord;
 use app\task\model\TaskTarget;
 use app\common\model\StructureEmployee;
 use app\common\model\Structure;
-use app\index\controller\SystemMessage;
 use app\systemsetting\model\BusinessFlowItemLink;
 use app\common\model\RoleEmployee as RoleEmployeeModel;
 use app\crm\model\Contract as ContractAppliedModel;
@@ -999,8 +998,7 @@ class Customer extends Initialize{
             return json($result);
         }
         $recevies_uids = $customerM->employeesIdsByCustomers($ids);
-        $systemMsg = new SystemMessage();
-        $systemMsg->save_msg("你有客户被强制释放了，请到公海池查看！","/crm/customer/public_customer_pool",$recevies_uids,4,6,$uid);
+        save_msg("你有客户被强制释放了，请到公海池查看！","/crm/customer/public_customer_pool",$recevies_uids,4,6,$uid);
         $result['status'] = 1;
         $result['info'] = "强制释放客户成功！";
         return json($result);
