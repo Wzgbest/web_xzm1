@@ -247,7 +247,10 @@ class EmployeeTask extends Command{
                         exception("更新超时任务为结算中发生错误!");
                     }
                     $takeList = $taskTakeM->getTaskTakeListByTaskId($id);
-                    //var_exp($taskTakeEmployeeList,'$taskTakeEmployeeList');
+                    //var_exp($takeList,'$takeList');
+                    var_exp($takeList,'$takeList');
+                    $taskTakeEmployeeIds = array_column($takeList,"take_employee");
+                    $uids = $taskTakeEmployeeIds;
                     //PK和悬赏任务检测是否有人参与
                     if($task_type>2&&($task_type+count($takeList))<4){
                         //没人参与,任务失败
@@ -388,6 +391,7 @@ class EmployeeTask extends Command{
                     $rankingdata = [];
                     $needRedEnvelopeEmployeeId = [];
                     $haveRedEnvelopeNum = 0;
+                    $sentRedEnvelopeMoney = 0;
 
                     if($task_type<3) {
                         $employeeTaskService = new EmployeeTaskService($corp_id);
@@ -921,7 +925,7 @@ class EmployeeTask extends Command{
 
                     //任务结束发送消息
                     $taskTakeEmployeeIds = $taskTakeM->getTaskTakeIdsByTaskId($id);
-                    if (!empty(taskTakeEmployeeIds)) {
+                    if (!empty($taskTakeEmployeeIds)) {
                         foreach ($taskTakeEmployeeIds as $key => $value) {
                             $tastTakeIds[] = $value['take_employee'];
                         }
