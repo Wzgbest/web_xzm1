@@ -11,7 +11,6 @@ namespace app\Task\controller;
 use app\common\controller\Initialize;
 use app\task\model\TaskComment as TaskCommentModel;
 use app\task\model\EmployeeTask as EmployeeTaskModel;
-use app \index\controller\SystemMessage;
 
 class TaskComment extends Initialize{
 	public function show(){
@@ -63,12 +62,11 @@ class TaskComment extends Initialize{
 		$task_data = $employeeTaskModel->getEmployeeById($task_id);
 		//发送评论消息
         $userinfos = $userinfo['userinfo'];
-        $sysMsg = new SystemMessage();
         $str = $userinfos['truename']."评论了你发布的".$task_data['task_name']."任务";
         $receive_uids[] = $task_data['create_employee'];
-        $sysMsg->save_msg($str,"/task/index/show/id/".$task_id,$receive_uids,3,$task_data['task_type'],$uid,$task_id);
+        save_msg($str,"/task/index/show/id/".$task_id,$receive_uids,3,$task_data['task_type'],$uid,$task_id);
         if ($comment_id) {
-        	$sysMsg->save_msg($userinfos['truename']."回复了你的评论","/task/index/show/id/".$task_id,[$reviewer_id],3,$task_data['task_type'],$uid,$task_id);
+        	save_msg($userinfos['truename']."回复了你的评论","/task/index/show/id/".$task_id,[$reviewer_id],3,$task_data['task_type'],$uid,$task_id);
         }
 
 		return json($result);

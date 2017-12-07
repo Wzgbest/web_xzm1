@@ -14,7 +14,6 @@ use app\systemsetting\model\ContractSetting as ContractModel;
 use app\common\model\Structure as StructureModel;
 use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
 use app\verification\model\VerificatioLog;
-use app\index\controller\SystemMessage;
 use app\crm\model\SaleChance as SaleChanceModel;
 
 class Index extends Initialize{
@@ -290,9 +289,8 @@ class Index extends Initialize{
         $saleM = new SaleChanceModel($this->corp_id);
         $sale_info = $saleM->getSaleChance($saleOrderContract['sale_id']);
         $user_infomation = $userinfo["userinfo"];
-        $systemMsg = new SystemMessage();
         $received_uids[] = $sale_info['employee_id'];
-        $systemMsg->save_msg("你的成单".$verificatioLogRemark."  [审核人：".$user_infomation["truename"]."]","/crm/sale_chance/index",$received_uids,4,9,$uid,$saleOrderContract['sale_id']);
+        save_msg("你的成单".$verificatioLogRemark."  [审核人：".$user_infomation["truename"]."]","/crm/sale_chance/index",$received_uids,4,9,$uid,$saleOrderContract['sale_id']);
 
         $result['status']=1;
         $result['info']='通过成单申请成功!';
@@ -341,9 +339,8 @@ class Index extends Initialize{
         $saleM = new SaleChanceModel($this->corp_id);
         $sale_info = $saleM->getSaleChance($saleOrderContract['sale_id']);
         $user_infomation = $userinfo["userinfo"];
-        $systemMsg = new SystemMessage();
         $received_uids[] = $sale_info['employee_id'];
-        $systemMsg->save_msg("你的成单申请由于[".$remark."]原因被驳回，请重提交申请!  [审核人:".$user_infomation["truename"]."]","/crm/sale_chance/index",$received_uids,4,9,$uid,$saleOrderContract['sale_id']);
+        save_msg("你的成单申请由于[".$remark."]原因被驳回，请重提交申请!  [审核人:".$user_infomation["truename"]."]","/crm/sale_chance/index",$received_uids,4,9,$uid,$saleOrderContract['sale_id']);
 
 
         $result['status']=1;

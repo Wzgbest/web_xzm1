@@ -11,7 +11,6 @@ namespace app\Task\controller;
 use app\common\controller\Initialize;
 use app\task\model\TaskLike as TaskLikeModel;
 use app\task\model\EmployeeTask as EmployeeTaskModel;
-use app \index\controller\SystemMessage;
 
 class TaskLike extends Initialize{
 	/**
@@ -44,10 +43,9 @@ class TaskLike extends Initialize{
 					//发送点赞消息
 					$task_data = $taskModel->getEmployeeById($task_id);
 			        $userinfos = $userinfo['userinfo'];
-			        $sysMsg = new SystemMessage();
 			        $str = $userinfos['truename']."点赞了你发布的".$task_data['task_name']."任务";
 			        $receive_uids[] = $task_data['create_employee'];
-			        $sysMsg->save_msg($str,"/task/index/show/id/".$task_id,$receive_uids,3,$task_data['task_type'],$uid,$task_id);
+			        save_msg($str,"/task/index/show/id/".$task_id,$receive_uids,3,$task_data['task_type'],$uid,$task_id);
 				}
 			}
 		}

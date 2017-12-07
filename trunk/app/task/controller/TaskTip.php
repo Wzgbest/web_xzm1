@@ -133,10 +133,10 @@ class TaskTip extends Initialize{
 
         //发送打赏消息
         $userinfos = $userinfo["userinfo"];
-        $sysMsg = new SystemMessage();
+        // $sysMsg = new SystemMessage();
         $str = $userinfos['truename']."打赏了你发布的".$task_data['task_name']."任务，赏金".$money."元";
         $receive_uids[] = $task_data['create_employee'];
-        $sysMsg->save_msg($str,"/task/index/show/id/".$task_id,$receive_uids,3,$task_data['task_type'],$uid,$task_id);
+        save_msg($str,"/task/index/show/id/".$task_id,$receive_uids,3,$task_data['task_type'],$uid,$task_id);
 
         $telphone = $userinfo["telephone"];
         $userinfo = $employM->getEmployeeByTel($telphone);
