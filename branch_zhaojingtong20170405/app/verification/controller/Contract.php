@@ -8,8 +8,6 @@ use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
 use app\common\model\Employee as EmployeeModel;
 use app\common\model\Structure as StructureModel;
 use app\verification\model\VerificatioLog;
-use app\index\controller\SystemMessage;
-
 class Contract extends Initialize{
     var $paginate_list_rows = 10;
     public function _initialize(){
@@ -327,10 +325,9 @@ class Contract extends Initialize{
             return json($result);
         }
         $user_infomation = $userinfo["userinfo"];
-        $systemMsg = new SystemMessage();
         $received_uids[] = $contractApplied['employee_id'];
         if (!empty($received_uids)) {
-            $systemMsg->save_msg("你的合同".$verificatioLogRemark."[审核人:".$user_infomation["truename"]."]","/crm/contract/index",$received_uids,4,7,$uid);
+            save_msg("你的合同".$contract_setting['contract_name'].$verificatioLogRemark."[审核人:".$user_infomation["truename"]."]","/crm/contract/index",$received_uids,4,7,$uid);
         }
         
         $result['status']=1;
@@ -375,11 +372,14 @@ class Contract extends Initialize{
             $result['info'] = $ex->getMessage();
             return json($result);
         }
+
+        $contractSettingModel = new ContractModel($this->corp_id);
+        $contract_setting = $contractSettingModel->getContractSettingById($contractApplied["contract_type"]);
+
         $user_infomation = $userinfo["userinfo"];
         $received_uids[] = $contractApplied['employee_id'];
-        $systemMsg = new SystemMessage();
         if (!empty($received_uids)) {
-            $systemMsg->save_msg("你申请的合同由于[".$remark."]原因被驳回，请重申请合同","/crm/contract/index",$received_uids,4,7,$uid);
+            save_msg("你申请的".$contract_setting['contract_name']."合同由于[".$remark."]原因被驳回，请重申请合同","/crm/contract/index",$received_uids,4,7,$uid);
         }
 
         $result['status']=1;
