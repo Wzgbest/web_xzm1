@@ -169,7 +169,7 @@
 .systemsetting_business_flow_edit .content .ps2 {
     margin-top: 157px;
 }
-.systemsetting_business_flow_edit .content .p5{
+/*.systemsetting_business_flow_edit .content .p5{
     width: 500px;
     height: 42px;
     margin-top: 156px;
@@ -190,11 +190,59 @@
     width: 100px;
     height: 41px;
     border-radius: 10px;
-    /*margin-right: 100px;*/
     background-color: #fff;
     border: 1px solid #dcdcdc;
     font-size: 16px;
+}*/
+
+
+.systemsetting_business_flow_edit .content .foot{
+	height: 60px;
+	width: 98%;
+	margin-top: 39px;
+	/*margin-left: 400px;
+	padding-bottom: 50px;*/
+	border-top: 1px solid #d1d9de;
+	/*margin-left: -30px;*/
+	left: 0;
+	position: absolute;
+	bottom: 0;
 }
+.systemsetting_business_flow_edit .content .p5 {
+	width: 232px;
+    height: 42px;
+    margin-left: 25%;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    margin-bottom: 0;
+}
+
+.systemsetting_business_flow_edit .content .p5 input {
+	width: 100px;
+	height: 40px;
+	border-radius: 3px;
+	margin-left: auto;
+	margin-right: 10px;
+	background-color: #42a5f5;
+	color: #fff;
+	border: 1px solid #dcdcdc;
+	font-size: 16px;
+	vertical-align: top;
+}
+
+.systemsetting_business_flow_edit .content .p5 button {
+	width: 100px;
+	height: 38px;
+	border-radius: 3px;
+	border: 1px solid #d1d9de;
+	margin-right: auto;
+	background-color: #fff;
+	border: 1px solid #dcdcdc;
+	font-size: 16px;
+}
+
+
 .systemsetting_business_flow_edit .content .flow {
     margin-top: 30px;
 }
@@ -215,6 +263,7 @@
     padding-right: 15px;
     height: 36px;
     margin-left: 25px;
+    border: 1px solid #d1d9de;
 }
 
 .systemsetting_business_flow_edit .content .sp {
