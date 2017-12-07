@@ -1204,10 +1204,12 @@ class SaleChance extends Initialize{
         if (!empty($saleOrderContractData["handle_1"])) {
             $recieve_uids[] = $saleOrderContractData["handle_6"];
         }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $user_infomation = $userinfo["userinfo"];
         $systemMsg = new SystemMessage();
         $recieve_uids = array_unique($recieve_uids);
-        $systemMsg->save_msg("有一份成单申请待你审核！[申请人：".$user_infomation["truename"]."]","/verification/index/index",$recieve_uids,4,2);
+        $systemMsg->save_msg("有一份成单申请待你审核！[申请人：".$user_infomation["truename"]."]","/verification/index/detail/id/"+$save_flg,$recieve_uids,4,10,$uid);
 
         $result["status"] = 1;
         $result["info"] = "成单申请保存成功!";
@@ -1426,7 +1428,7 @@ class SaleChance extends Initialize{
         $user_infomation = $userinfo["userinfo"];
         $systemMsg = new SystemMessage();
         $recieve_uids = array_unique($recieve_uids);
-        $systemMsg->save_msg("有一份成单申请待你审核！[申请人：".$user_infomation["truename"]."]","/verification/index/index",$recieve_uids,4,2);
+        $systemMsg->save_msg("有一份成单申请待你审核！[申请人：".$user_infomation["truename"]."]","/verification/index/detail/id/"+$sale_order_id,$recieve_uids,4,10,$uid);
         
         //var_exp($sale_order_id,'$sale_order_id');
         $result["status"] = 1;

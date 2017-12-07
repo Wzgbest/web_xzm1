@@ -146,7 +146,7 @@ class CorporationShare extends Initialize{
         $sysMsg = new SystemMessage();
         $str = $userinfos['truename']."转发了你发表的内容";
         $receive_uids[] = $share_data['userid'];
-        $sysMsg->save_msg($str,"/knowledgebase/speech_craft/show/id/".$share_id,$receive_uids,5,3,$share_id);
+        $sysMsg->save_msg($str,"/knowledgebase/speech_craft/show/id/".$share_id,$receive_uids,5,12,$uid,$share_id);
 
         return json($result);
     }
@@ -187,9 +187,9 @@ class CorporationShare extends Initialize{
         $sysMsg = new SystemMessage();
         $str = $userinfos['truename']."评论了你发表的动态";
         $receive_uids[] = $share_data['userid'];
-        $sysMsg->save_msg($str,"/knowledgebase/corporation_share/index",$receive_uids,5,3);
+        $sysMsg->save_msg($str,"/knowledgebase/corporation_share/index",$receive_uids,5,13,$uid);
         if ($comment_id) {
-            $sysMsg->save_msg($userinfos['truename']."回复了你的评论","/knowledgebase/corporation_share/index",[$reviewer_id],5,3);
+            $sysMsg->save_msg($userinfos['truename']."回复了你的评论","/knowledgebase/corporation_share/index",[$reviewer_id],5,13,$uid);
         }
 
         return json($result);
@@ -221,7 +221,7 @@ class CorporationShare extends Initialize{
                 $sysMsg = new SystemMessage();
                 $str = $userinfos['truename']."点赞了你发布的动态";
                 $receive_uids[] = $share_data['userid'];
-                $sysMsg->save_msg($str,"/task/index/show/id/",$receive_uids,5,3);
+                $sysMsg->save_msg($str,"/task/index/show/id/",$receive_uids,5,13,$uid);
             }
         }else{
             if(empty($like_info)){
@@ -336,7 +336,7 @@ class CorporationShare extends Initialize{
         $sysMsg = new SystemMessage();
         $str = $userinfos['truename']."打赏了你的动态，赏金".$money."元";
         $receive_uids[] = $share_data['userid'];
-        $sysMsg->save_msg($str,"/knowledgebase/corporation_share/index",$receive_uids,5,3);
+        $sysMsg->save_msg($str,"/knowledgebase/corporation_share/index",$receive_uids,5,13,$uid);
 
         $telphone = $userinfo["telephone"];
         $userinfo = $employM->getEmployeeByTel($telphone);

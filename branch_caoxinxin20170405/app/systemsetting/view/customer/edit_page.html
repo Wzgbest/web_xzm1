@@ -100,11 +100,13 @@
             <div class="main-content select-window stomer_setting-select-window" style="margin:0 auto;" data-num="0" data-str='set_to_structure[]=,&,&,employees[]=,&' data-selector=".pknew-task-select-window-choosen-staff"></div>
         </p>
 
-        <p class="p5">
-            <input type="hidden" name="id" value="{$customerSetting.id}"/>
-            <input id="customer_setting_submit" type="submit" value="保存" />
-            <button onclick="loadPage('{:url('index')}','customer-settingfr');">取消</button>
-        </p>
+        <div class="foot">
+        	<p class="p5">
+	            <input type="hidden" name="id" value="{$customerSetting.id}"/>
+	            <input id="customer_setting_submit" type="submit" value="保存" />
+	            <button onclick="loadPage('{:url('index')}','customer-settingfr');">取消</button>
+	        </p>
+        </div>
         </form>
     </div>  
     </div>

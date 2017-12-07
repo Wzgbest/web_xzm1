@@ -22,7 +22,8 @@ class SystemMessage extends Initialize{
      * @param  string  $msg          消息
      * @param  string  $url          链接
      * @param  integer $type         消息类型1系统消息 2用户消息 3任务消息 4CRM 5知识库
-     * @param  integer $send_uid     发送人id  0系统消息  1任务消息  2CRM消息  3知识库消息 4与我相关
+     * @param  integer $sub_type      默认为0  子分类 1:激励任务,2:PK任务,3:悬赏任务,4:日常任务5客户详情页面 6公海池7CRM—我的合同8待我审核—合同审核9销售机会10成单审核详情页11待我审核—发票审核 12 话术库 13 工作圈
+     * @param  integer $send_uid     发送人id  0 系统 其他员工id
      * @param  array   $receive_uids 接收人id 数组
      * @param  integer   $info_id     跳转内容id
      * @param  integer $to_instation 是否发送站内信
@@ -32,7 +33,7 @@ class SystemMessage extends Initialize{
      * @param  integer $to_sms       是否发送短信
      * @return [type]                [description]
      */
-    public function save_msg($msg='',$url='',$receive_uids=[],$type=1,$send_uid=0,$info_id=0,$to_instation=1,$to_app=1,$to_pc=1,$to_email=0,$to_sms=0){
+    public function save_msg($msg='',$url='',$receive_uids=[],$type=1,$sub_type=0,$send_uid=0,$info_id=0,$to_instation=1,$to_app=1,$to_pc=1,$to_email=0,$to_sms=0){
         $info = ['status'=>0,'message'=>"消息发送失败"];
 
         if (empty($receive_uids) || !$msg) {
@@ -43,6 +44,7 @@ class SystemMessage extends Initialize{
         $receive_uids = array_unique($receive_uids);
 
         $msg_data['type'] = $type;
+        $msg_data['sub_type'] = $sub_type;
         $msg_data['send_uid'] = $send_uid;
         $msg_data['to_instation'] = $to_instation;
         $msg_data['to_app'] = $to_app;
@@ -54,15 +56,15 @@ class SystemMessage extends Initialize{
         $msg_data['create_time'] = time();
         $msg_data['status'] = 1;
 
-        if ($send_uid == 0) {
+        if ($type == 1) {
             $from = "系统消息";
-        }else if($send_uid == 1){
+        }else if($type == 3){
             $from = "任务消息";
-        }else if($send_uid == 2){
+        }else if($type == 4){
             $from = "CRM消息";
-        }else if($send_uid == 3){
+        }else if($type == 5){
             $from = "知识库消息";
-        }else if($send_uid == 4){
+        }else if($type == 2){
             $from = "与我相关";
         }
 
@@ -88,7 +90,7 @@ class SystemMessage extends Initialize{
             }
 
             if ($to_app == 1 || $to_pc == 1) {
-                $flg = $this->add_msg($from,$target,$msg_id,$msg,$info_id,$type,$to_app,$to_pc);
+                $flg = $this->add_msg($from,$target,$msg_id,$msg,$info_id,$type,$to_app,$to_pc,$sub_type);
                 if ($flg['status'] == 0) {
                     $info['error'] = "发送信息出现错误";
                     exception("发送信息出现错误");
@@ -164,7 +166,7 @@ class SystemMessage extends Initialize{
      * @param int $to_app 是否发送app
      * @param int $to_pc  是否发送pc
      */
-    public function add_msg($from,$target,$msg_id,$msg,$info_id,$type,$to_app,$to_pc){
+    public function add_msg($from,$target,$msg_id,$msg,$info_id,$type,$to_app,$to_pc,$sub_type){
         $huanxin = new HuanxinApi();
         $huanxin_flg = $huanxin->sendMessage(
             "users",
@@ -179,6 +181,7 @@ class SystemMessage extends Initialize{
                 "info_id"=>$info_id,
                 "to_pc"=>$to_pc,
                 "to_app"=>$to_app,
+                "sub_type"=>$sub_type,
             ]
         );
 
