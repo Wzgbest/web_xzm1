@@ -137,6 +137,7 @@ ol {
     padding-left: 15px;
     height: 35px;
     margin-left: 18px;
+    border: 1px solid #d1d9de
 }
 
 .systemsetting_contract_edit .content div input {
@@ -145,6 +146,7 @@ ol {
     padding-right: 15px;
     height: 36px;
     margin-left: 18px;
+    border: 1px solid #d1d9de
 }
 
 .systemsetting_contract_edit .content p {
@@ -194,7 +196,7 @@ ol {
     margin-top: 157px;
 }
 
-.systemsetting_contract_edit .content .p5 {
+/*.systemsetting_contract_edit .content .p5 {
     clear: both;
     width: 500px;
     height: 42px;
@@ -222,7 +224,53 @@ ol {
     background-color: #fff;
     border: 1px solid #dcdcdc;
     font-size: 16px;
+}*/
+.systemsetting_contract_edit .content .foot{
+	height: 60px;
+	width: 98%;
+	margin-top: 69px;
+	/*margin-left: 400px;
+	padding-bottom: 50px;*/
+	border-top: 1px solid #d1d9de;
+	/*margin-left: -30px;*/
+
+	position: relative;
+	
 }
+.systemsetting_contract_edit .content .p5 {
+	width: 232px;
+    height: 42px;
+    margin-left: 25%;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    margin-bottom: 0;
+}
+
+.systemsetting_contract_edit .content .p5 input {
+	width: 100px;
+	height: 40px;
+	border-radius: 3px;
+	margin-left: auto;
+	margin-right: 10px;
+	background-color: #42a5f5;
+	color: #fff;
+	border: 1px solid #dcdcdc;
+	font-size: 16px;
+	vertical-align: top;
+}
+
+.systemsetting_contract_edit .content .p5 button {
+	width: 100px;
+	height: 38px;
+	border-radius: 3px;
+	border: 1px solid #d1d9de;
+	margin-right: auto;
+	background-color: #fff;
+	border: 1px solid #dcdcdc;
+	font-size: 16px;
+}
+
 
 .systemsetting_contract_edit .content .p input {
     width: 18px;
@@ -352,7 +400,7 @@ ol {
     left: 370px;
     top:-50px;
     border: 1px solid rgba(0, 0, 0, 0.15);
-    background: rgba(0, 0, 0, 0.8);
+    background: #4db446;
 }
 
 .systemsetting_contract_edit .content .apply_role .switch_panel .switch_btn {
