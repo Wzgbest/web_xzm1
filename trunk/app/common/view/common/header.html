@@ -52,13 +52,13 @@
                     </ul>
                     <ul class="message-content-container">
                         {volist name="msg_list" id="vo"}
-                        {if condition="$vo.type eq 4"}<li class="current" data-id="{$vo.id}" data-subid="verification-contract"  data-title = "合同审核" _src="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
+                        {if condition="$vo.type eq 4"}<li class="current" data-id="{$vo.id}" {if condition="$vo.sub_type eq 5"}  data-subid="mycliets" data-title = "客户详情" {elseif condition="$vo.sub_type eq 6"/} data-subid="high-sea" data-title = "公海池" {elseif condition="$vo.sub_type eq 7"} data-subid="my-contract" data-title = "我的合同" {elseif condition="$vo.sub_type eq 8"} data-subid="verification-contract" data-title = "合同审核" {elseif condition="$vo.sub_type eq 9"} data-subid="number-screening" data-title = "销售机会" {elseif condition="$vo.sub_type eq 10"} data-subid="verification-index" data-title = "成单审核" {else condition="$vo.sub_type eq 11"} data-subid="verification-bill" data-title = "发票审核" {/if}  _src="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
                         {/volist}
                       
                     </ul>
                     <ul class="message-content-container">
                         {volist name="msg_list" id="vo"}
-                        {if condition="$vo.type eq 5"}<li class="current" data-id="{$vo.id}" data-subid="speech-database"  data-title = "话术库" _src="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
+                        {if condition="$vo.type eq 5"}<li class="current" data-id="{$vo.id}" data-subid="company-library"  data-title = "话术库" _src="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
                         {/volist}
                         
                     </ul>
@@ -77,7 +77,7 @@
 <script type="text/javascript">
     $(".header .message-content .message-content-footer.color-blue").click(function(){
         var ids = new Array(); 
-        $(".header .message-content .current").each(function(index, el) {
+	      $(".header .message-content .current").each(function(index, el) {
           ids[index] = $(this).attr("data-id");  
         });
         let receive_uid = $(".header .fa-user").attr("uid");
@@ -120,5 +120,6 @@
             changeFramesSize();
         }
     });
+    
     
 </script>
