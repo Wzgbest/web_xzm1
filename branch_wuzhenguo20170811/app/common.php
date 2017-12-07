@@ -2142,7 +2142,7 @@ function get_rule_type_name($type){
 
         if (empty($receive_uids) || !$msg) {
             $info['message'] = "不能没有接受人或者发送信息为空";
-            return json($info);
+            return $info;
         }
         
         $receive_uids = array_unique($receive_uids);
