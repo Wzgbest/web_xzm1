@@ -253,7 +253,7 @@ class Bill extends Initialize{
         $user_infomation = $userinfo["userinfo"];
         $systemMsg = new SystemMessage();
         $received_uids[] = $bill_info['operator'];
-        $flg = $systemMsg->save_msg("你的发票".$verificatioLogRemark."  [审核人：".$user_infomation["truename"]."]","/crm/bill/index",$received_uids,4,2,$bill_info['sale_id']);
+        $flg = $systemMsg->save_msg("你的发票".$verificatioLogRemark."  [审核人：".$user_infomation["truename"]."]","/crm/bill/index",$received_uids,4,9,$uid,$bill_info['sale_id']);
 
         $result['status']=1;
         $result['info']='通过发票申请成功!';
@@ -300,7 +300,7 @@ class Bill extends Initialize{
         $user_infomation = $userinfo["userinfo"];
         $received_uids[] = $bill_info['operator'];
         $systemMsg = new SystemMessage();
-        $systemMsg->save_msg("你的发票审核由于[".$remark."]原因被驳回，请重提交申请!  [审核人:".$user_infomation["truename"]."]","/crm/bill/index",$received_uids,4,2,$bill_info['sale_id']);
+        $systemMsg->save_msg("你的发票审核由于[".$remark."]原因被驳回，请重提交申请!  [审核人:".$user_infomation["truename"]."]","/crm/bill/index",$received_uids,4,9,$uid,$bill_info['sale_id']);
 
         $result['status']=1;
         $result['info']='驳回发票申请成功!';

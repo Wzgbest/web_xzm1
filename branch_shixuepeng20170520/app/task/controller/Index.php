@@ -921,7 +921,7 @@ class Index extends Initialize{
         }else{
             $str = $user_infomation["truename"]."向你发起了悬赏任务求助，看看能不能帮到他";
         }
-        $flg = $sysMsg->save_msg($str,"/task/index/show/id/".$taskId,$receive_uids,3,1,$taskId);
+        $flg = $sysMsg->save_msg($str,"/task/index/show/id/".$taskId,$receive_uids,3,$taskInfo['task_type'],$uid,$taskId);
 
         $telphone = $userinfo["telephone"];
         $userinfo = $employeeM->getEmployeeByTel($telphone);

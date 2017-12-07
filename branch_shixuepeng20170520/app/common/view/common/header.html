@@ -19,10 +19,10 @@
             <!-- 消息中心 -->
             <div class="message-box">
                 <div class="message-class">
-                    <h4>系统消息{if condition="$system_msg_count neq 0"}（<span class="color-red">{$system_msg_count}</span>）{else/}（无）{/if}</h4>
+                    <h4 class="current">系统消息{if condition="$system_msg_count neq 0"}（<span class="color-red">{$system_msg_count}</span>）{else/}（无）{/if}</h4>
                     <h4>任务消息{if condition="$tast_msg_count neq 0"}（<span class="color-red">{$tast_msg_count}</span>）{else/}（无）{/if}</h4>
                     <h4>CRM消息{if condition="$crm_msg_count neq 0"}（<span class="color-red">{$crm_msg_count}</span>）{else/}（无）{/if}</h4>
-                    <h4 class="current">知识库消息{if condition="$knowledge_msg_count neq 0"}（<span class="color-red">{$knowledge_msg_count}</span>）{else/}（无）{/if}</h4>
+                    <h4>知识库消息{if condition="$knowledge_msg_count neq 0"}（<span class="color-red">{$knowledge_msg_count}</span>）{else/}（无）{/if}</h4>
                 </div>
                 <div class="message-content">
                     <div class="message-content-header" style="display: block;">
