@@ -19,10 +19,11 @@
 				<div class="u-faceContent2 fl">
 					<span class="color-blue">本人<i class="fa fa-angle-down"></i></span>
 					<ul class="hav_power hide">
-						<li class="color-blue">本人</li>
-						<li class="color-blue">本部门</li>
-						<li class="color-blue">下级部门</li>
-						<li class="color-blue">本部门及下级部门</li>
+						<li class="color-blue" data-type="0">本人</li>
+						<li class="color-blue" data-type="1">本部门</li>
+						<li class="color-blue" data-type="2">下级部门</li>
+						<li class="color-blue" data-type="3">本部门及下级部门</li>
+						<li class="color-blue" data-type="4">xx部门</li>
 					</ul>
 				</div>
 				<div class="u-faceContent3 fr">
@@ -37,11 +38,11 @@
 					</div>
 					<div class="block2">
 						<div class="tc"><img src="/datacount/img/lesson.png" /></div>
-						<h3 class="tc">课程(<span>5</span>)</h3>
+						<h3 class="tc">课程(<span>{$class_num}</span>)</h3>
 					</div>
 					<div class="block2">
 						<div class="tc"><img src="/datacount/img/date.png" /></div>
-						<h3 class="tc">日程(<span>3</span>)</h3>
+						<h3 class="tc">日程(<span>{$data_num}</span>)</h3>
 					</div>
 				</div>
 				<div class="clearfix"></div>
@@ -58,13 +59,13 @@
 					<span class="fr icon"><i class="fa fa-cog fa-2x color-blue" title="管理"></i></span>
 				</div>
 				<ul class="line2">
-					<li><h3 class="tc">12371</h3><h4 class="tc">新增客户</h4></li>
-					<li><h3 class="tc">12271</h3><h4 class="tc">总通话数</h4></li>
-					<li><h3 class="tc">12371</h3><h4 class="tc">有效通话数</h4></li>
-					<li><h3 class="tc">12371</h3><h4 class="tc">新增商机</h4></li>
-					<li><h3 class="tc">12371</h3><h4 class="tc">新增拜访</h4></li>
-					<li><h3 class="tc">12371</h3><h4 class="tc">新增成单</h4></li>
-					<li><h3 class="tc">12371</h3><h4 class="tc">新增成单金额</h4></li>
+					<li><h3 class="tc">{$data_count.new_customer}</h3><h4 class="tc">新增客户</h4></li>
+					<li><h3 class="tc">{$data_count.all_call_time}</h3><h4 class="tc">总通话数</h4></li>
+					<li><h3 class="tc">{$data_count.valid_call_time}</h3><h4 class="tc">有效通话数</h4></li>
+					<li><h3 class="tc">{$data_count.new_sale_chance}</h3><h4 class="tc">新增商机</h4></li>
+					<li><h3 class="tc">{$data_count.new_sign_in}</h3><h4 class="tc">新增拜访</h4></li>
+					<li><h3 class="tc">{$data_count.new_sale_order}</h3><h4 class="tc">新增成单</h4></li>
+					<li><h3 class="tc">{$data_count.new_order_money}</h3><h4 class="tc">新增成单金额</h4></li>
 				</ul>
 			</div>
 			<div class="task m-divBlock m-divBlock2" style="margin-right: 0">
