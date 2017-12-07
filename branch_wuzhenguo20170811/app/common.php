@@ -2155,27 +2155,27 @@ function get_rule_type_name($type){
         $msg_data['create_time'] = time();
         $msg_data['status'] = 1;
         if (isset($sms['to_instation'])) {
-            $msg_data['to_instation'] = $$sms['to_instation'];
+            $msg_data['to_instation'] = $sms['to_instation'];
         }else{
             $msg_data['to_instation'] = 1;
         }
         if (isset($sms['to_app'])) {
-            $msg_data['to_app'] = $$sms['to_app'];
+            $msg_data['to_app'] = $sms['to_app'];
         }else{
             $msg_data['to_app'] = 1;
         }
         if (isset($sms['to_pc'])) {
-            $msg_data['to_pc'] = $$sms['to_pc'];
+            $msg_data['to_pc'] = $sms['to_pc'];
         }else{
             $msg_data['to_pc'] = 1;
         }
         if (isset($sms['to_email'])) {
-            $msg_data['to_email'] = $$sms['to_email'];
+            $msg_data['to_email'] = $sms['to_email'];
         }else{
             $msg_data['to_email'] = 0;
         }
         if (isset($sms['to_sms'])) {
-            $msg_data['to_sms'] = $$sms['to_sms'];
+            $msg_data['to_sms'] = $sms['to_sms'];
         }else{
             $msg_data['to_sms'] = 0;
         }
@@ -2212,17 +2212,17 @@ function get_rule_type_name($type){
                 exception("插入消息连接表失败");
             }
 
-            if ($to_app == 1 || $to_pc == 1) {
+            if ($msg_data['to_app'] == 1 || $msg_data['to_pc'] == 1) {
                 $flg = add_msg($from,$target,$msg_id,$msg,$info_id,$type,$to_app,$to_pc,$sub_type);
                 if ($flg['status'] == 0) {
                     $info['error'] = "发送信息出现错误";
                     exception("发送信息出现错误");
                 }
             }
-            if ($to_email == 1) {
+            if ($msg_data['to_email'] == 1) {
                 //发送邮件
             }
-            if ($to_sms == 1) {
+            if ($$msg_data['to_sms'] == 1) {
                 //发送短信
             }
 
