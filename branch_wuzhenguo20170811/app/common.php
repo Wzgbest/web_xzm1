@@ -2213,7 +2213,7 @@ function get_rule_type_name($type){
             }
 
             if ($msg_data['to_app'] == 1 || $msg_data['to_pc'] == 1) {
-                $flg = add_msg($from,$target,$msg_id,$msg,$info_id,$type,$to_app,$to_pc,$sub_type);
+                $flg = add_msg($from,$target,$msg_id,$msg,$info_id,$type,$msg_data['to_app'],$msg_data['to_pc'],$sub_type);
                 if ($flg['status'] == 0) {
                     $info['error'] = "发送信息出现错误";
                     exception("发送信息出现错误");
