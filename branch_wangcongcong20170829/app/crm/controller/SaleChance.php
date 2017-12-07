@@ -25,7 +25,6 @@ use app\common\model\ParamRemark;
 use app\crm\model\SaleOrderContractItem;
 use app\task\model\TaskTarget;
 use app\crm\model\SaleChanceSignIn as SaleChanceSignInModel;
-use app\index\controller\SystemMessage;
 
 class SaleChance extends Initialize{
     protected $_activityBusinessFlowItem = [1,2,4];
@@ -1204,12 +1203,12 @@ class SaleChance extends Initialize{
         if (!empty($saleOrderContractData["handle_1"])) {
             $recieve_uids[] = $saleOrderContractData["handle_6"];
         }
+        $saleChanceData = $saleChanceM->getSaleChanceOrigin($sale_id);
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
         $user_infomation = $userinfo["userinfo"];
-        $systemMsg = new SystemMessage();
         $recieve_uids = array_unique($recieve_uids);
-        $systemMsg->save_msg("有一份成单申请待你审核！[申请人：".$user_infomation["truename"]."]","/verification/index/detail/id/"+$save_flg,$recieve_uids,4,10,$uid);
+        save_msg("有一份".$saleChanceData['sale_name']."成单申请待你审核！[申请人：".$user_infomation["truename"]."]","/verification/index/detail/id/"+$save_flg,$recieve_uids,4,10,$uid);
 
         $result["status"] = 1;
         $result["info"] = "成单申请保存成功!";
@@ -1426,9 +1425,8 @@ class SaleChance extends Initialize{
             $recieve_uids[] = $saleOrderContractData["handle_6"];
         }
         $user_infomation = $userinfo["userinfo"];
-        $systemMsg = new SystemMessage();
         $recieve_uids = array_unique($recieve_uids);
-        $systemMsg->save_msg("有一份成单申请待你审核！[申请人：".$user_infomation["truename"]."]","/verification/index/detail/id/"+$sale_order_id,$recieve_uids,4,10,$uid);
+        save_msg("有一份".$saleChanceData['sale_name']."成单申请待你审核！[申请人：".$user_infomation["truename"]."]","/verification/index/detail/id/"+$sale_order_id,$recieve_uids,4,10,$uid);
         
         //var_exp($sale_order_id,'$sale_order_id');
         $result["status"] = 1;

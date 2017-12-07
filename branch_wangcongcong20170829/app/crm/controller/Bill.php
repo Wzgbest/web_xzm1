@@ -11,7 +11,6 @@ use app\crm\model\Contract as ContractAppliedModel;
 use app\crm\model\SaleChance as SaleChanceModel;
 use app\crm\model\Customer as CustomerModel;
 use app\crm\model\SaleOrderContract as SaleOrderContractModel;
-use app\index\controller\SystemMessage;
 
 class Bill extends Initialize{
     var $paginate_list_rows = 10;
@@ -467,9 +466,8 @@ class Bill extends Initialize{
             $recieve_uids[] = $handle_arr["handle_6"];
         }
         $user_infomation = $userinfo["userinfo"];
-        $systemMsg = new SystemMessage();
         $recieve_uids = array_unique($recieve_uids);
-        $systemMsg->save_msg("有一份发票申请待你审核！[申请人：".$user_infomation["truename"]."]","/verification/contract/index",$recieve_uids,4,11,$uid);
+        save_msg("有一份发票申请待你审核！[申请人：".$user_infomation["truename"]."]","/verification/contract/index",$recieve_uids,4,11,$uid);
 
         $result['status']=1;
         $result['info']='提交发票申请成功!';
