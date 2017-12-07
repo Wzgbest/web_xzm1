@@ -252,12 +252,13 @@ class Index extends Initialize{
 
         $reward_idx = 0;
         $self_idx = -1;
+        $hide_name = (!$take_in && $uid!=$taskInfo['create_employee'] && $task_type==2 && ($taskInfo["status"]==2&&$time<$taskInfo["task_end_time"]));
 //        var_exp($rankingdata,'$rankingdata',1);
         for($ranking_index=1;$ranking_index<=count($rankingdata);$ranking_index++){
 //var_exp($rankingdata[$ranking_index-1]["employee_id"],'$rankingdata[$ranking_index-1]["employee_id"]');
             $rankingdata[$ranking_index-1]["struct_name"]=$employee_info[$rankingdata[$ranking_index-1]["employee_id"]]["struct_name"];
 
-            if(!$take_in && $uid!=$taskInfo['create_employee'] && $task_type==2 && ($taskInfo["status"]==2&&$time<$taskInfo["task_end_time"])){
+            if($hide_name){
                 $rankingdata[$ranking_index-1]["truename"] ='***';// mb_substr($rankingdata[$ranking_index-1]["truename"],0,1,'utf-8')."**";
                 $rankingdata[$ranking_index-1]["struct_name"]='***';
             }
@@ -519,9 +520,9 @@ class Index extends Initialize{
         }
         $reward_idx = 0;
         $self_idx = -1;
-        var_exp($taskInfo,'$taskInfo',1);
+        $hide_name = (!$take_in && $uid!=$taskInfo['create_employee'] && $task_type==2 && ($taskInfo["status"]==2&&$time<$taskInfo["task_end_time"]));
         for($ranking_index=1;$ranking_index<=count($rankingdata);$ranking_index++){
-            if(!$take_in && $uid!=$taskInfo['create_employee'] && $task_type==2 && ($taskInfo["status"]==2&&$time<$taskInfo["task_end_time"])){
+            if($hide_name){
                 $rankingdata[$ranking_index-1]["truename"] ='***';// mb_substr($rankingdata[$ranking_index-1]["truename"],0,1,'utf-8')."**";
                 $rankingdata[$ranking_index-1]["struct_name"]='***';
             }
