@@ -23,7 +23,6 @@ t = 2;
 for(var i = 0; i < t; i++) {
 	$("#myModalsix .list").append(content3);
 }
-
 //领红包
 //$(".dv1 .grade .get").click(function() {
 //	if($(this).hasClass("p1")) {
@@ -1895,4 +1894,5 @@ function task_whether_help(employee_id, type, fun) {
 		
 	});
 }
+
 
