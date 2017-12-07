@@ -330,7 +330,7 @@ class Contract extends Initialize{
         $systemMsg = new SystemMessage();
         $received_uids[] = $contractApplied['employee_id'];
         if (!empty($received_uids)) {
-            $systemMsg->save_msg("你的合同".$verificatioLogRemark."[审核人:".$user_infomation["truename"]."]","/crm/contract/index",$received_uids,4,2);
+            $systemMsg->save_msg("你的合同".$verificatioLogRemark."[审核人:".$user_infomation["truename"]."]","/crm/contract/index",$received_uids,4,7,$uid);
         }
         
         $result['status']=1;
@@ -379,7 +379,7 @@ class Contract extends Initialize{
         $received_uids[] = $contractApplied['employee_id'];
         $systemMsg = new SystemMessage();
         if (!empty($received_uids)) {
-            $systemMsg->save_msg("你申请的合同由于[".$remark."]原因被驳回，请重申请合同","/crm/contract/index",$received_uids,4,2);
+            $systemMsg->save_msg("你申请的合同由于[".$remark."]原因被驳回，请重申请合同","/crm/contract/index",$received_uids,4,7,$uid);
         }
 
         $result['status']=1;

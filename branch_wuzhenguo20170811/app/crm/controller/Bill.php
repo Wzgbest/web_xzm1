@@ -469,7 +469,7 @@ class Bill extends Initialize{
         $user_infomation = $userinfo["userinfo"];
         $systemMsg = new SystemMessage();
         $recieve_uids = array_unique($recieve_uids);
-        $systemMsg->save_msg("有一份发票申请待你审核！[申请人：".$user_infomation["truename"]."]","/verification/contract/index",$recieve_uids,4,2);
+        $systemMsg->save_msg("有一份发票申请待你审核！[申请人：".$user_infomation["truename"]."]","/verification/contract/index",$recieve_uids,4,11,$uid);
 
         $result['status']=1;
         $result['info']='提交发票申请成功!';

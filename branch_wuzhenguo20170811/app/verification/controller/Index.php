@@ -292,7 +292,7 @@ class Index extends Initialize{
         $user_infomation = $userinfo["userinfo"];
         $systemMsg = new SystemMessage();
         $received_uids[] = $sale_info['employee_id'];
-        $systemMsg->save_msg("你的成单".$verificatioLogRemark."  [审核人：".$user_infomation["truename"]."]","/crm/sale_chance/index",$received_uids,4,2,$saleOrderContract['sale_id']);
+        $systemMsg->save_msg("你的成单".$verificatioLogRemark."  [审核人：".$user_infomation["truename"]."]","/crm/sale_chance/index",$received_uids,4,9,$uid,$saleOrderContract['sale_id']);
 
         $result['status']=1;
         $result['info']='通过成单申请成功!';
@@ -343,7 +343,7 @@ class Index extends Initialize{
         $user_infomation = $userinfo["userinfo"];
         $systemMsg = new SystemMessage();
         $received_uids[] = $sale_info['employee_id'];
-        $systemMsg->save_msg("你的成单申请由于[".$remark."]原因被驳回，请重提交申请!  [审核人:".$user_infomation["truename"]."]","/crm/sale_chance/index",$received_uids,4,2,$saleOrderContract['sale_id']);
+        $systemMsg->save_msg("你的成单申请由于[".$remark."]原因被驳回，请重提交申请!  [审核人:".$user_infomation["truename"]."]","/crm/sale_chance/index",$received_uids,4,9,$uid,$saleOrderContract['sale_id']);
 
 
         $result['status']=1;
