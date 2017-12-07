@@ -7,8 +7,6 @@ use app\common\model\RoleEmployee as RoleEmployeeModel;
 use app\crm\model\Contract as ContractAppliedModel;
 use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
 use app\common\model\Employee as EmployeeModel;
-use app\index\controller\SystemMessage;
-
 class Contract extends Initialize{
     var $paginate_list_rows = 10;
     public function _initialize(){
@@ -236,7 +234,6 @@ class Contract extends Initialize{
             $contract_index[$contract["id"]] = $contract;
         }
         $contract_applied = [];
-        $recieve_uids = [];
         $contract_applied_item["employee_id"] = $uid;
         $contract_applied_item["update_time"] = time();
         $contract_applied_item["create_time"] = $contract_applied_item["update_time"];
@@ -261,7 +258,6 @@ class Contract extends Initialize{
                 return json($result);
             }
             $contract_applied_item["contract_apply_1"] = $apply["apply_1"];
-            $recieve_uids[] = $apply["apply_1"];
             $contract_applied_item["contract_apply_now"] = $apply["apply_1"];
             $contract_setting = $contract_index[intval($apply["type"])];
             if(empty($contract_setting)){
@@ -275,31 +271,26 @@ class Contract extends Initialize{
             }
             if(isset($apply["apply_2"])){
                 $contract_applied_item["contract_apply_2"] = $apply["apply_2"];
-                $recieve_uids[] = $apply["apply_2"];
             }else{
                 $contract_applied_item["contract_apply_2"] = 0;
             }
             if(isset($apply["apply_3"])){
                 $contract_applied_item["contract_apply_3"] = $apply["apply_3"];
-                $recieve_uids[] = $apply["apply_3"];
             }else{
                 $contract_applied_item["contract_apply_3"] = 0;
             }
             if(isset($apply["apply_4"])){
                 $contract_applied_item["contract_apply_4"] = $apply["apply_4"];
-                $recieve_uids[] = $apply["apply_4"];
             }else{
                 $contract_applied_item["contract_apply_4"] = 0;
             }
             if(isset($apply["apply_5"])){
                 $contract_applied_item["contract_apply_5"] = $apply["apply_5"];
-                $recieve_uids[] = $apply["apply_5"];
             }else{
                 $contract_applied_item["contract_apply_5"] = 0;
             }
             if(isset($apply["apply_6"])){
                 $contract_applied_item["contract_apply_6"] = $apply["apply_6"];
-                $recieve_uids[] = $apply["apply_6"];
             }else{
                 $contract_applied_item["contract_apply_6"] = 0;
             }
@@ -312,11 +303,36 @@ class Contract extends Initialize{
             $result['info']='申请合同失败!';
             return json($result);
         }
-        $systemMsg = new SystemMessage();
-        $recieve_uids = array_unique($recieve_uids);
-        if (!empty($recieve_uids)) {
-            $systemMsg->save_msg("有一份".$user_infomation["truename"]."合同待你审核","/verification/contract/index",$recieve_uids,4,8,$uid);
+        $contractSetM = new ContractModel($this->corp_id);
+        foreach ($contract_applied as $key => $value) {
+            $recieve_uids = [];
+            $contractInfo = $contractSetM->getContractSettingById($value['contract_type']);
+            $contractName = $contractInfo['contract_name'];
+            if ($value['contract_apply_1'] != 0) {
+                $recieve_uids[] = $value['contract_apply_1'];
+            }
+            if ($value['contract_apply_2'] != 0) {
+                $recieve_uids[] = $value['contract_apply_2'];
+            }
+            if ($value['contract_apply_3'] != 0) {
+                $recieve_uids[] = $value['contract_apply_3'];
+            }
+            if ($value['contract_apply_4'] != 0) {
+                $recieve_uids[] = $value['contract_apply_4'];
+            }
+            if ($value['contract_apply_5'] != 0) {
+                $recieve_uids[] = $value['contract_apply_5'];
+            }
+            if ($value['contract_apply_6'] != 0) {
+                $recieve_uids[] = $value['contract_apply_6'];
+            }
+
+            $recieve_uids = array_unique($recieve_uids);
+            if (!empty($recieve_uids)) {
+                save_msg("有一份".$contractName."合同待你审核","/verification/contract/index",$recieve_uids,4,8,$uid);
+            }
         }
+        
         $result['status']=1;
         $result['info']='申请合同成功!';
         return $result;

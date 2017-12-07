@@ -23,7 +23,6 @@ use app\task\model\TaskGuess as TaskGuessModel;
 use app\task\model\TaskTip as TaskTipModel;
 use app\task\service\EmployeeTask as EmployeeTaskService;
 use app\huanxin\model\RedEnvelope as RedEnvelopeM;
-use app \index\controller\SystemMessage;
 
 class EmployeeTask extends Command{
     protected function configure(){
@@ -172,7 +171,6 @@ class EmployeeTask extends Command{
                     $success_task_ids[] = $corp_id."_".$id;
 
                     //任务进行中红包发送消息
-                    $sysMsg = new SystemMessage();
                     if ($task_type == 1) {
                         $str = "激励任务";
                     }else if($task_type == 2){
@@ -183,7 +181,7 @@ class EmployeeTask extends Command{
                         $str = "日常任务";
                     }
                     if (!empty($receive_uids)) {
-                        $sysMsg->save_msg("你已获得".$str."的红包，快去领取吧","/task/index/show/id/".$id,$receive_uids,3,$task_type,0,$id);
+                        save_msg("你已获得".$str."的红包，快去领取吧","/task/index/show/id/".$id,$receive_uids,3,$task_type,0,$id);
                     }
                     //即将结束提醒
                     if ($end_time - $time == 86400) {
@@ -192,7 +190,7 @@ class EmployeeTask extends Command{
                         }
                         $end_date = date("Y-m-d H:i",$end_time);
                         if (!empty($end_msg)) {
-                            $sysMsg->save_msg("你参与的".$taskInfo['task_name']."任务将于".$end_date."结束","/task/index/show/id/".$id,$receive_uids,3,$task_type,0,$id);
+                            save_msg("你参与的".$taskInfo['task_name']."任务将于".$end_date."结束","/task/index/show/id/".$id,$receive_uids,3,$task_type,0,$id);
                         }
                     }
                     
@@ -223,7 +221,6 @@ class EmployeeTask extends Command{
             $cashM = new TakeCash($corp_id);
             $taskGuessM = new TaskGuessModel($corp_id);
             $taskTipM = new TaskTipModel($corp_id);
-            $sysMsg = new SystemMessage();
             //$overTimeTaskIds = array_column($over_time_task_list,"id");
             
             foreach ($over_time_task_list as $taskInfo){
@@ -377,7 +374,7 @@ class EmployeeTask extends Command{
 
                         //任务失败发送消息
                         if (!empty($no_take_uids)) {
-                            $sysMsg->save_msg("“".$taskInfo['task_name']."”任务失败，资金已经返还！","/task/index/show/id/".$id,$no_take_uids,3,$task_type,0,$id);
+                            save_msg("“".$taskInfo['task_name']."”任务失败，资金已经返还！","/task/index/show/id/".$id,$no_take_uids,3,$task_type,0,$id);
                         }
                         continue;
                     }
@@ -940,16 +937,16 @@ class EmployeeTask extends Command{
                         $str = "日常任务";
                     }
                     if (!empty($redReceive_uids)) {
-                        $sysMsg->save_msg("你已获得".$str."的红包，快去领取吧","/task/index/show/id/".$id,$receive_uids,3,$task_type,0,$id);
+                        save_msg("你已获得".$str."的红包，快去领取吧","/task/index/show/id/".$id,$receive_uids,3,$task_type,0,$id);
                     }
                     if (!empty($noRedReceive_uids)) {
-                        $sysMsg->save_msg("你参与的".$str."未获得胜利，下次加油","/task/index/show/id/".$id,$receive_uids,3,$task_type,0,$id);
+                        save_msg("你参与的".$str."未获得胜利，下次加油","/task/index/show/id/".$id,$receive_uids,3,$task_type,0,$id);
                     }
                     if (!empty($guessReceive_uids)) {
-                        $sysMsg->save_msg("你参与的".$str."猜冠军活动本次猜中了冠军，快去领取红包吧","/task/index/show/id/".$id,$receive_uids,3,$task_type,0,$id);
+                        save_msg("你参与的".$str."猜冠军活动本次猜中了冠军，快去领取红包吧","/task/index/show/id/".$id,$receive_uids,3,$task_type,0,$id);
                     }
                     if (!empty($guessFailsUids)) {
-                        $sysMsg->save_msg("你参与的".$str."的猜冠军活动本次未猜中，下次再试","/task/index/show/id/".$id,$receive_uids,3,$task_type,0,$id);
+                        save_msg("你参与的".$str."的猜冠军活动本次未猜中，下次再试","/task/index/show/id/".$id,$receive_uids,3,$task_type,0,$id);
                     }
                     $success_task_ids[] = $corp_id."_".$id;
                 }catch(\Exception $ex){
