@@ -112,6 +112,7 @@
 	padding-right: 15px;
 	height: 35px;
 	margin-left: 18px;
+	border: 1px solid #d1d9de;
 }
 
 .edit_corp_info #content select {
@@ -120,8 +121,13 @@
 	padding-left: 15px;
 	height: 35px;
 	margin-left: 18px;
+	border: 1px solid #d1d9de;
+	
 }
-
+/*.edit_corp_info #content select option{
+	box-sizing: border-box;
+	color: #d1d9de;
+}*/
 .edit_corp_info #content .p1 {
 	padding-left: 15px;
 }
@@ -151,31 +157,46 @@
 	height: 100px;
 	vertical-align: top;
 	margin-left: 18px;
+	border: 1px solid #d1d9de;
 }
-
-.edit_corp_info #content .p5 {
-	width: 310px;
+.edit_corp_info #content .foot{
+	height: 60px;
+	/*width: 310px;*/
 	margin-top: 39px;
-	margin-left: 400px;
-	padding-bottom: 50px;
+	/*margin-left: 400px;
+	padding-bottom: 50px;*/
+	border-top: 1px solid #d1d9de;
+	margin-left: 0;
+	position: relative;
+}
+.edit_corp_info #content .p5 {
+	width: 232px;
+    height: 42px;
+    margin-left: 25%;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    margin-bottom: 0;
 }
 
 .edit_corp_info #content .p5 input {
 	width: 100px;
-	height: 41px;
-	border-radius: 10px;
+	height: 40px;
+	border-radius: 3px;
 	margin-left: auto;
-	margin-right: 100px;
+	margin-right: 10px;
 	background-color: #42a5f5;
 	color: #fff;
 	border: 1px solid #dcdcdc;
 	font-size: 16px;
+	vertical-align: top;
 }
 
 .edit_corp_info #content .p5 button {
 	width: 100px;
-	height: 41px;
-	border-radius: 10px;
+	height: 38px;
+	border-radius: 3px;
+	border: 1px solid #d1d9de;
 	margin-right: auto;
 	background-color: #fff;
 	border: 1px solid #dcdcdc;
