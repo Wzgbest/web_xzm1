@@ -1000,7 +1000,7 @@ class Customer extends Initialize{
         }
         $recevies_uids = $customerM->employeesIdsByCustomers($ids);
         $systemMsg = new SystemMessage();
-        $systemMsg->save_msg("你有客户被强制释放了，请到公海池查看！","/crm/customer/public_customer_pool",$recevies_uids,4);
+        $systemMsg->save_msg("你有客户被强制释放了，请到公海池查看！","/crm/customer/public_customer_pool",$recevies_uids,4,6,$uid);
         $result['status'] = 1;
         $result['info'] = "强制释放客户成功！";
         return json($result);
