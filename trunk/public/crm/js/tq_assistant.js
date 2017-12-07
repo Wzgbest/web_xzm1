@@ -137,9 +137,9 @@ function callBackGetPhoneRecordByUin(arg){
 	let length = Object.keys(e).length;
 	for(let i = 1;i<=length;i++){
 		if(e[i].is_called_phone==0){
-			$(".phone_call_assistant .tq-result .m-table").append('<ul class="u-tabList"><li class="u-tabCheckbox">'+i+'</li><li class="u-tabCilentName">中迅网媒</li><li>'+e[i].seatid+'</li><li>'+e[i].caller_id+'</li><li>'+e[i].call_style+'</li><li class="u-tq-time">未接通</li><li class="u-tq-time">'+e[i].end_time+'</li><li>----</li><li>----</li><div class="clearfix"></div></ul>');
+			$(".phone_call_assistant .tq-result .m-table").append('<ul class="u-tabList"><li class="u-tabCheckbox">'+i+'</li><li class="u-tabCilentName">中迅网媒</li><li>'+e[i].seatid+'</li><li>'+e[i].caller_id+'</li><li>'+e[i].call_style+'</li><li class="u-tq-time">未接通</li><li class="u-tq-time">'+e[i].end_time+'</li><li>----</li><li class="u-tq-audio">----</li><div class="clearfix"></div></ul>');
 		}else{
-			$(".phone_call_assistant .tq-result .m-table").append('<ul class="u-tabList"><li class="u-tabCheckbox">'+i+'</li><li class="u-tabCilentName">中迅网媒</li><li>'+e[i].seatid+'</li><li>'+e[i].caller_id+'</li><li>'+e[i].call_style+'</li><li class="u-tq-time">'+e[i].start_time+'</li><li class="u-tq-time">'+e[i].end_time+'</li><li>'+e[i].duration+'</li><li><a class="color-blue2" href="'+e[i].recordFile+'">下载录音</a></li><div class="clearfix"></div></ul>');
+			$(".phone_call_assistant .tq-result .m-table").append('<ul class="u-tabList"><li class="u-tabCheckbox">'+i+'</li><li class="u-tabCilentName">中迅网媒</li><li>'+e[i].seatid+'</li><li>'+e[i].caller_id+'</li><li>'+e[i].call_style+'</li><li class="u-tq-time">'+e[i].start_time+'</li><li class="u-tq-time">'+e[i].end_time+'</li><li>'+e[i].duration+'</li><li class="u-tq-audio"><audio controls><source src="'+e[i].recordFile+'"></audio></li><div class="clearfix"></div></ul>');
 		}		
 	}
 }

@@ -98,6 +98,10 @@
 .crm_public_pool .m-table-detail{
 	width: 1000px;
 }
+/*通话记录*/
+.phone_call_assistant .m-table-detail{
+	width: 1249px;
+}
 /*审核*/
 .table-v-index{
 	width: 2507px;
@@ -151,9 +155,12 @@
 	color: #4d4d4d;
 	border-right: 1px solid #d6e2ed;
 }
-/*.m-table .u-tabList:hover{
-	background-color: yellow;
-}*/
+.u-tabList li audio{
+	width: 170px;
+}
+.m-table .u-tabList:hover{
+	background-color: #f4f8fe;
+}
 .u-tabCheckbox{
 	text-align: center !important;
 	width: 40px !important;
@@ -165,6 +172,9 @@
 }
 .u-tq-time{
 	width: 150px !important;
+}
+.u-tq-audio{
+	width: 160px !important;
 }
 .u-tabLinkWay{
 	color: #13ae6b !important;
