@@ -87,6 +87,19 @@ class TimeTools
     }
 
     /**
+     * 返回最近几个月开始和结束的时间戳
+     * @param $num int 月数
+     * @return array 开始时间和结束时间
+     */
+    public static function lastMonths($num)
+    {
+        $begin = mktime(0, 0, 0, date('m') - $num, 1, date('Y'));
+        $end = mktime(23, 59, 59, date('m'), date('t'), date('Y'));
+
+        return [$begin, $end];
+    }
+
+    /**
      * 返回本季度开始和结束的时间戳
      *
      * @return array
