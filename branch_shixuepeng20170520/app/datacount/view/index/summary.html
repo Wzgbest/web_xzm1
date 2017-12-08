@@ -59,13 +59,13 @@
 					<span class="fr icon"><i class="fa fa-cog fa-2x color-blue" title="管理"></i></span>
 				</div>
 				<ul class="line2">
-					<li><h3 class="tc">{$data_count.customer}</h3><h4 class="tc">新增客户</h4></li>
-					<li><h3 class="tc">{$data_count.all_call_time}</h3><h4 class="tc">总通话数</h4></li>
-					<li><h3 class="tc">{$data_count.valid_call_time}</h3><h4 class="tc">有效通话数</h4></li>
-					<li><h3 class="tc">{$data_count.sale_chance}</h3><h4 class="tc">新增商机</h4></li>
-					<li><h3 class="tc">{$data_count.sign_in}</h3><h4 class="tc">新增拜访</h4></li>
-					<li><h3 class="tc">{$data_count.sale_order}</h3><h4 class="tc">新增成单</h4></li>
-					<li><h3 class="tc">{$data_count.order_money}</h3><h4 class="tc">新增成单金额</h4></li>
+					<li><h3 class="tc">{$task_data_count.customer.num}</h3><h4 class="tc">新增客户</h4></li>
+					<li><h3 class="tc">{$task_data_count.all_call_time.num}</h3><h4 class="tc">总通话数</h4></li>
+					<li><h3 class="tc">{$task_data_count.valid_call_time.num}</h3><h4 class="tc">有效通话数</h4></li>
+					<li><h3 class="tc">{$task_data_count.sale_chance.num}</h3><h4 class="tc">新增商机</h4></li>
+					<li><h3 class="tc">{$task_data_count.sign_in.num}</h3><h4 class="tc">新增拜访</h4></li>
+					<li><h3 class="tc">{$task_data_count.sale_order.num}</h3><h4 class="tc">新增成单</h4></li>
+					<li><h3 class="tc">{$task_data_count.order_money.num}</h3><h4 class="tc">新增成单金额</h4></li>
 				</ul>
 			</div>
 			<div class="task m-divBlock m-divBlock2 mar-r-0 pad-l-0" style="background-color:transparent;box-shadow:none;">
@@ -176,17 +176,53 @@
 						<div class="top-process">
 							<div class="clearfix"></div>
 							<div class="process-name">新增客户</div>
-							<div class="process-bar"><span>24%</span></div>
-							<div class="process-name">新增客户</div>
-							<div class="process-bar"><span>24%</span></div>
-							<div class="process-name">新增客户</div>
-							<div class="process-bar"><span>24%</span></div>
-							<div class="process-name">新增客户</div>
-							<div class="process-bar"><span>24%</span></div>
-							<div class="process-name">新增客户</div>
+							<div class="process-bar"><span>
+								{gt name="sales_funnel.1.target" value="0"}
+									{$sales_funnel.1.num/$sales_funnel.1.target}%
+								{else/}
+									0%
+								{/gt}
+							</span></div>
+							<div class="process-name">意向客户</div>
+							<div class="process-bar"><span>
+								{gt name="sales_funnel.2.target" value="0"}
+									{$sales_funnel.2.num/$sales_funnel.2.target}%
+								{else/}
+									0%
+								{/gt}
+							</span></div>
+							<div class="process-name">商机</div>
+							<div class="process-bar"><span>
+								{gt name="sales_funnel.3.target" value="0"}
+									{$sales_funnel.3.num/$sales_funnel.3.target}%
+								{else/}
+									0%
+								{/gt}
+							</span></div>
+							<div class="process-name">拜访</div>
+							<div class="process-bar"><span>
+								{gt name="sales_funnel.4.target" value="0"}
+									{$sales_funnel.4.num/$sales_funnel.4.target}%
+								{else/}
+									0%
+								{/gt}
+							</span></div>
+							<div class="process-name">成单(
+								{gt name="sales_funnel.5.target" value="0"}
+									{$sales_funnel.5.num/$sales_funnel.5.target}%
+								{else/}
+									0%
+								{/gt}
+							)</div>
 						</div>
 						<div class="bottom-process">
-							<div class="rate">86%</div>
+							<div class="rate">
+								{gt name="sales_funnel.5.target" value="0"}
+									{$sales_funnel.1.num/$sales_funnel.5.target}%
+								{else/}
+									0%
+								{/gt}
+							</div>
 						</div>
 					</div>
 				</div>
@@ -214,6 +250,8 @@
 <link rel="stylesheet" href="/datacount/css/index.css"/>
 <script src="/static/js/echarts.min.js"></script>
 <script language="javascript">
+    var data_overview = "{$data_overview}";
+    var data_overview_months = "{$data_overview_months}";
 	// var echart = document.getElementById('echart');
 	var myChart = echarts.init(document.getElementById('echart'));
 	var option = {
