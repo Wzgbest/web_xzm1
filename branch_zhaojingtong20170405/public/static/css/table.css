@@ -47,7 +47,7 @@
 	width: 1000px;
 }
 .table_z3{
-	width: 1140px;
+	width: 1138px;
 }
 /*导入记录的表单*/
 .table4{
@@ -76,6 +76,12 @@
 .m-table-nav{
 	position: absolute;
 	box-shadow: 3px 0px 0px 0px rgba(209, 209, 209, 0.2);
+}
+.table_manage{
+	width: 1274px;
+}
+.table_rule{
+	width: 960px;
 }
 /*列表重构*/
 /*客户管理列表*/
@@ -202,4 +208,20 @@
 .u-tabControlRow input{
 	width: 40px;
 	border-radius: 4px;
+}
+@media only screen and (max-width:1680px ) {
+	.m-tableBox {
+    width: 100%;
+    margin-top: 20px;
+    overflow-x: auto;
+    font-size: 12px;
+	}
+}
+@media only screen and (min-width: 1680px) and (max-width: 1920px) {
+	.m-tableBox {
+    width: 100% !important;
+    margin-top: 20px;
+    font-size: 12px;
+   	overflow-x:visible;
+	}
 }
