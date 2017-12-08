@@ -80,12 +80,13 @@
 	display: inline-block;
 }
 .knowledgebase_speechcraft_index .batch-delete,.knowledgebase_speechcraft_index .batch-change{
-	width: 80px;
-    height: 25px;
-    border-radius: 12.5px;
+	/*width: 80px;*/
+	padding: 0 16px;
+    height: 28px;
+    border-radius: 3px;
     background-color: #42A5F5;
     text-align: center;
-    line-height: 25px;
+    line-height: 28px;
     color: white;
     margin: 5px 0 0 20px;
     cursor: pointer;
@@ -108,7 +109,6 @@
 	text-align: center;
 }
 .knowledgebase_speechcraft_index .manageNav span{
-	line-height: 40px;
 	margin: 0 10px 0 5px;
 }
 .knowledgebase_speechcraft_index .manageNav select{
@@ -118,7 +118,7 @@
 	/*margin-top: 60px;*/
 }
 .speech-list li:hover {
-	background-color: #f0f0f0;
+	background-color: #f4f8fe;
 }
 .speech-list li:hover .edit3,.speech-list li:hover .delete{
 	display: inline-block;;
