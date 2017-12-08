@@ -109,8 +109,14 @@ textarea {
 .tr {
   text-align: right;
 }
-.mr0{
+.mar-r-0{
 	margin-right: 0 !important;
+}
+.mar-t-0{
+  margin-top: 0 !important;
+}
+.pad-l-0{
+  padding-left: 0 !important;
 }
 .bdn{
 	border: none !important;
