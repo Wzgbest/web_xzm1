@@ -1,4 +1,9 @@
 <!--存放顶部右上方-->
+<style>
+	#task-infofr{
+		overflow-y: auto !important;
+	}
+</style>
 <header class="header">
     <div id="x-layout">
         <i class="fa fa-navicon fa-2x"></i>
@@ -113,13 +118,24 @@
     
     $(".message-content ul li").click(function(){
         if(checkSubPage($(this))){
+//      	console.log($(this).attr("data-subid"))
+//      	console.log($(this).attr("data-id"))        	
             loadPage($(this).attr("_src"),$(this).attr("data-subid")+"fr");
-        }else{
-            clicker($(this));
-            asideChange();
-            changeFramesSize();
-        }
-    });
+           
+	        var subid=$(this).attr("data-subid")           
+	        if(!$("#"+subid).hasClass("active")){
+				//alert($(this).attr("data-subid"));
+				$("#"+subid).addClass("active").siblings().removeClass("active");
+				$("#"+subid+"fr").removeClass("hide").siblings().addClass("hide");
+		        }
+	        }else{
+	            clicker($(this));
+	            asideChange();
+	            changeFramesSize();
+	        
+	        }
+  
+   });
     
     
 </script>

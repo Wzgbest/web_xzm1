@@ -409,9 +409,12 @@ height: 25px; */
 .task .table .tablist{
 	height: 36px;
 }
-.task .table .tablist:nth-child(even){
-	background-color: #f7f7f7;
+.task .table .tablist:hover{
+	background-color: #f4f8fe;
 }
+/* .task .table .tablist:nth-child(even){
+	background-color: #f7f7f7;
+} */
 .task .table .tablist li:first-child{
 	color: #42A5F5;
 }
