@@ -29,7 +29,25 @@ class Datacount extends Base{
             ->where($map)
             ->group($group)
 //            ->fetchSql(true)
-            ->column("sum(num) all_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_num","type");
+            ->column("count(id) num,sum(num) sum_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_num","type");
+        return $result_data;
+    }
+
+    public function getDataTypeMonth($uids,$start_time,$end_time){
+        $map["uid"] = ["in",$uids];
+        $map["time"] = [
+            ["egt",$start_time],
+            ["elt",$end_time]
+        ];
+        $mouth = "FROM_UNIXTIME(time,'%Y-%m')";
+        $group = "type,".$mouth;
+        $order = "time asc";
+        $result_data = $this->model->table($this->table)->alias('d')
+            ->where($map)
+            ->group($group)
+            ->order($order)
+//            ->fetchSql(true)
+            ->column($mouth." `month`,count(id) num,sum(num) sum_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_num","type");
         return $result_data;
     }
 
