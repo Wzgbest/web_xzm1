@@ -15,6 +15,18 @@ use app\datacount\model\Datacount;
 use \myvendor\TimeTools;
 
 class Index extends Initialize{
+//    protected $name_title_idx = [
+//        "customer"=>"新增客户",
+//        "all_call_time"=>"总通话",
+//        "valid_call_time"=>"有效通话",
+//        "sale_chance"=>"商机",
+//        "sign_in"=>"拜访",
+//        "sale_order"=>"成单",
+//        "order_money"=>"成单金额",
+//        "contact"=>"联系人",
+//        "tend_to"=>"意向客户",
+//        "sale_status"=>"阶段变化",
+//    ];
     public function __construct(){
         parent::__construct();
     }
@@ -178,6 +190,8 @@ class Index extends Initialize{
         $end_time = 0;
         list($start_time,$end_time) = $this->_get_times($time,$start_time,$end_time);
 
+        $day_task_data = [];
+
         $data_count = $this->_get_data_count($uids,$start_time,$end_time);
         if($data_count["status"]!=1){
             $result['status'] = $data_count["status"];
@@ -191,9 +205,19 @@ class Index extends Initialize{
             $result['info'] = $day_task["info"];
             return json($result);
         }
+
+        foreach ($data_count["data"] as $key=>$data_count_item){
+            $day_task_data[$key]["num"] = $data_count_item;
+            $target = 0;
+            if(isset($day_task["data"][$key])){
+                $target = $day_task["data"][$key];
+            }
+            $day_task_data[$key]["target"] = $target;
+        }
+
         $result['status'] = 1;
         $result['info'] = "获取日常任务统计成功！";
-        $result['data'] = $day_task["data"];
+        $result['data'] = $day_task_data;
         return json($result);
     }
     protected function _get_day_task($uids,$time){
@@ -222,7 +246,7 @@ class Index extends Initialize{
         $result['data'] = $result_data;
         return $result;
     }
-    protected function data_overview(){
+    public function data_overview(){
         $result = ['status'=>0 ,'info'=>"获取数据概览时发生错误！"];
         $type = input("type",0,"int");
         //TODO $type 值和对应权限校验
@@ -233,7 +257,33 @@ class Index extends Initialize{
         $end_time = input("end_time",0,"int");
         list($start_time,$end_time) = $this->_get_times($time,$start_time,$end_time);
 
-        $data_overview = $this->_get_data_overview($uids,$start_time,$end_time);
+        $list = input("time",0,"int");
+        $items = [];
+        switch ($list){
+            case 1:
+                $items = [
+                    "customer",
+                    "tend_to",
+                    "sale_chance",
+                    "sign_in",
+                    "sale_order",
+                ];
+                break;
+            case 2:
+                $items = [
+                    "all_call_time",
+                    "valid_call_time",
+                    "tend_to",
+                    "sign_in",
+                    "sale_order",
+                ];
+                break;
+        }
+        if(empty($items)){
+            return json($result);
+        }
+
+        $data_overview = $this->_get_data_overview($uids,$start_time,$end_time,$items);
         if($data_overview["status"]!=1){
             $result['status'] = $data_overview["status"];
             $result['info'] = $data_overview["info"];
@@ -244,10 +294,8 @@ class Index extends Initialize{
         $result['data'] = $data_overview["data"];
         return json($result);
     }
-    public function _get_data_overview($uids,$start_time,$end_time){
-        $result_data = [
-            //TODO default data
-        ];
+    protected function _get_data_overview($uids,$start_time,$end_time,$items){
+        $result_data = [];
         $result = ['status'=>0 ,'info'=>"获取数据概览时发生错误！","data"=>$result_data];
         if(
             empty($uids)
@@ -257,12 +305,32 @@ class Index extends Initialize{
             return $result;
         }
 
+        $data_count = $this->_get_data_count($uids,$start_time,$end_time);
+        if($data_count["status"]!=1){
+            return $result;
+        }
+
+        $item_num = count($items);
+        $previous_num = 0;
+        for($i=0;$i<$item_num;$i++){
+            $item = $items[$i];
+            if(!isset($data_count["data"][$item])){
+                return $result;
+            }
+            $now_num = $data_count["data"][$item];
+            if($i==0){
+                $previous_num = $now_num;
+            }
+            $result_data[$i+1] = ["name"=>$item,"num"=>$now_num,"target"=>$previous_num];
+            $previous_num = $now_num;
+        }
+
         $result['status'] = 1;
         $result['info'] = "获取数据概览成功！";
         $result['data'] = $result_data;
         return $result;
     }
-    public function _get_uids($type){
+    protected function _get_uids($type){
         $uids = [];
         switch ($type){
             case 0:
@@ -275,8 +343,8 @@ class Index extends Initialize{
         }
         return $uids;
     }
-    public function _get_times($time,$start_time,$end_time){
-        if($time&&(!$start_time&&!$end_time)){
+    protected function _get_times($time,$start_time,$end_time){
+        if($time&&($start_time<=0&&$end_time<=0)){
             $timetools = new TimeTools();
             $time_arr=[0,0];
             switch ($time){
