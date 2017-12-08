@@ -2262,6 +2262,7 @@ function get_rule_type_name($type){
                 "to_pc"=>$to_pc,
                 "to_app"=>$to_app,
                 "sub_type"=>$sub_type,
+                "is_msg"=>"xxzx",
             ]
         );
 
