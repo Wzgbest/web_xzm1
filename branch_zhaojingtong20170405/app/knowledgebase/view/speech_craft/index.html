@@ -36,15 +36,21 @@
         <div class="m-4th-container">
 	        <div class="manageNav m-filterNav hide" data-status="false">
 	            <input type="checkbox" /><span>全选</span>
-	            <select class="select_class">
-	                <option value="0">分类</option>
-	                {volist name="article_type" id="vo"}
-	                <option value="{$vo.id}">{$vo.type_name}</option>
-	                {/volist}
-	            </select>
-	            <select>
-	                <option>发表时间</option>
-	            </select>
+	            <div class="u-select-container">
+                    <span class="mar-0">分类<i class="fa fa-caret-down"></i></span>
+		            <select class="select_class mar-0">
+		                <option value="0">分类</option>
+		                {volist name="article_type" id="vo"}
+		                <option value="{$vo.id}">{$vo.type_name}</option>
+		                {/volist}
+		            </select>
+	            </div>
+	            <div class="u-select-container">
+                    <span class="mar-0">发表时间<i class="fa fa-caret-down"></i></span>
+		            <select class="mar-0">
+		                <option>发表时间</option>
+		            </select>
+	            </div>
 	        </div>
 	        <ul class="speech-list">
 	        {if condition="$all_article neq null"}
