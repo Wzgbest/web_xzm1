@@ -124,7 +124,7 @@
            
 	        var subid=$(this).attr("data-subid")           
 	        if(!$("#"+subid).hasClass("active")){
-				alert($(this).attr("data-subid"));
+				//alert($(this).attr("data-subid"));
 				$("#"+subid).addClass("active").siblings().removeClass("active");
 				$("#"+subid+"fr").removeClass("hide").siblings().addClass("hide");
 		        }
