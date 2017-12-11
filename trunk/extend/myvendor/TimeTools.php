@@ -80,6 +80,7 @@ class TimeTools
      */
     public static function lastMonth()
     {
+        //TODO strtotime("-1 Months");获取上月
         $begin = mktime(0, 0, 0, date('m') - 1, 1, date('Y'));
         $end = mktime(23, 59, 59, date('m') - 1, date('t', $begin), date('Y'));
 
