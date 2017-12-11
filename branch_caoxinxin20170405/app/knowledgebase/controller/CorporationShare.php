@@ -184,9 +184,10 @@ class CorporationShare extends Initialize{
         $userinfos = $userinfo['userinfo'];
         $str = $userinfos['truename']."评论了你发表的动态";
         $receive_uids[] = $share_data['userid'];
-        save_msg($str,"/knowledgebase/corporation_share/index",$receive_uids,5,13,$uid);
+        $sms['img_url'] = "/message/images/pinglun.png";
+        save_msg($str,"/knowledgebase/corporation_share/index",$receive_uids,5,13,$uid,$sms);
         if ($comment_id) {
-            save_msg($userinfos['truename']."回复了你的评论","/knowledgebase/corporation_share/index",[$reviewer_id],5,13,$uid);
+            save_msg($userinfos['truename']."回复了你的评论","/knowledgebase/corporation_share/index",[$reviewer_id],5,13,$uid,$sms);
         }
 
         return json($result);
@@ -217,7 +218,8 @@ class CorporationShare extends Initialize{
                 $userinfos = $userinfo['userinfo'];
                 $str = $userinfos['truename']."点赞了你发布的动态";
                 $receive_uids[] = $share_data['userid'];
-                save_msg($str,"/knowledgebase/corporation_share/index",$receive_uids,5,13,$uid);
+                $sms['img_url'] = "/message/images/dianzan.png";
+                save_msg($str,"/knowledgebase/corporation_share/index",$receive_uids,5,13,$uid,$sms);
             }
         }else{
             if(empty($like_info)){
@@ -331,7 +333,8 @@ class CorporationShare extends Initialize{
         $userinfos = $userinfo["userinfo"];
         $str = $userinfos['truename']."打赏了你的动态，赏金".$money."元";
         $receive_uids[] = $share_data['userid'];
-        save_msg($str,"/knowledgebase/corporation_share/index",$receive_uids,5,13,$uid);
+        $sms['img_url'] = "/message/images/dashang.png";
+        save_msg($str,"/knowledgebase/corporation_share/index",$receive_uids,5,13,$uid,$sms);
 
         $telphone = $userinfo["telephone"];
         $userinfo = $employM->getEmployeeByTel($telphone);

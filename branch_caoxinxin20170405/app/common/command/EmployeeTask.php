@@ -180,8 +180,9 @@ class EmployeeTask extends Command{
                     }else{
                         $str = "日常任务";
                     }
+                    $sms['img_url'] = '/message/images/redbag.png';
                     if (!empty($receive_uids)) {
-                        save_msg("你已获得".$str."的红包，快去领取吧","/task/index/show/id/".$id,$receive_uids,3,$task_type,0,$id);
+                        save_msg("你已获得".$str."的红包，快去领取吧","/task/index/show/id/".$id,$receive_uids,3,$task_type,0,$id,$sms);
                     }
                     //即将结束提醒
                     if ($end_time - $time == 86400) {
@@ -940,14 +941,15 @@ class EmployeeTask extends Command{
                     }else{
                         $str = "日常任务";
                     }
+                    $sms['img_url'] = '/message/images/redbag.png';
                     if (!empty($redReceive_uids)) {
-                        save_msg("你已获得".$str."的红包，快去领取吧","/task/index/show/id/".$id,$receive_uids,3,$task_type,0,$id);
+                        save_msg("你已获得".$str."的红包，快去领取吧","/task/index/show/id/".$id,$receive_uids,3,$task_type,0,$id,$sms);
                     }
                     if (!empty($noRedReceive_uids)) {
                         save_msg("你参与的".$str."未获得胜利，下次加油","/task/index/show/id/".$id,$receive_uids,3,$task_type,0,$id);
                     }
                     if (!empty($guessReceive_uids)) {
-                        save_msg("你参与的".$str."猜冠军活动本次猜中了冠军，快去领取红包吧","/task/index/show/id/".$id,$receive_uids,3,$task_type,0,$id);
+                        save_msg("你参与的".$str."猜冠军活动本次猜中了冠军，快去领取红包吧","/task/index/show/id/".$id,$receive_uids,3,$task_type,0,$id,$sms);
                     }
                     if (!empty($guessFailsUids)) {
                         save_msg("你参与的".$str."的猜冠军活动本次未猜中，下次再试","/task/index/show/id/".$id,$receive_uids,3,$task_type,0,$id);

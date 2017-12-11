@@ -47,18 +47,4 @@ class LiveShow extends Initialize
 
 		return $fail;
 	}
-
-
-
-
-
-
-	//测试方法
-	public function test(){
-		$vhallApi = new VhallApi();
-
-		// $info = $vhallApi->createActivity($this->corp_id,"文档加视频",time(),"直播文档");
-		$info = $vhallApi->cancelAuth("412258529","","21948877");
-		return $info;
-	}
 }
