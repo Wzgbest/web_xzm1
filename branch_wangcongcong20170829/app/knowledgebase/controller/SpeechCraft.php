@@ -491,7 +491,7 @@ class SpeechCraft extends Initialize{
         if ($article['img_url']) {
             $sms['img_url'] = $article['img_url'];
         }else{
-            $sms['img_url'] = DS . 'message' . DS . 'images' . DS . 'article_default.png';
+            $sms['img_url'] = '/message/images/article_default.png';
         }
         
         save_msg($str,"/knowledgebase/speech_craft/show/id/".$id,$receive_uids,5,12,$uid,$id,$sms);

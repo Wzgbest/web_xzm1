@@ -916,12 +916,15 @@ class Index extends Initialize{
         $receive_uids = explode(',',$taskInfo['public_to_take']);
         if ($taskInfo['task_type'] == 1) {
             $str = "你已参与由".$user_infomation["truename"]."发的的激励任务，查看详情";
+            $sms['img_url'] = "/message/images/jili.png";
         }else if($taskInfo['task_type'] == 2){
             $str = $user_infomation["truename"]."向你发起了通话个数的pk任务挑战，快去领取任务，接受挑战吧";
+            $sms['img_url'] = "/message/images/faqipk.png";
         }else{
             $str = $user_infomation["truename"]."向你发起了悬赏任务求助，看看能不能帮到他";
+            $sms['img_url'] = "/message/images/xuanshang.png";
         }
-        $flg = save_msg($str,"/task/index/show/id/".$taskId,$receive_uids,3,$taskInfo['task_type'],$uid,$taskId);
+        $flg = save_msg($str,"/task/index/show/id/".$taskId,$receive_uids,3,$taskInfo['task_type'],$uid,$taskId,$sms);
 
         $telphone = $userinfo["telephone"];
         $userinfo = $employeeM->getEmployeeByTel($telphone);
