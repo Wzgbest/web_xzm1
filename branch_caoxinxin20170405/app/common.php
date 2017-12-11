@@ -2179,6 +2179,12 @@ function get_rule_type_name($type){
         }else{
             $msg_data['to_sms'] = 0;
         }
+        if (isset($sms['img_url'])) {
+            $img_url = $sms['img_url'];
+        }else{
+            $img_url = '';
+        }
+
 
         if ($type == 1) {
             $from = "系统消息";
@@ -2213,7 +2219,7 @@ function get_rule_type_name($type){
             }
 
             if ($msg_data['to_app'] == 1 || $msg_data['to_pc'] == 1) {
-                $flg = add_msg($from,$target,$msg_id,$msg,$info_id,$type,$msg_data['to_app'],$msg_data['to_pc'],$sub_type);
+                $flg = add_msg($from,$target,$msg_id,$msg,$info_id,$type,$msg_data['to_app'],$msg_data['to_pc'],$sub_type,$img_url);
                 if ($flg['status'] == 0) {
                     $info['error'] = "发送信息出现错误";
                     exception("发送信息出现错误");
@@ -2222,7 +2228,7 @@ function get_rule_type_name($type){
             if ($msg_data['to_email'] == 1) {
                 //发送邮件
             }
-            if ($$msg_data['to_sms'] == 1) {
+            if ($msg_data['to_sms'] == 1) {
                 //发送短信
             }
 
@@ -2246,7 +2252,7 @@ function get_rule_type_name($type){
      * @param int $to_app 是否发送app
      * @param int $to_pc  是否发送pc
      */
-     function add_msg($from,$target,$msg_id,$msg,$info_id,$type,$to_app,$to_pc,$sub_type){
+     function add_msg($from,$target,$msg_id,$msg,$info_id,$type,$to_app,$to_pc,$sub_type,$url){
         $huanxin = new HuanxinApi();
         $huanxin_flg = $huanxin->sendMessage(
             "users",
@@ -2263,6 +2269,7 @@ function get_rule_type_name($type){
                 "to_app"=>$to_app,
                 "sub_type"=>$sub_type,
                 "is_msg"=>"xxzx",
+                "img_url"=>$url,
             ]
         );
 

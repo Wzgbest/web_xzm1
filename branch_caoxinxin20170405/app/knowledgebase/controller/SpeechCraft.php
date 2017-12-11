@@ -10,6 +10,8 @@ namespace app\knowledgebase\controller;
 
 use app\common\controller\Initialize;
 use app\knowledgebase\model\SpeechCraft as SpeechCraftModel;
+use app\knowledgebase\model\CorporationShare as CorporationShareModel;
+use app\knowledgebase\model\CorporationShareContent;
 
 class SpeechCraft extends Initialize{
     protected $_speechCraftModel = null;
@@ -440,6 +442,61 @@ class SpeechCraft extends Initialize{
         $result['status'] = 1;
         $result['info'] = "获取成功!";
 
+        return json($result);
+    }
+
+    //分享文章
+    public function replayArticle(){
+        $result = ['status'=>0,'info'=>"分享失败"];
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+
+        $id = input('id',0,'int');
+        if (!$id) {
+            $result['info'] = "参数错误";
+            return json($result);
+        }
+        $article = $this->_speechCraftModel->getOneArticleById($id);
+        $corporationShareModel = new CorporationShareModel($this->corp_id);
+        $corporationShareContentModel = new CorporationShareContent($this->corp_id);
+
+        $corporationShareModel->link->startTrans();
+        try {
+            $content["content"] = $article['article_name'];
+            $content["share_url"] = "/knowledgebase/speech_craft/show/id/".$id;
+            $content_id = $corporationShareContentModel->createCorporationShareContent($content);
+            if(!$content_id){
+                $result['info'] = "插入动态消息失败";
+                exception("发布动态内容失败");
+            }
+            $share['pid'] = $id;
+            $share["userid"] = $uid;
+            $share["create_time"] = time();
+            $share["content_id"] = $content_id;
+            $share_id = $corporationShareModel->createCorporationShare($share);
+            if(!$share_id){
+                $result['info'] = "插入动态失败";
+                exception("发布动态失败");
+            }
+            $corporationShareModel->link->commit();
+        } catch (\Exception $ex) {
+            $corporationShareModel->link->rollback();
+            return json($result);
+        }
+
+        //发送评论消息
+        $userinfos = $userinfo['userinfo'];
+        $str = $userinfos['truename']."转发了你发表的内容";
+        $receive_uids[] = $article['add_user'];
+        if ($article['img_url']) {
+            $sms['img_url'] = $article['img_url'];
+        }else{
+            $sms['img_url'] = DS . 'message' . DS . 'images' . DS . 'article_default.png';
+        }
+        
+        save_msg($str,"/knowledgebase/speech_craft/show/id/".$id,$receive_uids,5,12,$uid,$id,$sms);
+        $result['status'] = 1;
+        $result['info'] = "动态转发成功";
         return json($result);
     }
 
