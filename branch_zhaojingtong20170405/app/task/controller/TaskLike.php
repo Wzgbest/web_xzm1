@@ -45,7 +45,8 @@ class TaskLike extends Initialize{
 			        $userinfos = $userinfo['userinfo'];
 			        $str = $userinfos['truename']."点赞了你发布的".$task_data['task_name']."任务";
 			        $receive_uids[] = $task_data['create_employee'];
-			        save_msg($str,"/task/index/show/id/".$task_id,$receive_uids,3,$task_data['task_type'],$uid,$task_id);
+			        $sms['img_url'] = "/message/images/dianzan.png";
+			        save_msg($str,"/task/index/show/id/".$task_id,$receive_uids,3,$task_data['task_type'],$uid,$task_id,$sms);
 				}
 			}
 		}
