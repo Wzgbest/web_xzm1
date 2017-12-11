@@ -180,6 +180,8 @@ class EmployeeTask extends Initialize{
         $this->assign('p',$p);
         $this->assign('now_time',$this->request->time());
         $this->assign('url_args',$url_args);//搜索条件
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
+
 //        var_exp($task_list);
     }
     public function hot_task()
@@ -256,6 +258,7 @@ class EmployeeTask extends Initialize{
         $this->assign('p',$p);
         $this->assign('url_args',$url_args);//搜索条件
         $this->assign('now_time',$this->request->time());
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
 
     }
 
