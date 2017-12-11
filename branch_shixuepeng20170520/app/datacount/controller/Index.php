@@ -57,6 +57,9 @@ class Index extends Initialize{
     public function test(){
         return view();
     }
+    public function target_set(){
+        return view();
+    }
     public function summary(){
         $userinfo = get_userinfo();
         if (empty($userinfo)) {
