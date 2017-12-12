@@ -455,6 +455,7 @@ class CorporationShare extends Initialize{
         // var_dump($share_data);die();
         $this->assign('share_list',$share_data);
         $this->assign('userinfo',$userinfo);
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view();
     }
 

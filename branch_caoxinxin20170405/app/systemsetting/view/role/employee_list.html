@@ -2,7 +2,7 @@
 	<form class="search_form" onsubmit="return false;">
         <p class="p1 role_manage ">权限管理</p>
         <p class="p1 employee_manage activity">成员管理</p>
-       
+        {if condition="hava_permission('systemsetting/role/index/select',$rule_white_list)"}
         <div class="box">
         	<select name="structure">
             <option value="">直属部门</option>
@@ -13,7 +13,10 @@
         <input type="text" name="worknum" placeholder="输入工号" value="{present name='filter.worknum'}{$filter.worknum}{/present}" />
         <input type="text" name="truename" placeholder="输入姓名" value="{present name='filter.truename'}{$filter.truename}{/present}" />
         <button class="u-btnSearch">查询</button>
+            {/if}
+            {if condition="hava_permission('systemsetting/role/index/employee_add',$rule_white_list)"}
         <button class="employee_add">新增</button>
+            {/if}
         </div>
        
     </form>
@@ -54,7 +57,9 @@
             	<li class="u-tabOperation">
                     <span onclick="role_list_employee_show('{$vo.id}');">详情</span>
                     {if condition="strpos($vo.role_id,',')"}
+                    {if condition="hava_permission('systemsetting/role/index/employee_del',$rule_white_list)"}
                         <span onclick="role_list_employee_del('{$id}','{$vo.id}');">移除</span>
+                    {/if}
                     {/if}
                 </li>
                 <li>{$vo.worknum}</li>

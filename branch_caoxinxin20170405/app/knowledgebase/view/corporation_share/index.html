@@ -7,10 +7,12 @@
         </header>
         <section class="m-divBlock m-divBlock2 m-low-nav">
         	<div class="m-filterNav">
+				{if condition="hava_permission('knowledgebase/corporation_share/index/select',$rule_white_list)"}
                 <form class="search_form fl" onsubmit="return false;">
                     <input type="text" name="key_word" placeholder="请输入关键字" value=""/>
                     <button class="u-btnSearch" onclick="search_share();">查询</button>
                 </form>
+				{/if}
                 <div class="new-company-library fr" style="display: none;">
             		<i class="fa fa-plus"></i><span>新建</span>
             	</div>
