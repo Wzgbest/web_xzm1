@@ -10,13 +10,24 @@
         <div class="m-3rd-container">
             <section class="myAllClientsManagerPage b-w">
             <ul class="m-secNav">
+                {if condition="hava_permission('crm/customer/customer_manage/exportCustomer',$rule_white_list)"}
                 <li class="exportCustomer">导出</li>
+                {/if}
+                {if condition="hava_permission('crm/customer/customer_manage/delete',$rule_white_list)"}
                 <li class="delete">删除</li>
+                {/if}
+                {if condition="hava_permission('crm/customer/customer_manage/change_customers_to_employee',$rule_white_list)"}
                 <li class="change_customers_to_employee">重分</li>
+                {/if}
+                {if condition="hava_permission('crm/customer/customer_manage/change_customers_visible_range',$rule_white_list)"}
                 <li class="change_customers_visible_range">更改可见范围</li>
+                {/if}
+                {if condition="hava_permission('crm/customer/customer_manage/imposed_release_customers',$rule_white_list)"}
                 <li class="imposed_release_customers">强制释放</li>
+                {/if}
                 <div class="clearfix"></div>
             </ul>
+                {if condition="hava_permission('crm/customer/customer_manage/select',$rule_white_list)"}
             <div class="m-filterNav">
                 <form class="search_form" onsubmit="return false;">
                     <div class="u-select-container">
@@ -65,6 +76,7 @@
                     <button class="u-btnSearch">查询</button>
                 </form>
             </div>
+                {/if}
             <div class="m-tableBox p-r o-h">
                 <div class="m-table m-table-nav">
                     <ul class="u-tabTitle">

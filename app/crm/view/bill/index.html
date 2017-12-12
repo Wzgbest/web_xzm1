@@ -20,9 +20,12 @@
 			<section class="b-w">
 			<div>
 				<ul class="m-secNav">
+					{if condition="hava_permission('crm/bill/index/export-report',$rule_white_list)"}
 					<li class="export-report">导出报表</li>
+					{/if}
 					<div class="clearfix"></div>
 				</ul>
+				{if condition="hava_permission('crm/bill/index/select',$rule_white_list)"}
 				<div class="m-filterNav">
 					<form class="search_form" onsubmit="return false;">
 						<div class="u-select-container">
@@ -58,6 +61,7 @@
 						<button class="u-btnSearch">查询</button>
 					</form>
 				</div>
+				{/if}
 				<div class="m-tableBox">
 					<div class="m-table table-bill">
 						<ul class="u-tabTitle">

@@ -62,10 +62,12 @@
             <span class="colon">:</span>
             <span class="right">{$data.corp_product_keys}</span>
         </p>
+          {if condition="hava_permission('systemsetting/corporation/showcorpinfo/edit',$rule_white_list)"}
         <div id="compile">
             <i class="fa fa-file-text"></i>
             <p>编辑</p>
         </div>
+          {/if}
     </div>  
     </div>
     
