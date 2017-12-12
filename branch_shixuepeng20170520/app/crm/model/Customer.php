@@ -597,6 +597,7 @@ class Customer extends Base
             "c.customer_name",
             "c.take_type",
             "c.grade",
+            "c.telephone",
             "cn.tend_to",
             "cn.phone_correct",
             "cn.profile_correct",
@@ -621,6 +622,7 @@ class Customer extends Base
             "customer_name",
             "take_type",
             "grade",
+            "telephone",
             "tend_to",
             "phone_correct",
             "profile_correct",
@@ -685,7 +687,7 @@ class Customer extends Base
         $customerList = $customerQuery
             ->field($listField)
             ->select();
-        //var_exp($customerList,'$customerList',1);
+//        var_exp($customerList,'$customerList',1);
 //        var_exp($this->model->getLastSql(),'$customerListSql');
         //具体的值处理
         foreach ($customerList as &$customer){
