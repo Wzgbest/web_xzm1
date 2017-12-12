@@ -287,6 +287,9 @@ class CustomerImport extends Initialize{
     }
 
     public function exportCustomer(){
+        if(!($this->checkRule('crm/customer/customer_manage/delete'))){
+            $this->noRole(2);
+        }
         $self = input('self',0,'int');
         if($self){
             //TODO 权限验证
