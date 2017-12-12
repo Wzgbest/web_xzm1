@@ -15,12 +15,14 @@
             <!--<a class="content_link" href="javascript:loadPage('{:url('edit_page',['id'=>$vo.id])}','bill-settingfr');">查看编辑</a>-->
         </div>
         </a>
-        {/volist}        
+        {/volist}
+            {if condition="hava_permission('systemsetting/bill/index/add',$rule_white_list)"}
         <a href="javascript:loadPage('{:url('add_page')}','bill-settingfr');" class="content_link add">
         <div class="content_item">
             <h2 class="content_sub_title">+</h2>
         </div>
         </a>
+            {/if}
     </div>
     </div>
     

@@ -32,6 +32,7 @@ class BusinessFlow extends Initialize{
         $roleM = new RoleModel($this->corp_id);
         $roleName = $roleM->getRoleName($role_ids);
         $this->assign("role_name",$roleName);
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view();
     }
     public function add_page(){
@@ -55,6 +56,7 @@ class BusinessFlow extends Initialize{
         $this->assign('roles_json',json_encode($roles));
         $this->assign('handle_max',$this->handle_max);
         $this->assign("url",url("add"));
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view("edit_page");
     }
 
@@ -87,6 +89,7 @@ class BusinessFlow extends Initialize{
         $this->assign('roles_json',json_encode($roles));
         $this->assign('handle_max',$this->handle_max);
         $this->assign("url",url("update",["id"=>$id]));
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view("edit_page");
     }
 
