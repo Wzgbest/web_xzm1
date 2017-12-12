@@ -43,6 +43,7 @@ class RoleRule extends Base
      * created by blu10ph
      */
     public function getRuleNamesByUid($uid,$status=1){
+        $map['ru.type'] = 3;
         $map['re.user_id'] = $uid;
         if($status){
             $map['ru.status'] = $status;

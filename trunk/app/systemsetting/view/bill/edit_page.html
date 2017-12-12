@@ -85,7 +85,9 @@
 			</div>
 			<div class="foot">
 				<p class="p5">
+					{if condition="hava_permission('systemsetting/bill/index/add',$rule_white_list) || hava_permission('systemsetting/bill/index/edit',$rule_white_list)"}
 					<input class="bill_setting_submit" type="submit" value="保存" />
+					{/if}
 					<button onclick="loadPage('{:url('index')}','bill-settingfr');">取消</button>
 				</p>
 			</div>

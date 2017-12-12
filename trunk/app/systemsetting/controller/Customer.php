@@ -44,6 +44,7 @@ class Customer extends Initialize{
             $structure = new Structure($this->corp_id);
             $structureName = $structure->getStructureName($structure_ids);
             $this->assign("structure_name",$structureName);
+            $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         }catch (\Exception $ex){
             $this->error($ex->getMessage());
         }
@@ -72,6 +73,7 @@ class Customer extends Initialize{
         $set_to_structure_args = '';
         $this->assign("set_to_structure_args",$set_to_structure_args);
         $this->assign("url",url("add"));
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view("edit_page");
     }
 
@@ -97,6 +99,7 @@ class Customer extends Initialize{
             $this->error($ex->getMessage());
         }
         $this->assign("url",url("update"));
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view("edit_page");
     }
 

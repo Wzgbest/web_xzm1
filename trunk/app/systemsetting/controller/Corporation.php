@@ -38,6 +38,7 @@ class Corporation extends Initialize
      */
     public function showCorpInfo(){
         $this->_showCorpInfo();
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view();
     }
 

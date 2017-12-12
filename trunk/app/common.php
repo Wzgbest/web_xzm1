@@ -2293,3 +2293,13 @@ function closeHttp($outtime=0){
     ob_flush();
     flush();
 }
+
+/**
+ * @param $rule_name
+ * @param $rules
+ * @return bool
+ * 判断当前用户是否有该按钮权限
+ */
+function hava_permission($rule_name,$rules){
+    return in_array($rule_name,$rules);
+}

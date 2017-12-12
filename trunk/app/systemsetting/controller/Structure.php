@@ -34,6 +34,7 @@ class Structure extends Initialize
         $this->assign('struct_tree',$res);
         $this->assign('struct_json',json_encode($res));
         $this->assign('root_id',$root_id);
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view();
     }
 
@@ -74,6 +75,7 @@ class Structure extends Initialize
         $this->assign("filter",$filter);
         $this->assign("start_num",$employees_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$employees_count?$end_num:$employees_count);
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view();
     }
 

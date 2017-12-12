@@ -1,5 +1,6 @@
 <div class="m-filterNav">
   <form class="search_form" onsubmit="return false;">
+	  {if condition="hava_permission('systemsetting/structure/index/select',$rule_white_list)"}
 	<select name="role">
 		<option>职位</option>
 		{volist name="roles" id="vo"}
@@ -10,8 +11,13 @@
 	<input type="text" placeholder="输入工号" name="worknum" value="{present name='filter.worknum'}{$filter.worknum}{/present}"/>
 	<input type="text" placeholder="输入姓名" name="truename" value="{present name='filter.truename'}{$filter.truename}{/present}"/>
 	<button class="u-btnSearch">查询</button>
+	  {/if}
+	  {if condition="hava_permission('systemsetting/structure/index/u-btnAdd',$rule_white_list)"}
 	<button class="u-btnSearch u-btnAdd ">新增</button>
+	  {/if}
+	  {if condition="hava_permission('systemsetting/structure/index/u-btnTransfer',$rule_white_list)"}
 	<button class="u-btnTransfer employee_list_transfer_btn">批量转移</button>
+	  {/if}
   </form>
 </div>
 <div class="employee_list">
@@ -28,7 +34,9 @@
 				<li class="u-tabOperation">
 					{if condition="strpos($vo.struct_id,',')"}
 					<span onclick="struct_list_employee_del('{$id}','{$vo.user_id}');">删除</span> {/if}
+					{if condition="hava_permission('systemsetting/structure/index/employee_move',$rule_white_list)"}
 					<span onclick="struct_list_employee_move('{$id}','{$vo.user_id}');">移至</span>
+					{/if}
 				</li>
 				<div class="clearfix"></div>
 			</ul>

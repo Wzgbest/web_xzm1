@@ -25,6 +25,7 @@ use app\common\model\Structure;
 use app\huanxin\service\RedEnvelope as RedEnvelopeService;
 use app\huanxin\model\RedEnvelope as RedEnvelopeModel;
 use app\crm\model\Customer as CustomerModel;
+use think\View;
 
 class Index extends Initialize{
     var $paginate_list_rows = 10;
@@ -89,8 +90,15 @@ class Index extends Initialize{
         $this->assign('customer_helpList',$customer_helpList);
     }
     public function new_task(){
-        $this->_new_task_default();
-        return view();
+        $flag=$this->checkRule('task/hot_task/new_task') || $this->checkRule('task/direct_participation/new_task') || $this->checkRule('task/historical_task/new_task');
+        if($flag){
+            $this->_new_task_default();
+            return view();
+        }else{
+            $view = new View();
+            return $view->fetch('common@index/unauth');
+        }
+
     }
     public function PKnew_task(){
         $this->_new_task_default();
