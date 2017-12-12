@@ -9,12 +9,21 @@
         <div class="m-3rd-container">
            <section class="b-w">
             <ul class="m-secNav">
+                {if condition="hava_permission('crm/customer/public_customer_pool/showNewClient',$rule_white_list)"}
                 <li class="active showNewClient">新建</li>
+                {/if}
+                {if condition="hava_permission('crm/customer/public_customer_pool/import',$rule_white_list)"}
                 <li class="active">导入</li>
+                {/if}
+                {if condition="hava_permission('crm/customer/public_customer_pool/customer_import',$rule_white_list)"}
                 <li class="active customer_import">导入记录</li>
+                {/if}
+                {if condition="hava_permission('crm/customer/public_customer_pool/take_customers',$rule_white_list)"}
                 <li class="take_public_customers">批量申领</li>
+                {/if}
                 <div class="clearfix"></div>
             </ul>
+               {if condition="hava_permission('crm/customer/public_customer_pool/select',$rule_white_list)"}
             <div class="m-filterNav">
                 <form class="search_form" onsubmit="return false;">
                     <div class="u-select-container">
@@ -40,6 +49,7 @@
                     <button class="u-btnSearch">查询</button>
                 </form>
             </div>
+               {/if}
             <div class="m-tableBox p-r o-h">
                 <div class="m-table m-table-nav">
                     <ul class="u-tabTitle">

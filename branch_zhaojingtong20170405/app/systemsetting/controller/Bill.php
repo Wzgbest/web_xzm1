@@ -17,6 +17,7 @@ class Bill extends Initialize{
         $bills = $this->_billSettingModel->getAllBill();
         //var_exp($bills,'$bills',1);
         $this->assign('listdata',$bills);
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view();
     }
     public function add_page(){
@@ -50,6 +51,7 @@ class Bill extends Initialize{
         $this->assign('handles',json_encode([]));
         $this->assign('handle_max',$this->handle_max);
         $this->assign("url",url("add"));
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view("edit_page");
     }
 
@@ -111,6 +113,7 @@ class Bill extends Initialize{
         $this->assign('handles',json_encode($handles));
         $this->assign('handle_max',$this->handle_max);
         $this->assign("url",url("update",["id"=>$id]));
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view("edit_page");
     }
 

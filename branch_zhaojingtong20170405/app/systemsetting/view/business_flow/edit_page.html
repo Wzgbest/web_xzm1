@@ -69,7 +69,9 @@
             <div class="full role_list_splice"></div>
             <div class="foot">
 	            <p class="p5">
+                    {if condition="hava_permission('systemsetting/business_flow/index/edit',$rule_white_list) || hava_permission('systemsetting/business_flow/index/add',$rule_white_list)"}
 	                <input class="business_flow_setting_submit" type="submit" value="保存" />
+                    {/if}
 	                <button onclick="loadPage('{:url('index')}','business-flowfr');">取消</button>
 	            </p>
             </div>

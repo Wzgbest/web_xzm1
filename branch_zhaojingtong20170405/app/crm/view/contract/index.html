@@ -11,10 +11,12 @@
                 <li in_column="7" class="in_column {eq name='in_column' value='7'}current{/eq}"><div>已成单合同（<span>{$listCount.7}</span>）</div></li>
                 <li in_column="0" class="in_column {eq name='in_column' value='0'}current{/eq}"><div>所有合同（<span>{$listCount.0}</span>）</div></li>
             </ul>
+            {if condition="hava_permission('crm/contract/index/contract-apply',$rule_white_list)"}
             <div id="contract-apply" class="pointer">
             	<i class="fa fa-clipboard"></i><br />
             	合同申请
             </div>
+            {/if}
         </header>
         
         <!--我的合同  列表-->
@@ -22,6 +24,7 @@
           <section class="b-w">
             <div>
                 <div class="clearfix"></div>
+                {if condition="hava_permission('crm/contract/index/contract-apply',$rule_white_list)"}
                 <div class="m-filterNav" style="margin-top: 10px">
                     <form class="search_form" onsubmit="return false;">
                         <div class="u-select-container">
@@ -47,6 +50,7 @@
                         <button class="u-btnSearch">查询</button>
                     </form>
                 </div>
+                {/if}
                 <div class="m-tableBox p-r">
                     <div class="m-table table-contract">
                         <ul class="u-tabTitle">
@@ -96,7 +100,9 @@
                             </li>
                             <li class="reject-reson">{$vo.remark}</li>
                             <li class="u-tabOperation">
+                                {if condition="hava_permission('task/historical_task/new_task',$rule_white_list)"}
                                 {eq name="vo.status" value="0"}<span class="retract">撤回</span>{/eq}
+                                {/if}
                             </li>
                             <div class="clearfix"></div>
                         </ul>

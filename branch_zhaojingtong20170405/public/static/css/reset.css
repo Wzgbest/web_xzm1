@@ -182,18 +182,10 @@ textarea {
   padding-right: 20px;
   padding-top: 10px;
   box-sizing:border-box;
+  background-color: white;
 }
 .m-3rd-footer .btn{
-  width: 100px;
-  height: 40px;
-  box-sizing:border-box;
-  border-radius: 3px;
   float: right;
-  line-height: 40px;
-  font-size: 15px;
-  text-align: center;
-  margin-left: 10px;
-  cursor: pointer;
 }
 .m-3rd-footer .btn1{
   border: 1px solid #dcdcdc;
@@ -201,7 +193,7 @@ textarea {
   background-color: white;
 }
 .m-3rd-footer .btn2{
-  background-color: #78beff;
+  background-color: #78beff;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
   color: white;
 }
 .p-r{
@@ -230,4 +222,54 @@ textarea {
 }
 .mar-0{
   margin: 0 !important;
+}
+.mar-l-10{
+  margin-left: 10px !important;
+}
+.mar-r-10{
+  margin-right: 10px !important;
+}
+/*按钮规范,默认为灰色disable*/
+.btn{
+  box-sizing:border-box;
+  text-align: center;
+  border-radius: 3px;
+  color: #cccccc;
+  background-color: #fafafa;
+  border: 1px solid #d1d9de;  
+  cursor: pointer;
+}
+.btn.active{
+  color: white;
+  border: none;
+  background-color: #42a5f5;
+}
+.btn.active:hover{
+  background-color: #2594ed;
+}
+.btn.off{
+  color:black ;
+  background-color: white;
+  border: 1px solid #dcdcdc;  
+}
+.btn.off:hover{
+  background-color: #f8f8f8;
+}
+.btn-usual{
+  padding: 0 16px;
+  height: 28px;
+  line-height: 28px;
+  font-size: 12px;  
+}
+.btn-large{
+  font-size: 14px;
+  line-height: 30px;
+  height: 30px;
+  padding: 0 26px;
+}
+.btn-x-large{
+  padding: 0 34px;
+  height: 38px;
+  line-height: 38px;
+  font-size: 16px; 
 }

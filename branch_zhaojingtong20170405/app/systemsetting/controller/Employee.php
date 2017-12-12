@@ -68,6 +68,7 @@ class Employee extends Initialize{
         $this->assign("truename",$truename);
         $this->assign("start_num",$employees_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$employees_count?$end_num:$employees_count);
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view();
     }
     protected function _getCustomerFilter($filter_column){

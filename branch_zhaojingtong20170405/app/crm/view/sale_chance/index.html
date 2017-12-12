@@ -16,6 +16,7 @@
         <section class="b-w">
         <div>
             <div class="clearfix"></div>
+            {if condition="hava_permission('crm/sale_chance/index/select',$rule_white_list)"}
             <div class="m-filterNav" style="margin-top: 10px;">
                 <form class="search_form" onsubmit="return false;">
                     <div class="u-select-container">
@@ -41,6 +42,7 @@
                     <button class="u-btnSearch">查询</button>
                 </form>
             </div>
+            {/if}
             <div class="m-tableBox p-r">
                 <!--sale-chance-all为正常跟进、停滞、已输单、已作废、所有销售机会表格（表格结构相同） table5定义宽度-->
                 <div class="m-table table5 sale-chance-all">

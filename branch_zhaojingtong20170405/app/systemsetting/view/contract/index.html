@@ -15,11 +15,13 @@
 			</div>
 		</a>
 		{/volist}
+			{if condition="hava_permission('systemsetting/contract/index/add',$rule_white_list)"}
 		<a class="content_link add" href="javascript:loadPage('{:url('add_page')}','contract-settingfr');">
 			<div class="content_item">
 				<h2 class="content_sub_title">+</h2>
 			</div>
 		</a>
+			{/if}
 	</div>
 	</div>
 	

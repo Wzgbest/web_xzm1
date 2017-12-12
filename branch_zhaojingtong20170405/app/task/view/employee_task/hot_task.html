@@ -25,10 +25,12 @@
 					<p data-id="like_count">按热度</p>
 				</div>
 			</div>
+			{if condition="hava_permission('task/hot_task/new_task',$rule_white_list)"}
 			<div class="xinjian">
 				<i class="fa fa-plus fa-2x"></i>
 				<!--<p>新建任务</p>-->
 			</div>
+			{/if}
 		</header>
 		<div class="m-3rd-container">
 			<div>

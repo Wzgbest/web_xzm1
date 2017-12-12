@@ -51,7 +51,7 @@ class Index extends Initialize{
                 $menu_idx[$menu["pid"]]["child"][] = $menu;
             }
         }
-        //var_exp($menu_idx,'$menu_idx',1);
+//        var_exp($menu_idx,'$menu_idx',1);
         $this->assign("menu_idx",$menu_idx);
         return view();
     }
