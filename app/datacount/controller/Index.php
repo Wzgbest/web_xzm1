@@ -311,7 +311,7 @@ class Index extends Initialize{
         $end_time = input("end_time",0,"int");
         list($start_time,$end_time) = $this->_get_times($time,$start_time,$end_time);
 
-        $list = input("time",0,"int");
+        $list = input("list",0,"int");
         $sales_funnel = $this->_get_sales_funnel($uids,$start_time,$end_time,$list);
         if($sales_funnel["status"]!=1){
             $result['status'] = $sales_funnel["status"];
