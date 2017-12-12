@@ -110,7 +110,8 @@
 }
 
 .systemsetting_role .content .dv2 {
-    width: 800px;
+    /*width: 800px;*/
+    width: 960px;
     height: 100%;
     float: left;
 }
@@ -271,13 +272,31 @@
     width: 42px;
     height: 18px;
 }
-.systemsetting_role .table{
+/*.systemsetting_role .table{
     clear: both;
     width: 852px;
     height: 539px;
     border: 1px solid #e5e5e5;
     margin-left: 5px;
 
+}*/
+/*@media only screen and (min-width:1920px ) {
+	.systemsetting_role .table{ 
+	    clear: both;
+	    width: 1352px;
+	    height: 739px;
+	    border: 1px solid #e5e5e5;
+	    margin-left: 5px; 
+	}
+}*/
+@media only screen and (min-width: 1440px) and (max-width: 1919px) {
+	.systemsetting_role .table{ 
+	    width: 852px;
+	    height: 539px; 
+	    clear: both;
+	    border: 1px solid #e5e5e5;
+	    margin-left: 5px; 
+	}
 }
 .systemsetting_role .m-tableBox{
     margin-top: 0;
@@ -372,8 +391,10 @@
     width: 718px;
     height: 440px;
     float: left;
-	overflow-x: hidden;
+	/*overflow-x: hidden;*/
+	overflow-x: auto;
 	overflow-y: auto;
+	border-bottom:1px solid #e5e5e5;
 }
 .systemsetting_role .tab_4 .left{
     width: 130px;
@@ -392,10 +413,10 @@
 }
 .systemsetting_role .tab_4 .right{
     /*width: 435px;最后改过来*/
-   width: 418px;
+   width: 416px;
     /*height: 100%;*/
     float:left;
-    border-right: 1px solid #e5e5e5;
+    /*border-right: 1px solid #e5e5e5;*/
     border-bottom:1px solid #e5e5e5;
 }
 .systemsetting_role .tab_4 .left p{
@@ -415,10 +436,12 @@
     font-size: 14px;
 }
 .systemsetting_role .tab_4 .right p{
-	width:418px;
+	/*width:418px;*/
+	width: 718px;
+	padding-left: 200px;
     height: 40px;
     background-color: #e6dbe8;
-    text-align: center;
+    text-align: left;
     line-height: 40px;
     font-size: 14px;
 }
@@ -441,7 +464,8 @@
 }*/
 .systemsetting_role .tab_4 .right ul li{
 	
-    width: 418px;
+    /*width: 418px;*/
+    width: 918px;
     height: 39px;
     border-top:1px solid #e5e5e5;
 

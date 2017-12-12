@@ -25,6 +25,7 @@ use app\common\model\ParamRemark;
 use app\crm\model\SaleOrderContractItem;
 use app\task\model\TaskTarget;
 use app\crm\model\SaleChanceSignIn as SaleChanceSignInModel;
+use app\datacount\model\Datacount;
 
 class SaleChance extends Initialize{
     protected $_activityBusinessFlowItem = [1,2,4];
@@ -706,6 +707,17 @@ class SaleChance extends Initialize{
                     $saleChance["sale_name"] = $fine_save_flg["data"]["sale_name"];
                     $saleChanceflg = $saleChanceM->setSaleChance($saleChanceId,$saleChance);
                 }
+            }
+
+            $datacount["uid"] = $uid;
+            $datacount["time"] = time();
+            $datacount["type"] = 2;
+            $datacount["link_id"] = $saleChanceId;
+            $datacount["num"] = 1;
+            $datacountM = new Datacount();
+            $data_count_flg  = $datacountM->addDatacount($datacount);
+            if(!$data_count_flg){
+                exception('添加商机统计失败!');
             }
 
             $customerM = new CustomerTraceModel($this->corp_id);
