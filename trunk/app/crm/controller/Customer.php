@@ -1191,65 +1191,32 @@ class Customer extends Initialize{
         return json($result);
     }
 
-    public function get_customer_phone(){
-        $result = ['status'=>0 ,'info'=>"获取客户电话信息时发生错误！"];
-        $id = input('id',0,'int');
-        if(!$id){
-            $result['info'] = "参数错误！";
-            return json($result);
-        }
+    public function get_self_customer_phone(){
+        $result = ['status'=>0 ,'info'=>"获取我的所有客户电话信息时发生错误！"];
 
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
-        $now_time = time();
-
-        $customerM = new CustomerModel($this->corp_id);
-        $customerHandleMan = $customerM->getCustomerHandleMan($id);
-
-        $show_flg = false;
-        //客户跟踪人验证
-        if($customerHandleMan == $uid){
-            $show_flg = true;
-        }
-
-        //TODO 管理员权限验证
-        if(!$show_flg) {
-            $show_flg = true;
-        }
-
-        //帮跟权限
-        if(!$show_flg){
-            $taskTargetM = new TaskTarget($this->corp_id);
-            $taskTargetInfo = $taskTargetM->findTaskTargetByCustomerId($uid,$id,$now_time);
-            //var_exp($taskTargetInfo,'$taskTargetInfo',1);
-            if(!empty($taskTargetInfo)){
-                $show_flg = true;
-            }
-        }
-
-        if(!$show_flg){
-            $result['info'] = "没有权限查看该客户的电话信息";
-            return json($result);
-        }
+        $order = input("order","id","string");
+        $direction = input("direction","desc","string");
 
         try{
             $customer_phone = [];
             $customerM = new CustomerModel($this->corp_id);
-            $customerData = $customerM->getCustomer($id);
-            if(empty($customerData)){
-                exception("未找到客户!");
-                $result['info'] = "未找到客户！";
+            $customers_data = $customerM->getSelfCustomer($uid,0,0,[],[],$order,$direction);
+            $customer_ids = [];
+            foreach ($customers_data as $customer) {
+                $phone_item = [
+                    "id" => $customer["id"],
+                    "name" => $customer["customer_name"],
+                    "phone" => $customer["telephone"],
+                    "type" => "customer",
+                    "num" => 1,
+                ];
+                $customer_phone[] = $phone_item;
+                $customer_ids[] = $customer["id"];
             }
-            $phone_item = [
-                "id"=>$customerData["id"],
-                "name"=>$customerData["customer_name"],
-                "phone"=>$customerData["telephone"],
-                "type"=>"customer",
-                "num"=>1,
-            ];
-            $customer_phone[] = $phone_item;
             $customerM = new CustomerContactModel($this->corp_id);
-            $customer_contact_list = $customerM->getCustomerPhone($id);
+            $customer_contact_list = $customerM->getCustomersPhone($customer_ids);
             foreach ($customer_contact_list as $customer_contact){
                 $suffixs = ["first","second","third"];
                 $idx = 1;
@@ -1270,10 +1237,11 @@ class Customer extends Initialize{
             }
             $result['data'] = $customer_phone;
         }catch (\Exception $ex){
+            $result["info"] = $ex->getMessage();
             return json($result);
         }
         $result['status'] = 1;
-        $result['info'] = "获取客户电话信息成功！";
+        $result['info'] = "获取我的所有客户电话信息成功！";
         return json($result);
     }
     
