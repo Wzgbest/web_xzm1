@@ -61,6 +61,7 @@
 	border: 1px solid #d1d9de;
 	cursor: pointer;
 }
+
  .m-secNav li:not(.vertival).active{
 	color: white;
 	border: none;
@@ -537,4 +538,15 @@ height: 25px; */
 	height: 300px;
 	float: left;
 	margin-top: 14px;	
+}
+/*每日任务设置*/
+.datacount_index_target_set .task-count-part{
+	margin:10px 0;
+}
+.datacount_index_target_set .task-count-part input[type="checkbox"]{
+	margin:0 5px 0 10px;
+}
+.datacount_index_target_set .task-count-part input[type="text"]{
+	width: 84px;
+	margin: 0 10px;
 }

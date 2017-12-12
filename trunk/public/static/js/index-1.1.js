@@ -27,7 +27,8 @@ function init(){
             $("aside dl").eq(0).children("dt").addClass("dtcurrent").siblings(".ddcontent").children("dd").eq(0).addClass("ddcurrent");
         }
 	}
-    $(".phone-box").load("/index/call/index");
+    // 调试的时候可以关闭此行代码
+    // $(".phone-box").load("/index/call/index");
 }
 
 window.onload =function(){
