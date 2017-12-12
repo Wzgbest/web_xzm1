@@ -30,6 +30,7 @@ use app\common\model\Structure;
 use app\systemsetting\model\BusinessFlowItemLink;
 use app\common\model\RoleEmployee as RoleEmployeeModel;
 use app\crm\model\Contract as ContractAppliedModel;
+use app\datacount\model\Datacount;
 
 class Customer extends Initialize{
     protected $_activityBusinessFlowItem = [1,2,4];
@@ -1329,6 +1330,17 @@ class Customer extends Initialize{
             $customersNegotiateId = $customerNegotiateM->addCustomerNegotiate($customerNegotiate);
             if(!$customersNegotiateId){
                 exception('添加客户沟通状态失败!');
+            }
+
+            $datacount["uid"] = $uid;
+            $datacount["time"] = time();
+            $datacount["type"] = 6;
+            $datacount["link_id"] = $customerId;
+            $datacount["num"] = 1;
+            $datacountM = new Datacount();
+            $data_count_flg  = $datacountM->addDatacount($datacount);
+            if(!$data_count_flg){
+                exception('添加客户统计失败!');
             }
             $result['data'] = $customerId;
             $customerM->link->commit();
