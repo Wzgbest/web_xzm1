@@ -10,6 +10,7 @@ use app\common\model\Employee;
 use app\common\model\UserCorporation;
 use app\common\model\RoleRule;
 use think\Request;
+use think\View;
 
 class Initialize extends Controller
 {
@@ -87,16 +88,14 @@ class Initialize extends Controller
         if(isset($this->rule_map[$rule_name])){
             $rule_name = $this->rule_map[$rule_name];
         }
-        if(!$this->checkRule($rule_name)){
-//            $this->noRole();
-        }
+
     }
     protected function checkRule($rule_name){
         if(in_array($rule_name,$this->rule_white_list)){
             return true;
         }
         $check_flg = false;
-        $this->hav_rules = false;//get_cache_by_tel($this->telephone,"hav_rules");
+        $this->hav_rules = get_cache_by_tel($this->telephone,"hav_rules");
         if(!$this->hav_rules){
             $roleRuleM = new RoleRule($this->corp_id);
             $this->hav_rules = $roleRuleM->getRuleNamesByUid($this->uid);
@@ -115,14 +114,16 @@ class Initialize extends Controller
     public function redirectToLogin(){
         $this->redirect('/login/index/index');
     }
-    public function noRole(){
+    public function noRole($type=1){
         //TODO 无访问权限返回页面
-        if($this->device_type==1){
-            $this->error("没有权限!");
-        }else{
-            $info['message'] = '没有权限';
+        if($type==1){
+            $info['info'] = '没有权限';
+            $info['status'] = 0;
             $info['errnum'] = 1;
-            $this->returnAjaxError($info);
+            return json($info);
+        }else{
+            $view = new View();
+            echo $view->fetch('common@index/unauth');exit;
         }
     }
 }
