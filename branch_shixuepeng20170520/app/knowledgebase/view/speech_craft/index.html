@@ -12,13 +12,17 @@
         </header>
         <section class="m-divBlock m-divBlock2 m-low-nav">
         	<div class="m-filterNav">
+				{if condition="hava_permission('knowledgebase/speech_craft/index/new-speechcraft',$rule_white_list)"}
                 <div class="new-speechcraft new-speechcraft2 fl">
                     发起话术
                 </div>
+				{/if}
+				{if condition="hava_permission('knowledgebase/speech_craft/index/select',$rule_white_list)"}
                 <form class="search_form fl" onsubmit="return false;">
                     <input type="text" name="key_word" placeholder="请输入关键字" value=""/>
                     <button class="u-btnSearch" onclick="search_article()">查询</button>
                 </form>
+				{/if}
                 {eq name="is_leader" value="1"}
                 <div class="batch-manage fl">
                     <span class="out hide">退出</span>批量管理
@@ -29,7 +33,7 @@
                 </div>
                 <div class="batch-change hide">
                     批量转移
-                </div>               
+                </div>
             	<div class="clearfix"></div>
             </div>
         </section>

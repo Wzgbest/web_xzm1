@@ -17,11 +17,13 @@
 				</div>
 			</a>
 			{/volist}
+			{if condition="hava_permission('systemsetting/business_flow/index/add',$rule_white_list)"}
 			<a href="javascript:loadPage('{:url('add_page')}','business-flowfr');" class="content_link add">
 				<div class="content_item">
 					<h2 class="content_sub_title">+</h2>
 				</div>
 			</a>
+			{/if}
 		</div>
 	</div>
 	

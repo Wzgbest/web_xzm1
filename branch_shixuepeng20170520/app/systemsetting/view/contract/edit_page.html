@@ -108,7 +108,9 @@
 			</div>
 			<div class="foot">
 				<p class="p5">
+					{if condition="hava_permission('systemsetting/contract/index/add',$rule_white_list) || hava_permission('systemsetting/contract/index/edit',$rule_white_list)"}
 					<input class="contract_setting_submit" type="submit" value="保存" />
+					{/if}
 					<button onclick="loadPage('{:url('index')}','contract-settingfr');">取消</button>
 				</p>
 			</div>

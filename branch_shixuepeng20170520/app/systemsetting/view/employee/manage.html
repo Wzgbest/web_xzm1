@@ -12,15 +12,26 @@
 			<div class="content">
 				<section>
 					<ul class="m-secNav">
+						{if condition="hava_permission('systemsetting/employee/manage/newClient',$rule_white_list)"}
 						<li class="active" onclick="employee_list_newClient();">新建员工</li>
+						{/if}
+						{if condition="hava_permission('systemsetting/employee/manage/employee_list_import',$rule_white_list)"}
 						<li class="active"><span class="big-link" data-reveal-id="employee_list_import" data-animation="fade">批量导入</span></li>
+						{/if}
+						{if condition="hava_permission('systemsetting/employee/manage/employee_import',$rule_white_list)"}
 						<li class="active employee_import">导入记录</li>
+						{/if}
 						<li class="vertical"></li>
+						{if condition="hava_permission('systemsetting/employee/manage/exportEmployee',$rule_white_list)"}
 						<li class="exportEmployee"><span>导出</span></li>
+						{/if}
+						{if condition="hava_permission('systemsetting/employee/manage/exportEmployee',$rule_white_list)"}
 						<li class="delete"><span>删除</span></li>
+						{/if}
 						<div class="clearfix"></div>
 					</ul>
 					<div class="m-filterNav">
+						{if condition="hava_permission('systemsetting/employee/manage/select',$rule_white_list)"}
 						<form class="search_form" onsubmit="return false;">
 							<select name="structure">
 								<option value="">直属部门</option>
@@ -44,6 +55,7 @@
 							<input type="text" name="truename" placeholder="输入姓名" value="{present name='filter.truename'}{$filter.truename}{/present}" />
 							<button class="u-btnSearch">查询</button>
 						</form>
+						{/if}
 					</div>
 					<div class="m-tableBox">
 						<!--<div class="m-table m-table-nav ">
@@ -84,8 +96,12 @@
 								<li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}" /></li>
 								<li class="u-tabOperation">
 									<span onclick="employee_list_show('{$vo.id}');">详情</span>
+									{if condition="hava_permission('systemsetting/employee/manage/edit',$rule_white_list)"}
 									<span onclick="employee_list_edit('{$vo.id}',0);">编辑</span>
+									{/if}
+									{if condition="hava_permission('systemsetting/employee/manage/del',$rule_white_list)"}
 									<span onclick="employee_list_del('{$vo.id}');">删除</span>
+									{/if}
 								</li>
 								<li>{$vo.worknum}</li>
 								<li>{$vo.truename}</li>

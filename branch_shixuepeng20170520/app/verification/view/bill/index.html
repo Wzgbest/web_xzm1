@@ -15,11 +15,18 @@
         <div class="m-3rd-container">
             <section style="background-color: white">
                 <ul class="m-secNav">
+                    {if condition="hava_permission('verification/bill/index/batch_approved',$rule_white_list)"}
                     <li>通过</li>
+                    {/if}
+                    {if condition="hava_permission('verification/bill/index/batch_rejected',$rule_white_list)"}
                     <li>驳回</li>
+                    {/if}
+                    {if condition="hava_permission('verification/bill/index/export_report',$rule_white_list)"}
                     <li>导出报表</li>
+                    {/if}
                     <div class="clearfix"></div>
                 </ul>
+                {if condition="hava_permission('verification/bill/index/select',$rule_white_list)"}
                 <div class="m-filterNav">
                     <form class="search_form" onsubmit="return false;">
                         <div class="u-select-container">
@@ -55,6 +62,7 @@
                         <button class="u-btnSearch">查询</button>
                     </form>
                 </div>
+                {/if}
                 <div class="m-tableBox" style="position: relative;">
                     <div class="m-table m-table-nav">
                         <ul class="u-tabTitle">
@@ -71,8 +79,12 @@
                             <li class="u-tabCilentName">{$vo.customer_name}</li>
                             <li class="u-tabOperation">
                                 {eq name="vo.status" value="0"}
+                                {if condition="hava_permission('verification/bill/index/rejected',$rule_white_list)"}
                                     <span class="rejected">驳回</span>
+                                {/if}
+                                {if condition="hava_permission('verification/bill/index/approved',$rule_white_list)"}
                                     <span class="approved {eq name='vo[$vo["now_handle_create_item"]]' value='1'}bill_no{/eq}" bill_no="{$vo.bill_no}">通过</span>
+                                {/if}
                                     <!-- <span class="approved remark {eq name='vo[$vo["now_handle_create_item"]]' value='1'}bill_no{/eq}" title="备注通过">备注通过</span> -->
                                 {/eq}
                                 {eq name="vo.status" value="4"}
@@ -108,8 +120,12 @@
                             <li class="u-tabCilentName">{$vo.customer_name}</li>
                             <li class="u-tabOperation">
                                 {eq name="vo.status" value="0"}
+                                {if condition="hava_permission('verification/bill/index/rejected',$rule_white_list)"}
                                     <span class="rejected">驳回</span>
+                                {/if}
+                                {if condition="hava_permission('verification/bill/index/approved',$rule_white_list)"}
                                     <span class="approved {eq name='vo[$vo["now_handle_create_item"]]' value='1'}bill_no{/eq}" bill_no="{$vo.bill_no}">通过</span>
+                                {/if}
                                     <!-- <span class="approved-mark remark {eq name='vo[$vo["now_handle_create_item"]]' value='1'}bill_no{/eq}" title="备注通过">备注通过</span> -->
                                 {/eq}
                                 {eq name="vo.status" value="4"}

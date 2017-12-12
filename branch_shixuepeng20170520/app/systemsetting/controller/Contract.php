@@ -23,6 +23,7 @@ class Contract extends Initialize{
         $contracts = $this->_contractSettingModel->getAllContract();
         //var_exp($contracts,'$contracts',1);
         $this->assign('listdata',$contracts);
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view();
     }
     public function add_page(){
@@ -57,6 +58,7 @@ class Contract extends Initialize{
         $this->assign('applys',json_encode([]));
         $this->assign('apply_max',$this->apply_max);
         $this->assign("url",url("add"));
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view("edit_page");
     }
 
@@ -116,6 +118,7 @@ class Contract extends Initialize{
         $this->assign('applys',json_encode($applys));
         $this->assign('apply_max',$this->apply_max);
         $this->assign("url",url("update",["id"=>$id]));
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view("edit_page");
     }
 

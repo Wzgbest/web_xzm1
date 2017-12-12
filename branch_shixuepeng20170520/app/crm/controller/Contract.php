@@ -98,6 +98,7 @@ class Contract extends Initialize{
         $this->assign("in_column",$in_column);
         $this->assign("start_num",$customers_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view();
     }
     protected function _getCustomerFilter($filter_column){
