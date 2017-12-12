@@ -137,6 +137,7 @@ class Customer extends Initialize{
         $this->assign("truename",$truename);
         $this->assign("start_num",$customers_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view();
     }
     public function my_customer(){
@@ -190,6 +191,7 @@ class Customer extends Initialize{
         $this->assign("in_column",$in_column);
         $this->assign("start_num",$customers_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view();
     }
     public function public_customer_pool(){
@@ -255,6 +257,7 @@ class Customer extends Initialize{
         $this->assign("max_page",$max_page);
         $this->assign("start_num",$customers_count?$start_num+1:0);
         $this->assign("end_num",$end_num<$customers_count?$end_num:$customers_count);
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view($view_name);
     }
     public function customer_pending(){

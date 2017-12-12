@@ -18,11 +18,18 @@
         <div class="m-3rd-container">
             <section style="background-color: white">
                 <ul class="m-secNav">
+                    {if condition="hava_permission('verification/contract/index/batch_approved',$rule_white_list)"}
                     <li>通过</li>
+                    {/if}
+                    {if condition="hava_permission('verification/contract/index/batch_rejected',$rule_white_list)"}
                     <li>驳回</li>
+                    {/if}
+                    {if condition="hava_permission('verification/contract/index/export_report',$rule_white_list)"}
                     <li>导出报表</li>
+                    {/if}
                     <div class="clearfix"></div>
                 </ul>
+                {if condition="hava_permission('verification/contract/index/select',$rule_white_list)"}
                 <div class="m-filterNav">
                     <form class="search_form" onsubmit="return false;">
                         <div class="u-select-container">
@@ -68,6 +75,7 @@
                         <button class="u-btnSearch">查询</button>
                     </form>
                 </div>
+                {/if}
                 <div class="m-tableBox" style="position: relative;">
                     <div class="m-table m-table-nav">
                         <ul class="u-tabTitle">
@@ -88,16 +96,24 @@
                             <li>{$vo.employee_name}</li>
                             <li class="u-tabOperation">
                                 {eq name="vo.status" value="0"}
+                                {if condition="hava_permission('verification/contract/index/rejected',$rule_white_list)"}
                                     <span class="rejected">驳回</span>
+                                {/if}
+                                {if condition="hava_permission('verification/contract/index/approved',$rule_white_list)"}
                                     <span class="approved">通过</span>
+                                {/if}
                                 {/eq}
                                 {eq name="vo.status" value="1"}
+                                {if condition="hava_permission('verification/contract/index/invalid',$rule_white_list)"}
                                     <span class="invalid">作废</span>
+                                {/if}
                                     {eq name="vo.contract_status" value="4"}
                                         <span class="received">已领取</span>
                                     {/eq}
                                     {eq name="vo.contract_status" value="5"}
+                                {if condition="hava_permission('verification/contract/index/withdraw',$rule_white_list)"}
                                         <span class="withdrawal">收回</span>
+                                {/if}
                                     {/eq}
                                 {/eq}
                             </li>

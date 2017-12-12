@@ -19,15 +19,28 @@
         <div class="m-3rd-container">
             <section class="myAllClientsPage b-w" >
             <ul class="m-secNav">
+                {if condition="hava_permission('crm/customer/my_customer/showNewClient',$rule_white_list)"}
                 <li class="active showNewClient">新建客户</li>
+                {/if}
+                {if condition="hava_permission('crm/customer/my_customer/my_customer_import',$rule_white_list)"}
                 <li class="active"><span class="big-link" data-reveal-id="my_customer_import" data-animation="fade">导入客户</span></li>
+                {/if}
+                {if condition="hava_permission('crm/customer/my_customer/customer_import',$rule_white_list)"}
                 <li class="active customer_import">导入记录</li>
+                {/if}
                 <li class="vertical"></li>
+                {if condition="hava_permission('crm/customer/my_customer/exportCustomer',$rule_white_list)"}
                 <li class="exportCustomer">导出</li>
+                {/if}
+                {if condition="hava_permission('crm/customer/my_customer/send_customer_group_message',$rule_white_list)"}
                 <li class="send_customer_group_message">群发短信</li>
+                {/if}
+                {if condition="hava_permission('crm/customer/my_customer/release_customers',$rule_white_list)"}
                 <li class="release_customers">批量释放</li>
+                {/if}
                 <div class="clearfix"></div>
             </ul>
+                {if condition="hava_permission('crm/customer/my_customer/select',$rule_white_list)"}
             <div class="m-filterNav">
                 <form class="search_form" onsubmit="return false;">
                     <div class="u-select-container">
@@ -75,6 +88,7 @@
                     <button class="u-btnSearch">查询</button>
                 </form>
             </div>
+                {/if}
             <div class="m-tableBox p-r o-h">
                 <div class="m-table m-table-nav">
                     <ul class="u-tabTitle">
@@ -123,9 +137,15 @@
                         <li class="u-tabCheckbox"><input type="checkbox" value="{$vo.id}"/></li>
                         <li class="u-tabCilentName customer_info_name_show">{$vo.customer_name}</li>
                         <li class="u-tabOperation">
+                            {if condition="hava_permission('crm/customer/my_customer/customer_info_show',$rule_white_list)"}
                             <span class="customer_info_show">详情</span>
+                            {/if}
+                            {if condition="hava_permission('crm/customer/my_customer/customer_info_edit',$rule_white_list)"}
                             <span class="customer_info_edit">编辑</span>
+                            {/if}
+                            {if condition="hava_permission('crm/customer/my_customer/release_customers',$rule_white_list)"}
                             <span class="release_customers">释放</span>
+                            {/if}
                         </li>
                         <li>{$vo.take_type|getTakeTypeFromName}</li>
                         <li>{$vo.grade}</li>

@@ -15,11 +15,18 @@
         <div class="m-3rd-container">
            <section style="background-color: white">
                 <ul class="m-secNav">
+                    {if condition="hava_permission('verification/index/index/batch_approved',$rule_white_list)"}
                     <li>通过</li>
+                    {/if}
+                    {if condition="hava_permission('verification/index/index/batch_rejected',$rule_white_list)"}
                     <li>驳回</li>
+                    {/if}
+                    {if condition="hava_permission('verification/index/index/export_report',$rule_white_list)"}
                     <li>导出报表</li>
+                    {/if}
                     <div class="clearfix"></div>
                 </ul>
+               {if condition="hava_permission('verification/index/index/select',$rule_white_list)"}
                 <div class="m-filterNav">
                     <form class="search_form" onsubmit="return false;">
                          <div class="u-select-container">
@@ -72,6 +79,7 @@
                         <button class="u-btnSearch">查询</button>
                     </form>
                 </div>
+               {/if}
                 <div class="m-tableBox" style="position: relative;">
                     <div class="m-table m-table-nav">
                         <ul class="u-tabTitle">
@@ -87,9 +95,15 @@
                             <li class="u-tabOperation">
                                 {eq name="vo.sale_status" value="4"}
                                     {eq name="vo.status" value="0"}
+                                {if condition="hava_permission('verification/index/index/rejected',$rule_white_list)"}
                                         <span class="rejected">驳回</span>
+                                {/if}
+                                {if condition="hava_permission('verification/index/index/approved',$rule_white_list)"}
                                         <span class="approved">通过</span>
+                                {/if}
+                                {if condition="hava_permission('verification/index/index/approved_remark',$rule_white_list)"}
                                         <span class="approved remark" title="备注通过">备注通过</span>
+                                {/if}
                                     {/eq}
                                 {/eq}
                             </li>                      

@@ -39,6 +39,7 @@ class SpeechCraft extends Initialize{
         $this->assign('class_id',$class_id);
         $this->assign('uid',$uid);
         $this->assign('is_leader',$is_leader);
+        $this->assign('rule_white_list',$this->rule_white_list);//权限白名单
         return view();
     }
 
