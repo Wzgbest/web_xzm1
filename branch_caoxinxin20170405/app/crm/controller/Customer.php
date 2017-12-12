@@ -564,6 +564,9 @@ class Customer extends Initialize{
         return view();
     }
     public function change_customers_to_employee_page(){
+//        if(($this->checkRule('crm/customer/customer_manage/change_customers_to_employee'))){
+//            $this->noRole(2);
+//        }
         $structureEmployeeModel = new StructureEmployee($this->corp_id);
         $structures = $structureEmployeeModel->getAllStructureAndEmployee();
         $structure_employee = [];
@@ -1532,6 +1535,10 @@ class Customer extends Initialize{
         return json($result);
     }
     public function del(){
+        if((!$this->checkRule('crm/customer/customer_manage/exportCustomer'))){
+            $result=$this->noRole();
+            return $result;
+        }
         $result = ['status'=>0 ,'info'=>"删除客户信息时发生错误！"];
         $ids = input('ids/a');
         //var_exp($ids,'$ids',1);

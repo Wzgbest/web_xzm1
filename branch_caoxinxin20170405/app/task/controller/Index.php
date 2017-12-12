@@ -90,14 +90,11 @@ class Index extends Initialize{
         $this->assign('customer_helpList',$customer_helpList);
     }
     public function new_task(){
-        $flag=$this->checkRule('task/hot_task/new_task') || $this->checkRule('task/direct_participation/new_task') || $this->checkRule('task/historical_task/new_task');
-        if($flag){
-            $this->_new_task_default();
-            return view();
-        }else{
-            $view = new View();
-            return $view->fetch('common@index/unauth');
+        if(!($this->checkRule('task/hot_task/new_task') || $this->checkRule('task/direct_participation/new_task') || $this->checkRule('task/historical_task/new_task'))){
+            $this->noRole(2);
         }
+        $this->_new_task_default();
+        return view();
 
     }
     public function PKnew_task(){
