@@ -1600,12 +1600,16 @@ class Customer extends Base
         return $this->model->table($this->table)->where($map)->select();
     }
 
-    public function getCustomerByName($name,$id=0){
+    public function getCustomerByName($name,$id=0,$lock=0){
         $query = $this->model->table($this->table)
             ->where("customer_name",$name);
 
         if($id>0) {
             $query->where("id","neq",$id);
+        }
+
+        if($lock) {
+            $query->lock($lock);
         }
 
         return $query
