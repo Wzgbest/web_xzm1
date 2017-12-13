@@ -111,7 +111,7 @@
 
 .systemsetting_role .content .dv2 {
     /*width: 800px;*/
-    width: 960px;
+    width: 880px;
     height: 100%;
     float: left;
 }
@@ -272,14 +272,14 @@
     width: 42px;
     height: 18px;
 }
-/*.systemsetting_role .table{
+.systemsetting_role .table{
     clear: both;
     width: 852px;
     height: 539px;
     border: 1px solid #e5e5e5;
     margin-left: 5px;
 
-}*/
+}
 /*@media only screen and (min-width:1920px ) {
 	.systemsetting_role .table{ 
 	    clear: both;
@@ -289,7 +289,7 @@
 	    margin-left: 5px; 
 	}
 }*/
-@media only screen and (min-width: 1440px) and (max-width: 1919px) {
+/*@media only screen and (min-width: 1440px) and (max-width: 1919px) {
 	.systemsetting_role .table{ 
 	    width: 852px;
 	    height: 539px; 
@@ -297,7 +297,7 @@
 	    border: 1px solid #e5e5e5;
 	    margin-left: 5px; 
 	}
-}
+}*/
 .systemsetting_role .m-tableBox{
     margin-top: 0;
     margin-left: 5px;
