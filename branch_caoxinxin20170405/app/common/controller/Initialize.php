@@ -62,7 +62,7 @@ class Initialize extends Controller
         $this->corp_id = $info["corp_id"];
         set_userinfo($this->corp_id,$this->telephone,$info["userinfo"]);
 
-        $this->hav_rules = get_cache_by_tel($this->telephone,"hav_rules");
+        $this->hav_rules = false;// get_cache_by_tel($this->telephone,"hav_rules");
         if(!$this->hav_rules){
             $roleRuleM = new RoleRule($this->corp_id);
             $this->hav_rules = $roleRuleM->getRuleNamesByUid($this->uid);
