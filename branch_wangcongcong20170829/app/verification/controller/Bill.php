@@ -196,6 +196,7 @@ class Bill extends Initialize{
             $verificatioLogRemark = '';
 
             $bill_data = [];
+            $next_received_uids = [];
             if($remark){
                 $bill_data["remark"] = ["exp","concat(remark,'".$remark.";')"];
             }
@@ -221,6 +222,7 @@ class Bill extends Initialize{
                 $verificatioLogRemark .= "审核通过,转到下一审核人";
                 $verificatioLogData["status_previous"] = $bill_handle_status;
                 $verificatioLogData["status_now"] = $bill_handle_status+1;
+                $next_received_uids[] = $bill_info["handle_".($bill_handle_status+1)];
             }else{
                 //最后一步审批
                 //$bill_data["status"] = 1;
@@ -253,6 +255,9 @@ class Bill extends Initialize{
         $user_infomation = $userinfo["userinfo"];
         $received_uids[] = $bill_info['operator'];
         $flg = save_msg("你的".$contractSetting['bill_type']."发票".$verificatioLogRemark."  [审核人：".$user_infomation["truename"]."]","/crm/bill/index",$received_uids,4,9,$uid,$bill_info['sale_id']);
+        if (!empty($next_received_uids)) {
+            save_msg("有一份".$contractSetting['bill_type']."的发票申请待你审核！","/verification/contract/index",$next_received_uids,4,11,$bill_info['operator'],$bill_info['sale_id']);
+        }
 
         $result['status']=1;
         $result['info']='通过发票申请成功!';

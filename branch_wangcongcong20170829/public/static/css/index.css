@@ -270,7 +270,7 @@ left: 220px; */
 }
 /*消息中心*/
 .message-box{
-	display: none;
+	/*display: none;*/
 	width: 480px;
 	height: 505px;
 	border: 1px solid #f0f0f0;
@@ -309,15 +309,19 @@ left: 220px; */
 	height: 100%;
 }
 .message-box .message-content-header{
-	display: none;
+	/*display: none;*/
 	height: 40px;
 	line-height: 40px;
 	text-align: center;
 	background-color: #f7e0c3;
 	font-size: 14px;
+	
+	    position: relative;
+    top: 0;
+    left: 0;
 }
 .message-box .message-content-container{
-	display: none;
+	/*display: none;*/
 	height: 425px;
 	box-sizing:border-box;
 	padding: 0 12px;
@@ -357,6 +361,9 @@ left: 220px; */
 	text-align: center;
 	background-color: #f7e0c3;
 	font-size: 14px;
+	    position: absolute;
+    width: 72%;
+    bottom: 0;
 }
 
 /*电话盒子*/
