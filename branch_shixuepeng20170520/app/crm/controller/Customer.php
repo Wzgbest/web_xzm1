@@ -1345,6 +1345,19 @@ class Customer extends Initialize{
             if(!$data_count_flg){
                 exception('添加客户统计失败!');
             }
+            $comm_status = input('comm_status',0,'int');
+            if($comm_status==6){
+                $datacount["uid"] = $uid;
+                $datacount["time"] = time();
+                $datacount["type"] = 8;
+                $datacount["link_id"] = $customerId;
+                $datacount["num"] = 1;
+                $datacountM = new Datacount();
+                $data_count_flg  = $datacountM->addDatacount($datacount);
+                if(!$data_count_flg){
+                    exception('添加客户统计失败!');
+                }
+            }
             $result['data'] = $customerId;
             $customerM->link->commit();
         }catch (\Exception $ex){
