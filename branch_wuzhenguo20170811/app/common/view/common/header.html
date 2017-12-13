@@ -29,49 +29,62 @@
                     <h4>CRM消息{if condition="$crm_msg_count neq 0"}（<span class="color-red">{$crm_msg_count}</span>）{else/}（无）{/if}</h4>
                     <h4>知识库消息{if condition="$knowledge_msg_count neq 0"}（<span class="color-red">{$knowledge_msg_count}</span>）{else/}（无）{/if}</h4>
                 </div>
-                <div class="message-content">
-                    <div class="message-content-header" style="display: block;">
+                <div class="message-content" style="display: block;">
+                    <div class="message-content-header">
                        	系统消息
-                    </div>
-                    <div class="message-content-header">
-                    	任务消息
-                    </div>
-                    <div class="message-content-header">
-                        CRM消息
-                    </div>
-                    <div class="message-content-header">
-                    	知识库消息 
-                    </div>
-                    
-                    <ul class="message-content-container" style="display: block;">
+                    </div>            
+                    <ul class="message-content-container" >
                         {volist name="msg_list" id="vo" }
                         {if condition="$vo.type eq 1"}<li class="current"  data-id="{$vo.id}" data-subid="day-count"  data-title = "系统消息" _src="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
                         {/volist}
                        
                     </ul>
+                    <div class="message-content-footer color-blue">
+                        设为已读
+                    </div>
+                </div>
+                <div class="message-content">
+                	<div class="message-content-header">
+                    	任务消息
+                    </div>
                     <ul class="message-content-container" >
                         {volist name="msg_list" id="vo"}
                         {if condition="$vo.type eq 3"}<li class="current" data-id="{$vo.id}" data-subid="task-info" data-title = "任务详情" _src="{$vo.url}/fr/task-infofr"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
                         {/volist}
                        
                     </ul>
-                    <ul class="message-content-container">
+                    <div class="message-content-footer color-blue">
+                        设为已读
+                    </div>
+                </div>	
+                <div class="message-content">
+                	<div class="message-content-header">
+                        CRM消息
+                    </div>
+                     <ul class="message-content-container">
                         {volist name="msg_list" id="vo"}
                         {if condition="$vo.type eq 4"}<li class="current" data-id="{$vo.id}" {if condition="$vo.sub_type eq 5"}  data-subid="mycliets" data-title = "客户详情" {elseif condition="$vo.sub_type eq 6"/} data-subid="high-sea" data-title = "公海池" {elseif condition="$vo.sub_type eq 7"} data-subid="my-contract" data-title = "我的合同" {elseif condition="$vo.sub_type eq 8"} data-subid="verification-contract" data-title = "合同审核" {elseif condition="$vo.sub_type eq 9"} data-subid="number-screening" data-title = "销售机会" {elseif condition="$vo.sub_type eq 10"} data-subid="verification-index" data-title = "成单审核" {else condition="$vo.sub_type eq 11"} data-subid="verification-bill" data-title = "发票审核" {/if}  _src="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
                         {/volist}
                       
                     </ul>
-                    <ul class="message-content-container">
+                     <div class="message-content-footer color-blue">
+                        设为已读
+                    </div>
+                </div>
+                <div class="message-content">
+                    <div class="message-content-header">
+                    	知识库消息 
+                    </div>
+                	<ul class="message-content-container">
                         {volist name="msg_list" id="vo"}
                         {if condition="$vo.type eq 5"}<li class="current" data-id="{$vo.id}" data-subid="company-library"  data-title = "话术库" _src="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
                         {/volist}
                         
                     </ul>
-                    
                     <div class="message-content-footer color-blue">
                         设为已读
                     </div>
-                </div>
+                </div>	
             </div>
         </div>
         <!-- <div id="nav-notice"><i class="fa fa-2x fa-bullhorn"></i><span>通知</span></div> -->
@@ -107,11 +120,11 @@
     });
     
     $(".message-box .message-class h4").click(function(){
-    	$(".message-content-header").css("display","none");
-    	$(".message-content ul").css("display","none");
+    	
+    	$(".message-box .message-content").css("display","none");
     	var index_tab=$(this).index();
-    	$(".message-content-header").eq(index_tab).css("display","block");
-  		$(".message-content ul").eq(index_tab).css("display","block");
+    	$(".message-box .message-content").eq(index_tab).css("display","block");
+
     })
     
     
