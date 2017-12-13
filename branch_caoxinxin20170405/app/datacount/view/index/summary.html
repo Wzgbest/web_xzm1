@@ -177,43 +177,37 @@
 							<div class="clearfix"></div>
 							<div class="process-name">新增客户</div>
 							<div class="process-bar"><span>
-								{gt name="sales_funnel.1.target" value="0"}
-									{$sales_funnel.1.num/$sales_funnel.1.target}%
+								{gt name="sales_funnel.1.num" value="0"}
+									{$sales_funnel.2.num/$sales_funnel.1.num*100}%
 								{else/}
 									0%
 								{/gt}
 							</span></div>
 							<div class="process-name">意向客户</div>
 							<div class="process-bar"><span>
-								{gt name="sales_funnel.2.target" value="0"}
-									{$sales_funnel.2.num/$sales_funnel.2.target}%
+								{gt name="sales_funnel.2.num" value="0"}
+									{$sales_funnel.3.num/$sales_funnel.2.num*100}%
 								{else/}
 									0%
 								{/gt}
 							</span></div>
 							<div class="process-name">商机</div>
 							<div class="process-bar"><span>
-								{gt name="sales_funnel.3.target" value="0"}
-									{$sales_funnel.3.num/$sales_funnel.3.target}%
+								{gt name="sales_funnel.3.num" value="0"}
+									{$sales_funnel.4.num/$sales_funnel.3.num*100}%
 								{else/}
 									0%
 								{/gt}
 							</span></div>
 							<div class="process-name">拜访</div>
 							<div class="process-bar"><span>
-								{gt name="sales_funnel.4.target" value="0"}
-									{$sales_funnel.4.num/$sales_funnel.4.target}%
+								{gt name="sales_funnel.4.num" value="0"}
+									{$sales_funnel.5.num/$sales_funnel.4.num*100}%
 								{else/}
 									0%
 								{/gt}
 							</span></div>
-							<div class="process-name">成单(
-								{gt name="sales_funnel.5.target" value="0"}
-									{$sales_funnel.5.num/$sales_funnel.5.target}%
-								{else/}
-									0%
-								{/gt}
-							)</div>
+							<div class="process-name">成单</div>
 						</div>
 						<div class="bottom-process">
 							<div class="rate">
