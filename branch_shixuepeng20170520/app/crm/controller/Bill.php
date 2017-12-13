@@ -450,25 +450,25 @@ class Bill extends Initialize{
         }
 
         $recieve_uids[] = $handle_arr["handle_1"];
-        if (isset($data["handle_2"])) {
-            $recieve_uids[] = $handle_arr["handle_2"];
-        }
-        if (isset($data["handle_3"])) {
-            $recieve_uids[] = $handle_arr["handle_3"];
-        }
-        if (isset($data["handle_4"])) {
-            $recieve_uids[] = $handle_arr["handle_4"];
-        }
+        // if (isset($data["handle_2"])) {
+        //     $recieve_uids[] = $handle_arr["handle_2"];
+        // }
+        // if (isset($data["handle_3"])) {
+        //     $recieve_uids[] = $handle_arr["handle_3"];
+        // }
+        // if (isset($data["handle_4"])) {
+        //     $recieve_uids[] = $handle_arr["handle_4"];
+        // }
 
-        if (isset($data["handle_5"])) {
-            $recieve_uids[] = $handle_arr["handle_5"];
-        }
-        if (isset($data["handle_6"])) {
-            $recieve_uids[] = $handle_arr["handle_6"];
-        }
+        // if (isset($data["handle_5"])) {
+        //     $recieve_uids[] = $handle_arr["handle_5"];
+        // }
+        // if (isset($data["handle_6"])) {
+        //     $recieve_uids[] = $handle_arr["handle_6"];
+        // }
         $user_infomation = $userinfo["userinfo"];
         $recieve_uids = array_unique($recieve_uids);
-        save_msg("有一份发票申请待你审核！[申请人：".$user_infomation["truename"]."]","/verification/contract/index",$recieve_uids,4,11,$uid);
+        save_msg("有一份".$contractSetting['bill_type']."的发票申请待你审核！","/verification/contract/index",$recieve_uids,4,11,$uid);
 
         $result['status']=1;
         $result['info']='提交发票申请成功!';

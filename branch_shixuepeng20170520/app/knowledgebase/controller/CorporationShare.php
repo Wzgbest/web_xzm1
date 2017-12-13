@@ -219,7 +219,7 @@ class CorporationShare extends Initialize{
                 $str = $userinfos['truename']."点赞了你发布的动态";
                 $receive_uids[] = $share_data['userid'];
                 $sms['img_url'] = "/message/images/dianzan.png";
-                save_msg($str,"/knowledgebase/corporation_share/index",$receive_uids,5,13,$uid,$share_id,$sms);
+                // save_msg($str,"/knowledgebase/corporation_share/index",$receive_uids,5,13,$uid,$share_id,$sms);
             }
         }else{
             if(empty($like_info)){

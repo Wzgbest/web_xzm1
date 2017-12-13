@@ -1200,28 +1200,28 @@ class SaleChance extends Initialize{
 
 
         $recieve_uids[] = $saleOrderContractData["handle_1"];
-        if (!empty($saleOrderContractData["handle_2"])) {
-            $recieve_uids[] = $saleOrderContractData["handle_2"];
-        }
-        if (!empty($saleOrderContractData["handle_1"])) {
-            $recieve_uids[] = $saleOrderContractData["handle_3"];
-        }
-        if (!empty($saleOrderContractData["handle_1"])) {
-            $recieve_uids[] = $saleOrderContractData["handle_4"];
-        }
+        // if (!empty($saleOrderContractData["handle_2"])) {
+        //     $recieve_uids[] = $saleOrderContractData["handle_2"];
+        // }
+        // if (!empty($saleOrderContractData["handle_3"])) {
+        //     $recieve_uids[] = $saleOrderContractData["handle_3"];
+        // }
+        // if (!empty($saleOrderContractData["handle_4"])) {
+        //     $recieve_uids[] = $saleOrderContractData["handle_4"];
+        // }
 
-        if (!empty($saleOrderContractData["handle_1"])) {
-            $recieve_uids[] = $saleOrderContractData["handle_5"];
-        }
-        if (!empty($saleOrderContractData["handle_1"])) {
-            $recieve_uids[] = $saleOrderContractData["handle_6"];
-        }
+        // if (!empty($saleOrderContractData["handle_5"])) {
+        //     $recieve_uids[] = $saleOrderContractData["handle_5"];
+        // }
+        // if (!empty($saleOrderContractData["handle_6"])) {
+        //     $recieve_uids[] = $saleOrderContractData["handle_6"];
+        // }
         $saleChanceData = $saleChanceM->getSaleChanceOrigin($sale_id);
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
         $user_infomation = $userinfo["userinfo"];
         $recieve_uids = array_unique($recieve_uids);
-        save_msg("有一份".$saleChanceData['sale_name']."成单申请待你审核！[申请人：".$user_infomation["truename"]."]","/verification/index/detail/id/"+$save_flg,$recieve_uids,4,10,$uid);
+        save_msg("有一份".$saleChanceData['sale_name']."成单申请待你审核！","/verification/index/detail/id/"+$save_flg,$recieve_uids,4,10,$uid);
 
         $result["status"] = 1;
         $result["info"] = "成单申请保存成功!";
@@ -1421,25 +1421,25 @@ class SaleChance extends Initialize{
         }
 
         $recieve_uids[] = $saleOrderContractData["handle_1"];
-        if (!empty($saleOrderContractData["handle_2"])) {
-            $recieve_uids[] = $saleOrderContractData["handle_2"];
-        }
-        if (!empty($saleOrderContractData["handle_1"])) {
-            $recieve_uids[] = $saleOrderContractData["handle_3"];
-        }
-        if (!empty($saleOrderContractData["handle_1"])) {
-            $recieve_uids[] = $saleOrderContractData["handle_4"];
-        }
+        // if (!empty($saleOrderContractData["handle_2"])) {
+        //     $recieve_uids[] = $saleOrderContractData["handle_2"];
+        // }
+        // if (!empty($saleOrderContractData["handle_3"])) {
+        //     $recieve_uids[] = $saleOrderContractData["handle_3"];
+        // }
+        // if (!empty($saleOrderContractData["handle_4"])) {
+        //     $recieve_uids[] = $saleOrderContractData["handle_4"];
+        // }
 
-        if (!empty($saleOrderContractData["handle_1"])) {
-            $recieve_uids[] = $saleOrderContractData["handle_5"];
-        }
-        if (!empty($saleOrderContractData["handle_1"])) {
-            $recieve_uids[] = $saleOrderContractData["handle_6"];
-        }
+        // if (!empty($saleOrderContractData["handle_5"])) {
+        //     $recieve_uids[] = $saleOrderContractData["handle_5"];
+        // }
+        // if (!empty($saleOrderContractData["handle_6"])) {
+        //     $recieve_uids[] = $saleOrderContractData["handle_6"];
+        // }
         $user_infomation = $userinfo["userinfo"];
         $recieve_uids = array_unique($recieve_uids);
-        save_msg("有一份".$saleChanceData['sale_name']."成单申请待你审核！[申请人：".$user_infomation["truename"]."]","/verification/index/detail/id/"+$sale_order_id,$recieve_uids,4,10,$uid);
+        save_msg("有一份".$saleChanceData['sale_name']."成单申请待你审核！","/verification/index/detail/id/"+$sale_order_id,$recieve_uids,4,10,$uid);
         
         //var_exp($sale_order_id,'$sale_order_id');
         $result["status"] = 1;
