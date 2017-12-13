@@ -1316,14 +1316,14 @@ class Customer extends Initialize{
         }
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
         $customerM = new CustomerModel($this->corp_id);
-        $haveName = $customerM->getCustomerByName($customer['customer_name']);
-        //var_exp($haveName,'$haveName',1);
-        if (!empty($haveName)) {
-            $result['info']="该名称的客户已存在!";
-            return json($result);
-        }
         try{
             $customerM->link->startTrans();
+            $haveName = $customerM->getCustomerByName($customer['customer_name'],0,1);
+            //var_exp($haveName,'$haveName',1);
+            if (!empty($haveName)) {
+                $result['info']="该名称的客户已存在!";
+                return json($result);
+            }
             $customerId = $customerM->addCustomer($customer);
             if(!$customerId){
                 exception('添加客户失败!');
@@ -1440,14 +1440,6 @@ class Customer extends Initialize{
         $customerNegotiate = $this->_getCustomerNegotiateForInput();
         $customerM = new CustomerModel($this->corp_id);
         $customerOldData = $customerM->getCustomer($id);
-        if($customerOldData["customer_name"]!=$customer['customer_name']){
-            $haveName = $customerM->getCustomerByName($customer['customer_name'],$id);
-            //var_exp($haveName,'$haveName',1);
-            if (!empty($haveName)) {
-                $result['info']="该名称的客户已存在!";
-                return json($result);
-            }
-        }
         $customer["comm_status"] = input('comm_status',0,'int');
 
         //var_exp($customerOldData,'$customerOldData');
@@ -1468,6 +1460,14 @@ class Customer extends Initialize{
         unset($customer["comm_status"]);
         try{
             $customerM->link->startTrans();
+            if($customerOldData["customer_name"]!=$customer['customer_name']){
+                $haveName = $customerM->getCustomerByName($customer['customer_name'],0,1);
+                //var_exp($haveName,'$haveName',1);
+                if (!empty($haveName)) {
+                    $result['info']="该名称的客户已存在!";
+                    return json($result);
+                }
+            }
 
             $customersFlg = $customerM->setCustomer($id,$customer);
             /*if(!$customersFlg){
@@ -1479,6 +1479,23 @@ class Customer extends Initialize{
             /*if(!$customersNegotiateFlg){
                 exception('更新客户沟通状态失败!');
             }*/
+
+            $datacountM = new Datacount();
+            $datacount = $datacountM->getDatacountByLinkIdAndTypeCount(8,$id,1);
+            $comm_status = input('comm_status',0,'int');
+            if($comm_status==6 && !$datacount){
+                $datacount["uid"] = $uid;
+                $datacount["time"] = time();
+                $datacount["type"] = 8;
+                $datacount["link_id"] = $id;
+                $datacount["num"] = 1;
+                $data_count_flg  = $datacountM->addDatacount($datacount);
+                if(!$data_count_flg){
+                    exception('添加客户统计失败!');
+                }
+            }elseif($comm_status!=6 && $datacount){
+                $del_flg = $datacountM->delDatacountByLinkIdAndType(8,$id);
+            }
 
             if(!empty($customersTraces)){
                 $customerM = new CustomerTraceModel($this->corp_id);
