@@ -278,6 +278,7 @@ class Contract extends Initialize{
                 }
             }
 
+            $next_receive_uids = [];
             if(
                 $contract_apply_status!=6 &&
                 !empty($contractApplied["contract_apply_".($contract_apply_status+1)])
@@ -294,6 +295,7 @@ class Contract extends Initialize{
                 $verificatioLogRemark .= "审核通过,转到下一审核人";
                 $verificatioLogData["status_previous"] = $contract_apply_status;
                 $verificatioLogData["status_now"] = $contract_apply_status+1;
+                $next_receive_uids[] = $contractApplied["contract_apply_".($contract_apply_status+1)];
             }else{
                 //最后一步审批,审批通过
                 $applied_data["status"] = 1;
@@ -330,7 +332,9 @@ class Contract extends Initialize{
         if (!empty($received_uids)) {
             save_msg("你的合同".$contract_setting['contract_name'].$verificatioLogRemark."[审核人:".$user_infomation["truename"]."]","/crm/contract/index",$received_uids,4,7,$uid);
         }
-        
+        if (!empty($next_receive_uids)) {
+            $flg = save_msg("有一份".$contract_setting['contract_name']."合同待你审核","/verification/contract/index",$next_receive_uids,4,8,$contractApplied['employee_id']);
+        }
         $result['status']=1;
         $result['info']='通过合同申请成功!';
         return $result;
