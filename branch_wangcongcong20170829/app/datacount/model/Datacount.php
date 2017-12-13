@@ -51,11 +51,37 @@ class Datacount extends Base{
         return $result_data;
     }
 
+    public function getDatacountByLinkIdAndType($type,$link_id,$lock=false){
+        $map["type"] = $type;
+        $map["link_id"] = $link_id;
+        return $this->model->table($this->table)
+            ->where($map)
+            ->lock($lock)
+            ->find();
+    }
+
+    public function getDatacountByLinkIdAndTypeCount($type,$link_id,$lock=false){
+        $map["type"] = $type;
+        $map["link_id"] = $link_id;
+        return $this->model->table($this->table)
+            ->where($map)
+            ->lock($lock)
+            ->count();
+    }
+
     public function addDatacount($data){
         return $this->model->table($this->table)->insertGetId($data);
     }
 
     public function addDatacountList($data_list){
         return $this->model->table($this->table)->insertAll($data_list);
+    }
+
+    public function delDatacountByLinkIdAndType($type,$link_id){
+        $map["type"] = $type;
+        $map["link_id"] = $link_id;
+        return $this->model->table($this->table)
+            ->where($map)
+            ->delete();
     }
 }
