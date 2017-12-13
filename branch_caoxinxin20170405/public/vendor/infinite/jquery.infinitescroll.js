@@ -345,7 +345,7 @@
         },
 
         _nearbottom: function infscr_nearbottom() {
-            console.log("_nearbottom");
+            // console.log("_nearbottom");
 
             var opts = this.options,
             pixelsFromWindowBottomToBottom = 0 + $(this.element).height() - (opts.binder.scrollTop()) - $(window).height();
@@ -510,7 +510,7 @@
 
                 // if we're dealing with a table we can't use DIVs
                 box = $(opts.contentSelector).is('table') ? $('<tbody/>') : $('<div/>');
-console.log('path:',path);
+// console.log('path:',path);
                 desturl = path.join(opts.state.currPage);
                 //console.log('desturl:'+desturl);
 
@@ -579,7 +579,7 @@ console.log('path:',path);
                 return;
             }
 
-            console.log("state",state);
+            // console.log("state",state);
             if (state.isDuringAjax || state.isInvalidPage || state.isDone || state.isDestroyed || state.isPaused) return;
 
             if (!this._nearbottom()) return;
@@ -600,7 +600,7 @@ console.log('path:',path);
 
         // update options
         update: function infscr_options(key) {
-            console.log("infinite_scroll_update:infinite_scroll_update");
+            // console.log("infinite_scroll_update:infinite_scroll_update");
             if("path" in key){
                 key.path = this._determinepath(key.path);
                 this._resetloadingmsg();
