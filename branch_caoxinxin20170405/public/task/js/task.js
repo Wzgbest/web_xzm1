@@ -874,7 +874,7 @@ function task_list(target, now_uid, base_url) {
 	};
 
 	var dv1_count = $(task_list_sel + " ." + self.base_url + "_load").children('.dv1').length;
-	console.log('dv1_count:' + dv1_count);
+	// console.log('dv1_count:' + dv1_count);
 	this.init_infinite_scroll();
 	if(dv1_count >= 10) {
 		this.resume_infinite_scroll();
