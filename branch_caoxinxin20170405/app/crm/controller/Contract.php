@@ -312,21 +312,21 @@ class Contract extends Initialize{
             if ($value['contract_apply_1'] != 0) {
                 $recieve_uids[] = $value['contract_apply_1'];
             }
-            if ($value['contract_apply_2'] != 0) {
-                $recieve_uids[] = $value['contract_apply_2'];
-            }
-            if ($value['contract_apply_3'] != 0) {
-                $recieve_uids[] = $value['contract_apply_3'];
-            }
-            if ($value['contract_apply_4'] != 0) {
-                $recieve_uids[] = $value['contract_apply_4'];
-            }
-            if ($value['contract_apply_5'] != 0) {
-                $recieve_uids[] = $value['contract_apply_5'];
-            }
-            if ($value['contract_apply_6'] != 0) {
-                $recieve_uids[] = $value['contract_apply_6'];
-            }
+            // if ($value['contract_apply_2'] != 0) {
+            //     $recieve_uids[] = $value['contract_apply_2'];
+            // }
+            // if ($value['contract_apply_3'] != 0) {
+            //     $recieve_uids[] = $value['contract_apply_3'];
+            // }
+            // if ($value['contract_apply_4'] != 0) {
+            //     $recieve_uids[] = $value['contract_apply_4'];
+            // }
+            // if ($value['contract_apply_5'] != 0) {
+            //     $recieve_uids[] = $value['contract_apply_5'];
+            // }
+            // if ($value['contract_apply_6'] != 0) {
+            //     $recieve_uids[] = $value['contract_apply_6'];
+            // }
 
             $recieve_uids = array_unique($recieve_uids);
             if (!empty($recieve_uids)) {
