@@ -142,7 +142,7 @@
 
             // distance from nav links to bottom
             // computed as: height of the document + top offset of container - top offset of nav link
-            opts.pixelsFromNavToBottom = $(this.element).height() - $(opts.navSelector).offset().top;
+            opts.pixelsFromNavToBottom = $(opts.navSelector).height();
 
             // determine loading.start actions
             opts.loading.start = opts.loading.start || function() {

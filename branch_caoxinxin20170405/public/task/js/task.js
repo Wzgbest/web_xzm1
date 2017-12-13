@@ -825,7 +825,7 @@ function task_list(target, now_uid, base_url) {
 			navSelector: "." + self.base_url + "_load .more", //导航的选择器，会被隐藏
 			nextSelector: "." + self.base_url + "_load .more a", //包含下一页链接的选择器
 			itemSelector: ".dv1", //你将要取回的选项(内容块)
-			debug: true, //启用调试信息
+			debug: false, //启用调试信息
 			//默认采用："http://www.infinite-scroll.com/loading.gif"
 			animate: true, //当有新数据加载进来的时候，页面是否有动画效果，默认没有
 			extraScrollPx: 50, //滚动条距离底部多少像素的时候开始加载，默认150
