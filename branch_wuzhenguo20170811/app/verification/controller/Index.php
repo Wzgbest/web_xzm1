@@ -237,7 +237,7 @@ class Index extends Initialize{
                 $applied_data["remark"] = ["exp","concat(remark,'".$remark.";')"];
             }
             $map = [];
-
+            $next_recieve_uids = [];
             if(
                 $saleOrderContractStatus!=6 &&
                 !empty($saleOrderContract["handle_".($saleOrderContractStatus+1)])
@@ -255,6 +255,7 @@ class Index extends Initialize{
                 $verificatioLogRemark .= "审核通过,转到下一审核人";
                 $verificatioLogData["status_previous"] = $saleOrderContractStatus;
                 $verificatioLogData["status_now"] = $saleOrderContractStatus+1;
+                $next_recieve_uids[] = $saleOrderContract["handle_".($saleOrderContractStatus+1)];
             }else{
                 //最后一步审批
                 $map["soc.status"] = 0;
@@ -291,8 +292,10 @@ class Index extends Initialize{
         $sale_info = $saleM->getSaleChance($saleOrderContract['sale_id']);
         $user_infomation = $userinfo["userinfo"];
         $received_uids[] = $sale_info['employee_id'];
-        save_msg("你的成单".$verificatioLogRemark."  [审核人：".$user_infomation["truename"]."]","/crm/sale_chance/index",$received_uids,4,9,$uid,$saleOrderContract['sale_id']);
-
+        save_msg("你的".$sale_info['sale_name']."成单申请".$verificatioLogRemark."  [审核人：".$user_infomation["truename"]."]","/crm/sale_chance/index",$received_uids,4,9,$uid,$saleOrderContract['sale_id']);
+        if (!empty($next_recieve_uids)) {
+            save_msg("有一份".$sale_info['sale_name']."成单申请待你审核！","/verification/index/detail/id/"+$id,$next_recieve_uids,4,10,$sale_info['employee_id']);
+        }
         $result['status']=1;
         $result['info']='通过成单申请成功!';
         return $result;
