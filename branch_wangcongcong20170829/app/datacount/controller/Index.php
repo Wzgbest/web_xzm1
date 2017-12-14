@@ -109,7 +109,7 @@ class Index extends Initialize{
         $struct_id = 0;
         //TODO $type 值和对应权限校验
         $uids = $this->_get_uids($type,$struct_id);
-        $time = 1;
+        $time = -1;
         $start_time = 0;
         $end_time = 0;
         list($start_time,$end_time) = $this->_get_times($time,$start_time,$end_time);
@@ -129,7 +129,9 @@ class Index extends Initialize{
         $this->assign("task_data_count",$day_task_data);
 
 
-        $time = -3;
+        $time = 3;
+        $start_time = 0;
+        $end_time = 0;
         list($start_time,$end_time) = $this->_get_times($time,$start_time,$end_time);
 
         $list = 1;
@@ -412,7 +414,7 @@ class Index extends Initialize{
     }
     public function _get_data_overview($uids,$months,$items){
         $result_data = [];
-        $result = ['status'=>0 ,'info'=>"获取数据概览时发生错误！","data"=>$result_data];
+        $result = ['status'=>0 ,'info'=>"获取数据预估时发生错误！","data"=>$result_data];
         $timetools = new TimeTools();
         list($start_time,$end_time) = $timetools->lastMonths($months);
         if(
@@ -461,7 +463,7 @@ class Index extends Initialize{
         }
 
         $result['status'] = 1;
-        $result['info'] = "获取数据概览成功！";
+        $result['info'] = "获取数据预估成功！";
         $result['data'] = $result_data;
         return $result;
     }
