@@ -137,6 +137,8 @@ class Index extends Initialize{
         $list = 1;
         $sales_funnel = $this->_get_sales_funnel($uids,$start_time,$end_time,$list);
         $this->assign("sales_funnel",$sales_funnel["data"]);
+        $this->assign("sales_funnel_start_time",$start_time);
+        $this->assign("sales_funnel_end_time",$end_time);
 
 
         $months = 4;
