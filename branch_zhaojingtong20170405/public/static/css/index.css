@@ -270,7 +270,7 @@ left: 220px; */
 }
 /*消息中心*/
 .message-box{
-	/*display: none;*/
+	display: none;
 	width: 480px;
 	height: 505px;
 	border: 1px solid #f0f0f0;
