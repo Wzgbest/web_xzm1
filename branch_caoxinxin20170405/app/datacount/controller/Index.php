@@ -427,10 +427,6 @@ class Index extends Initialize{
 
         $datacountM = new Datacount();
         $data_count = $datacountM->getDataTypeMonth($uids,$start_time,$end_time);
-//        var_exp($data_count,'$data_count');
-        if(!$data_count){
-            return $result;
-        }
         $result_data_tmp = [];
         foreach ($data_count as $item){
             if(isset($this->type_name_idx[$item["type"]])){
