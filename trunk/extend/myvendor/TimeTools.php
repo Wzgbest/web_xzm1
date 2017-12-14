@@ -25,10 +25,10 @@ class TimeTools
      */
     public static function yesterday()
     {
-        $yesterday = date('d') - 1;
+        $yesterday = strtotime("-1 Days");
         return [
-            mktime(0, 0, 0, date('m'), $yesterday, date('Y')),
-            mktime(23, 59, 59, date('m'), $yesterday, date('Y'))
+            mktime(0, 0, 0, date('m',$yesterday), date('d',$yesterday), date('Y',$yesterday)),
+            mktime(23, 59, 59, date('m',$yesterday), date('d',$yesterday), date('Y',$yesterday))
         ];
     }
 
@@ -65,7 +65,7 @@ class TimeTools
      *
      * @return array
      */
-    public static function month($everyDay = false)
+    public static function month()
     {
         return [
             mktime(0, 0, 0, date('m'), 1, date('Y')),
@@ -80,9 +80,10 @@ class TimeTools
      */
     public static function lastMonth()
     {
-        //TODO strtotime("-1 Months");获取上月
-        $begin = mktime(0, 0, 0, date('m') - 1, 1, date('Y'));
-        $end = mktime(23, 59, 59, date('m') - 1, date('t', $begin), date('Y'));
+        $time = time();
+        $lastMonth = strtotime("-1 Months",strtotime(date('Y',$time)."-".date('m',$time)."-01"));
+        $begin = mktime(0, 0, 0, date('m',$lastMonth) - 1, 1, date('Y',$lastMonth));
+        $end = mktime(23, 59, 59, date('m',$begin), date('t', $begin), date('Y',$begin));
 
         return [$begin, $end];
     }
@@ -94,8 +95,11 @@ class TimeTools
      */
     public static function lastMonths($num)
     {
-        $begin = mktime(0, 0, 0, date('m') - $num, 1, date('Y'));
-        $end = mktime(23, 59, 59, date('m'), date('t'), date('Y'));
+        $time = time();
+        $lastMonth = strtotime("-$num Months",strtotime(date('Y',$time)."-".date('m',$time)."-01"));
+        $begin = mktime(0, 0, 0, date('m',$lastMonth) - 1, 1, date('Y',$lastMonth));
+        $end = mktime(23, 59, 59, date('m',$begin), date('t', $begin), date('Y',$begin));
+
 
         return [$begin, $end];
     }
@@ -121,10 +125,15 @@ class TimeTools
      */
     public static function lastSeason()
     {
-        $season = ceil((date('n'))/3)-1;//上季度是第几季度
+        $season = ceil((date('n'))/3);//当月是第几季度
+        $year = date('Y');
+        if($season==1){
+            $season = 4;
+            $year--;
+        }
         return [
-            mktime(0, 0, 0,$season*3-3+1,1,date('Y')),
-            mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))
+            mktime(0, 0, 0,($season-1)*3+1,1,$year),
+            mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),$year)
         ];
     }
 
