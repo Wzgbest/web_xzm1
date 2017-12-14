@@ -28,7 +28,7 @@
 				</div>
 				<div class="u-faceContent3 fr">
 					<div class="block1">
-						<h4 class="tc"><span>{$score.title}</span></h4>
+						<h4 class="tc"><span>{$score.title}猛男</span></h4>
 						<div class="bar" title="{$score_per}%"><div class="in-bar" style="width:{$score_per}px;"></div></div>
 						<h4 class="tc"><span>{$score.experience}</span>/<span>{$score.experience_max}</span></h4>
 					</div>
@@ -234,7 +234,7 @@
 								<option>年度</option>
 							</select>
 						</div>
-						<div id="echart" style="width: 780px;height: 300px;"></div>						
+						<div id="echart" style="width: 780px;height: 300px;position: absolute;left: 0"></div>						
 					</div>
 				</div>			
 			</div>
@@ -250,9 +250,21 @@
 	// var echart = document.getElementById('echart');
 	var myChart = echarts.init(document.getElementById('echart'));
 	var option = {
-		title:{text:"销量预估"},
+		title:{
+			// text:"销量预估"
+		},
 		tooltip:{},
-		legend:{data:["有效通话","商机","拜访","成单"]},
+		legend:{
+			data:["有效通话","商机","拜访","成单"],
+			orient:"vertical",
+			left:10,
+			top:50
+		},
+		grid:{
+			// show:true,
+			left:150,
+			top:5
+		},
 		xAxis:{data:["上上上月","上上月","上月","本月","下月"]},
 		yAxis:{},
 		series:[{

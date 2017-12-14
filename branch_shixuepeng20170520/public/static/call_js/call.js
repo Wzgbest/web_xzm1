@@ -411,18 +411,22 @@ var successCallBack = function() {
     console.log(demo);
     common.print("初始化完成....","ws");
 };
+console.log(1);
 var errorCallBack = function(ret) {
     console.log("初始化失败",ret);
     cells.FcItem["CallTip"].innerHTML = ret.errmsg;
     common.print(ret,"ws");
     // console.log(ret);
 };
+console.log(2);
 /**
  * 初始化配置
  * 
  * @param {Object} initOptions 初始化参数json格式
  */
 demo.init(initOptions);
+console.log(3);
+console.log(demo);
 
 /**
  * 初始化配置成功回调
