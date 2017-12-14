@@ -339,6 +339,10 @@ class Contract extends Initialize{
         return $result;
     }
     public function retract(){
+        if(!($this->checkRule('crm/contract/index/retract'))){
+            $result=$this->noRole();
+            return $result;
+        }
         $result = ['status'=>0 ,'info'=>"撤回合同申请时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){

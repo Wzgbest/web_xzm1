@@ -48,6 +48,9 @@ class Corporation extends Initialize
      * created by messhair
      */
     public function editCorpInfo(){
+        if(!($this->checkRule('systemsetting/corporation/showcorpinfo/edit'))){
+            $this->noRole(2);
+        }
         $this->_showCorpInfo();
         return view();
     }

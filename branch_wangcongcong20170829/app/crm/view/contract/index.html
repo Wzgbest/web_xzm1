@@ -100,7 +100,7 @@
                             </li>
                             <li class="reject-reson">{$vo.remark}</li>
                             <li class="u-tabOperation">
-                                {if condition="hava_permission('task/historical_task/new_task',$rule_white_list)"}
+                                {if condition="hava_permission('crm/contract/index/retract',$rule_white_list)"}
                                 {eq name="vo.status" value="0"}<span class="retract">撤回</span>{/eq}
                                 {/if}
                             </li>

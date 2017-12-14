@@ -937,6 +937,10 @@ class Customer extends Initialize{
         return json($result);
     }
     public function take_customers_to_self(){
+        if(!($this->checkRule('crm/customer/public_customer_pool/take_customers'))){
+            $result=$this->noRole();
+            return $result;
+        }
         $result = ['status'=>0 ,'info'=>"申领客户时发生错误！"];
         $ids = input('ids/a');
         if(!$ids){
@@ -987,6 +991,11 @@ class Customer extends Initialize{
     }
     public function imposed_release_customers(){
         //TODO 权限验证?
+        if((!$this->checkRule('crm/customer/customer_manage/imposed_release_customers'))){
+            $result=$this->noRole();
+            return $result;
+        }
+
         $result = ['status'=>0 ,'info'=>"强制释放客户时发生错误！"];
         $ids = input('ids/a');
         if(!$ids){

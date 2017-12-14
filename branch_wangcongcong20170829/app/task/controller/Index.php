@@ -98,10 +98,16 @@ class Index extends Initialize{
 
     }
     public function PKnew_task(){
+        if(!($this->checkRule('task/hot_task/new_task') || $this->checkRule('task/direct_participation/new_task') || $this->checkRule('task/historical_task/new_task'))){
+            $this->noRole(2);
+        }
         $this->_new_task_default();
         return view();
     }
     public function rewardnew_task(){
+        if(!($this->checkRule('task/hot_task/new_task') || $this->checkRule('task/direct_participation/new_task') || $this->checkRule('task/historical_task/new_task'))){
+            $this->noRole(2);
+        }
         $this->_new_task_default();
         return view();
     }
@@ -707,6 +713,10 @@ class Index extends Initialize{
         return $task_reward_infos;
     }
     public function add(){
+        if(!($this->checkRule('task/hot_task/new_task') || $this->checkRule('task/direct_participation/new_task') || $this->checkRule('task/historical_task/new_task'))){
+            $result=$this->noRole();
+            return $result;
+        }
         $result = ['status'=>0 ,'info'=>"新建任务时发生错误！"];
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];

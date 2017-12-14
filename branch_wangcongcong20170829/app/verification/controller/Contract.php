@@ -71,6 +71,9 @@ class Contract extends Initialize{
         return view();
     }
     public function approved_page(){
+//        if(!($this->checkRule('verification/contract/index/approved'))){
+//            $this->noRole(2);
+//        }
         $id = input("id",0,"int");
         if(!$id){
             $this->error("参数错误");
@@ -101,6 +104,9 @@ class Contract extends Initialize{
         return view();
     }
     public function rejected_page(){
+//        if(!($this->checkRule('verification/contract/index/batch_rejected'))){
+//            $this->noRole(2);
+//        }
         return view();
     }
     protected function _getCustomerFilter($filter_column){
@@ -392,6 +398,10 @@ class Contract extends Initialize{
         return $result;
     }
     public function invalid(){
+        if(!($this->checkRule('verification/contract/index/invalid'))){
+            $result=$this->noRole();
+            return $result;
+        }
         $result = ['status'=>0 ,'info'=>"作废合同时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){
@@ -471,6 +481,10 @@ class Contract extends Initialize{
         return $result;
     }
     public function withdrawal(){
+        if(($this->checkRule('verification/contract/index/withdraw'))){
+            $result=$this->noRole();
+            return $result;
+        }
         $result = ['status'=>0 ,'info'=>"收回合同时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){

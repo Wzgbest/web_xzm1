@@ -47,6 +47,10 @@ class SpeechCraft extends Initialize{
     添加新文章
      */
     public function add_article(){
+        if(!($this->checkRule('knowledgebase/speech_craft/index/new-speechcraft'))){
+            $this->noRole(2);
+        }
+
         $id = input('id',0,'int');
         // var_dump($id);die();
         if ($id) {

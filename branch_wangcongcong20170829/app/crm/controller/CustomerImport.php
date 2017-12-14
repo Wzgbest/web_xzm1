@@ -21,6 +21,9 @@ class CustomerImport extends Initialize{
         $this->paginate_list_rows = config("paginate.list_rows");
     }
     public function index(){
+        if(!($this->checkRule('crm/customer/my_customer/customer_import') || $this->checkRule('crm/customer/public_customer_pool/customer_import'))){
+            $this->noRole(2);
+        }
         $num = input('num',$this->paginate_list_rows,'int');
         $p = input("p",1,"int");
         $type = input("type",0,"int");
@@ -287,7 +290,7 @@ class CustomerImport extends Initialize{
     }
 
     public function exportCustomer(){
-        if(!($this->checkRule('crm/customer/customer_manage/delete'))){
+        if(!($this->checkRule('crm/customer/my_customer/exportCustomer') || $this->checkRule('crm/customer/customer_manage/exportCustomer'))){
             $this->noRole(2);
         }
         $self = input('self',0,'int');
