@@ -98,8 +98,7 @@ class TimeTools
         $time = time();
         $lastMonth = strtotime("-$num Months",strtotime(date('Y',$time)."-".date('m',$time)."-01"));
         $begin = mktime(0, 0, 0, date('m',$lastMonth) - 1, 1, date('Y',$lastMonth));
-        $end = mktime(23, 59, 59, date('m',$begin), date('t', $begin), date('Y',$begin));
-
+        $end = mktime(23, 59, 59, date('m',$time), date('t', $time), date('Y',$time));
 
         return [$begin, $end];
     }

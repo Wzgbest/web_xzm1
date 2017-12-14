@@ -164,7 +164,9 @@
 					<span class="filter">本季度</span>
 					<span class="filter">上季度</span>
 					<span class="filter">本年</span>
-					<input type="date">  --<input type="date">
+					<input type="date" value="{$sales_funnel_start_time|day_format}">
+					--
+					<input type="date" value="{$sales_funnel_end_time|day_format}">
 					<button class="u-btnSearch">查询</button>
 				</div>
 				<div class="conversion-rate">
