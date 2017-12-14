@@ -1004,6 +1004,8 @@ class Customer extends Initialize{
             $result['info'] = $ex->getMessage();
             return json($result);
         }
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
         $recevies_uids = $customerM->employeesIdsByCustomers($ids);
         save_msg("你有客户被强制释放了，请到公海池查看！","/crm/customer/public_customer_pool",$recevies_uids,4,6,$uid);
         $result['status'] = 1;
