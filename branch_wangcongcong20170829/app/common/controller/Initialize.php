@@ -61,16 +61,18 @@ class Initialize extends Controller
         $this->uid = $info["userinfo"]["id"];
         $this->corp_id = $info["corp_id"];
         set_userinfo($this->corp_id,$this->telephone,$info["userinfo"]);
+//        del_keys('rules');
+        $this->hav_rules =get_redis_by_tel($this->telephone,"rules");
 
-        $this->hav_rules = false;// get_cache_by_tel($this->telephone,"hav_rules");
         if(!$this->hav_rules){
             $roleRuleM = new RoleRule($this->corp_id);
             $this->hav_rules = $roleRuleM->getRuleNamesByUid($this->uid);
-            set_cache_by_tel($this->telephone,"hav_rules",$this->hav_rules,600);
+            $this->hav_rules = implode(',',$this->hav_rules);
+            set_redis_by_tel($this->telephone,"rules",$this->hav_rules,600);
         }
-        //权限白名单
-        $this->rule_white_list = $this->hav_rules;
 
+        //权限白名单
+        $this->rule_white_list = explode(',',$this->hav_rules);
 
         $request = Request::instance();
         $path = $request->path();
@@ -95,13 +97,15 @@ class Initialize extends Controller
             return true;
         }
         $check_flg = false;
-        $this->hav_rules = get_cache_by_tel($this->telephone,"hav_rules");
+        $this->hav_rules =get_redis_by_tel($this->telephone,"rules");
         if(!$this->hav_rules){
             $roleRuleM = new RoleRule($this->corp_id);
             $this->hav_rules = $roleRuleM->getRuleNamesByUid($this->uid);
-            set_cache_by_tel($this->telephone,"hav_rules",$this->hav_rules,600);
+            $this->hav_rules = implode(',',$this->hav_rules);
+            set_redis_by_tel($this->telephone,"rules",$this->hav_rules,600);
         }
 //        var_exp($hav_rules,'$hav_rules');
+        $this->hav_rules = explode(',',$this->hav_rules);
         if(in_array($rule_name,$this->hav_rules)){
             $check_flg = true;
         }

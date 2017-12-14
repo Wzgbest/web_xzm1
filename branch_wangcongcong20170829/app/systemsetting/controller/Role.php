@@ -346,6 +346,7 @@ class Role extends Initialize{
             }
             $result['status'] = 1;
             $result['info'] = "修改功能权限成功!";
+            del_keys('rules');//清除redis里缓存的权限，下次加载时重新查询最新的
             $roleRuleM->link->commit();
         } catch (\Exception $ex) {
             $roleRuleM->link->rollback();

@@ -91,9 +91,45 @@ function dec_cache_by_tel($telephone, $name){
     Cache::dec("user_cache_".$telephone."_".$name);
 }
 
-function get_cache_by_tel($telephone, $name){
-    $data = cache("user_cache_".$telephone."_".$name);
+function get_cache_by_tel($telephone,$name,$config='0'){
+    $data = cache("user_cache_".$telephone.'_'.$name);
     return $data;
+}
+
+function set_redis_by_tel($telephone, $name, $data, $config=null){
+    $redis_class = new \myvendor\RedisClass();
+    $redis_class->HSET($name,$telephone,$data);
+//    cache($name."_".$telephone,$data,$config);
+}
+function get_redis_by_tel($telephone,$name){
+    $redis_class = new \myvendor\RedisClass();
+    $data = $redis_class->HGET($name,$telephone);
+    return $data;
+//    $data = cache($name."_".$telephone);
+//    return $data;
+}
+
+function  del_keys($data = array()){
+    $redis_class = new \myvendor\RedisClass();
+    return $redis_class->DELKEYS($data);
+}
+
+//function set_redis_by_tel($telephone,$name,$data){
+//    $cache = new Redis();
+//    $data = $cache->SETKEY($name."_user_cache_".$telephone,$data);
+//    return $data;
+//}
+
+//function get_redis_by_tel($telephone, $name){
+//    $cache = new Redis();
+//    $data = $cache->GETKEY("user_cache_".$telephone."_".$name);
+//    return $data;
+//}
+
+function clear_redis_by_name($key){
+    $cache = new Redis();
+    $data = $cache->KEYS($key);
+    $cache->DELKEYS($data);
 }
 
 function set_telephone_token_list($telephone,$token_arr){
