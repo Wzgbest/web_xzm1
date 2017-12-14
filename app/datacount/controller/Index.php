@@ -137,6 +137,8 @@ class Index extends Initialize{
         $list = 1;
         $sales_funnel = $this->_get_sales_funnel($uids,$start_time,$end_time,$list);
         $this->assign("sales_funnel",$sales_funnel["data"]);
+        $this->assign("sales_funnel_start_time",$start_time);
+        $this->assign("sales_funnel_end_time",$end_time);
 
 
         $months = 4;
@@ -427,10 +429,6 @@ class Index extends Initialize{
 
         $datacountM = new Datacount();
         $data_count = $datacountM->getDataTypeMonth($uids,$start_time,$end_time);
-//        var_exp($data_count,'$data_count');
-        if(!$data_count){
-            return $result;
-        }
         $result_data_tmp = [];
         foreach ($data_count as $item){
             if(isset($this->type_name_idx[$item["type"]])){
