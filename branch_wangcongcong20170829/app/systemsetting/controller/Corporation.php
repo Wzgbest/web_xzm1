@@ -61,6 +61,12 @@ class Corporation extends Initialize
      * created by blu10ph
      */
     public function updateCorpInfo(Request $request){
+        if(!($this->checkRule('systemsetting/corporation/showcorpinfo/edit'))){
+            $result=$this->noRole();
+            $result['message']=$result['info'];
+            return json($result);
+        }
+
         $info = ['status'=>0,"message"=>"修改公司信息时发生错误!"];
         $input = $request->param();
 

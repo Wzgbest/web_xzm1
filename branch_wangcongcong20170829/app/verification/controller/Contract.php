@@ -182,6 +182,10 @@ class Contract extends Initialize{
         return $field;
     }
     public function approved(){
+        if(!($this->checkRule('verification/contract/index/approved'))){
+            $result=$this->noRole();
+            return json($result);
+        }
         $result = ['status'=>0 ,'info'=>"通过合同申请时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){
@@ -346,6 +350,10 @@ class Contract extends Initialize{
         return $result;
     }
     public function rejected(){
+        if(!($this->checkRule('verification/contract/index/rejected'))){
+            $result=$this->noRole();
+            return json($result);
+        }
         $result = ['status'=>0 ,'info'=>"驳回合同申请时发生错误！"];
         $id = input("id",0,"int");
         $remark = input("remark","","string");
@@ -400,7 +408,7 @@ class Contract extends Initialize{
     public function invalid(){
         if(!($this->checkRule('verification/contract/index/invalid'))){
             $result=$this->noRole();
-            return $result;
+            return json($result);
         }
         $result = ['status'=>0 ,'info'=>"作废合同时发生错误！"];
         $id = input("id",0,"int");
@@ -481,9 +489,9 @@ class Contract extends Initialize{
         return $result;
     }
     public function withdrawal(){
-        if(($this->checkRule('verification/contract/index/withdraw'))){
+        if(!($this->checkRule('verification/contract/index/withdraw'))){
             $result=$this->noRole();
-            return $result;
+            return json($result);
         }
         $result = ['status'=>0 ,'info'=>"收回合同时发生错误！"];
         $id = input("id",0,"int");

@@ -939,7 +939,7 @@ class Customer extends Initialize{
     public function take_customers_to_self(){
         if(!($this->checkRule('crm/customer/public_customer_pool/take_customers'))){
             $result=$this->noRole();
-            return $result;
+            return json($result);
         }
         $result = ['status'=>0 ,'info'=>"申领客户时发生错误！"];
         $ids = input('ids/a');
@@ -966,6 +966,10 @@ class Customer extends Initialize{
         return json($result);
     }
     public function release_customers(){
+        if(!($this->checkRule('crm/customer/my_customer/release_customers'))){
+            $result=$this->noRole();
+            return json($result);
+        }
         $result = ['status'=>0 ,'info'=>"释放客户时发生错误！"];
         $ids = input('ids/a');
         if(!$ids){
@@ -991,9 +995,9 @@ class Customer extends Initialize{
     }
     public function imposed_release_customers(){
         //TODO 权限验证?
-        if((!$this->checkRule('crm/customer/customer_manage/imposed_release_customers'))){
+        if(!($this->checkRule('crm/customer/customer_manage/imposed_release_customers'))){
             $result=$this->noRole();
-            return $result;
+            return json($result);
         }
 
         $result = ['status'=>0 ,'info'=>"强制释放客户时发生错误！"];
@@ -1023,6 +1027,10 @@ class Customer extends Initialize{
     }
     public function change_customers_to_employee(){
         //TODO 权限验证?
+        if(($this->checkRule('crm/customer/customer_manage/change_customers_to_employee'))){
+            $result=$this->noRole();
+            return json($result);
+        }
         $result = ['status'=>0 ,'info'=>"重分客户时发生错误！"];
         $ids = input('ids/a');
         $uid = input('uid',0,"int");
@@ -1060,6 +1068,10 @@ class Customer extends Initialize{
     }
     public function change_customers_visible_range(){
         //TODO 权限验证?
+        if(!($this->checkRule('crm/customer/customer_manage/change_customers_visible_range'))){
+            $result=$this->noRole();
+            return json($result);
+        }
         $result = ['status'=>0 ,'info'=>"更改客户可见范围失败！"];
         $ids = input('ids/a');
         //var_exp($ids,'$ids',1);
@@ -1578,7 +1590,7 @@ class Customer extends Initialize{
     public function del(){
         if((!$this->checkRule('crm/customer/customer_manage/exportCustomer'))){
             $result=$this->noRole();
-            return $result;
+            return json($result);
         }
         $result = ['status'=>0 ,'info'=>"删除客户信息时发生错误！"];
         $ids = input('ids/a');

@@ -715,7 +715,7 @@ class Index extends Initialize{
     public function add(){
         if(!($this->checkRule('task/hot_task/new_task') || $this->checkRule('task/direct_participation/new_task') || $this->checkRule('task/historical_task/new_task'))){
             $result=$this->noRole();
-            return $result;
+            return json($result);
         }
         $result = ['status'=>0 ,'info'=>"新建任务时发生错误！"];
         $userinfo = get_userinfo();

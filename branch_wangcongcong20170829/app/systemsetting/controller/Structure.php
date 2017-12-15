@@ -494,6 +494,11 @@ class Structure extends Initialize
      */
     public function addEmployeeStructure()
     {
+        if(!($this->checkRule('systemsetting/structure/index/u-btnAdd'))){
+            $result=$this->noRole();
+            $result['message']=$result['info'];
+            return json($result);
+        }
         $info = [
             'status'=>false,
             'message'=>'添加部门成员失败'
@@ -554,7 +559,12 @@ class Structure extends Initialize
      * created by messhair
      */
     public function changeEmployeeStructure($user_id,$group,$to_group)
-    {   
+    {
+        if(!($this->checkRule('systemsetting/structure/index/u-btnTransfer') || $this->checkRule('systemsetting/structure/index/employee_move'))){
+            $result=$this->noRole();
+            $result['message']=$result['info'];
+            return json($result);
+        }
         $info = [
                 'status'=>false,
                 'message'=>'更换部门失败或未更换部门',
@@ -621,6 +631,7 @@ class Structure extends Initialize
      * @return [type] [description]
      */
     public function changeEmployeesFromStructs(){
+
         $info = [
             'status'=>false,
             'message'=>'批量操作员工失败'
@@ -712,6 +723,11 @@ class Structure extends Initialize
      */
     public function delEmployeeStructure($user_id,$group)
     {
+        if(!($this->checkRule('systemsetting/structure/index/u-btnDel'))){
+            $result=$this->noRole();
+            $result['message']=$result['info'];
+            return json($result);
+        }
         $info = [
                 'status'=>false,
                 'message'=>'删除部门成员失败'
@@ -761,6 +777,7 @@ class Structure extends Initialize
      * @return [type] [description]
      */
     public function changeStruct(){
+
         $info = [
             'status'=>true,
             'message'=>'移动部门失败',
