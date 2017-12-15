@@ -163,17 +163,23 @@ class Customer extends Initialize{
 //        $set_to_structure = input('set_to_structure',"",'string');
 //        $set_to_structure_arr = explode(',',$set_to_structure);
         $set_to_structure_arr = input('set_to_structure/a');
-        $set_to_structure_arr = array_map("intval",$set_to_structure_arr);
-        $set_to_structure_arr = array_filter($set_to_structure_arr);
-        $set_to_structure_arr = array_unique($set_to_structure_arr);
-        $zero_flg = true;
-        do{
-            $zero_flg = array_search(0,$set_to_structure_arr);
-            if($zero_flg){
-                unset($set_to_structure_arr[$zero_flg]);
-            }
-        }while($zero_flg);
-        $customerSetting['set_to_structure'] = implode(",",$set_to_structure_arr);
+        if($set_to_structure_arr){
+            $set_to_structure_arr = array_map("intval",$set_to_structure_arr);
+            $set_to_structure_arr = array_filter($set_to_structure_arr);
+            $set_to_structure_arr = array_unique($set_to_structure_arr);
+            $zero_flg = true;
+            do{
+                $zero_flg = array_search(0,$set_to_structure_arr);
+                if($zero_flg){
+                    unset($set_to_structure_arr[$zero_flg]);
+                }
+            }while($zero_flg);
+            $customerSetting['set_to_structure'] = implode(",",$set_to_structure_arr);
+        }else{
+            $customerSetting['set_to_structure']='';
+        }
+
+
         return $customerSetting;
     }
 
