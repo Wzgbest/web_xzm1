@@ -109,25 +109,14 @@ class Index extends Initialize{
         $struct_id = 0;
         //TODO $type 值和对应权限校验
         $uids = $this->_get_uids($type,$struct_id);
-        $time = -1;
+        $time = 1;
         $start_time = 0;
         $end_time = 0;
         list($start_time,$end_time) = $this->_get_times($time,$start_time,$end_time);
         $data_count = $this->_get_data_count($uids,$start_time,$end_time);
         $day_task = $this->_get_day_task($uids,$time);
-        $day_task_data = [];
-
-        foreach ($data_count["data"] as $key=>$data_count_item){
-            $day_task_data[$key]["num"] = $data_count_item;
-            $target = 0;
-            if(isset($day_task["data"][$key])){
-                $target = $day_task["data"][$key];
-            }
-            $day_task_data[$key]["target"] = $target;
-        }
-
-        $this->assign("task_data_count",$day_task_data);
-
+        $day_task_count = $this->_get_day_task_count($day_task["data"],$data_count["data"]);
+        $this->assign("task_data_count",$day_task_count);
 
         $time = 3;
         $start_time = 0;
@@ -141,7 +130,8 @@ class Index extends Initialize{
         $this->assign("sales_funnel_end_time",$end_time);
 
 
-        $months = 4;
+        $time_type = 1;
+        $time_num = 4;
 
         $items = [
             "valid_call_time",
@@ -150,9 +140,10 @@ class Index extends Initialize{
             "sale_order",
         ];
 
-        $data_overview = $this->_get_data_overview($uids,$months,$items);
+        $data_overview = $this->_get_data_overview($uids,$time_type,$time_num,$items);
         $this->assign("data_overview",json_encode($data_overview["data"],true));
-        $this->assign("data_overview_months",json_encode($months,true));
+        $this->assign("data_overview_time_type",$time_num);
+        $this->assign("data_overview_time_num",$time_num);
 
         $this->assign("name_title_idx",$this->name_title_idx);
         return view();
@@ -247,7 +238,6 @@ class Index extends Initialize{
         $end_time = 0;
         list($start_time,$end_time) = $this->_get_times($time,$start_time,$end_time);
 
-        $day_task_data = [];
 
         $data_count = $this->_get_data_count($uids,$start_time,$end_time);
         if($data_count["status"]!=1){
@@ -263,19 +253,36 @@ class Index extends Initialize{
             return json($result);
         }
 
-        foreach ($data_count["data"] as $key=>$data_count_item){
-            $day_task_data[$key]["num"] = $data_count_item;
-            $target = 0;
-            if(isset($day_task["data"][$key])){
-                $target = $day_task["data"][$key];
-            }
-            $day_task_data[$key]["target"] = $target;
-        }
+        $day_task_data = $this->_get_day_count_task($data_count["data"],$day_task["data"]);
 
         $result['status'] = 1;
         $result['info'] = "获取日常任务统计成功！";
         $result['data'] = $day_task_data;
         return json($result);
+    }
+    protected function _get_day_count_task($data_count,$day_task){
+        $day_task_data = [];
+        foreach ($data_count as $key=>$data_count_item){
+            $day_task_data[$key]["num"] = $data_count_item;
+            $target = 0;
+            if(isset($day_task[$key])){
+                $target = $day_task[$key];
+            }
+            $day_task_data[$key]["target"] = $target;
+        }
+        return $day_task_data;
+    }
+    protected function _get_day_task_count($day_task,$data_count){
+        $day_task_data = [];
+        foreach ($day_task as $key=>$day_task_item){
+            $day_task_data[$key]["target"] = $day_task_item;
+            $num = 0;
+            if(isset($data_count[$key])){
+                $num = $data_count[$key];
+            }
+            $day_task_data[$key]["num"] = $num;
+        }
+        return $day_task_data;
     }
     protected function _get_day_task($uids,$time){
         $result_data = [
@@ -394,7 +401,8 @@ class Index extends Initialize{
         //TODO $type 值和对应权限校验
         $uids = $this->_get_uids($type,$struct_id);
 
-        $months = input("months",4,"int");
+        $time_type = input("time_type",1,"int");
+        $time_num = input("time_num",4,"int");
 
         $items = [
             "valid_call_time",
@@ -403,7 +411,7 @@ class Index extends Initialize{
             "sale_order",
         ];
 
-        $data_overview = $this->_get_data_overview($uids,$months,$items);
+        $data_overview = $this->_get_data_overview($uids,$time_type,$time_num,$items);
         if($data_overview["status"]!=1){
             $result['status'] = $data_overview["status"];
             $result['info'] = $data_overview["info"];
@@ -414,11 +422,23 @@ class Index extends Initialize{
         $result['data'] = $data_overview["data"];
         return json($result);
     }
-    public function _get_data_overview($uids,$months,$items){
+    public function _get_data_overview($uids,$time_type,$time_num,$items){
         $result_data = [];
         $result = ['status'=>0 ,'info'=>"获取数据预估时发生错误！","data"=>$result_data];
+        $start_time = 0;
+        $end_time = 0;
         $timetools = new TimeTools();
-        list($start_time,$end_time) = $timetools->lastMonths($months);
+        switch($time_type){
+            case 1:
+                list($start_time,$end_time) = $timetools->lastMonths($time_num);
+                break;
+            case 2:
+                list($start_time,$end_time) = $timetools->lastSeasons($time_num);
+                break;
+            case 3:
+                list($start_time,$end_time) = $timetools->lastYears($time_num);
+                break;
+        }
         if(
             empty($uids)
             ||($start_time<=0&&$end_time<=0)
@@ -428,13 +448,24 @@ class Index extends Initialize{
         }
 
         $datacountM = new Datacount();
-        $data_count = $datacountM->getDataTypeMonth($uids,$start_time,$end_time);
+        $data_count = [];
+        switch($time_type){
+            case 1:
+                $data_count = $datacountM->getDataTypeMonth($uids,$start_time,$end_time);
+                break;
+            case 2:
+                $data_count = $datacountM->getDataTypeSeason($uids,$start_time,$end_time);
+                break;
+            case 3:
+                $data_count = $datacountM->getDataTypeYear($uids,$start_time,$end_time);
+                break;
+        }
         $result_data_tmp = [];
         foreach ($data_count as $item){
             if(isset($this->type_name_idx[$item["type"]])){
                 $fields = $this->type_name_idx[$item["type"]];
                 foreach ($fields as $field=>$name){
-                    $result_data_tmp[$name][$item["month"]] = $item[$field];
+                    $result_data_tmp[$name][$item["group_flg"]] = $item[$field];
                 }
             }
         }
@@ -442,22 +473,48 @@ class Index extends Initialize{
 
         foreach ($items as $item){
             $all = 0;
-            for ($i=0;$i<$months;$i++){
-                $month = "";
-                if($i>0){
-                    $d = strtotime("-".$i." Months");
-                    $month = date("Y-m",$d);
-                }else{
-                    $month = date("Y-m");
+            for ($i=0;$i<$time_num;$i++){
+                $group_flg = "";
+                switch($time_type){
+                    case 1:
+                        if($i+1==$time_num){
+                            $group_flg = date("Y-m");
+                        }else{
+                            $time = time();
+                            $d = strtotime("-".($time_num-1-$i)." Months",strtotime(date('Y',$time)."-".date('m',$time)."-01"));
+                            $group_flg = date("Y-m",$d);
+                        }
+                        break;
+                    case 2:
+                        if($i+1==$time_num){
+                            $season = ceil((date('n'))/3);//当月是第几季度
+                            $group_flg = date("Y-").$season;
+                        }else{
+                            $num = ($time_num-1-$i);
+                            $season = ceil((date('n'))/3);//当月是第几季度
+                            $year = date('Y')-ceil(($num-$season)/4);
+                            $season = 4-(($num-$season)%4);
+                            $group_flg = $year.'Q'.$season;
+                        }
+                        break;
+                    case 3:
+                        if($i+1==$time_num){
+                            $group_flg = date("Y");
+                        }else{
+                            $time = time();
+                            $d = strtotime("-".($time_num-1-$i)." Years",strtotime(date('Y',$time)."-".date('m',$time)."-01"));
+                            $group_flg = date("Y",$d);
+                        }
+                        break;
                 }
-                if(isset($result_data_tmp[$item][$month])){
-                    $result_data[$item][$i+1] = $result_data_tmp[$item][$month];
+                if(isset($result_data_tmp[$item][$group_flg])){
+                    $result_data[$item][$i+1] = $result_data_tmp[$item][$group_flg];
                 }else{
                     $result_data[$item][$i+1] = 0;
                 }
                 $all += $result_data[$item][$i+1];
             }
-            $result_data[$item][$months+1] = round($all/$months);
+            $result_data[$item][$time_num+1] = round($all/$time_num);
         }
 
         $result['status'] = 1;
