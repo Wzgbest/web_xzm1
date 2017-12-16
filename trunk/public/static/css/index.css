@@ -308,20 +308,21 @@ left: 220px; */
 	float: right;
 	height: 100%;
 }
+.message-box .show{
+	/*color: red;*/
+}
 .message-box .message-content-header{
-	/*display: none;*/
 	height: 40px;
 	line-height: 40px;
 	text-align: center;
 	background-color: #f7e0c3;
 	font-size: 14px;
-	
-	    position: relative;
+	position: relative;
     top: 0;
     left: 0;
 }
+ 
 .message-box .message-content-container{
-	/*display: none;*/
 	height: 425px;
 	box-sizing:border-box;
 	padding: 0 12px;
