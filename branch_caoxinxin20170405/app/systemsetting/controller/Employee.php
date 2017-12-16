@@ -410,6 +410,11 @@ class Employee extends Initialize{
      */
     public function editEmployee(Request $request)
     {
+        if(!($this->checkRule('systemsetting/employee/manage/edit'))){
+            $result=$this->noRole();
+            $result['message']=$result['info'];
+            return json($result);
+        }
 
         if($request->isPost()) {
             $input = array_intersect_key($request->param(),[
@@ -701,6 +706,12 @@ class Employee extends Initialize{
      */
     public function deleteMultipleEmployee()
     {
+        if(!($this->checkRule('systemsetting/employee/manage/exportEmployee') || $this->checkRule('systemsetting/employee/manage/del'))){
+            $result=$this->noRole();
+            $result['message']=$result['info'];
+            return json($result);
+        }
+
         $user_ids = input("ids/a");
 //      查询员工状态是否为离职
         $employeeM = new EmployeeModel($this->corp_id);

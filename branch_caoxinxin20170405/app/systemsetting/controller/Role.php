@@ -313,6 +313,10 @@ class Role extends Initialize{
      * 修改角色对应所有权限
      */
     public function editRoleAll(){
+        if(!($this->checkRule('systemsetting/role/index/save_rule'))){
+            $result=$this->noRole();
+            return json($result);
+        }
         $result = ['status'=>0 ,'info'=>"修改角色权限时发生错误！"];
         $role_id = input("role_id","0","int");
         if(!$role_id){
@@ -551,6 +555,12 @@ class Role extends Initialize{
      * created by messhair
      */
     public function addRoleMember(Request $request){
+        if(!($this->checkRule('systemsetting/role/index/employee_add'))){
+            $result=$this->noRole();
+            $result['message']=$result['info'];
+            return json($result);
+        }
+
         $input = $request->param();
         $employeeM = new Employee();
         if ($request->isGet()) {
@@ -659,6 +669,12 @@ class Role extends Initialize{
      * created by messhair
      */
     public function deleteRoleMember(Request $request){
+        if(!($this->checkRule('systemsetting/role/index/employee_del'))){
+            $result=$this->noRole();
+            $result['message']=$result['info'];
+            return json($result);
+        }
+
         $result = ['status'=>0 ,'message'=>"删除角色成员失败！"];
         $input = $request->param();
         $employeeM = new Employee();

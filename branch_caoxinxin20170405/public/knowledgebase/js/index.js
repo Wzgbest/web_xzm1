@@ -39,9 +39,13 @@ var comment = {
 	name:null
 }
 $(".knowledgebase_company_library_index .library-list .lib-operator .comment").click(function(){
-	$(this).parent(".lib-operator").siblings(".lib-reply").toggleClass("hide");
+	$(this).parent(".lib-operator").siblings(".lib-reply").removeClass("hide");
 })
-$(".knowledgebase_company_library_index .library-list .lib-reply .reply-now .reply-operator button").click(function(){
+$(".knowledgebase_company_library_index .library-list .lib-reply .reply-now .reply-operator button.cancel").click(function() {
+	// body...
+	$(this).parents(".lib-reply").addClass("hide");
+});
+$(".knowledgebase_company_library_index .library-list .lib-reply .reply-now .reply-operator button.submit").click(function(){
 	var sel = $(this);
 	var txt = $(this).parent(".reply-operator").siblings("input").val();
 	var face_src = $(this).parent(".reply-operator").siblings(".face").children("img").attr("src");

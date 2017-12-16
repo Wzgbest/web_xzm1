@@ -217,6 +217,10 @@ class Contract extends Initialize{
         return view();
     }
     public function apply(){
+        if(!($this->checkRule('crm/contract/index/contract-apply'))){
+            $result=$this->noRole();
+            return json($result);
+        }
         $result = ['status'=>0 ,'info'=>"申请合同时发生错误！"];
         $contract_apply_str = input('contract_apply');
         $contract_apply = json_decode($contract_apply_str,true);
@@ -339,6 +343,10 @@ class Contract extends Initialize{
         return $result;
     }
     public function retract(){
+        if(!($this->checkRule('crm/contract/index/retract'))){
+            $result=$this->noRole();
+            return json($result);
+        }
         $result = ['status'=>0 ,'info'=>"撤回合同申请时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){

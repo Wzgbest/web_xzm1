@@ -12,15 +12,11 @@
         </header>
         <section class="m-divBlock m-divBlock2 m-low-nav">
         	<div class="m-filterNav">
-				{if condition="hava_permission('knowledgebase/speech_craft/index/new-speechcraft',$rule_white_list)"}
-                <div class="new-speechcraft new-speechcraft2 fl">
-                    发起话术
-                </div>
-				{/if}
+				
 				{if condition="hava_permission('knowledgebase/speech_craft/index/select',$rule_white_list)"}
                 <form class="search_form fl" onsubmit="return false;">
                     <input type="text" name="key_word" placeholder="请输入关键字" value=""/>
-                    <button class="u-btnSearch" onclick="search_article()">查询</button>
+                    <button class="btn btn-usual active mar-l-10" onclick="search_article()">查询</button>
                 </form>
 				{/if}
                 {eq name="is_leader" value="1"}
@@ -28,16 +24,21 @@
                     <span class="out hide">退出</span>批量管理
                 </div>
                 {/eq}
-                <div class="batch-delete hide">
+                <div class="batch-delete btn btn-usual fl mar-l-10 hide">
                     批量删除
                 </div>
-                <div class="batch-change hide">
+                <div class="batch-change btn btn-usual fl mar-l-10 hide">
                     批量转移
                 </div>
             	<div class="clearfix"></div>
             </div>
         </section>
-        <div class="m-4th-container">
+        <div class="m-4th-container b-w">
+	        {if condition="hava_permission('knowledgebase/speech_craft/index/new-speechcraft',$rule_white_list)"}
+	        <div class="new-speechcraft new-speechcraft2 fl">
+	            <i class="fa fa-2x fa-plus"></i>发起话术
+	        </div>
+			{/if}
 	        <div class="manageNav m-filterNav hide" data-status="false">
 	            <input type="checkbox" /><span>全选</span>
 	            <div class="u-select-container">
@@ -56,12 +57,13 @@
 		            </select>
 	            </div>
 	        </div>
-	        <ul class="speech-list">
+	        <ul class="speech-list b-w" style="padding: 27px 21px 0 21px;">
 	        {if condition="$all_article neq null"}
 	            {volist name="all_article" id="vo"}
 	                {eq name="vo.in_show" value="1"}
 	                <!-- onclick="article_info_show('{$vo.id}');" -->
 	                <li class="" data-status = "true"; data-craft-id="{$vo.id}"  {eq name="vo.in_top" value="1"} class="speech-hot" {/eq}>
+	                	{eq name="vo.in_top" value="1" }<div class="hot"></div>{/eq}
 	                    <input type="checkbox" value="{$vo.id}" />
 	                    <h1>{$vo.article_name}{eq name="vo.in_top" value="1" }<span class="hot">置顶</span>{/eq}</h1>
 	                    <h2>{$vo.article_content}</h2>
