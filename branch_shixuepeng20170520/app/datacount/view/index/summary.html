@@ -229,9 +229,9 @@
 						<div class="select">
 							显示粒度
 							<select>
-								<option>月度</option>
-								<option>季度</option>
-								<option>年度</option>
+								<option value="1">月度</option>
+								<option value="2">季度</option>
+								<option value="3">年度</option>
 							</select>
 						</div>
 						<div id="echart" style="width: 780px;height: 300px;position: absolute;left: 0"></div>						
@@ -242,48 +242,49 @@
 	</div>
 </div>
 <link rel="stylesheet" href="/datacount/css/index.css"/>
-<script src="/datacount/js/index.js"></script>
+
 <script src="/static/js/echarts.min.js"></script>
 <script language="javascript">
-    var data_overview = '{$data_overview}';
-    var data_overview_months = '{$data_overview_months}';
-	// var echart = document.getElementById('echart');
-	var myChart = echarts.init(document.getElementById('echart'));
-	var option = {
-		title:{
-			// text:"销量预估"
-		},
-		tooltip:{},
-		legend:{
-			data:["有效通话","商机","拜访","成单"],
-			orient:"vertical",
-			left:10,
-			top:50
-		},
-		grid:{
-			// show:true,
-			left:150,
-			top:5
-		},
-		xAxis:{data:["上上上月","上上月","上月","本月","下月"]},
-		yAxis:{},
-		series:[{
-			name:"有效通话",
-			type:"line",
-			data:[50,200,360,100,100]
-		},{
-			name:"商机",
-			type:"line",
-			data:[30,250,300,120,10]
-		},{
-			name:"拜访",
-			type:"line",
-			data:[60,20,360,10,100]
-		},{
-			name:"成单",
-			type:"line",
-			data:[600,260,160,310,400]
-		}]
-	};				
-	myChart.setOption(option);
+ var data_overview = '{$data_overview}';
+var data_overview_months = '{$data_overview_months}';
+// var echart = document.getElementById('echart');
+var myChart = echarts.init(document.getElementById('echart'));
+var option = {
+	title:{
+		// text:"销量预估"
+	},
+	tooltip:{},
+	legend:{
+		data:["有效通话","商机","拜访","成单"],
+		orient:"vertical",
+		left:10,
+		top:50
+	},
+	grid:{
+		// show:true,
+		left:150,
+		top:5
+	},
+	xAxis:{data:[]},
+	yAxis:{},
+	series:[{
+		name:"有效通话",
+		type:"line",
+		data:[]
+	},{
+		name:"商机",
+		type:"line",
+		data:[]
+	},{
+		name:"拜访",
+		type:"line",
+		data:[]
+	},{
+		name:"成单",
+		type:"line",
+		data:[]
+	}]
+};				
+myChart.setOption(option);
 </script>
+<script src="/datacount/js/index.js"></script>

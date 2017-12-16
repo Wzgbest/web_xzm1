@@ -28,7 +28,7 @@ function init(){
         }
 	}
     // 调试的时候可以关闭此行代码
-    $(".phone-box").load("/index/call/index");
+    // $(".phone-box").load("/index/call/index");
 }
 
 window.onload =function(){
