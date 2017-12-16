@@ -157,7 +157,7 @@
 				</div>
 				<div class="m-divBlock m-divBlock3 fl mar-r-0 mar-t-0">
 					<div class="line1 bdn">
-						<span class="title">红包任务(<span>14</span>)</span>
+						<span class="title">红包任务(<span>{:count($employee_task)}</span>)</span>
 					</div>
 					<div class="table">
 						<ul class="title">
@@ -167,42 +167,27 @@
 							<li>红包</li> 	
 						</ul>
 						<div class="tablist-container">
+							{volist name="employee_task" id="vo"}
 							<ul class="tablist">
-								<li>任务名称</li>
-								<li>成单数</li>
-								<li>9/12</li>
-								<li>未发放(￥<span>50</span>)</li> 	
+								<li>{$vo.task_name}</li>
+								<li>{$vo.type_name}</li>
+								<li>{$vo.now_num}/{$vo.target_num}</li>
+								<li>
+									{notempty name="vo.redid"}
+										{eq name="vo.is_token" value="1"}
+											<span class="took">已领取</span>
+										{else/}
+											<span class="wait">待领取</span>
+										{/eq}
+									{else/}
+										未发放
+										{gt name="vo.reward_money" value="0"}
+											(￥<span>{$vo.reward_money}</span>)
+										{/gt}
+									{/notempty}
+								</li>
 							</ul>
-							<ul class="tablist">
-								<li>任务名称</li>
-								<li>成单数</li>
-								<li>9/12</li>
-								<li class="wait">待领取<span></span></li> 	
-							</ul>
-							<ul class="tablist">
-								<li>任务名称</li>
-								<li>成单数</li>
-								<li>9/12</li>
-								<li>未发放(￥<span>50</span>)</li> 	
-							</ul>
-							<ul class="tablist">
-								<li>任务名称</li>
-								<li>成单数</li>
-								<li>9/12</li>
-								<li>未发放(￥<span>50</span>)</li> 	
-							</ul>
-							<ul class="tablist">
-								<li>任务名称</li>
-								<li>成单数</li>
-								<li>9/12</li>
-								<li class="wait">待领取<span></span></li> 	
-							</ul>
-							<ul class="tablist">
-								<li>任务名称</li>
-								<li>成单数</li>
-								<li>9/12</li>
-								<li class="wait">待领取<span></span></li> 	
-							</ul>
+							{/volist}
 						</div>
 					</div>
 				</div>
@@ -231,7 +216,7 @@
 							<div class="process-name">新增客户</div>
 							<div class="process-bar"><span>
 								{gt name="sales_funnel.1.num" value="0"}
-									{$sales_funnel.2.num/$sales_funnel.1.num*100}%
+									{:round($sales_funnel.2.num/$sales_funnel.1.num*100,2)}%
 								{else/}
 									0%
 								{/gt}
@@ -239,7 +224,7 @@
 							<div class="process-name">意向客户</div>
 							<div class="process-bar"><span>
 								{gt name="sales_funnel.2.num" value="0"}
-									{$sales_funnel.3.num/$sales_funnel.2.num*100}%
+									{:round($sales_funnel.3.num/$sales_funnel.2.num*100,2)}%
 								{else/}
 									0%
 								{/gt}
@@ -247,7 +232,7 @@
 							<div class="process-name">商机</div>
 							<div class="process-bar"><span>
 								{gt name="sales_funnel.3.num" value="0"}
-									{$sales_funnel.4.num/$sales_funnel.3.num*100}%
+									{:round($sales_funnel.4.num/$sales_funnel.3.num*100,2)}%
 								{else/}
 									0%
 								{/gt}
@@ -255,7 +240,7 @@
 							<div class="process-name">拜访</div>
 							<div class="process-bar"><span>
 								{gt name="sales_funnel.4.num" value="0"}
-									{$sales_funnel.5.num/$sales_funnel.4.num*100}%
+									{:round($sales_funnel.5.num/$sales_funnel.4.num*100,2)}%
 								{else/}
 									0%
 								{/gt}
@@ -264,8 +249,8 @@
 						</div>
 						<div class="bottom-process">
 							<div class="rate">
-								{gt name="sales_funnel.5.target" value="0"}
-									{$sales_funnel.1.num/$sales_funnel.5.target}%
+								{gt name="sales_funnel.1.target" value="0"}
+									{:round($sales_funnel.5.num/$sales_funnel.1.target,2)}%
 								{else/}
 									0%
 								{/gt}

@@ -12,6 +12,7 @@ use app\common\controller\Initialize;
 use app\common\model\StructureEmployee;
 use app\common\model\EmployeeScore;
 use app\datacount\model\Datacount;
+use app\task\model\EmployeeTask;
 use \myvendor\TimeTools;
 
 class Index extends Initialize{
@@ -47,6 +48,18 @@ class Index extends Initialize{
         "customer"=>["6","sum_num"],
         "contact"=>["7","sum_num"],
         "tend_to"=>["8","sum_num"],
+    ];
+    protected $task_type_idx = [
+        "1"=>"valid_call_time",
+        "2"=>"sale_chance",
+        "3"=>"order_money",
+        "4"=>"sale_order",
+        "5"=>"sign_in",
+        "6"=>"customer",
+        "8"=>"all_call_time",
+        "9"=>"sale_status",
+        "10"=>"contact",
+        "11"=>"tend_to",
     ];
     public function __construct(){
         parent::__construct();
@@ -114,9 +127,43 @@ class Index extends Initialize{
         $end_time = 0;
         list($start_time,$end_time) = $this->_get_times($time,$start_time,$end_time);
         $data_count = $this->_get_data_count($uids,$start_time,$end_time);
-        $day_task = $this->_get_day_task($uids,$time);
+        $day_task = $this->_get_day_task($uids,$start_time,$end_time);
         $day_task_count = $this->_get_day_task_count($day_task["data"],$data_count["data"]);
         $this->assign("task_data_count",$day_task_count);
+
+        $employee_task = $this->_get_employee_task($uids);
+        foreach ($employee_task["data"] as &$employee_task_item){
+            $datacount_type = 0;
+            $type_name = '';
+            if(isset($this->task_type_idx[$employee_task_item["target_type"]])){
+                $datacount_type = $this->task_type_idx[$employee_task_item["target_type"]];
+                $type_name = $this->name_title_idx[$datacount_type];
+            }
+            $now_num = $this->_get_type_data_count($datacount_type,$uids,$start_time,$end_time);
+            $employee_task_item["now_num"] = $now_num["data"];
+            $employee_task_item["type_name"] = $type_name;
+            $reward_money = 0;
+            switch ($employee_task_item["task_method"]){
+                case 1:
+                    $reward_money = $employee_task_item["reward_amount"];
+                    break;
+                case 2:
+                    $reward_money = $employee_task_item["reward_amount"];
+                    break;
+                case 3:
+                    $reward_money = $employee_task_item["reward_amount"];
+                    break;
+                case 4:
+                    $reward_money = $employee_task_item["reward_amount"];
+                    break;
+                case 5:
+                    $reward_money = $employee_task_item["reward_amount"];
+                    break;
+            }
+            $employee_task_item["reward_money"] = $reward_money;
+        }
+//        var_exp($employee_task,'$employee_task');
+        $this->assign("employee_task",$employee_task["data"]);
 
         $time = 3;
         $start_time = 0;
@@ -226,6 +273,31 @@ class Index extends Initialize{
         $result['data'] = $result_data;
         return $result;
     }
+    protected function _get_type_data_count($type,$uids,$start_time,$end_time){
+        $result_data = 0;
+        $result = ['status'=>0 ,'info'=>"获取数据关键指标时发生错误！","data"=>$result_data];
+        if(
+            !isset($this->name_type_field_idx[$type])
+            ||empty($uids)
+            ||($start_time<=0&&$end_time<=0)
+            || $start_time>=$end_time
+        ){
+            return $result;
+        }
+        $field = $this->name_type_field_idx[$type];
+        $type_id = $field[0];
+        $datacountM = new Datacount();
+        $datacount = $datacountM->getTypeDataCount($type_id,$uids,$start_time,$end_time);
+//        var_exp($datacount,'$datacount',1);
+        if(isset($datacount[$type_id])){
+            $result_data = $datacount[$type_id][$field[1]];
+        }
+
+        $result['status'] = 1;
+        $result['info'] = "获取数据关键指标成功！";
+        $result['data'] = $result_data;
+        return $result;
+    }
     public function day_task(){
         $result = ['status'=>0 ,'info'=>"获取日常任务统计时发生错误！"];
         $type = input("type",0,"int");
@@ -238,7 +310,6 @@ class Index extends Initialize{
         $end_time = 0;
         list($start_time,$end_time) = $this->_get_times($time,$start_time,$end_time);
 
-
         $data_count = $this->_get_data_count($uids,$start_time,$end_time);
         if($data_count["status"]!=1){
             $result['status'] = $data_count["status"];
@@ -246,7 +317,7 @@ class Index extends Initialize{
             return json($result);
         }
 
-        $day_task = $this->_get_day_task($uids,$time);
+        $day_task = $this->_get_day_task($uids,$start_time,$end_time);
         if($day_task["status"]!=1){
             $result['status'] = $day_task["status"];
             $result['info'] = $day_task["info"];
@@ -284,7 +355,7 @@ class Index extends Initialize{
         }
         return $day_task_data;
     }
-    protected function _get_day_task($uids,$time){
+    protected function _get_day_task($uids,$start_time,$end_time,$is_task=1){
         $result_data = [
             "customer"=>0,
             "all_call_time"=>0,
@@ -300,14 +371,38 @@ class Index extends Initialize{
         $result = ['status'=>0 ,'info'=>"获取日常任务目标时发生错误！","data"=>$result_data];
         if(
             empty($uids)
-            || !$time
+            ||($start_time<=0&&$end_time<=0)
+            || $start_time>=$end_time
         ){
             return $result;
+        }
+        $task_type = ($is_task?1:2)+2;
+
+        $employeeTaskM = new EmployeeTask($this->corp_id);
+        $employeeTaskList = $employeeTaskM->getAllDayTaskByEmployeeIds($task_type,$uids,$start_time,$end_time);
+
+        foreach ($employeeTaskList as $employeeTask){
+            if(isset($this->task_type_idx[$employeeTask["target_type"]])){
+                $result_data[$this->task_type_idx[$employeeTask["target_type"]]]=$employeeTask["target_num"];
+            }
         }
 
         $result['status'] = 1;
         $result['info'] = "获取日常任务目标成功！";
         $result['data'] = $result_data;
+        return $result;
+    }
+    protected function _get_employee_task($uids){
+        $employeeTaskList = [];
+        $result = ['status'=>0 ,'info'=>"获取员工任务时发生错误！","data"=>$employeeTaskList];
+        $time = time();
+
+        $employeeTaskM = new EmployeeTask();
+        $employeeTaskList = $employeeTaskM->getAllEmployeeTaskByEmployeeIds($uids,$time);
+
+        $result['status'] = 1;
+        $result['info'] = "获取日常任务目标成功！";
+        $result['data'] = $employeeTaskList;
         return $result;
     }
     public function sales_funnel(){
@@ -451,13 +546,13 @@ class Index extends Initialize{
         $data_count = [];
         switch($time_type){
             case 1:
-                $data_count = $datacountM->getDataTypeMonth($uids,$start_time,$end_time);
+                $data_count = $datacountM->getDatacountMonth($uids,$start_time,$end_time);
                 break;
             case 2:
-                $data_count = $datacountM->getDataTypeSeason($uids,$start_time,$end_time);
+                $data_count = $datacountM->getDatacountSeason($uids,$start_time,$end_time);
                 break;
             case 3:
-                $data_count = $datacountM->getDataTypeYear($uids,$start_time,$end_time);
+                $data_count = $datacountM->getDatacountYear($uids,$start_time,$end_time);
                 break;
         }
         $result_data_tmp = [];
