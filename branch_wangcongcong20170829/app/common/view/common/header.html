@@ -29,7 +29,7 @@
                     <h4>CRM消息{if condition="$crm_msg_count neq 0"}（<span class="color-red">{$crm_msg_count}</span>）{else/}（无）{/if}</h4>
                     <h4>知识库消息{if condition="$knowledge_msg_count neq 0"}（<span class="color-red">{$knowledge_msg_count}</span>）{else/}（无）{/if}</h4>
                 </div>
-                <div class="message-content" style="display: block;">
+                <div class="message-content show" style="display: block;">
                     <div class="message-content-header">
                        	系统消息
                     </div>            
@@ -95,9 +95,10 @@
 <script type="text/javascript">
     $(".header .message-content .message-content-footer.color-blue").click(function(){
         var ids = new Array(); 
-	      $(".header .message-content .current").each(function(index, el) {
-          ids[index] = $(this).attr("data-id");  
+	      $(".header .show li").each(function(index, el) {
+          ids[index] = $(this).attr("data-id");           
         });
+        console.log(ids)
         // let receive_uid = $(".header .fa-user").attr("uid");
         if (ids.length == 0) {
             layer.msg("没有未读消息");
@@ -110,26 +111,23 @@
             dataType: 'json',
             data: {'msg_ids': ids},
             success:function(data){
-                layer.msg(data.message,{icon:data.status==1?1:2});
+            	$(".header .show li").children("p").children('span').remove();
+                layer.msg(data.message,{icon:data.status==1?1:2});               
             },
             error:function(){
                 layer.msg('修改失败!',{icon:2});
             },
-        });
-        
+        });        
     });
     
-    $(".message-box .message-class h4").click(function(){
-    	
-    	$(".message-box .message-content").css("display","none");
+    $(".message-box .message-class h4").click(function(){    	
+    	$(".message-box .message-content").css("display","none").removeClass("show");
     	var index_tab=$(this).index();
-    	$(".message-box .message-content").eq(index_tab).css("display","block");
+    	$(".message-box .message-content").eq(index_tab).css("display","block").addClass("show");
 
-    })
-    
-    
-    
+    });
     $(".message-content ul li").click(function(){
+    	var that=$(this);
         var id=$(this).attr("data-id");
         var ids = new Array();
         ids[0] = id;
@@ -140,9 +138,11 @@
             data: {'msg_ids': ids},
             success:function(data){
                 // layer.msg(data.message,{icon:data.status==1?1:2});
+                $(that).children("p").children('span').remove();
             },
             error:function(){
                 // layer.msg('修改失败!',{icon:2});
+               
             },
         });
 

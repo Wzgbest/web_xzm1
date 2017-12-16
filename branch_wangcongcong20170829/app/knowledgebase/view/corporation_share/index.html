@@ -20,7 +20,7 @@
             </div>
         </section>
         <div class="m-4th-container fa-x-h">
-	    	<ul class="library-list">
+	    	<ul class="library-list b-w o-x-h">
 	    	{volist name="share_list" id="vo"}
 	    		{eq name="vo.img" value=""}
 	    		<li class="m-divBlock m-divBlock2 lib" share_id="{$vo.id}">
@@ -28,21 +28,25 @@
 	        			<div class="face">
 	        				<img src="{$vo.userpic}" />
 	        			</div>
-	        			<h1 class="name">{$vo.truename}</h1>
-	        			<h2 class="time">{$vo.create_time|time_format}</h2>
-	        			<h3 class="description">{$vo.content}</h3>
-	        			{neq name="vo.share_url" value=""}
-	        			<div class="content">
-	        				<div class="link">
-	        					<span class="color-blue">立即查看 >></span>
-	        				</div>
+	        			<div style="padding:10px 85px 20px;">
+	        				<h1 class="name">{$vo.truename}</h1>
+		        			<h2 class="time">{$vo.create_time|time_format}</h2>
+		        			<h3 class="description">{$vo.content}</h3>
+		        			{neq name="vo.share_url" value=""}
+		        			<div class="content">
+		        				<div class="link">
+		        					<span class="color-blue">立即查看 >></span>
+		        				</div>
+		        			</div>
 	        			</div>
+	        			
+	        			
 	        			{/neq}
 		        	</div>
 		        	<ul class="lib-operator">
-		        		<li class="comment"><i class="fa fa-commenting"></i><span>评论</span></li>
-		        		<li {eq name="vo.is_like" value="1" } class="praise active" {else/} class="praise" {/eq}><i class="fa fa-thumbs-up"></i><span>赞</span></li>	        		
 		        		<li {eq name="vo.is_tip" value="1" } class="reward active" {else/} class="reward" {/eq}><i class="fa fa-dollar"></i><span>打赏</span></li>
+		        		<li {eq name="vo.is_like" value="1" } class="praise active" {else/} class="praise" {/eq}><i class="fa fa-thumbs-up"></i><span>赞</span></li>	        		
+		        		<li class="comment"><i class="fa fa-commenting"></i><span>评论</span></li>
 		        		<div class="clearfix"></div>
 		        	</ul>
 		        	<div class="clearfix"></div>
@@ -52,8 +56,9 @@
 		        				<div class="face"><img src="{$userinfo.userpic}" /></div>
 		        				<input type="text" name="reply-now"/>
 		        				<div class="reply-operator">
-		        					<i class="fa fa-smile-o color-yellow fa-2x"></i>	        					
-		        					<button class="fr">评论</button>
+		        					<i class="fa fa-smile-o color-yellow fa-2x"></i>	 
+		        					<button class="fr btn btn-large cancel">取消</button>       					
+		        					<button class="fr btn btn-large active mar-r-10 submit">评论</button>
 		        				</div>
 		        			</li>	        			
 		        		</ul>
@@ -98,34 +103,37 @@
 	        			<div class="face">
 	        				<img src="{$vo.userpic}" />
 	        			</div>
-	        			<h1 class="name">{$vo.truename}</h1>
-	        			<h2 class="time">{$vo.create_time|time_format}</h2>
-	        			<h3 class="description">{$vo.content}</h3>
-	        			<div class="content">
-	        				<div class="picture">
-	        					<ul class="pic-grid">
-	        					{volist name="vo.img" id="im"}
-	        						<li><img src="{$im}"/></li>
-	        					{/volist}
-	        						<div class="clearfix"></div>
-	        					</ul>
-	        					<div class="pic-show hide">
-	        						<button class="pack-up-btn">收起</button>
-	        						<div><img src=""/></div>
-	        					</div>
-	        					<ul class="pic-list hide">
-	        						{volist name="vo.img" id="im"}
-	        						<li><img src="{$im}" class="pointer" /></li>
-	        						{/volist}
-	        						<div class="clearfix"></div>
-	        					</ul>
-	        				</div>
+	        			<div  style="padding:10px 85px 20px;">
+	        				<h1 class="name">{$vo.truename}</h1>
+		        			<h2 class="time">{$vo.create_time|time_format}</h2>
+		        			<h3 class="description">{$vo.content}</h3>
+		        			<div class="content">
+		        				<div class="picture">
+		        					<ul class="pic-grid">
+		        					{volist name="vo.img" id="im"}
+		        						<li><img src="{$im}"/></li>
+		        					{/volist}
+		        						<div class="clearfix"></div>
+		        					</ul>
+		        					<div class="pic-show hide">
+		        						<button class="pack-up-btn">收起</button>
+		        						<div class="h100"><img src=""/></div>
+		        					</div>
+		        					<ul class="pic-list hide">
+		        						{volist name="vo.img" id="im"}
+		        						<li><img src="{$im}" class="pointer" /></li>
+		        						{/volist}
+		        						<div class="clearfix"></div>
+		        					</ul>
+		        				</div>
+		        			</div>
 	        			</div>
+	        			
 		        	</div>
 		        	<ul class="lib-operator">
-		        		<li class="comment"><i class="fa fa-commenting"></i><span>评论</span></li>
-		        		<li {eq name="vo.is_like" value="1" } class="praise active" {else/} class="praise" {/eq}><i class="fa fa-thumbs-up"></i><span>赞</span></li>	        		
 		        		<li {eq name="vo.is_tip" value="1" } class="reward active" {else/} class="reward" {/eq}><i class="fa fa-dollar"></i><span>打赏</span></li>
+		        		<li {eq name="vo.is_like" value="1" } class="praise active" {else/} class="praise" {/eq}><i class="fa fa-thumbs-up"></i><span>赞</span></li>	        		
+		        		<li class="comment"><i class="fa fa-commenting"></i><span>评论</span></li>
 		        		<div class="clearfix"></div>
 		        	</ul>
 		        	<div class="clearfix"></div>
@@ -135,8 +143,9 @@
 		        				<div class="face"><img src="{$userinfo.userpic}" /></div>
 		        				<input type="text" name="reply-now"/>
 		        				<div class="reply-operator">
-		        					<i class="fa fa-smile-o color-yellow fa-2x"></i>	        					
-		        					<button class="fr">评论</button>
+		        					<i class="fa fa-smile-o color-yellow fa-2x"></i>	
+		        					<button class="fr btn btn-large cancel">取消</button>            					
+		        					<button class="fr btn btn-large active mar-r-10 submit">评论</button>
 		        				</div>
 		        			</li>	        			
 		        		</ul>

@@ -33,7 +33,23 @@ class Datacount extends Base{
         return $result_data;
     }
 
-    public function getDataTypeMonth($uids,$start_time,$end_time){
+    public function getTypeDataCount($type,$uids,$start_time,$end_time){
+        $map["type"] = ["eq",$type];
+        $map["uid"] = ["in",$uids];
+        $map["time"] = [
+            ["egt",$start_time],
+            ["elt",$end_time]
+        ];
+        $group = "type";
+        $result_data = $this->model->table($this->table)->alias('d')
+            ->where($map)
+            ->group($group)
+//            ->fetchSql(true)
+            ->column("count(id) num,sum(num) sum_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_num","type");
+        return $result_data;
+    }
+
+    public function getDatacountMonth($uids,$start_time,$end_time){
         $map["uid"] = ["in",$uids];
         $map["time"] = [
             ["egt",$start_time],
@@ -47,7 +63,43 @@ class Datacount extends Base{
             ->group($group)
             ->order($order)
 //            ->fetchSql(true)
-            ->column($mouth." `month`,count(id) num,sum(num) sum_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_num","type");
+            ->column($mouth." `group_flg`,count(id) num,sum(num) sum_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_num","type");
+        return $result_data;
+    }
+
+    public function getDatacountSeason($uids,$start_time,$end_time){
+        $map["uid"] = ["in",$uids];
+        $map["time"] = [
+            ["egt",$start_time],
+            ["elt",$end_time]
+        ];
+        $season = "CONCAT(FROM_UNIXTIME(time,'%Y'),'Q',QUARTER(FROM_UNIXTIME(time)))";
+        $group = "type,".$season;
+        $order = "time asc";
+        $result_data = $this->model->table($this->table)->alias('d')
+            ->where($map)
+            ->group($group)
+            ->order($order)
+//            ->fetchSql(true)
+            ->column($season." `group_flg`,count(id) num,sum(num) sum_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_num","type");
+        return $result_data;
+    }
+
+    public function getDatacountYear($uids,$start_time,$end_time){
+        $map["uid"] = ["in",$uids];
+        $map["time"] = [
+            ["egt",$start_time],
+            ["elt",$end_time]
+        ];
+        $year = "FROM_UNIXTIME(time,'%Y')";
+        $group = "type,".$year;
+        $order = "time asc";
+        $result_data = $this->model->table($this->table)->alias('d')
+            ->where($map)
+            ->group($group)
+            ->order($order)
+//            ->fetchSql(true)
+            ->column($year." `group_flg`,count(id) num,sum(num) sum_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_num","type");
         return $result_data;
     }
 

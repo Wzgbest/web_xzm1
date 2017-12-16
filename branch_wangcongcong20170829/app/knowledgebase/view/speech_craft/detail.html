@@ -2,17 +2,23 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <link rel="stylesheet" href="/knowledgebase/css/index.css" />
-
+<header>
+    <ul class="m-firNav">
+        <li class="current back" onclick="backLastPage()"><div>话术库</div></li>
+        <i class="fa fa-angle-right fa-2x"></i>
+        <span class="u-spanInfo">详情</span>
+    </ul>
+</header>
 <!-- 正常页面 -->
 {if condition="$article.article_type == 1"}
 <div class="knowledgebase knowledgebase_speechcraft knowledgebase_speechcraft_detail">
-	<button class="u-btnBack" onclick="backLastPage()">返回</button>
-	<div class="detail_panel detail">
-		<div class="m-divBlock">
-			<h1>{$article.article_name}</h1>
-			<h3><span class="color-blue2">{$article.truename} </span>发布于 {$article.article_edit_time|time_format}</h3>
+	<!-- <button class="u-btnBack" onclick="backLastPage()">返回</button> -->
+	<div class="detail_panel detail m-3rd-container b-w" style="padding: 20px">
+		<div>
+			<h1 class="tc">{$article.article_name}</h1>
+			<h3 class="tc"><span class="color-blue2">{$article.truename} </span>发布于 {$article.article_edit_time|time_format}</h3>
 		</div>
-		<div class="m-divBlock" style="padding-right: 5px;">
+		<div style="padding-right: 5px;margin-top: 10px">
 		{$article.article_text}
 		</div>
 	</div>
@@ -75,11 +81,14 @@ if(w1<=640){
 		background-color: #fff;
 	}
 </style>
-<button class="u-btnBack" onclick="backLastPage()">返回</button>
+<!-- <button class="u-btnBack" onclick="backLastPage()">返回</button> -->
 <div class="test">
 	<h3 class="h1"></h3>
 </div>
-<iframe class="article_quote" src="{$article.article_url}"></iframe>
+<div class="m-3rd-container o-h">
+	<iframe class="article_quote" src="{$article.article_url}"></iframe>
+</div>
+
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript">
 let h1 = window.innerHeight;
