@@ -27,6 +27,10 @@ class Contract extends Initialize{
         return view();
     }
     public function add_page(){
+        if(!($this->checkRule('systemsetting/contract/index/add'))){
+            $this->noRole(2);
+        }
+
         $contractSetting = [
             "id"=>"0",
             "contract_name"=>"",
@@ -63,6 +67,10 @@ class Contract extends Initialize{
     }
 
     public function edit_page(){
+        if(!($this->checkRule('systemsetting/contract/index/edit'))){
+            $this->noRole(2);
+        }
+
         $id = input("id");
         if(!$id){
             $this->error("参数错误!");
@@ -177,6 +185,10 @@ class Contract extends Initialize{
     }
 
     public function add(){
+        if(!($this->checkRule('systemsetting/contract/index/add'))){
+            $result=$this->noRole();
+            return json($result);
+        }
         $result = ['status'=>0 ,'info'=>"添加合同设置时发生错误！"];
         $contractSetting = $this->_getContractSettingForInput();
         if($contractSetting["current_contract"]<$contractSetting["start_num"]){
@@ -224,6 +236,10 @@ class Contract extends Initialize{
     }
 
     public function update(){
+        if(!($this->checkRule('systemsetting/contract/index/edit'))){
+            $result=$this->noRole();
+            return json($result);
+        }
         $result = ['status'=>0 ,'info'=>"更新合同设置时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){

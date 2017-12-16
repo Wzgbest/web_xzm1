@@ -98,8 +98,7 @@ class TimeTools
         $time = time();
         $lastMonth = strtotime("-$num Months",strtotime(date('Y',$time)."-".date('m',$time)."-01"));
         $begin = mktime(0, 0, 0, date('m',$lastMonth) - 1, 1, date('Y',$lastMonth));
-        $end = mktime(23, 59, 59, date('m',$begin), date('t', $begin), date('Y',$begin));
-
+        $end = mktime(23, 59, 59, date('m',$time), date('t', $time), date('Y',$time));
 
         return [$begin, $end];
     }
@@ -138,6 +137,22 @@ class TimeTools
     }
 
     /**
+     * 返回最近几个季度开始和结束的时间戳
+     * @param $num int 月数
+     * @return array 开始时间和结束时间
+     */
+    public static function lastSeasons($num)
+    {
+        $season = ceil((date('n'))/3);//当月是第几季度
+        $year = date('Y')-ceil(($num-$season)/4);
+        $season = 4-(($num-$season)%4);
+        return [
+            mktime(0, 0, 0,($season-1)*3+1,1,$year),
+            mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),$year)
+        ];
+    }
+
+    /**
      * 返回今年开始和结束的时间戳
      *
      * @return array
@@ -162,6 +177,21 @@ class TimeTools
             mktime(0, 0, 0, 1, 1, $year),
             mktime(23, 59, 59, 12, 31, $year)
         ];
+    }
+
+    /**
+     * 返回最近几年开始和结束的时间戳
+     * @param $num int 月数
+     * @return array 开始时间和结束时间
+     */
+    public static function lastYears($num)
+    {
+        $time = time();
+        $lastYear = strtotime("-$num Years",strtotime(date('Y',$time)."-".date('m',$time)."-01"));
+        $begin = mktime(0, 0, 0, date('m',$lastYear) - 1, 1, date('Y',$lastYear));
+        $end = mktime(23, 59, 59, date('m',$time), date('t', $time), date('Y',$time));
+
+        return [$begin, $end];
     }
 
     public static function dayOf()

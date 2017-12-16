@@ -50,8 +50,8 @@
 			<div class="m-divBlock m-divBlock2 key-target" style="margin-right: 0">
 				<div class="line1">
 					<span class="title">关键指标</span>
-					<span class="filter current">昨日</span>
-					<span class="filter">今日</span>
+					<span class="filter">昨日</span>
+					<span class="filter current">今日</span>
 					<span class="filter">本周</span>
 					<span class="filter">本月</span>
 					<span class="filter">本季度</span>
@@ -73,40 +73,91 @@
 					<div class="line1">
 						<span class="title">每日任务</span>
 					</div>
+					{gt name="task_data_count.all_call_time.target" value="0"}
+					<div class="line3 task1">
+						<span>总通话数</span>
+						<span><div class="in-bar2" stype="width:{$task_data_count.all_call_time.num/$task_data_count.all_call_time.target*250}px"></div></span>
+						<span>
+							{$task_data_count.all_call_time.num}/{all_call_time.customer.target}
+						</span>
+					</div>
+					{/gt}
+					{gt name="task_data_count.valid_call_time.target" value="0"}
+					<div class="line3 task1">
+						<span>有效通话数</span>
+						<span><div class="in-bar2" stype="width:{$task_data_count.valid_call_time.num/$task_data_count.valid_call_time.target*250}px"></div></span>
+						<span>
+							{$task_data_count.valid_call_time.num}/{valid_call_time.customer.target}
+						</span>
+					</div>
+					{/gt}
+					{gt name="task_data_count.customer.target" value="0"}
 					<div class="line3 task1">
 						<span>新增客户</span>
-						<span><div class="in-bar2"></div></span>
-						<span>12/12</span>
+						<span><div class="in-bar2" stype="width:{$task_data_count.customer.num/$task_data_count.customer.target*250}px"></div></span>
+						<span>
+							{$task_data_count.customer.num}/{$task_data_count.customer.target}
+						</span>
 					</div>
-					<div class="line3 task2">
-						<span>有效通话数</span>
-						<span><div class="in-bar2"></div></span>
-						<span>5/10</span>
+					{/gt}
+					{gt name="task_data_count.contact.target" value="0"}
+					<div class="line3 task1">
+						<span>新增联系人</span>
+						<span><div class="in-bar2" stype="width:{$task_data_count.contact.num/$task_data_count.contact.target*250}px"></div></span>
+						<span>
+							{$task_data_count.contact.num}/{$task_data_count.contact.target}
+						</span>
 					</div>
-					<div class="line3 task3">
+					{/gt}
+					{gt name="task_data_count.tend_to.target" value="0"}
+					<div class="line3 task1">
+						<span>意向客户</span>
+						<span><div class="in-bar2" stype="width:{$task_data_count.tend_to.num/$task_data_count.tend_to.target*250}px"></div></span>
+						<span>
+							{$task_data_count.tend_to.num}/{$task_data_count.tend_to.target}
+						</span>
+					</div>
+					{/gt}
+					{gt name="task_data_count.sign_in.target" value="0"}
+					<div class="line3 task1">
 						<span>拜访客户</span>
-						<span><div class="in-bar2"></div></span>
-						<span>12/12</span>
+						<span><div class="in-bar2" stype="width:{$task_data_count.sign_in.num/$task_data_count.sign_in.target*250}px"></div></span>
+						<span>
+							{$task_data_count.sign_in.num}/{$task_data_count.sign_in.target}
+						</span>
 					</div>
-					<div class="line3 task4">
-						<span>成单任务</span>
-						<span><div class="in-bar2"></div></span>
-						<span>12/12</span>
+					{/gt}
+					{gt name="task_data_count.sale_status.target" value="0"}
+					<div class="line3 task1">
+						<span>商机状态变化数</span>
+						<span><div class="in-bar2" stype="width:{$task_data_count.sale_status.num/$task_data_count.sale_status.target*250}px"></div></span>
+						<span>
+							{$task_data_count.sale_status.num}/{$task_data_count.sale_status.target}
+						</span>
 					</div>
-					<div class="line3 task5">
-						<span>成单任务</span>
-						<span><div class="in-bar2"></div></span>
-						<span>12/12</span>
+					{/gt}
+					{gt name="task_data_count.sale_order.target" value="0"}
+					<div class="line3 task1">
+						<span>成单数</span>
+						<span><div class="in-bar2" stype="width:{$task_data_count.sale_order.num/$task_data_count.sale_order.target*250}px"></div></span>
+						<span>
+							{$task_data_count.sale_order.num}/{$task_data_count.sale_order.target}
+						</span>
 					</div>
-					<div class="line3 task6">
-						<span>成单任务</span>
-						<span><div class="in-bar2"></div></span>
-						<span>12/12</span>
+					{/gt}
+					{gt name="task_data_count.order_money.target" value="0"}
+					<div class="line3 task1">
+						<span>成单金额</span>
+						<span><div class="in-bar2" stype="width:{$task_data_count.order_money.num/$task_data_count.order_money.target*250}px"></div></span>
+						<span>
+							{$task_data_count.order_money.num}/{$task_data_count.order_money.target}
+						</span>
 					</div>
+					{/gt}
 				</div>
 				<div class="m-divBlock m-divBlock3 fl mar-r-0 mar-t-0">
 					<div class="line1 bdn">
-						<span class="title">红包任务(<span>14</span>)</span>
+						<span class="title">红包任务(<span>{:count($employee_task)}</span>)</span>
 					</div>
 					<div class="table">
 						<ul class="title">
@@ -116,42 +167,27 @@
 							<li>红包</li> 	
 						</ul>
 						<div class="tablist-container">
+							{volist name="employee_task" id="vo"}
 							<ul class="tablist">
-								<li>任务名称</li>
-								<li>成单数</li>
-								<li>9/12</li>
-								<li>未发放(￥<span>50</span>)</li> 	
+								<li>{$vo.task_name}</li>
+								<li>{$vo.type_name}</li>
+								<li>{$vo.now_num}/{$vo.target_num}</li>
+								<li>
+									{notempty name="vo.redid"}
+										{eq name="vo.is_token" value="1"}
+											<span class="took">已领取</span>
+										{else/}
+											<span class="wait">待领取</span>
+										{/eq}
+									{else/}
+										未发放
+										{gt name="vo.reward_money" value="0"}
+											(￥<span>{$vo.reward_money}</span>)
+										{/gt}
+									{/notempty}
+								</li>
 							</ul>
-							<ul class="tablist">
-								<li>任务名称</li>
-								<li>成单数</li>
-								<li>9/12</li>
-								<li class="wait">待领取<span></span></li> 	
-							</ul>
-							<ul class="tablist">
-								<li>任务名称</li>
-								<li>成单数</li>
-								<li>9/12</li>
-								<li>未发放(￥<span>50</span>)</li> 	
-							</ul>
-							<ul class="tablist">
-								<li>任务名称</li>
-								<li>成单数</li>
-								<li>9/12</li>
-								<li>未发放(￥<span>50</span>)</li> 	
-							</ul>
-							<ul class="tablist">
-								<li>任务名称</li>
-								<li>成单数</li>
-								<li>9/12</li>
-								<li class="wait">待领取<span></span></li> 	
-							</ul>
-							<ul class="tablist">
-								<li>任务名称</li>
-								<li>成单数</li>
-								<li>9/12</li>
-								<li class="wait">待领取<span></span></li> 	
-							</ul>
+							{/volist}
 						</div>
 					</div>
 				</div>
@@ -164,7 +200,9 @@
 					<span class="filter">本季度</span>
 					<span class="filter">上季度</span>
 					<span class="filter">本年</span>
-					<input type="date">  --<input type="date">
+					<input type="date" value="{$sales_funnel_start_time|day_format}">
+					--
+					<input type="date" value="{$sales_funnel_end_time|day_format}">
 					<button class="u-btnSearch">查询</button>
 				</div>
 				<div class="conversion-rate">
@@ -178,7 +216,7 @@
 							<div class="process-name">新增客户</div>
 							<div class="process-bar"><span>
 								{gt name="sales_funnel.1.num" value="0"}
-									{$sales_funnel.2.num/$sales_funnel.1.num*100}%
+									{:round($sales_funnel.2.num/$sales_funnel.1.num*100,2)}%
 								{else/}
 									0%
 								{/gt}
@@ -186,7 +224,7 @@
 							<div class="process-name">意向客户</div>
 							<div class="process-bar"><span>
 								{gt name="sales_funnel.2.num" value="0"}
-									{$sales_funnel.3.num/$sales_funnel.2.num*100}%
+									{:round($sales_funnel.3.num/$sales_funnel.2.num*100,2)}%
 								{else/}
 									0%
 								{/gt}
@@ -194,7 +232,7 @@
 							<div class="process-name">商机</div>
 							<div class="process-bar"><span>
 								{gt name="sales_funnel.3.num" value="0"}
-									{$sales_funnel.4.num/$sales_funnel.3.num*100}%
+									{:round($sales_funnel.4.num/$sales_funnel.3.num*100,2)}%
 								{else/}
 									0%
 								{/gt}
@@ -202,7 +240,7 @@
 							<div class="process-name">拜访</div>
 							<div class="process-bar"><span>
 								{gt name="sales_funnel.4.num" value="0"}
-									{$sales_funnel.5.num/$sales_funnel.4.num*100}%
+									{:round($sales_funnel.5.num/$sales_funnel.4.num*100,2)}%
 								{else/}
 									0%
 								{/gt}
@@ -211,8 +249,8 @@
 						</div>
 						<div class="bottom-process">
 							<div class="rate">
-								{gt name="sales_funnel.5.target" value="0"}
-									{$sales_funnel.1.num/$sales_funnel.5.target}%
+								{gt name="sales_funnel.1.target" value="0"}
+									{:round($sales_funnel.5.num/$sales_funnel.1.target,2)}%
 								{else/}
 									0%
 								{/gt}
@@ -245,7 +283,37 @@
 
 <script src="/static/js/echarts.min.js"></script>
 <script language="javascript">
- var data_overview = '{$data_overview}';
+    var data_overview = '{$data_overview}';
+    var data_overview_time_type = '{$data_overview_time_type}';
+    var data_overview_time_num = '{$data_overview_time_num}';
+	// var echart = document.getElementById('echart');
+	var myChart = echarts.init(document.getElementById('echart'));
+	var option = {
+		title:{text:"销量预估"},
+		tooltip:{},
+		legend:{data:["有效通话","商机","拜访","成单"]},
+		xAxis:{data:["上上上月","上上月","上月","本月","下月"]},
+		yAxis:{},
+		series:[{
+			name:"有效通话",
+			type:"line",
+			data:[50,200,360,100,100]
+		},{
+			name:"商机",
+			type:"line",
+			data:[30,250,300,120,10]
+		},{
+			name:"拜访",
+			type:"line",
+			data:[60,20,360,10,100]
+		},{
+			name:"成单",
+			type:"line",
+			data:[600,260,160,310,400]
+		}]
+	};				
+	myChart.setOption(option);
+</script> var data_overview = '{$data_overview}';
 var data_overview_months = '{$data_overview_months}';
 // var echart = document.getElementById('echart');
 var myChart = echarts.init(document.getElementById('echart'));

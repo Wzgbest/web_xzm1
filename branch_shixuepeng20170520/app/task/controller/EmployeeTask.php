@@ -325,7 +325,7 @@ class EmployeeTask extends Initialize{
                 $redata['msg']='操作成功';
                 if (!$unlike) {
                     //发送点赞消息
-                    $task_data = $employeeTaskModel->getEmployeeById($task_id);
+                    $task_data = $employeeTaskModel->getEmployeeTaskById($task_id);
                     $userinfos = $user_info['userinfo'];
                     $str = $userinfos['truename']."点赞了你发布的".$task_data['task_name']."任务";
                     $receive_uids[] = $task_data['create_employee'];

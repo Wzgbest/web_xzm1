@@ -23,9 +23,9 @@ class EmployeeTask extends Base{
     /**
      * 获取一条任务信息
      * @param  int $task_id 任务id
-     * @return arr          任务信息
+     * @return array          任务信息
      */
-    public function getEmployeeById($task_id){
+    public function getEmployeeTaskById($task_id){
     	$employeeTaskInfo = $this->model->table($this->table)->where("id",$task_id)->find();
     	return $employeeTaskInfo;
     }
@@ -175,6 +175,61 @@ class EmployeeTask extends Base{
             ->select();
 
         return $myTaskList;
+    }
+    public function getAllDayTaskByEmployeeIds($task_type,$employee_ids,$start_time,$end_time){
+        $field = [
+            "et.id",
+            "ettg.target_type",
+            "ettg.target_num",
+        ];
+        $map["et.task_type"] = ["eq",$task_type];
+        $map["et.task_start_time"] = ["eq",$start_time];
+        $map["et.task_end_time"] = ["eq",$end_time];
+        $map["ettk.take_employee"] = ["in",$employee_ids];
+        $order = "et.id asc";
+        $standardTaskList = $this->model->table($this->table)->alias('et')
+            ->join($this->dbprefix.'employee_task_take ettk',"ettk.task_id = et.id","LEFT")
+            ->join($this->dbprefix.'employee_task_target ettg','ettg.task_id = et.id',"LEFT")
+            ->where($map)
+            ->order($order)
+            ->field($field)
+            ->group('et.id,ettg.id')
+            ->select();
+        //var_exp($standardTaskList,'$standardTaskList',1);
+        return $standardTaskList;
+    }
+    public function getAllEmployeeTaskByEmployeeIds($employee_ids,$time){
+        $field = [
+            "et.id",
+            "et.task_name",
+            "et.task_type",
+            "et.task_method",
+            "et.reward_count",
+            "et.task_start_time",
+            "et.task_end_time",
+            "ettg.target_type",
+            "ettg.target_num",
+            "etrw.reward_amount",
+            "re.redid",
+            "re.is_token",
+        ];
+        $map["et.task_type"] = ["in",[1,2,3]];
+        $map["et.task_start_time"] = ["elt",$time];
+        $map["et.task_end_time"] = ["egt",$time];
+        $map["ettk.take_employee"] = ["in",$employee_ids];
+        $order = "et.id asc";
+        $standardTaskList = $this->model->table($this->table)->alias('et')
+            ->join($this->dbprefix.'employee_task_take ettk',"ettk.task_id = et.id","LEFT")
+            ->join($this->dbprefix.'employee_task_target ettg','ettg.task_id = et.id',"LEFT")
+            ->join($this->dbprefix.'employee_task_reward etrw','etrw.task_id = et.id',"LEFT")
+            ->join($this->dbprefix.'red_envelope re',"re.task_id = et.id and re.type = 3 and re.took_user = ettk.take_employee","LEFT")
+            ->where($map)
+            ->order($order)
+            ->field($field)
+            ->group('et.id,ettg.id')
+            ->select();
+        //var_exp($standardTaskList,'$standardTaskList',1);
+        return $standardTaskList;
     }
     public function getAllStandardTaskId($time){
         $map["et.task_type"] = ["eq",1];

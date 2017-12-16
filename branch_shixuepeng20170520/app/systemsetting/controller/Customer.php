@@ -52,6 +52,9 @@ class Customer extends Initialize{
     }
 
     public function add_page(){
+        if(!($this->checkRule('systemsetting/customer/index/add'))){
+            $this->noRole(2);
+        }
         $customerSetting = [
             "id"=>"0",
             "setting_name"=>"",
@@ -78,6 +81,10 @@ class Customer extends Initialize{
     }
 
     public function edit_page(){
+        if(!($this->checkRule('systemsetting/customer/index/edit'))){
+            $this->noRole(2);
+        }
+
         $id = input("id");
         if(!$id){
             $this->error("参数错误!");
@@ -156,21 +163,31 @@ class Customer extends Initialize{
 //        $set_to_structure = input('set_to_structure',"",'string');
 //        $set_to_structure_arr = explode(',',$set_to_structure);
         $set_to_structure_arr = input('set_to_structure/a');
-        $set_to_structure_arr = array_map("intval",$set_to_structure_arr);
-        $set_to_structure_arr = array_filter($set_to_structure_arr);
-        $set_to_structure_arr = array_unique($set_to_structure_arr);
-        $zero_flg = true;
-        do{
-            $zero_flg = array_search(0,$set_to_structure_arr);
-            if($zero_flg){
-                unset($set_to_structure_arr[$zero_flg]);
-            }
-        }while($zero_flg);
-        $customerSetting['set_to_structure'] = implode(",",$set_to_structure_arr);
+        if($set_to_structure_arr){
+            $set_to_structure_arr = array_map("intval",$set_to_structure_arr);
+            $set_to_structure_arr = array_filter($set_to_structure_arr);
+            $set_to_structure_arr = array_unique($set_to_structure_arr);
+            $zero_flg = true;
+            do{
+                $zero_flg = array_search(0,$set_to_structure_arr);
+                if($zero_flg){
+                    unset($set_to_structure_arr[$zero_flg]);
+                }
+            }while($zero_flg);
+            $customerSetting['set_to_structure'] = implode(",",$set_to_structure_arr);
+        }else{
+            $customerSetting['set_to_structure']='';
+        }
+
+
         return $customerSetting;
     }
 
     public function add(){
+        if(!($this->checkRule('systemsetting/customer/index/add'))){
+            $result=$this->noRole();
+            return json($result);
+        }
         $result = ['status'=>0 ,'info'=>"添加客户设置时发生错误！"];
         $customerSetting = $this->_getCustomerSettingForInput();
         try{
@@ -191,6 +208,10 @@ class Customer extends Initialize{
     }
 
     public function update(){
+        if(!($this->checkRule('systemsetting/customer/index/edit'))){
+            $result=$this->noRole();
+            return json($result);
+        }
         $result = ['status'=>0 ,'info'=>"更新客户设置时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){
