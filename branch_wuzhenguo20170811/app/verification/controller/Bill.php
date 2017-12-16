@@ -160,6 +160,10 @@ class Bill extends Initialize{
         return $field;
     }
     public function approved(){
+        if(!($this->checkRule('verification/bill/index/approved'))){
+            $result=$this->noRole();
+            return json($result);
+        }
         $result = ['status'=>0 ,'info'=>"通过发票申请时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){
@@ -264,6 +268,10 @@ class Bill extends Initialize{
         return $result;
     }
     public function rejected(){
+        if(!($this->checkRule('verification/bill/index/rejected'))){
+            $result=$this->noRole();
+            return json($result);
+        }
         $result = ['status'=>0 ,'info'=>"驳回发票申请时发生错误！"];
         $id = input("id",0,"int");
         $remark = input("remark","","string");

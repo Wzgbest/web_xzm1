@@ -106,7 +106,7 @@ class TaskGuess extends Initialize{
         $employM = new Employee($this->corp_id);
         $cashM = new TakeCash($this->corp_id);
 
-        $task_data = $employeeModel->getEmployeeById($task_id);
+        $task_data = $employeeModel->getEmployeeTaskById($task_id);
         if (empty($task_data)) {
             $result['info'] = "没有任务信息";
             return json($result);

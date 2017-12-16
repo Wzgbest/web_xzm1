@@ -85,7 +85,7 @@ class TaskTip extends Initialize{
         $TipModel = new TaskTipModel($this->corp_id);
         $employM = new Employee($this->corp_id);
         $cashM = new TakeCash($this->corp_id);
-        $task_data = $employeeTaskModel->getEmployeeById($task_id);
+        $task_data = $employeeTaskModel->getEmployeeTaskById($task_id);
         if(empty($task_data)){
             $result['info'] = '未找到任务';
             return json($result);
@@ -143,7 +143,7 @@ class TaskTip extends Initialize{
         $userinfo = $employM->getEmployeeByTel($telphone);
         set_userinfo($this->corp_id,$telphone,$userinfo);
         
-        $task_data = $employeeTaskModel->getEmployeeById($task_id);
+        $task_data = $employeeTaskModel->getEmployeeTaskById($task_id);
         
         $tipEmployeeList = $TipModel->getTipList($task_id);
         $myTipMoney = $TipModel->getMyTipMoney($uid,$task_id);
@@ -170,7 +170,7 @@ class TaskTip extends Initialize{
         $employeeTaskModel = new EmployeeTaskModel($this->corp_id);
         $TipModel = new TaskTipModel($this->corp_id);
 
-        $task_data = $employeeTaskModel->getEmployeeById($id);
+        $task_data = $employeeTaskModel->getEmployeeTaskById($id);
 
         $tipEmployeeList = $TipModel->getTipList($id);
         $myTipMoney = $TipModel->getMyTipMoney($uid,$id);

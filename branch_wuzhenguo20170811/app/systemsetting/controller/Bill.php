@@ -21,6 +21,9 @@ class Bill extends Initialize{
         return view();
     }
     public function add_page(){
+        if(!($this->checkRule('systemsetting/bill/index/add'))){
+            $this->noRole(2);
+        }
         $billSetting = [
             "id"=>"0",
             "bill_type"=>"",
@@ -56,6 +59,9 @@ class Bill extends Initialize{
     }
 
     public function edit_page(){
+        if(!($this->checkRule('systemsetting/bill/index/edit'))){
+            $this->noRole(2);
+        }
         $id = input("id");
         if(!$id){
             $this->error("参数错误!");
@@ -198,6 +204,10 @@ class Bill extends Initialize{
     }
 
     public function add(){
+        if(!($this->checkRule('systemsetting/bill/index/add'))){
+            $result=$this->noRole();
+            return json($result);
+        }
         $result = ['status'=>0 ,'info'=>"添加发票设置时发生错误！"];
         $billSetting = $this->_getBillSettingForInput();
         try{
@@ -237,6 +247,10 @@ class Bill extends Initialize{
     }
 
     public function update(){
+        if(!($this->checkRule('systemsetting/bill/index/edit'))){
+            $result=$this->noRole();
+            return json($result);
+        }
         $result = ['status'=>0 ,'info'=>"更新发票设置时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){
