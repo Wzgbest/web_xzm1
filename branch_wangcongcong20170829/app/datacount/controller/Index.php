@@ -98,7 +98,7 @@ class Index extends Initialize{
             $score = [
                 "score"=>0,
                 "experience"=>0,
-                "title"=>"",
+                "title"=>"初步江湖",
                 "level"=>"1",
                 "experience_min"=>"0",
                 "experience_max"=>$start,
