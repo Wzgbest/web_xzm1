@@ -206,6 +206,10 @@ class Index extends Initialize{
         return view();
     }
     public function approved(){
+        if(!($this->checkRule('verification/index/index/approved') || $this->checkRule('verification/index/index/approved_remark'))){
+            $result=$this->noRole();
+            return json($result);
+        }
         $result = ['status'=>0 ,'info'=>"通过成单申请时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){
@@ -301,6 +305,10 @@ class Index extends Initialize{
         return $result;
     }
     public function rejected(){
+        if(!($this->checkRule('verification/index/index/rejected'))){
+            $result=$this->noRole();
+            return json($result);
+        }
         $result = ['status'=>0 ,'info'=>"驳回成单申请时发生错误！"];
         $id = input("id",0,"int");
         $remark = input("remark",'',"string");
