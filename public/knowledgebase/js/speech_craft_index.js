@@ -8,6 +8,13 @@ $(".knowledgebase_speechcraft_index .speech-list input").click(function(){
    }else{
     $(".knowledgebase_speechcraft_index .manageNav input[type='checkbox']").removeAttr("checked").prop("checked",false);
    }
+   if(t.length!=0){
+        $(".knowledgebase_speechcraft_index .batch-delete").addClass("active");
+        $(".knowledgebase_speechcraft_index .batch-change").addClass("active");
+   }else{
+        $(".knowledgebase_speechcraft_index .batch-delete").removeClass("active");
+        $(".knowledgebase_speechcraft_index .batch-change").removeClass("active");
+   }
 });
 
 //显示文章内容
@@ -101,10 +108,15 @@ $(".knowledgebase_speechcraft_index .manageNav input[type='checkbox']").click(fu
         $(".knowledgebase_speechcraft_index .speech-list li input[type='checkbox']").attr("checked","checked").prop("checked",true);
         $(this).attr("checked","checked").prop("checked",true);
         status2=!status2;
+        $(".knowledgebase_speechcraft_index .batch-delete").addClass("active");
+        $(".knowledgebase_speechcraft_index .batch-change").addClass("active");
+
     }else{
         $(".knowledgebase_speechcraft_index .speech-list li input[type='checkbox']").removeAttr("checked").prop("checked",false);
         $(this).removeAttr("checked").prop("checked",false);
         status2=!status2;
+        $(".knowledgebase_speechcraft_index .batch-delete").removeClass("active");
+        $(".knowledgebase_speechcraft_index .batch-change").removeClass("active");
     }
 });
 //单个删除
