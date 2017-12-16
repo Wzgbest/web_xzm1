@@ -36,6 +36,9 @@ class BusinessFlow extends Initialize{
         return view();
     }
     public function add_page(){
+        if(!($this->checkRule('systemsetting/business_flow/index/add'))){
+            $this->noRole(2);
+        }
         $business_flow_setting = [
             "id"=>"0",
             "business_flow_name"=>"",
@@ -61,6 +64,9 @@ class BusinessFlow extends Initialize{
     }
 
     public function edit_page(){
+        if(!($this->checkRule('systemsetting/business_flow/index/edit'))){
+            $this->noRole(2);
+        }
         $id = input("id");
         if(!$id){
             $this->error("参数错误!");
@@ -190,6 +196,10 @@ class BusinessFlow extends Initialize{
     }
 
     public function add(){
+        if(!($this->checkRule('systemsetting/business_flow/index/add'))){
+            $result=$this->noRole();
+            return json($result);
+        }
         $result = ['status'=>0 ,'info'=>"添加工作流设置时发生错误！"];
         $businessFlowSetting = $this->_getBusinessFlowSettingForInput();
         if($businessFlowSetting["status"]!=1){
@@ -249,6 +259,10 @@ class BusinessFlow extends Initialize{
     }
 
     public function update(){
+        if(!($this->checkRule('systemsetting/business_flow/index/edit'))){
+            $result=$this->noRole();
+            return json($result);
+        }
         $result = ['status'=>0 ,'info'=>"更新工作流设置时发生错误！"];
         $id = input("id",0,"int");
         if(!$id){

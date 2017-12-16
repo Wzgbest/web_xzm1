@@ -124,7 +124,7 @@ class Initialize extends Controller
             $info['info'] = '没有权限';
             $info['status'] = 0;
             $info['errnum'] = 1;
-            return json($info);
+            return $info;
         }else{
             $view = new View();
             echo $view->fetch('common@index/unauth');exit;
