@@ -59,7 +59,7 @@ class TaskComment extends Initialize{
 		$result['info'] = "评论成功!";
 
 		$employeeTaskModel = new EmployeeTaskModel($this->corp_id);
-		$task_data = $employeeTaskModel->getEmployeeById($task_id);
+		$task_data = $employeeTaskModel->getEmployeeTaskById($task_id);
 		//发送评论消息
         $userinfos = $userinfo['userinfo'];
         $str = $userinfos['truename']."评论了你发布的".$task_data['task_name']."任务";
