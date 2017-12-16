@@ -41,7 +41,7 @@ class TaskLike extends Initialize{
 					$result['info'] = "喜欢动态成功!";
 
 					//发送点赞消息
-					$task_data = $taskModel->getEmployeeById($task_id);
+					$task_data = $taskModel->getEmployeeTaskById($task_id);
 			        $userinfos = $userinfo['userinfo'];
 			        $str = $userinfos['truename']."点赞了你发布的".$task_data['task_name']."任务";
 			        $receive_uids[] = $task_data['create_employee'];
@@ -63,7 +63,7 @@ class TaskLike extends Initialize{
 			}	
 		}
 		//取得当前喜欢数量返回
-		$employee_info = $taskModel->getEmployeeById($task_id);
+		$employee_info = $taskModel->getEmployeeTaskById($task_id);
 		$result['data'] = $employee_info['like_count'];
 
 		return json($result);
