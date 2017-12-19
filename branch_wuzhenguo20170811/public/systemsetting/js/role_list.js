@@ -397,9 +397,9 @@ $(panel).on('click', ".tab_2 .xuanze input[name='data_type']", function() {
 });
 
 $(panel).on('click', ".tab_4 input[name='rule_ids']", function() {
-    console.log("checked",$(this));
+   // console.log("checked",$(this));
     var val = $(this).prop('checked');
-    console.log("val",val);
+    //console.log("val",val);
     if(val){
         $(this).prop('checked',true);
         $(this).attr("checked","checked");
@@ -407,6 +407,80 @@ $(panel).on('click', ".tab_4 input[name='rule_ids']", function() {
         $(this).prop('checked',false);
         $(this).removeAttr("checked");
 	}
+});
+
+$(panel).on('click', ".tab_4 .left ul li input", function() {//最左列与中间全选全不选
+	var index_input=$(this).parents("ul").index()-1;
+	if(this.checked){   
+        $(".tab_4 .center ul").eq(index_input).find("input:checkbox").prop("checked", true); 
+        $(".tab_4 .right ul").eq(index_input).find("input:checkbox").prop("checked", true); 
+    }else{   
+		$(".tab_4 .center ul").eq(index_input).find("input:checkbox").prop("checked", false);
+		$(".tab_4 .right ul").eq(index_input).find("input:checkbox").prop("checked", false);
+    }  
+})
+
+$(panel).on('click', ".tab_4 .center ul li input", function() {//最左列与中间相对应
+	var index_first=$(this).parents("ul").index()-1;
+	var chknum =$(this).parents("ul").find("input:checkbox").size();
+	var chky=0;
+	$(this).parents("ul").find("input").each(function () {  
+		        if($(this).prop("checked")==true){
+					chky++;
+				}
+		    });
+		if(chky>0){
+			$(".left ul").eq(index_first).find("input:checkbox").prop("checked",true);
+		}else{
+			$(".left ul").eq(index_first).find("input:checkbox").prop("checked",false);
+		}
+});			
+$(panel).on('click', ".tab_4 .center li input", function() {//中间列跟右边全选全不选
+			var index = $(this).parents("ul").index()-1;
+			var index_li=$(this).parent("li").index();
+			if(this.checked){   			
+		        $(".tab_4 .right ul").eq(index).find("li").eq(index_li).find("input:checkbox").prop("checked", true);       
+		    }else{   
+				$(".tab_4 .right ul").eq(index).find("li").eq(index_li).find("input:checkbox").prop("checked", false);
+		    }  
+})
+$(panel).on('click', ".tab_4 .right ul li input", function() {//中间列与右边
+	var index_last=$(this).parents("ul").index()-1;
+	var index_input=$(this).parent("li").index();	
+	var chknum =$(this).parent("li").find("input:checkbox").size();
+    var chky=0;
+	$(this).parent("li").find("input").each(function () {  
+		        if($(this).prop("checked")==true){
+					chky++;
+				}
+		   });
+		
+		var chkt=0;
+		$(this).parents("ul").find("input").each(function () {  		
+		        if($(this).prop("checked")==true){
+					chkt++;
+				}
+		   });	
+			if(chky>0){
+				$(".tab_4 .center ul").eq(index_last).find("li").eq(index_input).find("input:checkbox").prop("checked",true);
+				$(".tab_4 .left ul").eq(index_last).find("input").prop("checked",true);
+			}else{
+				$(".tab_4 .center ul").eq(index_last).find("li").eq(index_input).find("input:checkbox").prop("checked",false);
+		}
+		
+		var chks=0;
+    console.log($(".tab_4 .center ul").eq(index_last).find("input"));
+    $(".tab_4 .center ul").eq(index_last).find("input").each(function(){
+    	if($(this).prop("checked")==true){
+    		chks++;
+    		console.log($(this))
+    		console.log("chks:"+chks)
+    	}
+    	
+    })
+		if(chkt==0&&chks==0){
+			$(".tab_4 .left ul").eq(index_last).find("input").prop("checked",false);
+		}
 });
 
 //保存
