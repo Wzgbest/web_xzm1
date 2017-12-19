@@ -43,22 +43,23 @@
             	<p>子模块</p>
                 {volist name="rule_tree" id="vo"}
                 <ul>
-                    {present name="vo.child"}
+                    {notempty name="vo.child"}
                         {volist name="vo.child" id="voc"}
-                    <li><input type="checkbox" name="rule_ids" pid="{$vo.pid}" value="{$voc.id}"
+                    <li ><input type="checkbox" name="rule_ids" pid="{$voc.pid}" value="{$voc.id}"
                                {in name="voc.id" value="$role_rule_ids"}
                                checked="checked"
                                {/in}
                         /><span>{$voc.rule_title}</span></li>
                         {/volist}
-                    {/present}
+                    {/notempty}
                 </ul>
                 {/volist}
             </div>
-            <div class='right'>
+            <!--<div class='right'>
             	<p>功能</p>
-                <ul>
+               
                     {volist name="rule_sub_list" id="vo"}
+                    <ul>
                     <li>
                         {neq name="vo" value="false"}
                             {volist name="vo" id="voc"}
@@ -70,8 +71,34 @@
                             {/volist}
                         {/neq}
                     </li>
+                    </ul>
                     {/volist}
-                </ul>
+                
+            </div>-->
+            
+            <div class='right'>
+            	<p>功能</p> 
+            	{volist name="rule_tree" id="vo"}
+            	<ul>
+            	{notempty name="vo.child"}
+                        {volist name="vo.child" id="voo"}
+                    <li>
+                        {notempty name="voo.child"}
+                        {volist name="voo.child" id="voc"}
+                        <input type="checkbox" name="rule_ids" pid="{$voc.pid}" value="{$voc.id}"
+                               {in name="voc.id" value="$role_rule_ids"}
+                               checked="checked"
+                               {/in}
+                        /><span>{$voc.rule_title}</span>
+                        {/volist}
+                        {/notempty}
+                    </li>
+                    {/volist}
+                        {/notempty}
+                    </ul>  
+                    {/volist}
+                                    
+                   
             </div>
             
             
