@@ -850,7 +850,7 @@ class Index extends Initialize{
             }
             $taskRewardId = $taskRewardM->addMutipleTaskReward($taskRewardInfos["list"]);
             if (!$taskRewardId) {
-                exception('提交任务目标失败!');
+                exception('提交任务奖励失败!');
             }
 
             if(!empty($taskTakeInfos)){
