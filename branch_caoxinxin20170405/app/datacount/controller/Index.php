@@ -359,7 +359,7 @@ class Index extends Initialize{
             }
             $day_task_data[$key]["num"] = $num;
             if($num>$day_task_item){
-                $day_task_data[$key]["per"] = 1/3;
+                $day_task_data[$key]["per"] = 1;
             }elseif($day_task_item>0){
                 $day_task_data[$key]["per"] = $num/$day_task_item;
             }
