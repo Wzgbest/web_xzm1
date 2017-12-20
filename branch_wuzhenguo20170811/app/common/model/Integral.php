@@ -17,6 +17,12 @@ class Integral extends Base
         parent::__construct($corp_id);
     }
 
+    /**
+     * 检测是否超出经验次数   
+     * @param  [type] $name 经验标识
+     * @param  [type] $uid  用户id
+     * @return [type]       [description]
+     */
     public function checkIntegralNum($name,$uid){
         $info = ['status'=>false,'message'=>"不可以增加"];
 
@@ -50,7 +56,7 @@ class Integral extends Base
         $info['message'] = "可以添加";
         $info['status'] = true;
         $info['data'] = $num;
-        
+
         return $info;
     }
     //判断是否是一天
