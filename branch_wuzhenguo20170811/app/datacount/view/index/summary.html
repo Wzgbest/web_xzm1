@@ -76,7 +76,7 @@
 					{gt name="task_data_count.all_call_time.target" value="0"}
 					<div class="line3 task1">
 						<span>总通话数</span>
-						<span><div class="in-bar2" style="width:{$task_data_count.all_call_time.num/$task_data_count.all_call_time.target*250}px"></div></span>
+						<span><div class="in-bar2" style="width:{$task_data_count.all_call_time.per*250|round}px"></div></span>
 						<span>
 							{$task_data_count.all_call_time.num}/{all_call_time.customer.target}
 						</span>
@@ -85,7 +85,7 @@
 					{gt name="task_data_count.valid_call_time.target" value="0"}
 					<div class="line3 task1">
 						<span>有效通话数</span>
-						<span><div class="in-bar2" style="width:{$task_data_count.valid_call_time.num/$task_data_count.valid_call_time.target*250}px"></div></span>
+						<span><div class="in-bar2" style="width:{$task_data_count.valid_call_time.per*250|round}px"></div></span>
 						<span>
 							{$task_data_count.valid_call_time.num}/{valid_call_time.customer.target}
 						</span>
@@ -94,7 +94,7 @@
 					{gt name="task_data_count.customer.target" value="0"}
 					<div class="line3 task1">
 						<span>新增客户</span>
-						<span><div class="in-bar2" style="width:{$task_data_count.customer.num/$task_data_count.customer.target*250}px"></div></span>
+						<span><div class="in-bar2" style="width:{$task_data_count.customer.per*250|round}px"></div></span>
 						<span>
 							{$task_data_count.customer.num}/{$task_data_count.customer.target}
 						</span>
@@ -103,7 +103,7 @@
 					{gt name="task_data_count.contact.target" value="0"}
 					<div class="line3 task1">
 						<span>新增联系人</span>
-						<span><div class="in-bar2" style="width:{$task_data_count.contact.num/$task_data_count.contact.target*250}px"></div></span>
+						<span><div class="in-bar2" style="width:{$task_data_count.contact.per*250|round}px"></div></span>
 						<span>
 							{$task_data_count.contact.num}/{$task_data_count.contact.target}
 						</span>
@@ -112,7 +112,7 @@
 					{gt name="task_data_count.tend_to.target" value="0"}
 					<div class="line3 task1">
 						<span>意向客户</span>
-						<span><div class="in-bar2" style="width:{$task_data_count.tend_to.num/$task_data_count.tend_to.target*250}px"></div></span>
+						<span><div class="in-bar2" style="width:{$task_data_count.tend_to.per*250|round}px"></div></span>
 						<span>
 							{$task_data_count.tend_to.num}/{$task_data_count.tend_to.target}
 						</span>
@@ -121,7 +121,7 @@
 					{gt name="task_data_count.sign_in.target" value="0"}
 					<div class="line3 task1">
 						<span>拜访客户</span>
-						<span><div class="in-bar2" style="width:{$task_data_count.sign_in.num/$task_data_count.sign_in.target*250}px"></div></span>
+						<span><div class="in-bar2" style="width:{$task_data_count.sign_in.per*250|round}px"></div></span>
 						<span>
 							{$task_data_count.sign_in.num}/{$task_data_count.sign_in.target}
 						</span>
@@ -130,7 +130,7 @@
 					{gt name="task_data_count.sale_status.target" value="0"}
 					<div class="line3 task1">
 						<span>商机状态变化数</span>
-						<span><div class="in-bar2" style="width:{$task_data_count.sale_status.num/$task_data_count.sale_status.target*250}px"></div></span>
+						<span><div class="in-bar2" style="width:{$task_data_count.sale_status.per*250|round}px"></div></span>
 						<span>
 							{$task_data_count.sale_status.num}/{$task_data_count.sale_status.target}
 						</span>
@@ -139,7 +139,7 @@
 					{gt name="task_data_count.sale_order.target" value="0"}
 					<div class="line3 task1">
 						<span>成单数</span>
-						<span><div class="in-bar2" style="width:{$task_data_count.sale_order.num/$task_data_count.sale_order.target*250}px"></div></span>
+						<span><div class="in-bar2" style="width:{$task_data_count.sale_order.per*250|round}px"></div></span>
 						<span>
 							{$task_data_count.sale_order.num}/{$task_data_count.sale_order.target}
 						</span>
@@ -148,7 +148,7 @@
 					{gt name="task_data_count.order_money.target" value="0"}
 					<div class="line3 task1">
 						<span>成单金额</span>
-						<span><div class="in-bar2" style="width:{$task_data_count.order_money.num/$task_data_count.order_money.target*250}px"></div></span>
+						<span><div class="in-bar2" style="width:{$task_data_count.order_money.per*250|round}px"></div></span>
 						<span>
 							{$task_data_count.order_money.num}/{$task_data_count.order_money.target}
 						</span>
