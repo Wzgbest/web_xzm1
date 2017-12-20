@@ -512,10 +512,7 @@ function getStructureIds($user_id = null){
 function getExperienceLevel($experience){
     $start = config('experience.start');
     $sub = config('experience.sub');
-    $level=floor(($sub/2-$start+sqrt($start*$start-$start*$sub+$sub*$sub/4+2*$sub*$experience))/$sub);
-    if($level<1){
-        $level = 1;
-    }
+    $level=ceil(($sub/2-$start+sqrt($start*$start-$start*$sub+$sub*$sub/4+2*$sub*$experience))/$sub);
     if($level>25){
         $level = 25;
     }
