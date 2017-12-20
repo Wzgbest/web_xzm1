@@ -136,9 +136,9 @@
 	padding-bottom: 50px;*/
 	border-top: 1px solid #d1d9de;
 	/*margin-left: -30px;*/
-
-	position: relative;
-	
+	position: absolute;
+	bottom: 0;
+	left: 0;	
 }
 .customer_setting_edit .p5 {
 	width: 232px;
@@ -354,4 +354,13 @@
     line-height: 30px;
     border-radius: 10px;
     margin: 40px auto 10px;
+}
+.customer_setting_edit .content .main-content.select-window {
+    position: relative;
+    z-index: 99;
+    left: 245px;
+    width: 505px;
+    /* top: 535px; */
+    top: -10px;
+    left: -145px;
 }
