@@ -13,6 +13,7 @@ use app\common\model\StructureEmployee;
 use app\common\model\EmployeeScore;
 use app\datacount\model\Datacount;
 use app\task\model\EmployeeTask;
+use app\task\model\DayTask;
 use \myvendor\TimeTools;
 
 class Index extends Initialize{
@@ -139,7 +140,7 @@ class Index extends Initialize{
                 $datacount_type = $this->task_type_idx[$employee_task_item["target_type"]];
                 $type_name = $this->name_title_idx[$datacount_type];
             }
-            $now_num = $this->_get_type_data_count($datacount_type,$uids,$start_time,$end_time);
+            $now_num = $this->_get_type_data_count($datacount_type,$uids,$employee_task_item["task_start_time"],$employee_task_item["task_end_time"]);
             $employee_task_item["now_num"] = $now_num["data"];
             $employee_task_item["type_name"] = $type_name;
             $reward_money = 0;
@@ -355,7 +356,7 @@ class Index extends Initialize{
         }
         return $day_task_data;
     }
-    protected function _get_day_task($uids,$start_time,$end_time,$is_task=1){
+    protected function _get_day_task($uids,$start_time,$end_time){
         $result_data = [
             "customer"=>0,
             "all_call_time"=>0,
@@ -376,10 +377,9 @@ class Index extends Initialize{
         ){
             return $result;
         }
-        $task_type = ($is_task?1:2)+2;
 
-        $employeeTaskM = new EmployeeTask($this->corp_id);
-        $employeeTaskList = $employeeTaskM->getAllDayTaskByEmployeeIds($task_type,$uids,$start_time,$end_time);
+        $dayTaskM = new DayTask($this->corp_id);
+        $employeeTaskList = $dayTaskM->getAllDayTaskByEmployeeIds($uids,$start_time,$end_time);
 
         foreach ($employeeTaskList as $employeeTask){
             if(isset($this->task_type_idx[$employeeTask["target_type"]])){
