@@ -341,6 +341,11 @@ class Index extends Initialize{
                 $target = $day_task[$key];
             }
             $day_task_data[$key]["target"] = $target;
+            if($data_count_item>$target){
+                $day_task_data[$key]["per"] = 1;
+            }elseif($target>0){
+                $day_task_data[$key]["per"] = $data_count_item/$target;
+            }
         }
         return $day_task_data;
     }
@@ -353,6 +358,11 @@ class Index extends Initialize{
                 $num = $data_count[$key];
             }
             $day_task_data[$key]["num"] = $num;
+            if($num>$day_task_item){
+                $day_task_data[$key]["per"] = 1;
+            }elseif($day_task_item>0){
+                $day_task_data[$key]["per"] = $num/$day_task_item;
+            }
         }
         return $day_task_data;
     }
