@@ -11,6 +11,7 @@ use app\common\model\UserCorporation;
 use app\common\model\RoleRule;
 use think\Request;
 use think\View;
+use app\common\service;
 
 class Initialize extends Controller
 {
@@ -90,7 +91,6 @@ class Initialize extends Controller
         if(isset($this->rule_map[$rule_name])){
             $rule_name = $this->rule_map[$rule_name];
         }
-
     }
     protected function checkRule($rule_name){
         if(in_array($rule_name,$this->rule_white_list)){

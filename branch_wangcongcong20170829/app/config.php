@@ -300,5 +300,6 @@ return [
     "experience"=>[
         "start"=>500,
         "sub"=>800,
+        "max"=>252500,
     ],
 ];
