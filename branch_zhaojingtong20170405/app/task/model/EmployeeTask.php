@@ -176,28 +176,6 @@ class EmployeeTask extends Base{
 
         return $myTaskList;
     }
-    public function getAllDayTaskByEmployeeIds($task_type,$employee_ids,$start_time,$end_time){
-        $field = [
-            "et.id",
-            "ettg.target_type",
-            "ettg.target_num",
-        ];
-        $map["et.task_type"] = ["eq",$task_type];
-        $map["et.task_start_time"] = ["eq",$start_time];
-        $map["et.task_end_time"] = ["eq",$end_time];
-        $map["ettk.take_employee"] = ["in",$employee_ids];
-        $order = "et.id asc";
-        $standardTaskList = $this->model->table($this->table)->alias('et')
-            ->join($this->dbprefix.'employee_task_take ettk',"ettk.task_id = et.id","LEFT")
-            ->join($this->dbprefix.'employee_task_target ettg','ettg.task_id = et.id',"LEFT")
-            ->where($map)
-            ->order($order)
-            ->field($field)
-            ->group('et.id,ettg.id')
-            ->select();
-        //var_exp($standardTaskList,'$standardTaskList',1);
-        return $standardTaskList;
-    }
     public function getAllEmployeeTaskByEmployeeIds($employee_ids,$time){
         $field = [
             "et.id",
