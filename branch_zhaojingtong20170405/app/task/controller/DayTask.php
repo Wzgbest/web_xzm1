@@ -114,10 +114,6 @@ class DayTask extends Initialize{
                 "take_time"=>$time
             ];
         }
-        if(empty($taskTakeInfos)){
-            $result['info'] = '任务对象参数错误';
-            return json($result);
-        }
 
         $employeeTaskM = new EmployeeTaskModel($this->corp_id);
         $taskTargetM = new TaskTargetModel($this->corp_id);
@@ -137,13 +133,15 @@ class DayTask extends Initialize{
                 exception('提交任务目标失败!');
             }
 
-            foreach ($taskTakeInfos as &$taskTakeInfo) {
-                $taskTakeInfo['task_id'] = $taskId;
-            }
-            $taskTakeM = new TaskTakeModel($this->corp_id);
-            $taskTakeId = $taskTakeM->addMutipleTaskTake($taskTakeInfos);
-            if(!$taskTakeId){
-                exception('提交任务参与信息失败!');
+            if(!empty($taskTakeInfos)){
+                foreach ($taskTakeInfos as &$taskTakeInfo) {
+                    $taskTakeInfo['task_id'] = $taskId;
+                }
+                $taskTakeM = new TaskTakeModel($this->corp_id);
+                $taskTakeId = $taskTakeM->addMutipleTaskTake($taskTakeInfos);
+                if(!$taskTakeId){
+                    exception('提交任务人员信息失败!');
+                }
             }
 
             $employeeTaskM->link->commit();
