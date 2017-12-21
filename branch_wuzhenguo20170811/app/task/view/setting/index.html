@@ -10,15 +10,15 @@
 			</div>
 			<div class="panel-name b-w">
 				<ul>
-					<li>老员工任务</li>
-					<li>A任务</li>
-					<li>AA任务</li>
-					<li>AAA任务</li>
+					{volist name="day_task_list" id="vo"}
+					<li data-day_task_id="{$vo.id}">{$vo.task_name}</li>
+					{/volist}
 					<li class="current">1-3月新人任务</li>
 					<li class="new-template">新模板</li>
 					<div class="clearfix"></div>
 				</ul>
 			</div>
+			
 			<div class="content b-w panel-id-">
 				<h1>任务统计要素</h1>
 				<div class="container">
