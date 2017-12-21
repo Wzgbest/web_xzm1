@@ -55,7 +55,7 @@ class Index extends Initialize{
         "tend_to"=>["8","sum_num"],
     ];
     protected $task_type_idx = [
-        "1"=>"valid_call_num",
+        "1"=>"valid_call_time",
         "2"=>"sale_chance",
         "3"=>"order_money",
         "4"=>"sale_order",
@@ -66,7 +66,7 @@ class Index extends Initialize{
         "10"=>"contact",
         "11"=>"tend_to",
         "12"=>"all_call_num",
-        "13"=>"valid_call_time",
+        "13"=>"valid_call_num",
     ];
     public function __construct(){
         parent::__construct();
