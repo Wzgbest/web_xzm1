@@ -61,25 +61,6 @@ class TaskTake extends Base{
     }
 
     /**
-     * 获取某种任务的某些员工参与信息
-     * @param $task_type
-     * @param $employee_ids
-     * @return array|false|\PDOStatement|string|\think\Model
-     */
-    public function getTaskNameByTaskTypeAndEmployee($task_type,$employee_ids){
-        if(empty($employee_ids)){
-            return [];
-        }
-        return $this->model->table($this->table)->alias('ettk')
-            ->join($this->dbprefix.'employee_task et',"et.id = ettk.task_id","LEFT")
-            ->join($this->dbprefix.'employee e',"e.id = ettk.take_employee","LEFT")
-            ->where("et.task_type",$task_type)
-            ->where("ettk.take_employee","in",$employee_ids)
-            ->field(["et.id,et.task_name,ettk.take_employee,e.truename"])
-            ->select();
-    }
-
-    /**
      * 获取某条参与信息
      * @param $id
      * @return array|false|\PDOStatement|string|\think\Model

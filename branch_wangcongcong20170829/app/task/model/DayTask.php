@@ -26,6 +26,7 @@ class DayTask extends Base{
         ];
         $map["et.task_type"] = 4;
         $map["ettk.take_employee"] = ["in",$employee_ids];
+        $map["et.status"] = ["gt",0];
         $order = "et.id asc";
         $standardTaskList = $this->model->table($this->table)->alias('et')
             ->join($this->dbprefix.'employee_task_take ettk',"ettk.task_id = et.id","LEFT")
@@ -37,5 +38,42 @@ class DayTask extends Base{
             ->select();
         //var_exp($standardTaskList,'$standardTaskList',1);
         return $standardTaskList;
+    }
+
+    /**
+     * 获取某种任务的某些员工参与信息
+     * @param $task_type
+     * @param $employee_ids
+     * @return array|false|\PDOStatement|string|\think\Model
+     */
+    public function getTaskNameByTaskTypeAndEmployee($task_type,$employee_ids){
+        if(empty($employee_ids)){
+            return [];
+        }
+        $map["et.task_type"] = $task_type;
+        $map["ettk.take_employee"] = ["in",$employee_ids];
+        $map["et.status"] = ["gt",0];
+        return $this->model->table($this->table)->alias('et')
+            ->join($this->dbprefix.'employee_task_take ettk',"ettk.task_id = et.id","LEFT")
+            ->join($this->dbprefix.'employee e',"e.id = ettk.take_employee","LEFT")
+            ->where($map)
+            ->field(["et.id,et.task_name,ettk.take_employee,e.truename"])
+            ->select();
+    }
+
+    /**
+     * 获取某人设置的每日任务
+     * @param $create_employee
+     * @return array|false|\PDOStatement|string|\think\Model
+     */
+    public function getDayTaskByCreateEmployee($create_employee){
+        $map["et.task_type"] = 4;
+        $map["et.create_employee"] = $create_employee;
+        $map["et.status"] = ["gt",0];
+        return $this->model->table($this->table)->alias('et')
+            ->where($map)
+//            ->group("et.id")
+            ->field(["et.id,et.task_name"])
+            ->select();
     }
 }

@@ -9,9 +9,15 @@
 namespace app\Task\controller;
 
 use app\common\controller\Initialize;
+use app\task\model\DayTask as DayTaskModel;
 
 class Setting extends Initialize{
     public  function index(){
+        $userinfo = get_userinfo();
+        $uid = $userinfo["userid"];
+        $dayTaskM = new DayTaskModel($this->corp_id);
+        $dayTaskInfos = $dayTaskM->getDayTaskByCreateEmployee($uid);
+        $this->assign('day_task_list',$dayTaskInfos);
         return view();
     }
     public  function template(){
