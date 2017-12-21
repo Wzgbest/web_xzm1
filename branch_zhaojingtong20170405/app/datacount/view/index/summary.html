@@ -60,8 +60,8 @@
 				</div>
 				<ul class="line2">
 					<li><h3 class="tc">{$task_data_count.customer.num}</h3><h4 class="tc">新增客户</h4></li>
-					<li><h3 class="tc">{$task_data_count.all_call_time.num}</h3><h4 class="tc">总通话数</h4></li>
-					<li><h3 class="tc">{$task_data_count.valid_call_time.num}</h3><h4 class="tc">有效通话数</h4></li>
+					<li><h3 class="tc">{$task_data_count.all_call_num.num}</h3><h4 class="tc">总通话数</h4></li>
+					<li><h3 class="tc">{$task_data_count.valid_call_num.num}</h3><h4 class="tc">有效通话数</h4></li>
 					<li><h3 class="tc">{$task_data_count.sale_chance.num}</h3><h4 class="tc">新增商机</h4></li>
 					<li><h3 class="tc">{$task_data_count.sign_in.num}</h3><h4 class="tc">新增拜访</h4></li>
 					<li><h3 class="tc">{$task_data_count.sale_order.num}</h3><h4 class="tc">新增成单</h4></li>
@@ -73,21 +73,21 @@
 					<div class="line1">
 						<span class="title">每日任务</span>
 					</div>
-					{gt name="task_data_count.all_call_time.target" value="0"}
+					{gt name="task_data_count.all_call_num.target" value="0"}
 					<div class="line3 task1">
 						<span>总通话数</span>
-						<span><div class="in-bar2" style="width:{$task_data_count.all_call_time.per*250|round}px"></div></span>
+						<span><div class="in-bar2" style="width:{$task_data_count.all_call_num.per*250|round}px"></div></span>
 						<span>
-							{$task_data_count.all_call_time.num}/{all_call_time.customer.target}
+							{$task_data_count.all_call_num.num}/{all_call_num.customer.target}
 						</span>
 					</div>
 					{/gt}
-					{gt name="task_data_count.valid_call_time.target" value="0"}
+					{gt name="task_data_count.valid_call_num.target" value="0"}
 					<div class="line3 task1">
 						<span>有效通话数</span>
-						<span><div class="in-bar2" style="width:{$task_data_count.valid_call_time.per*250|round}px"></div></span>
+						<span><div class="in-bar2" style="width:{$task_data_count.valid_call_num.per*250|round}px"></div></span>
 						<span>
-							{$task_data_count.valid_call_time.num}/{valid_call_time.customer.target}
+							{$task_data_count.valid_call_num.num}/{valid_call_num.customer.target}
 						</span>
 					</div>
 					{/gt}
