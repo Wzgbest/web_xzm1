@@ -23,8 +23,6 @@ class DayTask extends Initialize{
     }
     public function index(){
     }
-    public function get(){
-    }
     protected function _check_take($uid){
         if(!is_array($uid)){
             $uid = explode(",",$uid);
