@@ -36,13 +36,12 @@ class DayTask extends Initialize{
     public function index(){
     }
     protected function _getTaskForInput($uid){
-        $task_time = input("task_time",0,"int");
 //        var_exp($task_time,'$task_time',1);
         $task_info['task_name'] = input("task_name","","string");
-        $task_info['task_start_time'] = mktime(0, 0, 0, date('m',$task_time), date('d',$task_time), date('Y',$task_time));
-        $task_info['task_end_time'] = mktime(23, 59, 59, date('m',$task_time), date('d',$task_time), date('Y',$task_time));
-        $task_info['task_take_start_time'] = $task_info['task_start_time'];
-        $task_info['task_take_end_time'] = $task_info['task_end_time'];
+        $task_info['task_start_time'] = 0;
+        $task_info['task_end_time'] = 0;
+        $task_info['task_take_start_time'] = 0;
+        $task_info['task_take_end_time'] = 0;
         $task_info['task_type'] = 4;
         $task_info['task_method'] = 6;
         $task_info['content'] = input("content","","string");
@@ -91,6 +90,20 @@ class DayTask extends Initialize{
             $result['info'] = '任务目标参数错误';
             return json($result);
         }
+
+        //检测员工任务是否重复
+        $take_employee_ids = explode(",",$taskInfo['public_to_take']);
+        $taskTakeM = new TaskTakeModel($this->corp_id);
+        $taskTakedInfos = $taskTakeM->getTaskNameByTaskTypeAndEmployee(4,$take_employee_ids);
+        if(!empty($taskTakedInfos)){
+            $taked_str = "";
+            foreach ($taskTakedInfos as $taskTakedInfo){
+                $taked_str .= "员工 ".$taskTakedInfo["truename"]." 已在 ".$taskTakedInfo["task_name"]." 任务中;";
+            }
+            $result['info'] = $taked_str;
+            return json($result);
+        }
+
         $taskTakeInfos = [];
         $public_uids = explode(",",$taskInfo["public_to_take"]);
         $public_uids = array_filter($public_uids);
