@@ -4,31 +4,31 @@
 <div class="new-template-pop b-w">
 	<div class="object b-w" style="padding-left: 0;padding-bottom:10px ">
 		<span class="inline">模板名称</span>
-		<input class="staff inline">
+		<input class="staff inline" type="text" placeholder="新建模板">
 	</div>
 	<div class="content b-w" style="padding-left: 0">
 		<h1>任务统计要素</h1>
 		<div class="container">
 			<div class="left fl">
-				<ul>
+				<ul class="_type6">
 					<li class="check"><input type="checkbox"></li>
 					<li class="world">录入客户</li>
 					<li class="number"><input type="text">个</li>
 					<div class="clearfix"></div>
 				</ul>
-				<ul>
+				<ul class="_type8">
 					<li class="check"><input type="checkbox"></li>
 					<li class="world">通话次数</li>
 					<li class="number"><input type="text">个</li>
 					<div class="clearfix"></div>
 				</ul>
-				<ul>
+				<ul class="_type1">
 					<li class="check"><input type="checkbox"></li>
 					<li class="world">有效通话数</li>
 					<li class="number"><input type="text">个</li>
 					<div class="clearfix"></div>
 				</ul>
-				<ul>
+				<ul class="_type12">
 					<li class="check"><input type="checkbox"></li>
 					<li class="world">通话时长</li>
 					<li class="number"><input type="text">分</li>
@@ -36,25 +36,25 @@
 				</ul>						
 			</div>
 			<div class="right fl">
-				<ul>
+				<ul class="_type11">
 					<li class="check"><input type="checkbox"></li>
 					<li class="world">新增意向客户</li>
 					<li class="number"><input type="text">个</li>
 					<div class="clearfix"></div>
 				</ul>
-				<ul>
+				<ul class="_type2">
 					<li class="check"><input type="checkbox"></li>
 					<li class="world">新增商机</li>
 					<li class="number"><input type="text">个</li>
 					<div class="clearfix"></div>
 				</ul>
-				<ul>
+				<ul class="_type5">
 					<li class="check"><input type="checkbox"></li>
 					<li class="world">拜访客户</li>
 					<li class="number"><input type="text">个</li>
 					<div class="clearfix"></div>
 				</ul>
-				<ul>
+				<ul class="_type4">
 					<li class="check"><input type="checkbox"></li>
 					<li class="world">成单数</li>
 					<li class="number"><input type="text">个</li>
@@ -74,3 +74,8 @@
 		padding: 15px 30px;
 	}
 </style>
+<script type="text/javascript">
+	$(".daily-task-template .new-template-pop-footer .pop-submit-btn").click(function () {
+		let task_name = $(".new-template-pop .object .staff").val();
+	});
+</script>
