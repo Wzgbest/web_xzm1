@@ -1,0 +1,92 @@
+.task_setting_index{}
+.task_setting_index .daily-task .title .left{
+	width: 100px;
+	height: 30px;
+	line-height: 30px;
+}
+.task_setting_index .daily-task .title .right{
+	border-left: 20px solid white;
+	border-top:30px solid transparent;
+}
+.task_setting_index .daily-task .panel-name{
+	padding-left: 45px;
+}
+.task_setting_index .daily-task .panel-name li{
+	float: left;
+	font-size: 14px;
+	height: 33px;
+	line-height: 33px;
+	margin-top: 30px;
+	margin-right: 10px;
+	padding: 0 20px;
+	border: 1px solid #d1d9de;
+	background-color: #fafafa;
+	cursor: pointer;
+}
+.task_setting_index .daily-task .panel-name li.current{
+	border:1px solid #7dc1f8;
+	box-shadow: 0px -2px 6.24px 1.76px rgba(176, 214, 245, 0.64),0px 2px 7.65px 1.35px rgba(176, 214, 245, 0.64),inset 0px -1px 0px 0px rgba(0, 0, 0, 0.17);
+}
+.task_setting_index .daily-task .content{
+	padding-left: 45px;
+	padding-top: 20px;
+}
+.task_setting_index .daily-task .content h1{
+	font-size: 16px;
+	color: #758da0;
+	font-weight: normal;
+	padding-bottom: 8px;
+}
+.task_setting_index .daily-task .content .container .left{
+	border-right: 1px solid #dee8ee; 
+}
+.task_setting_index .daily-task .content .container ul{
+	margin: 8px 0;
+}
+.task_setting_index .daily-task .content .container li{
+	float: left;
+	height: 35px;
+	line-height: 35px;
+}
+.task_setting_index .daily-task .content .container .check{
+	margin-left: 30px;
+	margin-right: 10px;
+}
+.task_setting_index .daily-task .content .container .world{
+	width: 90px;
+}
+.task_setting_index .daily-task .content .container .number{
+	margin-right: 30px;
+}
+.task_setting_index .daily-task .content .container .number input{
+	width: 120px;
+	height: 35px;
+	box-sizing:border-box;
+	padding-left: 15px;
+	margin: 0 !important;
+	margin-right: 10px !important;
+}
+.task_setting_index .daily-task .object{
+	padding: 10px 0 35px 45px;
+	height: 35px;
+	line-height: 35px;
+}
+.task_setting_index .daily-task .object span{
+	font-size: 14px;
+}
+.task_setting_index .daily-task .object .staff{
+	width: 250px;
+	height: 35px;
+	margin-left: 20px;
+	border: 1px solid #d1d9de; 
+	box-sizing:border-box;
+	padding:0 15px;
+}
+.task_setting_index .daily-task .object .staff i{
+	margin-top: 7px;
+}
+
+/**/
+.task-list-panel{
+	padding-top: 15px;
+}
