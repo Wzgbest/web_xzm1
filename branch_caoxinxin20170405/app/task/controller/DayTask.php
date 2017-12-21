@@ -10,22 +10,10 @@
 namespace app\task\controller;
 
 use app\common\controller\Initialize;
-use app\common\model\Employee;
-use app\huanxin\model\TakeCash;
-use app\common\model\Corporation;
 use app\task\model\EmployeeTask as EmployeeTaskModel;
 use app\task\model\TaskTarget as TaskTargetModel;
-use app\task\model\TaskReward as TaskRewardModel;
 use app\task\model\TaskTake as TaskTakeModel;
-use app\task\model\TaskGuess as TaskGuessModel;
-use app\task\model\TaskComment as TaskCommentModel;
-use app\task\model\TaskTip as TaskTipModel;
-use app\task\service\EmployeeTask as EmployeeTaskService;
-use app\common\model\Structure;
-use app\huanxin\service\RedEnvelope as RedEnvelopeService;
-use app\huanxin\model\RedEnvelope as RedEnvelopeModel;
-use app\crm\model\Customer as CustomerModel;
-use think\View;
+use app\task\model\DayTask as DayTaskModel;
 
 class DayTask extends Initialize{
     var $paginate_list_rows = 10;
@@ -34,6 +22,23 @@ class DayTask extends Initialize{
         $this->paginate_list_rows = config("paginate.list_rows");
     }
     public function index(){
+    }
+    public function get(){
+    }
+    protected function _check_take($uid){
+        if(!is_array($uid)){
+            $uid = explode(",",$uid);
+        }
+        $dayTaskM = new DayTaskModel($this->corp_id);
+        $taskTakedInfos = $dayTaskM->getTaskNameByTaskTypeAndEmployee(4,$uid);
+        if(!empty($taskTakedInfos)){
+            $taked_str = "";
+            foreach ($taskTakedInfos as $taskTakedInfo){
+                $taked_str .= "员工 ".$taskTakedInfo["truename"]." 已在 ".$taskTakedInfo["task_name"]." 任务中;";
+            }
+            return $taked_str;
+        }
+        return true;
     }
     protected function _getTaskForInput($uid){
 //        var_exp($task_time,'$task_time',1);
@@ -81,6 +86,7 @@ class DayTask extends Initialize{
         $result = ['status'=>0 ,'info'=>"新建每日任务时发生错误！"];
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
+        //TODO 设置任务权限校验
         $time = time();
         $taskInfo = $this->_getTaskForInput($uid);
         $taskInfo["reward_max_num"] = 0;
@@ -92,15 +98,9 @@ class DayTask extends Initialize{
         }
 
         //检测员工任务是否重复
-        $take_employee_ids = explode(",",$taskInfo['public_to_take']);
-        $taskTakeM = new TaskTakeModel($this->corp_id);
-        $taskTakedInfos = $taskTakeM->getTaskNameByTaskTypeAndEmployee(4,$take_employee_ids);
-        if(!empty($taskTakedInfos)){
-            $taked_str = "";
-            foreach ($taskTakedInfos as $taskTakedInfo){
-                $taked_str .= "员工 ".$taskTakedInfo["truename"]." 已在 ".$taskTakedInfo["task_name"]." 任务中;";
-            }
-            $result['info'] = $taked_str;
+        $check_flg = $this->_check_take($taskInfo['public_to_take']);
+        if($check_flg!==true){
+            $result['info'] = $check_flg;
             return json($result);
         }
 
@@ -155,6 +155,26 @@ class DayTask extends Initialize{
 
         $result['status'] = 1;
         $result['info'] = "新建任务成功！";
+        return json($result);
+    }
+    public function update(){
+    }
+    public function del(){
+        $result = ['status'=>0 ,'info'=>"删除每日任务失败!"];
+        $task_id = input('task_id',0,"int");
+        if(!$task_id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $task_info["status"] = 0;
+        $employeeTaskM = new EmployeeTaskModel($this->corp_id);
+        $flg = $employeeTaskM->setTaskInfo($task_id,$task_info);
+        if(!$flg){
+            $result['info'] = '删除每日任务时发生错误!';
+            return json($result);
+        }
+        $result['info'] = '删除每日任务成功!';
+        $result['status'] = 1;
         return json($result);
     }
 }
