@@ -19,12 +19,13 @@ class CreditLog extends Base
 
     /**
      * @param $uid
-     * @param $data
-     * data数组可传入的索引值分别为credit_name(积分名称) link_id(相关id) remark(备注) create_employee(添加人)
-     * 其中 credit_name 必填
+     * @param $credit_name 积分名称
+     * @param array $data
+     * data数组可传入的索引值分别为 link_id(相关id) remark(备注) create_employee(添加人)
+     * @return mixed
      * 增加积分公共方法
      */
-    public function credit_increase($uid,$data){
+    public function credit_increase($uid,$credit_name,$data=array()){
         $redata['status'] = 0;//初始
         $employee_score_model = new EmployeeScore($this->corp_id);
         $employee_score_record = $employee_score_model->getEmployeeScore($uid);
@@ -46,15 +47,15 @@ class CreditLog extends Base
             return $redata;
         }
 
-        $map['name'] = $data['credit_name'];
+        $map['name'] = $credit_name;
         $config_experience = $employee_score_model->getExperienceAndScore($map);//积分配置获取相应的分数和经验值
         if(!$config_experience){
             $redata['info'] = '积分配置文件没有对应积分和经验';
             return $redata;
         }
         //需要增加的经验值和积分
-        $add_experience = $config_experience[$data['credit_name']]['experience'];
-        $add_score = $config_experience[$data['credit_name']]['score'];
+        $add_experience = $config_experience[$credit_name]['experience'];
+        $add_score = $config_experience[$credit_name]['score'];
         $data['employee_id'] = $uid;//积分所属人
         $data['experience'] =  $add_experience;
         $data['score'] =  $add_score;
@@ -90,15 +91,15 @@ class CreditLog extends Base
         }
         return $redata;
     }
-
     /**
      * @param $uid
-     * @param $data
-     * data数组可传入的索引值分别为credit_name(积分名称) link_id(相关id) remark(备注) create_employee(添加人)
-     * 其中 credit_name 必填
+     * @param $credit_name(积分名称)
+     * @param array $data
+     * data数组可传入的索引值分别为 link_id(相关id) remark(备注) create_employee(添加人)
+     * @return mixed
      * 减去积分经验公共方法
      */
-    public function credit_decrease($uid,$data){
+    public function credit_decrease($uid,$credit_name,$data=array()){
         $redata['status'] = 0;//初始
         $employee_score_model = new EmployeeScore($this->corp_id);
         $employee_score_record = $employee_score_model->getEmployeeScore($uid);
@@ -114,15 +115,15 @@ class CreditLog extends Base
             return $redata;
         }
 
-        $map['name'] = $data['credit_name'];
+        $map['name'] = $credit_name;
         $config_experience = $employee_score_model->getExperienceAndScore($map);//积分配置获取相应的分数和经验值
         if(!$config_experience){
             $redata['info'] = '积分配置文件没有对应积分和经验';
             return $redata;
         }
         //需要减少的经验值和积分
-        $dif_experience = '-'.$config_experience[$data['credit_name']]['experience'];
-        $dif_score = '-'.$config_experience[$data['credit_name']]['score'];
+        $dif_experience = '-'.$config_experience[$credit_name]['experience'];
+        $dif_score = '-'.$config_experience[$credit_name]['score'];
         $data['employee_id'] = $uid;//积分所属人
         $data['experience'] =  $dif_experience;
         $data['score'] =  $dif_score;
