@@ -76,7 +76,7 @@
 </style>
 <script type="text/javascript">
 	$(".daily-task-template .new-template-pop .content input[type='checkbox']").click(function () {
-		console.log(checkCheckd(6));
+		// console.log(checkCheckd(6));
 	});
 	$(".daily-task-template .new-template-pop-footer .pop-submit-btn").click(function () {
 		let task_name = $(".new-template-pop .object .staff").val();
@@ -99,7 +99,6 @@
 		}
 		console.log(target);
 		let data1 = "task_name="+task_name+"&task_time="+task_time+"&public_to_take="+public_to_take+"&target=";
-		// data1 = JSON.parse(data1)
 		console.log(data1);
 		let data2 = JSON.stringify(target);
 		console.log(data2);
@@ -110,9 +109,11 @@
 	        dataType:'json',
 	        success: function(data) {
 	            console.log(data);
+	            layer.msg(data.info,{icon:1});
+	            $(".daily-task-template").addClass("hide").empty();
 	        },
 	        error: function() {
-	            msg.alert("错误");
+	            layer.msg('保存失败',{icon:2});
 	        }
 	    });
 	});
