@@ -111,6 +111,10 @@
 .phone_call_assistant .m-table-detail{
 	width: 1249px;
 }
+/*任务列表*/
+.task_setting_list .m-table-detail{
+	width: 1233px;
+}
 /*审核*/
 .table-v-index{
 	width: 2507px;

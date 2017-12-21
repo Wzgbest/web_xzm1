@@ -1,0 +1,97 @@
+<div class="task_setting task_setting_index m-2nd-container h100">
+	<div class="h100">
+		<div class="daily-task">
+			<div class="title">
+				<div class="left fl b-w tc">
+					<span>日常任务</span>
+				</div>
+				<div class="right fl"></div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="panel-name b-w">
+				<ul>
+					<li>老员工任务</li>
+					<li class="current">1-3月新人任务</li>
+					<li class="new-template">新模板</li>
+					<div class="clearfix"></div>
+				</ul>
+			</div>
+			<div class="content b-w panel-id-">
+				<h1>任务统计要素</h1>
+				<div class="container">
+					<div class="left fl">
+						<ul>
+							<li class="check"><input type="checkbox"></li>
+							<li class="world">录入客户</li>
+							<li class="number"><input type="text">个</li>
+							<div class="clearfix"></div>
+						</ul>
+						<ul>
+							<li class="check"><input type="checkbox"></li>
+							<li class="world">通话次数</li>
+							<li class="number"><input type="text">个</li>
+							<div class="clearfix"></div>
+						</ul>
+						<ul>
+							<li class="check"><input type="checkbox"></li>
+							<li class="world">有效通话数</li>
+							<li class="number"><input type="text">个</li>
+							<div class="clearfix"></div>
+						</ul>
+						<ul>
+							<li class="check"><input type="checkbox"></li>
+							<li class="world">通话时长</li>
+							<li class="number"><input type="text">分</li>
+							<div class="clearfix"></div>
+						</ul>						
+					</div>
+					<div class="right fl">
+						<ul>
+							<li class="check"><input type="checkbox"></li>
+							<li class="world">新增意向客户</li>
+							<li class="number"><input type="text">个</li>
+							<div class="clearfix"></div>
+						</ul>
+						<ul>
+							<li class="check"><input type="checkbox"></li>
+							<li class="world">新增商机</li>
+							<li class="number"><input type="text">个</li>
+							<div class="clearfix"></div>
+						</ul>
+						<ul>
+							<li class="check"><input type="checkbox"></li>
+							<li class="world">拜访客户</li>
+							<li class="number"><input type="text">个</li>
+							<div class="clearfix"></div>
+						</ul>
+						<ul>
+							<li class="check"><input type="checkbox"></li>
+							<li class="world">成单数</li>
+							<li class="number"><input type="text">个</li>
+							<div class="clearfix"></div>
+						</ul>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+			<div class="object b-w">
+				<span class="inline">面向对象</span>
+				<div class="staff inline"><span>全体员工</span><i class="fa fa-2x fa-angle-down fr"></i></div>
+			</div>
+			<div class="m-3rd-footer p-r">
+				<button class="btn btn-x-large">取消</button>
+				<button class="btn btn-x-large active fr mar-r-10">保存</button>
+			</div>
+		</div>
+		<div class="popUp daily-task daily-task-template hide">
+			
+		</div>
+	</div> 
+</div>
+<link rel="stylesheet" type="text/css" href="/task/css/task_setting.css">
+<script type="text/javascript" src="/static/js/PopUp.js"></script>
+<script type="text/javascript">
+    $(".task_setting_index .new-template").click(function(){
+        let pop =  new popLoad(".daily-task-template","/task/setting/template/");
+    });
+</script>
