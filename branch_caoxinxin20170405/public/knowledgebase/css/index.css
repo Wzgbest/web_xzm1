@@ -269,6 +269,10 @@
 	font-size: 16px;
 	font-weight: normal;
 }
+.knowledgebase_company_library_index .library-list .lib-content .content{
+	width: 500px;
+	margin-left: 15px;
+}
 .knowledgebase_company_library_index .library-list .lib-content .voice span{
 	display: inline-block;
 }
@@ -385,52 +389,48 @@
 	cursor: url(/static/cursor/big.cur),auto;
 }
 .knowledgebase_company_library_index .library-list .lib-content .pic-show{
-	height: 400px;
 	position: relative;
 }
-.knowledgebase_company_library_index .library-list .lib-content .pic-show .pack-up-btn{
-	width: 60px;
-    height: 25px;
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    z-index: 99;
-    border-radius: 12.5px;
-    line-height: 25px;
-    margin-left: 10px;
-    text-align: center;
-    color: white;
-    border: none;
-    background-color: #42a5f5;
-}
 .knowledgebase_company_library_index .library-list .lib-content .pic-show img{
-	height: 100%;
-	width: auto;
+	max-width: 100%;
 	position: relative;
 	left: 50%;
 	transform: translateX(-50%);
 	cursor: url(/static/cursor/small.cur),auto;
 }
+.knowledgebase_company_library_index .library-list .lib-content .pic-show .cursor-controler{}
+.knowledgebase_company_library_index .library-list .lib-content .pic-show .cursor-controler div{
+	width: 33%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+}
+.knowledgebase_company_library_index .library-list .lib-content .pic-show .cursor-controler .left{
+	left: 0;
+	cursor: url(/static/cursor/pic_prev.cur),auto;
+}
+.knowledgebase_company_library_index .library-list .lib-content .pic-show .cursor-controler .right{
+	right: 0;
+	cursor: url(/static/cursor/pic_next.cur),auto;
+}
 .knowledgebase_company_library_index .library-list .lib-content .pic-list{
-	/*display: flex;*/
+	width: 4000px;
 	margin-top: 20px;
-	/*flex-flow: row;*/
 }
 .knowledgebase_company_library_index .library-list .lib-content .pic-list li{
-	width: 100px;
-	height: 100px;
+	border:2px solid transparent ;
 	float: left;
-	/*flex: 1;*/
-	margin-right: 20px;
 	opacity: 0.4;
 }
 .knowledgebase_company_library_index .library-list .lib-content .pic-list li.current{
 	opacity: 1;
+	border:2px solid #fa7d3c ;
 }
 .knowledgebase_company_library_index .library-list .lib-content .pic-list li img{
-	width: 100%;
-	height: 100%;
-	cursor: url(/static/cursor/big.cur),auto;
+	width: 50px;
+	height: 50px;
+	border: 1px solid transparent;
+	/*cursor: url(/static/cursor/big.cur),auto;*/
 }
 .reward-pop h2,.pay-pop h2,.pay-pop h3{
 	text-align: center;

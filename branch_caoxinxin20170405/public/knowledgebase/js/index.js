@@ -17,21 +17,61 @@ $(".knowledgebase .new_panel .radio-select input[name='class']").change(function
 })
 
 //图片点击事件
-// console.log($(".knowledgebase_company_library_index .library-list .lib-content .pic-grid li img"));
-$(".knowledgebase_company_library_index .library-list .lib-content .pic-grid li img").click(function(){
-	$(this).parents(".pic-grid").addClass("hide").siblings().removeClass("hide");
-	$(this).parents(".pic-grid").siblings(".pic-show").removeClass("hide").children().children("img").attr("src",$(this).attr("src"));
-	$(this).parents(".pic-grid").siblings(".pic-list").removeClass("hide").children("li").eq($(this).parent().index()).addClass("current");
+
+//初始图片点击
+$(".knowledgebase_company_library_index .library-list .lib-content .pic-grid li").click(function(){
+	$(this).parents(".pic-grid").addClass("hide").siblings().removeClass("hide");	
+	let num = $(this).index();
+	picShow(this,num);
+	picShowCursor(this,num);
 });
-$(".knowledgebase_company_library_index .library-list .lib-content .pic-list li img").click(function(){
-	$(this).parent("li").addClass("current").siblings("li").removeClass("current");
-	$(this).parent("li").parent("ul").siblings(".pic-show").children("img").attr("src",$(this).attr("src"));
+//小图片点击
+$(".knowledgebase_company_library_index .library-list .lib-content .pic-list li").click(function(){
+	let num = $(this).index();
+	picShow(this,num);
+	picShowCursor(this,num);
 })
-//收起
-$(".knowledgebase_company_library_index .library-list .lib-content .pic-show .pack-up-btn").click(function(){
-	console.log(1);
-	$(this).parent(".pic-show").addClass("hide").siblings(".pic-list").addClass("hide").siblings(".pic-grid").removeClass("hide");
+//←切换
+$(".knowledgebase_company_library_index .library-list .lib-content .pic-show .cursor-controler .left").click(function () {
+	let num = $(this).parents(".picture").children(".pic-list").children("li.current").index();
+	picShow(this,num-1);
+	picShowCursor(this,num-1);
 });
+//→切换
+$(".knowledgebase_company_library_index .library-list .lib-content .pic-show .cursor-controler .right").click(function () {
+	let num = $(this).parents(".picture").children(".pic-list").children("li.current").index();
+	picShow(this,num+1);
+	picShowCursor(this,num+1);
+});
+//收起
+$(".knowledgebase_company_library_index .library-list .lib-content .pic-show img").click(function(){
+	$(this).parents(".pic-show").addClass("hide").siblings(".pic-list").addClass("hide").siblings(".pic-grid").removeClass("hide");
+});
+//图片显示控制方法
+function picShow(e,n) {
+	let pic = $(e).parents(".picture");
+	let list = pic.children(".pic-list").children("li");
+	let show = pic.children(".pic-show").find("img");
+	let src = list.eq(n).children("img").attr("src");
+	list.removeClass("current").eq(n).addClass("current");
+	show.attr("src",src);
+}
+//左右切换图标控制方法
+function picShowCursor(e,n) {
+	let len = $(e).parents(".picture").children(".pic-list").children("li").length;
+	if(n==0&&n!=len-1){
+		$(e).parents(".picture").children(".pic-show").find(".left").addClass("hide").siblings(".right").removeClass("hide");
+	}
+	if(n==len-1&&n!=0){
+		$(e).parents(".picture").children(".pic-show").find(".right").addClass("hide").siblings(".left").removeClass("hide");
+	}
+	if(n==0&&n==len-1){
+		$(e).parents(".picture").children(".pic-show").children(".cursor-controler").children("div").addClass("hide");
+	}
+	if(n!=0&&n!=len-1){
+		$(e).parents(".picture").children(".pic-show").children(".cursor-controler").children("div").removeClass("hide");
+	}
+}
 //评论
 var comment = {
 	state:false,
