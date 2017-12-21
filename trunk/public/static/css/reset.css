@@ -109,6 +109,15 @@ textarea {
 .tr {
   text-align: right;
 }
+.mar-0{
+  margin: 0 !important;
+}
+.mar-l-10{
+  margin-left: 10px !important;
+}
+.mar-r-10{
+  margin-right: 10px !important;
+}
 .mar-r-0{
 	margin-right: 0 !important;
 }
@@ -117,6 +126,9 @@ textarea {
 }
 .pad-l-0{
   padding-left: 0 !important;
+}
+.pad-t-20{
+  padding-top: 20px !important;
 }
 .bdn{
 	border: none !important;
@@ -149,6 +161,11 @@ textarea {
 }
 .o-h{
   overflow: hidden;
+}
+.m-2nd-container{
+  background-color: #ecf0f5;
+  box-sizing: border-box;
+  padding: 20px 15px;
 }
 .m-3rd-container{
   width: 100%;
@@ -220,15 +237,7 @@ textarea {
 .o-a{
   overflow: auto;
 }
-.mar-0{
-  margin: 0 !important;
-}
-.mar-l-10{
-  margin-left: 10px !important;
-}
-.mar-r-10{
-  margin-right: 10px !important;
-}
+
 /*按钮规范,默认为灰色disable*/
 .btn{
   box-sizing:border-box;
