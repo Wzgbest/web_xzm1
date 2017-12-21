@@ -18,15 +18,13 @@ class DayTask extends Base{
         $this->table=config('database.prefix').'employee_task';
         parent::__construct($corp_id);
     }
-    public function getAllDayTaskByEmployeeIds($employee_ids,$start_time,$end_time){
+    public function getAllDayTaskByEmployeeIds($employee_ids){
         $field = [
             "et.id",
             "ettg.target_type",
             "ettg.target_num",
         ];
         $map["et.task_type"] = 4;
-        $map["et.task_start_time"] = ["eq",$start_time];
-        $map["et.task_end_time"] = ["eq",$end_time];
         $map["ettk.take_employee"] = ["in",$employee_ids];
         $order = "et.id asc";
         $standardTaskList = $this->model->table($this->table)->alias('et')

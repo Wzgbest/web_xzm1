@@ -29,7 +29,7 @@ class Datacount extends Base{
             ->where($map)
             ->group($group)
 //            ->fetchSql(true)
-            ->column("count(id) num,sum(num) sum_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_num","type");
+            ->column("count(id) num,sum(num) sum_num,sum(case when type = 1 and num > 30 then 1 else 0 end) tag_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_sum","type");
         return $result_data;
     }
 
@@ -45,7 +45,7 @@ class Datacount extends Base{
             ->where($map)
             ->group($group)
 //            ->fetchSql(true)
-            ->column("count(id) num,sum(num) sum_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_num","type");
+            ->column("count(id) num,sum(num) sum_num,sum(case when type = 1 and num > 30 then 1 else 0 end) tag_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_sum","type");
         return $result_data;
     }
 
@@ -63,7 +63,7 @@ class Datacount extends Base{
             ->group($group)
             ->order($order)
 //            ->fetchSql(true)
-            ->column($mouth." `group_flg`,count(id) num,sum(num) sum_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_num","type");
+            ->column($mouth." `group_flg`,count(id) num,sum(num) sum_num,sum(case when type = 1 and num > 30 then 1 else 0 end) tag_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_sum","type");
         return $result_data;
     }
 
@@ -81,7 +81,7 @@ class Datacount extends Base{
             ->group($group)
             ->order($order)
 //            ->fetchSql(true)
-            ->column($season." `group_flg`,count(id) num,sum(num) sum_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_num","type");
+            ->column($season." `group_flg`,count(id) num,sum(num) sum_num,sum(case when type = 1 and num > 30 then 1 else 0 end) tag_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_sum","type");
         return $result_data;
     }
 
@@ -99,7 +99,7 @@ class Datacount extends Base{
             ->group($group)
             ->order($order)
 //            ->fetchSql(true)
-            ->column($year." `group_flg`,count(id) num,sum(num) sum_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_num","type");
+            ->column($year." `group_flg`,count(id) num,sum(num) sum_num,sum(case when type = 1 and num > 30 then 1 else 0 end) tag_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_sum","type");
         return $result_data;
     }
 
