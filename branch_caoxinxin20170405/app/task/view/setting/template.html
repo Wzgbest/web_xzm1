@@ -16,19 +16,19 @@
 					<li class="number"><input type="text">个</li>
 					<div class="clearfix"></div>
 				</ul>
-				<ul class="_type8">
+				<ul class="_type12">
 					<li class="check"><input type="checkbox"></li>
 					<li class="world">通话次数</li>
 					<li class="number"><input type="text">个</li>
 					<div class="clearfix"></div>
 				</ul>
-				<ul class="_type1">
+				<ul class="_type13">
 					<li class="check"><input type="checkbox"></li>
 					<li class="world">有效通话数</li>
 					<li class="number"><input type="text">个</li>
 					<div class="clearfix"></div>
 				</ul>
-				<ul class="_type12">
+				<ul class="_type8">
 					<li class="check"><input type="checkbox"></li>
 					<li class="world">通话时长</li>
 					<li class="number"><input type="text">分</li>
@@ -75,7 +75,56 @@
 	}
 </style>
 <script type="text/javascript">
+	$(".daily-task-template .new-template-pop .content input[type='checkbox']").click(function () {
+		// console.log(checkCheckd(6));
+	});
 	$(".daily-task-template .new-template-pop-footer .pop-submit-btn").click(function () {
 		let task_name = $(".new-template-pop .object .staff").val();
+		let task_time = "";
+		let public_to_take="";
+		let target = new Array();		
+		let content = ".daily-task-template .new-template-pop .content ";
+		for(let i=1;i<=13;i++){
+			console.log(i);
+			if(checkCheckd(i).c===true){
+				console.log(checkCheckd(i));
+				let obj = {
+					"target_type":0,
+					"target_num":0
+				}
+				obj.target_type = i;
+				obj.target_num = checkCheckd(i).n;
+				target.push(obj);
+			}
+		}
+		console.log(target);
+		let data1 = "task_name="+task_name+"&task_time="+task_time+"&public_to_take="+public_to_take+"&target=";
+		console.log(data1);
+		let data2 = JSON.stringify(target);
+		console.log(data2);
+		$.ajax({
+	        url: "/task/day_task/add",
+	        data: data1+data2,
+	        type: 'post',
+	        dataType:'json',
+	        success: function(data) {
+	            console.log(data);
+	            layer.msg(data.info,{icon:1});
+	            $(".daily-task-template").addClass("hide").empty();
+	        },
+	        error: function() {
+	            layer.msg('保存失败',{icon:2});
+	        }
+	    });
 	});
+	function checkCheckd(e) {
+		let result = new Object();
+		if($(".daily-task-template .new-template-pop .content ._type"+e)){
+			result.c = $(".daily-task-template .new-template-pop .content ._type"+e+" input[type='checkbox']").prop("checked");
+			result.n = $(".daily-task-template .new-template-pop .content ._type"+e+" .number input").val();
+			return result;
+		}else{
+			return null;
+		}	
+	}
 </script>
