@@ -19,8 +19,10 @@ use \myvendor\TimeTools;
 class Index extends Initialize{
     protected $name_title_idx = [
         "customer"=>"新增客户",
-        "all_call_time"=>"总通话",
-        "valid_call_time"=>"有效通话",
+        "all_call_time"=>"总通话时长",
+        "valid_call_time"=>"有效通话时长",
+        "all_call_num"=>"总通话数",
+        "valid_call_num"=>"有效通话数",
         "sale_chance"=>"商机",
         "sign_in"=>"拜访",
         "sale_order"=>"成单",
@@ -30,7 +32,7 @@ class Index extends Initialize{
         "sale_status"=>"阶段变化",
     ];
     protected $type_name_idx = [
-        "1"=>["sum_num"=>"all_call_time","tag_num"=>"valid_call_time"],
+        "1"=>["num"=>"all_call_num","sum_num"=>"all_call_time","tag_num"=>"valid_call_num","tag_sum"=>"valid_call_time"],
         "2"=>["num"=>"sale_chance","sum_num"=>"sale_status"],
         "3"=>["num"=>"sale_order","sum_num"=>"order_money"],
         "5"=>["sum_num"=>"sign_in"],
@@ -39,8 +41,10 @@ class Index extends Initialize{
         "8"=>["sum_num"=>"tend_to"],
     ];
     protected $name_type_field_idx = [
+        "all_call_num"=>["1","num"],
         "all_call_time"=>["1","sum_num"],
-        "valid_call_time"=>["1","tag_num"],
+        "valid_call_num"=>["1","tag_num"],
+        "valid_call_time"=>["1","tag_sum"],
         "sale_chance"=>["2","num"],
         "sale_status"=>["2","tag_num"],
         "sale_order"=>["3","num"],
@@ -51,7 +55,7 @@ class Index extends Initialize{
         "tend_to"=>["8","sum_num"],
     ];
     protected $task_type_idx = [
-        "1"=>"valid_call_time",
+        "1"=>"valid_call_num",
         "2"=>"sale_chance",
         "3"=>"order_money",
         "4"=>"sale_order",
@@ -61,6 +65,8 @@ class Index extends Initialize{
         "9"=>"sale_status",
         "10"=>"contact",
         "11"=>"tend_to",
+        "12"=>"all_call_num",
+        "13"=>"valid_call_time",
     ];
     public function __construct(){
         parent::__construct();
@@ -128,7 +134,7 @@ class Index extends Initialize{
         $end_time = 0;
         list($start_time,$end_time) = $this->_get_times($time,$start_time,$end_time);
         $data_count = $this->_get_data_count($uids,$start_time,$end_time);
-        $day_task = $this->_get_day_task($uids,$start_time,$end_time);
+        $day_task = $this->_get_day_task($uids);
         $day_task_count = $this->_get_day_task_count($day_task["data"],$data_count["data"]);
         $this->assign("task_data_count",$day_task_count);
 
@@ -182,7 +188,7 @@ class Index extends Initialize{
         $time_num = 4;
 
         $items = [
-            "valid_call_time",
+            "valid_call_num",
             "sale_chance",
             "sign_in",
             "sale_order",
@@ -222,8 +228,8 @@ class Index extends Initialize{
     protected function _get_data_count($uids,$start_time,$end_time){
         $result_data = [
             "customer"=>0,
-            "all_call_time"=>0,
-            "valid_call_time"=>0,
+            "all_call_num"=>0,
+            "valid_call_num"=>0,
             "sale_chance"=>0,
             "sign_in"=>0,
             "sale_order"=>0,
@@ -246,7 +252,9 @@ class Index extends Initialize{
 //        var_exp($datacount,'$datacount',1);
         if(isset($datacount["1"])){
             $result_data["all_call_time"] = $datacount["1"]["sum_num"]?:0;
-            $result_data["valid_call_time"] = $datacount["1"]["tag_num"]?:0;
+            $result_data["valid_call_time"] = $datacount["1"]["tag_sum"]?:0;
+            $result_data["all_call_num"] = $datacount["1"]["num"]?:0;
+            $result_data["valid_call_num"] = $datacount["1"]["tag_num"]?:0;
         }
         if(isset($datacount["2"])){
             $result_data["sale_chance"] = $datacount["2"]["num"];
@@ -318,7 +326,7 @@ class Index extends Initialize{
             return json($result);
         }
 
-        $day_task = $this->_get_day_task($uids,$start_time,$end_time);
+        $day_task = $this->_get_day_task($uids);
         if($day_task["status"]!=1){
             $result['status'] = $day_task["status"];
             $result['info'] = $day_task["info"];
@@ -366,11 +374,13 @@ class Index extends Initialize{
         }
         return $day_task_data;
     }
-    protected function _get_day_task($uids,$start_time,$end_time){
+    protected function _get_day_task($uids){
         $result_data = [
             "customer"=>0,
             "all_call_time"=>0,
             "valid_call_time"=>0,
+            "all_call_num"=>0,
+            "valid_call_num"=>0,
             "sale_chance"=>0,
             "sign_in"=>0,
             "sale_order"=>0,
@@ -382,14 +392,12 @@ class Index extends Initialize{
         $result = ['status'=>0 ,'info'=>"获取日常任务目标时发生错误！","data"=>$result_data];
         if(
             empty($uids)
-            ||($start_time<=0&&$end_time<=0)
-            || $start_time>=$end_time
         ){
             return $result;
         }
 
         $dayTaskM = new DayTask($this->corp_id);
-        $employeeTaskList = $dayTaskM->getAllDayTaskByEmployeeIds($uids,$start_time,$end_time);
+        $employeeTaskList = $dayTaskM->getAllDayTaskByEmployeeIds($uids);
 
         foreach ($employeeTaskList as $employeeTask){
             if(isset($this->task_type_idx[$employeeTask["target_type"]])){
@@ -462,8 +470,8 @@ class Index extends Initialize{
                 break;
             case 2:
                 $items = [
-                    "all_call_time",
-                    "valid_call_time",
+                    "all_call_num",
+                    "valid_call_num",
                     "tend_to",
                     "sign_in",
                     "sale_order",
@@ -510,7 +518,7 @@ class Index extends Initialize{
         $time_num = input("time_num",4,"int");
 
         $items = [
-            "valid_call_time",
+            "valid_call_num",
             "sale_chance",
             "sign_in",
             "sale_order",
