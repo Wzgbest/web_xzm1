@@ -11,9 +11,8 @@
 			<div class="panel-name b-w">
 				<ul>
 					{volist name="day_task_list" id="vo"}
-					<li data-day_task_id="{$vo.id}">{$vo.task_name}</li>
+					<li class="{eq name='key' value='0'}current{/eq}" data-day_task_id="{$vo.id}">{$vo.task_name}</li>
 					{/volist}
-					<li class="current">1-3月新人任务</li>
 					<li class="new-template">新模板</li>
 					<div class="clearfix"></div>
 				</ul>
