@@ -89,13 +89,6 @@ class DayTask extends Initialize{
             return json($result);
         }
 
-        //检测员工任务是否重复
-        $check_flg = $this->_check_take($taskInfo['public_to_take']);
-        if($check_flg!==true){
-            $result['info'] = $check_flg;
-            return json($result);
-        }
-
         $taskTakeInfos = [];
         $public_uids = explode(",",$taskInfo["public_to_take"]);
         $public_uids = array_filter($public_uids);
@@ -138,8 +131,52 @@ class DayTask extends Initialize{
         $result['info'] = "新建任务成功！";
         return json($result);
     }
+    public function check_take(){
+        if(empty($public_to_take)){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        $public_to_take = input("public_to_take","","string");
+        $check_flg = $this->_check_take($public_to_take);
+        if($check_flg!==true){
+            $result['info'] = $check_flg;
+            return json($result);
+        }
+    }
     public function update(){
+        $id = input('id',0,'int');
+        $public_to_take = input("public_to_take","","string");
+        if(!$id||empty($public_to_take)){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        //检测员工任务是否重复
+        $check_flg = $this->_check_take($public_to_take);
+        if($check_flg!==true){
+            $result['info'] = $check_flg;
+            return json($result);
+        }
+        $take_flg = $this->_update_employee_take($id,$public_to_take);
+        if(!$take_flg){
+            $this->error("");
+            $result['info'] = "更新员工每日任务时发生错误！";
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "更新员工每日任务成功！";
+        return json($result);
+    }
+    public function _update_employee_take($task_id,$public_to_take,$task_target_list=null){
+        $flg = false;
+        if(!is_array($public_to_take)){
+            $public_to_take = explode(",",$public_to_take);
+        }
+        if(empty($task_target_list)){
+            $task_target_list = [];//TODO $task_id
+        }
+        //TODO add || update
 
+        return $flg;
     }
     public function del(){
         $result = ['status'=>0 ,'info'=>"删除每日任务失败!"];

@@ -129,7 +129,7 @@ class DayTask extends Base{
             ->join($this->dbprefix.'employee e',"e.id = ettk.take_employee")
             ->where($map)
             ->group("et.id,ettk.take_employee,ettg.id")
-            ->field(["et.id,et.task_name,ettk.take_employee,e.truename,ettg.target_type,ettg.target_type,ettg.target_num"])
+            ->field(["et.id,et.task_name,ettk.take_employee,e.truename,ettg.target_type,ettg.target_num"])
             ->select();
     }
 }
