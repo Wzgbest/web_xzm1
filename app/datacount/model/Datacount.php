@@ -33,6 +33,22 @@ class Datacount extends Base{
         return $result_data;
     }
 
+    public function getEmployeeDataCount($uids,$start_time,$end_time){
+        $map["uid"] = ["in",$uids];
+        $map["time"] = [
+            ["egt",$start_time],
+            ["elt",$end_time]
+        ];
+        $group = "uid,type";
+        $result_data = $this->model->table($this->table)->alias('d')
+            ->where($map)
+            ->group($group)
+//            ->fetchSql(true)
+            ->field("uid,type,count(id) num,sum(num) sum_num,sum(case when type = 1 and num > 30 then 1 else 0 end) tag_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_sum")
+            ->select();
+        return $result_data;
+    }
+
     public function getTypeDataCount($type,$uids,$start_time,$end_time){
         $map["type"] = ["eq",$type];
         $map["uid"] = ["in",$uids];
