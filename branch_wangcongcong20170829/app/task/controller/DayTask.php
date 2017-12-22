@@ -21,8 +21,6 @@ class DayTask extends Initialize{
         parent::__construct();
         $this->paginate_list_rows = config("paginate.list_rows");
     }
-    public function index(){
-    }
     protected function _check_take($uid){
         if(!is_array($uid)){
             $uid = explode(",",$uid);
@@ -45,16 +43,12 @@ class DayTask extends Initialize{
         $task_info['task_end_time'] = 0;
         $task_info['task_take_start_time'] = 0;
         $task_info['task_take_end_time'] = 0;
-        $task_info['task_type'] = 4;
-        $task_info['task_method'] = 6;
+        $task_info['task_type'] = 6;
+        $task_info['task_method'] = 8;
         $task_info['content'] = input("content","","string");
 
-        $task_info['public_to_take'] = input("public_to_take","","string");
-        $public_uids = explode(",",$task_info['public_to_take']);
-        $public_uids = array_filter($public_uids);
-        $public_uids = array_unique($public_uids);
-        $task_info['public_to_take'] = implode(",",$public_uids);
-        $task_info['public_to_view'] = $task_info['public_to_take'];
+        $task_info['public_to_take'] = "";
+        $task_info['public_to_view'] = "";
 
         $task_info['create_employee'] = $uid;
         $task_info['create_time'] = time();
@@ -131,17 +125,6 @@ class DayTask extends Initialize{
                 exception('提交任务目标失败!');
             }
 
-            if(!empty($taskTakeInfos)){
-                foreach ($taskTakeInfos as &$taskTakeInfo) {
-                    $taskTakeInfo['task_id'] = $taskId;
-                }
-                $taskTakeM = new TaskTakeModel($this->corp_id);
-                $taskTakeId = $taskTakeM->addMutipleTaskTake($taskTakeInfos);
-                if(!$taskTakeId){
-                    exception('提交任务人员信息失败!');
-                }
-            }
-
             $employeeTaskM->link->commit();
             $result['data'] = $taskId;
         }catch (\Exception $ex){
@@ -156,6 +139,7 @@ class DayTask extends Initialize{
         return json($result);
     }
     public function update(){
+
     }
     public function del(){
         $result = ['status'=>0 ,'info'=>"删除每日任务失败!"];
