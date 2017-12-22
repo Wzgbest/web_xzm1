@@ -38,6 +38,7 @@ class Setting extends Initialize{
         $this->assign('day_task_name_list',$dayTaskNameList);
         $this->assign('day_task_info_list',json_encode($dayTaskInfoList,true));
 
+        //TODO 获取员工
         $structureEmployeeModel = new StructureEmployee($this->corp_id);
         $structures = $structureEmployeeModel->getAllStructureAndEmployee();
         $structure_employee = [];
@@ -62,6 +63,7 @@ class Setting extends Initialize{
         return view();
     }
     public function task_list(){
+        $employee_name = input("employee_name","","string");
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
         $dayTaskM = new DayTaskModel($this->corp_id);
