@@ -150,12 +150,7 @@ class DayTask extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
-        //检测员工任务是否重复
-        $check_flg = $this->_check_take($public_to_take);
-        if($check_flg!==true){
-            $result['info'] = $check_flg;
-            return json($result);
-        }
+        //TODO 设置任务权限校验
         $take_flg = $this->_update_employee_take($id,$public_to_take);
         if(!$take_flg){
             $this->error("");
@@ -173,6 +168,12 @@ class DayTask extends Initialize{
         }
         if(empty($task_target_list)){
             $task_target_list = [];//TODO $task_id
+        }
+        //检测员工任务是否重复
+        $check_flg = $this->_check_take($public_to_take);
+        if($check_flg!==true){
+            $result['info'] = $check_flg;
+            return json($result);
         }
         //TODO add || update
 
