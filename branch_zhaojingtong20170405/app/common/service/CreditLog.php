@@ -8,6 +8,7 @@
 namespace app\common\service;
 use app\common\model\Base;
 use app\common\model\EmployeeScore;
+use app\common\model\Integral;
 
 
 class CreditLog extends Base
@@ -78,17 +79,28 @@ class CreditLog extends Base
         $score_data['score'] = $now_score;//当前分值
         $score_data['experience'] = $now_experience;//当前经验值
         //to do 未达到上限可以新增积分和经验
-        $employee_score_model->link->startTrans();
-        $result1 = $employee_score_model->setEmployeeScore($flag,$score_data);
 
-        $result2= $employee_score_model->addCreditLog($data);
-        if($result1!==false && $result2){
-            $redata['status'] = true;
-            $employee_score_model->link->commit();
+        $integral_model=new Integral($this->corp_id);
+        $can_add=$integral_model->checkIntegralNum($credit_name,$uid);
+        if($can_add['status']){
+            $employee_score_model->link->startTrans();
+            $result1 = $employee_score_model->setEmployeeScore($flag,$score_data);
+
+            $result2= $employee_score_model->addCreditLog($data);
+            if($result1!==false && $result2){
+                $redata['status'] = true;
+                $employee_score_model->link->commit();
+            }else{
+                $redata['status'] = false;//需要增加积分和经验 操作失败
+                $employee_score_model->link->rollback();
+            }
         }else{
-            $redata['status'] = false;//需要增加积分和经验 操作失败
-            $employee_score_model->link->rollback();
+            $redata['info'] = '今日增长已达上限';
         }
+
+
+
+
         return $redata;
     }
     /**
