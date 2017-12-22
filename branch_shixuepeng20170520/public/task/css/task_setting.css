@@ -13,6 +13,7 @@
 }
 .task_setting_index .daily-task .panel-name li{
 	float: left;
+	position: relative;
 	font-size: 14px;
 	height: 33px;
 	line-height: 33px;
@@ -22,6 +23,17 @@
 	border: 1px solid #d1d9de;
 	background-color: #fafafa;
 	cursor: pointer;
+}
+.task_setting_index .daily-task .panel-name li:hover .fa-close{
+	display: inline-block;
+}
+.task_setting_index .daily-task .panel-name li .fa-close{
+	position: absolute;
+	display: none;
+	right: -8px;
+	top: -8px;
+	font-size: 1.2em;
+	color: red;
 }
 .task_setting_index .daily-task .panel-name li.current{
 	border:1px solid #7dc1f8;
