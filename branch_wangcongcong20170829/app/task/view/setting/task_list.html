@@ -12,14 +12,18 @@
                 <li>操作</li>
                 <div class="clearfix"></div>
             </ul>
+			{volist name="employee_day_task_list" id="vo"}
             <ul class="u-tabList">
-                <li class="color-blue2">张雨</li>
+				<input type="hidden" class="id" value="{$vo.id}">
+				<input type="hidden" class="employee_id" value="{$vo.employee_id}">
+                <li class="color-blue2">{$vo.truename}</li>
                 <li class="u-tabOperation">
                     <span class="">编辑</span>
                     <span class="clear">清除</span>
-                </li>    
+                </li>
                 <div class="clearfix"></div>
             </ul>
+			{/volist}
         </div>
         <div class="o-a w100">
             <div class="m-table m-table-detail">
@@ -35,21 +39,67 @@
 	                <li>成单数</li>
 	                <div class="clearfix"></div>
 	            </ul>
-	            <ul class="u-tabList">
-	                <li class="color-blue2">张雨</li>
-	                <li class="u-tabOperation">
-	                    <span class="">编辑</span>
-	                    <span class="clear">清除</span>
-	                </li> 
-	                <li>12/30</li>
-	                <li>12/30</li>
-	                <li>12/30</li>
-	                <li>12/30</li>
-	                <li>12/30</li>
-	                <li>12/30</li>
-	                <li>12/30</li>
-	                <div class="clearfix"></div>
-	            </ul>
+				{volist name="employee_day_task_list" id="vo"}
+				<ul class="u-tabList">
+					<input type="hidden" class="id" value="{$vo.id}">
+					<input type="hidden" class="employee_id" value="{$vo.employee_id}">
+					<li class="color-blue2">{$vo.truename}</li>
+					<li class="u-tabOperation">
+						<span class="">编辑</span>
+						<span class="clear">清除</span>
+					</li>
+					<li>
+						{present name="$vo.6"}
+							{$vo.6.num}/{$vo.6.target}
+						{else/}
+							无
+						{/present}
+					</li>
+					<li>
+						{present name="$vo.8"}
+							{$vo.8.num}/{$vo.8.target}
+						{else/}
+							无
+						{/present}
+					</li>
+					<li>
+						{present name="$vo.1"}
+							{$vo.1.num}/{$vo.1.target}
+						{else/}
+							无
+						{/present}
+					</li>
+					<li>
+						{present name="$vo.12"}
+							{$vo.12.num}/{$vo.12.target}
+						{else/}
+							无
+						{/present}
+					</li>
+					<li>
+						{present name="$vo.11"}
+							{$vo.11.num}/{$vo.1.target}
+						{else/}
+							无
+						{/present}
+					</li>
+					<li>
+						{present name="$vo.2"}
+							{$vo.2.num}/{$vo.2.target}
+						{else/}
+							无
+						{/present}
+					</li>
+					<li>
+						{present name="$vo.4"}
+							{$vo.4.num}/{$vo.4.target}
+						{else/}
+							无
+						{/present}
+					</li>
+					<div class="clearfix"></div>
+				</ul>
+				{/volist}
 	        </div> 
         </div>        
     </div>

@@ -78,7 +78,7 @@
 						<span>总通话数</span>
 						<span><div class="in-bar2" style="width:{$task_data_count.all_call_num.per*250|round}px"></div></span>
 						<span>
-							{$task_data_count.all_call_num.num}/{all_call_num.customer.target}
+							{$task_data_count.all_call_num.num}/{$task_data_count.all_call_num.target}
 						</span>
 					</div>
 					{/gt}
@@ -87,7 +87,7 @@
 						<span>有效通话数</span>
 						<span><div class="in-bar2" style="width:{$task_data_count.valid_call_num.per*250|round}px"></div></span>
 						<span>
-							{$task_data_count.valid_call_num.num}/{valid_call_num.customer.target}
+							{$task_data_count.valid_call_num.num}/{$task_data_count.valid_call_num.target}
 						</span>
 					</div>
 					{/gt}
