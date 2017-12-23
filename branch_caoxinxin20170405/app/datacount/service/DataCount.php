@@ -6,6 +6,8 @@ use \myvendor\TimeTools;
 use app\datacount\model\Datacount as DatacountModel;
 use app\task\model\EmployeeTask;
 use app\task\model\DayTask;
+use app\common\model\StructureEmployee;
+use app\common\model\Structure;
 
 class DataCount{
     protected $uid;
@@ -458,30 +460,42 @@ class DataCount{
         return $result;
     }
     public function get_uids($type,$struct_id){
-        $uids = [];
-        switch ($type){
-            case 0:
-                $uids[] = $this->uid;
-                break;
-            case 1:
-                $uids[] = $this->uid;
-                //TODO 获取对应部门
-                break;
+        if($type==0){return [$this->uid];}
+        $structs = [];
+        if($type==4){
+            $structs = [$struct_id];
+        }else{
+            $structs = $this->get_structs($type,$struct_id);
         }
+        $structureEmployeeM = new StructureEmployee($this->corp_id);
+        $uids = $structureEmployeeM->getEmployeeByStructIds($structs);
         return $uids;
     }
     public function get_structs($type,$struct_id){
-        $uids = [];
+        $structs = [];
+        $structureEmployeeM = new StructureEmployee($this->corp_id);
+        $structureM = new Structure($this->corp_id);
+        $self_structs = $structureEmployeeM->getStructIdsByEmployee($this->uid);
         switch ($type){
             case 0:
-                $uids[] = $this->uid;
+                $structs = [["id"=>0,"struct_name"=>"无"]];
                 break;
             case 1:
-                $uids[] = $this->uid;
-                //TODO 获取对应用户
+                $structs = [$self_structs];
+                break;
+            case 2:
+                $sub_structs = $structureM->getSubStructIdsByStructIds($self_structs);
+                $structs = $sub_structs;
+                break;
+            case 3:
+                $sub_structs = $structureM->getSubStructIdsByStructIds($self_structs);
+                $structs = array_merge_recursive($self_structs,$sub_structs);
+                break;
+            case 4:
+                $structs = [$struct_id];
                 break;
         }
-        return $uids;
+        return $structs;
     }
     public function get_times($time,$start_time,$end_time){
         if($time&&($start_time<=0&&$end_time<=0)){

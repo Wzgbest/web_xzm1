@@ -94,6 +94,27 @@ class Structure extends Base
     }
 
     /**
+     * 根据部门ids获取子部门ids
+     * @param $struct_ids array 部门id列表
+     * @return array|false|\PDOStatement|string|\think\Collection
+     * created by messhair
+     */
+    public function getSubStructIdsByStructIds($struct_ids){
+        if(empty($struct_ids)){
+            return [];
+        }
+        $map = [];
+        foreach ($struct_ids as $struct_id){
+            $map[] = " find_in_set(struct_pids,$struct_id) ";
+        }
+        $map_str = implode(" or ",$map);
+        return $this->model->table($this->table)
+            ->where($map_str)
+            ->field('struct_id')
+            ->select();
+    }
+
+    /**
      * 添加部门信息
      * @param $data
      * @return int|string
