@@ -239,6 +239,23 @@ class Structure extends Initialize
             if(!$check_flg){
                 exception("添加部门失败!");
             }
+
+            $pids = array_values($check_flg);
+            $pids = array_filter($pids,function($val){
+                $flg = false;
+                if($val){
+                    $flg = true;
+                }
+                return $flg;
+            });
+            array_unshift($pids,$add_flg);
+//            var_exp($pids,'$pids',1);
+            $pids_str = implode(",",$pids);
+            $flg = $struM->setStructure($add_flg,["struct_pids"=>$pids_str]);
+            if(!$flg){
+                exception("更新上级部门时发生错误!");
+            }
+
             $result['data'] = $add_flg;
             if ($is_group) {
                 $huanxin = new HuanxinApi();
@@ -802,9 +819,22 @@ class Structure extends Initialize
                 exception("部门层级达到上限");
             }
 
+            $pids = array_values($check_flg);
+            $pids = array_filter($pids,function($val){
+                $flg = false;
+                if($val){
+                    $flg = true;
+                }
+                return $flg;
+            });
+            array_unshift($pids,$struct_id);
+//            var_exp($pids,'$pids',1);
+            $pids_str = implode(",",$pids);
+            $data['struct_pids'] = $pids_str;
+
             $flg = $struM->setStructure($struct_id,$data);
             if (!$flg) {
-                  exception("跟新部门数据表失败");
+                  exception("更新部门数据表失败");
             }  
         } catch (\Exception $ex) {
             $info['message'] = $ex->getMessage();
