@@ -8,6 +8,7 @@ use app\task\model\EmployeeTask;
 use app\task\model\DayTask;
 use app\common\model\StructureEmployee;
 use app\common\model\Structure;
+use app\common\model\RoleEmployee;
 
 class DataCount{
     protected $uid;
@@ -458,6 +459,34 @@ class DataCount{
         $result['info'] = "获取数据预估成功！";
         $result['data'] = $result_data;
         return $result;
+    }
+    public function get_data_roles(){
+        $data_role = ["self"=>1,"self_struct"=>0,"sub_struct"=>0,"self_and_sub_struct"=>0,"in_struct"=>0,"structs"=>[]];
+        $roleEmployeeM = new RoleEmployee($this->corp_id);
+        $data_role_tmp = $roleEmployeeM->getDataRolebyEmployeeId($this->uid);
+        if(isset($data_role_tmp["self_struct"])){
+            $data_role["self_struct"] = $data_role_tmp["self_struct"]>0?1:0;
+        }
+        if(isset($data_role_tmp["sub_struct"])){
+            $data_role["sub_struct"] = $data_role_tmp["sub_struct"]>0?1:0;
+        }
+        if(isset($data_role_tmp["self_and_sub_struct"])){
+            $data_role["self_and_sub_struct"] = $data_role_tmp["self_and_sub_struct"]>0?1:0;
+        }
+        if(isset($data_role_tmp["in_struct"])){
+            $data_role["in_struct"] = $data_role_tmp["in_struct"]>0?1:0;
+            $structs_str = $data_role_tmp["structs"];
+            $structs = explode(",",$structs_str);
+            $structs = array_filter($structs,function($val){
+                $flg = false;
+                if($val){
+                    $flg = true;
+                }
+                return $flg;
+            });
+            $data_role["structs"] = $structs;
+        }
+        return $data_role;
     }
     public function get_uids($type,$struct_id){
         if($type==0){return [$this->uid];}
