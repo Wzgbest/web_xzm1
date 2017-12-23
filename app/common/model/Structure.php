@@ -79,7 +79,7 @@ class Structure extends Base
         $query = $this->model->table($this->table)->alias('dl1');
         $field = ["dl1.id as id1"];
         for($i=2;$i<=$level_deep;$i++){
-            $query = $query->join($this->dbprefix.'structure dl'.$i,'dl'.$i.'.id = dl'.($i-1).'.struct_pid');
+            $query = $query->join($this->dbprefix.'structure dl'.$i,'dl'.$i.'.id = dl'.($i-1).'.struct_pid','left');
             $field[]="dl".$i.".id as id".$i;
         }
         $level_info = $query
@@ -90,7 +90,28 @@ class Structure extends Base
         if($level_info && $level_info["id".$level_deep]){
             return false;
         }
-        return true;
+        return $level_info;
+    }
+
+    /**
+     * 根据部门ids获取子部门ids
+     * @param $struct_ids array 部门id列表
+     * @return array|false|\PDOStatement|string|\think\Collection
+     * created by messhair
+     */
+    public function getSubStructIdsByStructIds($struct_ids){
+        if(empty($struct_ids)){
+            return [];
+        }
+        $map = [];
+        foreach ($struct_ids as $struct_id){
+            $map[] = " find_in_set(struct_pids,$struct_id) ";
+        }
+        $map_str = implode(" or ",$map);
+        return $this->model->table($this->table)
+            ->where($map_str)
+            ->field('struct_id')
+            ->select();
     }
 
     /**
