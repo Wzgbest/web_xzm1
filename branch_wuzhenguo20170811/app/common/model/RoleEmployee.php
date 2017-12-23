@@ -93,6 +93,29 @@ class RoleEmployee extends Base
     }
 
     /**
+     * 根据用户id字段查询数据权限
+     * @param $userid
+     * @return array|false|\PDOStatement|string|\think\Model
+     * created by messhair
+     */
+    public function getDataRolebyEmployeeId($userid){
+        $field = [
+            "sum(case when r.data_type = 1 then 1 else 0) self_struct",
+            "sum(case when r.data_type = 2 then 1 else 0) sub_struct",
+            "sum(case when r.data_type = 3 then 1 else 0) self_and_sub_struct",
+            "sum(case when r.data_type = 4 then 1 else 0) in_struct",
+            "GROUP_CONCAT(case when r.data_type = 4 then hav_struct else '') structs",
+        ];
+        $role = $this->model->table($this->table)->alias('re')
+            ->join(config('database.prefix').'role r','re.role_id = r.id')
+            ->field($field)
+            ->where('re.user_id',$userid)
+            ->group('re.user_id')
+            ->find();
+        return $role;
+    }
+
+    /**
      * 根据用户id字段聚合查询角色id
      * @param $userid
      * @return array|false|\PDOStatement|string|\think\Model
