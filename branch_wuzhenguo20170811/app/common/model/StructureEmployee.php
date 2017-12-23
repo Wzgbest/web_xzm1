@@ -17,18 +17,19 @@ class StructureEmployee extends Base
 
     /**
      * 根据部门struct_ids获取所有员工id
-     * @param $struct_ids 存放部门信息的ids
-     * @return false|\PDOStatement|string|\think\Collection
+     * @param $struct_ids array 部门id列表
+     * @return array|false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
     public function getEmployeeByStructIds($struct_ids)
     {
+        if(empty($struct_ids)){return [];}
         return $this->model->table($this->table)->where('struct_id','in',$struct_ids)->field('user_id')->select();
     }
 
     /**
      * 根据员工id获取部门ids
-     * @param $user_id 员工id
+     * @param $user_id int 员工id
      * @return false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
@@ -41,7 +42,7 @@ class StructureEmployee extends Base
     /**
      * 根据员工id获取部门ids
      * @param $user_ids array 员工id列表
-     * @return false|\PDOStatement|string|\think\Collection
+     * @return array|false|\PDOStatement|string|\think\Collection
      * created by blu10ph
      */
     public function getStructIdsByEmployeeIds($user_ids)
