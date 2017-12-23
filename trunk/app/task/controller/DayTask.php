@@ -176,6 +176,7 @@ class DayTask extends Initialize{
             return json($result);
         }
         //TODO add || update
+        $flg = true;
 
         return $flg;
     }
