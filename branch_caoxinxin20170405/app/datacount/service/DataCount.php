@@ -465,6 +465,19 @@ class DataCount{
                 break;
             case 1:
                 $uids[] = $this->uid;
+                //TODO 获取对应部门
+                break;
+        }
+        return $uids;
+    }
+    public function get_structs($type,$struct_id){
+        $uids = [];
+        switch ($type){
+            case 0:
+                $uids[] = $this->uid;
+                break;
+            case 1:
+                $uids[] = $this->uid;
                 //TODO 获取对应用户
                 break;
         }

@@ -79,7 +79,7 @@ class Structure extends Base
         $query = $this->model->table($this->table)->alias('dl1');
         $field = ["dl1.id as id1"];
         for($i=2;$i<=$level_deep;$i++){
-            $query = $query->join($this->dbprefix.'structure dl'.$i,'dl'.$i.'.id = dl'.($i-1).'.struct_pid');
+            $query = $query->join($this->dbprefix.'structure dl'.$i,'dl'.$i.'.id = dl'.($i-1).'.struct_pid','left');
             $field[]="dl".$i.".id as id".$i;
         }
         $level_info = $query
@@ -90,7 +90,7 @@ class Structure extends Base
         if($level_info && $level_info["id".$level_deep]){
             return false;
         }
-        return true;
+        return $level_info;
     }
 
     /**
