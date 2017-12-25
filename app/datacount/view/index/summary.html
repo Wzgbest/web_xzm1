@@ -16,7 +16,7 @@
 						<h4 class="fl">{$role}</h4>
 					</div>
 				</div>
-				<div class="u-faceContent2 fl">
+				<div class="u-faceContent2 fl hide">
 					<span class="color-blue">本人<i class="fa fa-angle-down"></i></span>
 					<ul class="hav_power hide">
 						<li class="color-blue" data-type="0">本人</li>
@@ -25,6 +25,15 @@
 						<li class="color-blue" data-type="3">本部门及下级部门</li>
 						<li class="color-blue" data-type="4">xx部门</li>
 					</ul>
+				</div>
+				<div class="u-faceContent2 fl">
+					<select class="hav_power">
+						<option data-type="0">本人</option>
+						<option data-type="1">本部门</option>
+						<option data-type="2">下级部门</option>
+						<option data-type="3">本部门及下级部门</option>
+						<option data-type="4">xx部门</option>
+					</select>
 				</div>
 				<div class="u-faceContent3 fr">
 					<div class="block1">
@@ -47,6 +56,7 @@
 				</div>
 				<div class="clearfix"></div>
 			</div>
+			<!-- 关键指标 -->
 			<div class="m-divBlock m-divBlock2 key-target" style="margin-right: 0">
 				<div class="line1">
 					<span class="title">关键指标</span>
@@ -58,16 +68,152 @@
 					<span class="filter">本年</span>
 					<span class="fr icon c-target-set"><i class="fa fa-cog fa-2x color-blue" title="管理"></i></span>
 				</div>
-				<ul class="line2">
-					<li><h3 class="tc">{$task_data_count.customer.num}</h3><h4 class="tc">新增客户</h4></li>
-					<li><h3 class="tc">{$task_data_count.all_call_num.num}</h3><h4 class="tc">总通话数</h4></li>
-					<li><h3 class="tc">{$task_data_count.valid_call_num.num}</h3><h4 class="tc">有效通话数</h4></li>
-					<li><h3 class="tc">{$task_data_count.sale_chance.num}</h3><h4 class="tc">新增商机</h4></li>
-					<li><h3 class="tc">{$task_data_count.sign_in.num}</h3><h4 class="tc">新增拜访</h4></li>
-					<li><h3 class="tc">{$task_data_count.sale_order.num}</h3><h4 class="tc">新增成单</h4></li>
-					<li><h3 class="tc">{$task_data_count.order_money.num}</h3><h4 class="tc">新增成单金额</h4></li>
+				<ul class="line2">					
+					<li>
+						<h3 class="tc">{$task_data_count.all_call_num.num}</h3>
+						<h4 class="tc">总通话数</h4>
+					</li>
+					<li>
+						<h3 class="tc">{$task_data_count.valid_call_num.num}</h3>
+						<h4 class="tc">有效通话数</h4>
+					</li>
+					<li>
+						<h3 class="tc">{$task_data_count.customer.num}</h3>
+						<h4 class="tc">新增客户</h4>
+					</li>
+					<li>
+						<h3 class="tc">{$task_data_count.sale_chance.num}</h3>
+						<h4 class="tc">新增商机</h4>
+					</li>
+					<li>
+						<h3 class="tc">{$task_data_count.sign_in.num}</h3>
+						<h4 class="tc">新增拜访</h4>
+					</li>
+					<li>
+						<h3 class="tc">{$task_data_count.sale_order.num}</h3>
+						<h4 class="tc">新增成单</h4>
+					</li>
+					<li>
+						<h3 class="tc">{$task_data_count.order_money.num}</h3>
+						<h4 class="tc">新增成单金额</h4>
+					</li>
+					<div class="clearfix"></div>
 				</ul>
 			</div>
+			<!-- 业绩排名 -->
+			<div class="m-divBlock m-divBlock2 grade-rank" style="margin-right: 0">
+				<div class="line1">
+				<span class="title">业绩排名</span>
+					<span class="filter switch-peo current">人</span>
+					<span class="filter switch-dep">部门</span>
+				</div>
+				<ul class="rank-people">					
+					<li>
+						<img class="champion _1st" src="/datacount/img/1st.png">
+						<img class="face" src="/datacount/img/1.jpg">
+						<h4>1&nbsp;猛男史</h4>
+					</li>
+					<li>
+						<img class="champion _2nd" src="/datacount/img/2nd.png">
+						<img class="face" src="/datacount/img/1.jpg">
+						<h4>2&nbsp;猛男史</h4>
+					</li>
+					<li>
+						<img class="champion _3rd" src="/datacount/img/3rd.png">
+						<img class="face" src="/datacount/img/1.jpg">
+						<h4>3&nbsp;猛男史</h4>
+					</li>
+					<li>
+						<img class="face" src="/datacount/img/1.jpg">
+						<h4>4&nbsp;猛男史</h4>
+					</li>
+					<li>
+						<img class="face" src="/datacount/img/1.jpg">
+						<h4>5&nbsp;猛男史</h4>
+					</li>
+					<div class="clearfix"></div>
+				</ul>
+				<ul class="rank-department hide">					
+					<li>
+						<img class="champion _1st" src="/datacount/img/1st.png">
+						<h3>1&nbsp;销售一部</h3>
+					</li>
+					<li>
+						<img class="champion _2nd" src="/datacount/img/2nd.png">
+						<h3>2&nbsp;销售二部</h3>
+					</li>
+					<li>
+						<img class="champion _3rd" src="/datacount/img/3rd.png">
+						<h3>3&nbsp;销售二部</h3>
+					</li>
+					<li>
+						<h3>4&nbsp;销售二部</h3>
+					</li>
+					<div class="clearfix"></div>
+				</ul>
+			</div>
+			<!-- 昨日任务完成情况 -->
+			<div class="m-divBlock m-divBlock2 achievement-yesterday task" style="margin-right: 0">
+				<div class="line1">
+					<span class="title">昨日任务完成情况</span>
+				</div>
+				<div class="m-divBlock m-divBlock3 fl  mar-t-10">
+					<div class="line1 bdn">
+						<span class="title bdn">昨日已完成</span>
+					</div>
+					<div class="table">
+						<ul class="title">
+							<li>序号</li>
+							<li>姓名</li>
+							<li>部门</li>
+							<li>完成时间</li> 	
+						</ul>
+						<div class="tablist-container">
+							<ul class="tablist">
+								<li>1</li>
+								<li>猛男史</li>
+								<li>销售一部</li>
+								<li>10:20:25</li>
+							</ul>
+							<ul class="tablist">
+								<li>2</li>
+								<li>孙大达</li>
+								<li>销售二部</li>
+								<li>10:20:26</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="m-divBlock m-divBlock3 fl mar-r-0 mar-t-10">
+					<div class="line1 bdn">
+						<span class="title bdn">昨日未完成</span>
+					</div>
+					<div class="table">
+						<ul class="title">
+							<li>序号</li>
+							<li>姓名</li>
+							<li>部门</li>
+							<li>完成率</li> 	
+						</ul>
+						<div class="tablist-container">
+							<ul class="tablist">
+								<li>1</li>
+								<li>孙达</li>
+								<li>销售一部</li>
+								<li>90%</li>
+							</ul>
+							<ul class="tablist">
+								<li>2</li>
+								<li>孙大盆</li>
+								<li>销售二部</li>
+								<li>99%</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<!-- 每日任务 -->
 			<div class="task m-divBlock m-divBlock2 mar-r-0 pad-l-0" style="background-color:transparent;box-shadow:none;">
 				<div class="m-divBlock m-divBlock3 fl mar-t-0">
 					<div class="line1">
@@ -191,6 +337,7 @@
 						</div>
 					</div>
 				</div>
+				<div class="clearfix"></div>
 			</div>
 			<div class="m-divBlock m-divBlock2 data-outline mar-r-0 mar-t-0">
 				<div class="line1">
