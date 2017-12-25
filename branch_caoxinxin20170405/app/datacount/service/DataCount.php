@@ -569,7 +569,7 @@ class DataCount{
                 $structs = [["id"=>0,"struct_name"=>"无"]];
                 break;
             case 1:
-                $structs = [$self_structs];
+                $structs = $self_structs;
                 break;
             case 2:
                 $sub_struct_list = $structureM->getSubStructIdsByStructIds($self_structs);
