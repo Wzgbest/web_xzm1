@@ -222,7 +222,7 @@ class Call extends Initialize{
                 }
                 $datacount["uid"] = $this->uid;
                 $datacount["time"] = time();
-                $datacount["type"] = 8;
+                $datacount["type"] = 1;
                 $datacount["link_id"] = $add_flg;
                 $datacount["num"] = $item_temp["end_time"]-$item_temp["begin_time"];
                 $datacountM = new Datacount();
