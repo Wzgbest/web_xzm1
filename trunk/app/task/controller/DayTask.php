@@ -79,6 +79,7 @@ class DayTask extends Initialize{
         $userinfo = get_userinfo();
         $uid = $userinfo["userid"];
         //TODO 设置任务权限校验
+
         $time = time();
         $taskInfo = $this->_getTaskForInput($uid);
         $taskInfo["reward_max_num"] = 0;
@@ -143,6 +144,26 @@ class DayTask extends Initialize{
             return json($result);
         }
     }
+//    public function _get_task_target_by_input(){
+//        $customer = input("customer",0,"int");
+//        $tend_to = input("tend_to",0,"int");
+//        $all_call_num = input("all_call_num",0,"int");
+//        $sale_chance = input("sale_chance",0,"int");
+//        $valid_call_num = input("valid_call_num",0,"int");
+//        $sign_in = input("sign_in",0,"int");
+//        $all_call_time = input("all_call_time",0,"int");
+//        $sale_order = input("sale_order",0,"int");
+//
+//        $task_target_list["customer"] = $customer;
+//        $task_target_list["tend_to"] = $tend_to;
+//        $task_target_list["all_call_num"] = $all_call_num;
+//        $task_target_list["sale_chance"] = $sale_chance;
+//        $task_target_list["valid_call_num"] = $valid_call_num;
+//        $task_target_list["sign_in"] = $sign_in;
+//        $task_target_list["all_call_time"] = $all_call_time;
+//        $task_target_list["sale_order"] = $sale_order;
+//        return $task_target_list;
+//    }
     public function update(){
         $id = input('id',0,'int');
         $public_to_take = input("public_to_take","","string");
@@ -151,23 +172,50 @@ class DayTask extends Initialize{
             return json($result);
         }
         //TODO 设置任务权限校验
-        $take_flg = $this->_update_employee_take($id,$public_to_take);
+
+        //TODO 保存任务参数
+
+        $taskTargetInfos = $this->_getTaskTargetForInput();
+//        var_exp($taskTargetInfos,'$taskTargetInfos',1);
+
+        $take_flg = $this->_update_employee_day_task($public_to_take,$taskTargetInfos);
         if(!$take_flg){
-            $this->error("");
+            $result['info'] = "更新所选员工每日任务时发生错误！";
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "更新所选员工每日任务成功！";
+        return json($result);
+    }
+    public function update_one(){
+        $employee_id = input('employee_id',0,'int');
+        if(!$employee_id){
+            $result['info'] = "参数错误！";
+            return json($result);
+        }
+        //TODO 设置任务权限校验
+
+        $taskTargetInfos = $this->_getTaskTargetForInput();
+//        var_exp($taskTargetInfos,'$taskTargetInfos',1);
+
+        $take_flg = $this->_update_employee_day_task([$employee_id],$taskTargetInfos);
+        if(!$take_flg){
             $result['info'] = "更新员工每日任务时发生错误！";
             return json($result);
         }
+
         $result['status'] = 1;
         $result['info'] = "更新员工每日任务成功！";
         return json($result);
     }
-    public function _update_employee_take($task_id,$public_to_take,$task_target_list=null){
+    public function _update_day_take_by_id($id,$taskTargetInfos){
+        $map["et.id"] = $id;
+        return $this->_update_day_take($map,$taskTargetInfos);
+    }
+    public function _update_employee_day_task($public_to_take,$taskTargetInfos){
         $flg = false;
         if(!is_array($public_to_take)){
             $public_to_take = explode(",",$public_to_take);
-        }
-        if(empty($task_target_list)){
-            $task_target_list = [];//TODO $task_id
         }
         //检测员工任务是否重复
         $check_flg = $this->_check_take($public_to_take);
@@ -180,6 +228,9 @@ class DayTask extends Initialize{
 
         return $flg;
     }
+    public function _update_day_take($map,$taskTargetInfos){
+        //TODO del target && add target
+    }
     public function del(){
         $result = ['status'=>0 ,'info'=>"删除每日任务失败!"];
         $task_id = input('task_id',0,"int");
@@ -187,6 +238,7 @@ class DayTask extends Initialize{
             $result['info'] = "参数错误！";
             return json($result);
         }
+        //TODO 设置任务权限校验
         $task_info["status"] = 0;
         $employeeTaskM = new EmployeeTaskModel($this->corp_id);
         $flg = $employeeTaskM->setTaskInfo($task_id,$task_info);
