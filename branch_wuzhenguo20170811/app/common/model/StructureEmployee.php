@@ -21,10 +21,18 @@ class StructureEmployee extends Base
      * @return array|false|\PDOStatement|string|\think\Collection
      * created by messhair
      */
-    public function getEmployeeByStructIds($struct_ids)
+    public function getEmployeeByStructIds($struct_ids,$employee_name='')
     {
         if(empty($struct_ids)){return [];}
-        return $this->model->table($this->table)->where('struct_id','in',$struct_ids)->field('user_id')->select();
+        $map["se.struct_id"] = ["in",$struct_ids];
+        if(!empty($employee_name)){
+            $map["e.truename"] = $employee_name;
+        }
+        return $this->model->table($this->table)->alias('se')
+            ->join(config('database.prefix').'employee e','se.user_id = e.id')
+            ->where($map)
+            ->field('user_id')
+            ->select();
     }
 
     /**
