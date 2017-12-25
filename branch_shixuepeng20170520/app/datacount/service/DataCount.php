@@ -460,6 +460,31 @@ class DataCount{
         $result['data'] = $result_data;
         return $result;
     }
+    public function get_data_role_uids($employee_name){
+        $data_role = $this->get_data_roles();
+        $structs = $this->get_data_role_structs($data_role);
+        $structureEmployeeM = new StructureEmployee($this->corp_id);
+        $uid_list = $structureEmployeeM->getEmployeeByStructIds($structs,$employee_name);
+        $uids = array_column($uid_list,"user_id");
+        return $uids;
+    }
+    public function get_data_role_structs($data_role){
+        $structs = [];
+        $structureEmployeeM = new StructureEmployee($this->corp_id);
+        $self_struct_list = $structureEmployeeM->getStructIdsByEmployee($this->uid);
+        $self_structs = array_column($self_struct_list,"struct_id");
+//        var_exp($self_structs,'$self_structs');
+        if($data_role["self_struct"]||$data_role["self_and_sub_struct"]){
+            $structs = [$self_structs];
+        }
+        if($data_role["sub_struct"]||$data_role["self_and_sub_struct"]){
+            $structureM = new Structure($this->corp_id);
+            $sub_struct_list = $structureM->getSubStructIdsByStructIds($self_structs);
+            $sub_structs = array_column($sub_struct_list,"id");
+            $structs = array_merge_recursive($self_structs,$sub_structs);
+        }
+        return $structs;
+    }
     public function get_data_roles(){
         $data_role = ["self"=>1,"self_struct"=>0,"sub_struct"=>0,"self_and_sub_struct"=>0,"in_struct"=>0,"structs"=>[]];
         $roleEmployeeM = new RoleEmployee($this->corp_id);
@@ -497,14 +522,16 @@ class DataCount{
             $structs = $this->get_structs($type,$struct_id);
         }
         $structureEmployeeM = new StructureEmployee($this->corp_id);
-        $uids = $structureEmployeeM->getEmployeeByStructIds($structs);
+        $uid_list = $structureEmployeeM->getEmployeeByStructIds($structs);
+        $uids = array_column($uid_list,"user_id");
         return $uids;
     }
     public function get_structs($type,$struct_id){
         $structs = [];
         $structureEmployeeM = new StructureEmployee($this->corp_id);
         $structureM = new Structure($this->corp_id);
-        $self_structs = $structureEmployeeM->getStructIdsByEmployee($this->uid);
+        $self_struct_list = $structureEmployeeM->getStructIdsByEmployee($this->uid);
+        $self_structs = array_column($self_struct_list,"struct_id");
         switch ($type){
             case 0:
                 $structs = [["id"=>0,"struct_name"=>"无"]];
@@ -513,11 +540,13 @@ class DataCount{
                 $structs = [$self_structs];
                 break;
             case 2:
-                $sub_structs = $structureM->getSubStructIdsByStructIds($self_structs);
+                $sub_struct_list = $structureM->getSubStructIdsByStructIds($self_structs);
+                $sub_structs = array_column($sub_struct_list,"id");
                 $structs = $sub_structs;
                 break;
             case 3:
-                $sub_structs = $structureM->getSubStructIdsByStructIds($self_structs);
+                $sub_struct_list = $structureM->getSubStructIdsByStructIds($self_structs);
+                $sub_structs = array_column($sub_struct_list,"id");
                 $structs = array_merge_recursive($self_structs,$sub_structs);
                 break;
             case 4:
