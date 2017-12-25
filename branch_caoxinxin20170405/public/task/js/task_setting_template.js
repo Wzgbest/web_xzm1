@@ -1,6 +1,7 @@
 //新模板保存的提交事件
 $(".daily-task-template .new-template-pop-footer .pop-submit-btn").click(function () {
-	let self = this;
+	let page = $(this).parents(".once").attr("id");
+	console.log(page);
 	let task_name = $(".new-template-pop .object .staff").val();
 	let task_time = "";
 	let public_to_take="";
@@ -27,7 +28,8 @@ $(".daily-task-template .new-template-pop-footer .pop-submit-btn").click(functio
         success: function(data) {
             layer.msg(data.info,{icon:1});
             $(".daily-task-template").addClass("hide").empty();
-            loadPage("/task/setting/index.html", "setting_taskfr");
+            // loadPage("/task/setting/index.html", "setting_taskfr");
+            reloadPage(page);
         },
         error: function() {
             layer.msg('保存失败',{icon:2});
