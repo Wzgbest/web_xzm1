@@ -100,11 +100,11 @@ class RoleEmployee extends Base
      */
     public function getDataRolebyEmployeeId($userid){
         $field = [
-            "sum(case when r.data_type = 1 then 1 else 0) self_struct",
-            "sum(case when r.data_type = 2 then 1 else 0) sub_struct",
-            "sum(case when r.data_type = 3 then 1 else 0) self_and_sub_struct",
-            "sum(case when r.data_type = 4 then 1 else 0) in_struct",
-            "GROUP_CONCAT(case when r.data_type = 4 then hav_struct else '') structs",
+            "sum(case when r.data_type = 1 then 1 else 0 end) self_struct",
+            "sum(case when r.data_type = 2 then 1 else 0 end) sub_struct",
+            "sum(case when r.data_type = 3 then 1 else 0 end) self_and_sub_struct",
+            "sum(case when r.data_type = 4 then 1 else 0 end) in_struct",
+            "GROUP_CONCAT(case when r.data_type = 4 then hav_struct else '' end) structs",
         ];
         $role = $this->model->table($this->table)->alias('re')
             ->join(config('database.prefix').'role r','re.role_id = r.id')
