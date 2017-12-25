@@ -1492,6 +1492,17 @@ class SaleChance extends Initialize{
             if(!$saleChanceflg){
                 exception("更新签到状态失败!");
             }
+
+            $datacount["uid"] = $this->uid;
+            $datacount["time"] = time();
+            $datacount["type"] = 5;
+            $datacount["link_id"] = $customer_id;
+            $datacount["num"] = 1;
+            $datacountM = new Datacount();
+            $data_count_flg  = $datacountM->addDatacount($datacount);
+            if(!$data_count_flg){
+                exception('添加通话统计失败!');
+            }
             
             $saleChanceSignInM->link->commit();
             $result['data'] = $saleChanceflg;

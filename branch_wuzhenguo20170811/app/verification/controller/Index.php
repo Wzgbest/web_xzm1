@@ -15,6 +15,7 @@ use app\common\model\Structure as StructureModel;
 use app\systemsetting\model\BusinessFlow as BusinessFlowModel;
 use app\verification\model\VerificatioLog;
 use app\crm\model\SaleChance as SaleChanceModel;
+use app\datacount\model\Datacount;
 
 class Index extends Initialize{
     protected $_activityBusinessFlowItem = [1,2,4];
@@ -269,6 +270,18 @@ class Index extends Initialize{
                 $saleOrderContractFlg = $saleOrderContractM->approvedSaleOrderContract($id,$applied_data,$map);
                 if(!$saleOrderContractFlg){
                     $result['info'] = "审批失败！!";
+                    return json($result);
+                }
+
+                $datacount["uid"] = $this->uid;
+                $datacount["time"] = time();
+                $datacount["type"] = 3;
+                $datacount["link_id"] = $id;
+                $datacount["num"] = $saleOrderContract["final_money"];
+                $datacountM = new Datacount();
+                $data_count_flg  = $datacountM->addDatacount($datacount);
+                if(!$data_count_flg){
+                    $result['info'] = "添加成单统计失败!";
                     return json($result);
                 }
                 
