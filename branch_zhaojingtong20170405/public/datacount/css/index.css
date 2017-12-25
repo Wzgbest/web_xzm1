@@ -286,6 +286,21 @@ height: 25px; */
 .summary .key-target{
 	height: 150px;
 }
+.summary .key-target .bar{
+	display: inline-block;
+	position: relative;
+	width: 80px;
+	height: 8px;
+	background-color: #e6e6e6;
+}
+.summary .key-target .bar span{
+	display: inline-block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 8px;
+	background-color: #9cd95b;
+}
 .line1{
 	height: 35px;
 	margin-top: 10px;

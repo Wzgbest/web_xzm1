@@ -180,25 +180,19 @@ function loadPage(url, panel) {
     });
 }
 function reloadPage(e) {
-    //获取当前页
     let url = $(".ddcurrent").attr("_src");
-    let fram = $(e).parents(".once");
-    console.log($(".ddcurrent").attr("_src"));
-    console.log(fram);
     $.ajax({
         url: url,
         type: 'get',
         async: false,
         success: function(data) {
-            fram.empty();
-            fram.html(data);
+             $('#frames #' + e).html(data);
             changeFramesSize();
         },
         error: function() {
             fram.html("页面加载时发生错误!");
         }
     });
-    // body...
 }
 function loadPagebypost(url, data, panel) {
     $.ajax({
