@@ -64,16 +64,16 @@ class Setting extends Initialize{
     }
     public function task_list(){
         $employee_name = input("employee_name","","string");
-        $userinfo = get_userinfo();
-        $uid = $userinfo["userid"];
-        $dayTaskM = new DayTaskModel($this->corp_id);
-        $employee_ids = [1,2,3,4,5,6,7,8,9];//TODO 获取员工
+//        $userinfo = get_userinfo();
+//        $uid = $userinfo["userid"];
+        $employee_ids = $this->dataCountSrv->get_data_role_uids($employee_name);//获取员工
         $time = 1;
         $start_time = 0;
         $end_time = 0;
         list($start_time,$end_time) = $this->dataCountSrv->get_times($time,$start_time,$end_time);
         $data_count = $this->dataCountSrv->get_employee_data_count($employee_ids,$start_time,$end_time);
 //        var_exp($data_count,'$data_count');
+        $dayTaskM = new DayTaskModel($this->corp_id);
         $dayTaskInfos = $dayTaskM->getDayTaskEmployeeByCreateEmployee(4,$employee_ids);
 //        var_exp($dayTaskInfos,'$dayTaskInfos');
         $employee_day_task_list = [];
