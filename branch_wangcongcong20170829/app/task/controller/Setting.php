@@ -64,8 +64,6 @@ class Setting extends Initialize{
     }
     public function task_list(){
         $employee_name = input("employee_name","","string");
-//        $userinfo = get_userinfo();
-//        $uid = $userinfo["userid"];
         $employee_ids = $this->dataCountSrv->get_data_role_uids($employee_name);//获取员工
         $time = 1;
         $start_time = 0;
