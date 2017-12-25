@@ -18,6 +18,7 @@ use app\common\model\RoleRule;
 use app\index\service\TQCallApi;
 use app\index\model\SystemMessage as SystemMessageModel;
 use app\crm\model\CallRecord;
+use app\datacount\model\Datacount;
 
 class Call extends Initialize{
     public function _initialize(){
@@ -160,61 +161,89 @@ class Call extends Initialize{
         }
 //        var_exp($size,'$size');
 
-        $call_record_list = [];
-        for ($i=1;$i<=$size;$i++){
-            $tag = "ID".$i;
-            //var_exp($tag,'$tag');
-            $item = $json_obj[$tag];
-//            var_exp($item,'$item');
-            $mapped = [
-                "start_time"=>"begin_time"
-            ];
-            $default = [
-                "insert_time"=>0,
-                "call_style"=>0,
-                "call_type"=>0,
-                "client_uin"=>0,
-                "client_id"=>0,
-                "is_called_phone"=>0,
-                "serialno"=>0,
-                "area_id"=>0,
-                "seatid"=>0,
-                "pathway"=>0,
-                "caller_queue_time"=>0,
-                "caller_stime"=>0,
-                "hangup_side"=>0,
-                "phone_create_time"=>0,
-                "phone_hangup_time"=>0,
-            ];
-            $item_temp["userid"] = $this->uid;
-            $item_temp["customer_id"] = 0;
-            $item_temp["contactor_id"] = 0;
-            $item_temp["is_customer"] = 0;
-            foreach ($item as $item_field=>$item_value){
-                $field = strtolower($item_field);
-                $field_name = $field;
-                if(isset($mapped[$field])){
-                    $field_name = $mapped[$field];
-                }
-                if(is_array($item_value)&&empty($item_value)){
-                    if(isset($default[$field_name])){
-                        $item_value = $default[$field_name];
-                    }else{
-                        $item_value = '';
-                    }
-                }
-                $item_temp[$field_name] = $item_value;
-            }
-            $item_temp["main_phone"] = $item_temp["caller_id"];
-//            var_exp($item_temp,'$item_temp');
-            $call_record_list[] = $item_temp;
-        }
+        try{
+            $callRecord->link->startTrans();
 
-//        var_exp($call_record_list,'$call_record_list');
-        $add_flg = $callRecord->addCallRecordList($call_record_list);
-        //            var_exp($add_flg,'$add_flg');
-        if(!$add_flg) {
-            $result["info"] = "保存TQ通话记录到数据库时发生错误!";
+    //        $call_record_list = [];
+            for ($i=1;$i<=$size;$i++){
+                $tag = "ID".$i;
+                //var_exp($tag,'$tag');
+                $item = $json_obj[$tag];
+    //            var_exp($item,'$item');
+                $mapped = [
+                    "start_time"=>"begin_time"
+                ];
+                $default = [
+                    "insert_time"=>0,
+                    "call_style"=>0,
+                    "call_type"=>0,
+                    "client_uin"=>0,
+                    "client_id"=>0,
+                    "is_called_phone"=>0,
+                    "serialno"=>0,
+                    "area_id"=>0,
+                    "seatid"=>0,
+                    "pathway"=>0,
+                    "caller_queue_time"=>0,
+                    "caller_stime"=>0,
+                    "hangup_side"=>0,
+                    "phone_create_time"=>0,
+                    "phone_hangup_time"=>0,
+                ];
+                $item_temp["userid"] = $this->uid;
+                $item_temp["customer_id"] = 0;
+                $item_temp["contactor_id"] = 0;
+                $item_temp["is_customer"] = 0;
+                foreach ($item as $item_field=>$item_value){
+                    $field = strtolower($item_field);
+                    $field_name = $field;
+                    if(isset($mapped[$field])){
+                        $field_name = $mapped[$field];
+                    }
+                    if(is_array($item_value)&&empty($item_value)){
+                        if(isset($default[$field_name])){
+                            $item_value = $default[$field_name];
+                        }else{
+                            $item_value = '';
+                        }
+                    }
+                    $item_temp[$field_name] = $item_value;
+                }
+                $item_temp["main_phone"] = $item_temp["caller_id"];
+    //            var_exp($item_temp,'$item_temp');
+//                $call_record_list[] = $item_temp;
+
+
+                $add_flg = $callRecord->addCallRecord($item_temp);
+                //            var_exp($add_flg,'$add_flg');
+                if(!$add_flg) {
+                    $result["info"] = "保存TQ通话记录到数据库时发生错误!";
+                    return json($result);
+                }
+                $datacount["uid"] = $this->uid;
+                $datacount["time"] = time();
+                $datacount["type"] = 8;
+                $datacount["link_id"] = $add_flg;
+                $datacount["num"] = $item_temp["end_time"]-$item_temp["begin_time"];
+                $datacountM = new Datacount();
+                $data_count_flg  = $datacountM->addDatacount($datacount);
+                if(!$data_count_flg){
+                    exception('添加通话统计失败!');
+                }
+            }
+
+//    //        var_exp($call_record_list,'$call_record_list');
+//            $add_flg = $callRecord->addCallRecordList($call_record_list);
+//            //            var_exp($add_flg,'$add_flg');
+//            if(!$add_flg) {
+//                $result["info"] = "保存TQ通话记录到数据库时发生错误!";
+//                return json($result);
+//            }
+
+            $callRecord->link->commit();
+        }catch (\Exception $ex){
+            $callRecord->link->rollback();
+            $result['info'] = $ex->getMessage();
             return json($result);
         }
 
