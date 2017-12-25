@@ -178,7 +178,7 @@ class DayTask extends Initialize{
         $taskTargetInfos = $this->_getTaskTargetForInput();
 //        var_exp($taskTargetInfos,'$taskTargetInfos',1);
 
-        $take_flg = $this->_update_employee_take($public_to_take,$taskTargetInfos);
+        $take_flg = $this->_update_employee_day_task($public_to_take,$taskTargetInfos);
         if(!$take_flg){
             $result['info'] = "更新所选员工每日任务时发生错误！";
             return json($result);
@@ -198,7 +198,7 @@ class DayTask extends Initialize{
         $taskTargetInfos = $this->_getTaskTargetForInput();
 //        var_exp($taskTargetInfos,'$taskTargetInfos',1);
 
-        $take_flg = $this->_update_employee_take([$employee_id],$taskTargetInfos);
+        $take_flg = $this->_update_employee_day_task([$employee_id],$taskTargetInfos);
         if(!$take_flg){
             $result['info'] = "更新员工每日任务时发生错误！";
             return json($result);
@@ -208,7 +208,11 @@ class DayTask extends Initialize{
         $result['info'] = "更新员工每日任务成功！";
         return json($result);
     }
-    public function _update_employee_take($public_to_take,$taskTargetInfos){
+    public function _update_day_take_by_id($id,$taskTargetInfos){
+        $map["et.id"] = $id;
+        return $this->_update_day_take($map,$taskTargetInfos);
+    }
+    public function _update_employee_day_task($public_to_take,$taskTargetInfos){
         $flg = false;
         if(!is_array($public_to_take)){
             $public_to_take = explode(",",$public_to_take);
@@ -223,6 +227,9 @@ class DayTask extends Initialize{
         $flg = true;
 
         return $flg;
+    }
+    public function _update_day_take($map,$taskTargetInfos){
+        //TODO del target && add target
     }
     public function del(){
         $result = ['status'=>0 ,'info'=>"删除每日任务失败!"];

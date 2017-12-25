@@ -287,6 +287,37 @@ class DataCount{
         $result['data'] = $result_data;
         return $result;
     }
+    public function get_achivement($start_time,$end_time,$show_type){
+        $result_data = [];
+        $result = ['status'=>0 ,'info'=>"获取业绩排行时发生错误！","data"=>$result_data];
+        $type = "order_money";
+        $field = $this->name_type_field_idx[$type];
+        $type_id = $field[0];
+        $datacount = [];
+        $datacountM = new DatacountModel();
+        if($show_type==1){
+            $uids = $this->get_data_role_uids("");
+//            var_exp($uids,'$uids');
+            $datacount = $datacountM->getTypeEmployeeDataCount($type_id,$uids,$start_time,$end_time,$field[1]);
+        }elseif($show_type==2){
+            $data_role = $this->get_data_roles();
+            $structs = $this->get_data_role_structs($data_role);
+//            var_exp($structs,'$structs');
+            $datacount = $datacountM->getTypeStructDataCount($type_id,$structs,$start_time,$end_time,$field[1]);
+        }
+//        var_exp($datacount,'$datacount',1);
+        foreach ($datacount as $dataitem){
+            $item_temp["id"] = $dataitem["flg"];
+            $item_temp["name"] = $dataitem["flg_name"];
+            $item_temp["img"] = $dataitem["flg_img"];
+            $item_temp["data"] = $dataitem[$field[1]];
+            $result_data[] = $item_temp;
+        }
+        $result['status'] = 1;
+        $result['info'] = "获取业绩排行成功！";
+        $result['data'] = $result_data;
+        return $result;
+    }
     public function get_employee_task($uids){
         $employeeTaskList = [];
         $result = ['status'=>0 ,'info'=>"获取员工任务时发生错误！","data"=>$employeeTaskList];
@@ -466,6 +497,7 @@ class DataCount{
         $structureEmployeeM = new StructureEmployee($this->corp_id);
         $uid_list = $structureEmployeeM->getEmployeeByStructIds($structs,$employee_name);
         $uids = array_column($uid_list,"user_id");
+        $uids = array_unique($uids);
         return $uids;
     }
     public function get_data_role_structs($data_role){
