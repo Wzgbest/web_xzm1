@@ -107,48 +107,22 @@
 					<span class="filter switch-peo current">人</span>
 					<span class="filter switch-dep">部门</span>
 				</div>
-				<ul class="rank-people">					
+				<ul class="rank-people">
+					{volist name="employee_achivement" id="vo"}
 					<li>
-						<img class="champion _1st" src="/datacount/img/1st.png">
-						<img class="face" src="/datacount/img/1.jpg">
-						<h4>1&nbsp;猛男史</h4>
+						<img class="champion order_{$key}" src="{$vo.img}">
+						<h3 data-id="{$vo.id}">{$key}&nbsp;{$vo.name}</h3>
 					</li>
-					<li>
-						<img class="champion _2nd" src="/datacount/img/2nd.png">
-						<img class="face" src="/datacount/img/1.jpg">
-						<h4>2&nbsp;猛男史</h4>
-					</li>
-					<li>
-						<img class="champion _3rd" src="/datacount/img/3rd.png">
-						<img class="face" src="/datacount/img/1.jpg">
-						<h4>3&nbsp;猛男史</h4>
-					</li>
-					<li>
-						<img class="face" src="/datacount/img/1.jpg">
-						<h4>4&nbsp;猛男史</h4>
-					</li>
-					<li>
-						<img class="face" src="/datacount/img/1.jpg">
-						<h4>5&nbsp;猛男史</h4>
-					</li>
+					{/volist}
 					<div class="clearfix"></div>
 				</ul>
-				<ul class="rank-department hide">					
+				<ul class="rank-department hide">
+					{volist name="struct_achivement" id="vo"}
 					<li>
-						<img class="champion _1st" src="/datacount/img/1st.png">
-						<h3>1&nbsp;销售一部</h3>
+						<img class="champion order_{$key}" src="/datacount/img/1st.png">
+						<h3 data-id="{$vo.id}">{$key}&nbsp;{$vo.name}</h3>
 					</li>
-					<li>
-						<img class="champion _2nd" src="/datacount/img/2nd.png">
-						<h3>2&nbsp;销售二部</h3>
-					</li>
-					<li>
-						<img class="champion _3rd" src="/datacount/img/3rd.png">
-						<h3>3&nbsp;销售二部</h3>
-					</li>
-					<li>
-						<h3>4&nbsp;销售二部</h3>
-					</li>
+					{/volist}
 					<div class="clearfix"></div>
 				</ul>
 			</div>

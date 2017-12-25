@@ -19,6 +19,9 @@ class Datacount extends Base{
     }
 
     public function getDataCount($uids,$start_time,$end_time){
+        if(empty($uids)){
+            return [];
+        }
         $map["uid"] = ["in",$uids];
         $map["time"] = [
             ["egt",$start_time],
@@ -34,6 +37,9 @@ class Datacount extends Base{
     }
 
     public function getEmployeeDataCount($uids,$start_time,$end_time){
+        if(empty($uids)){
+            return [];
+        }
         $map["uid"] = ["in",$uids];
         $map["time"] = [
             ["egt",$start_time],
@@ -50,6 +56,9 @@ class Datacount extends Base{
     }
 
     public function getTypeDataCount($type,$uids,$start_time,$end_time){
+        if(empty($uids)){
+            return [];
+        }
         $map["type"] = ["eq",$type];
         $map["uid"] = ["in",$uids];
         $map["time"] = [
@@ -65,7 +74,75 @@ class Datacount extends Base{
         return $result_data;
     }
 
+    public function getTypeEmployeeDataCount($type,$uids,$start_time,$end_time,$order="num"){
+        if(empty($uids)){
+            return [];
+        }
+        $map["type"] = ["eq",$type];
+        $map["uid"] = ["in",$uids];
+        $map["time"] = [
+            ["egt",$start_time],
+            ["elt",$end_time]
+        ];
+        $group="uid";
+        $field = [
+            "type",
+            "uid flg",
+            "e.truename flg_name",
+            "e.userpic flg_img",
+            "count(d.id) num",
+            "sum(num) sum_num",
+            "sum(case when type = 1 and num > 30 then 1 else 0 end) tag_num",
+            "sum(case when type = 1 and num > 30 then num else 0 end) tag_sum"
+        ];
+        $result_data = $this->model->table($this->table)->alias('d')
+            ->join($this->dbprefix.'employee e','d.uid = e.id',"left")
+            ->where($map)
+            ->group($group)
+//            ->fetchSql(true)
+            ->field($field)
+            ->order($order)
+            ->select();
+        return $result_data;
+    }
+
+    public function getTypeStructDataCount($type,$structs,$start_time,$end_time,$order="num"){
+        if(empty($structs)){
+            return [];
+        }
+        $map["type"] = ["eq",$type];
+        $map["struct_id"] = ["in",$structs];
+        $map["time"] = [
+            ["egt",$start_time],
+            ["elt",$end_time]
+        ];
+        $group="struct_id";
+        $field = [
+            "type",
+            "struct_id flg",
+            "s.struct_name flg_name",
+            "'' flg_img",
+            "count(d.id) num",
+            "sum(num) sum_num",
+            "sum(case when type = 1 and num > 30 then 1 else 0 end) tag_num",
+            "sum(case when type = 1 and num > 30 then num else 0 end) tag_sum"
+        ];
+        $result_data = $this->model->table($this->table)->alias('d')
+            ->join($this->dbprefix."structure_employee se","se.user_id = d.uid","left")
+            ->join($this->dbprefix.'structure s','se.struct_id = s.id',"left")
+            ->where($map)
+            ->group($group)
+//            ->fetchSql(true)
+            ->field($field)
+            ->order($order)
+            ->select();
+        return $result_data;
+    }
+
     public function getDatacountMonth($uids,$start_time,$end_time){
+        if(empty($uids)){
+            return [];
+        }
         $map["uid"] = ["in",$uids];
         $map["time"] = [
             ["egt",$start_time],
@@ -84,6 +161,9 @@ class Datacount extends Base{
     }
 
     public function getDatacountSeason($uids,$start_time,$end_time){
+        if(empty($uids)){
+            return [];
+        }
         $map["uid"] = ["in",$uids];
         $map["time"] = [
             ["egt",$start_time],
@@ -102,6 +182,9 @@ class Datacount extends Base{
     }
 
     public function getDatacountYear($uids,$start_time,$end_time){
+        if(empty($uids)){
+            return [];
+        }
         $map["uid"] = ["in",$uids];
         $map["time"] = [
             ["egt",$start_time],
