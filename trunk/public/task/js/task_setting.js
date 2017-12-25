@@ -50,7 +50,7 @@ $(".task_setting_index .daily-task .panel-name li .fa-close").click(function () 
         success: function(data) {
             console.log(data);
             layer.msg(data.info,{icon:1});
-            loadPage("/task/setting/index.html", "setting_taskfr");
+            reloadPage("setting_taskfr");
         },
         error: function() {
             layer.msg('删除失败',{icon:2});
