@@ -110,7 +110,7 @@ class Structure extends Base
         $map_str = implode(" or ",$map);
         return $this->model->table($this->table)
             ->where($map_str)
-            ->field('struct_id')
+            ->field('id')
             ->select();
     }
 
