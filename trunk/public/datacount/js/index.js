@@ -65,3 +65,14 @@ function foo(){
 	    }
 	});
 }
+// 业绩排名的切换
+$(".datacount_summary .grade-rank .switch-peo").click(function () {
+	$(this).addClass("current").siblings().removeClass("current");
+	$(".datacount_summary .grade-rank .rank-people").removeClass("hide");
+	$(".datacount_summary .grade-rank .rank-department").addClass("hide");
+});
+$(".datacount_summary .grade-rank .switch-dep").click(function () {
+	$(this).addClass("current").siblings().removeClass("current");
+	$(".datacount_summary .grade-rank .rank-people").addClass("hide");
+	$(".datacount_summary .grade-rank .rank-department").removeClass("hide");
+});
