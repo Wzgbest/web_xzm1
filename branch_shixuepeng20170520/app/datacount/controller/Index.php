@@ -86,6 +86,13 @@ class Index extends Initialize{
         $day_task_count = $this->dataCountSrv->get_day_task_count($day_task["data"],$data_count["data"]);
         $this->assign("task_data_count",$day_task_count);
 
+        $employee_achivement = $this->dataCountSrv->get_achivement($start_time,$end_time,1);
+//        var_exp($employee_achivement,'$employee_achivement');
+        $this->assign("employee_achivement",$employee_achivement["data"]);
+        $struct_achivement = $this->dataCountSrv->get_achivement($start_time,$end_time,2);
+//        var_exp($struct_achivement,'$struct_achivement');
+        $this->assign("struct_achivement",$struct_achivement["data"]);
+
         $employee_task = $this->dataCountSrv->get_employee_task($uids);
         foreach ($employee_task["data"] as &$employee_task_item){
             $datacount_type = 0;
