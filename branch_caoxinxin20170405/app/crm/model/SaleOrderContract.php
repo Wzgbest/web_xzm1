@@ -530,7 +530,11 @@ class SaleOrderContract extends Base{
      */
     public function getSaleOrderContract($id)
     {
-        return $this->model->table($this->table)->where('id',$id)->find();
+        return $this->model->table($this->table)->alias('soc')
+            ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
+            ->where('id',$id)
+            ->field("soc.*,sc.final_money")
+            ->find();
     }
 
     /**获取
