@@ -265,4 +265,24 @@ class Index extends Initialize{
         $result['data'] = $data_overview["data"];
         return json($result);
     }
+
+    public function mDataCount(){
+        $result = ['status'=>0 ,'info'=>"获取数据时发生错误！"];
+        $type = input("type",0,"int");//1员工2部门
+
+        $time = input("time",0,"int");
+        $start_time = input("start_time",0,"int");
+        $end_time = input("end_time",0,"int");
+        list($start_time,$end_time) = $this->dataCountSrv->get_times($time,$start_time,$end_time);
+        $data_count = $this->dataCountSrv->get_all_data_count($type,$start_time,$end_time);
+        if($data_count["status"]!=1){
+            $result['status'] = $data_count["status"];
+            $result['info'] = $data_count["info"];
+            return json($result);
+        }
+        $result['status'] = 1;
+        $result['info'] = "获取数据关键指标成功！";
+        $result['data'] = $data_count["data"];
+        return json($result);
+    }
 }
