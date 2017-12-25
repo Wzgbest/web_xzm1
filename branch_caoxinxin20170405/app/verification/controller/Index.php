@@ -281,7 +281,8 @@ class Index extends Initialize{
                 $datacountM = new Datacount();
                 $data_count_flg  = $datacountM->addDatacount($datacount);
                 if(!$data_count_flg){
-                    exception('添加成单统计失败!');
+                    $result['info'] = "添加成单统计失败!";
+                    return json($result);
                 }
                 
                 $verificatioLogRemark .= "审核最终通过!";

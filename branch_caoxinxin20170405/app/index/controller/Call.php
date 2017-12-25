@@ -228,7 +228,8 @@ class Call extends Initialize{
                 $datacountM = new Datacount();
                 $data_count_flg  = $datacountM->addDatacount($datacount);
                 if(!$data_count_flg){
-                    exception('添加通话统计失败!');
+                    $result["info"] = "添加通话统计失败!";
+                    return json($result);
                 }
             }
 

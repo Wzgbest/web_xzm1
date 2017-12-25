@@ -532,7 +532,7 @@ class SaleOrderContract extends Base{
     {
         return $this->model->table($this->table)->alias('soc')
             ->join($this->dbprefix.'sale_chance sc','sc.id = soc.sale_id',"LEFT")
-            ->where('id',$id)
+            ->where('soc.id',$id)
             ->field("soc.*,sc.final_money")
             ->find();
     }
