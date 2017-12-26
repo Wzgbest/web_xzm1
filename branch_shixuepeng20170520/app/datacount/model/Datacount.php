@@ -54,6 +54,33 @@ class Datacount extends Base{
             ->select();
         return $result_data;
     }
+    public function getAllDataCount($type,$start_time,$end_time){
+        $map["time"] = [
+            ["egt",$start_time],
+            ["elt",$end_time]
+        ];
+        if ($type == 1) {
+            $group = "uid,type";
+            $result_data = $this->model->table($this->table)->alias('d')
+                ->join($this->dbprefix."employee e","e.id = d.uid","LEFT")
+                ->where($map)
+                ->group($group)
+    //            ->fetchSql(true)
+                ->field("uid,type,count(d.id) num,sum(num) sum_num,sum(case when type = 1 and num > 30 then 1 else 0 end) tag_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_sum,e.truename,e.telephone,e.userpic")
+                ->select();
+        }else{
+            $group = "se.struct_id,d.type";
+            $result_data = $this->model->table($this->table)->alias('d')
+                ->join($this->dbprefix."structure_employee se","se.user_id = d.uid","LEFT")
+                ->join($this->dbprefix."structure e","e.id = se.struct_id","LEFT")
+                ->where($map)
+                ->group($group)
+    //            ->fetchSql(true)
+                ->field("se.struct_id,uid,type,count(d.id) num,sum(num) sum_num,sum(case when type = 1 and num > 30 then 1 else 0 end) tag_num,sum(case when type = 1 and num > 30 then num else 0 end) tag_sum,e.struct_name")
+                ->select();
+        }
+        return $result_data;
+    }
 
     public function getTypeDataCount($type,$uids,$start_time,$end_time){
         if(empty($uids)){
