@@ -33,25 +33,31 @@ class Integral extends Base
 
         $map['name'] = $name;
         $creditConfig = $this->model->table($this->table)->where($map)->find();
-        if ($creditConfig['max_num']) {
-            $time_arr = $this->_get_times($creditConfig['way'],0,0);
-            $log_map['employee_id'] = $uid;
-            $log_map['create_time'] = ['between',$time_arr];
-            if ($creditConfig['share']) {
-                $shareConfig = $this->model->table($this->table)->where("id",$creditConfig['share'])->find();
-                $log_map['credit_name'] = ['in',[$creditConfig['name'],$shareConfig['name']]];
+        if ($creditConfig) {
+                if ($creditConfig['max_num']) {
+                $time_arr = $this->_get_times($creditConfig['way'],0,0);
+                $log_map['employee_id'] = $uid;
+                $log_map['create_time'] = ['between',$time_arr];
+                if ($creditConfig['share']) {
+                    $shareConfig = $this->model->table($this->table)->where("id",$creditConfig['share'])->find();
+                    $log_map['credit_name'] = ['in',[$creditConfig['name'],$shareConfig['name']]];
+                }else{
+                    $log_map['credit_name'] = $creditConfig['name'];
+                }
+                $num = $this->model->table($this->dbprefix."credit_log")->where($log_map)->count();
+                if ($num>=$creditConfig['max_num']) {
+                    $info['message'] = "已经达到最大次数";
+                    return $info;
+                }
             }else{
-                $log_map['credit_name'] = $creditConfig['name'];
-            }
-            $num = $this->model->table($this->dbprefix."credit_log")->where($log_map)->count();
-            if ($num>=$creditConfig['max_num']) {
-                $info['message'] = "已经达到最大次数";
+                $info['message'] = "最大次数为0，请设置";
                 return $info;
             }
         }else{
-            $info['message'] = "最大次数为0，请设置";
+            $info['message'] = "没有该增加经验积分的标识";
             return $info;
         }
+        
 
         $info['message'] = "可以添加";
         $info['status'] = true;

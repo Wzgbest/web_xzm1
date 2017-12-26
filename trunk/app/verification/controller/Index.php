@@ -311,7 +311,7 @@ class Index extends Initialize{
         $received_uids[] = $sale_info['employee_id'];
         save_msg("你的".$sale_info['sale_name']."成单申请".$verificatioLogRemark."  [审核人：".$user_infomation["truename"]."]","/crm/sale_chance/index",$received_uids,4,9,$uid,$saleOrderContract['sale_id']);
         if (!empty($next_recieve_uids)) {
-            save_msg("有一份".$sale_info['sale_name']."成单申请待你审核！","/verification/index/detail/id/"+$id,$next_recieve_uids,4,10,$sale_info['employee_id']);
+            save_msg("有一份".$sale_info['sale_name']."成单申请待你审核！","/verification/index/detail/id/"+$id,$next_recieve_uids,4,10,$sale_info['employee_id'],$id);
         }
         $result['status']=1;
         $result['info']='通过成单申请成功!';

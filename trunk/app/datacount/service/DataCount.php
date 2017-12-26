@@ -127,6 +127,90 @@ class DataCount{
         $result['data'] = $result_data;
         return $result;
     }
+    public function get_all_data_count($type,$start_time,$end_time){
+        $result_data = [];
+        $result = ['status'=>0 ,'info'=>"获取数据关键指标时发生错误！","data"=>$result_data];
+        if(
+            !$type
+            ||($start_time<=0&&$end_time<=0)
+            || $start_time>=$end_time
+        ){
+            return $result;
+        }
+
+        if ($type == 1) {
+            $ide = "uid";
+        }else{
+            $ide = "struct_id";
+        }
+
+        $user_data = [
+            "customer"=>0,
+            "all_call_num"=>0,
+            "valid_call_num"=>0,
+            "all_call_time"=>0,
+            "valid_call_time"=>0,
+            "sale_chance"=>0,
+            "sign_in"=>0,
+            "sale_order"=>0,
+            "order_money"=>0,
+            "contact"=>0,
+            "tend_to"=>0,
+            "sale_status"=>0,
+        ];
+        $datacountM = new DatacountModel();
+        $datacountList = $datacountM->getAllDataCount($type,$start_time,$end_time);
+       // var_exp($datacountList,'$datacountList',1);
+        foreach ($datacountList as $datacount){
+            if(!isset($result_data[$datacount[$ide]])){
+                $result_data[$datacount[$ide]] = $user_data;
+            }
+            if($datacount["type"]=="1"){
+                $result_data[$datacount[$ide]]["all_call_time"] = $datacount["sum_num"]?:0;
+                $result_data[$datacount[$ide]]["valid_call_time"] = $datacount["tag_sum"]?:0;
+                $result_data[$datacount[$ide]]["all_call_num"] = $datacount["num"]?:0;
+                $result_data[$datacount[$ide]]["valid_call_num"] = $datacount["tag_num"]?:0;
+            }
+            if($datacount["type"]=="2"){
+                $result_data[$datacount[$ide]]["sale_chance"] = $datacount["num"];
+                $result_data[$datacount[$ide]]["sale_status"] = $datacount["sum_num"];
+            }
+            if($datacount["type"]=="3"){
+                $result_data[$datacount[$ide]]["sale_order"] = $datacount["num"];
+                $result_data[$datacount[$ide]]["order_money"] = $datacount["sum_num"];
+            }
+            if($datacount["type"]=="5"){
+                $result_data[$datacount[$ide]]["sign_in"] = $datacount["sum_num"];
+            }
+            if($datacount["type"]=="6"){
+                $result_data[$datacount[$ide]]["customer"] = $datacount["sum_num"];
+            }
+            if($datacount["type"]=="7"){
+                $result_data[$datacount[$ide]]["contact"] = $datacount["sum_num"];
+            }
+            if($datacount["type"]=="8"){
+                $result_data[$datacount[$ide]]["tend_to"] = $datacount["sum_num"];
+            }
+            if (isset($datacount['truename'])) {
+                $result_data[$datacount[$ide]]["truename"] = $datacount["truename"];
+            }
+            if (isset($datacount['telephone'])) {
+                $result_data[$datacount[$ide]]["telephone"] = $datacount["telephone"];
+            }
+            if (isset($datacount['userpic'])) {
+                $result_data[$datacount[$ide]]["userpic"] = $datacount["userpic"];
+            }
+            if (isset($datacount['struct_name'])) {
+                $result_data[$datacount[$ide]]["struct_name"] = $datacount["struct_name"];
+            }
+            
+        }
+
+        $result['status'] = 1;
+        $result['info'] = "获取数据关键指标成功！";
+        $result['data'] = $result_data;
+        return $result;
+    }
     public function get_employee_data_count($uids,$start_time,$end_time){
         $result_data = [];
         $result = ['status'=>0 ,'info'=>"获取数据关键指标时发生错误！","data"=>$result_data];

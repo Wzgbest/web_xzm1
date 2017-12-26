@@ -157,6 +157,29 @@ class SpeechCraft extends Initialize{
         if (!empty($data['article_release_time'])) {
             $data['article_release_time'] = strtotime(str_replace('T',' ',$data['article_release_time']));
         }
+
+        $img = request()->file('img');
+        if($img) {
+            $path = ROOT_PATH . 'public' . DS . 'webroot' . DS . $this->corp_id . DS . 'images';
+          
+            $checkFlg = $img->check(["ext"=>config('upload_image.image_ext')]);
+                //trace(var_exp($img,'$img','return'));
+            if(!$checkFlg){
+                exception("上传动态图片检查失败");
+            }
+            $info = $img->move($path);
+                //trace(var_exp($info,'$info','return'));
+            if($info===false){
+                exception("上传动态图片失败");
+            }
+                //var_exp($info,'$info');
+            $savename = $info->getSaveName();
+            $data['img_url'] = $savename;
+            
+        }else{
+            $data['img_url'] = '';
+        }
+
         // var_dump($data);die();
         $id = $this->_speechCraftModel->addArticleInfo($data);
         if ($id) {
