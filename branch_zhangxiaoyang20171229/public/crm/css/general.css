@@ -1,0 +1,82 @@
+/*客户详情----概要*/
+
+/*some*/
+
+
+.crm_customer #outlineCharge .set-remind{
+	background-color: #38a0f4;
+}
+.crm_customer #outlineCharge .order-visit{
+	/*margin-left: 20px;*/
+	background-color: #ffa31c;
+}
+.crm_customer #outlineCharge .fa-clock-o{
+	background-color: #3390dc;
+}
+.crm_customer #outlineCharge .fa-users{
+	background-color: #e69319;
+}
+
+.crm_customer #outlineCharge .detail{
+	height: 24px;
+	line-height: 24px;
+	font-size: 14px;
+	color: #afb9c3;
+	vertical-align: middle;
+}
+
+
+.crm_customer #outlineInfo div>span{
+	line-height: 32px;
+	/*vertical-align: top;*/
+}
+.crm_customer #outlineInfo .buttons{
+	background-color: #b3b3b3;
+}
+.crm_customer #outlineInfo .buttons i{
+	background-color: #999;
+}
+.crm_customer #outlineInfo .buttons.active{
+	background-color: #e60012;
+}
+.crm_customer #outlineInfo .buttons.active i{
+	background-color: #ff0b39;
+}
+.crm_customer #outlineInfo .buttons.active span{
+	background-color: white;
+	color: #333;
+}
+
+.crm_customer #outlineChance div>span {
+    line-height: 32px;
+    /* vertical-align: top; */
+}
+.crm_customer #outlineKeyman .keyman-link{
+	width: 33%;
+	box-sizing: border-box;
+	float: left;
+	height: 150px;
+	padding-left: 27px;
+	border-right: 1px solid #eee;
+}
+.crm_customer #outlineCreatPerson{
+	margin: 20px 0;
+	background-color: transparent !important;
+	border: none !important;
+	box-shadow: none !important;
+	color: #939aab;
+}
+.crm_customer #outlineCreatPerson div{
+	text-align: right;
+	padding-right: 10px;
+	line-height: 24px;
+}
+#clientInfoOutline .calendar-box{
+	position: absolute;
+	background-color: white;
+	width: 600px;
+	/*height: 500px;*/
+	top: 50px;
+	left: 50px;
+	z-index: 10;
+}

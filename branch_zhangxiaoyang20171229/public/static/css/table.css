@@ -1,0 +1,234 @@
+/******************************/
+/*table*/
+.m-tableBox1{
+	clear: both;
+	width: 640px;
+	/*display: inline-block;*/
+	margin-top: 20px;
+	margin-left: 4px;
+	overflow-y: auto;
+	height: 300px;
+	/*background-color: yellow;*/
+}
+.m-tableBox2{
+	clear: both;
+	width: 1290px;
+	/*display: inline-block;*/
+	margin-top: 20px;
+	margin-left: 4px;
+	overflow-y: auto;
+	height: 300px;
+	/*background-color: yellow;*/
+}
+.m-tableBox3{
+	clear: both;
+	width: 1000px;
+	/*display: inline-block;*/
+	margin-top: 0px;
+	overflow-y: auto;
+	height: 300px;
+	/*background-color: yellow;*/
+	margin-left: 25px;
+}
+.m-tableBox{
+	width: 100%;
+	margin-top: 20px;
+	/*margin-left: 4px;*/
+	overflow-x: auto;
+	font-size: 12px;
+}
+.table1{
+	width: 2096px;
+}
+/*.table2{
+	width: 1685px;
+}*/
+.table3{
+	width: 1000px;
+}
+.table_z3{
+	width: 1138px;
+}
+.table_role{
+	width: 960px;
+}
+/*导入记录的表单*/
+.table4{
+	width: 959px;
+}
+/*销售机会表单-all*/
+.table5{
+	width: 1096px;
+}
+/*销售机会表单-已成单*/
+.table6{
+	width: 1233px;
+}
+/*公海池-导入记录*/
+.table7{
+	width: 1330px;
+}
+/*我的合同 列表*/
+.table-contract{
+	width: 1781px;
+} 
+/*我的发票列表*/
+.table-bill{
+	width: 1959px;
+}
+.m-table-nav{
+	position: absolute;
+	box-shadow: 3px 0px 0px 0px rgba(209, 209, 209, 0.2);
+}
+.table_manage{
+	width: 1274px;
+}
+.table_rule{
+	width: 960px;
+}
+/*列表重构*/
+/*客户管理列表*/
+.crm_customer_manage .m-table-nav{
+	width: 178px;
+}
+.crm_customer_manage .m-table-detail{
+	width: 1548px;
+}
+/*我的客户列表*/
+.crm_my_customer .m-table-nav{
+	width: 315px;
+}
+.crm_my_customer .m-table-detail{
+	width: 2233px;
+}
+.crm_public_pool .m-table-nav{
+	width: 315px;
+}
+.crm_public_pool .m-table-detail{
+	width: 1000px;
+}
+/*通话记录*/
+.phone_call_assistant .m-table-detail{
+	width: 1249px;
+}
+/*任务列表*/
+.task_setting_list .m-table-detail{
+	width: 1233px;
+}
+/*审核*/
+.table-v-index{
+	width: 2507px;
+}
+.table-v-bill{
+	width: 1685px;
+}
+.table-v-contract{
+	width: 2233px;
+}
+.table-v-count{
+	width: 2238px;
+}
+.m-table ul{
+	border-bottom: 1px solid #d6e2ed;
+	background-color: #fff;
+}
+/* .m-table ul:nth-child(2n+1){
+	background-color: #f9fafb;
+} */
+.tab-list li{
+	border-right: 1px solid #f2f2f2;
+}
+.m-table li{
+	float: left;
+	height: 40px;
+	width: 116px;
+	padding: 0 10px;
+	line-height: 40px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-align: left;
+}
+.m-table i{
+	margin-left: 10px;
+}
+.u-tabTitle{
+	border-top: 1px solid #d6e2ed;
+	border-bottom: 1px solid #d6e2ed !important;
+}
+.u-tabTitle li{
+	color: #999;
+	border-right: 1px solid #d6e2ed;
+	background-color: #f9fafb;
+}
+.u-tabList.current{
+	background-color: #f4f8fe;
+}
+.u-tabList li{
+	color: #4d4d4d;
+	border-right: 1px solid #d6e2ed;
+}
+.u-tabList li audio{
+	width: 170px;
+}
+.m-table .u-tabList:hover{
+	background-color: #f4f8fe;
+}
+.u-tabCheckbox{
+	text-align: center !important;
+	width: 40px !important;
+	padding: 0 !important;
+}
+.u-tabCilentName{
+	color: #77b8ff !important;
+	cursor: pointer;
+}
+.u-tq-time{
+	width: 150px !important;
+}
+.u-tq-audio{
+	width: 160px !important;
+}
+.u-tabLinkWay{
+	color: #13ae6b !important;
+	cursor: pointer;
+}
+.u-tabOperation span{
+	margin-right: 10px;
+	color: #77b8ff;
+	cursor: pointer;
+}
+.u-tabControlRow{
+	margin-left: 20px;
+	height: 30px;
+	margin-top: 20px;
+	font-size: 14px;
+}
+.u-tabControlRow select,.u-tabControlRow button{
+	width: 60px;
+	height: 25px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background-color: transparent;
+	cursor: pointer;
+}
+.u-tabControlRow input{
+	width: 40px;
+	border-radius: 4px;
+}
+@media only screen and (max-width:1680px ) {
+	.m-tableBox {
+    width: 100%;
+    margin-top: 20px;
+    overflow-x: auto;
+    font-size: 12px;
+	}
+}
+@media only screen and (min-width: 1680px) and (max-width: 1920px) {
+	.m-tableBox {
+    width: 100% !important;
+    margin-top: 20px;
+    font-size: 12px;
+   	overflow-x:visible;
+	}
+}

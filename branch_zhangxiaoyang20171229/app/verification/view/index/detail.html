@@ -1,0 +1,93 @@
+<div class="verification verification_sale_chance verification_sale_chance_detail o-x-h h100" >
+    <div class="detail_panel detail h100 o-h">
+    	<header>
+	        <ul class="m-firNav">
+	            <li class="current back"><div>成单申请</div></li>
+	            <i class="fa fa-angle-right fa-2x"></i>
+	            <span class="u-spanInfo">详情</span>
+	        </ul>
+	    </header>
+        <div class="m-3rd-container">
+            <div class="m-3rd-content">
+                <div class="m-3rd-content-container">
+                    <input type="hidden" class="sale-chance-record-id" name="sale_order_contract_id" value="{$sale_order_contract.id}">
+                    <input type="hidden" class="sale-chance-record-ids" name="sale_order_contract_ids" value="{$sale_order_contract_ids}">
+                    <div class="clearfix"></div>
+            	    <div class="m-divBlock m-form sale-chance-record">
+            	    	<div>
+                            <span class="cont">客户名称：</span>
+                            <span class="cont-x color-blue2">{$sale_order_contract.customer_name}</span>
+                            <span class="cont">对应业务：</span>
+                            <span class="cont-x">{$sale_order_contract.business_flow_name}</span>
+                        </div>
+                        <div>                
+                            <span class="cont">销售机会：</span>
+                            <span class="cont-x">{$sale_order_contract.sale_name}</span>
+                            <span class="cont">负责人：</span>
+                            <span class="cont-x">{$sale_order_contract.employee_name} - {$sale_order_contract.struct_name}</span>
+                        </div>
+                        <div>
+                            <span class="cont-max-max">预计成单金额：</span>
+                            <span class="cont-x"><span class="number">{$sale_order_contract.guess_money}</span> 元</span>
+                            <span class="cont-max-max">预计成单时间：</span>
+                            <span class="cont-x">{$sale_order_contract.prepay_time|time_format}</span>
+                        </div>
+                        
+                        <hr/>
+                        <div class="sale-chance-finish-record">
+                            <div>
+                                <h1><span>{$sale_order_contract.contract_name}</span>(合同编号<span>{$sale_order_contract.contract_no}</span>)</h1>
+                            </div>
+                            <div>
+                                <span class="cont">收据类型：</span><span class="cont-x">普通收据</span>
+                                <span class="cont">打款方式：</span><span class="cont-x">
+                                    {eq name="sale_order_contract.pay_type" value="1"}
+                                        现金
+                                    {else/}
+                                        银行转账
+                                    {/eq}
+                                </span>
+                            </div>
+                            <div>
+                                <span class="cont">合同金额：</span>
+                                <span class="cont-x"><span class="number">{$sale_order_contract.contract_money}</span> 元</span>
+                                {eq name="sale_order_contract.pay_type" value="2"}
+                                    <span class="cont">收款银行：</span>
+                                    <span class="cont-x">
+                                        {$sale_order_contract.pay_bank}
+                                    </span>
+                                {/eq}
+                            </div>
+                            <div>
+                                <span class="cont">打款金额：</span>
+                                <span class="cont-x">
+                                    <span class="number">{$sale_order_contract.pay_money}</span> 元
+                                </span>
+                                <span class="cont-max-max">打款方名称：</span>
+                                <span class="cont-x">{$sale_order_contract.pay_name}</span>
+                            </div>
+                            <div>
+                                <span class="cont ver_top">备注：</span>
+                                <textarea class="u-remark" placeholder="请输入备注">{$sale_order_contract.remark}</textarea>
+                            </div>
+                        </div>
+            	    </div>
+                    <div class="m-3rd-footer detail_panel_footer">
+                        {gt name="next_id" value="0"}
+                        <div class="btn btn1 next-btn" id="{$next_id}">下一条</div>
+                        {/gt}
+                        {eq name="sale_order_contract.status" value="0"}
+                            <div class="btn btn1 rejected-btn">驳回</div>
+                            <div class="btn btn2 approved-btn">通过</div>
+                        {/eq}
+                        {gt name="previous_id" value="0"}
+                        <div class="btn btn1 previous-btn" id="{$previous_id}">上一条</div>
+                        {/gt}
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+<link rel="stylesheet" type="text/css" href="/verification/css/verification.css">
+<script type="text/javascript" src="/verification/js/verification_index.js"></script>

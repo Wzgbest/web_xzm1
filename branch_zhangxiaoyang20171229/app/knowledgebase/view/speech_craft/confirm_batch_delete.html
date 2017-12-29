@@ -1,0 +1,45 @@
+<header>
+	<h1>批量删除<i class="fa fa-close fa-2x pop-close-btn"></i></h1>
+</header>
+<div class="pop_content confirm-batch-delete">
+	<h2 class="tc" style="font-size: 18px;font-weight: normal;">确定删除吗？</h2>
+	<div class="u-submitButton">
+		<button class="pop-submit-btn">删除</button>
+		<button class="pop-close-btn">取消</button>
+	</div>
+</div>
+<link rel="stylesheet" type="text/css" href="/static/css/popUp.css">
+<script type="text/javascript">
+	$(".pop_content.confirm-batch-delete .pop-submit-btn").click(function(){
+		var ids_arr = new Array();
+		let now_class_id = $(".knowledgebase_speechcraft_index header .m-firNav li.current").attr("speechcraft_in_column");
+	    $(".knowledgebase_speechcraft_index .speech-list li input[type='checkbox']:checked").each(function(index, el) {
+	        ids_arr[index] = $(this).val();
+	    });
+	    console.log(ids_arr);
+	    if(ids_arr==""){
+	        return;
+	    }
+	    $.ajax({
+	        url: '/knowledgebase/speech_craft/delete',
+	        type: 'POST',
+	        dataType: 'json',
+	        data: {'ids':ids_arr},
+	        success:function(data){
+	            layer.msg(data.info,{icon:data.status==1?1:2});
+	            if(data.status) {
+	            	var url = "/knowledgebase/speech_craft/index/class_id/"+now_class_id;
+			        var panel = 'speech-databasefr';
+			        loadPage(url,panel);
+			        // $(".knowledgebase_speechcraft_index .in_column").eq($(arr[0]).index()).addClass("current").siblings().removeClass("current");
+			        in_batch_manage();
+			        $(".delete-change-set-container").children().remove();
+	                // loadPage("/knowledgebase/speech_craft/index", "speech-databasefr");
+	            }
+	        },
+	        error:function(){
+	            layer.msg('删除失败!',{icon:2});
+	        }
+	    });
+	});
+</script>

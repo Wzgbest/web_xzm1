@@ -1,0 +1,36 @@
+<header>
+	<h1>删除话术<i class="fa fa-close fa-2x pop-close-btn"></i></h1>
+</header>
+<div class="pop_content deleteCraft deleteArticle">
+	<h2>删除的话术不能找回</h1>
+	<h2>你确定要删除么</h1>
+	<div class="u-submitButton">
+		<button class="pop-submit-btn">删除</button>
+		<button class="pop-close-btn">取消</button>
+	</div>
+</div>
+<link rel="stylesheet" type="text/css" href="/static/css/popUp.css">
+<script type="text/javascript">
+	$(".pop_content.deleteCraft.deleteArticle .pop-submit-btn").click(function(){
+		let id = $(".delete-change-set-container .deleteCraft").attr("data-craft-id");
+		let x = getElementByAttr("li","data-craft-id",id);
+		var delete_ids = "ids[]="+id;
+	    $.ajax({
+	        url: '/knowledgebase/speech_craft/delete',
+	        type: 'POST',
+	        dataType: 'json',
+	        data: delete_ids,
+	        success:function(data){
+	            layer.msg(data.info,{icon:data.status==1?1:2});
+	            if(data.status) {
+	                x[0].remove();
+					$(".delete-change-set-container").children().remove();
+	            }
+	        },
+	        error:function(){
+	            layer.msg('删除失败!',{icon:2});
+	        }
+	    }); 
+		
+	});
+</script>

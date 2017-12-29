@@ -1,0 +1,21 @@
+{volist name="comment_list" id="vo"}
+    <div class="one">
+        <img src="{$vo['replyer_pic']}" />
+        <div class="comment_right">
+            <p>
+                <span class="name_1" comment_id="{$vo['id']}">{$vo["replyer_name"]}</span>
+                {gt name="vo['reviewer_id']" value="0"}
+                回复 <span class="name">{$vo["reviewer_name"]}</span>
+                {/gt}
+                <span>:</span>
+                <span>{$vo["reply_content"]}</span>
+            </p>
+            <p class="reply">
+                <span>{$vo["comment_time"]|time_format}</span>
+        		<!--<div class="comment"><i class="fa fa-commenting"></i><span>回复</span></div>-->
+                
+            </p>
+        </div>
+        <div class="comment"><i class="fa fa-commenting"></i><span>回复</span></div>
+    </div>
+{/volist}

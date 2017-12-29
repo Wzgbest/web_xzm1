@@ -1,0 +1,53 @@
+#phone-call .info{
+	height: 80px;
+	padding-top:20px ;
+}
+#phone-call .info li{
+	float: left;
+	width: 33.33%;
+	box-sizing: border-box;
+	padding: 10px 10px;
+	
+}
+#phone-call .info li span:first-child{
+	border-left: 2px solid #93dcaa;
+	padding-left: 8px;
+	color: #999;
+}
+#phone-call .info li span:last-child{
+	padding-left: 10px;
+}
+#phone-call .warming{
+	padding-top: 60px;
+}
+#phone-call .warming h2{
+	font-weight: normal;
+	text-align: center;
+	margin-left: -10px;
+}
+#phone-call .warming h2 span{
+	color: #ffa31c;
+	font-size: 30px;
+	margin: 0 10px;
+}
+#phone-call .warming .u-submitButton{
+	width: 300px;
+	margin: 40px auto;
+}
+#phone-call .warming button{
+	width: 100px;
+	height: 40px;
+	border-radius: 8px;
+	text-align: center;
+	line-height: 40px;
+	border: none;
+	color: white;
+}
+#phone-call .warming button:first-child{
+	/*margin-right: 40px;*/
+	background-color: #42A5F5;
+}
+#phone-call .warming button:last-child{
+	background-color: #E01515;
+	float: right;
+}

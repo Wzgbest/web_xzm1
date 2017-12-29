@@ -1,0 +1,467 @@
+<div class="datacount_index datacount_summary h100">
+	<div class="summary_panel summary h100 o-h">
+		<header>
+			<ul class="m-firNav">
+                <li in_column="0" class="in_column current"><div>简报</div></li>
+            </ul>
+		</header>
+		<div class="m-3rd-container">
+			<div class="clearfix"></div>
+			<div class="m-divBlock m-divBlock2 self-info" style="margin-right: 0">
+				<div class="u-faceContent fl">
+					<img  src="{$userinfo.userpic}"/>
+					<div class="fl" style="width: 100px;height: 100px">
+						<h3>{$userinfo.truename}</h3>
+						<h4 class="fl" style="margin-right: 5px;">{$structure.struct_name}</h4>
+						<h4 class="fl">{$role}</h4>
+					</div>
+				</div>
+				<div class="u-faceContent2 fl hide">
+					<span class="color-blue">本人<i class="fa fa-angle-down"></i></span>
+					<ul class="hav_power hide">
+						<li class="color-blue" data-type="0">本人</li>
+						<li class="color-blue" data-type="1">本部门</li>
+						<li class="color-blue" data-type="2">下级部门</li>
+						<li class="color-blue" data-type="3">本部门及下级部门</li>
+						<li class="color-blue" data-type="4">xx部门</li>
+					</ul>
+				</div>
+				<div class="u-faceContent2 fl">
+					<select class="hav_power">
+						<option data-type="0">本人</option>
+						<option data-type="1">本部门</option>
+						<option data-type="2">下级部门</option>
+						<option data-type="3">本部门及下级部门</option>
+						<option data-type="4">xx部门</option>
+					</select>
+				</div>
+				<div class="u-faceContent3 fr">
+					<div class="block1">
+						<h4 class="tc"><span>{$score.title}</span></h4>
+						<div class="bar" title="{$score_per}%"><div class="in-bar" style="width:{$score_per}px;"></div></div>
+						<h4 class="tc"><span>{$score.experience}</span>/<span>{$score.experience_max}</span></h4>
+					</div>
+					<div class="block2">
+						<div class="tc"><img src="/datacount/img/integral.png" /></div>
+						<h3 class="tc">积分<span>{$score.score}</span></h3>
+					</div>
+					<div class="block2">
+						<div class="tc"><img src="/datacount/img/lesson.png" /></div>
+						<h3 class="tc">课程(<span>{$class_num}</span>)</h3>
+					</div>
+					<div class="block2">
+						<div class="tc"><img src="/datacount/img/date.png" /></div>
+						<h3 class="tc">日程(<span>{$data_num}</span>)</h3>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<!-- 关键指标 -->
+			<div class="m-divBlock m-divBlock2 key-target" style="margin-right: 0">
+				<div class="line1">
+					<span class="title">关键指标</span>
+					<span class="filter">昨日</span>
+					<span class="filter current">今日</span>
+					<span class="filter">本周</span>
+					<span class="filter">本月</span>
+					<span class="filter">本季度</span>
+					<span class="filter">本年</span>
+					<!-- <span class="fr icon c-target-set"><i class="fa fa-cog fa-2x color-blue" title="管理"></i></span> -->
+				</div>
+				<ul class="line2">					
+					<li>
+						<h3 class="tc">{$task_data_count.all_call_num.num}</h3>
+						<h4 class="tc">总通话数</h4>
+					</li>
+					<li>
+						<h3 class="tc">{$task_data_count.valid_call_num.num}</h3>
+						<h4 class="tc">有效通话数</h4>
+					</li>
+					<li>
+						<h3 class="tc">{$task_data_count.customer.num}</h3>
+						<h4 class="tc">新增客户</h4>
+						<div class="tc">
+							<div class="bar"><span class="inbar" style="width: 56px;"></span></div>&nbsp;70%
+						</div>
+					</li>
+					<li>
+						<h3 class="tc">{$task_data_count.sale_chance.num}</h3>
+						<h4 class="tc">新增商机</h4>
+						<div class="tc">
+							<div class="bar"><span class="inbar" style="width: 64px;"></span></div>&nbsp;80%
+						</div>
+					</li>
+					<li>
+						<h3 class="tc">{$task_data_count.sign_in.num}</h3>
+						<h4 class="tc">新增拜访</h4>
+						<div class="tc">
+							<div class="bar"><span class="inbar" style="width: 72px;"></span></div>&nbsp;90%
+						</div>
+					</li>
+					<li>
+						<h3 class="tc">{$task_data_count.sale_order.num}</h3>
+						<h4 class="tc">新增成单</h4>
+						<div class="tc">
+							<div class="bar"><span class="inbar" style="width: 56px;"></span></div>&nbsp;70%
+						</div>
+					</li>
+					<li>
+						<h3 class="tc">{$task_data_count.order_money.num}</h3>
+						<h4 class="tc">新增成单金额</h4>
+						<div class="tc">
+							<div class="bar"><span class="inbar" style="width: 56px;"></span></div>&nbsp;70%
+						</div>
+					</li>
+					<div class="clearfix"></div>
+				</ul>
+			</div>
+			<!-- 业绩排名 -->
+			<div class="m-divBlock m-divBlock2 grade-rank" style="margin-right: 0">
+				<div class="line1">
+				<span class="title">业绩排名</span>
+					<span class="filter switch-peo current">人</span>
+					<span class="filter switch-dep">部门</span>
+				</div>
+				<ul class="rank-people">
+					{volist name="employee_achivement" id="vo" key="key"}
+					<li>
+						{in name="key" value="1,2,3"}
+						<img class="champion order_{$key}" src="/datacount/img/order_{$key}.png">
+						{/in}
+						<img class="face" src="{$vo.img}">
+						<h4>{$key}&nbsp;{$vo.name}</h4>
+					</li>
+					{/volist}
+					<div class="clearfix"></div>
+				</ul>
+				<ul class="rank-department hide">
+					{volist name="struct_achivement" id="vo" key="key"}
+					<li>
+						<img class="champion order_{$key}" src="/datacount/img/1st.png">
+						<h3 data-id="{$vo.id}">{$key}&nbsp;{$vo.name}</h3>
+					</li>
+					{/volist}
+					<div class="clearfix"></div>
+				</ul>
+			</div>
+			<!-- 昨日任务完成情况 -->
+			<div class="m-divBlock m-divBlock2 achievement-yesterday task" style="margin-right: 0">
+				<div class="line1">
+					<span class="title">昨日任务完成情况</span>
+				</div>
+				<div class="m-divBlock m-divBlock3 fl  mar-t-10">
+					<div class="line1 bdn">
+						<span class="title bdn">昨日已完成</span>
+					</div>
+					<div class="table">
+						<ul class="title">
+							<li>序号</li>
+							<li>姓名</li>
+							<li>部门</li>
+							<li>完成时间</li> 	
+						</ul>
+						<div class="tablist-container">
+							<ul class="tablist">
+								<li>1</li>
+								<li>猛男史</li>
+								<li>销售一部</li>
+								<li>10:20:25</li>
+							</ul>
+							<ul class="tablist">
+								<li>2</li>
+								<li>孙大达</li>
+								<li>销售二部</li>
+								<li>10:20:26</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="m-divBlock m-divBlock3 fl mar-r-0 mar-t-10">
+					<div class="line1 bdn">
+						<span class="title bdn">昨日未完成</span>
+					</div>
+					<div class="table">
+						<ul class="title">
+							<li>序号</li>
+							<li>姓名</li>
+							<li>部门</li>
+							<li>完成率</li> 	
+						</ul>
+						<div class="tablist-container">
+							<ul class="tablist">
+								<li>1</li>
+								<li>孙达</li>
+								<li>销售一部</li>
+								<li>90%</li>
+							</ul>
+							<ul class="tablist">
+								<li>2</li>
+								<li>孙大盆</li>
+								<li>销售二部</li>
+								<li>99%</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<!-- 每日任务 -->
+			<div class="task m-divBlock m-divBlock2 mar-r-0 pad-l-0" style="background-color:transparent;box-shadow:none;">
+				<div class="m-divBlock m-divBlock3 fl mar-t-0">
+					<div class="line1">
+						<span class="title">每日任务</span>
+					</div>
+					{gt name="task_data_count.all_call_num.target" value="0"}
+					<div class="line3 task1">
+						<span>总通话数</span>
+						<span><div class="in-bar2" style="width:{$task_data_count.all_call_num.per*250|round}px"></div></span>
+						<span>
+							{$task_data_count.all_call_num.num}/{$task_data_count.all_call_num.target}
+						</span>
+					</div>
+					{/gt}
+					{gt name="task_data_count.valid_call_num.target" value="0"}
+					<div class="line3 task1">
+						<span>有效通话数</span>
+						<span><div class="in-bar2" style="width:{$task_data_count.valid_call_num.per*250|round}px"></div></span>
+						<span>
+							{$task_data_count.valid_call_num.num}/{$task_data_count.valid_call_num.target}
+						</span>
+					</div>
+					{/gt}
+					{gt name="task_data_count.customer.target" value="0"}
+					<div class="line3 task1">
+						<span>新增客户</span>
+						<span><div class="in-bar2" style="width:{$task_data_count.customer.per*250|round}px"></div></span>
+						<span>
+							{$task_data_count.customer.num}/{$task_data_count.customer.target}
+						</span>
+					</div>
+					{/gt}
+					{gt name="task_data_count.contact.target" value="0"}
+					<div class="line3 task1">
+						<span>新增联系人</span>
+						<span><div class="in-bar2" style="width:{$task_data_count.contact.per*250|round}px"></div></span>
+						<span>
+							{$task_data_count.contact.num}/{$task_data_count.contact.target}
+						</span>
+					</div>
+					{/gt}
+					{gt name="task_data_count.tend_to.target" value="0"}
+					<div class="line3 task1">
+						<span>意向客户</span>
+						<span><div class="in-bar2" style="width:{$task_data_count.tend_to.per*250|round}px"></div></span>
+						<span>
+							{$task_data_count.tend_to.num}/{$task_data_count.tend_to.target}
+						</span>
+					</div>
+					{/gt}
+					{gt name="task_data_count.sign_in.target" value="0"}
+					<div class="line3 task1">
+						<span>拜访客户</span>
+						<span><div class="in-bar2" style="width:{$task_data_count.sign_in.per*250|round}px"></div></span>
+						<span>
+							{$task_data_count.sign_in.num}/{$task_data_count.sign_in.target}
+						</span>
+					</div>
+					{/gt}
+					{gt name="task_data_count.sale_status.target" value="0"}
+					<div class="line3 task1">
+						<span>商机状态变化数</span>
+						<span><div class="in-bar2" style="width:{$task_data_count.sale_status.per*250|round}px"></div></span>
+						<span>
+							{$task_data_count.sale_status.num}/{$task_data_count.sale_status.target}
+						</span>
+					</div>
+					{/gt}
+					{gt name="task_data_count.sale_order.target" value="0"}
+					<div class="line3 task1">
+						<span>成单数</span>
+						<span><div class="in-bar2" style="width:{$task_data_count.sale_order.per*250|round}px"></div></span>
+						<span>
+							{$task_data_count.sale_order.num}/{$task_data_count.sale_order.target}
+						</span>
+					</div>
+					{/gt}
+					{gt name="task_data_count.order_money.target" value="0"}
+					<div class="line3 task1">
+						<span>成单金额</span>
+						<span><div class="in-bar2" style="width:{$task_data_count.order_money.per*250|round}px"></div></span>
+						<span>
+							{$task_data_count.order_money.num}/{$task_data_count.order_money.target}
+						</span>
+					</div>
+					{/gt}
+				</div>
+				<div class="m-divBlock m-divBlock3 fl mar-r-0 mar-t-0">
+					<div class="line1 bdn">
+						<span class="title">红包任务(<span>{:count($employee_task)}</span>)</span>
+					</div>
+					<div class="table">
+						<ul class="title">
+							<li>任务名称</li>
+							<li>考核指标</li>
+							<li>当前指标</li>
+							<li>红包</li> 	
+						</ul>
+						<div class="tablist-container">
+							{volist name="employee_task" id="vo"}
+							<ul class="tablist">
+								<li>{$vo.task_name}</li>
+								<li>{$vo.type_name}</li>
+								<li>{$vo.now_num}/{$vo.target_num}</li>
+								<li>
+									{notempty name="vo.redid"}
+										{eq name="vo.is_token" value="1"}
+											<span class="took">已领取</span>
+										{else/}
+											<span class="wait">待领取</span>
+										{/eq}
+									{else/}
+										未发放
+										{gt name="vo.reward_money" value="0"}
+											(￥<span>{$vo.reward_money}</span>)
+										{/gt}
+									{/notempty}
+								</li>
+							</ul>
+							{/volist}
+						</div>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="m-divBlock m-divBlock2 data-outline mar-r-0 mar-t-0">
+				<div class="line1">
+					<span class="title">数据概览</span>
+					<span class="filter current">本月</span>
+					<span class="filter">上月</span>
+					<span class="filter">本季度</span>
+					<span class="filter">上季度</span>
+					<span class="filter">本年</span>
+					<input type="date" value="{$sales_funnel_start_time|day_format}">
+					--
+					<input type="date" value="{$sales_funnel_end_time|day_format}">
+					<button class="u-btnSearch">查询</button>
+				</div>
+				<div class="conversion-rate">
+					<div class="title-content">
+						<div class="title">转化率</div>
+						<div class="space"></div>
+					</div>
+					<div class="chart-container">
+						<div class="top-process">
+							<div class="clearfix"></div>
+							<div class="process-name">新增客户</div>
+							<div class="process-bar"><span>
+								{gt name="sales_funnel.1.num" value="0"}
+									{:round($sales_funnel.2.num/$sales_funnel.1.num*100,2)}%
+								{else/}
+									0%
+								{/gt}
+							</span></div>
+							<div class="process-name">意向客户</div>
+							<div class="process-bar"><span>
+								{gt name="sales_funnel.2.num" value="0"}
+									{:round($sales_funnel.3.num/$sales_funnel.2.num*100,2)}%
+								{else/}
+									0%
+								{/gt}
+							</span></div>
+							<div class="process-name">商机</div>
+							<div class="process-bar"><span>
+								{gt name="sales_funnel.3.num" value="0"}
+									{:round($sales_funnel.4.num/$sales_funnel.3.num*100,2)}%
+								{else/}
+									0%
+								{/gt}
+							</span></div>
+							<div class="process-name">拜访</div>
+							<div class="process-bar"><span>
+								{gt name="sales_funnel.4.num" value="0"}
+									{:round($sales_funnel.5.num/$sales_funnel.4.num*100,2)}%
+								{else/}
+									0%
+								{/gt}
+							</span></div>
+							<div class="process-name">成单</div>
+						</div>
+						<div class="bottom-process">
+							<div class="rate">
+								{gt name="sales_funnel.1.target" value="0"}
+									{:round($sales_funnel.5.num/$sales_funnel.1.target,2)}%
+								{else/}
+									0%
+								{/gt}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="sale-estimate">
+					<div class="title-content">
+						<div class="title">销售预估</div>
+						<div class="space"></div>
+					</div>
+					<div class="echart-container">
+						<div class="select">
+							显示粒度
+							<select>
+								<option value="1">月度</option>
+								<option value="2">季度</option>
+								<option value="3">年度</option>
+							</select>
+						</div>
+						<div id="echart" style="width: 780px;height: 300px;position: absolute;left: 0"></div>						
+					</div>
+				</div>			
+			</div>
+		</div>	
+	</div>
+</div>
+<link rel="stylesheet" href="/datacount/css/index.css"/>
+
+<script src="/static/js/echarts.min.js"></script>
+<script language="javascript">
+    var data_overview = '{$data_overview}';
+    var data_overview_time_type = '{$data_overview_time_type}';
+    var data_overview_time_num = '{$data_overview_time_num}';
+	var myChart = echarts.init(document.getElementById('echart'));
+	var option = {
+		title:{
+			// text:"销量预估"
+		},
+		tooltip:{},
+		legend:{
+			data:["有效通话","商机","拜访","成单"],
+			orient:"vertical",
+			left:10,
+			top:50
+		},
+		grid:{
+			// show:true,
+			left:150,
+			top:5
+		},
+		xAxis:{data:[]},
+		yAxis:{},
+		series:[{
+			name:"有效通话",
+			type:"line",
+			data:[]
+		},{
+			name:"商机",
+			type:"line",
+			data:[]
+		},{
+			name:"拜访",
+			type:"line",
+			data:[]
+		},{
+			name:"成单",
+			type:"line",
+			data:[]
+		}]
+	};
+	myChart.setOption(option);
+</script>
+<script src="/datacount/js/index.js"></script>

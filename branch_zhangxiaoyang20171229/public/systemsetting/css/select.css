@@ -1,0 +1,129 @@
+.structure_list .employee_import_from .sanceng {
+	margin-left: 20px;
+}
+
+.structure_list .employee_import_from .content .nc.rotate {
+	transform: rotate(-90deg);
+}
+
+.structure_list .employee_import_from .content {
+	width: 222px;
+	height: 34px;
+	padding-left: 15px;
+	padding-right: 15px;
+	border: 1px solid #ccc;
+	position: relative;
+	text-align: left;
+	line-height: 34px;
+	overflow: hidden;
+	display: inline-block;
+	margin-left: 20px;
+	margin-top: 20px;
+	margin-bottom: 0;
+}
+.structure_list .employee_import_from .content span{
+	margin-right: 5px;
+}
+.structure_list .employee_import_from .select_box {
+	width: 252px;
+	height: 360px;
+	border: 1px solid #ccc;
+	border-top: none;
+	/*position: absolute;
+	top:34px;
+	left: -1px;*/
+	float: left;
+	display: none;
+	position: relative;
+	overflow: auto;
+	margin-left: 73px;
+	margin-top: -17px;
+}
+
+.structure_list .employee_import_from .big_box {
+	width: 244px;
+	height: 30px;
+	border: 1px solid silver;
+	margin-left: 3px;
+	margin-top: 5px;
+}
+
+.structure_list .employee_import_from .content .nc {
+	position: absolute;
+	left: 220px;
+	top: 15px;
+	vertical-align: middle;
+}
+
+.structure_list .employee_import_from .search {
+	position: absolute;
+	top: 17px;
+	left: 15px;
+	margin-right: 10px;
+}
+
+.structure_list .employee_import_from .select_box .ipt1 {
+	width: 218px;
+	height: 30px;
+	padding-left: 25px;
+	border: none
+}
+
+.structure_list .employee_import_from li ol {
+	margin-left: 20px;
+}
+
+.structure_list .employee_import_from .yincang {
+	display: none;
+}
+
+.structure_list .employee_import_from .active {
+	display: block;
+}
+
+.structure_list .employee_import_from ul li .drop {
+	vertical-align: middle;
+}
+
+.structure_list .employee_import_from .selected {
+	width: 270px;
+	height: 359px;
+	border: 1px solid #ccc;
+	border-left: none;
+	float: left;
+	/*position: absolute;
+	top:34px;
+	left: 252px;*/
+	display: none;
+	position: relative;
+	float: left;
+	margin-top: -17px;
+}
+
+.structure_list .employee_import_from .selected p:nth-of-type(1) {
+	width: 250px;
+	height: 42px;
+	background-color: #f2f2f2;
+	font-size: 14px;
+	padding-left: 20px;
+	line-height: 42px;
+}
+
+.structure_list .employee_import_from .selected ul li {
+	display: inline-block;
+	width: 80px;
+	margin-right: 10px;
+}
+
+.structure_list .employee_import_from .selected .wancheng {
+	width: 90px;
+	height: 40px;
+	background-color: #42a5f5;
+	color: #fff;
+	text-align: center;
+	line-height: 40px;
+	border-radius: 10px;
+	left: 90px;
+	bottom: 30px;
+	position: absolute;
+}

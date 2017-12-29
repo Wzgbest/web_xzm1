@@ -1,0 +1,49 @@
+<header>
+	<h1>批量转移<i class="fa fa-close fa-2x pop-close-btn"></i></h1>
+</header>
+<div class="pop_content confirm-batch-change m-form">
+	<div class="tc">
+		<span class="cont">选择分类</span>
+		<select class="article_class">
+			{volist name="article_type" id="vo"}
+			<option value="{$vo.id}">{$vo.type_name}</option>
+			{/volist}		
+		</select>
+	</div>
+	<div class="u-submitButton">
+		<button class="pop-submit-btn">确定</button>
+		<button class="pop-close-btn">取消</button>
+	</div>
+</div>
+<link rel="stylesheet" type="text/css" href="/static/css/popUp.css">
+<script type="text/javascript">
+	$(".pop_content.confirm-batch-change .pop-submit-btn").click(function(){
+		var data = new Array();
+	    $(".knowledgebase_speechcraft_index .speech-list li input[type='checkbox']:checked").each(function(index, el) {
+	        data[index] = $(this).val();
+	    });
+		let class_id= $(".delete-change-set-container .article_class").val();
+		console.log(class_id);
+		let now_class_id = $(".knowledgebase_speechcraft_index header .m-firNav li.current").attr("speechcraft_in_column");
+	    $.ajax({
+	        url: '/knowledgebase/speech_craft/changeClass',
+	        type: 'POST',
+	        dataType: 'json',
+	        data:{'article_id':data,'class_id':class_id},
+	        success:function(data){
+	            layer.msg(data.info,{icon:data.status==1?1:2});
+	            if(data.status) {
+	            	var url = "/knowledgebase/speech_craft/index/class_id/"+now_class_id;
+			        var panel = 'speech-databasefr';
+			        loadPage(url,panel);
+			        // $(".knowledgebase_speechcraft_index .in_column").eq($(arr[0]).index()).addClass("current").siblings().removeClass("current");
+			        in_batch_manage();
+					$(".delete-change-set-container").children().remove();
+	            }
+	        },
+	        error:function(){
+	            layer.msg('修改失败!',{icon:2});
+	        }
+	    }); 
+	});
+</script>

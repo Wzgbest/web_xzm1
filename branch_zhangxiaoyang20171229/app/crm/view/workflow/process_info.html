@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>process_info</title>
+</head>
+<body>
+<form action="/crm/workflow/work_flow_process_run" method="post">
+  <input type="hidden" name="process_id" value="{$process_id}">
+  <div>{$process.process_title}</div>
+  <div>
+    类型:<select name="type" {eq name="read_only" value="1"}disabled="disabled"{/eq}>
+      <option value="">请选择</option>
+      <option value="1" {eq name="now_form_data.type" value="1"}selected{/eq}>类型1</option>
+      <option value="2" {eq name="now_form_data.type" value="2"}selected{/eq}>类型2</option>
+      <option value="3" {eq name="now_form_data.type" value="3"}selected{/eq}>类型3</option>
+    </select>
+</div>
+<div>
+  数量:<input name="num" type="text" {eq name="read_only" value="1"}disabled="disabled"{/eq} value='{$now_form_data.num}'>
+</div>
+<div>
+  备注:<textarea name="remark"></textarea>
+</div>
+<div>
+  <div>进程过程:</div>
+  {volist name="process_action" id="vo"}
+    <div>{$vo.update_time|time_format} {$vo.action_user} {$vo.action_content} {$vo.action_remark}</div>
+  {/volist}
+</div>
+{eq name="process.process_status" value="2"}
+<div>
+  {volist name="next_node_form_item" id="vo"}
+    <button type="submit" name="{$vo.name}" value="{$vo.value}">{$vo.title}</button>
+  {/volist}
+</div>
+{/eq}
+</form>
+</body>
+</html>

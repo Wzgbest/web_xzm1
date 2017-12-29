@@ -1,0 +1,170 @@
+<!--存放顶部右上方-->
+<style>
+	#task-infofr{
+		overflow-y: auto !important;
+	}
+</style>
+<header class="header">
+    <div id="x-layout">
+        <i class="fa fa-navicon fa-2x"></i>
+    </div>
+    <div id="r-nav">
+        <div id="nav-user">
+            <i class="fa fa-2x fa-user" uid="{$userinfo.userid}"></i><span>{$userinfo.truename}</span>
+            <!-- 个人：退出登录 -->
+            <div class="user-box">
+                <dl class="user-box-content">
+                    <dd class="log-out pointer">退出登录</dd>
+                </dl>       
+            </div>
+        </div>
+        <div id="nav-shop"><i class="fa fa-2x fa-shopping-cart"></i><span>商城</span></div>
+        <div id="nav-commu">
+            <i class="fa fa-2x fa-commenting"></i><span>消息</span>
+            <!-- 消息中心 -->
+            <div class="message-box">
+                <div class="message-class">
+                    <h4 class="current">系统消息{if condition="$system_msg_count neq 0"}（<span class="color-red">{$system_msg_count}</span>）{else/}（无）{/if}</h4>
+                    <h4>任务消息{if condition="$tast_msg_count neq 0"}（<span class="color-red">{$tast_msg_count}</span>）{else/}（无）{/if}</h4>
+                    <h4>CRM消息{if condition="$crm_msg_count neq 0"}（<span class="color-red">{$crm_msg_count}</span>）{else/}（无）{/if}</h4>
+                    <h4>知识库消息{if condition="$knowledge_msg_count neq 0"}（<span class="color-red">{$knowledge_msg_count}</span>）{else/}（无）{/if}</h4>
+                </div>
+                <div class="message-content show" style="display: block;">
+                    <div class="message-content-header">
+                       	系统消息
+                    </div>            
+                    <ul class="message-content-container" >
+                        {volist name="msg_list" id="vo" }
+                        {if condition="$vo.type eq 1"}<li class="current"  data-id="{$vo.id}" data-subid="day-count"  data-title = "系统消息" _src="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
+                        {/volist}
+                       
+                    </ul>
+                    <div class="message-content-footer color-blue">
+                        设为已读
+                    </div>
+                </div>
+                <div class="message-content">
+                	<div class="message-content-header">
+                    	任务消息
+                    </div>
+                    <ul class="message-content-container" >
+                        {volist name="msg_list" id="vo"}
+                        {if condition="$vo.type eq 3"}<li class="current" data-id="{$vo.id}" data-subid="task-info" data-title = "任务详情" _src="{$vo.url}/fr/task-infofr"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
+                        {/volist}
+                       
+                    </ul>
+                    <div class="message-content-footer color-blue">
+                        设为已读
+                    </div>
+                </div>	
+                <div class="message-content">
+                	<div class="message-content-header">
+                        CRM消息
+                    </div>
+                     <ul class="message-content-container">
+                        {volist name="msg_list" id="vo"}
+                        {if condition="$vo.type eq 4"}<li class="current" data-id="{$vo.id}" {if condition="$vo.sub_type eq 5"}  data-subid="mycliets" data-title = "客户详情" {elseif condition="$vo.sub_type eq 6"/} data-subid="high-sea" data-title = "公海池" {elseif condition="$vo.sub_type eq 7"} data-subid="my-contract" data-title = "我的合同" {elseif condition="$vo.sub_type eq 8"} data-subid="verification-contract" data-title = "合同审核" {elseif condition="$vo.sub_type eq 9"} data-subid="number-screening" data-title = "销售机会" {elseif condition="$vo.sub_type eq 10"} data-subid="verification-index" data-title = "成单审核" {else condition="$vo.sub_type eq 11"} data-subid="verification-bill" data-title = "发票审核" {/if}  _src="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
+                        {/volist}
+                      
+                    </ul>
+                     <div class="message-content-footer color-blue">
+                        设为已读
+                    </div>
+                </div>
+                <div class="message-content">
+                    <div class="message-content-header">
+                    	知识库消息 
+                    </div>
+                	<ul class="message-content-container">
+                        {volist name="msg_list" id="vo"}
+                        {if condition="$vo.type eq 5"}<li class="current" data-id="{$vo.id}" data-subid="company-library"  data-title = "话术库" _src="{$vo.url}"><p><span> * </span>{$vo.msg}</p><div class="message-content-container-time">{$vo.create_time|time_format}</div></li>{/if}
+                        {/volist}
+                        
+                    </ul>
+                    <div class="message-content-footer color-blue">
+                        设为已读
+                    </div>
+                </div>	
+            </div>
+        </div>
+        <!-- <div id="nav-notice"><i class="fa fa-2x fa-bullhorn"></i><span>通知</span></div> -->
+        <div id="nav-call" data-subid="phone-call" _src="{:url('workerman/index/index')}"><i class="fa fa-2x fa-volume-control-phone"></i><span>拨号</span></div>
+        <!--<div class="clearfix"></div>-->
+    </div>
+</header>
+<script type="text/javascript">
+    $(".header .message-content .message-content-footer.color-blue").click(function(){
+        var ids = new Array(); 
+	      $(".header .show li").each(function(index, el) {
+          ids[index] = $(this).attr("data-id");           
+        });
+        console.log(ids)
+        // let receive_uid = $(".header .fa-user").attr("uid");
+        if (ids.length == 0) {
+            layer.msg("没有未读消息");
+            return;
+        }
+        console.log(ids);
+        $.ajax({
+            url: '/index/system_message/set_read_msg',
+            type: 'POST',
+            dataType: 'json',
+            data: {'msg_ids': ids},
+            success:function(data){
+            	$(".header .show li").children("p").children('span').remove();
+                layer.msg(data.message,{icon:data.status==1?1:2});               
+            },
+            error:function(){
+                layer.msg('修改失败!',{icon:2});
+            },
+        });        
+    });
+    
+    $(".message-box .message-class h4").click(function(){    	
+    	$(".message-box .message-content").css("display","none").removeClass("show");
+    	var index_tab=$(this).index();
+    	$(".message-box .message-content").eq(index_tab).css("display","block").addClass("show");
+
+    });
+    $(".message-content ul li").click(function(){
+    	var that=$(this);
+        var id=$(this).attr("data-id");
+        var ids = new Array();
+        ids[0] = id;
+        $.ajax({
+            url: '/index/system_message/set_read_msg',
+            type: 'POST',
+            dataType: 'json',
+            data: {'msg_ids': ids},
+            success:function(data){
+                // layer.msg(data.message,{icon:data.status==1?1:2});
+                $(that).children("p").children('span').remove();
+            },
+            error:function(){
+                // layer.msg('修改失败!',{icon:2});
+               
+            },
+        });
+
+        if(checkSubPage($(this))){
+//      	console.log($(this).attr("data-subid"))
+//      	console.log($(this).attr("data-id"))        	
+            loadPage($(this).attr("_src"),$(this).attr("data-subid")+"fr");
+           
+	        var subid=$(this).attr("data-subid");
+	        if(!$("#"+subid).hasClass("active")){
+				//alert($(this).attr("data-subid"));
+				$("#"+subid).addClass("active").siblings().removeClass("active");
+				$("#"+subid+"fr").removeClass("hide").siblings().addClass("hide");
+		        }
+	        }else{
+	            clicker($(this));
+	            asideChange();
+	            changeFramesSize();
+	        
+	        }
+  
+   });
+    
+    
+</script>

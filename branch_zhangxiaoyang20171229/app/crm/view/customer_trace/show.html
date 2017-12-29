@@ -1,0 +1,80 @@
+<!--客户详情-->
+<section class="page-info h100 o-h">
+    <header>
+        <ul class="m-firNav">
+            <li class="current back"><div>我的所有客户（<span>160</span>）</div></li>
+            <i class="fa fa-angle-right fa-2x"></i>
+            <span class="u-spanInfo">详情</span>
+        </ul>
+    </header>
+    <ul class="m-pageInfoNav">
+        <div class="clearfix"></div>
+        <li class="customer_general_show">概要</li>
+        <li class="customer_info_show">客户信息</li>
+        <li class="customer_contact_show">联系人（{$customer_contact_num}）</li>
+        <li class="customer_sale_chance_show">销售机会（{$sale_chance_num}）</li>
+        <li class="current">跟踪记录（{$customer_trace_num}）</li>
+        <div class="clearfix"></div>
+    </ul>
+    <!--添加跟踪记录-->
+    <div class="m-4th-container">
+        <section class="clientInfoTrace page-info-detail" >
+            <!-- <div class="new-trace">
+                <i class="fa fa-plus fa-2x"></i>
+                添加跟踪记录
+            </div> -->
+            <div class="m-divBlock m-form">
+                <div class="u-traceRecord creat-traceRecord hide">
+                    <div class="circle first"></div>
+                    <textarea class="new-trace-remark"></textarea>
+                    <div class="u-submitButton">
+                        <button class="new-trace-save">保存</button>
+                        <button class="new-trace-cancel">取消</button>
+                    </div>
+                </div>
+                {volist name="customer_trace" id="vo" key="key"}
+                    <div class="u-traceRecord">
+                        <div class="circle"></div>
+                        <div class="date">
+                            <span>{$key|time_format}</span>
+                        </div>
+                        {volist name="vo" id="voi"}
+                            <div class="detail">
+                                {eq name="voi.add_type" value="0"}
+                                    <span>
+                                        {$voi.operator_user_name}
+                                        {$voi.option_name}<span></span>
+                                        {neq name="voi.db_table_name" value="customer"}
+                                            {notempty name="voi.sub_name"}
+                                                {switch	name="voi.db_table_name"}
+                                                    {case value="customer_contact"}联系人{/case}
+                                                    {case value="sale_chance"}销售机会{/case}
+                                                {/switch}
+                                                {$voi.sub_name}
+                                                的
+                                            {/notempty}
+                                        {/neq}
+                                        {$voi.item_name}
+                                        <span class="underline">
+                                            {$voi.from_name}
+                                        </span>
+                                        {$voi.link_name}
+                                        <span class="underline">
+                                            {$voi.to_name}
+                                        </span>
+                                    </span>
+                                {else/}
+                                    <span>
+                                        {$voi.operator_user_name}
+                                        添加了 跟踪记录
+                                        {$voi.remark}
+                                    </span>
+                                {/eq}
+                            </div>
+                        {/volist}
+                    </div>
+                {/volist}
+            </div>
+        </section>
+    </div>
+</section>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>work_flow_create_page</title>
+</head>
+<body>
+<form action="/crm/workflow/work_flow_process_run" method="post">
+  <input type="hidden" name="process_id" value="{$process_id}">
+  <div>{$process.process_title}</div>
+  {volist name="form_item" id="vo"}
+    <div>
+    {switch name="vo.form_item_type"}
+      {case value="int|string"}
+        <input name="{$vo.form_item_name}" type="text" value="{present name="now_form_data[$vo['form_item_name']]"}{$now_form_data[$vo['form_item_name']]}
+            {else/}{$vo.form_item_default}
+            {/present}">
+      {/case}
+      {case value="select"}
+        <select name="{$vo.form_item_name}">
+            {empty name="vo.form_item_default"}<option value="">请选择</option>{/empty}
+            {volist name="vo.form_item_enum_arr" id="voe"}
+              {if condition="isset($now_form_data[$vo['form_item_name']]) && $now_form_data[$vo['form_item_name']]==$voe"}
+                  {$now_form_data[$vo['form_item_name']]}
+              {elseif condition="$vo.form_item_default == $voe"/}
+                  <option value="{$voe}" selected>{$voe}</option>
+              {else/}
+                  <option value="{$voe}">{$voe}</option>
+              {/if}
+            {/volist}
+        </select>
+      {/case}
+    {/switch}
+    </div>
+  {/volist}
+  <textarea name="remark"></textarea>
+  {volist name="next_node_form_item" id="vo"}
+    <button type="submit" name="{$vo.name}" value="{$vo.value}">{$vo.title}</button>
+  {/volist}
+</form>
+</body>
+</html>
