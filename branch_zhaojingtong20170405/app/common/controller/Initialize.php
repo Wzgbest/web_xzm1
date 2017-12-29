@@ -75,8 +75,7 @@ class Initialize extends Controller
         //权限白名单
         $this->rule_white_list = explode(',',$this->hav_rules);
 
-        $request = Request::instance();
-        $path = $request->path();
+        $path = $this->request->path();
 //        var_exp($path,'$path');
         $path_arr = explode("/",$path);
         $rule_name_arr = [];
@@ -91,8 +90,9 @@ class Initialize extends Controller
         if(isset($this->rule_map[$rule_name])){
             $rule_name = $this->rule_map[$rule_name];
         }
-        
-
+        if(!$this->checkRule($rule_name)){
+//            $this->noRole();
+        }
     }
     protected function checkRule($rule_name){
         if(in_array($rule_name,$this->rule_white_list)){
