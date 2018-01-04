@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2017-09-28 14:26:57
+Date: 2018-01-04 03:37:31
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -98,13 +98,14 @@ CREATE TABLE `guguo_corporation` (
   `corp_field` varchar(64) DEFAULT NULL COMMENT '公司所属行业',
   `corp_product_keys` varchar(160) DEFAULT NULL COMMENT '产品关键词',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guguo_corporation
 -- ----------------------------
-INSERT INTO `guguo_corporation` VALUES ('1', 'sdzhongxun', '山东中迅网络传媒有限公司', '从事百度旗下产品销售等业务', '山东潍坊潍城区', '36.713175', '119.113755', '金艺大厦', '工商备案号：AAAAAA', '1484209455', '公司法人', '127.0.0.1', '13333336666', 'http://www.baidusd.com', '10000000', '1484209455', '9653200', '1174200', '8600', '1529800', '1', '百度推广,网络建站,baidu');
-INSERT INTO `guguo_corporation` VALUES ('2', 'sdzhonghu', '山东中呼信息科技有限公司', '智能400电话,短信平台', '山东潍坊奎文区', '36.713175', '119.113755', '联通大厦', null, null, null, null, null, 'hhhhhhh', null, null, '0', '0', '0', '0', '1', '哈哈哈还是');
+INSERT INTO `guguo_corporation` VALUES ('1', 'sdzhongxun', '山东中迅网络传媒有限公司', '从事百度旗下产品销售等业务', '山东省潍坊市潍城区', '36.779102', '119.228972', '金艺大厦', '工商备案号：AAAAAA', '1484209455', '公司法人', '127.0.0.1', '13333336666', 'http://www.baidusd.com/', '10000000', '1484209455', '7496900', '3330500', '9999999107500', '2429900', '1', '百度推广,网络建站,baidu');
+INSERT INTO `guguo_corporation` VALUES ('2', 'sdzhonghu', '山东中呼信息科技有限公司', '40088888888', '山东潍坊奎文区', '36.713175', '119.113755', '联通大厦', null, null, null, null, null, 'http://www.zhonghu.com/', null, null, '99871300', '128700', '100000000', '0', '1', '智能400电话,短信平台');
+INSERT INTO `guguo_corporation` VALUES ('3', 'ceshi0', '山东中讯网络传媒公司', '40088888888', '山东潍坊奎文区', '36.712915', '119.114689', '金艺大厦', null, null, null, null, null, 'http://www.zhonghu.com/', null, null, '1499907500', '92500', '1499972600', '27400', '1', '智能400电话,短信平台');
 
 -- ----------------------------
 -- Table structure for guguo_corporation_cash
@@ -256,7 +257,7 @@ CREATE TABLE `guguo_user_corporation` (
   `corp_name` varchar(128) DEFAULT NULL COMMENT '公司代号',
   `telephone` varchar(16) DEFAULT NULL COMMENT '用户电话号码',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of guguo_user_corporation
@@ -288,10 +289,43 @@ INSERT INTO `guguo_user_corporation` VALUES ('38', 'sdzhongxun', '18618888888');
 INSERT INTO `guguo_user_corporation` VALUES ('39', 'sdzhongxun', '15612323211');
 INSERT INTO `guguo_user_corporation` VALUES ('50', 'sdzhongxun', '15858585518');
 INSERT INTO `guguo_user_corporation` VALUES ('55', 'sdzhongxun', '15655558888');
-INSERT INTO `guguo_user_corporation` VALUES ('56', 'sdzhongxun', '13322227777');
+INSERT INTO `guguo_user_corporation` VALUES ('56', 'sdzhongxun', '13322228888');
 INSERT INTO `guguo_user_corporation` VALUES ('63', 'sdzhongxun', '15556565667');
 INSERT INTO `guguo_user_corporation` VALUES ('64', 'sdzhongxun', '15591919191');
 INSERT INTO `guguo_user_corporation` VALUES ('65', 'sdzhongxun', '15612344321');
 INSERT INTO `guguo_user_corporation` VALUES ('69', 'sdzhongxun', '18756788765');
 INSERT INTO `guguo_user_corporation` VALUES ('70', 'sdzhongxun', '15809877890');
-SET FOREIGN_KEY_CHECKS=1;
+INSERT INTO `guguo_user_corporation` VALUES ('71', 'sdzhonghu', '18822223333');
+INSERT INTO `guguo_user_corporation` VALUES ('72', 'sdzhonghu', '18822221111');
+INSERT INTO `guguo_user_corporation` VALUES ('74', 'sdzhonghu', '18811111112');
+INSERT INTO `guguo_user_corporation` VALUES ('82', 'sdzhonghu', '18811111111');
+INSERT INTO `guguo_user_corporation` VALUES ('83', 'sdzhonghu', '18811111113');
+INSERT INTO `guguo_user_corporation` VALUES ('84', 'sdzhonghu', '18811111114');
+INSERT INTO `guguo_user_corporation` VALUES ('85', 'sdzhongxun', '13366661111');
+INSERT INTO `guguo_user_corporation` VALUES ('86', 'sdzhongxun', '13366662222');
+INSERT INTO `guguo_user_corporation` VALUES ('87', 'sdzhongxun', '13322227770');
+INSERT INTO `guguo_user_corporation` VALUES ('88', 'sdzhongxun', '13366663333');
+INSERT INTO `guguo_user_corporation` VALUES ('89', 'sdzhongxun', '13122227777');
+INSERT INTO `guguo_user_corporation` VALUES ('90', 'sdzhongxun', '13222227777');
+INSERT INTO `guguo_user_corporation` VALUES ('91', 'ceshi0', '17766666666');
+INSERT INTO `guguo_user_corporation` VALUES ('92', 'ceshi0', '13212321234');
+INSERT INTO `guguo_user_corporation` VALUES ('93', 'ceshi0', '13234554343');
+INSERT INTO `guguo_user_corporation` VALUES ('94', 'sdzhongxun', '15555555555');
+INSERT INTO `guguo_user_corporation` VALUES ('95', 'ceshi0', '18811116666');
+INSERT INTO `guguo_user_corporation` VALUES ('96', 'ceshi0', '13211116666');
+INSERT INTO `guguo_user_corporation` VALUES ('97', 'ceshi0', '13222223333');
+INSERT INTO `guguo_user_corporation` VALUES ('98', 'ceshi0', '13244445555');
+INSERT INTO `guguo_user_corporation` VALUES ('99', 'ceshi0', '13266667777');
+INSERT INTO `guguo_user_corporation` VALUES ('100', 'ceshi0', '13388889999');
+INSERT INTO `guguo_user_corporation` VALUES ('101', 'ceshi0', '13299996666');
+INSERT INTO `guguo_user_corporation` VALUES ('102', 'ceshi0', '15505360826');
+INSERT INTO `guguo_user_corporation` VALUES ('103', 'ceshi0', '17722226666');
+INSERT INTO `guguo_user_corporation` VALUES ('104', 'ceshi0', '17865682779');
+INSERT INTO `guguo_user_corporation` VALUES ('105', 'ceshi0', '15269655125');
+INSERT INTO `guguo_user_corporation` VALUES ('106', 'ceshi0', '13054730989');
+INSERT INTO `guguo_user_corporation` VALUES ('107', 'ceshi0', '13844446666');
+INSERT INTO `guguo_user_corporation` VALUES ('108', 'ceshi0', '15069073690');
+INSERT INTO `guguo_user_corporation` VALUES ('109', 'ceshi0', '13573606351');
+INSERT INTO `guguo_user_corporation` VALUES ('110', 'ceshi0', '18660657961');
+INSERT INTO `guguo_user_corporation` VALUES ('111', 'ceshi0', '18754478360');
+INSERT INTO `guguo_user_corporation` VALUES ('112', 'ceshi0', '15263697049');
